@@ -1,0 +1,92 @@
+---
+title: "Universal Geocoding"
+output: html_vignette
+---
+
+
+```{r}
+library(tidyverse) # for dplyr and other packages
+test_addresses <- tribble( ~addr,
+                           "1600 Pennsylvania Ave Washington, DC",
+                           "Paris, France",
+                           "600 Montgomery St, San Francisco, CA 94111",
+                           "233 S Wacker Dr, Chicago, IL 60606"
+                           )
+
+
+test <- geocode_OSM(test_addresses %>% pull(addr),as.data.frame=TRUE) %>% select(lat,lon) %>% as_tibble()
+```
+
+
+## Nominatim
+
+```{r}
+library(tmaptools) # nominatim geolocation function
+
+# Pass dataframe and column name which contains address
+addr_to_latlng <- function(addresses){
+  #df %>% pull(!!address)
+  geocode_OSM(addresses,as.data.frame=TRUE) %>% select(lat,lon) %>% as_tibble()
+}
+
+# Example usage - use map and unnest to return lat/lng
+test <- test_addresses %>% 
+  mutate(latlng = map(addr,addr_to_latlng)) %>% 
+  unnest(latlng)
+```
+
+## US Census Functions
+
+Based off code from: https://andrewpwheeler.wordpress.com/2017/08/03/geocoding-with-census-data-and-the-census-api/
+
+```{r}
+library(httr)
+library(jsonlite)
+
+get_CensusAdd <- function(street,city,state,zip,benchmark=4){
+    base <- "https://geocoding.geo.census.gov/geocoder/locations/address?"
+    soup <- GET(url=base,query=list(street=street,city=city,state=state,zip=zip,format='json',benchmark=benchmark))
+    dat <- fromJSON(content(soup,as='text'), simplifyVector=TRUE)
+    # D_dat <- dat$result$addressMatches
+    # if (length(D_dat) > 1){
+    # return(c(D_dat['matchedAddress'],D_dat['coordinates'][[1]])) #error will just return null, x[1] is lon, x[2] is lat
+    # }
+    # else {return(c('',NA,NA))}
+}
+
+
+
+
+#now create function to loop over data frame and return set of addresses
+geo_CensusTIGER <- function(street,city,state,zip,sleep=1,benchmark=4){
+  #make empy matrix
+  l <- length(street)
+  MyDat <- data.frame(matrix(nrow=l,ncol=3))
+  names(MyDat) <- c("MatchedAdd","Lon","Lat")
+  for (i in 1:l){
+    x <- suppressMessages(get_CensusAdd(street=street[i],city=city[i],state=state[i],zip=zip[i],benchmark=benchmark))
+    if (length(x) > 0){
+        MyDat[i,1] <- x[1]
+        MyDat[i,2] <- x[2]
+        MyDat[i,3] <- x[3]
+    }
+    Sys.sleep(sleep)
+  }
+  MyDat$street <- street
+  MyDat$city <- city
+  MyDat$zip <- zip
+  MyDat$state <- state
+  return(MyDat)
+}
+
+## Arbitrary dataframe for an exercise
+AddList <- data.frame(
+  IdNum = c(1,2,3,4,5),
+  Address = c("450 W Harwood Rd", "2878 Fake St", "2775 N Collin St", "2775 N Collins St", "Lakewood Blvd and W Shore Dr"),
+  City = c("Hurst", "Richardson", "Arlington", "Arlington", "Dallas"),
+  State = c("TX", "TX", "TX", "TX", "TX")
+)
+
+test <- geo_CensusTIGER(street=AddList$Address,city=AddList$City,state=AddList$State,zip=rep('',5))
+```
+
