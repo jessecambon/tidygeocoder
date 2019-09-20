@@ -5,8 +5,6 @@ output: html_vignette
 
 Functions for using the OSM/Nominatim and Census geocoder services in the way of the tidyverse.
 
-Todo: 
-- Allow customization of 
 
 Use this tool to evaluate OSM/Nominatim search: https://nominatim.openstreetmap.org/
 
