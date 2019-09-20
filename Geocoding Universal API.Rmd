@@ -3,46 +3,156 @@ title: "Universal Geocoding"
 output: html_vignette
 ---
 
+Todo: 
+
+- Make cascade function more robust
+
+Use this tool to evaluate OSM/Nominatim search: https://nominatim.openstreetmap.org/
 
 ```{r}
-library(tidyverse) # for dplyr and other packages
+# Required for US Census API call
+library(httr)
+library(jsonlite)
+# Required for OSM
+library(tmaptools) 
+# Required for all
+library(tidyverse) 
+
+# Dataset for testing
 test_addresses <- tribble( ~addr,
                            "1600 Pennsylvania Ave Washington, DC",
-                           "Paris, France",
                            "600 Montgomery St, San Francisco, CA 94111",
-                           "233 S Wacker Dr, Chicago, IL 60606"
+                           "",
+                           "233 S Wacker Dr, Chicago, IL 60606",
+                           "Paris, France",
+                           "Fake Address, this should fail",
+                           "Atlanta, GA",
+                           "PR98+VG Nairobi, Kenya"
                            )
 
-
-test <- geocode_OSM(test_addresses %>% pull(addr),as.data.frame=TRUE) %>% select(lat,lon) %>% as_tibble()
 ```
 
 
-## Nominatim
+## Nominatim/OSM Geocoder
 
 ```{r}
-library(tmaptools) # nominatim geolocation function
-
-# Pass dataframe and column name which contains address
-addr_to_latlng <- function(addresses){
-  #df %>% pull(!!address)
-  geocode_OSM(addresses,as.data.frame=TRUE) %>% select(lat,lon) %>% as_tibble()
+osm_latlng <- function(address){
+  coords = unname(geocode_OSM(address)$coords)
+  # flip coordinates to output lat,lng
+  if (!is.null(coords)) { tibble(lat=coords[2],lng=coords[1]) }
+    else { tibble(lat=numeric(),lng=numeric()) }
 }
 
 # Example usage - use map and unnest to return lat/lng
-test <- test_addresses %>% 
-  mutate(latlng = map(addr,addr_to_latlng)) %>% 
-  unnest(latlng)
+test_osm <- test_addresses %>% 
+  mutate(latlng = map(addr,osm_latlng)) %>% 
+  unnest(latlng,keep_empty=TRUE)
 ```
 
-## US Census Functions
+## US Census Geocoder
 
 Based off code from: https://andrewpwheeler.wordpress.com/2017/08/03/geocoding-with-census-data-and-the-census-api/
 
-```{r}
-library(httr)
-library(jsonlite)
+Census Geocoder Documentation: https://www.census.gov/data/developers/data-sets/Geocoding-services.html
 
+```{r}
+# return lat lng
+census_latlng <- function(addr,benchmark=4){
+    base <- "https://geocoding.geo.census.gov/geocoder/locations/onelineaddress?"
+    soup <- GET(url=base,query=list(address=addr,format='json',benchmark=benchmark))
+    dat <- fromJSON(content(soup,as='text',encoding = "ISO-8859-1"), simplifyVector=TRUE)
+    
+    coords <- dat$result$addressMatches$coordinates
+  #  print(addr)
+    # Return lat/lng in tibble form
+    if (!is.null(coords)) { tibble(lat=coords$y[1],lng=coords$x[1]) }
+    else { 
+      tibble(lat=numeric(),lng=numeric()) }
+}
+
+test_census <- test_addresses %>% 
+  mutate(latlng = map(addr,census_latlng)) %>% 
+  unnest(latlng,keep_empty=TRUE)
+
+
+```
+
+## Cascade
+
+Use both methods
+
+```{r}
+
+# Return OSM results if they exit, else return Census
+cascade_latlng = function(addr) {
+  osm <- osm_latlng(addr)
+  
+  if (!is.null(osm)) {
+    osm %>% mutate(method='OSM')
+  } else {
+    census_latlng(addr) %>% mutate(method='Census')
+  }
+}
+
+test_cascade <- test_addresses %>% 
+  mutate(latlng = map(addr,cascade_latlng)) %>% 
+  unnest(latlng,keep_empty=TRUE)
+
+```
+
+
+
+
+## Scrap
+
+```{r}
+
+geo_cascade = function(addr,pipeline=c('OSM','Census')) {
+  
+  combi_results <- tibble()
+  
+  for (method in pipeline)
+  {
+    result <- case_when(method=="OSM" ~ osm_latlng(addr),
+                        method=="Census" ~ census_latlng(addr))
+    
+    if (!is.na(result)) {
+      
+    combi_results <- 
+      
+    }
+  }
+}
+  
+  # Return OSM results if they exit, else return Census
+cascade_latlng <- function(addr,first='OSM') {
+  
+  initial <- case_when(first=='OSM' ~ osm_latlng(addr),
+                       first=='Census' ~ census_latlng(addr))
+  
+  
+  if (!is.null(initial)) {
+    initial %>% mutate(method=first)
+  } else {
+    second <- case_when(first=='OSM' ~ census_latlng(addr),
+                        first=='Census' ~ osm_latlng(addr))
+    
+    # Specify method and return if the second attempt is not null
+    case_when (!is.null(second) ~ second,
+               TRUE ~ second %>% 
+                 mutate(method=case_when(first=='OSM' ~ 'Census',
+                                         first=='Census' ~ 'OSM')))
+    
+  }
+}
+
+# This OSM geocode function fails if you give it a bad address
+# because of the as.data.frame=TRUE setting
+addr_to_latlng <- function(addresses){
+  geocode_OSM(addresses,as.data.frame=TRUE) %>% select(lat,lon) %>% as_tibble()
+}
+
+## Census geocode with all the address components
 get_CensusAdd <- function(street,city,state,zip,benchmark=4){
     base <- "https://geocoding.geo.census.gov/geocoder/locations/address?"
     soup <- GET(url=base,query=list(street=street,city=city,state=state,zip=zip,format='json',benchmark=benchmark))
@@ -56,37 +166,5 @@ get_CensusAdd <- function(street,city,state,zip,benchmark=4){
 
 
 
-
-#now create function to loop over data frame and return set of addresses
-geo_CensusTIGER <- function(street,city,state,zip,sleep=1,benchmark=4){
-  #make empy matrix
-  l <- length(street)
-  MyDat <- data.frame(matrix(nrow=l,ncol=3))
-  names(MyDat) <- c("MatchedAdd","Lon","Lat")
-  for (i in 1:l){
-    x <- suppressMessages(get_CensusAdd(street=street[i],city=city[i],state=state[i],zip=zip[i],benchmark=benchmark))
-    if (length(x) > 0){
-        MyDat[i,1] <- x[1]
-        MyDat[i,2] <- x[2]
-        MyDat[i,3] <- x[3]
-    }
-    Sys.sleep(sleep)
-  }
-  MyDat$street <- street
-  MyDat$city <- city
-  MyDat$zip <- zip
-  MyDat$state <- state
-  return(MyDat)
-}
-
-## Arbitrary dataframe for an exercise
-AddList <- data.frame(
-  IdNum = c(1,2,3,4,5),
-  Address = c("450 W Harwood Rd", "2878 Fake St", "2775 N Collin St", "2775 N Collins St", "Lakewood Blvd and W Shore Dr"),
-  City = c("Hurst", "Richardson", "Arlington", "Arlington", "Dallas"),
-  State = c("TX", "TX", "TX", "TX", "TX")
-)
-
-test <- geo_CensusTIGER(street=AddList$Address,city=AddList$City,state=AddList$State,zip=rep('',5))
 ```
 
