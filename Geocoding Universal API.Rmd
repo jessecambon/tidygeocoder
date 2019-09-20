@@ -1,11 +1,12 @@
 ---
-title: "Universal Geocoding"
+title: "Universal Geocoding API"
 output: html_vignette
 ---
 
-Todo: 
+Functions for using the OSM/Nominatim and Census geocoder services in the way of the tidyverse.
 
-- Make cascade function more robust
+Todo: 
+- Allow customization of 
 
 Use this tool to evaluate OSM/Nominatim search: https://nominatim.openstreetmap.org/
 
@@ -36,8 +37,12 @@ test_addresses <- tribble( ~addr,
 ## Nominatim/OSM Geocoder
 
 ```{r}
-osm_latlng <- function(address){
+osm_latlng <- function(address,verbose=FALSE){
+    if (verbose == TRUE) {
+    print(address)
+    }
   coords = unname(geocode_OSM(address)$coords)
+  
   # flip coordinates to output lat,lng
   if (!is.null(coords)) { tibble(lat=coords[2],lng=coords[1]) }
     else { tibble(lat=numeric(),lng=numeric()) }
@@ -56,24 +61,31 @@ Based off code from: https://andrewpwheeler.wordpress.com/2017/08/03/geocoding-w
 Census Geocoder Documentation: https://www.census.gov/data/developers/data-sets/Geocoding-services.html
 
 ```{r}
-# return lat lng
-census_latlng <- function(addr,benchmark=4){
+# return lat lng using census geocoder api
+census_latlng <- function(address,benchmark=4,verbose=FALSE){
+    if (verbose == TRUE) {
+      print(address)
+    }
+    # API Call
     base <- "https://geocoding.geo.census.gov/geocoder/locations/onelineaddress?"
-    soup <- GET(url=base,query=list(address=addr,format='json',benchmark=benchmark))
+    soup <- GET(url=base,query=list(address=address,format='json',benchmark=benchmark))
     dat <- fromJSON(content(soup,as='text',encoding = "ISO-8859-1"), simplifyVector=TRUE)
     
     coords <- dat$result$addressMatches$coordinates
-  #  print(addr)
+
     # Return lat/lng in tibble form
-    if (!is.null(coords)) { tibble(lat=coords$y[1],lng=coords$x[1]) }
+    if (!is.null(coords)) { 
+      tibble(lat=coords$y[1],lng=coords$x[1]) }
     else { 
       tibble(lat=numeric(),lng=numeric()) }
 }
 
 test_census <- test_addresses %>% 
-  mutate(latlng = map(addr,census_latlng)) %>% 
+  mutate(latlng = map(addr,census_latlng,verbose=TRUE)) %>% 
   unnest(latlng,keep_empty=TRUE)
 
+
+#b <- census_latlng("Wrong Address")
 
 ```
 
@@ -83,19 +95,19 @@ Use both methods
 
 ```{r}
 
-# Return OSM results if they exit, else return Census
-cascade_latlng = function(addr) {
-  osm <- osm_latlng(addr)
+# Return Census results if they exist, else return OSM
+cascade_latlng = function(address,verbose=FALSE) {
+  census <- census_latlng(address,verbose=verbose)
   
-  if (!is.null(osm)) {
-    osm %>% mutate(method='OSM')
+  if (nrow(census) > 0) {
+    census %>% mutate(method='Census')
   } else {
-    census_latlng(addr) %>% mutate(method='Census')
+    osm_latlng(address,verbose=verbose) %>% mutate(method='OSM')
   }
 }
 
 test_cascade <- test_addresses %>% 
-  mutate(latlng = map(addr,cascade_latlng)) %>% 
+  mutate(latlng = map(addr,cascade_latlng,verbose=TRUE)) %>% 
   unnest(latlng,keep_empty=TRUE)
 
 ```
@@ -110,39 +122,13 @@ test_cascade <- test_addresses %>%
 geo_cascade = function(addr,pipeline=c('OSM','Census')) {
   
   combi_results <- tibble()
-  
   for (method in pipeline)
   {
     result <- case_when(method=="OSM" ~ osm_latlng(addr),
                         method=="Census" ~ census_latlng(addr))
-    
     if (!is.na(result)) {
-      
-    combi_results <- 
-      
+   # combi_results <- 
     }
-  }
-}
-  
-  # Return OSM results if they exit, else return Census
-cascade_latlng <- function(addr,first='OSM') {
-  
-  initial <- case_when(first=='OSM' ~ osm_latlng(addr),
-                       first=='Census' ~ census_latlng(addr))
-  
-  
-  if (!is.null(initial)) {
-    initial %>% mutate(method=first)
-  } else {
-    second <- case_when(first=='OSM' ~ census_latlng(addr),
-                        first=='Census' ~ osm_latlng(addr))
-    
-    # Specify method and return if the second attempt is not null
-    case_when (!is.null(second) ~ second,
-               TRUE ~ second %>% 
-                 mutate(method=case_when(first=='OSM' ~ 'Census',
-                                         first=='Census' ~ 'OSM')))
-    
   }
 }
 
