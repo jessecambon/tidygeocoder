@@ -1,11 +1,18 @@
-Package: tidygeo
+Package: tidygeocoder
 Type: Package
-Title: What the Package Does (Title Case)
+Title: Tidyverse-style interface for geocoding
 Version: 0.1.0
-Author: Who wrote it
-Maintainer: The package maintainer <yourself@somewhere.net>
+Author: Jesse Cambon
+Maintainer: The package maintainer <jesse.cambon@gmail.com>
 Description: More about what it does (maybe more than one line)
     Use four spaces when indenting paragraphs within the Description.
 License: What license is it under?
 Encoding: UTF-8
 LazyData: true
+Imports:
+    tibble,
+    dplyr,
+    tmaptools,
+    httr,
+    jsonlite
+RoxygenNote: 6.1.1
