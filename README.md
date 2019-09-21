@@ -5,13 +5,11 @@ A tidyverse-style geocoder interface for R. Utilizes US Census and Nominatim (OS
 
 ## Installation Instructions
 
-Must have devtools installed. Run `install.packages('devtools')` if this is not the case.
+To download, install, and load package from github
 
 ```
+install.packages('devtools')
 library(devtools)
 install_github("jessecambon/tidygeocoder")
+library(tidygeocoder)
 ```
-
-## Development Notes
-
-* Run roxygenise() to create NAMESPACE file.
