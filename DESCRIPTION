@@ -8,7 +8,7 @@ Description: Functions for geocoding.
 License: GPL
 Encoding: UTF-8
 LazyData: true
-Imports:  
+Imports: 
     rlang,
     tibble,
     purrr,
@@ -18,3 +18,7 @@ Imports:
     httr,
     jsonlite
 RoxygenNote: 6.1.1
+Suggests: 
+    knitr,
+    rmarkdown
+VignetteBuilder: knitr

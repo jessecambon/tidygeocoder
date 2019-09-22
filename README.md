@@ -20,4 +20,7 @@ library(tidygeocoder)
 Instructions: http://r-pkgs.had.co.nz/
 
 * Create man documents based off of R/ directory code files with CTRL+SHIFT+D (devtools::document(roclets=c('rd', 'collate', 'namespace')))
-*
+* Created vignette with `use_vignette("my-vignette")`
+
+## Todo
+* Modify geocode() so all extra variables get passed to geo_census or geo_osm (instead of manually passing the vars)
