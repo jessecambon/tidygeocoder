@@ -4,21 +4,22 @@
 \alias{geo_census}
 \title{Geocode a street address using the US Census Geocoder API}
 \usage{
-geo_census(address, verbose = FALSE)
+geo_census(address, verbose = FALSE, latitude = "lat",
+  longitude = "lng",
+  API_URL = "https://geocoding.geo.census.gov/geocoder/locations/onelineaddress?")
 }
 \arguments{
 \item{address}{Single line address. Street must be included.}
 
 \item{verbose}{logical. If TRUE outputs logs.}
-}
-\value{
-Latitude and Longitude Coordinates in Tibble format
+
+\item{latitude}{name of latitude field}
+
+\item{longitude}{name of longitude field}
+
+\item{API_URL}{URL of Census API}
 }
 \description{
 Returns latitude and longitude coordinates. Only works for US addresses.
 Address must be at the street level (ie. 60 Main St. Pawnee, IN not Pawnee, IN)
-}
-\examples{
-geo_census("1600 Pennsylvania Ave Washington, DC")
-geo_census("600 Montgomery St, San Francisco, CA 94111")
 }
