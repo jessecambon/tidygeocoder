@@ -13,3 +13,11 @@ library(devtools)
 install_github("jessecambon/tidygeocoder")
 library(tidygeocoder)
 ```
+
+
+## Notes For Me
+
+Instructions: http://r-pkgs.had.co.nz/
+
+* Create man documents based off of R/ directory code files with CTRL+SHIFT+D (devtools::document(roclets=c('rd', 'collate', 'namespace')))
+*
