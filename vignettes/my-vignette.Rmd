@@ -31,19 +31,21 @@ The tidygeocoder package provides an intuitive tidyverse-style interface for usi
 ```{r setup,warning=F,message=F}
 library(dplyr)
 library(tidygeocoder)
+library(knitr)
+#library(kableExtra)
 ```
 
 Geocode the addresses in our 'sample_addresses' dataset:
 
-```{r}
+```{r geocode}
 lat_longs <- sample_addresses %>% 
   geocode(addr,lat='latitude',long='longitude')
 ```
 
 Latitude and longitude columns attached to our input dataset:
 
-```{r}
-lat_longs
+```{r display}
+kable(lat_longs)
 ```
 
 
