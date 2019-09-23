@@ -6,18 +6,19 @@
 #'
 #' @param address Single line address. Street must be included.
 #' @param verbose logical. If TRUE outputs logs.
-#' @param latitude name of latitude field
-#' @param longitude name of longitude field
+#' @param lat name of latitude field
+#' @param long name of longitude field
 #' @param API_URL URL of Census API
 #' @importFrom httr GET content
 #' @importFrom tibble tibble
 #' @importFrom dplyr '%>%' mutate
 #' @importFrom jsonlite fromJSON
+#' @importFrom rlang enquo ":="
 #' @export
-geo_census <- function(address,verbose=FALSE,latitude="lat",longitude="lng",
+geo_census <- function(address,verbose=FALSE,lat="lat",long="lng",
                        API_URL="https://geocoding.geo.census.gov/geocoder/locations/onelineaddress?"){
-  latitude <- rlang::enquo(latitude)
-  longitude <- rlang::enquo(longitude)
+  lat <- rlang::enquo(lat)
+  long <- rlang::enquo(long)
 
 
   benchmark <- 4
@@ -32,7 +33,7 @@ geo_census <- function(address,verbose=FALSE,latitude="lat",longitude="lng",
 
   # Return lat/lng in tibble form
   if (!is.null(coords)) {
-    tibble::tibble(!!latitude:=coords$y[1],!!longitude:=coords$x[1]) }
+    tibble::tibble(!!lat:=coords$y[1],!!long:=coords$x[1]) }
   else {
-    tibble::tibble(!!latitude:=numeric(),!!longitude:=numeric()) }
+    tibble::tibble(!!lat:=numeric(),!!long:=numeric()) }
 }

@@ -17,10 +17,14 @@ library(tidygeocoder)
 
 ## Notes For Me
 
-Instructions: http://r-pkgs.had.co.nz/
-
+* General Instructions: http://r-pkgs.had.co.nz/
+* Devtools cheat sheet: https://www.rstudio.com/wp-content/uploads/2015/03/devtools-cheatsheet.pdf
 * Create man documents based off of R/ directory code files with CTRL+SHIFT+D (devtools::document(roclets=c('rd', 'collate', 'namespace')))
-* Created vignette with `use_vignette("my-vignette")`
+* Use load_all() from devtools to load the package (for testing)
+* Create new vignette with `use_vignette("my-vignette")`
 
 ## Todo
-* Modify geocode() so all extra variables get passed to geo_census or geo_osm (instead of manually passing the vars)
+
+* Add github example with a map
+* Make OSM able to take custom lat/long column names
+* Tell user when they have hit usage limit for OSM?
