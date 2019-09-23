@@ -4,7 +4,8 @@
 \alias{geocode}
 \title{Geocode a street address}
 \usage{
-geocode(.tbl, address, method = "Census", ...)
+geocode(.tbl, address, method = "Census", lat = "lat", long = "lng",
+  ...)
 }
 \arguments{
 \item{.tbl}{Dataframe}
@@ -12,6 +13,10 @@ geocode(.tbl, address, method = "Census", ...)
 \item{address}{Single line address. Street must be included.}
 
 \item{method}{What geocoder api do you want to use? 'OSM' or 'Census'}
+
+\item{lat}{name of latitude field}
+
+\item{long}{name of longitude field}
 
 \item{...}{arguments supplied to the relevant geocoder function
 (see \code{\link{geo_census}} (Census) and \code{\link{geo_osm}} (OSM))}
