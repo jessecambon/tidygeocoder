@@ -21,12 +21,7 @@ In this brief example, we will use the US Census API to geocode some addresses i
 ``` r
 library(dplyr)
 library(tidygeocoder)
-library(knitr)
-```
 
-Geocode the addresses in our ‘sample\_addresses’ dataset:
-
-``` r
 lat_longs <- sample_addresses %>% 
   geocode(addr,lat=latitude,long=longitude)
 ```
