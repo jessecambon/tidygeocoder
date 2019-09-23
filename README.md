@@ -69,7 +69,7 @@ ggplot(lat_longs %>% filter(!is.na(longitude)), aes(longitude, latitude)) +
 #> Warning: Duplicated aesthetics after name standardisation: colour
 ```
 
-![](my-vignette_files/figure-html/unnamed-chunk-2-1.png)<!-- -->
+![](vignettes/my-vignette_files/figure-html/unnamed-chunk-2-1.png)<!-- -->
 
 
 ## Notes For Me
