@@ -4,8 +4,7 @@
 \alias{geocode}
 \title{Geocode a street address}
 \usage{
-geocode(.tbl, address, method = "Census", lat = "lat", long = "lng",
-  ...)
+geocode(.tbl, address, method = "Census", lat = lat, long = lng, ...)
 }
 \arguments{
 \item{.tbl}{Dataframe}

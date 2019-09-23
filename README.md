@@ -26,5 +26,6 @@ library(tidygeocoder)
 ## Todo
 
 * Add github example with a map
+* Implement a tidy cascade function
 * Make OSM able to take custom lat/long column names
 * Tell user when they have hit usage limit for OSM?

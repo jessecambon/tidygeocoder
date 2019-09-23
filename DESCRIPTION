@@ -4,8 +4,8 @@ Title: Tidyverse-style interface for geocoding.
 Version: 0.1.0
 Author: Jesse Cambon
 Maintainer: Jesse Cambon <jesse.cambon@gmail.com>
-Description: Functions for obtaining latitude and longitude from street addresses. 
-License: MIT
+Description: Functions for obtaining latitude and longitude from street addresses
+License: MIT file LICENSE
 Encoding: UTF-8
 LazyData: true
 Imports: 

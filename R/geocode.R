@@ -23,15 +23,17 @@
 #' @importFrom tidyr unnest
 #' @importFrom rlang enquo
 #' @export
-geocode <- function(.tbl,address,method='Census',lat='lat',long='lng',...) {
+geocode <- function(.tbl,address,method='Census',lat=lat,long=lng,...) {
   address=rlang::enquo(address)
+  lat <- rlang::enquo(lat)
+  long <- rlang::enquo(long)
 
   temp = NULL
 
   # func <- dplyr::case_when(method == 'OSM' ~ rlang::enquo(geo_osm),
   #                          TRUE ~ rlang::enquo(geo_census))
 
-  coords <- tibble(temp=purrr::map(.tbl %>% dplyr::pull(!!address),geo_census,lat,long,...)) %>%
+  coords <- tibble(temp=purrr::map(.tbl %>% dplyr::pull(!!address),geo_census,lat=!!lat,long=!!long,...)) %>%
     tidyr::unnest(temp,keep_empty=TRUE)
 
   .tbl %>% dplyr::bind_cols(coords)

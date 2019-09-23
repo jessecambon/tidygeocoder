@@ -15,7 +15,7 @@
 #' @importFrom jsonlite fromJSON
 #' @importFrom rlang enquo ":="
 #' @export
-geo_census <- function(address,verbose=FALSE,lat="lat",long="lng",
+geo_census <- function(address,verbose=FALSE,lat=Lat,long=lng,
                        API_URL="https://geocoding.geo.census.gov/geocoder/locations/onelineaddress?"){
   lat <- rlang::enquo(lat)
   long <- rlang::enquo(long)

@@ -4,9 +4,9 @@
 \name{tidygeocoder-package}
 \alias{tidygeocoder}
 \alias{tidygeocoder-package}
-\title{tidygeocoder: Tidyverse-style interface for geocoding}
+\title{tidygeocoder: Tidyverse-style interface for geocoding.}
 \description{
-Functions for geocoding.
+Functions for obtaining latitude and longitude from street addresses
 }
 \details{
 Functions for geocoding (obtaining latitudes and longitude

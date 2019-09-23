@@ -4,12 +4,16 @@
 \alias{geo_osm}
 \title{Geocode a street address using the Nominatim (OSM) Geocoder API}
 \usage{
-geo_osm(address, verbose = FALSE)
+geo_osm(address, verbose = FALSE, lat = Lat, long = lng)
 }
 \arguments{
 \item{address}{Single line address. Street must be included.}
 
 \item{verbose}{logical. If TRUE outputs logs.}
+
+\item{lat}{name of latitude field}
+
+\item{long}{name of longitude field}
 }
 \value{
 Latitude and Longitude Coordinates in Tibble format
