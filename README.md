@@ -82,7 +82,5 @@ ggplot(lat_longs %>% filter(!is.na(longitude)), aes(longitude, latitude)) +
 
 ## Todo
 
-* Add github example with a map
 * Implement a tidy cascade function
-* Make OSM able to take custom lat/long column names
 * Tell user when they have hit usage limit for OSM?
