@@ -22,7 +22,6 @@ In this brief example, we will use the US Census API to geocode some addresses i
 library(dplyr)
 library(tidygeocoder)
 library(knitr)
-#library(kableExtra)
 ```
 
 Geocode the addresses in our ‘sample\_addresses’ dataset:
@@ -33,11 +32,8 @@ lat_longs <- sample_addresses %>%
 ```
 
 Latitude and longitude columns are attached to our input
-dataset:
+dataset. Since we are using the US Census geocoder service, international locations and non-street addresses are not found.
 
-``` r
-kable(lat_longs)
-```
 
 | name                 | addr                                       | latitude |   longitude |
 | :------------------- | :----------------------------------------- | -------: | ----------: |
