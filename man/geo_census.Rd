@@ -4,8 +4,7 @@
 \alias{geo_census}
 \title{Geocode a street address using the US Census Geocoder API}
 \usage{
-geo_census(address, verbose = FALSE, latitude = "lat",
-  longitude = "lng",
+geo_census(address, verbose = FALSE, lat = "lat", long = "lng",
   API_URL = "https://geocoding.geo.census.gov/geocoder/locations/onelineaddress?")
 }
 \arguments{
@@ -13,9 +12,9 @@ geo_census(address, verbose = FALSE, latitude = "lat",
 
 \item{verbose}{logical. If TRUE outputs logs.}
 
-\item{latitude}{name of latitude field}
+\item{lat}{name of latitude field}
 
-\item{longitude}{name of longitude field}
+\item{long}{name of longitude field}
 
 \item{API_URL}{URL of Census API}
 }

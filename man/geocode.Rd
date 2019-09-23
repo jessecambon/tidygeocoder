@@ -4,8 +4,8 @@
 \alias{geocode}
 \title{Geocode a street address}
 \usage{
-geocode(.tbl, address, method = "Census", verbose = FALSE,
-  latitude = "lat", longitude = "lng")
+geocode(.tbl, address, method = "Census", lat = "lat", long = "lng",
+  ...)
 }
 \arguments{
 \item{.tbl}{Dataframe}
@@ -14,11 +14,12 @@ geocode(.tbl, address, method = "Census", verbose = FALSE,
 
 \item{method}{What geocoder api do you want to use? 'OSM' or 'Census'}
 
-\item{verbose}{logical. If TRUE outputs logs.}
+\item{lat}{name of latitude field}
 
-\item{latitude}{name of latitude field}
+\item{long}{name of longitude field}
 
-\item{longitude}{name of longitude field}
+\item{...}{arguments supplied to the relevant geocoder function
+(see \code{\link{geo_census}} (Census) and \code{\link{geo_osm}} (OSM))}
 }
 \value{
 Latitude and Longitude Coordinates in tibble format
@@ -28,5 +29,8 @@ Returns latitude and longitude as two columns appended to
 the inputted dataframe
 }
 \examples{
+\dontrun{
+sample_addresses \%>\% geocode(addr)
+}
 
 }
