@@ -27,7 +27,7 @@ lat_longs <- sample_addresses %>%
 ```
 
 Latitude and longitude columns are attached to our input
-dataset. Since we are using the US Census geocoder service, international locations and non-street addresses are not found.
+dataset. Since we are using the US Census geocoder service, international locations and addresses which are not at the street level (such as cities) are not found.
 
 
 | name                 | addr                                       | latitude |   longitude |
