@@ -1,12 +1,12 @@
 ---
 title: "TidyGeocoder Vignette"
 output: 
-  rmarkdown::html_vignette:
-    keep_md: yes
+  github_document:
+  rmarkdown::html_vignette: default
 vignette: >
   %\VignetteIndexEntry{my-vignette}
-  %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
+  %\VignetteEngine{knitr::rmarkdown}
 ---
 
 ```{r, include = FALSE}
@@ -45,7 +45,7 @@ lat_longs <- sample_addresses %>%
   geocode(addr,lat=latitude,long=longitude)
 ```
 
-Latitude and longitude columns attached to our input dataset:
+Latitude and longitude columns are attached to our input dataset:
 
 ```{r display}
 kable(lat_longs)
@@ -53,7 +53,7 @@ kable(lat_longs)
 
 Plot our geolocated points
 
-```{r,fig.width=7,fig.height=5}
+```{r,fig.width=8,fig.height=5}
 library(ggplot2)
 library(maps)
 library(ggrepel)
