@@ -1,39 +1,48 @@
-#' Geocode a street address
+#' Geocode addresses in a dataframe and append latitude and longitude as columns
 #'
 #' Returns latitude and longitude as two columns appended to
 #' the inputted dataframe
 #'
 #' @param .tbl Dataframe
 #' @param address Single line address. Street must be included.
-#' @param method What geocoder api do you want to use? 'OSM' or 'Census'
+#' @param method the geocoder function/service that you want to use
+#' \itemize{
+#'   \item "census": \code{\link{geo_census}}
+#'   \item "osm": \code{\link{geo_osm}}
+#' }
 #' @param lat name of latitude field
 #' @param long name of longitude field
 #' @param ... arguments supplied to the relevant geocoder function
-#' (see \code{\link{geo_census}} (Census) and \code{\link{geo_osm}} (OSM))
-#' @return Latitude and Longitude Coordinates in tibble format
+#' @return input dataframe (.tbl) with latitude and longitude fields appended
 #'
 #' @examples
 #' \dontrun{
 #' sample_addresses %>% geocode(addr)
-#' }
 #'
+#' sample_addresses %>% geocode(addr,method='osm',lat=latitude,long=longitude)
+#' }
 #' @importFrom tibble tibble
 #' @importFrom dplyr '%>%' mutate case_when bind_cols pull
 #' @importFrom purrr map
 #' @importFrom tidyr unnest
 #' @importFrom rlang enquo
 #' @export
-geocode <- function(.tbl,address,method='Census',lat=lat,long=lng,...) {
-  address=rlang::enquo(address)
+geocode <- function(.tbl,address,method='census',lat=lat,long=lng,...) {
+  address<- rlang::enquo(address)
   lat <- rlang::enquo(lat)
   long <- rlang::enquo(long)
 
   temp = NULL
 
-  # func <- dplyr::case_when(method == 'OSM' ~ rlang::enquo(geo_osm),
-  #                          TRUE ~ rlang::enquo(geo_census))
+  if (method == 'osm') {
+    func <- rlang::enquo(geo_osm)
+  } else {
+    func <- rlang::enquo(geo_census)
+  }
 
-  coords <- tibble(temp=purrr::map(.tbl %>% dplyr::pull(!!address),geo_census,lat=!!lat,long=!!long,...)) %>%
+  coords <- tibble(temp=purrr::map(.tbl %>% dplyr::pull(!!address),
+                      !!func,
+                      lat=!!lat,long=!!long,...)) %>%
     tidyr::unnest(temp,keep_empty=TRUE)
 
   .tbl %>% dplyr::bind_cols(coords)

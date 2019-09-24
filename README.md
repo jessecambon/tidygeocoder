@@ -75,3 +75,4 @@ ggplot(lat_longs %>% filter(!is.na(longitude)), aes(longitude, latitude)) +
 
 * Implement a tidy cascade function
 * Tell user when they have hit usage limit for OSM?
+* geocode: Throw warning if a variable name is already in the input dataframe?

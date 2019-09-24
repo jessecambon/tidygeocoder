@@ -2,26 +2,29 @@
 % Please edit documentation in R/geocode.R
 \name{geocode}
 \alias{geocode}
-\title{Geocode a street address}
+\title{Geocode addresses in a dataframe and append latitude and longitude as columns}
 \usage{
-geocode(.tbl, address, method = "Census", lat = lat, long = lng, ...)
+geocode(.tbl, address, method = "census", lat = lat, long = lng, ...)
 }
 \arguments{
 \item{.tbl}{Dataframe}
 
 \item{address}{Single line address. Street must be included.}
 
-\item{method}{What geocoder api do you want to use? 'OSM' or 'Census'}
+\item{method}{the geocoder function/service that you want to use
+\itemize{
+  \item "census": \code{\link{geo_census}}
+  \item "osm": \code{\link{geo_osm}}
+}}
 
 \item{lat}{name of latitude field}
 
 \item{long}{name of longitude field}
 
-\item{...}{arguments supplied to the relevant geocoder function
-(see \code{\link{geo_census}} (Census) and \code{\link{geo_osm}} (OSM))}
+\item{...}{arguments supplied to the relevant geocoder function}
 }
 \value{
-Latitude and Longitude Coordinates in tibble format
+input dataframe (.tbl) with latitude and longitude fields appended
 }
 \description{
 Returns latitude and longitude as two columns appended to
@@ -30,6 +33,7 @@ the inputted dataframe
 \examples{
 \dontrun{
 sample_addresses \%>\% geocode(addr)
-}
 
+sample_addresses \%>\% geocode(addr,method='osm',lat=latitude,long=longitude)
+}
 }

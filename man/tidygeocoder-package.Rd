@@ -6,10 +6,13 @@
 \alias{tidygeocoder-package}
 \title{tidygeocoder: Tidyverse-style interface for geocoding.}
 \description{
-Functions for obtaining latitude and longitude from street addresses
+Utilities for geocoding (obtaining latitude and longitude from addresses).
 }
 \details{
 Functions for geocoding (obtaining latitudes and longitude
-coordinates from addreses)
+coordinates from addreses). US Census Geocoder and OSM are supported.
+
+The primary function to use is \code{\link{geocode}} which can call either
+\code{\link{geo_census}} or \code{\link{geo_osm}} depending on the method argument
 }
 \keyword{internal}
