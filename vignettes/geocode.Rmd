@@ -1,8 +1,8 @@
 ---
 title: "TidyGeocoder Vignette"
 output: 
-  github_document:
   rmarkdown::html_vignette: default
+  github_document:
 vignette: >
   %\VignetteIndexEntry{my-vignette}
   %\VignetteEncoding{UTF-8}
@@ -35,7 +35,6 @@ The tidygeocoder package provides an intuitive tidyverse-style interface for usi
 library(dplyr)
 library(tidygeocoder)
 library(knitr)
-#library(kableExtra)
 ```
 
 Geocode the addresses in our 'sample_addresses' dataset:
@@ -58,8 +57,8 @@ library(ggplot2)
 library(maps)
 library(ggrepel)
 
-ggplot(lat_longs %>% filter(!is.na(longitude)), aes(longitude, latitude)) +
-  borders("state",color="grey10") +
+ggplot(lat_longs %>% filter(!is.na(longitude)), aes(longitude, latitude),color="grey98") +
+  borders("state") +
   theme_classic() +
   geom_point() +
   theme(line = element_blank(),

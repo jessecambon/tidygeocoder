@@ -14,7 +14,6 @@ will use to geocode a few street addresses below.
 library(dplyr)
 library(tidygeocoder)
 library(knitr)
-#library(kableExtra)
 ```
 
 Geocode the addresses in our ‘sample\_addresses’ dataset:
@@ -49,8 +48,8 @@ library(ggplot2)
 library(maps)
 library(ggrepel)
 
-ggplot(lat_longs %>% filter(!is.na(longitude)), aes(longitude, latitude)) +
-  borders("state",color="grey10") +
+ggplot(lat_longs %>% filter(!is.na(longitude)), aes(longitude, latitude),color="grey98") +
+  borders("state") +
   theme_classic() +
   geom_point() +
   theme(line = element_blank(),
@@ -59,7 +58,6 @@ ggplot(lat_longs %>% filter(!is.na(longitude)), aes(longitude, latitude)) +
   geom_label_repel(aes(label =name),show.legend=F) +
   scale_x_continuous(breaks = NULL) + 
   scale_y_continuous(breaks = NULL)
-#> Warning: Duplicated aesthetics after name standardisation: colour
 ```
 
-![](my-vignette_files/figure-gfm/unnamed-chunk-2-1.png)<!-- -->
+![](geocode_files/figure-gfm/unnamed-chunk-2-1.png)<!-- -->

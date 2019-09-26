@@ -43,13 +43,9 @@ dataset. Since we are using the US Census geocoder service, international locati
 
 Plot our geolocated points:
 
-``` r
-library(ggplot2)
-library(maps)
-library(ggrepel)
-
-ggplot(lat_longs %>% filter(!is.na(longitude)), aes(longitude, latitude)) +
-  borders("state",color="grey10") +
+```r
+ggplot(lat_longs %>% filter(!is.na(longitude)), aes(longitude, latitude),color="grey98") +
+  borders("state") +
   theme_classic() +
   geom_point() +
   theme(line = element_blank(),
@@ -59,8 +55,8 @@ ggplot(lat_longs %>% filter(!is.na(longitude)), aes(longitude, latitude)) +
   scale_x_continuous(breaks = NULL) + 
   scale_y_continuous(breaks = NULL)
 ```
-
-![](vignettes/my-vignette_files/figure-gfm/unnamed-chunk-2-1.png)<!-- -->
+<!-- NOTE: add vignettes/ folder to the image path that is generated (since we are in the parent directory) -->
+![](vignettes/geocode_files/figure-gfm/unnamed-chunk-2-1.png)
 
 
 ## Notes For Me
