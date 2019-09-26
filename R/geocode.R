@@ -2,7 +2,7 @@
 #'
 #' Returns latitude and longitude as two columns appended to
 #' the inputted dataframe.
-#' See example usage in vignette(")
+#' See example usage in vignette("geocode")
 #'
 #' @param .tbl Dataframe
 #' @param address Single line address. Street must be included.

@@ -4,7 +4,7 @@
 #'
 #' The primary function to use is \code{\link{geocode}} which can call either
 #'\code{\link{geo_census}} or \code{\link{geo_osm}} depending on the method argument.
-#' See vignette("tidygeocoder") for more details
+#' See vignette("geocode") for more details
 #'
 #'@references
 #' \itemize{

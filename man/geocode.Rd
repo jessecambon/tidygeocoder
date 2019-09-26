@@ -29,7 +29,7 @@ input dataframe (.tbl) with latitude and longitude fields appended
 \description{
 Returns latitude and longitude as two columns appended to
 the inputted dataframe.
-See example usage in vignette(")
+See example usage in vignette("geocode")
 }
 \examples{
 \dontrun{
