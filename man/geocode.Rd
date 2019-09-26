@@ -2,7 +2,7 @@
 % Please edit documentation in R/geocode.R
 \name{geocode}
 \alias{geocode}
-\title{Geocode addresses in a dataframe and append latitude and longitude as columns}
+\title{Tidyverse-style interface for geocoding addresses}
 \usage{
 geocode(.tbl, address, method = "census", lat = lat, long = lng, ...)
 }
@@ -28,7 +28,8 @@ input dataframe (.tbl) with latitude and longitude fields appended
 }
 \description{
 Returns latitude and longitude as two columns appended to
-the inputted dataframe
+the inputted dataframe.
+See example usage in vignette(")
 }
 \examples{
 \dontrun{

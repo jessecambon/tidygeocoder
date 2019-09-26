@@ -1,11 +1,11 @@
 Package: tidygeocoder
 Type: Package
-Title: Tidyverse-style interface for geocoding. 
+Title: Tidyverse-style interface for geocoding
 Version: 0.1.0
 Author: Jesse Cambon
 Maintainer: Jesse Cambon <jesse.cambon@gmail.com>
 Description: Utilities for geocoding (obtaining latitude and longitude from addresses).
-License: MIT file LICENSE
+License: file LICENSE
 Encoding: UTF-8
 LazyData: true
 Imports: 

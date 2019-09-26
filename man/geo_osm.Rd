@@ -2,7 +2,7 @@
 % Please edit documentation in R/geo_osm.R
 \name{geo_osm}
 \alias{geo_osm}
-\title{Geocode a street address using the Nominatim (OSM) Geocoder API}
+\title{Geocode an address using the Nominatim (OSM) Geocoder API}
 \usage{
 geo_osm(address, verbose = FALSE, lat = Lat, long = lng)
 }

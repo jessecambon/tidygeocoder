@@ -1,7 +1,8 @@
-#' Geocode addresses in a dataframe and append latitude and longitude as columns
+#' Tidyverse-style interface for geocoding addresses
 #'
 #' Returns latitude and longitude as two columns appended to
-#' the inputted dataframe
+#' the inputted dataframe.
+#' See example usage in vignette(")
 #'
 #' @param .tbl Dataframe
 #' @param address Single line address. Street must be included.

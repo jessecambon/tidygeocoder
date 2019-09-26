@@ -1,4 +1,4 @@
-#' Geocode a street address using the Nominatim (OSM) Geocoder API
+#' Geocode an address using the Nominatim (OSM) Geocoder API
 #'
 #' Returns latitude and longitude coordinates.
 #'
