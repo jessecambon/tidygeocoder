@@ -10,7 +10,7 @@ To download, install, and load package from github
 ```
 install.packages('devtools')
 library(devtools)
-install_github("jessecambon/tidygeocoder")
+install_github("jessecambon/tidygeocoder",build_vignettes=TRUE)
 library(tidygeocoder)
 ```
 
