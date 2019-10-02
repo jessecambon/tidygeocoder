@@ -91,5 +91,6 @@ cascade_points <- sample_addresses %>%
 
 ## Todo
 
+* Remove R >= 3.5 dependency (has to do with the .RData file)
 * Warning for when user has hit usage limit on OSM
 * Progress bar?
