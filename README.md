@@ -3,7 +3,7 @@
 A tidyverse-style geocoder interface for R. Utilizes US Census and Nominatim (OSM) geocoder services. Returns latitude and longitude in tibble format for ease of use.
 
 
-## Installation Instructions
+## Install
 
 To download, install, and load package from github
 
@@ -14,7 +14,7 @@ install_github("jessecambon/tidygeocoder",build_vignettes=TRUE)
 library(tidygeocoder)
 ```
 
-## How To
+## Usage
 
 In this brief example, we will use the US Census API to geocode some addresses in the 'sample_addresses' dataset.
 
@@ -59,7 +59,7 @@ ggplot(lat_longs %>% filter(!is.na(longitude)), aes(longitude, latitude),color="
 ![](vignettes/geocode_files/figure-gfm/unnamed-chunk-2-1.png)
 
 
-## Notes For Me
+## Development Notes
 
 * General Instructions: http://r-pkgs.had.co.nz/
 * Devtools cheat sheet: https://www.rstudio.com/wp-content/uploads/2015/03/devtools-cheatsheet.pdf
