@@ -4,19 +4,23 @@
 \alias{geo_cascade}
 \title{Geocode a street address}
 \usage{
-geo_cascade(address, verbose = FALSE)
+geo_cascade(address, verbose = FALSE, lat = Lat, long = lng)
 }
 \arguments{
 \item{address}{Single line address. Street must be included.}
 
 \item{verbose}{logical. If TRUE outputs logs.}
+
+\item{lat}{name of latitude field}
+
+\item{long}{name of longitude field}
 }
 \value{
 Latitude and Longitude Coordinates in tibble format
 }
 \description{
-First uses the US Census Geocoder (geo_census)
-and then Nominatim/OSM (geo_osm)
+First attempts to use the US Census Geocoder (geo_census) method
+and then Nominatim/OSM (geo_osm) method as a backup
 Returns latitude and longitude coordinates.
 }
 \examples{

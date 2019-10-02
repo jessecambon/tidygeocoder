@@ -10,6 +10,7 @@
 #' \itemize{
 #'   \item "census": \code{\link{geo_census}}
 #'   \item "osm": \code{\link{geo_osm}}
+#'   \item "cascade": \code{\link{geo_cascade}} (first tries to use census then tries osm)
 #' }
 #' @param lat name of latitude field
 #' @param long name of longitude field
@@ -20,7 +21,7 @@
 #' \dontrun{
 #' sample_addresses %>% geocode(addr)
 #'
-#' sample_addresses %>% geocode(addr,method='osm',lat=latitude,long=longitude)
+#' sample_addresses %>% geocode(addr,method='cascade',lat=latitude,long=longitude)
 #' }
 #' @importFrom tibble tibble
 #' @importFrom dplyr '%>%' mutate case_when bind_cols pull
@@ -35,9 +36,14 @@ geocode <- function(.tbl,address,method='census',lat=lat,long=lng,...) {
 
   temp = NULL
 
-  if (method == 'osm') {
+  if (method == 'census') {
+    func <- rlang::enquo(geo_census)
+  } else if (method == 'osm') {
     func <- rlang::enquo(geo_osm)
+  } else if (method == 'cascade') {
+    func <- rlang::enquo(geo_cascade)
   } else {
+    print('Warning: unknown method, defaulting to census')
     func <- rlang::enquo(geo_census)
   }
 

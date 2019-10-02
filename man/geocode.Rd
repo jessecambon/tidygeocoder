@@ -15,6 +15,7 @@ geocode(.tbl, address, method = "census", lat = lat, long = lng, ...)
 \itemize{
   \item "census": \code{\link{geo_census}}
   \item "osm": \code{\link{geo_osm}}
+  \item "cascade": \code{\link{geo_cascade}} (first tries to use census then tries osm)
 }}
 
 \item{lat}{name of latitude field}
@@ -35,6 +36,6 @@ See example usage in vignette("geocode")
 \dontrun{
 sample_addresses \%>\% geocode(addr)
 
-sample_addresses \%>\% geocode(addr,method='osm',lat=latitude,long=longitude)
+sample_addresses \%>\% geocode(addr,method='cascade',lat=latitude,long=longitude)
 }
 }
