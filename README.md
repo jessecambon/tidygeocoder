@@ -16,7 +16,7 @@ library(tidygeocoder)
 
 ## Usage
 
-In this brief example, we will use the US Census API to geocode some addresses in the 'sample_addresses' dataset.
+In this brief example, we will use the US Census API to geocode some addresses in the `sample_addresses` dataset.
 
 ``` r
 library(dplyr)
