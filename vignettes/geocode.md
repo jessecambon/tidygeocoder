@@ -41,7 +41,8 @@ kable(lat_longs)
 | Willis Tower         | 233 S Wacker Dr, Chicago, IL 60606         | 41.87851 |  \-87.63666 |
 | International City   | Nairobi, Kenya                             |       NA |          NA |
 
-Plot our geolocated points
+Note that international and non-street addresses were not found since we
+are using the Census geocoder service.
 
 ``` r
 library(ggplot2)
@@ -61,3 +62,30 @@ ggplot(lat_longs %>% filter(!is.na(longitude)), aes(longitude, latitude),color="
 ```
 
 ![](geocode_files/figure-gfm/unnamed-chunk-2-1.png)<!-- -->
+
+To find international and non-street addresses, we must use the OSM
+service. We can use the ‘cascade’ method to attempt to use the US Census
+method for each address and only use the OSM service if the Census
+method fails (since OSM has a usage limit).
+
+``` r
+cascade_points <- sample_addresses %>% 
+  geocode(addr,method='cascade')
+#> Warning in FUN(X[[i]], ...): No results found for "Fake Address".
+#> Warning in FUN(X[[i]], ...): No results found for "".
+```
+
+``` r
+kable(cascade_points)
+```
+
+| name                 | addr                                       |        lat |         lng | geo\_method |
+| :------------------- | :----------------------------------------- | ---------: | ----------: | :---------- |
+| White House          | 1600 Pennsylvania Ave Washington, DC       |  38.898754 |  \-77.03535 | census      |
+| Transamerica Pyramid | 600 Montgomery St, San Francisco, CA 94111 |  37.794700 | \-122.40314 | census      |
+| NA                   | Fake Address                               |         NA |          NA | NA          |
+| NA                   | NA                                         |  64.573154 |    11.52804 | osm         |
+|                      |                                            |         NA |          NA | NA          |
+| US City              | Nashville,TN                               |  36.162230 |  \-86.77435 | osm         |
+| Willis Tower         | 233 S Wacker Dr, Chicago, IL 60606         |  41.878513 |  \-87.63666 | census      |
+| International City   | Nairobi, Kenya                             | \-1.283253 |    36.81724 | osm         |

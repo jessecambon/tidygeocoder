@@ -24,7 +24,7 @@
 #' sample_addresses %>% geocode(addr,method='cascade',lat=latitude,long=longitude)
 #' }
 #' @importFrom tibble tibble
-#' @importFrom dplyr '%>%' mutate case_when bind_cols pull
+#' @importFrom dplyr '%>%' mutate case_when bind_cols pull rename
 #' @importFrom purrr map
 #' @importFrom tidyr unnest
 #' @importFrom rlang enquo
@@ -34,8 +34,10 @@ geocode <- function(.tbl,address,method='census',lat=lat,long=lng,...) {
   lat <- rlang::enquo(lat)
   long <- rlang::enquo(long)
 
+
   temp = NULL
 
+  # Select geolocation method to use
   if (method == 'census') {
     func <- rlang::enquo(geo_census)
   } else if (method == 'osm') {
@@ -47,6 +49,8 @@ geocode <- function(.tbl,address,method='census',lat=lat,long=lng,...) {
     func <- rlang::enquo(geo_census)
   }
 
+  # use the selected geolocation method to return coordinates and attach them
+  # to the input dataframe
   coords <- tibble(temp=purrr::map(.tbl %>% dplyr::pull(!!address),
                       !!func,
                       lat=!!lat,long=!!long,...)) %>%

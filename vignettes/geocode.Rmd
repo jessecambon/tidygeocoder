@@ -50,7 +50,7 @@ Latitude and longitude columns are attached to our input dataset:
 kable(lat_longs)
 ```
 
-Plot our geolocated points
+Note that international and non-street addresses were not found since we are using the Census geocoder service. 
 
 ```{r,fig.width=8,fig.height=5}
 library(ggplot2)
@@ -69,6 +69,14 @@ ggplot(lat_longs %>% filter(!is.na(longitude)), aes(longitude, latitude),color="
   scale_y_continuous(breaks = NULL)
 ```
 
+To find international and non-street addresses, we must use the OSM service. We can use the 'cascade' method to attempt to use the US Census method for each address and only use the OSM service if the Census method fails (since OSM has a usage limit).
 
+```{r}
+cascade_points <- sample_addresses %>% 
+  geocode(addr,method='cascade')
+```
 
+```{r display-cascade}
+kable(cascade_points)
+```
 

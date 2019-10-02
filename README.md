@@ -58,6 +58,28 @@ ggplot(lat_longs %>% filter(!is.na(longitude)), aes(longitude, latitude),color="
 <!-- NOTE: add vignettes/ folder to the image path that is generated (since we are in the parent directory) -->
 ![](vignettes/geocode_files/figure-gfm/unnamed-chunk-2-1.png)
 
+To find international and non-street addresses, we must use the OSM
+service. We can use the ‘cascade’ method to attempt to use the US Census
+method for each address and only use the OSM service if the Census
+method fails (since OSM has a usage limit).
+
+``` r
+cascade_points <- sample_addresses %>% 
+  geocode(addr,method='cascade')
+```
+
+
+| name                 | addr                                       |        lat |         lng | geo\_method |
+| :------------------- | :----------------------------------------- | ---------: | ----------: | :---------- |
+| White House          | 1600 Pennsylvania Ave Washington, DC       |  38.898754 |  \-77.03535 | census      |
+| Transamerica Pyramid | 600 Montgomery St, San Francisco, CA 94111 |  37.794700 | \-122.40314 | census      |
+| NA                   | Fake Address                               |         NA |          NA | NA          |
+| NA                   | NA                                         |  64.573154 |    11.52804 | osm         |
+|                      |                                            |         NA |          NA | NA          |
+| US City              | Nashville,TN                               |  36.162230 |  \-86.77435 | osm         |
+| Willis Tower         | 233 S Wacker Dr, Chicago, IL 60606         |  41.878513 |  \-87.63666 | census      |
+| International City   | Nairobi, Kenya                             | \-1.283253 |    36.81724 | osm         |
+
 
 ## Development Notes
 
@@ -70,5 +92,4 @@ ggplot(lat_longs %>% filter(!is.na(longitude)), aes(longitude, latitude),color="
 ## Todo
 
 * Warning for when user has hit usage limit on OSM
-* Progress bar
-* Warning if variable is already in the input dataframe (for `geocode`)
+* Progress bar?

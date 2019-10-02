@@ -28,8 +28,8 @@ geo_cascade = function(address,verbose=FALSE,lat=Lat,long=lng) {
   census <- geo_census(address,verbose=verbose,lat=!!lat,long=!!long)
 
   if (nrow(census) > 0) {
-    census %>% dplyr::mutate(method='census')
+    census %>% dplyr::mutate(geo_method='census')
   } else {
-    geo_osm(address,verbose=verbose,lat=!!lat,long=!!long) %>% dplyr::mutate(method='osm')
+    geo_osm(address,verbose=verbose,lat=!!lat,long=!!long) %>% dplyr::mutate(geo_method='osm')
   }
 }
