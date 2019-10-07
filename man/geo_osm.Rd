@@ -4,7 +4,7 @@
 \alias{geo_osm}
 \title{Geocode an address using the Nominatim (OSM) Geocoder API}
 \usage{
-geo_osm(address, verbose = FALSE, lat = Lat, long = lng)
+geo_osm(address, verbose = FALSE, lat = latitude, long = longitude)
 }
 \arguments{
 \item{address}{Single line address. Street must be included.}

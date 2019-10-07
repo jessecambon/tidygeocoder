@@ -15,8 +15,9 @@
 #' @importFrom jsonlite fromJSON
 #' @importFrom rlang enquo ":="
 #' @export
-geo_census <- function(address,verbose=FALSE,lat=Lat,long=lng,
+geo_census <- function(address,verbose=FALSE,lat=latitude,long=longitude,
                        API_URL="https://geocoding.geo.census.gov/geocoder/locations/onelineaddress?"){
+  latitude  <- longitude <- NULL # prevents 'no visible binding for global variable' warning
   lat <- rlang::enquo(lat)
   long <- rlang::enquo(long)
 

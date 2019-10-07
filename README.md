@@ -1,6 +1,6 @@
 # tidygeocoder
 
-A tidyverse-style geocoder interface for R. Utilizes US Census and Nominatim (OSM) geocoder services. Returns latitude and longitude in tibble format for ease of use.
+A tidyverse-style geocoder interface for R. Utilizes US Census and Nominatim (OSM) geocoder services. Returns latitude and longitude in tibble format from addresses.
 
 
 ## Install
@@ -81,16 +81,18 @@ cascade_points <- sample_addresses %>%
 | International City   | Nairobi, Kenya                             | \-1.283253 |    36.81724 | osm         |
 
 
-## Development Notes
+## Developer Notes
+* The `sample_addresses` dataset is created with commented code in the `geocoder` vignette
+
+## References
 
 * General Instructions: http://r-pkgs.had.co.nz/
 * Devtools cheat sheet: https://www.rstudio.com/wp-content/uploads/2015/03/devtools-cheatsheet.pdf
-* Create man documents based off of R/ directory code files with CTRL+SHIFT+D (devtools::document(roclets=c('rd', 'collate', 'namespace')))
-* Use load_all() from devtools to load the package (for testing)
+* The man documents are created with roxygen2 based on R/ directory code files. Run this with CTRL+SHIFT+D (devtools::document(roclets=c('rd', 'collate', 'namespace')))
 * Create new vignette with `use_vignette("my-vignette")`
 
 ## Todo
 
-* Remove R >= 3.5 dependency (has to do with the .RData file)
+* Proofread documentation - check references, consistency between functions, etc.
 * Warning for when user has hit usage limit on OSM
 * Progress bar?

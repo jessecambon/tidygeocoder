@@ -4,7 +4,8 @@
 \alias{geo_census}
 \title{Geocode a street address using the US Census Geocoder API}
 \usage{
-geo_census(address, verbose = FALSE, lat = Lat, long = lng,
+geo_census(address, verbose = FALSE, lat = latitude,
+  long = longitude,
   API_URL = "https://geocoding.geo.census.gov/geocoder/locations/onelineaddress?")
 }
 \arguments{

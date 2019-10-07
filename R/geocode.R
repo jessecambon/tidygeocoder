@@ -29,7 +29,9 @@
 #' @importFrom tidyr unnest
 #' @importFrom rlang enquo
 #' @export
-geocode <- function(.tbl,address,method='census',lat=lat,long=lng,...) {
+geocode <- function(.tbl,address,method='census',lat=latitude,long=longitude,...) {
+  latitude  <- longitude <- NULL # prevents 'no visible binding for global variable' warning
+
   address<- rlang::enquo(address)
   lat <- rlang::enquo(lat)
   long <- rlang::enquo(long)

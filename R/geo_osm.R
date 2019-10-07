@@ -17,7 +17,8 @@
 #' @importFrom dplyr '%>%' mutate
 #' @importFrom rlang ':=' enquo
 #' @export
-geo_osm <- function(address,verbose=FALSE,lat=Lat,long=lng){
+geo_osm <- function(address,verbose=FALSE,lat=latitude,long=longitude){
+  latitude  <- longitude <- NULL # prevents 'no visible binding for global variable' warning
   lat <- rlang::enquo(lat)
   long <- rlang::enquo(long)
 

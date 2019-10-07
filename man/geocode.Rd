@@ -4,7 +4,8 @@
 \alias{geocode}
 \title{Tidyverse-style interface for geocoding addresses}
 \usage{
-geocode(.tbl, address, method = "census", lat = lat, long = lng, ...)
+geocode(.tbl, address, method = "census", lat = latitude,
+  long = longitude, ...)
 }
 \arguments{
 \item{.tbl}{Dataframe}

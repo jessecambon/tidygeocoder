@@ -1,14 +1,14 @@
 #' Geocode a street address
 #'
 #' First attempts to use the US Census Geocoder (geo_census) method
-#' and then Nominatim/OSM (geo_osm) method as a backup
+#' and then uses the Nominatim/OSM (geo_osm) method if the census method failed
 #' Returns latitude and longitude coordinates.
 #'
-#' @param address Single line address. Street must be included.
+#' @param address single line address.
 #' @param verbose logical. If TRUE outputs logs.
 #' @param lat name of latitude field
 #' @param long name of longitude field
-#' @return Latitude and Longitude Coordinates in tibble format
+#' @return latitude and longitude coordinates in tibble format
 #'
 #' @examples
 #' geo_cascade("1600 Pennsylvania Ave Washington, DC")
@@ -16,7 +16,8 @@
 #' @importFrom tibble tibble
 #' @importFrom dplyr '%>%' mutate
 #' @export
-geo_cascade = function(address,verbose=FALSE,lat=Lat,long=lng) {
+geo_cascade = function(address,verbose=FALSE,lat=latitude,long=longitude) {
+  latitude  <- longitude <- NULL # prevents 'no visible binding for global variable' warning
 
   lat <- rlang::enquo(lat)
   long <- rlang::enquo(long)
