@@ -16,7 +16,7 @@
 #' @importFrom tibble tibble
 #' @importFrom dplyr '%>%' mutate
 #' @export
-geo_cascade = function(address,verbose=FALSE,lat=latitude,long=longitude) {
+geo_cascade = function(address,verbose=FALSE,lat=lat,long=long) {
   latitude  <- longitude <- NULL # prevents 'no visible binding for global variable' warning
 
   lat <- rlang::enquo(lat)

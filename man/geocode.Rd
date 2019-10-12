@@ -2,21 +2,19 @@
 % Please edit documentation in R/geocode.R
 \name{geocode}
 \alias{geocode}
-\title{Tidyverse-style interface for geocoding addresses}
+\title{Geocode street addresses in a tibble}
 \usage{
-geocode(.tbl, address, method = "census", lat = latitude,
-  long = longitude, ...)
+geocode(.tbl, address, method = "census", lat = lat, long = long,
+  ...)
 }
 \arguments{
 \item{.tbl}{Dataframe}
 
-\item{address}{Single line address. Street must be included.}
-
-\item{method}{the geocoder function/service that you want to use
+\item{address}{Single line address.
 \itemize{
-  \item "census": \code{\link{geo_census}}
-  \item "osm": \code{\link{geo_osm}}
-  \item "cascade": \code{\link{geo_cascade}} (first tries to use census then tries osm)
+  \item "census": \code{\link{geo_census}} - can only handle US street level addresses
+  \item "osm": \code{\link{geo_osm}} - more versatile than Census but has a usage limit
+  \item "cascade": \code{\link{geo_cascade}} - first tries to use census then tries osm
 }}
 
 \item{lat}{name of latitude field}

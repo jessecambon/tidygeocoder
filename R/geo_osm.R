@@ -1,8 +1,10 @@
-#' Geocode an address using the Nominatim (OSM) Geocoder API
+#' Geocode addresses with Nomaninatim (OSM)
 #'
-#' Returns latitude and longitude coordinates.
+#' Obtains latitude and longitude coordinates from an address using
+#' the Nominatim (OSM) Geocoder API. Can be used with non-US
+#' or non-street level addresses unlike the Census geocoder
 #'
-#' @param address Single line address. Street must be included.
+#' @param address Single line address
 #' @param verbose logical. If TRUE outputs logs.
 #' @param lat name of latitude field
 #' @param long name of longitude field
@@ -17,14 +19,12 @@
 #' @importFrom dplyr '%>%' mutate
 #' @importFrom rlang ':=' enquo
 #' @export
-geo_osm <- function(address,verbose=FALSE,lat=latitude,long=longitude){
+geo_osm <- function(address,verbose=FALSE,lat=lat,long=long){
   latitude  <- longitude <- NULL # prevents 'no visible binding for global variable' warning
   lat <- rlang::enquo(lat)
   long <- rlang::enquo(long)
 
-  if (verbose == TRUE) {
-    print(address)
-  }
+  if (verbose == TRUE) { print(address)}
 
   coords = unname(tmaptools::geocode_OSM(address)$coords)
 

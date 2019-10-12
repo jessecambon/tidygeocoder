@@ -2,10 +2,10 @@
 % Please edit documentation in R/geo_census.R
 \name{geo_census}
 \alias{geo_census}
-\title{Geocode a street address using the US Census Geocoder API}
+\title{Geocode street addresses with}
 \usage{
-geo_census(address, verbose = FALSE, lat = latitude,
-  long = longitude,
+geo_census(address, verbose = FALSE, lat = lat, long = long,
+  benchmark = 4,
   API_URL = "https://geocoding.geo.census.gov/geocoder/locations/onelineaddress?")
 }
 \arguments{
@@ -17,9 +17,11 @@ geo_census(address, verbose = FALSE, lat = latitude,
 
 \item{long}{name of longitude field}
 
+\item{benchmark}{parameter for the US Census Geocoder}
+
 \item{API_URL}{URL of Census API}
 }
 \description{
-Returns latitude and longitude coordinates. Only works for US addresses.
-Address must be at the street level (ie. 60 Main St. Pawnee, IN not Pawnee, IN)
+Obtain latitude and longitude coordinates from an address using the US Census geocoder.
+Only works for US street level addresses (ie. 60 Main St. Pawnee, IN not Pawnee, IN)
 }

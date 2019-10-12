@@ -4,8 +4,7 @@
 \alias{geo_cascade}
 \title{Geocode a street address}
 \usage{
-geo_cascade(address, verbose = FALSE, lat = latitude,
-  long = longitude)
+geo_cascade(address, verbose = FALSE, lat = lat, long = long)
 }
 \arguments{
 \item{address}{single line address.}

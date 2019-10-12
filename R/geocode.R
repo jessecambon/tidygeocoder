@@ -1,16 +1,15 @@
-#' Tidyverse-style interface for geocoding addresses
+#' Geocode street addresses in a tibble
 #'
 #' Returns latitude and longitude as two columns appended to
 #' the inputted dataframe.
 #' See example usage in vignette("geocode")
 #'
 #' @param .tbl Dataframe
-#' @param address Single line address. Street must be included.
-#' @param method the geocoder function/service that you want to use
+#' @param address Single line address.
 #' \itemize{
-#'   \item "census": \code{\link{geo_census}}
-#'   \item "osm": \code{\link{geo_osm}}
-#'   \item "cascade": \code{\link{geo_cascade}} (first tries to use census then tries osm)
+#'   \item "census": \code{\link{geo_census}} - can only handle US street level addresses
+#'   \item "osm": \code{\link{geo_osm}} - more versatile than Census but has a usage limit
+#'   \item "cascade": \code{\link{geo_cascade}} - first tries to use census then tries osm
 #' }
 #' @param lat name of latitude field
 #' @param long name of longitude field
@@ -29,15 +28,12 @@
 #' @importFrom tidyr unnest
 #' @importFrom rlang enquo
 #' @export
-geocode <- function(.tbl,address,method='census',lat=latitude,long=longitude,...) {
-  latitude  <- longitude <- NULL # prevents 'no visible binding for global variable' warning
+geocode <- function(.tbl,address,method='census',lat=lat,long=long,...) {
+  latitude  <- longitude <- temp <- NULL # prevents 'no visible binding for global variable' warning
 
   address<- rlang::enquo(address)
   lat <- rlang::enquo(lat)
   long <- rlang::enquo(long)
-
-
-  temp = NULL
 
   # Select geolocation method to use
   if (method == 'census') {
