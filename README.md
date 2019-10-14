@@ -54,8 +54,7 @@ ggplot(lat_longs %>% filter(!is.na(longitude)),aes(longitude, latitude),color="g
   scale_x_continuous(breaks = NULL) + 
   scale_y_continuous(breaks = NULL)
 ```
-<!-- NOTE: manually add vignettes/ folder to the image path that is generated (since we are in the parent directory) -->
-![](vignettes/geocode_files/figure-gfm/unnamed-chunk-2-1.png)
+![](us_map.png)
 
 To find international and non-street addresses, we must use the OSM
 service. We can use the ‘cascade’ method to attempt to use the US Census
