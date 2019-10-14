@@ -40,7 +40,7 @@ test_that("geocode null/empty addresses", {
   expected_colnames <- c(colnames(NA_data),'lat','long','geo_method')
 
   expect_identical(colnames(result),expected_colnames)
-  #expect_identical(result %>% dplyr::pull(geo_method),c(NA,NA,NA))
+  expect_identical(is.na(result %>% dplyr::pull(geo_method)),c(TRUE,TRUE,TRUE))
   expect_equal(nrow(result),nrow(NA_data)) # result should have one row
 })
 

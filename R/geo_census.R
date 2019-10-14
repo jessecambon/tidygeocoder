@@ -29,7 +29,7 @@ geo_census <- function(address,verbose=FALSE,lat=lat,long=long,
   if (verbose == TRUE) { message(address) }
 
   # if address is NA, numeric, or blank then return NA, else make call to census geocoder
-  if (!is.na(as.character(address)) | !is.character(address) | is.na(address) | stringr::str_trim(address) == "") {
+  if (!is.na(as.numeric(address)) | !is.character(address) | is.na(address) | stringr::str_trim(address) == "") {
     if (verbose == TRUE) { message("Blank or missing address!") }
     NA_value
   } else {

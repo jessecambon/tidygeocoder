@@ -72,7 +72,7 @@ cascade_points <- sample_addresses %>%
 | White House          | 1600 Pennsylvania Ave Washington, DC       |  38.898754 |  \-77.03535 | census      |
 | Transamerica Pyramid | 600 Montgomery St, San Francisco, CA 94111 |  37.794700 | \-122.40314 | census      |
 | NA                   | Fake Address                               |         NA |          NA | NA          |
-| NA                   | NA                                         |  64.573154 |    11.52804 | osm         |
+| NA                   | NA                                         |         NA |          NA | osm         |
 |                      |                                            |         NA |          NA | NA          |
 | US City              | Nashville,TN                               |  36.162230 |  \-86.77435 | osm         |
 | Willis Tower         | 233 S Wacker Dr, Chicago, IL 60606         |  41.878513 |  \-87.63666 | census      |
