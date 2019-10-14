@@ -26,7 +26,7 @@ geo_cascade = function(address,verbose=FALSE,lat=lat,long=long) {
   # if address is NA or blank then return NA, else attempt to geocode
   # (OSM can geocode zip codes so we allow numeric addresses)
   if (is.na(address) | stringr::str_trim(address) == "") {
-    message("Blank or missing address!")
+    if (verbose == TRUE) { message("Blank or missing address!") }
     tibble::tibble(!!lat:=numeric(),!!long:=numeric()) %>% dplyr::mutate(geo_method="")
   } else {
 
