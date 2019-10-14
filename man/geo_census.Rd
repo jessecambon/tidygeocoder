@@ -2,14 +2,14 @@
 % Please edit documentation in R/geo_census.R
 \name{geo_census}
 \alias{geo_census}
-\title{Geocode street addresses with}
+\title{Geocode street addresses}
 \usage{
 geo_census(address, verbose = FALSE, lat = lat, long = long,
   benchmark = 4,
   API_URL = "https://geocoding.geo.census.gov/geocoder/locations/onelineaddress?")
 }
 \arguments{
-\item{address}{Single line address. Street must be included.}
+\item{address}{single line address. Street must be included.}
 
 \item{verbose}{logical. If TRUE outputs logs.}
 
@@ -23,5 +23,6 @@ geo_census(address, verbose = FALSE, lat = lat, long = long,
 }
 \description{
 Obtain latitude and longitude coordinates from an address using the US Census geocoder.
-Only works for US street level addresses (ie. 60 Main St. Pawnee, IN not Pawnee, IN)
+Only works for addresses within the US. Addresses must also be at the street
+level (ie. 60 Main St. Pawnee, IN not Pawnee, IN).
 }

@@ -16,12 +16,12 @@ geo_cascade(address, verbose = FALSE, lat = lat, long = long)
 \item{long}{name of longitude field}
 }
 \value{
-latitude and longitude coordinates in tibble format
+latitude and longitude coordinates and the geocoder method used (geo_method)  in tibble format (3 columns)
 }
 \description{
 First attempts to use the US Census Geocoder (geo_census) method
-and then uses the Nominatim/OSM (geo_osm) method if the census method failed
-Returns latitude and longitude coordinates.
+and then uses the Nominatim/OSM (geo_osm) method if the census method failed.
+Returns latitude and longitude coordinates and the method used to return results (OSM or Census)
 }
 \examples{
 geo_cascade("1600 Pennsylvania Ave Washington, DC")

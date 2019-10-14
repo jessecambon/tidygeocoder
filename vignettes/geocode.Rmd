@@ -1,8 +1,8 @@
 ---
 title: "Geocoder Vignette"
 output: 
-  github_document:
   rmarkdown::html_vignette: default
+  github_document:
 vignette: >
   %\VignetteIndexEntry{geocode}
   %\VignetteEncoding{UTF-8}
@@ -14,24 +14,9 @@ knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
 )
-
-## Dataset for testing
-## note the version=2 option in save(), this is to prevent a R3.5 >= dependency
-## being included with this package
-# sample_addresses <- tribble( ~name,~addr,
-#                            "White House", "1600 Pennsylvania Ave Washington, DC",
-#                            "Transamerica Pyramid", "600 Montgomery St, San Francisco, CA 94111",
-#                            NA, "Fake Address",
-#                            NA,NA,
-#                            "","",
-#                            "US City","Nashville,TN",
-#                            "Willis Tower", "233 S Wacker Dr, Chicago, IL 60606",
-#                            "International City", "Nairobi, Kenya"
-#                            )
-# save(sample_addresses,file='../data/sample_addresses.rda',version=2)
 ```
 
-The tidygeocoder package provides an intuitive tidyverse-style interface for using geocoder services. Currently the US Census and Nominatim (OSM) services are supported. The US Census service requires a street level address that is located in the United States. The OSM service does not have these restrictions, but has usage limits that will cause you to be locked out of the service temporarily. Because of these usage limits the default service for the `geocode()` function is the US Census which we will use to geocode a few street addresses below.
+The tidygeocoder package provides an intuitive tidyverse-style interface for geocoder services. Currently the US Census and Nominatim (OSM) services are supported. The US Census service requires a street level address that is located in the United States. The OSM service does not have these restrictions, but has usage limits that will cause you to be locked out of the service temporarily. Because of these usage limits the default service for the `geocode()` function is the US Census which we will use to geocode a few street addresses below.
 
 ```{r setup,warning=F,message=F}
 library(dplyr)
@@ -52,12 +37,12 @@ Latitude and longitude columns are attached to our input dataset:
 kable(lat_longs)
 ```
 
-Note that international and non-street addresses were not found since we are using the Census geocoder service. 
+Note that international and non-street addresses were not found since we are using the US Census geocoder service. 
 
 ```{r,fig.width=8,fig.height=5}
 if ((require("ggplot2") & require("maps") & require("ggrepel"))) {
 
-ggplot(lat_longs %>% filter(!is.na(longitude)), aes(longitude, latitude),color="grey98") +
+ggplot(lat_longs %>% filter(!is.na(longitude)),aes(longitude, latitude),color="grey98") +
   borders("state") +
   theme_classic() +
   geom_point() +
@@ -70,7 +55,7 @@ ggplot(lat_longs %>% filter(!is.na(longitude)), aes(longitude, latitude),color="
 }
 ```
 
-To find international and non-street addresses, we must use the OSM service. We can use the 'cascade' method to attempt to use the US Census method for each address and only use the OSM service if the Census method fails (since OSM has a usage limit).
+To find international and non-street addresses, we can use the OSM service. The 'cascade' method will attempt to use the US Census method for each address and only use the OSM service if the Census method fails (since OSM has a usage limit).
 
 ```{r}
 cascade_points <- sample_addresses %>% 

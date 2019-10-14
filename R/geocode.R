@@ -1,11 +1,14 @@
-#' Geocode street addresses in a tibble
+#' Geocode street addresses in a dataframe
 #'
-#' Returns latitude and longitude as two columns appended to
-#' the inputted dataframe.
+#' Takes a dataframe containing addresses as a input. Returns
+#' the dataframe with latitude and longitude coordinate columns
+#' using a user specified geocoder function.
+#'
 #' See example usage in vignette("geocode")
 #'
-#' @param .tbl Dataframe
-#' @param address Single line address.
+#' @param .tbl dataframe
+#' @param address name of column containing addresses in .tbl
+#' @param method the geocoder function you want to use
 #' \itemize{
 #'   \item "census": \code{\link{geo_census}} - can only handle US street level addresses
 #'   \item "osm": \code{\link{geo_osm}} - more versatile than Census but has a usage limit
@@ -29,7 +32,7 @@
 #' @importFrom rlang enquo
 #' @export
 geocode <- function(.tbl,address,method='census',lat=lat,long=long,...) {
-  latitude  <- longitude <- temp <- NULL # prevents 'no visible binding for global variable' warning
+ temp <- NULL # prevents 'no visible binding for global variable' warning
 
   address<- rlang::enquo(address)
   lat <- rlang::enquo(lat)

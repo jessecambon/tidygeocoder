@@ -2,12 +2,12 @@
 % Please edit documentation in R/geo_osm.R
 \name{geo_osm}
 \alias{geo_osm}
-\title{Geocode addresses with Nomaninatim (OSM)}
+\title{Geocode addresses}
 \usage{
 geo_osm(address, verbose = FALSE, lat = lat, long = long)
 }
 \arguments{
-\item{address}{Single line address}
+\item{address}{single line address}
 
 \item{verbose}{logical. If TRUE outputs logs.}
 
@@ -16,12 +16,17 @@ geo_osm(address, verbose = FALSE, lat = lat, long = long)
 \item{long}{name of longitude field}
 }
 \value{
-Latitude and Longitude Coordinates in Tibble format
+latitude and longitude Coordinates in tibble format
 }
 \description{
 Obtains latitude and longitude coordinates from an address using
-the Nominatim (OSM) Geocoder API. Can be used with non-US
-or non-street level addresses unlike the Census geocoder
+the Nominatim (OSM) geocoder service. Can be used with non-US
+or non-street level addresses unlike the Census geocoder. This
+function calls the geocode_OSM function from tmaptools package.
+}
+\details{
+WARNING - This service has a usage limit and it will return
+missing coordinates once the usage limit is reached.
 }
 \examples{
 geo_osm("1600 Pennsylvania Ave Washington, DC")

@@ -6,7 +6,7 @@
 \alias{tidygeocoder-package}
 \title{tidygeocoder: Tidyverse-style interface for geocoding}
 \description{
-Utilities for geocoding (obtaining latitude and longitude from addresses).
+This package provides an intuitive interface for using geocoding services. The currently supported services are the US Census geocoder and Nomanatim (OSM).
 }
 \details{
 Functions for geocoding (obtaining latitudes and longitude

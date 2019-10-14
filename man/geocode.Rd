@@ -2,15 +2,17 @@
 % Please edit documentation in R/geocode.R
 \name{geocode}
 \alias{geocode}
-\title{Geocode street addresses in a tibble}
+\title{Geocode street addresses in a dataframe}
 \usage{
 geocode(.tbl, address, method = "census", lat = lat, long = long,
   ...)
 }
 \arguments{
-\item{.tbl}{Dataframe}
+\item{.tbl}{dataframe}
 
-\item{address}{Single line address.
+\item{address}{name of column containing addresses in .tbl}
+
+\item{method}{the geocoder function you want to use
 \itemize{
   \item "census": \code{\link{geo_census}} - can only handle US street level addresses
   \item "osm": \code{\link{geo_osm}} - more versatile than Census but has a usage limit
@@ -27,8 +29,11 @@ geocode(.tbl, address, method = "census", lat = lat, long = long,
 input dataframe (.tbl) with latitude and longitude fields appended
 }
 \description{
-Returns latitude and longitude as two columns appended to
-the inputted dataframe.
+Takes a dataframe containing addresses as a input. Returns
+the dataframe with latitude and longitude coordinate columns
+using a user specified geocoder function.
+}
+\details{
 See example usage in vignette("geocode")
 }
 \examples{

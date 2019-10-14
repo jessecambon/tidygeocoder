@@ -1,11 +1,10 @@
-# tidygeocoder
+# Description
 
 A tidyverse-style geocoder interface for R. Utilizes US Census and Nominatim (OSM) geocoder services. Returns latitude and longitude in tibble format from addresses.
 
+## Installation
 
-## Install
-
-To download, install, and load package from github
+To download, install, and load package from github:
 
 ```
 install.packages('devtools')
@@ -44,7 +43,7 @@ dataset. Since we are using the US Census geocoder service, international locati
 Plot our geolocated points:
 
 ```r
-ggplot(lat_longs %>% filter(!is.na(longitude)), aes(longitude, latitude),color="grey98") +
+ggplot(lat_longs %>% filter(!is.na(longitude)),aes(longitude, latitude),color="grey98") +
   borders("state") +
   theme_classic() +
   geom_point() +
@@ -55,7 +54,7 @@ ggplot(lat_longs %>% filter(!is.na(longitude)), aes(longitude, latitude),color="
   scale_x_continuous(breaks = NULL) + 
   scale_y_continuous(breaks = NULL)
 ```
-<!-- NOTE: add vignettes/ folder to the image path that is generated (since we are in the parent directory) -->
+<!-- NOTE: manually add vignettes/ folder to the image path that is generated (since we are in the parent directory) -->
 ![](vignettes/geocode_files/figure-gfm/unnamed-chunk-2-1.png)
 
 To find international and non-street addresses, we must use the OSM
@@ -68,8 +67,7 @@ cascade_points <- sample_addresses %>%
   geocode(addr,method='cascade')
 ```
 
-
-| name                 | addr                                       |        lat |         lng | geo\_method |
+| name                 | addr                                       |        lat |         long | geo\_method |
 | :------------------- | :----------------------------------------- | ---------: | ----------: | :---------- |
 | White House          | 1600 Pennsylvania Ave Washington, DC       |  38.898754 |  \-77.03535 | census      |
 | Transamerica Pyramid | 600 Montgomery St, San Francisco, CA 94111 |  37.794700 | \-122.40314 | census      |
@@ -82,17 +80,19 @@ cascade_points <- sample_addresses %>%
 
 
 ## Developer Notes
-* The `sample_addresses` dataset is created with commented code in the `geocoder` vignette
+* Create new vignette with `use_vignette("vignette-name")`
+* Use `devtools::build_vignettes()` to build vignettes
+* The man documents are created with roxygen2 based on `R/` directory code files. Run this with CTRL+SHIFT+D (in RStudio) or `royxenize()` before building the package.
+* Use `devtools::check()` to check for issues
+* Use `devtools::load_all()` to load the package
+* Test package with `devtools::test()`
 
 ## References
-
 * General Instructions: http://r-pkgs.had.co.nz/
+* roxygen2 : https://cran.r-project.org/web/packages/roxygen2/
 * Devtools cheat sheet: https://www.rstudio.com/wp-content/uploads/2015/03/devtools-cheatsheet.pdf
-* The man documents are created with roxygen2 based on R/ directory code files. Run this with CTRL+SHIFT+D (devtools::document(roclets=c('rd', 'collate', 'namespace')))
-* Create new vignette with `use_vignette("my-vignette")`
 
 ## Todo
-
-* Proofread documentation - check references, consistency between functions, etc.
+* Make `geocoder()` function able to take a vector input (no dataframe)?
 * Warning for when user has hit usage limit on OSM
 * Progress bar?
