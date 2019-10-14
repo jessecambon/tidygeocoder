@@ -15,20 +15,29 @@
 #' geo_cascade("Paris, France")
 #' @importFrom tibble tibble
 #' @importFrom dplyr '%>%' mutate
+#' @importFrom stringr str_trim
 #' @export
 geo_cascade = function(address,verbose=FALSE,lat=lat,long=long) {
   lat <- rlang::enquo(lat)
   long <- rlang::enquo(long)
 
-  if (verbose == TRUE) {print(address)}
+  if (verbose == TRUE) {message(address)}
 
-  # First attempt to use OSM
-  census <- geo_census(address,verbose=verbose,lat=!!lat,long=!!long)
-
-  # If the census method fails, then we will use OSM
-  if (nrow(census) > 0) {
-    census %>% dplyr::mutate(geo_method='census')
+  # if address is NA or blank then return NA, else attempt to geocode
+  # (OSM can geocode zip codes so we allow numeric addresses)
+  if (is.na(address) | stringr::str_trim(address) == "") {
+    message("Blank or missing address!")
+    tibble::tibble(!!lat:=numeric(),!!long:=numeric()) %>% dplyr::mutate(geo_method="")
   } else {
-    geo_osm(address,verbose=verbose,lat=!!lat,long=!!long) %>% dplyr::mutate(geo_method='osm')
+
+    # First attempt to use OSM
+    census <- geo_census(address,verbose=verbose,lat=!!lat,long=!!long)
+
+    # If the census method fails, then we will use OSM
+    if (nrow(census) > 0) {
+      census %>% dplyr::mutate(geo_method='census')
+    } else {
+      geo_osm(address,verbose=verbose,lat=!!lat,long=!!long) %>% dplyr::mutate(geo_method='osm')
+    }
   }
 }

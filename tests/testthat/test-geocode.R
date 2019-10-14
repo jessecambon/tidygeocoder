@@ -21,3 +21,26 @@ test_that("geocode custom colnames", {
   expect_identical(colnames(result),expected_colnames)
   expect_equal(nrow(result),1) # result should have one row
 })
+
+# Check that null/empty address values are handled properly
+test_that("geocode null/empty addresses", {
+  # make sure blank addresses are not being sent to the geocoder
+  expect_message(geo_census(" ",verbose=TRUE),"Blank or missing address!")
+  expect_message(geo_osm(" ",verbose=TRUE),"Blank or missing address!")
+  expect_message(geo_cascade(" ",verbose=TRUE),"Blank or missing address!")
+
+  # Test with tibble
+  NA_data <- tibble::tribble(~addr,
+                             "   ",
+                             NA,
+                             "")
+
+  result <- NA_data %>% geocode(addr,method='cascade')
+
+  expected_colnames <- c(colnames(NA_data),'lat','long','geo_method')
+
+  expect_identical(colnames(result),expected_colnames)
+  #expect_identical(result %>% dplyr::pull(geo_method),c(NA,NA,NA))
+  expect_equal(nrow(result),nrow(NA_data)) # result should have one row
+})
+

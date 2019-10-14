@@ -3,7 +3,7 @@
 #' Obtains latitude and longitude coordinates from an address using
 #' the Nominatim (OSM) geocoder service. Can be used with non-US
 #' or non-street level addresses unlike the Census geocoder. This
-#' function calls the geocode_OSM function from tmaptools package.
+#' function calls the geocode_OSM function from the tmaptools package.
 #'
 #' WARNING - This service has a usage limit and it will return
 #' missing coordinates once the usage limit is reached.
@@ -22,17 +22,28 @@
 #' @importFrom tibble tibble
 #' @importFrom dplyr '%>%' mutate
 #' @importFrom rlang ':=' enquo
+#' @importFrom stringr str_trim
 #' @export
 geo_osm <- function(address,verbose=FALSE,lat=lat,long=long){
   lat <- rlang::enquo(lat)
   long <- rlang::enquo(long)
 
-  if (verbose == TRUE) { print(address)}
+  if (verbose == TRUE) { message(address)}
 
-  # extract coordinates
-  coords = unname(tmaptools::geocode_OSM(address)$coords)
+  # what to return if address is invalid or no coordinates are found
+  NA_value <- tibble::tibble(!!lat:=numeric(),!!long:=numeric())
 
-  # flip coordinates to output lat,long
-  if (!is.null(coords)) { tibble::tibble(!!lat:=coords[2],!!long:=coords[1]) }
-  else { tibble::tibble(!!lat:=numeric(),!!long:=numeric()) }
+  # if address is NA or blank then return NA, else make call to Nominatim geocoder
+  # numeric data is allowed but must be in string format (ie. for zip codes)
+  if (is.na(address) | stringr::str_trim(address) == "") {
+    if (verbose == TRUE) { message("Blank or missing address!") }
+    NA_value
+  } else {
+    # extract coordinates
+    coords = unname(tmaptools::geocode_OSM(address)$coords)
+
+    # flip coordinates to output lat,long
+    if (!is.null(coords)) { tibble::tibble(!!lat:=coords[2],!!long:=coords[1]) }
+    else { NA_value }
+  }
 }

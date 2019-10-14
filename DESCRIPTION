@@ -5,7 +5,7 @@ Version: 0.1.0
 Author: Jesse Cambon
 Maintainer: Jesse Cambon <jesse.cambon@gmail.com>
 Depends: R (>= 2.10)
-Description: This package provides an intuitive interface for using geocoding services. The currently supported services are the US Census geocoder and Nomanatim (OSM).
+Description: This package provides an intuitive tidyverse-style interface for geocoding services. The currently supported services are the US Census geocoder and Nominatim (OSM).
 License: file LICENSE
 Encoding: UTF-8
 LazyData: true
@@ -17,7 +17,8 @@ Imports:
     dplyr,
     tmaptools,
     httr,
-    jsonlite
+    jsonlite,
+    stringr
 RoxygenNote: 6.1.1
 Suggests: 
     knitr,

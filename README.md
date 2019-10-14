@@ -80,19 +80,19 @@ cascade_points <- sample_addresses %>%
 
 
 ## Developer Notes
-* Create new vignette with `use_vignette("vignette-name")`
-* Use `devtools::build_vignettes()` to build vignettes
 * The man documents are created with roxygen2 based on `R/` directory code files. Run this with CTRL+SHIFT+D (in RStudio) or `royxenize()` before building the package.
+* Test package with `devtools::test()` (see `/tests` directory)
 * Use `devtools::check()` to check for issues
-* Use `devtools::load_all()` to load the package
-* Test package with `devtools::test()`
+* Use `devtools::build()` to build the package with vignettes included
+* Use `load_all()`(from devtools) to load the package
 
 ## References
 * General Instructions: http://r-pkgs.had.co.nz/
 * roxygen2 : https://cran.r-project.org/web/packages/roxygen2/
 * Devtools cheat sheet: https://www.rstudio.com/wp-content/uploads/2015/03/devtools-cheatsheet.pdf
 
-## Todo
+## Todo/Backlog
 * Make `geocoder()` function able to take a vector input (no dataframe)?
+* Classify address as street level, zip, city level, US/vs non-US, etc. and hand it to the proper geocoder
 * Warning for when user has hit usage limit on OSM
 * Progress bar?

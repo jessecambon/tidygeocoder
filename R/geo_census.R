@@ -15,6 +15,7 @@
 #' @importFrom dplyr '%>%' mutate
 #' @importFrom jsonlite fromJSON
 #' @importFrom rlang enquo ":="
+#' @importFrom stringr str_trim
 #' @export
 geo_census <- function(address,verbose=FALSE,lat=lat,long=long,
                        benchmark=4,
@@ -22,18 +23,27 @@ geo_census <- function(address,verbose=FALSE,lat=lat,long=long,
   lat <- rlang::enquo(lat)
   long <- rlang::enquo(long)
 
-  if (verbose == TRUE) { print(address) }
+  # what to return if address is invalid or no coordinates are found
+  NA_value <- tibble::tibble(!!lat:=numeric(),!!long:=numeric())
 
-  # API Call
-  soup <- httr::GET(url=API_URL,query=list(address=address,format='json',benchmark=benchmark))
-  dat <- jsonlite::fromJSON(httr::content(soup,as='text',encoding = "ISO-8859-1"), simplifyVector=TRUE)
+  if (verbose == TRUE) { message(address) }
 
-  # extract coordinates
-  coords <- dat$result$addressMatches$coordinates
+  # if address is NA, numeric, or blank then return NA, else make call to census geocoder
+  if (!is.na(as.character(address)) | !is.character(address) | is.na(address) | stringr::str_trim(address) == "") {
+    if (verbose == TRUE) { message("Blank or missing address!") }
+    NA_value
+  } else {
+    # API Call
+    soup <- httr::GET(url=API_URL,query=list(address=address,format='json',benchmark=benchmark))
+    dat <- jsonlite::fromJSON(httr::content(soup,as='text',encoding = "ISO-8859-1"), simplifyVector=TRUE)
 
-  # Return coordinates in tibble form
-  if (!is.null(coords)) {
-    tibble::tibble(!!lat:=coords$y[1],!!long:=coords$x[1]) }
-  else {
-    tibble::tibble(!!lat:=numeric(),!!long:=numeric()) }
+    # extract coordinates
+    coords <- dat$result$addressMatches$coordinates
+
+    # Return coordinates in tibble form
+    if (!is.null(coords)) {
+      tibble::tibble(!!lat:=coords$y[1],!!long:=coords$x[1]) }
+    else {
+      NA_value }
+  }
 }
