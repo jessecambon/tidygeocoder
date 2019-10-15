@@ -83,7 +83,7 @@ cascade_points <- sample_addresses %>%
 * Test package with `devtools::test()` (see `/tests` directory)
 * Use `devtools::check()` to check for issues
 * Use `devtools::build()` to build the package with vignettes included
-* Use `install.packages(path_to_file, repos = NULL)` to load the package. May need to close out and reopen RStudio to see changes in vignettes and for cross-references in documentation to work.
+* Use `install.packages(path_to_file, repos = NULL)` to load the package. May need to close out and reopen RStudio to see changes in vignettes and for cross-references in documentation to work. It also may be necessary to knit the vignette `.Rmd` file from a fresh RStudio session (close out the project) to update the HTML file.
 
 ## References
 * General Instructions: http://r-pkgs.had.co.nz/
