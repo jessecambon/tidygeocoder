@@ -21,23 +21,33 @@ geo_cascade = function(address,verbose=FALSE,lat=lat,long=long) {
   lat <- rlang::enquo(lat)
   long <- rlang::enquo(long)
 
+  NA_value <- tibble::tibble(!!lat:=numeric(),!!long:=numeric()) %>% dplyr::mutate(geo_method="")
+
   if (verbose == TRUE) {message(address)}
 
   # if address is NA or blank then return NA, else attempt to geocode
   # (OSM can geocode zip codes so we allow numeric addresses)
   if (is.na(address) | stringr::str_trim(address) == "") {
     if (verbose == TRUE) { message("Blank or missing address!") }
-    tibble::tibble(!!lat:=numeric(),!!long:=numeric()) %>% dplyr::mutate(geo_method="")
+    NA_value
   } else {
 
     # First attempt to use OSM
     census <- geo_census(address,verbose=verbose,lat=!!lat,long=!!long)
 
-    # If the census method fails, then we will use OSM
+    # If the census method fails, then we will try OSM
     if (nrow(census) > 0) {
       census %>% dplyr::mutate(geo_method='census')
     } else {
-      geo_osm(address,verbose=verbose,lat=!!lat,long=!!long) %>% dplyr::mutate(geo_method='osm')
+      osm <- geo_osm(address,verbose=verbose,lat=!!lat,long=!!long)
+
+      # If osm method fails, just return NA
+      if (nrow(osm) > 0 ) {
+        osm %>% dplyr::mutate(geo_method='osm')
+      }
+      else {
+        NA_value
+      }
     }
   }
 }

@@ -37,7 +37,7 @@ Latitude and longitude columns are attached to our input dataset:
 kable(lat_longs)
 ```
 
-Note that international and non-street addresses were not found since we are using the US Census geocoder service. 
+Note that non-US addresses and non-street addresses were not found since we are using the US Census geocoder service. 
 
 ```{r map,fig.width=8,fig.height=5,warning=F,message=F}
 if ((require("ggplot2") & require("maps") & require("ggrepel"))) {
@@ -56,7 +56,7 @@ ggplot(lat_longs %>% filter(!is.na(longitude)),aes(longitude,latitude),color="gr
 #ggsave("us_map.png",width=8,height=5)
 ```
 
-To find international and non-street addresses, we can use the OSM service. The 'cascade' method will attempt to use the US Census method for each address and only use the OSM service if the Census method fails (since OSM has a usage limit).
+To find non-US addresses and non-street addresses we can use the OSM service. The 'cascade' method will first attempt to use the US Census method for each address and only use the OSM service if the Census method fails (the Census service is tried first since the OSM service has usage limits).
 
 ```{r,warning=F}
 cascade_points <- sample_addresses %>% 
