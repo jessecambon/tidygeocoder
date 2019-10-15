@@ -24,4 +24,12 @@ See \code{vignette("tidygeocoder")} for details.
   \item Dplyr (Tidyverse): \url{https://dplyr.tidyverse.org/}
 }
 }
+\seealso{
+Useful links:
+\itemize{
+  \item \url{https://github.com/jessecambon/tidygeocoder}
+  \item Report bugs at \url{https://github.com/jessecambon/tidygeocoder/issues}
+}
+
+}
 \keyword{internal}
