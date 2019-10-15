@@ -2,7 +2,7 @@
 % Please edit documentation in R/geo_cascade.R
 \name{geo_cascade}
 \alias{geo_cascade}
-\title{Geocode a street address}
+\title{Geocode addresses}
 \usage{
 geo_cascade(address, verbose = FALSE, lat = lat, long = long)
 }

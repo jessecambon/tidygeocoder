@@ -1,4 +1,4 @@
-#' Geocode a street address
+#' Geocode addresses
 #'
 #' First attempts to use the US Census Geocoder (geo_census) method
 #' and then uses the Nominatim/OSM (geo_osm) method if the census method failed.
