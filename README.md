@@ -91,7 +91,7 @@ cascade_points <- sample_addresses %>%
 * Devtools cheat sheet: https://www.rstudio.com/wp-content/uploads/2015/03/devtools-cheatsheet.pdf
 
 ## Todo/Backlog
-* Make `geocoder()` function able to take a vector input (no dataframe)?
+* Make `geocode()` function able to take a vector input (no dataframe)?
 * Classify address as street level, zip, city level, US/vs non-US, etc. and hand it to the proper geocoder
 * Warning for when user has hit usage limit on OSM
 * Progress bar?
