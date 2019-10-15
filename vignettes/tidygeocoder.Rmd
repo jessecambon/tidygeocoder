@@ -1,10 +1,10 @@
 ---
-title: "Geocoder Vignette"
+title: "Introduction to Tidygeocoder"
 output: 
-  github_document:
   rmarkdown::html_vignette: default
+  github_document:
 vignette: >
-  %\VignetteIndexEntry{geocode}
+  %\VignetteIndexEntry{Introduction to Tidygeocoder}
   %\VignetteEncoding{UTF-8}
   %\VignetteEngine{knitr::rmarkdown}
 ---
@@ -39,10 +39,10 @@ kable(lat_longs)
 
 Note that international and non-street addresses were not found since we are using the US Census geocoder service. 
 
-```{r map,fig.width=8,fig.height=5,warning=F}
+```{r map,fig.width=8,fig.height=5,warning=F,message=F}
 if ((require("ggplot2") & require("maps") & require("ggrepel"))) {
 
-ggplot(lat_longs %>% filter(!is.na(longitude)),aes(longitude, latitude),color="grey98") +
+ggplot(lat_longs %>% filter(!is.na(longitude)),aes(longitude,latitude),color="grey98") +
   borders("state") +
   theme_classic() +
   geom_point() +

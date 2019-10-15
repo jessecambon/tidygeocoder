@@ -71,7 +71,7 @@ cascade_points <- sample_addresses %>%
 | White House          | 1600 Pennsylvania Ave Washington, DC       |  38.898754 |  \-77.03535 | census      |
 | Transamerica Pyramid | 600 Montgomery St, San Francisco, CA 94111 |  37.794700 | \-122.40314 | census      |
 | NA                   | Fake Address                               |         NA |          NA | NA          |
-| NA                   | NA                                         |         NA |          NA | osm         |
+| NA                   | NA                                         |         NA |          NA | NA          |
 |                      |                                            |         NA |          NA | NA          |
 | US City              | Nashville,TN                               |  36.162230 |  \-86.77435 | osm         |
 | Willis Tower         | 233 S Wacker Dr, Chicago, IL 60606         |  41.878513 |  \-87.63666 | census      |
@@ -83,7 +83,7 @@ cascade_points <- sample_addresses %>%
 * Test package with `devtools::test()` (see `/tests` directory)
 * Use `devtools::check()` to check for issues
 * Use `devtools::build()` to build the package with vignettes included
-* Use `load_all()`(from devtools) to load the package
+* Use `install.packages(path_to_file, repos = NULL)` to load the package
 
 ## References
 * General Instructions: http://r-pkgs.had.co.nz/
