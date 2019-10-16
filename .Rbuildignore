@@ -2,3 +2,5 @@
 ^\.Rproj\.user$
 ^doc$
 ^Meta$
+data-raw
+us_map.png
