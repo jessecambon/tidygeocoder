@@ -29,6 +29,8 @@ WARNING - This service has a usage limit and it will return
 missing coordinates once the usage limit is reached.
 }
 \examples{
+\dontrun{
 geo_osm("1600 Pennsylvania Ave Washington, DC")
 geo_osm("Paris, France")
+}
 }

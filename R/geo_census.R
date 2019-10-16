@@ -10,6 +10,11 @@
 #' @param long name of longitude field
 #' @param API_URL URL of Census API
 #' @param benchmark parameter for the US Census Geocoder
+#'
+#' @examples
+#' \dontrun{
+#' geo_census("1600 Pennsylvania Ave Washington, DC")
+#' }
 #' @importFrom httr GET content
 #' @importFrom tibble tibble
 #' @importFrom dplyr '%>%' mutate

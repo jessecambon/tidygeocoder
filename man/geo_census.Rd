@@ -26,3 +26,8 @@ Obtain latitude and longitude coordinates from an address using the US Census ge
 Only works for addresses within the US. Addresses must also be at the street
 level (ie. 60 Main St. Pawnee, IN not Pawnee, IN).
 }
+\examples{
+\dontrun{
+geo_census("1600 Pennsylvania Ave Washington, DC")
+}
+}

@@ -11,8 +11,10 @@
 #' @return latitude and longitude coordinates and the geocoder method used (geo_method)  in tibble format (3 columns)
 #'
 #' @examples
+#' \dontrun{
 #' geo_cascade("1600 Pennsylvania Ave Washington, DC")
 #' geo_cascade("Paris, France")
+#' }
 #' @importFrom tibble tibble
 #' @importFrom dplyr '%>%' mutate
 #' @importFrom stringr str_trim

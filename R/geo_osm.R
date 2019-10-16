@@ -15,9 +15,10 @@
 #' @return latitude and longitude Coordinates in tibble format
 #'
 #' @examples
+#' \dontrun{
 #' geo_osm("1600 Pennsylvania Ave Washington, DC")
 #' geo_osm("Paris, France")
-
+#' }
 #' @importFrom tmaptools geocode_OSM
 #' @importFrom tibble tibble
 #' @importFrom dplyr '%>%' mutate
