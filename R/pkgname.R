@@ -6,11 +6,10 @@
 #'
 #'@references
 #' \itemize{
-#'   \item tidygeocoder package: \url{https://github.com/jessecambon/tidygeocoder}
 #'   \item US Census Geocoder: \url{https://geocoding.geo.census.gov/}
 #'   \item Nominatim (OSM): \url{https://nominatim.openstreetmap.org/} and \url{https://nominatim.org/}
-#'   \item Tmaptools package (used for OSM geocoding): \url{https://cran.r-project.org/web/packages/tmaptools/index.html}
-#'   \item Dplyr (Tidyverse): \url{https://dplyr.tidyverse.org/}
+#'   \item tmaptools package (used for OSM geocoding): \url{https://cran.r-project.org/web/packages/tmaptools/index.html}
+#'   \item dplyr: \url{https://dplyr.tidyverse.org/}
 #' }
 #' @keywords internal
 "_PACKAGE"
