@@ -6,7 +6,7 @@
 \alias{tidygeocoder-package}
 \title{tidygeocoder: Tidyverse-style interface for geocoding}
 \description{
-An intuitive tidyverse-style interface for geocoding. The currently supported services are the US Census geocoder and Nominatim (OSM).
+An intuitive tidyverse-style interface for geocoding. Obtains latitude and longitude coordinates in tibble format from addresses. The currently supported services are the US Census geocoder and Nominatim (OSM).
 }
 \details{
 A tidyverse-style geocoder interface for R. Utilizes US Census and Nominatim (OSM) geocoder services.
