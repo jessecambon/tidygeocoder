@@ -4,19 +4,19 @@
 \alias{geo_cascade}
 \title{Geocode addresses}
 \usage{
-geo_cascade(address, verbose = FALSE, lat = lat, long = long)
+geo_cascade(address, lat = lat, long = long, verbose = FALSE)
 }
 \arguments{
 \item{address}{single line address.}
 
-\item{verbose}{logical. If TRUE outputs logs.}
-
 \item{lat}{name of latitude field}
 
 \item{long}{name of longitude field}
+
+\item{verbose}{logical. If TRUE outputs logs.}
 }
 \value{
-latitude and longitude coordinates and the geocoder method used (geo_method)  in tibble format (3 columns)
+latitude and longitude coordinates and the geocoder method used (geo_method) in tibble format (3 columns)
 }
 \description{
 First attempts to use the US Census Geocoder (geo_census) method

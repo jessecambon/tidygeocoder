@@ -1,5 +1,4 @@
 #' @details
-#' A tidyverse-style geocoder interface for R. Utilizes US Census and Nominatim (OSM) geocoder services.
 #'
 #' The primary function to use is \code{\link{geocode}} which can call
 #'\code{\link{geo_census}}, \code{\link{geo_osm}}, or \code{\link{geo_cascade}} depending on the method argument.

@@ -9,15 +9,15 @@
 #' missing coordinates once the usage limit is reached.
 #'
 #' @param address single line address
-#' @param verbose logical. If TRUE outputs logs.
 #' @param lat name of latitude field
 #' @param long name of longitude field
-#' @return latitude and longitude Coordinates in tibble format
+#' @param verbose logical. If TRUE outputs logs.
+#' @return latitude and longitude coordinates in tibble format
 #'
 #' @examples
 #' \dontrun{
 #' geo_osm("1600 Pennsylvania Ave Washington, DC")
-#' geo_osm("Paris, France")
+#' geo_osm("Paris, France",verbose=TRUE)
 #' }
 #' @importFrom tmaptools geocode_OSM
 #' @importFrom tibble tibble
@@ -25,7 +25,7 @@
 #' @importFrom rlang ':=' enquo
 #' @importFrom stringr str_trim
 #' @export
-geo_osm <- function(address,verbose=FALSE,lat=lat,long=long){
+geo_osm <- function(address,lat=lat,long=long,verbose=FALSE){
   lat <- rlang::enquo(lat)
   long <- rlang::enquo(long)
 

@@ -4,19 +4,19 @@
 \alias{geo_osm}
 \title{Geocode addresses}
 \usage{
-geo_osm(address, verbose = FALSE, lat = lat, long = long)
+geo_osm(address, lat = lat, long = long, verbose = FALSE)
 }
 \arguments{
 \item{address}{single line address}
 
-\item{verbose}{logical. If TRUE outputs logs.}
-
 \item{lat}{name of latitude field}
 
 \item{long}{name of longitude field}
+
+\item{verbose}{logical. If TRUE outputs logs.}
 }
 \value{
-latitude and longitude Coordinates in tibble format
+latitude and longitude coordinates in tibble format
 }
 \description{
 Obtains latitude and longitude coordinates from an address using
@@ -31,6 +31,6 @@ missing coordinates once the usage limit is reached.
 \examples{
 \dontrun{
 geo_osm("1600 Pennsylvania Ave Washington, DC")
-geo_osm("Paris, France")
+geo_osm("Paris, France",verbose=TRUE)
 }
 }

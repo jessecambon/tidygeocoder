@@ -5,10 +5,10 @@
 #' Returns latitude and longitude coordinates and the method used to return results (OSM or Census)
 #'
 #' @param address single line address.
-#' @param verbose logical. If TRUE outputs logs.
 #' @param lat name of latitude field
 #' @param long name of longitude field
-#' @return latitude and longitude coordinates and the geocoder method used (geo_method)  in tibble format (3 columns)
+#' @param verbose logical. If TRUE outputs logs.
+#' @return latitude and longitude coordinates and the geocoder method used (geo_method) in tibble format (3 columns)
 #'
 #' @examples
 #' \dontrun{
@@ -19,7 +19,7 @@
 #' @importFrom dplyr '%>%' mutate
 #' @importFrom stringr str_trim
 #' @export
-geo_cascade = function(address,verbose=FALSE,lat=lat,long=long) {
+geo_cascade = function(address,lat=lat,long=long,verbose=FALSE) {
   lat <- rlang::enquo(lat)
   long <- rlang::enquo(long)
 

@@ -5,11 +5,12 @@
 #' level (ie. 60 Main St. Pawnee, IN not Pawnee, IN).
 #'
 #' @param address single line address. Street must be included.
-#' @param verbose logical. If TRUE outputs logs.
 #' @param lat name of latitude field
 #' @param long name of longitude field
+#' @param verbose logical. If TRUE outputs logs.
 #' @param API_URL URL of Census API
 #' @param benchmark parameter for the US Census Geocoder
+#' @return latitude and longitude coordinates in tibble format
 #'
 #' @examples
 #' \dontrun{
@@ -22,9 +23,9 @@
 #' @importFrom rlang enquo ":="
 #' @importFrom stringr str_trim
 #' @export
-geo_census <- function(address,verbose=FALSE,lat=lat,long=long,
-                       benchmark=4,
-                       API_URL="https://geocoding.geo.census.gov/geocoder/locations/onelineaddress?"){
+geo_census <- function(address,lat=lat,long=long,verbose=FALSE,
+       benchmark=4,
+       API_URL="https://geocoding.geo.census.gov/geocoder/locations/onelineaddress?"){
   lat <- rlang::enquo(lat)
   long <- rlang::enquo(long)
 

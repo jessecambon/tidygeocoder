@@ -34,7 +34,7 @@ the dataframe with latitude and longitude coordinate columns
 using a user specified geocoder function.
 }
 \details{
-See example usage in vignette("geocode")
+See example usage in \code{vignette("tidygeocoder")}
 }
 \examples{
 \dontrun{

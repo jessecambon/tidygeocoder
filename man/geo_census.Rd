@@ -4,22 +4,25 @@
 \alias{geo_census}
 \title{Geocode street addresses}
 \usage{
-geo_census(address, verbose = FALSE, lat = lat, long = long,
+geo_census(address, lat = lat, long = long, verbose = FALSE,
   benchmark = 4,
   API_URL = "https://geocoding.geo.census.gov/geocoder/locations/onelineaddress?")
 }
 \arguments{
 \item{address}{single line address. Street must be included.}
 
-\item{verbose}{logical. If TRUE outputs logs.}
-
 \item{lat}{name of latitude field}
 
 \item{long}{name of longitude field}
 
+\item{verbose}{logical. If TRUE outputs logs.}
+
 \item{benchmark}{parameter for the US Census Geocoder}
 
 \item{API_URL}{URL of Census API}
+}
+\value{
+latitude and longitude coordinates in tibble format
 }
 \description{
 Obtain latitude and longitude coordinates from an address using the US Census geocoder.

@@ -4,7 +4,7 @@
 #' the dataframe with latitude and longitude coordinate columns
 #' using a user specified geocoder function.
 #'
-#' See example usage in vignette("geocode")
+#' See example usage in \code{vignette("tidygeocoder")}
 #'
 #' @param .tbl dataframe
 #' @param address name of column containing addresses in .tbl
