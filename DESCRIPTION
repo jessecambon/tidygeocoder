@@ -1,7 +1,7 @@
 Package: tidygeocoder
 Type: Package
 Title: Tidyverse-Style Interface for Geocoding
-Version: 0.2.2
+Version: 0.2.3
 Author: Jesse Cambon
 Maintainer: Jesse Cambon <jesse.cambon@gmail.com>
 Description: An intuitive tidyverse-style interface for geocoding. Obtains latitude and longitude coordinates in tibble format from addresses. The currently supported services are the US Census geocoder and Nominatim (OSM). 
