@@ -4,7 +4,7 @@
 \name{tidygeocoder-package}
 \alias{tidygeocoder}
 \alias{tidygeocoder-package}
-\title{tidygeocoder: Tidyverse-style interface for geocoding}
+\title{tidygeocoder: Tidyverse-Style Interface for Geocoding}
 \description{
 An intuitive tidyverse-style interface for geocoding. Obtains latitude and longitude coordinates in tibble format from addresses. The currently supported services are the US Census geocoder and Nominatim (OSM).
 }
@@ -17,7 +17,7 @@ See \code{vignette("tidygeocoder")} for details.
 \itemize{
   \item US Census Geocoder: \url{https://geocoding.geo.census.gov/}
   \item Nominatim (OSM): \url{https://nominatim.openstreetmap.org/} and \url{https://nominatim.org/}
-  \item tmaptools package (used for OSM geocoding): \url{https://cran.r-project.org/web/packages/tmaptools/index.html}
+  \item tmaptools package (used for OSM geocoding): \url{https://cran.r-project.org/package=tmaptools}
   \item dplyr: \url{https://dplyr.tidyverse.org/}
 }
 }
