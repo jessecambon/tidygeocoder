@@ -14,7 +14,6 @@ library(tidygeocoder)
 ```
 
 ## Usage
-
 In this brief example, we will use the US Census API to geocode some addresses in the `sample_addresses` dataset.
 
 ``` r
@@ -77,16 +76,23 @@ cascade_points <- sample_addresses %>%
 | Willis Tower         | 233 S Wacker Dr, Chicago, IL 60606         |  41.878513 |  \-87.63666 | census      |
 | International City   | Nairobi, Kenya                             | \-1.283253 |    36.81724 | osm         |
 
+## References
+* US Census Geocoder: https://geocoding.geo.census.gov/
+* Nominatim (OSM): https://nominatim.openstreetmap.org/ and https://nominatim.org
+* tmaptools package (used for OSM geocoding): https://cran.r-project.org/package=tmaptools
+* dplyr: https://dplyr.tidyverse.org/
 
-## Developer Notes
+
+# Developer Notes
 * The man documents are created with roxygen2 based on `R/` directory code files. Run this with CTRL+SHIFT+D (in RStudio) or `royxenize()` before building the package.
 * Test package with `devtools::test()` (see `/tests` directory)
-* Use `devtools::check()` to check for issues
-* Use `devtools::build()` to build the package with vignettes included
+* Use `devtools::check()` to check for issues (also runs `devtools::test()`)
+* Use `devtools::build()` to build the package with vignettes included (creates .tar.gz file)
 * Use `install.packages(path_to_file, repos = NULL)` to load the package. May need to close out and reopen RStudio to see changes in vignettes and for cross-references in documentation to work. It also may be necessary to knit the vignette `.Rmd` file from a fresh RStudio session (close out the project) to update the HTML file.
 
-## References
+## Development Resources
 * General Instructions: http://r-pkgs.had.co.nz/
+* More general instructions: https://rstats-pkgs.readthedocs.io
 * roxygen2 : https://cran.r-project.org/web/packages/roxygen2/
 * Devtools cheat sheet: https://www.rstudio.com/wp-content/uploads/2015/03/devtools-cheatsheet.pdf
 
