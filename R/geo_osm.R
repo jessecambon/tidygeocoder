@@ -15,7 +15,7 @@
 #' @return latitude and longitude coordinates in tibble format
 #'
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' geo_osm("1600 Pennsylvania Ave Washington, DC")
 #' geo_osm("Paris, France",verbose=TRUE)
 #' }

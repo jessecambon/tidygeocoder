@@ -20,7 +20,7 @@
 #' @return input dataframe (.tbl) with latitude and longitude fields appended
 #'
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' sample_addresses %>% geocode(addr)
 #'
 #' sample_addresses %>% geocode(addr,method='cascade',lat=latitude,long=longitude)
@@ -46,7 +46,7 @@ geocode <- function(.tbl,address,method='census',lat=lat,long=long,...) {
   } else if (method == 'cascade') {
     func <- rlang::enquo(geo_cascade)
   } else {
-    print('Warning: unknown method, defaulting to census')
+    warning('Unknown method, defaulting to census')
     func <- rlang::enquo(geo_census)
   }
 

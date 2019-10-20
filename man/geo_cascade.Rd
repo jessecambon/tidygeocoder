@@ -24,7 +24,7 @@ and then uses the Nominatim/OSM (geo_osm) method if the census method failed.
 Returns latitude and longitude coordinates and the method used to return results (OSM or Census)
 }
 \examples{
-\dontrun{
+\donttest{
 geo_cascade("1600 Pennsylvania Ave Washington, DC")
 geo_cascade("Paris, France")
 }

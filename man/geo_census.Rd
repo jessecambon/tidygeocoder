@@ -30,7 +30,7 @@ Only works for addresses within the US. Addresses must also be at the street
 level (ie. 60 Main St. Pawnee, IN not Pawnee, IN).
 }
 \examples{
-\dontrun{
+\donttest{
 geo_census("1600 Pennsylvania Ave Washington, DC")
 }
 }

@@ -13,7 +13,7 @@
 #' @return latitude and longitude coordinates in tibble format
 #'
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' geo_census("1600 Pennsylvania Ave Washington, DC")
 #' }
 #' @importFrom httr GET content

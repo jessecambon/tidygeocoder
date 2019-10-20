@@ -37,7 +37,7 @@ using a user specified geocoder function.
 See example usage in \code{vignette("tidygeocoder")}
 }
 \examples{
-\dontrun{
+\donttest{
 sample_addresses \%>\% geocode(addr)
 
 sample_addresses \%>\% geocode(addr,method='cascade',lat=latitude,long=longitude)
