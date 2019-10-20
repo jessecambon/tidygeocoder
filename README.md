@@ -43,15 +43,10 @@ Plot our geolocated points:
 
 ```r
 ggplot(lat_longs %>% filter(!is.na(longitude)),aes(longitude, latitude),color="grey98") +
-  borders("state") +
-  theme_classic() +
-  geom_point() +
-  theme(line = element_blank(),
-        text = element_blank(),
-        title = element_blank()) +
+  borders("state") + theme_classic() + geom_point() +
+  theme(line = element_blank(),text = element_blank(),title = element_blank()) +
   geom_label_repel(aes(label =name),show.legend=F) +
-  scale_x_continuous(breaks = NULL) + 
-  scale_y_continuous(breaks = NULL)
+  scale_x_continuous(breaks = NULL) + scale_y_continuous(breaks = NULL)
 ```
 ![](us_map.png)
 
