@@ -18,7 +18,6 @@ To install the development version from GitHub:
 install.packages('devtools')
 library(devtools)
 install_github("jessecambon/tidygeocoder",build_vignettes=TRUE)
-library(tidygeocoder)
 ```
 
 ## Usage
