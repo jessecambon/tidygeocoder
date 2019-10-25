@@ -1,6 +1,7 @@
 # tidygeocoder
 
 [![CRAN](http://www.r-pkg.org/badges/version/tidygeocoder)](https://cran.r-project.org/package=tidygeocoder) 
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/jessecambon/tidygeocoder/blob/master/LICENSE.md)
 <!--[![Downloads](http://cranlogs.r-pkg.org/badges/tidygeocoder?color=brightgreen)](http://www.r-pkg.org/pkg/tidygeocoder) -->
 
 A tidyverse-style geocoder interface for R. Utilizes US Census and Nominatim (OSM) geocoder services. Returns latitude and longitude in tibble format from addresses.
