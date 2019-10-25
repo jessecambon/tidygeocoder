@@ -4,7 +4,7 @@ A tidyverse-style geocoder interface for R. Utilizes US Census and Nominatim (OS
 
 ## Installation
 
-To install the stable version from CRAN:
+To install the stable version from CRAN (the official R package servers):
 
 ```
 install.packages('tidygeocoder')
