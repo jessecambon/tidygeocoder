@@ -17,9 +17,8 @@ install.packages('tidygeocoder')
 To install the development version from GitHub:
 
 ```
-install.packages('devtools')
-library(devtools)
-install_github("jessecambon/tidygeocoder",build_vignettes=TRUE)
+if(!require(devtools)) install.packages("devtools")
+devtools::install_github("jessecambon/tidygeocoder",build_vignettes=TRUE)
 ```
 
 ## Usage
@@ -51,6 +50,9 @@ dataset. Since we are using the US Census geocoder service, international locati
 Plot our geolocated points:
 
 ```r
+library(ggplot2)
+library(maps)
+library(ggrepel)
 ggplot(lat_longs %>% filter(!is.na(longitude)),aes(longitude, latitude),color="grey98") +
   borders("state") + theme_classic() + geom_point() +
   theme(line = element_blank(),text = element_blank(),title = element_blank()) +
