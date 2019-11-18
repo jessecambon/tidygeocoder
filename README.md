@@ -4,9 +4,9 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/jessecambon/tidygeocoder/blob/master/LICENSE.md)
 [![CRAN\_Download\_Badge](http://cranlogs.r-pkg.org/badges/grand-total/tidygeocoder)](https://CRAN.R-project.org/package=tidygeocoder)
 
-A [tidyverse](https://www.tidyverse.org/)-style geocoder interface for R. Utilizes [US Census](https://geocoding.geo.census.gov/) and [Nominatim](https://nominatim.org) (OSM) geocoder services. Returns latitude and longitude in tibble format from addresses. You can find a demo I wrote up on R-Bloggers [here](https://www.r-bloggers.com/geocoding-with-tidygeocoder/).
+A [tidyverse](https://www.tidyverse.org/)-style geocoder interface for R. Utilizes [US Census](https://geocoding.geo.census.gov/) and [Nominatim](https://nominatim.org) (OSM) geocoder services. Returns latitude and longitude in [tibble format](https://tibble.tidyverse.org/) from addresses. You can find a demo I wrote up on R-Bloggers [here](https://www.r-bloggers.com/geocoding-with-tidygeocoder/).
 
-## Installation
+## Install
 
 To install the stable version from CRAN (the official R package servers):
 
