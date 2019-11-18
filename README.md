@@ -1,7 +1,6 @@
 # tidygeocoder
 
-[![CRAN
-status](https://www.r-pkg.org/badges/version/tidygeocoder)](https://cran.r-project.org/package=tidygeocoder)
+[![CRAN](https://www.r-pkg.org/badges/version/tidygeocoder)](https://cran.r-project.org/package=tidygeocoder)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/jessecambon/tidygeocoder/blob/master/LICENSE.md)
 [![CRAN\_Download\_Badge](http://cranlogs.r-pkg.org/badges/grand-total/tidygeocoder)](https://CRAN.R-project.org/package=tidygeocoder)
 
@@ -84,7 +83,9 @@ cascade_points <- sample_addresses %>%
 | International City   | Nairobi, Kenya                             | \-1.283253 |    36.81724 | osm         |
 
 ## References
-* US Census Geocoder: https://geocoding.geo.census.gov/
-* Nominatim (OSM): https://nominatim.openstreetmap.org/ and https://nominatim.org
-* tmaptools package (used for OSM geocoding): https://cran.r-project.org/package=tmaptools
-* dplyr: https://dplyr.tidyverse.org/
+* [US Census Geocoder](https://geocoding.geo.census.gov/)
+* [Nominatim Geocoder](https://nominatim.org)
+* [Nominatim Address Check](https://nominatim.openstreetmap.org/)
+* [tmaptools](https://cran.r-project.org/package=tmaptools) package (used for OSM geocoding)
+* [dplyr](https://dplyr.tidyverse.org/)
+* [tidyr](https://tidyr.tidyverse.org)
