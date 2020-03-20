@@ -4,9 +4,14 @@
 \alias{geo_census}
 \title{Geocode street addresses}
 \usage{
-geo_census(address, lat = lat, long = long, verbose = FALSE,
+geo_census(
+  address,
+  lat = lat,
+  long = long,
+  verbose = FALSE,
   benchmark = 4,
-  API_URL = "https://geocoding.geo.census.gov/geocoder/locations/onelineaddress?")
+  API_URL = "https://geocoding.geo.census.gov/geocoder/locations/onelineaddress?"
+)
 }
 \arguments{
 \item{address}{single line address. Street must be included.}
