@@ -21,6 +21,7 @@
 #'
 #' @examples
 #' \donttest{
+#' library(dplyr)
 #' sample_addresses %>% geocode(addr)
 #'
 #' sample_addresses %>% geocode(addr,method='cascade',lat=latitude,long=longitude)
@@ -31,10 +32,10 @@
 #' @importFrom tidyr unnest
 #' @importFrom rlang enquo
 #' @export
-geocode <- function(.tbl,address,method='census',lat=lat,long=long,...) {
+geocode <- function(.tbl,address,method='census',lat = lat,long = long,...) {
  temp <- NULL # prevents 'no visible binding for global variable' warning
 
-  address<- rlang::enquo(address)
+  address <- rlang::enquo(address)
   lat <- rlang::enquo(lat)
   long <- rlang::enquo(long)
 

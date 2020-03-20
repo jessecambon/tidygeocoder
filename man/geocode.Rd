@@ -4,8 +4,7 @@
 \alias{geocode}
 \title{Geocode street addresses in a dataframe}
 \usage{
-geocode(.tbl, address, method = "census", lat = lat, long = long,
-  ...)
+geocode(.tbl, address, method = "census", lat = lat, long = long, ...)
 }
 \arguments{
 \item{.tbl}{dataframe}
@@ -38,6 +37,7 @@ See example usage in \code{vignette("tidygeocoder")}
 }
 \examples{
 \donttest{
+library(dplyr)
 sample_addresses \%>\% geocode(addr)
 
 sample_addresses \%>\% geocode(addr,method='cascade',lat=latitude,long=longitude)
