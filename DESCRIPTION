@@ -1,13 +1,14 @@
 Package: tidygeocoder
 Type: Package
 Title: Tidyverse-Style Interface for Geocoding
-Version: 0.2.5
+Version: 0.2.6
 Author: Jesse Cambon
 Maintainer: Jesse Cambon <jesse.cambon@gmail.com>
 Description: An intuitive tidyverse-style interface for geocoding. Obtains latitude and longitude coordinates in tibble format from addresses. The currently supported services are the US Census geocoder and Nominatim (OSM). 
-URL: https://github.com/jessecambon/tidygeocoder
+URL: https://jessecambon.github.io/tidygeocoder, 
+    https://github.com/jessecambon/tidygeocoder
 BugReports: https://github.com/jessecambon/tidygeocoder/issues
-Depends: R (>= 2.10)
+Depends: R (>= 3.20)
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
@@ -19,7 +20,8 @@ Imports:
     dplyr,
     httr,
     jsonlite,
-    stringr
+    stringr,
+    XML
 RoxygenNote: 7.1.0
 Suggests: 
     knitr,

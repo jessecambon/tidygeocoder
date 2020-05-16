@@ -16,51 +16,51 @@ geocode_OSM(
 )
 }
 \arguments{
-\item{q}{a character (vector) that specifies a search query. 
+\item{q}{a character (vector) that specifies a search query.
 For instance \code{"India"} or \code{"CBS Weg 11, Heerlen, Netherlands"}.}
 
-\item{projection}{projection in which the coordinates and bounding box 
-are returned. Either a \code{\link[sp:CRS]{CRS}} object or a character value. 
+\item{projection}{projection in which the coordinates and bounding box
+are returned. Either a \code{\link[sp:CRS]{CRS}} object or a character value.
 If it is a character, it can either be a \code{PROJ.4} character string or
-a shortcut. See \code{\link{get_proj4}} for a list of shortcut values. 
+a shortcut. See \code{\link{get_proj4}} for a list of shortcut values.
 By default latitude longitude coordinates.}
 
 \item{return.first.only}{Only return the first result}
 
 \item{details}{provide output details, other than the point coordinates and bounding box}
 
-\item{as.data.frame}{Return the output as a \code{data.frame}. 
-If \code{FALSE}, a list is returned with at least two items: 
-\code{"coords"}, a vector containing the coordinates, 
-and \code{"bbox"}, the corresponding bounding box. 
-By default false, unless \code{q} contains multiple queries. 
+\item{as.data.frame}{Return the output as a \code{data.frame}.
+If \code{FALSE}, a list is returned with at least two items:
+\code{"coords"}, a vector containing the coordinates,
+and \code{"bbox"}, the corresponding bounding box.
+By default false, unless \code{q} contains multiple queries.
 If \code{as.sf = TRUE} (see below), \code{as.data.frame} will set to \code{TRUE}.}
 
-\item{as.sf}{Return the output as \code{\link[sf:sf]{sf}} object. 
-If \code{TRUE}, \code{return.first.only} will be set to \code{TRUE}. 
-Two geometry columns are added: \code{bbox} and \code{point}. 
+\item{as.sf}{Return the output as \code{\link[sf:sf]{sf}} object.
+If \code{TRUE}, \code{return.first.only} will be set to \code{TRUE}.
+Two geometry columns are added: \code{bbox} and \code{point}.
 The argument \code{geometry} determines which of them is set to the default geometry.}
 
-\item{geometry}{When \code{as.sf}, this arugment determines which column 
-(\code{bbox} or \code{point}) is set as geometry column. Note that the geometry 
+\item{geometry}{When \code{as.sf}, this arugment determines which column
+(\code{bbox} or \code{point}) is set as geometry column. Note that the geometry
 can be changed afterwards with \code{\link[sf:st_set_geometry]{st_set_geometry}}.}
 
 \item{server}{OpenStreetMap Nominatim server name. Could also be a local OSM Nominatim server.}
 }
 \value{
-If \code{as.SPDF} then a \code{\link[sp:SpatialPointsDataFrame]{SpatialPointsDataFrame}} 
+If \code{as.SPDF} then a \code{\link[sp:SpatialPointsDataFrame]{SpatialPointsDataFrame}}
 is returned. Else, if \code{as.data.frame}, then a \code{data.frame} is returned, else a list.
 }
 \description{
-Geocodes a location using OpenStreetMap Nominatim. Reproduced from 
+Geocodes a location using OpenStreetMap Nominatim. Reproduced from
 mtennekes/tmaptools.
 }
 \references{
 \url{https://github.com/mtennekes/tmaptools}
 
-Geocodes a location (based on a search query) to coordinates and a bounding box. 
-Similar to geocode from the ggmap package. It uses OpenStreetMap Nominatim. 
-For processing large amount of queries, please read the usage policy 
+Geocodes a location (based on a search query) to coordinates and a bounding box.
+Similar to geocode from the ggmap package. It uses OpenStreetMap Nominatim.
+For processing large amount of queries, please read the usage policy
 (\url{http://wiki.openstreetmap.org/wiki/Nominatim_usage_policy}).
 }
 \seealso{
