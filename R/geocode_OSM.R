@@ -178,7 +178,6 @@ geocode_OSM <- function(q, projection=NULL, return.first.only=TRUE, details=FALS
 #' @export
 #' @importFrom XML xmlChildren xmlRoot xmlAttrs xmlTreeParse xmlValue
 #' @return A data frmame or a list with all atributes that are contained in the search result
-#' @example ./examples/rev_geocode_OSM.R
 #' @seealso \code{\link{geocode_OSM}}
 rev_geocode_OSM <- function(x, y=NULL, zoom=NULL, projection=4326, as.data.frame=NA, server="http://nominatim.openstreetmap.org") {
 
