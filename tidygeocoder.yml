@@ -1,0 +1,6 @@
+name: tidygeocoder
+channels:
+  - conda-forge
+  - defaults
+prefix: /home/twesleyb/anaconda3/envs/tidygeocoder
+
