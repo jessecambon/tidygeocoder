@@ -17,7 +17,6 @@ Imports:
     purrr,
     tidyr,
     dplyr,
-    tmaptools,
     httr,
     jsonlite,
     stringr

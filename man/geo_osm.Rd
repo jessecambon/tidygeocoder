@@ -21,8 +21,7 @@ latitude and longitude coordinates in tibble format
 \description{
 Obtains latitude and longitude coordinates from an address using
 the Nominatim (OSM) geocoder service. Can be used with non-US
-or non-street level addresses unlike the Census geocoder. This
-function calls the geocode_OSM function from the tmaptools package.
+or non-street level addresses unlike the Census geocoder.
 }
 \details{
 WARNING - This service has a usage limit and it will return
