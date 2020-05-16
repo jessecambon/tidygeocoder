@@ -1,19 +1,42 @@
-#' Geocodes a location using OpenStreetMap Nominatim
+#' geocode_OSM
 #'
-#' Geocodes a location (based on a search query) to coordinates and a bounding box. Similar to geocode from the ggmap package. It uses OpenStreetMap Nominatim. For processing large amount of queries, please read the usage policy (\url{http://wiki.openstreetmap.org/wiki/Nominatim_usage_policy}).
+#' Geocodes a location using OpenStreetMap Nominatim. Reproduced from 
+#' mtennekes/tmaptools.
+#' 
+#' @references \url{https://github.com/mtennekes/tmaptools}
 #'
-#' @param q a character (vector) that specifies a search query. For instance \code{"India"} or \code{"CBS Weg 11, Heerlen, Netherlands"}.
-#' @param projection projection in which the coordinates and bounding box are returned. Either a \code{\link[sp:CRS]{CRS}} object or a character value. If it is a character, it can either be a \code{PROJ.4} character string or a shortcut. See \code{\link{get_proj4}} for a list of shortcut values. By default latitude longitude coordinates.
+#' Geocodes a location (based on a search query) to coordinates and a bounding box. 
+#' Similar to geocode from the ggmap package. It uses OpenStreetMap Nominatim. 
+#' For processing large amount of queries, please read the usage policy 
+#' (\url{http://wiki.openstreetmap.org/wiki/Nominatim_usage_policy}).
+#'
+#' @param q a character (vector) that specifies a search query. 
+#' For instance \code{"India"} or \code{"CBS Weg 11, Heerlen, Netherlands"}.
+#' @param projection projection in which the coordinates and bounding box 
+#' are returned. Either a \code{\link[sp:CRS]{CRS}} object or a character value. 
+#' If it is a character, it can either be a \code{PROJ.4} character string or
+#' a shortcut. See \code{\link{get_proj4}} for a list of shortcut values. 
+#' By default latitude longitude coordinates.
 #' @param return.first.only Only return the first result
 #' @param details provide output details, other than the point coordinates and bounding box
-#' @param as.data.frame Return the output as a \code{data.frame}. If \code{FALSE}, a list is returned with at least two items: \code{"coords"}, a vector containing the coordinates, and \code{"bbox"}, the corresponding bounding box. By default false, unless \code{q} contains multiple queries. If \code{as.sf = TRUE} (see below), \code{as.data.frame} will set to \code{TRUE}.
-#' @param as.sf Return the output as \code{\link[sf:sf]{sf}} object. If \code{TRUE}, \code{return.first.only} will be set to \code{TRUE}. Two geometry columns are added: \code{bbox} and \code{point}. The argument \code{geometry} determines which of them is set to the default geometry.
-#' @param geometry When \code{as.sf}, this arugment determines which column (\code{bbox} or \code{point}) is set as geometry column. Note that the geometry can be changed afterwards with \code{\link[sf:st_set_geometry]{st_set_geometry}}.
+#' @param as.data.frame Return the output as a \code{data.frame}. 
+#' If \code{FALSE}, a list is returned with at least two items: 
+#' \code{"coords"}, a vector containing the coordinates, 
+#' and \code{"bbox"}, the corresponding bounding box. 
+#' By default false, unless \code{q} contains multiple queries. 
+#' If \code{as.sf = TRUE} (see below), \code{as.data.frame} will set to \code{TRUE}.
+#' @param as.sf Return the output as \code{\link[sf:sf]{sf}} object. 
+#' If \code{TRUE}, \code{return.first.only} will be set to \code{TRUE}. 
+#' Two geometry columns are added: \code{bbox} and \code{point}. 
+#' The argument \code{geometry} determines which of them is set to the default geometry.
+#' @param geometry When \code{as.sf}, this arugment determines which column 
+#' (\code{bbox} or \code{point}) is set as geometry column. Note that the geometry 
+#' can be changed afterwards with \code{\link[sf:st_set_geometry]{st_set_geometry}}.
 #' @param server OpenStreetMap Nominatim server name. Could also be a local OSM Nominatim server.
-#' @return If \code{as.SPDF} then a \code{\link[sp:SpatialPointsDataFrame]{SpatialPointsDataFrame}} is returned. Else, if \code{as.data.frame}, then a \code{data.frame} is returned, else a list.
+#' @return If \code{as.SPDF} then a \code{\link[sp:SpatialPointsDataFrame]{SpatialPointsDataFrame}} 
+#' is returned. Else, if \code{as.data.frame}, then a \code{data.frame} is returned, else a list.
 #' @export
 #' @importFrom XML xmlChildren xmlRoot xmlAttrs xmlTreeParse xmlValue
-#' @example ./examples/geocode_OSM.R
 #' @seealso \code{\link{rev_geocode_OSM}}, \code{\link{bb}}
 geocode_OSM <- function(q, projection=NULL, return.first.only=TRUE, details=FALSE, as.data.frame=NA, as.sf=FALSE, geometry=c("point", "bbox"), server="http://nominatim.openstreetmap.org") {
     n <- length(q)
