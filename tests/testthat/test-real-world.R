@@ -2,6 +2,7 @@
 
 library(dplyr)
 library(tidygeocoder)
+library(openRealestate)
 
 # Project directories.
 here <- getwd()
