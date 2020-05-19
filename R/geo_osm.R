@@ -39,7 +39,7 @@ geo_osm <- function(address,lat=lat,long=long,verbose=FALSE){
     NA_value
   } else {
     # extract coordinates
-    coords = unname(geocode_OSM(address)$coords)
+    coords = unname(query_osm(address)$coords)
 
     # flip coordinates to output lat,long
     if (!is.null(coords)) { tibble::tibble(!!lat:=coords[2],!!long:=coords[1]) }
