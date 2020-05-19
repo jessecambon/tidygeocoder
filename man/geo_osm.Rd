@@ -4,7 +4,13 @@
 \alias{geo_osm}
 \title{Geocode addresses}
 \usage{
-geo_osm(address, lat = lat, long = long, verbose = FALSE)
+geo_osm(
+  address,
+  lat = lat,
+  long = long,
+  verbose = FALSE,
+  server = "http://nominatim.openstreetmap.org"
+)
 }
 \arguments{
 \item{address}{single line address}
@@ -14,6 +20,8 @@ geo_osm(address, lat = lat, long = long, verbose = FALSE)
 \item{long}{name of longitude field}
 
 \item{verbose}{logical. If TRUE outputs logs.}
+
+\item{server}{- URL to OSM Nominatim server}
 }
 \value{
 latitude and longitude coordinates in tibble format
@@ -26,10 +34,15 @@ or non-street level addresses unlike the Census geocoder.
 \details{
 WARNING - This service has a usage limit and it will return
 missing coordinates once the usage limit is reached.
+
+Adapted from tmaptools::geocode_OSM.
 }
 \examples{
 \donttest{
 geo_osm("1600 Pennsylvania Ave Washington, DC")
 geo_osm("Paris, France",verbose=TRUE)
 }
+}
+\references{
+\url{https://github.com/mtennekes/tmaptools}
 }

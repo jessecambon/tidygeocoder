@@ -10,3 +10,5 @@
 ^_pkgdown\.yml$
 ^docs$
 ^pkgdown$
+^bin$
+^tidygeocoder\.yml$
