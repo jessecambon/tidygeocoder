@@ -49,6 +49,7 @@ Query adapted from tmaptools::geocode_OSM.
 \examples{
 \donttest{
 geo_osm("1600 Pennsylvania Ave Washington, DC")
+geo_osm('20 downing st london',debug=T)
 geo_osm("Paris, France",verbose=TRUE)
 }
 }
@@ -56,4 +57,6 @@ geo_osm("Paris, France",verbose=TRUE)
 tmaptools: \url{https://github.com/mtennekes/tmaptools}
 
 Nominatim usage policy: \url{https://operations.osmfoundation.org/policies/nominatim}
+
+Nominatim API referene: \url{https://nominatim.org/release-docs/develop/api/Search/}
 }

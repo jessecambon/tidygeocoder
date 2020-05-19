@@ -11,6 +11,7 @@
 #' Query adapted from tmaptools::geocode_OSM. 
 #' @references tmaptools: \url{https://github.com/mtennekes/tmaptools}
 #' @references Nominatim usage policy: \url{https://operations.osmfoundation.org/policies/nominatim}
+#' @references Nominatim API referene: \url{https://nominatim.org/release-docs/develop/api/Search/}
 #'
 #' @param address single line address
 #' @param lat name of latitude field
@@ -26,14 +27,15 @@
 #' @examples
 #' \donttest{
 #' geo_osm("1600 Pennsylvania Ave Washington, DC")
+#' geo_osm('20 downing st london',debug=T)
 #' geo_osm("Paris, France",verbose=TRUE)
 #' }
 #' @importFrom tibble tibble
 #' @importFrom dplyr '%>%' mutate
 #' @importFrom rlang ':=' enquo
 #' @importFrom stringr str_trim
-#' @importFrom XML xmlTreeParse xmlChildren xmlRoot xmlAttrs
-#' @importFrom utils download.file
+#' @importFrom jsonlite fromJSON
+#' @importFrom httr GET content
 #' @export
 geo_osm <- function(address,lat=lat, long=long, min_time=1, verbose=FALSE, debug=FALSE,
                     server="http://nominatim.openstreetmap.org"){
@@ -60,17 +62,10 @@ geo_osm <- function(address,lat=lat, long=long, min_time=1, verbose=FALSE, debug
     query <- gsub(" ", "+", enc2utf8(address), fixed = TRUE)
     
     url <- paste0(server, "/search?q=", query, 
-                  "&format=xml&polygon=0&addressdetails=0")
+                  "&format=json&polygon=0&addressdetails=0")
     
-    # Download search results with a temp file
-    tmpfile <- tempfile()
-    suppressWarnings(utils::download.file(url, destfile = tmpfile, 
-                                   mode = "wb", quiet = TRUE))
-    
-    # Parse search results.
-    doc <- XML::xmlTreeParse(tmpfile, encoding = "UTF-8")
-    unlink(tmpfile)
-    res <- XML::xmlChildren(XML::xmlRoot(doc))
+    soup <- httr::GET(url = url)
+    res <- jsonlite::fromJSON(httr::content(soup, as = 'text', encoding = "UTF-8"), simplifyVector = TRUE)
     
     # If no results found, return NA
     if (length(res) == 0) {
@@ -78,17 +73,8 @@ geo_osm <- function(address,lat=lat, long=long, min_time=1, verbose=FALSE, debug
       return(NA_value)
     }
     
-    # Obtain search results
-    sn_names <- c("place_id", "osm_type", "osm_id", "place_rank", 
-                  "display_name", "class", "type", "importance", "icon")
-    search_result <- XML::xmlAttrs(res[[1]])
-    search_result_id <- search_result[sn_names]
-    names(search_result_id) <- sn_names # in case of missings
-    Encoding(search_result_id) <- "UTF-8"
-    
     # Extract latitude and longitude from the search results
-    lat_lon <- search_result[c("lat","lon")]
-    coords <- as.numeric(lat_lon) 
+    coords <- as.numeric(c(dat$lat,dat$lon))
     ##########
     
     ## Make sure the proper amount of time has elapsed for the query per min_time
