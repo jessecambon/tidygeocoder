@@ -38,9 +38,11 @@ test_that("geocode null/empty addresses", {
                              "")
 
   result <- NA_data %>% geocode(addr,method='cascade')
+  
   # check column names
   expected_colnames <- c(colnames(NA_data),'lat','long','geo_method')
   expect_identical(colnames(result),expected_colnames)
+  
   # make sure geo_method is NA when address is NA
   expect_identical(is.na(result %>% dplyr::pull(geo_method)),rep(TRUE,nrow(NA_data)))
   expect_equal(nrow(result),nrow(NA_data)) # check dataframe length

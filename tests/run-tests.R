@@ -1,6 +1,6 @@
 #!/usr/bin/env Rscript
 
-renv::load(dirname(getwd()))
+#renv::load(dirname(getwd()))
 
 library(testthat)
 library(tidygeocoder)

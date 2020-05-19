@@ -5,16 +5,22 @@
 #' or non-street level addresses unlike the Census geocoder.
 #'
 #' WARNING - This service has a usage limit and it will return
-#' missing coordinates once the usage limit is reached.
+#' missing coordinates once the usage limit is reached. The min_time
+#' argument defaults to 1 second to avoid this usage limit being reached.
 #' 
-#' Adapted from tmaptools::geocode_OSM. 
-#' @references \url{https://github.com/mtennekes/tmaptools}
+#' Query adapted from tmaptools::geocode_OSM. 
+#' @references tmaptools: \url{https://github.com/mtennekes/tmaptools}
+#' @references Nominatim usage policy: \url{https://operations.osmfoundation.org/policies/nominatim}
 #'
 #' @param address single line address
 #' @param lat name of latitude field
 #' @param long name of longitude field
+#' @param min_time Minimum time (in seconds) for the query to take. 
+#' Defaults to 1 second per the Nominatim usage policy. 
+#' Be cautious of setting this value lower as the usage limit may be reached.
 #' @param verbose logical. If TRUE outputs logs.
-#' @param server - URL to OSM Nominatim server
+#' @param debug logical. If TRUE outputs debugging logs
+#' @param server URL to OSM Nominatim server
 #' @return latitude and longitude coordinates in tibble format
 #'
 #' @examples
@@ -29,9 +35,12 @@
 #' @importFrom XML xmlTreeParse xmlChildren xmlRoot xmlAttrs
 #' @importFrom utils download.file
 #' @export
-geo_osm <- function(address,lat=lat, long=long, verbose=FALSE, server="http://nominatim.openstreetmap.org"){
+geo_osm <- function(address,lat=lat, long=long, min_time=1, verbose=FALSE, debug=FALSE,
+                    server="http://nominatim.openstreetmap.org"){
   lat <- rlang::enquo(lat)
   long <- rlang::enquo(long)
+  
+  start_time <- Sys.time() # start timer
 
   if (verbose == TRUE) { message(address)}
 
@@ -46,7 +55,7 @@ geo_osm <- function(address,lat=lat, long=long, verbose=FALSE, server="http://no
   } else {
     
     ##########
-    # Construct OSM Query
+    # OSM Query
     ##########  
     query <- gsub(" ", "+", enc2utf8(address), fixed = TRUE)
     
@@ -79,12 +88,25 @@ geo_osm <- function(address,lat=lat, long=long, verbose=FALSE, server="http://no
     
     # Extract latitude and longitude from the search results
     lat_lon <- search_result[c("lat","lon")]
-    
     coords <- as.numeric(lat_lon) 
     ##########
-
+    
+    ## Make sure the proper amount of time has elapsed for the query per min_time
+    
+    seconds_elapsed <- as.numeric(difftime(Sys.time(), start_time, units = 'secs'))
+    
+    if (debug == TRUE) message(paste0('Time elapsed: ', round(seconds_elapsed,1),' seconds'))
+    
+    # Sleep if necessary to make query take the minimum amount of time
+    if (seconds_elapsed < min_time) {
+      Sys.sleep(min_time - seconds_elapsed)
+      
+      if (debug == TRUE) message(paste0('Time elapsed (after sleep): ', 
+        round(as.numeric(difftime(Sys.time(),start_time, units = 'secs')),1),' seconds'))
+    }
+    
     # Return  results
-    if (!is.null(coords)) { tibble::tibble(!!lat := coords[1], !!long := coords[2]) }
-    else {return(NA_value)}
+    if (!is.null(coords)) return(tibble::tibble(!!lat := coords[1], !!long := coords[2]))
+    else return(NA_value)
   }
 }

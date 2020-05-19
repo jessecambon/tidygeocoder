@@ -2,14 +2,14 @@
 
 library(dplyr)
 library(tidygeocoder)
-library(openRealestate)
+#library(openRealestate)
 
 # Project directories.
 here <- getwd()
 root <- dirname(dirname(here))
 
 # Load renv.
-renv::load(root)
+#renv::load(root)
 
 # Load the test data.
 datadir <- file.path(root,"data")
@@ -21,4 +21,4 @@ df <- durham_test
 df$ADDR <- paste(trimws(df$SITE_ADDR),"Durham NC")
 
 # Encode addresses as lat/lon.
-df2 <- df %>% geocode(ADDR)
+#df2 <- df %>% geocode(ADDR)

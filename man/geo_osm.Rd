@@ -8,7 +8,9 @@ geo_osm(
   address,
   lat = lat,
   long = long,
+  min_time = 1,
   verbose = FALSE,
+  debug = FALSE,
   server = "http://nominatim.openstreetmap.org"
 )
 }
@@ -19,9 +21,15 @@ geo_osm(
 
 \item{long}{name of longitude field}
 
+\item{min_time}{Minimum time (in seconds) for the query to take. 
+Defaults to 1 second per the Nominatim usage policy. 
+Be cautious of setting this value lower as the usage limit may be reached.}
+
 \item{verbose}{logical. If TRUE outputs logs.}
 
-\item{server}{- URL to OSM Nominatim server}
+\item{debug}{logical. If TRUE outputs debugging logs}
+
+\item{server}{URL to OSM Nominatim server}
 }
 \value{
 latitude and longitude coordinates in tibble format
@@ -33,9 +41,10 @@ or non-street level addresses unlike the Census geocoder.
 }
 \details{
 WARNING - This service has a usage limit and it will return
-missing coordinates once the usage limit is reached.
+missing coordinates once the usage limit is reached. The min_time
+argument defaults to 1 second to avoid this usage limit being reached.
 
-Adapted from tmaptools::geocode_OSM.
+Query adapted from tmaptools::geocode_OSM.
 }
 \examples{
 \donttest{
@@ -44,5 +53,7 @@ geo_osm("Paris, France",verbose=TRUE)
 }
 }
 \references{
-\url{https://github.com/mtennekes/tmaptools}
+tmaptools: \url{https://github.com/mtennekes/tmaptools}
+
+Nominatim usage policy: \url{https://operations.osmfoundation.org/policies/nominatim}
 }
