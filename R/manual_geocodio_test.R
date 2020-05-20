@@ -9,15 +9,8 @@ library(jsonlite)
 addr <- '1 Rue des Carrières, Québec, QC G1R 4P5, Canada' # address to geocode
 
 url_base <- "https://api.geocod.io/v1.5/geocode"
-#query <- gsub(" ", "+", enc2utf8(addr), fixed = TRUE)
-
 
 # limit=1 limits the query to one result
-#url <- paste0(url_base, "?q=", query, 
-#              "&api_key=",geocodio_api_key, "&limit=1")
-
-#url <- paste0(url_base, "?q=", query, 
-#              "&api_key=",geocodio_api_key, "&limit=1")
 
 # Geocodio returns json by default
 resp <- httr::GET(url = url_base, 

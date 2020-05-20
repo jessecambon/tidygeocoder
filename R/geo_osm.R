@@ -11,7 +11,7 @@
 #' Query adapted from tmaptools::geocode_OSM. 
 #' @references tmaptools: \url{https://github.com/mtennekes/tmaptools}
 #' @references Nominatim usage policy: \url{https://operations.osmfoundation.org/policies/nominatim}
-#' @references Nominatim API referene: \url{https://nominatim.org/release-docs/develop/api/Search/}
+#' @references Nominatim API reference: \url{https://nominatim.org/release-docs/develop/api/Search/}
 #'
 #' @param address single line address
 #' @param lat name of latitude field
@@ -21,7 +21,7 @@
 #' Be cautious of setting this value lower as the usage limit may be reached.
 #' @param verbose logical. If TRUE outputs logs.
 #' @param debug logical. If TRUE outputs debugging logs
-#' @param server URL to OSM Nominatim server
+#' @param api_url URL to OSM Nominatim server
 #' @return latitude and longitude coordinates in tibble format
 #'
 #' @examples
@@ -38,7 +38,7 @@
 #' @importFrom httr GET content
 #' @export
 geo_osm <- function(address,lat=lat, long=long, min_time=1, verbose=FALSE, debug=FALSE,
-                    url_base="http://nominatim.openstreetmap.org/search"){
+                    api_url="http://nominatim.openstreetmap.org/search"){
   lat <- rlang::enquo(lat)
   long <- rlang::enquo(long)
   
@@ -61,11 +61,8 @@ geo_osm <- function(address,lat=lat, long=long, min_time=1, verbose=FALSE, debug
     ##########  
     # addressdetails = 0/1
     # limit = 1 means we only return one query result
-    soup <- httr::GET(url = url_base, 
-                      query = list(q = address, format = 'json', limit = 1 ))
     
-    # parse results
-    res <- jsonlite::fromJSON(httr::content(soup, as = 'text', encoding = "UTF-8"), simplifyVector = TRUE)
+    res <- get_raw_results(api_url, list(q = address, format = 'json', limit = 1 ))
     
     if (debug == TRUE) { print(res) }
     
