@@ -38,7 +38,7 @@
 #' @importFrom httr GET content
 #' @export
 geo_osm <- function(address,lat=lat, long=long, min_time=1, verbose=FALSE, debug=FALSE,
-                    server="http://nominatim.openstreetmap.org"){
+                    url_base="http://nominatim.openstreetmap.org/search"){
   lat <- rlang::enquo(lat)
   long <- rlang::enquo(long)
   
@@ -59,13 +59,15 @@ geo_osm <- function(address,lat=lat, long=long, min_time=1, verbose=FALSE, debug
     ##########
     # OSM Query
     ##########  
-    query <- gsub(" ", "+", enc2utf8(address), fixed = TRUE)
+    # addressdetails = 0/1
+    # limit = 1 means we only return one query result
+    soup <- httr::GET(url = url_base, 
+                      query = list(q = address, format = 'json', limit = 1 ))
     
-    url <- paste0(server, "/search?q=", query, 
-                  "&format=json&polygon=0&addressdetails=0")
-    
-    soup <- httr::GET(url = url)
+    # parse results
     res <- jsonlite::fromJSON(httr::content(soup, as = 'text', encoding = "UTF-8"), simplifyVector = TRUE)
+    
+    if (debug == TRUE) { print(res) }
     
     # If no results found, return NA
     if (length(res) == 0) {
@@ -74,7 +76,7 @@ geo_osm <- function(address,lat=lat, long=long, min_time=1, verbose=FALSE, debug
     }
     
     # Extract latitude and longitude from the search results
-    coords <- as.numeric(c(dat$lat,dat$lon))
+    coords <- as.numeric( c(res$lat, res$lon) )
     ##########
     
     ## Make sure the proper amount of time has elapsed for the query per min_time
