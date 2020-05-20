@@ -14,14 +14,6 @@
 ## Set defaults for query parameters but allow user to override them. 
 ## Include address and limit as a query parameter.
 
-query_defaults <- list(
-  osm = list(format = 'json'),
-  census = list(format = 'json', benchmark = 4),
-  geocodio = list(),
-  iq = list()
-)
-
-# query_defaults['osm']
 
 geo <- function(method, api_url=NULL, query_parameters=list(), verbose=FALSE, min_time=NULL, full_results=FALSE) {
   start_time <- Sys.time() # start timer
