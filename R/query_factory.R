@@ -4,7 +4,6 @@
 # Geocodio returns json by default
 # Census geocoder is only api that does not offer the limit parameter to limit number of results returned
 
-
 ### Since Code is set up for json we might want to just hardcode the format='json' parameter
 
 query_defaults <- list(
