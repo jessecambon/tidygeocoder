@@ -1,3 +1,37 @@
+
+library(tibble)
+
+
+api_url_reference <- tribble(
+  ~method,    ~name,         ~api_url,
+  'osm',      "default",    "http://nominatim.openstreetmap.org/search",
+  'iq',       'us',         "https://us1.locationiq.com/v1/search.php",
+  'iq',       'europe',      "insert/europe/here",
+  'geocodio', 'default',     "https://api.geocod.io/v1.5/geocode",
+  'census',   'default',      "https://geocoding.geo.census.gov/geocoder/locations/onelineaddress",
+)
+
+
+# Use this for storing essential parameters 
+api_parameter_reference <- tribble(
+    ~method,  ~generic_name,  ~api_name,   ~default_value,   ~required,
+    'osm',      'format',    'format',    'json',           TRUE,
+    'osm',      'limit',     'limit',     1,                FALSE,
+    'osm',      'address',   'q',         NA,               TRUE,
+    'iq',       'address',   'q',         NA,               TRUE,
+    'iq',       'limit',     'limit',     1,                FALSE,
+    'iq',       'api_key',   'key',       NA,               TRUE,
+    'iq',       'limit',     'limit',     1,                FALSE,
+    'iq',       'format',    'format',    'json',           TRUE,
+    'geocodio', 'api_key',   'api_key',   NA,               TRUE,
+    'geocodio', 'limit',     'limit',     1,                FALSE,
+    'geocodio', 'format',     NA,         NA,               FALSE,
+    'census',   'address',   'address',   NA,               TRUE,
+    'census',   'format',    'format',    'json',           TRUE,
+    'census',   'limit',     NA,          NA,               FALSE,
+  )
+
+
 # Functions for constructing the HTTR::GET queries
 
 # NOTE - does not include api key or address
@@ -13,6 +47,7 @@ query_defaults <- list(
   iq = list(format = 'json', limit = 1)
 )
 
+# Default API to use for each service
 api_url_defaults <- list(
   geocodio = "https://api.geocod.io/v1.5/geocode",
   osm = "http://nominatim.openstreetmap.org/search",
@@ -20,6 +55,7 @@ api_url_defaults <- list(
   census = "https://geocoding.geo.census.gov/geocoder/locations/onelineaddress"
 )
 
+# Name of the address parameter
 address_param_name <- list(
   geocodio = "q",
   osm = "q",
