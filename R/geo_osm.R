@@ -62,7 +62,7 @@ geo_osm <- function(address,lat=lat, long=long, min_time=1, verbose=FALSE, debug
     # addressdetails = 0/1
     # limit = 1 means we only return one query result
     
-    res <- get_raw_results(api_url, list(q = address, format = 'json', limit = 1 ))
+    res <- query_api(api_url, list(q = address, format = 'json', limit = 1))
     
     if (debug == TRUE) { print(res) }
     

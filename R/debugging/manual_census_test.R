@@ -19,5 +19,8 @@ resp <- httr::GET(url = url_base,
 dat <- jsonlite::fromJSON(httr::content(resp, as = 'text', encoding = "UTF-8"), simplifyVector = TRUE)
 
 # Obtain latitude and longitude
-lat_lng <- c(dat$lat, dat$lon)
+
+coord_xy <- dat$result$addressMatches$coordinates
+
+lat_lng <- c(coord_xy$y[1], coord_xy$x[1])
 

@@ -3,6 +3,8 @@
 #' Obtain latitude and longitude coordinates from an address using the US Census geocoder.
 #' Only works for addresses within the US. Addresses must also be at the street
 #' level (ie. 60 Main St. Pawnee, IN not Pawnee, IN).
+#' 
+#' @references /href{https://geocoding.geo.census.gov/geocoder/Geocoding_Services_API.pdf}{Census API}
 #'
 #' @param address single line address. Street must be included.
 #' @param lat name of latitude field
@@ -25,7 +27,7 @@
 #' @export
 geo_census <- function(address, lat = lat, long = long, verbose=FALSE,
        benchmark=4,
-       API_URL="https://geocoding.geo.census.gov/geocoder/locations/onelineaddress?"){
+       api_url="https://geocoding.geo.census.gov/geocoder/locations/onelineaddress"){
   lat <- rlang::enquo(lat)
   long <- rlang::enquo(long)
 
@@ -37,19 +39,20 @@ geo_census <- function(address, lat = lat, long = long, verbose=FALSE,
   # if address is NA, numeric, or blank then return NA, else make call to census geocoder
   if (!is.na(suppressWarnings(as.numeric(address))) | !is.character(address) | is.na(address) | stringr::str_trim(address) == "") {
     if (verbose == TRUE) { message("Blank or missing address!") }
-    NA_value
-  } else {
+    return(NA_value)
+  }
     # API Call
-    soup <- httr::GET(url = API_URL, query = list(address = address, format = 'json', benchmark = benchmark))
-    dat <- jsonlite::fromJSON(httr::content(soup, as = 'text', encoding = "ISO-8859-1"), simplifyVector = TRUE)
+    dat <- query_api(api_url, 
+              list(address = address, format = 'json', benchmark = benchmark), 
+              content_encoding = "ISO-8859-1")
+    
+    #soup <- httr::GET(url = api_url, query = list(address = address, format = 'json', benchmark = benchmark))
+    #dat <- jsonlite::fromJSON(httr::content(soup, as = 'text', encoding = "ISO-8859-1"), simplifyVector = TRUE)
 
     # extract coordinates
-    coords <- dat$result$addressMatches$coordinates
+    coords_xy <- dat$result$addressMatches$coordinates
 
     # Return coordinates in tibble form
-    if (!is.null(coords)) {
-      tibble::tibble(!!lat := coords$y[1], !!long := coords$x[1]) }
-    else {
-      NA_value }
-  }
+    if (!is.null(coords)) return(tibble::tibble(!!lat := coords_xy$y[1], !!long := coords_xy$x[1]))
+    else return(NA_value) 
 }
