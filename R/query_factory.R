@@ -42,12 +42,15 @@ address_param_name <- list(
 
 # Construct an an address api query
 # api_key only needed for IQ and Geocodio services
-get_address_query <- function(method, address, api_key) {
-#  address_param <- list( address_param_name[[method]] = address)
+get_address_query <- function(method, address, api_key=NULL) {
   
   ## Set Address Parameter ----------------------------
-  if (method == 'census') address_param <- list(address = address)
-  else address_param <- list(q = address)
+  address_param <- list()
+  address_param[[address_param_name[[method]]]] = address
+  
+  ## Set Address Parameter with Rules
+  # if (method == 'census') address_param <- list(address = address)
+  # else address_param <- list(q = address)
   
   ## Set API KEY Parameter ----------------------------
   if (method == 'iq') api_key_param <- list(key = api_key)
