@@ -46,7 +46,7 @@ get_address_query <- function(method, address, api_key=NULL) {
   
   ## Set Address Parameter ----------------------------
   address_param <- list()
-  address_param[[address_param_name[[method]]]] = address
+  address_param[[address_param_name[[method]]]] <- address
   
   ## Set Address Parameter with Rules
   # if (method == 'census') address_param <- list(address = address)
