@@ -4,7 +4,7 @@
 #' Only works for addresses within the US. Addresses must also be at the street
 #' level (ie. 60 Main St. Pawnee, IN not Pawnee, IN).
 #' 
-#' @references /href{https://geocoding.geo.census.gov/geocoder/Geocoding_Services_API.pdf}{Census API}
+#' @references \href{https://geocoding.geo.census.gov/geocoder/Geocoding_Services_API.pdf}{Census API Documentation}
 #'
 #' @param address single line address. Street must be included.
 #' @param lat name of latitude field

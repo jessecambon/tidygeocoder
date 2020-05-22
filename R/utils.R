@@ -16,9 +16,7 @@ query_api <- function(api_url, query_parameters, content_encoding='UTF-8') {
 
 # How many seconds have elapsed since start time t0 (as defined by a t0 <- Sys.time() call) 
 get_seconds_elapsed <- function(t0) {
-  return(
-  as.numeric(difftime(Sys.time(), t0, units = 'secs'))
-  )
+  return(as.numeric(difftime(Sys.time(), t0, units = 'secs')))
 }
 
 pause_until <- function(start_time,min_time,debug=FALSE) {

@@ -1,11 +1,13 @@
-test_that("API Parameter Reference Has No Duplicates") {
+# Make sure there are no duplicates in our API reference file
+test_that("API Parameter Reference Has No Duplicates", {
+  
   max_count <- api_parameter_reference %>%
     dplyr::count(method, generic_name) %>%
-    max(n)
+    pull(n) %>%
+    max()
   
   expect_equal(max_count,1)
-  
-}
+})
 
 # Check column names with custom settings
 test_that("geocode default colnames", {

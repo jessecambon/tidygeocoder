@@ -12,3 +12,6 @@
 ^pkgdown$
 ^bin$
 ^tidygeocoder\.yml$
+^R/debugging$
+^data/durham_test\.rda$
+^README\.Rmd$

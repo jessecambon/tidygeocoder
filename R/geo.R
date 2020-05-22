@@ -42,7 +42,7 @@ geo <- function(method, address=NULL, api_url=NULL, api_key=NULL, query_paramete
   ## Parse geocoder results
   
   ## Make sure the proper amount of time has elapsed for the query per min_time
-  pause_until(start_time, min_time,debug = T) 
+  pause_until(start_time, min_time, debug = TRUE) 
   
   ### Return  results
   return(raw_results)

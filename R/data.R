@@ -20,6 +20,9 @@
 #' \item{required}{Is the parameter required by the API?}
 #' 
 #' }
-#' @source \href{https://locationiq.com/docs}{IQ API Reference} 
-#' \href{https://nominatim.org/release-docs/develop/api/Search}{Nominatim/OSM API Reference}
+#' @source \itemize{ 
+#'     \item \href{https://locationiq.com/docs}{IQ API Reference} 
+#'     \item \href{https://nominatim.org/release-docs/develop/api/Search}{Nominatim/OSM API Reference}
+#'     \item \href{https://geocoding.geo.census.gov/geocoder/Geocoding_Services_API.pdf}{Census API Documentation}
+#'     
 "api_parameter_reference"

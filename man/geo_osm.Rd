@@ -49,7 +49,7 @@ Query adapted from tmaptools::geocode_OSM.
 \examples{
 \donttest{
 geo_osm("1600 Pennsylvania Ave Washington, DC")
-geo_osm('20 downing st london',debug=T)
+geo_osm('20 downing st london',debug=TRUE)
 geo_osm("Paris, France",verbose=TRUE)
 }
 }

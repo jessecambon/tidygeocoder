@@ -27,7 +27,7 @@
 #' @examples
 #' \donttest{
 #' geo_osm("1600 Pennsylvania Ave Washington, DC")
-#' geo_osm('20 downing st london',debug=T)
+#' geo_osm('20 downing st london',debug=TRUE)
 #' geo_osm("Paris, France",verbose=TRUE)
 #' }
 #' @importFrom tibble tibble
@@ -77,18 +77,7 @@ geo_osm <- function(address,lat=lat, long=long, min_time=1, verbose=FALSE, debug
     ##########
     
     ## Make sure the proper amount of time has elapsed for the query per min_time
-    
-    seconds_elapsed <- as.numeric(difftime(Sys.time(), start_time, units = 'secs'))
-    
-    if (debug == TRUE) message(paste0('Time elapsed: ', round(seconds_elapsed,1),' seconds'))
-    
-    # Sleep if necessary to make query take the minimum amount of time
-    if (seconds_elapsed < min_time) {
-      Sys.sleep(min_time - seconds_elapsed)
-      
-      if (debug == TRUE) message(paste0('Time elapsed (after sleep): ', 
-        round(as.numeric(difftime(Sys.time(),start_time, units = 'secs')),1),' seconds'))
-    }
+    pause_until(start_time, min_time, debug = verbose)
     
     # Return  results
     if (!is.null(coords)) return(tibble::tibble(!!lat := coords[1], !!long := coords[2]))

@@ -17,8 +17,7 @@ A tibble dataframe
 }
 }
 \source{
-\href{https://locationiq.com/docs}{IQ API Reference} 
-\href{https://nominatim.org/release-docs/develop/api/Search}{Nominatim/OSM API Reference}
+
 }
 \usage{
 api_parameter_reference

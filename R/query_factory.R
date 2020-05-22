@@ -3,7 +3,7 @@
 # basd on the method and generic parameter name
 get_default_param <- function(method_name, param_name) {
   return(
-    api_parameter_reference %>% 
+    tidygeocoder::api_parameter_reference %>% 
       dplyr::filter(method == method_name & generic_name == param_name) %>% 
       dplyr::select(api_name, default_value) %>% tibble::deframe(.)
   )
@@ -18,11 +18,11 @@ create_param <- function(method_name, param_name, value) {
 
 # Return the API URL for the specified method
 get_api_url <- function(method_name,url_name=NULL) {
-  tmp <- api_url_reference %>% 
-    filter(method = method_name) 
+  tmp <- tidygeocoder::api_url_reference %>% 
+    dplyr::filter(method == method_name) 
   
-  if (is.na(name)) return(tmp %>% slice(1) %>% pull(api_url))
-  else return(tmp %>% filter(name == url_name) %>% pull(api_url))
+  if (is.null(url_name)) return(tmp %>% dplyr::slice(1) %>% dplyr::pull(api_url))
+  else return(tmp %>% dplyr::filter(name == url_name) %>% dplyr::pull(api_url))
 }
 
 # Geocodio returns json by default
@@ -35,7 +35,7 @@ get_api_url <- function(method_name,url_name=NULL) {
 ### Fails on setting API Key
 get_address_query <- function(method_name, address, api_key = NULL, limit = NULL) {
   
-  required_fields_df <- api_parameter_reference %>% 
+  required_fields_df <- tidygeocoder::api_parameter_reference %>% 
     dplyr::filter(method == method_name & required == TRUE)
   
   required_field_names <- required_fields_df %>% pull(generic_name)
@@ -46,9 +46,9 @@ get_address_query <- function(method_name, address, api_key = NULL, limit = NULL
   #print(address_param)
   
   ## Set API KEY Parameter ----------------------------
-  # if ('api_key' %in% required_field_names) {
-  #   api_key_param <- create_param(method_name,'api_key',api_key)
-  # } else api_key_param <- list()
+  if (('api_key' %in% required_field_names) & (!is.null(api_key))) {
+    api_key_param <- create_param(method_name,'api_key',api_key)
+  } else api_key_param <- list()
   
   # api_key_param <- dplyr::case_when(
   #   ('api_key' %in% required_field_names) ~ create_param(method_name,'api_key',api_key),
@@ -57,14 +57,12 @@ get_address_query <- function(method_name, address, api_key = NULL, limit = NULL
   
   #print(api_key_param)
   
-  
   # Extract default parameters 
-  default_params <- api_parameter_reference %>% 
+  default_params <- tidygeocoder::api_parameter_reference %>% 
     dplyr::filter(method == method_name & required == TRUE) %>%
     dplyr::select(api_name, default_value) %>%
     filter(!is.na(default_value)) %>%
     tibble::deframe(.)
-  
   
   # Combine address, api_key, and default parameters for full query
   return( c(address_param, api_key_param, default_params) )

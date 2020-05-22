@@ -20,8 +20,7 @@ Imports:
     dplyr,
     httr,
     jsonlite,
-    stringr,
-    XML
+    stringr
 RoxygenNote: 7.1.0
 Suggests: 
     knitr,

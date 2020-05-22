@@ -37,6 +37,7 @@ api_parameter_reference <- tibble::tribble(
   'geocodio', 'api_key',   'api_key',   NA,               TRUE,
   'geocodio', 'limit',     'limit',     '1',              FALSE,
   'geocodio', 'format',     NA,         NA,               FALSE,
+  'geocodio', 'address',    'q',        NA,               FALSE,
   'census',   'address',   'address',   NA,               FALSE,
   'census',   'format',    'format',    'json',           TRUE,
   'census',   'limit',     NA,          NA,               FALSE,

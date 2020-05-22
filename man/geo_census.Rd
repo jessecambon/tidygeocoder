@@ -40,5 +40,5 @@ geo_census("1600 Pennsylvania Ave Washington, DC")
 }
 }
 \references{
-/href{https://geocoding.geo.census.gov/geocoder/Geocoding_Services_API.pdf}{Census API}
+\href{https://geocoding.geo.census.gov/geocoder/Geocoding_Services_API.pdf}{Census API Documentation}
 }
