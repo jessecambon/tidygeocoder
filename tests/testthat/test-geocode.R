@@ -1,3 +1,12 @@
+test_that("API Parameter Reference Has No Duplicates") {
+  max_count <- api_parameter_reference %>%
+    dplyr::count(method, generic_name) %>%
+    max(n)
+  
+  expect_equal(max_count,1)
+  
+}
+
 # Check column names with custom settings
 test_that("geocode default colnames", {
   result <- sample_addresses %>%
@@ -14,7 +23,7 @@ test_that("geocode default colnames", {
 test_that("geocode custom colnames", {
   result <- sample_addresses %>%
     dplyr::slice(1) %>% # limit dataset to one row
-    geocode(addr,lat='latitude',long='longitude')
+    geocode(addr,lat = 'latitude', long = 'longitude')
 
   expected_colnames <- c(colnames(sample_addresses),'latitude','longitude')
 
@@ -26,10 +35,10 @@ test_that("geocode custom colnames", {
 test_that("geocode null/empty addresses", {
 
   # make sure blank addresses are not being sent to the geocoder
-  expect_message(geo_census(" ",verbose=TRUE),"Blank or missing address!")
-  expect_message(geo_census(" 123 ",verbose=TRUE),"Blank or missing address!")
-  expect_message(geo_osm(" ",verbose=TRUE),"Blank or missing address!")
-  expect_message(geo_cascade(" ",verbose=TRUE),"Blank or missing address!")
+  expect_message(geo_census(" ", verbose = TRUE),"Blank or missing address!")
+  expect_message(geo_census(" 123 ", verbose = TRUE),"Blank or missing address!")
+  expect_message(geo_osm(" ", verbose = TRUE),"Blank or missing address!")
+  expect_message(geo_cascade(" ", verbose = TRUE),"Blank or missing address!")
 
   # Test with tibble
   NA_data <- tibble::tribble(~addr,
@@ -37,7 +46,7 @@ test_that("geocode null/empty addresses", {
                              NA,
                              "")
 
-  result <- NA_data %>% geocode(addr,method='cascade')
+  result <- NA_data %>% geocode(addr,method = 'cascade')
   
   # check column names
   expected_colnames <- c(colnames(NA_data),'lat','long','geo_method')

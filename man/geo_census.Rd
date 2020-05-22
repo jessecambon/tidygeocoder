@@ -10,7 +10,7 @@ geo_census(
   long = long,
   verbose = FALSE,
   benchmark = 4,
-  API_URL = "https://geocoding.geo.census.gov/geocoder/locations/onelineaddress?"
+  api_url = "https://geocoding.geo.census.gov/geocoder/locations/onelineaddress"
 )
 }
 \arguments{
@@ -24,7 +24,7 @@ geo_census(
 
 \item{benchmark}{parameter for the US Census Geocoder}
 
-\item{API_URL}{URL of Census API}
+\item{api_url}{URL of Census API}
 }
 \value{
 latitude and longitude coordinates in tibble format
@@ -38,4 +38,7 @@ level (ie. 60 Main St. Pawnee, IN not Pawnee, IN).
 \donttest{
 geo_census("1600 Pennsylvania Ave Washington, DC")
 }
+}
+\references{
+/href{https://geocoding.geo.census.gov/geocoder/Geocoding_Services_API.pdf}{Census API}
 }

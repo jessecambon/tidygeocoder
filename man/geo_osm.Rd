@@ -11,7 +11,7 @@ geo_osm(
   min_time = 1,
   verbose = FALSE,
   debug = FALSE,
-  server = "http://nominatim.openstreetmap.org"
+  api_url = "http://nominatim.openstreetmap.org/search"
 )
 }
 \arguments{
@@ -29,7 +29,7 @@ Be cautious of setting this value lower as the usage limit may be reached.}
 
 \item{debug}{logical. If TRUE outputs debugging logs}
 
-\item{server}{URL to OSM Nominatim server}
+\item{api_url}{URL to OSM Nominatim server}
 }
 \value{
 latitude and longitude coordinates in tibble format
@@ -58,5 +58,5 @@ tmaptools: \url{https://github.com/mtennekes/tmaptools}
 
 Nominatim usage policy: \url{https://operations.osmfoundation.org/policies/nominatim}
 
-Nominatim API referene: \url{https://nominatim.org/release-docs/develop/api/Search/}
+Nominatim API reference: \url{https://nominatim.org/release-docs/develop/api/Search/}
 }

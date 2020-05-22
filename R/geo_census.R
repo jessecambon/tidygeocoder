@@ -10,7 +10,7 @@
 #' @param lat name of latitude field
 #' @param long name of longitude field
 #' @param verbose logical. If TRUE outputs logs.
-#' @param API_URL URL of Census API
+#' @param api_url URL of Census API
 #' @param benchmark parameter for the US Census Geocoder
 #' @return latitude and longitude coordinates in tibble format
 #'
@@ -45,14 +45,11 @@ geo_census <- function(address, lat = lat, long = long, verbose=FALSE,
     dat <- query_api(api_url, 
               list(address = address, format = 'json', benchmark = benchmark), 
               content_encoding = "ISO-8859-1")
-    
-    #soup <- httr::GET(url = api_url, query = list(address = address, format = 'json', benchmark = benchmark))
-    #dat <- jsonlite::fromJSON(httr::content(soup, as = 'text', encoding = "ISO-8859-1"), simplifyVector = TRUE)
 
     # extract coordinates
-    coords_xy <- dat$result$addressMatches$coordinates
+    coords_xy <- dat$result$addressMatches$coordinates[1,]
 
     # Return coordinates in tibble form
-    if (!is.null(coords)) return(tibble::tibble(!!lat := coords_xy$y[1], !!long := coords_xy$x[1]))
+    if (!is.null(coords_xy)) return(tibble::tibble(!!lat := coords_xy$y, !!long := coords_xy$x))
     else return(NA_value) 
 }
