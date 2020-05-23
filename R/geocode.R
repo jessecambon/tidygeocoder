@@ -32,7 +32,7 @@
 #' @importFrom tidyr unnest
 #' @importFrom rlang enquo
 #' @export
-geocode <- function(.tbl,address,method='census',lat = lat,long = long,...) {
+geocode <- function(.tbl, address ,method='census', lat = lat, long = long, ...) {
  temp <- NULL # prevents 'no visible binding for global variable' warning
 
   address <- rlang::enquo(address)
@@ -53,10 +53,10 @@ geocode <- function(.tbl,address,method='census',lat = lat,long = long,...) {
 
   # use the selected geolocation method to return coordinates and attach them
   # to the input dataframe
-  coords <- tibble(temp=purrr::map(.tbl %>% dplyr::pull(!!address),
+  coords <- tibble(temp = purrr::map(.tbl %>% dplyr::pull(!!address),
                       !!func,
-                      lat=!!lat,long=!!long,...)) %>%
-    tidyr::unnest(temp,keep_empty=TRUE)
+                      lat = !!lat, long = !!long, ...)) %>%
+    tidyr::unnest(temp, keep_empty = TRUE)
 
   .tbl %>% dplyr::bind_cols(coords)
 }

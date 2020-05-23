@@ -1,4 +1,4 @@
-# Functions for constructing the REST API Queries
+### Dataframes for storing API parameters and urls
 
 ### Style Guide
 # http://adv-r.had.co.nz/Style.html
@@ -10,21 +10,17 @@
 ### Usage Policies
 # OSM: https://operations.osmfoundation.org/policies/nominatim/
 
-
-### My Notes
-# use names() function to extract names of named list
-
 api_url_reference <- tibble::tribble(
-  ~method,    ~name,         ~api_url,
-  'osm',      "default",     "http://nominatim.openstreetmap.org/search",
-  'iq',       'us',          "https://us1.locationiq.com/v1/search.php",
-  'iq',       'europe',      "https://eu1.locationiq.com/v1/search.php",
-  'geocodio', 'default',     "https://api.geocod.io/v1.5/geocode",
-  'census',   'default',      "https://geocoding.geo.census.gov/geocoder/locations/onelineaddress",
+  ~method,    ~name,                 ~api_url,
+  'osm',      "default",             "http://nominatim.openstreetmap.org/search",
+  'iq',       'us',                  "https://us1.locationiq.com/v1/search.php",
+  'iq',       'europe',              "https://eu1.locationiq.com/v1/search.php",
+  'geocodio', 'v1.5',                "https://api.geocod.io/v1.5/geocode",
+  'census',   'onelineaddress',      "https://geocoding.geo.census.gov/geocoder/locations/onelineaddress",
 )
 
 # Use this for storing essential parameters 
-# Note format = JSON is required because our parsing code expects json content
+# Note that the format = JSON parameter is required because our parsing code expects json content
 api_parameter_reference <- tibble::tribble(
   ~method,  ~generic_name,  ~api_name,   ~default_value,   ~required,
   'osm',      'format',    'format',    'json',           TRUE,

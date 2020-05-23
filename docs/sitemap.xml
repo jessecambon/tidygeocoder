@@ -4,6 +4,9 @@
     <loc>https://jessecambon.github.io/tidygeocoder/index.html</loc>
   </url>
   <url>
+    <loc>https://jessecambon.github.io/tidygeocoder/reference/api_parameter_reference.html</loc>
+  </url>
+  <url>
     <loc>https://jessecambon.github.io/tidygeocoder/reference/geo_cascade.html</loc>
   </url>
   <url>
@@ -16,12 +19,12 @@
     <loc>https://jessecambon.github.io/tidygeocoder/reference/geocode.html</loc>
   </url>
   <url>
+    <loc>https://jessecambon.github.io/tidygeocoder/reference/query_api.html</loc>
+  </url>
+  <url>
     <loc>https://jessecambon.github.io/tidygeocoder/reference/sample_addresses.html</loc>
   </url>
   <url>
     <loc>https://jessecambon.github.io/tidygeocoder/reference/tidygeocoder-package.html</loc>
-  </url>
-  <url>
-    <loc>https://jessecambon.github.io/tidygeocoder/articles/tidygeocoder.html</loc>
   </url>
 </urlset>

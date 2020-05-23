@@ -1,18 +1,18 @@
-
-# Return a named list of a single parameter value to be passed to an API
-# basd on the method and generic parameter name
-get_default_param <- function(method_name, param_name) {
-  return(
-    tidygeocoder::api_parameter_reference %>% 
-      dplyr::filter(method == method_name & generic_name == param_name) %>% 
-      dplyr::select(api_name, default_value) %>% tibble::deframe(.)
-  )
-}
-
-# Create parameter a value using a generic name
-create_param <- function(method_name, param_name, value) {
+# Create an API-specific parameter for a given method
+# given generic parameter name and a value
+create_api_parameter <- function(method_name, param_name, value) {
+  
+  api_parameter_name <- tidygeocoder::api_parameter_reference %>% 
+    dplyr::filter(method == method_name & generic_name == param_name) %>% 
+    dplyr::pull(api_name) 
+  
+  # If api_parameter_name is NA or missing then return empty list
+  if ((length(api_parameter_name) == 0)) return(list())
+  if (is.na(api_parameter_name)) return(list())
+  
   param <- list()
-  param[[names(get_default_param(method_name,param_name))]] <- value
+  param[[api_parameter_name]] <- value
+
   return(param)
 }
 
@@ -29,45 +29,51 @@ get_api_url <- function(method_name,url_name=NULL) {
 # Census geocoder is only api that does not offer the limit parameter to limit number of results returned
 
 
-# Construct an an address api query
+# Construct an an api query based on generic parameters
+# and optional api-specific parameters. Generic parameters
+# are converted into api parameters using the api_parameter_reference
+# dataset
+
 # api_key only needed for IQ and Geocodio services
-############ NOTE: UNFINISHED ##########################################
-### Fails on setting API Key
-get_address_query <- function(method_name, address, api_key = NULL, limit = NULL) {
+get_api_query <- function(method_name, generic_parameters, custom_api_parameters = list() ) {
   
-  required_fields_df <- tidygeocoder::api_parameter_reference %>% 
-    dplyr::filter(method == method_name & required == TRUE)
+  # required_fields_df <- tidygeocoder::api_parameter_reference %>% 
+  #   dplyr::filter(method == method_name & required == TRUE)
+  # required_field_names <- required_fields_df %>% pull(generic_name)
   
-  required_field_names <- required_fields_df %>% pull(generic_name)
+  # create the "main" api parameters from the passed generic parameters
+  main_api_parameters <- list()
+  for (generic_parameter_name in names(generic_parameters)) {
+    main_api_parameters <- c(main_api_parameters, 
+      create_api_parameter(method_name, generic_parameter_name, 
+      generic_parameters[[generic_parameter_name]]) 
+      )
+  }
   
-  ## Set Address Parameter ----------------------------
-  address_param <- create_param(method_name,'address',address)
-  
-  #print(address_param)
-  
-  ## Set API KEY Parameter ----------------------------
-  if (('api_key' %in% required_field_names) & (!is.null(api_key))) {
-    api_key_param <- create_param(method_name,'api_key',api_key)
-  } else api_key_param <- list()
-  
-  # api_key_param <- dplyr::case_when(
-  #   ('api_key' %in% required_field_names) ~ create_param(method_name,'api_key',api_key),
-  #   TRUE ~ list()
-  # )
-  
-  #print(api_key_param)
-  
-  # Extract default parameters 
-  default_params <- tidygeocoder::api_parameter_reference %>% 
+  ## Extract default parameter values ---------------
+  default_api_parameters <- tidygeocoder::api_parameter_reference %>% 
     dplyr::filter(method == method_name & required == TRUE) %>%
     dplyr::select(api_name, default_value) %>%
-    filter(!is.na(default_value)) %>%
+    # only extract values that have default values and don't already exist in main_api_parameters
+    filter(!is.na(default_value) & (!api_name %in% names(main_api_parameters))) %>%
     tibble::deframe(.)
   
   # Combine address, api_key, and default parameters for full query
-  return( c(address_param, api_key_param, default_params) )
+  return( c(main_api_parameters,default_api_parameters) )
 }
 
+#' Get raw results back from an API
+#' @param api_url Base URL of the API. query parameters are appended to this
+#' @param query_parameters api query parameters in the form of a named list
+#' @param content_encoding Encoding to be used for parsing content. 
+#' @return raw results from the query
+#' Census uses "ISO-8859-1", all other services use "UTF-8"
+#' @export
+query_api <- function(api_url, query_parameters, content_encoding='UTF-8') {
+  response <- httr::GET(url = api_url, query = query_parameters)
+  return(jsonlite::fromJSON(httr::content(response, as = 'text', encoding = content_encoding))
+  )
+}
 
 
 ## -----------------------------------------
@@ -77,4 +83,28 @@ get_address_query <- function(method_name, address, api_key = NULL, limit = NULL
 # 2. Add address field
 # 3. Add API Key (if necessary)
 # 4. Set API URL
+
+##### SCRAP -------------------------------
+
+## Set Address Parameter ----------------------------
+# address_param <- create_api_parameter(method_name,'address',address)
+
+#print(address_param)
+
+## Set API KEY Parameter ----------------------------
+# if ('api_key' %in% required_field_names) {
+#   if (is.null(api_key)) {
+#     warning('Required parameter API Key not specified')
+#     return(list())
+#   } else {
+#     api_key_param <- create_api_parameter(method_name,'api_key',api_key)
+#   }
+# } else {
+#   # if api key isn't required then leave it blank
+#   api_key_param <- list()
+# }
+
+## Set limit Parameter ----------------------------
+# if (is.null(limit)) limit_param <- list()
+# else limit_param <- limit_param <- create_api_parameter(method_name,'limit',limit)
 

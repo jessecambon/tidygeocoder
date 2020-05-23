@@ -1,12 +1,18 @@
-# Make sure there are no duplicates in our API reference file
-test_that("API Parameter Reference Has No Duplicates", {
+# Make sure there are no duplicates in our API reference files
+test_that("API Parameter References Have No Duplicates", {
   
-  max_count <- api_parameter_reference %>%
+  max_count_param <- tidygeocoder::api_parameter_reference %>%
     dplyr::count(method, generic_name) %>%
     pull(n) %>%
     max()
   
-  expect_equal(max_count,1)
+  max_count_url <- tidygeocoder::api_url_reference %>%
+    dplyr::count(method, name) %>%
+    pull(n) %>%
+    max()
+  
+  expect_equal(max_count_param,1)
+  expect_equal(max_count_url,1)
 })
 
 # Check column names with custom settings

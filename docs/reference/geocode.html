@@ -74,7 +74,7 @@ using a user specified geocoder function." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">tidygeocoder</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.6</span>
       </span>
     </div>
 
@@ -85,9 +85,6 @@ using a user specified geocoder function." />
     <span class="fas fa fas fa-home fa-lg"></span>
      
   </a>
-</li>
-<li>
-  <a href="../articles/tidygeocoder.html">Get started</a>
 </li>
 <li>
   <a href="../reference/index.html">Reference</a>
@@ -140,9 +137,9 @@ using a user specified geocoder function.</p>
     <tr>
       <th>method</th>
       <td><p>the geocoder function you want to use</p><ul>
-<li><p>"census": <code>geo_census</code> - can only handle US street level addresses</p></li>
-<li><p>"osm": <code>geo_osm</code> - more versatile than Census but has a usage limit</p></li>
-<li><p>"cascade": <code>geo_cascade</code> - first tries to use census then tries osm</p></li>
+<li><p>"census": <code><a href='geo_census.html'>geo_census</a></code> - can only handle US street level addresses</p></li>
+<li><p>"osm": <code><a href='geo_osm.html'>geo_osm</a></code> - more versatile than Census but has a usage limit</p></li>
+<li><p>"cascade": <code><a href='geo_cascade.html'>geo_cascade</a></code> - first tries to use census then tries osm</p></li>
 </ul></td>
     </tr>
     <tr>
@@ -164,7 +161,7 @@ using a user specified geocoder function.</p>
     <p>input dataframe (.tbl) with latitude and longitude fields appended</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>See example usage in <code><a href='../articles/tidygeocoder.html'>vignette("tidygeocoder")</a></code></p>
+    <p>See example usage in <code>vignette("tidygeocoder")</code></p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># \donttest{</span>
@@ -184,7 +181,7 @@ using a user specified geocoder function.</p>
 #&gt; </span><span style='color: #BCBCBC;'>6</span><span> </span><span style='color: #949494;'>"</span><span>US City</span><span style='color: #949494;'>"</span><span>              </span><span style='color: #949494;'>"</span><span>Nashville,TN</span><span style='color: #949494;'>"</span><span>                              </span><span style='color: #BB0000;'>NA</span><span>     </span><span style='color: #BB0000;'>NA</span><span>  
 #&gt; </span><span style='color: #BCBCBC;'>7</span><span> </span><span style='color: #949494;'>"</span><span>Willis Tower</span><span style='color: #949494;'>"</span><span>         </span><span style='color: #949494;'>"</span><span>233 S Wacker Dr, Chicago, IL 60606</span><span style='color: #949494;'>"</span><span>        41.9  -</span><span style='color: #BB0000;'>87.6</span><span>
 #&gt; </span><span style='color: #BCBCBC;'>8</span><span> </span><span style='color: #949494;'>"</span><span>International City</span><span style='color: #949494;'>"</span><span>   </span><span style='color: #949494;'>"</span><span>Nairobi, Kenya</span><span style='color: #949494;'>"</span><span>                            </span><span style='color: #BB0000;'>NA</span><span>     </span><span style='color: #BB0000;'>NA</span><span>  </div><div class='input'>
-<span class='no'>sample_addresses</span> <span class='kw'>%&gt;%</span> <span class='fu'>geocode</span>(<span class='no'>addr</span>,<span class='kw'>method</span><span class='kw'>=</span><span class='st'>'cascade'</span>,<span class='kw'>lat</span><span class='kw'>=</span><span class='no'>latitude</span>,<span class='kw'>long</span><span class='kw'>=</span><span class='no'>longitude</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: No results found for "Fake Address".</span></div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 8 x 5</span><span>
+<span class='no'>sample_addresses</span> <span class='kw'>%&gt;%</span> <span class='fu'>geocode</span>(<span class='no'>addr</span>,<span class='kw'>method</span><span class='kw'>=</span><span class='st'>'cascade'</span>,<span class='kw'>lat</span><span class='kw'>=</span><span class='no'>latitude</span>,<span class='kw'>long</span><span class='kw'>=</span><span class='no'>longitude</span>)</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 8 x 5</span><span>
 #&gt;   name              addr                           latitude longitude geo_method
 #&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>             </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>                             </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>     </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>     
 #&gt; </span><span style='color: #BCBCBC;'>1</span><span> </span><span style='color: #949494;'>"</span><span>White House</span><span style='color: #949494;'>"</span><span>     </span><span style='color: #949494;'>"</span><span>1600 Pennsylvania Ave Washin…    38.9      -</span><span style='color: #BB0000;'>77.0</span><span> census    

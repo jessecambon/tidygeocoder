@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">tidygeocoder</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.6</span>
       </span>
     </div>
 
@@ -42,9 +42,6 @@
     <span class="fas fa fas fa-home fa-lg"></span>
      
   </a>
-</li>
-<li>
-  <a href="articles/tidygeocoder.html">Get started</a>
 </li>
 <li>
   <a href="reference/index.html">Reference</a>
@@ -72,16 +69,21 @@
 <div id="tidygeocoder" class="section level1">
 <div class="page-header"><h1 class="hasAnchor">
 <a href="#tidygeocoder" class="anchor"></a>tidygeocoder</h1></div>
+<!-- badges: start -->
 
-<p>A <a href="https://www.tidyverse.org/">tidyverse</a>-style geocoder interface for R. Utilizes <a href="https://geocoding.geo.census.gov/">US Census</a> and <a href="https://nominatim.org">Nominatim</a> (OSM) geocoder services. Returns latitude and longitude in <a href="https://tibble.tidyverse.org/">tibble format</a> from addresses. You can find a demo I wrote up on R-Bloggers <a href="https://www.r-bloggers.com/geocoding-with-tidygeocoder/">here</a>.</p>
-<div id="install" class="section level2">
+<div id="introduction" class="section level2">
 <h2 class="hasAnchor">
-<a href="#install" class="anchor"></a>Install</h2>
+<a href="#introduction" class="anchor"></a>Introduction</h2>
+<p>Tidygeocoder is a <a href="https://www.tidyverse.org/">tidyverse</a>-style geocoder interface for R. Utilizes <a href="https://geocoding.geo.census.gov/">US Census</a> and <a href="https://nominatim.org">Nominatim</a> (OSM) geocoder services. Returns latitude and longitude in <a href="https://tibble.tidyverse.org/">tibble format</a> from addresses. You can find a demo I wrote up on R-Bloggers <a href="https://www.r-bloggers.com/geocoding-with-tidygeocoder/">here</a>.</p>
+</div>
+<div id="installation" class="section level2">
+<h2 class="hasAnchor">
+<a href="#installation" class="anchor"></a>Installation</h2>
 <p>To install the stable version from CRAN (the official R package servers):</p>
-<pre><code><a href="https://rdrr.io/r/utils/install.packages.html">install.packages('tidygeocoder')</a></code></pre>
-<p>To install the development version from GitHub:</p>
-<pre><code>if(!require(devtools)) install.packages("devtools")
-devtools::install_github("jessecambon/tidygeocoder",build_vignettes=TRUE)</code></pre>
+<div class="sourceCode" id="cb1"><pre class="r"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span>(<span class="st">'tidygeocoder'</span>)</pre></div>
+<p>Alternatively you can install the development version from GitHub:</p>
+<div class="sourceCode" id="cb2"><pre class="r"><span class="kw">if</span>(!<span class="fu"><a href="https://rdrr.io/r/base/library.html">require</a></span>(<span class="no">devtools</span>)) <span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span>(<span class="st">"devtools"</span>)
+<span class="kw pkg">devtools</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/devtools/man/remote-reexports.html">install_github</a></span>(<span class="st">"jessecambon/tidygeocoder"</span>)</pre></div>
 </div>
 <div id="usage" class="section level2">
 <h2 class="hasAnchor">
@@ -91,8 +93,9 @@ devtools::install_github("jessecambon/tidygeocoder",build_vignettes=TRUE)</code>
 <span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">tidygeocoder</span>)
 
 <span class="no">lat_longs</span> <span class="kw">&lt;-</span> <span class="no">sample_addresses</span> <span class="kw">%&gt;%</span>
-  <span class="fu"><a href="https://rdrr.io/pkg/tidygeocoder/man/geocode.html">geocode</a></span>(<span class="no">addr</span>,<span class="kw">lat</span><span class="kw">=</span><span class="no">latitude</span>,<span class="kw">long</span><span class="kw">=</span><span class="no">longitude</span>)</pre></div>
-<p>Latitude and longitude columns are attached to our input dataset. Since we are using the US Census geocoder service, international locations and addresses which are not at the street level (such as cities) are not found.</p>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span>(<span class="no">name</span> <span class="kw">%in%</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">'White House'</span>,<span class="st">'Transamerica Pyramid'</span>,<span class="st">'Willis Tower'</span>)) <span class="kw">%&gt;%</span>
+  <span class="fu"><a href="reference/geocode.html">geocode</a></span>(<span class="no">addr</span>,<span class="kw">lat</span><span class="kw">=</span><span class="no">latitude</span>,<span class="kw">long</span><span class="kw">=</span><span class="no">longitude</span>)</pre></div>
+<p>Latitude and longitude columns are attached to our input dataset. Since we are using the US Census geocoder service (the default for the geocode function), locations outside the United States and addresses which are not at the street level (such as cities) are not found.</p>
 <table class="table">
 <colgroup>
 <col width="24%">
@@ -120,130 +123,25 @@ devtools::install_github("jessecambon/tidygeocoder",build_vignettes=TRUE)</code>
 <td align="right">-122.40314</td>
 </tr>
 <tr class="odd">
-<td align="left">NA</td>
-<td align="left">Fake Address</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-</tr>
-<tr class="even">
-<td align="left">NA</td>
-<td align="left">NA</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-</tr>
-<tr class="odd">
-<td align="left"></td>
-<td align="left"></td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-</tr>
-<tr class="even">
-<td align="left">US City</td>
-<td align="left">Nashville,TN</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-</tr>
-<tr class="odd">
 <td align="left">Willis Tower</td>
 <td align="left">233 S Wacker Dr, Chicago, IL 60606</td>
 <td align="right">41.87851</td>
 <td align="right">-87.63666</td>
 </tr>
-<tr class="even">
-<td align="left">International City</td>
-<td align="left">Nairobi, Kenya</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-</tr>
 </tbody>
 </table>
-<p>Plot our geolocated points:</p>
+<p>Now we can plot our geolocated points with ggplot:</p>
 <div class="sourceCode" id="cb4"><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">ggplot2</span>)
 <span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">maps</span>)
 <span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">ggrepel</span>)
-<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span>(<span class="no">lat_longs</span> <span class="kw">%&gt;%</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span>(!<span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span>(<span class="no">longitude</span>)),<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(<span class="no">longitude</span>, <span class="no">latitude</span>),<span class="kw">color</span><span class="kw">=</span><span class="st">"grey98"</span>) +
+
+<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span>(<span class="no">lat_longs</span> <span class="kw">%&gt;%</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span>(!<span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span>(<span class="no">longitude</span>)), <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(<span class="no">longitude</span>, <span class="no">latitude</span>), <span class="kw">color</span><span class="kw">=</span><span class="st">"grey98"</span>) +
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/borders.html">borders</a></span>(<span class="st">"state"</span>) + <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_classic</a></span>() + <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span>() +
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span>(<span class="kw">line</span> <span class="kw">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html">element_blank</a></span>(),<span class="kw">text</span> <span class="kw">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html">element_blank</a></span>(),<span class="kw">title</span> <span class="kw">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html">element_blank</a></span>()) +
-  <span class="fu">geom_label_repel</span>(<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(<span class="kw">label</span> <span class="kw">=</span><span class="no">name</span>),<span class="kw">show.legend</span><span class="kw">=</span><span class="no">F</span>) +
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span>(<span class="kw">line</span> <span class="kw">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html">element_blank</a></span>(), <span class="kw">text</span> <span class="kw">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html">element_blank</a></span>(), <span class="kw">title</span> <span class="kw">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html">element_blank</a></span>()) +
+  <span class="fu"><a href="https://rdrr.io/pkg/ggrepel/man/geom_text_repel.html">geom_label_repel</a></span>(<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(<span class="kw">label</span> <span class="kw">=</span><span class="no">name</span>),<span class="kw">show.legend</span><span class="kw">=</span><span class="no">F</span>) +
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html">scale_x_continuous</a></span>(<span class="kw">breaks</span> <span class="kw">=</span> <span class="kw">NULL</span>) + <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html">scale_y_continuous</a></span>(<span class="kw">breaks</span> <span class="kw">=</span> <span class="kw">NULL</span>)</pre></div>
-<p><img src="us_map.png"></p>
-<p>To find international and non-street addresses, we must use the OSM service. We can use the ‘cascade’ method to attempt to use the US Census method for each address and only use the OSM service if the Census method fails (since OSM has a usage limit).</p>
-<div class="sourceCode" id="cb5"><pre class="r"><span class="no">cascade_points</span> <span class="kw">&lt;-</span> <span class="no">sample_addresses</span> <span class="kw">%&gt;%</span>
-  <span class="fu"><a href="https://rdrr.io/pkg/tidygeocoder/man/geocode.html">geocode</a></span>(<span class="no">addr</span>,<span class="kw">method</span><span class="kw">=</span><span class="st">'cascade'</span>)</pre></div>
-<table class="table">
-<colgroup>
-<col width="21%">
-<col width="44%">
-<col width="10%">
-<col width="11%">
-<col width="11%">
-</colgroup>
-<thead><tr class="header">
-<th align="left">name</th>
-<th align="left">addr</th>
-<th align="right">lat</th>
-<th align="right">long</th>
-<th align="left">geo_method</th>
-</tr></thead>
-<tbody>
-<tr class="odd">
-<td align="left">White House</td>
-<td align="left">1600 Pennsylvania Ave Washington, DC</td>
-<td align="right">38.898754</td>
-<td align="right">-77.03535</td>
-<td align="left">census</td>
-</tr>
-<tr class="even">
-<td align="left">Transamerica Pyramid</td>
-<td align="left">600 Montgomery St, San Francisco, CA 94111</td>
-<td align="right">37.794700</td>
-<td align="right">-122.40314</td>
-<td align="left">census</td>
-</tr>
-<tr class="odd">
-<td align="left">NA</td>
-<td align="left">Fake Address</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-<td align="left">NA</td>
-</tr>
-<tr class="even">
-<td align="left">NA</td>
-<td align="left">NA</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-<td align="left">NA</td>
-</tr>
-<tr class="odd">
-<td align="left"></td>
-<td align="left"></td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-<td align="left">NA</td>
-</tr>
-<tr class="even">
-<td align="left">US City</td>
-<td align="left">Nashville,TN</td>
-<td align="right">36.162230</td>
-<td align="right">-86.77435</td>
-<td align="left">osm</td>
-</tr>
-<tr class="odd">
-<td align="left">Willis Tower</td>
-<td align="left">233 S Wacker Dr, Chicago, IL 60606</td>
-<td align="right">41.878513</td>
-<td align="right">-87.63666</td>
-<td align="left">census</td>
-</tr>
-<tr class="even">
-<td align="left">International City</td>
-<td align="left">Nairobi, Kenya</td>
-<td align="right">-1.283253</td>
-<td align="right">36.81724</td>
-<td align="left">osm</td>
-</tr>
-</tbody>
-</table>
+<p><img src="reference/figures/README-unnamed-chunk-6-1.png" style="display: block; margin: auto;"></p>
+<p>To geocode addresses outside the United States or non-street level addresses you can use the Nominatim (aka “osm”) geocoder service by specifying it with <code><a href="reference/geocode.html">geocode(addr,method='osm')</a></code>. See the <a href="https://jessecambon.github.io/tidygeocoder/reference/geocode.html">documentation on the geocode function</a> for more details.</p>
 </div>
 <div id="references" class="section level2">
 <h2 class="hasAnchor">

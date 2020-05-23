@@ -74,7 +74,7 @@ level (ie. 60 Main St. Pawnee, IN not Pawnee, IN)." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">tidygeocoder</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.6</span>
       </span>
     </div>
 
@@ -85,9 +85,6 @@ level (ie. 60 Main St. Pawnee, IN not Pawnee, IN)." />
     <span class="fas fa fas fa-home fa-lg"></span>
      
   </a>
-</li>
-<li>
-  <a href="../articles/tidygeocoder.html">Get started</a>
 </li>
 <li>
   <a href="../reference/index.html">Reference</a>
@@ -130,7 +127,7 @@ level (ie. 60 Main St. Pawnee, IN not Pawnee, IN).</p>
   <span class='kw'>long</span> <span class='kw'>=</span> <span class='no'>long</span>,
   <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
   <span class='kw'>benchmark</span> <span class='kw'>=</span> <span class='fl'>4</span>,
-  <span class='kw'>API_URL</span> <span class='kw'>=</span> <span class='st'>"https://geocoding.geo.census.gov/geocoder/locations/onelineaddress?"</span>
+  <span class='kw'>api_url</span> <span class='kw'>=</span> <span class='st'>"https://geocoding.geo.census.gov/geocoder/locations/onelineaddress"</span>
 )</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -157,7 +154,7 @@ level (ie. 60 Main St. Pawnee, IN not Pawnee, IN).</p>
       <td><p>parameter for the US Census Geocoder</p></td>
     </tr>
     <tr>
-      <th>API_URL</th>
+      <th>api_url</th>
       <td><p>URL of Census API</p></td>
     </tr>
     </table>
@@ -165,6 +162,9 @@ level (ie. 60 Main St. Pawnee, IN not Pawnee, IN).</p>
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>latitude and longitude coordinates in tibble format</p>
+    <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
+
+    <p><a href='https://geocoding.geo.census.gov/geocoder/Geocoding_Services_API.pdf'>Census API Documentation</a></p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># \donttest{</span>

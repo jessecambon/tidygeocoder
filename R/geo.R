@@ -16,22 +16,29 @@
 
 # Either address of query_parameters must be defined
 
-geo <- function(method, address=NULL, api_url=NULL, api_key=NULL, query_parameters=NULL, 
+geo <- function(method, address=NULL, api_url=NULL, api_key=NULL, limit=NULL, query_parameters=NULL, 
           verbose=FALSE, min_time=NULL, full_results=FALSE) {
   start_time <- Sys.time() # start timer
   
-  #### SET API URL BASED ON SERVICE IF IT IS NULL
-  
   ### Set min_time if not set
-  if (method %in% c('osm','iq') & is.null(min_time))  min_time <- 1 else min_time <- 0
+  if (method %in% c('osm','iq') & is.null(min_time))  min_time <- 1 
+  else if (is.null(min_time)) min_time <- 0
 
   # if no query_parameters are passed then define them by defaults
-  query_parameters <- get_address_query(method,address)
+  query_parameters <- get_address_query(method,address,api_key,limit)
   # define api url based on method
-  api_url <- get_api_url(method)
+  
+  
+  if (is.null(api_url)) api_url <- get_api_url(method) 
+  else if (stringr::str_detect(str_trim(api_url),'^http'))  api_url <- api_url
+  else api_url <- get_api_url(method,url_name = api_url)
+
   
   ## Call Geocoder Service
-  raw_results <- query_api(api_url, query_parameters)
+  message(paste0('API URL: ', api_url))
+  mesage(paste0("Query: ", query_parameters))
+  
+  #raw_results <- query_api(api_url, query_parameters)
   
   # If no results found, return NA
   if (length(raw_results) == 0) {
