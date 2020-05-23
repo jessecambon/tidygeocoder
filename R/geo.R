@@ -16,41 +16,55 @@
 
 # Either address of query_parameters must be defined
 
-geo <- function(method, address=NULL, api_url=NULL, api_key=NULL, limit=NULL, query_parameters=NULL, 
-          verbose=FALSE, min_time=NULL, full_results=FALSE) {
+geo <- function(method, address=NULL, api_key=NULL, limit=1, api_url=NULL, full_results=FALSE,
+                verbose=FALSE, min_time=NULL) {
   start_time <- Sys.time() # start timer
   
   ### Set min_time if not set
   if (method %in% c('osm','iq') & is.null(min_time))  min_time <- 1 
   else if (is.null(min_time)) min_time <- 0
 
-  # if no query_parameters are passed then define them by defaults
-  query_parameters <- get_address_query(method,address,api_key,limit)
+  ### Build Generic query ---------------------------
+  generic_query <- list()
+  if (!is.null(address)) generic_query[['address']] <- address
+  if (!is.null(address)) generic_query[['api_key']] <- api_key
+  if (!is.null(address)) generic_query[['limit']]   <- limit
+  
+  
+  # Convert our generic query parameters into parameters specific to our API (method)
+  api_query_parameters <- get_api_query(method,generic_query)
   # define api url based on method
   
-  
+  # If api_url is not set then define it automatically.
+  # If it's defined then figure out if its a URL (http...) 
   if (is.null(api_url)) api_url <- get_api_url(method) 
-  else if (stringr::str_detect(str_trim(api_url),'^http'))  api_url <- api_url
-  else api_url <- get_api_url(method,url_name = api_url)
+  else if (stringr::str_detect(stringr::str_trim(api_url),'^http'))  api_url <- api_url
+  else api_url <- get_api_url(method,url_name = stringr::str_trim(api_url))
+  
+  if (length(api_url) == 0) stop('API URL not found')
 
   
   ## Call Geocoder Service
-  message(paste0('API URL: ', api_url))
-  mesage(paste0("Query: ", query_parameters))
+  print('API URL: ')
+  print(api_url)
+  print("Query: ")
+  print(api_query_parameters)
   
-  #raw_results <- query_api(api_url, query_parameters)
+  raw_results <- query_api(api_url, api_query_parameters)
+  #raw_results <- list()
   
-  # If no results found, return NA
+  # If no results found, return NULL
   if (length(raw_results) == 0) {
     if (verbose == TRUE) message("No results found")
-    return(NULL)
+    return(c())
   }
   
   ## Parse geocoder results
+  coords <- extract_coords(method,raw_results)
   
   ## Make sure the proper amount of time has elapsed for the query per min_time
   pause_until(start_time, min_time, debug = TRUE) 
   
   ### Return  results
-  return(raw_results)
+  return(coords)
 }

@@ -5,13 +5,12 @@
 ^doc$
 ^Meta$
 ^data-raw$
-^us_map.png$
 ^LICENSE.md$
 ^_pkgdown\.yml$
 ^docs$
 ^pkgdown$
 ^bin$
 ^tidygeocoder\.yml$
-^R/debugging$
 ^data/durham_test\.rda$
 ^README\.Rmd$
+^sandbox$

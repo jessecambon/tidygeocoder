@@ -18,3 +18,15 @@ pause_until <- function(start_time,min_time,debug=FALSE) {
                                       round(get_seconds_elapsed(start_time),1),' seconds'))
   }
 }
+
+# Extract latitude, longitude as as numeric vector
+# response is the parsed json response
+extract_coords <- function(method, response) {
+  if (method == 'census') {
+    coord_xy <- response$result$addressMatches$coordinates[1,]
+    lat_lng <- c(coord_xy$y, coord_xy$x)
+  } else if (method == 'osm') {
+    lat_lng <- as.numeric( c(response$lat, response$lon) )
+  }
+  return(lat_lng)
+}
