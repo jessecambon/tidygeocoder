@@ -2,12 +2,23 @@
 # given generic parameter name and a value
 create_api_parameter <- function(method_name, param_name, value) {
   
-  api_parameter_name <- tidygeocoder::api_parameter_reference %>% 
-    dplyr::filter(method == method_name & generic_name == param_name) %>% 
-    dplyr::pull(api_name) 
+  # Find the API specific parameter name
+  api_parameter_name_df <- 
+    tidygeocoder::api_parameter_reference[(tidygeocoder::api_parameter_reference['method'] == method_name) &
+    tidygeocoder::api_parameter_reference['generic_name'] ==  param_name,'api_name'] 
+  
+  # If api_parameter_name not found then return empty list
+  if (nrow(api_parameter_name_df) != 1) return(list())
+  
+  # Extract character value
+  api_parameter_name <- as.character(api_parameter_name_df)
+  
+  # api_parameter_name <- tidygeocoder::api_parameter_reference %>% 
+  #   dplyr::filter(method == method_name & generic_name == param_name) %>% 
+  #   dplyr::pull(api_name) 
   
   # If api_parameter_name is NA or missing then return empty list
-  if ((length(api_parameter_name) == 0)) return(list())
+  #if ((length(api_parameter_name) == 0)) return(list())
   if (is.na(api_parameter_name)) return(list())
   
   param <- list()
@@ -18,11 +29,16 @@ create_api_parameter <- function(method_name, param_name, value) {
 
 # Return the API URL for the specified method
 get_api_url <- function(method_name,url_name=NULL) {
-  tmp <- tidygeocoder::api_url_reference %>% 
-    dplyr::filter(method == method_name) 
+  # select rows pertaining to the relevant method
+  tmp <- tidygeocoder::api_url_reference[tidygeocoder::api_url_reference['method'] == method_name,]
   
-  if (is.null(url_name)) return(tmp %>% dplyr::slice(1) %>% dplyr::pull(api_url))
-  else return(tmp %>% dplyr::filter(name == url_name) %>% dplyr::pull(api_url))
+  # Select the first relevant listed api_url if url_name is NULL
+  # Otherwise select the url_name specified
+  if (is.null(url_name)) selected_url <- tmp[1,'api_url']
+  else selected_url <- tmp[tmp['name'] == url_name,'api_url']
+
+  if (nrow(selected_url) != 1) stop('API URL not found')
+  else return(as.character(selected_url))
 }
 
 # Geocodio returns json by default
