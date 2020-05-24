@@ -21,7 +21,7 @@ utils::write.table(df, tmp, col.names = FALSE, row.names = FALSE,
                    na = '', sep = ',')
 
 
-addr <- c('901 15th St NW Washington, DC', '1600 Pennsylvania Ave Washington, DC')
+addr <- c("2101 Constitution Ave NW, Washington, DC 20418", '1600 Pennsylvania Ave Washington, DC')
 
 url_base <- "https://geocoding.geo.census.gov/geocoder/locations/addressbatch"
 

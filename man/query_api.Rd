@@ -2,7 +2,7 @@
 % Please edit documentation in R/query_factory.R
 \name{query_api}
 \alias{query_api}
-\title{Get raw results back from an API}
+\title{Get raw results from an API}
 \usage{
 query_api(api_url, query_parameters, content_encoding = "UTF-8")
 }
@@ -18,5 +18,5 @@ raw results from the query
 Census uses "ISO-8859-1", all other services use "UTF-8"
 }
 \description{
-Get raw results back from an API
+Get raw results from an API
 }

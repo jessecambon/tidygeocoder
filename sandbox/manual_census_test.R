@@ -6,7 +6,7 @@
 library(httr)
 library(jsonlite)
 
-addr <- '901 15th St NW Washington, DC' # address to geocode
+addr <- "2101 Constitution Ave NW, Washington, DC 20418" # address to geocode
 
 url_base <- "https://geocoding.geo.census.gov/geocoder/locations/onelineaddress"
 

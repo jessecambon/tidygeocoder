@@ -31,23 +31,20 @@
 #' geo_osm("Paris, France",verbose=TRUE)
 #' }
 #' @importFrom tibble tibble
-#' @importFrom dplyr '%>%' mutate
-#' @importFrom rlang ':=' enquo
-#' @importFrom stringr str_trim
-#' @importFrom jsonlite fromJSON
-#' @importFrom httr GET content
 #' @export
 geo_osm <- function(address,lat=lat, long=long, min_time=1, verbose=FALSE, debug=FALSE,
                     api_url="http://nominatim.openstreetmap.org/search"){
-  lat <- rlang::enquo(lat)
-  long <- rlang::enquo(long)
-  
   start_time <- Sys.time() # start timer
-
+  
+  lat <- deparse(substitute(lat))
+  long <- deparse(substitute(long))
+  
+  # what to return when we don't find results
+  NA_value <- get_na_value(lat,long)
+  
   if (verbose == TRUE) { message(address)}
 
   # what to return if address is invalid or no coordinates are found
-  NA_value <- tibble::tibble(!!lat := numeric(), !!long := numeric())
 
   # if address is NA or blank then return NA, else make call to Nominatim geocoder
   # numeric data is allowed but must be in string format (ie. for zip codes)
@@ -80,7 +77,12 @@ geo_osm <- function(address,lat=lat, long=long, min_time=1, verbose=FALSE, debug
     pause_until(start_time, min_time, debug = verbose)
     
     # Return  results
-    if (!is.null(coords)) return(tibble::tibble(!!lat := coords[1], !!long := coords[2]))
+    if (!is.null(coords)) {
+      
+      lat_lng <- tibble::tibble(a = coords[1], b = coords[2])
+      colnames(lat_lng) <- c(lat, long)
+      return(lat_lng) 
+    }
     else return(NA_value)
   }
 }

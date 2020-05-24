@@ -13,14 +13,9 @@ License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 Imports: 
-    rlang,
     tibble,
-    purrr,
-    tidyr,
-    dplyr,
     httr,
-    jsonlite,
-    stringr
+    jsonlite
 RoxygenNote: 7.1.0
 Suggests: 
     knitr,

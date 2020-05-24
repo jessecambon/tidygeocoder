@@ -18,21 +18,17 @@
 #' \donttest{
 #' geo_census("1600 Pennsylvania Ave Washington, DC")
 #' }
-#' @importFrom httr GET content
 #' @importFrom tibble tibble
-#' @importFrom dplyr '%>%' mutate
-#' @importFrom jsonlite fromJSON
-#' @importFrom rlang enquo ":="
 #' @importFrom stringr str_trim
 #' @export
 geo_census <- function(address, lat = lat, long = long, verbose=FALSE,
        benchmark=4,
        api_url="https://geocoding.geo.census.gov/geocoder/locations/onelineaddress"){
-  lat <- rlang::enquo(lat)
-  long <- rlang::enquo(long)
+  lat <- deparse(substitute(lat))
+  long <- deparse(substitute(long))
 
-  # what to return if address is invalid or no coordinates are found
-  NA_value <- tibble::tibble(!!lat := numeric(), !!long := numeric())
+  # what to return when we don't find results
+  NA_value <- get_na_value(lat,long)
 
   if (verbose == TRUE) { message(address) }
 
@@ -50,6 +46,10 @@ geo_census <- function(address, lat = lat, long = long, verbose=FALSE,
     coords_xy <- dat$result$addressMatches$coordinates[1,]
 
     # Return coordinates in tibble form
-    if (!is.null(coords_xy)) return(tibble::tibble(!!lat := coords_xy$y, !!long := coords_xy$x))
+    if (!is.null(coords_xy)) {
+      lat_lng <- tibble::tibble(a = coords_xy$y, b = coords_xy$x)
+      colnames(lat_lng) <- c(lat, long)
+      return(lat_lng) 
+    }
     else return(NA_value) 
 }

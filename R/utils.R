@@ -29,4 +29,18 @@ extract_coords <- function(method, response) {
     lat_lng <- as.numeric( c(response$lat, response$lon) )
   }
   return(lat_lng)
+}  
+
+#### Split c(lat,long) coordinates into a tibble with 1 row and 2 columns   
+#split_coordinates <- function(coords) tibble::tibble(lat = coords[[1]] ,long = coords[[2]])
+
+#### Split list of coordinates into a dataframe with two columns and one row per coordinate
+#unnest_coordinates <- function(coordinate_list) do.call('rbind',lapply(coordinate_list, split_coordinates))
+
+### Return an NA tibble dataframe for coordinates
+# Given the column names (as strings)
+get_na_value <- function(lat, long) {
+  NA_df <- tibble::tibble(a = numeric(), b = numeric())
+  colnames(NA_df) <- c(lat, long)
+  return(NA_df)
 }

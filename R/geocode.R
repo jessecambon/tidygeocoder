@@ -27,36 +27,40 @@
 #' sample_addresses %>% geocode(addr,method='cascade',lat=latitude,long=longitude)
 #' }
 #' @importFrom tibble tibble
-#' @importFrom dplyr '%>%' mutate case_when bind_cols pull rename
-#' @importFrom purrr map
-#' @importFrom tidyr unnest
-#' @importFrom rlang enquo
 #' @export
 geocode <- function(.tbl, address ,method='census', lat = lat, long = long, ...) {
- temp <- NULL # prevents 'no visible binding for global variable' warning
 
-  address <- rlang::enquo(address)
-  lat <- rlang::enquo(lat)
-  long <- rlang::enquo(long)
+  address <- deparse(substitute(address)) 
+  lat <- deparse(substitute(lat))
+  long <- deparse(substitute(long))
 
   # Select geolocation method to use
   if (method == 'census') {
-    func <- rlang::enquo(geo_census)
+    func <- geo_census
   } else if (method == 'osm') {
-    func <- rlang::enquo(geo_osm)
+    func <- geo_osm
   } else if (method == 'cascade') {
-    func <- rlang::enquo(geo_cascade)
+    func <- geo_cascade
   } else {
     warning('Unknown method, defaulting to census')
-    func <- rlang::enquo(geo_census)
+    func <- geo_census
   }
+  
+  # Extract list of addresses
+  address_list <- as.list(.tbl[[address]])
+  
+  # Apply our selected geocoder function to the list of addresses
+  # This returns a list of tibble dataframes of 2 columns and 1 row each
+  list_coords <- lapply(address_list,func)
+  
+  # rbind the list of tibble dataframes together
+  coordinates <- do.call('rbind',list_coords)
+  
+  # Set column names of our coordinates
+  colnames(coordinates) <- c(lat, long)
+  
+  # cbind the original dataframe to the coordinates
+  final_df <- cbind(.tbl,coordinates)
 
-  # use the selected geolocation method to return coordinates and attach them
-  # to the input dataframe
-  coords <- tibble(temp = purrr::map(.tbl %>% dplyr::pull(!!address),
-                      !!func,
-                      lat = !!lat, long = !!long, ...)) %>%
-    tidyr::unnest(temp, keep_empty = TRUE)
-
-  .tbl %>% dplyr::bind_cols(coords)
+  return(final_df)
 }
