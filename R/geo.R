@@ -16,7 +16,12 @@
 
 # Either address of query_parameters must be defined
 
-geo <- function(method, address=NULL, api_key=NULL, limit=1, api_url=NULL, full_results=FALSE,
+#' Workhorse function for geocoding
+#' @param method 
+#' @param address api query parameters in the form of a named list
+#' @return parsed results from geocoder
+#' @export
+geo <- function(method='census', address=NULL, api_key=NULL, limit=1, api_url=NULL, full_results=FALSE,
                 verbose=FALSE, min_time=NULL) {
   start_time <- Sys.time() # start timer
   
@@ -27,9 +32,11 @@ geo <- function(method, address=NULL, api_key=NULL, limit=1, api_url=NULL, full_
   ### Build Generic query ---------------------------
   generic_query <- list()
   if (!is.null(address)) generic_query[['address']] <- address
-  if (!is.null(address)) generic_query[['api_key']] <- api_key
-  if (!is.null(address)) generic_query[['limit']]   <- limit
+  if (!is.null(api_key)) generic_query[['api_key']] <- api_key
+  if (!is.null(limit))   generic_query[['limit']]   <- limit
   
+  print('Generic Query: ')
+  print(generic_query)
   
   # Convert our generic query parameters into parameters specific to our API (method)
   api_query_parameters <- get_api_query(method,generic_query)
@@ -47,7 +54,7 @@ geo <- function(method, address=NULL, api_key=NULL, limit=1, api_url=NULL, full_
   ## Call Geocoder Service
   print('API URL: ')
   print(api_url)
-  print("Query: ")
+  print("API Query: ")
   print(api_query_parameters)
   
   raw_results <- query_api(api_url, api_query_parameters)

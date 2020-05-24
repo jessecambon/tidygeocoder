@@ -6,8 +6,11 @@ create_api_parameter <- function(method_name, param_name, value) {
   
   # Extract the API specific parameter name
   api_parameter_name <- 
-    api_ref[(api_ref$method == method_name) &
-        (api_ref$generic_name ==  param_name),]$api_name
+    api_ref[which( (api_ref$method == method_name) &
+        (api_ref$generic_name ==  param_name)),'api_name'][[1]]
+  
+  #print('api_parameter_name:')
+  #print(api_parameter_name)
   
   # api_parameter_name <- tidygeocoder::api_parameter_reference %>% 
   #   dplyr::filter(method == method_name & generic_name == param_name) %>% 
@@ -24,30 +27,30 @@ create_api_parameter <- function(method_name, param_name, value) {
 }
 
 # Return the API URL for the specified method
+# if URL not found then return ""
 get_api_url <- function(method_name,url_name=NULL) {
   # select rows pertaining to the relevant method
-  tmp <- tidygeocoder::api_url_reference[tidygeocoder::api_url_reference['method'] == method_name,]
+  url_ref <- tidygeocoder::api_url_reference
+  
+  tmp <- url_ref[which(url_ref['method'] == method_name),]
+  
+  if (nrow(tmp) == 0) return('')
   
   # Select the first relevant listed api_url if url_name is NULL
   # Otherwise select the url_name specified
-  if (is.null(url_name)) selected_url <- tmp[1,'api_url']
-  else selected_url <- tmp[tmp['name'] == url_name,'api_url']
+  if (is.null(url_name)) selected_url <- tmp[[1,'api_url']]
+  else selected_url <- tmp[which(tmp['name'] == url_name),'api_url'][[1]]
 
-  if (nrow(selected_url) != 1) stop('API URL not found')
-  else return(as.character(selected_url))
+  if (length(selected_url) == 0) return('')
+  else return(selected_url)
 }
-
-# Geocodio returns json by default
-# Census geocoder is only api that does not offer the limit parameter to limit number of results returned
-
 
 # Construct an an api query based on generic parameters
 # and optional api-specific parameters. Generic parameters
 # are converted into api parameters using the api_parameter_reference
-# dataset
-
-# api_key only needed for IQ and Geocodio services
-get_api_query <- function(method_name, generic_parameters, custom_api_parameters = list() ) {
+# dataset. API specific parameters can be provided directly with custom_api_parameters =
+# Required defaults are filled in if not specified
+get_api_query <- function(method_name, generic_parameters = list(), custom_api_parameters = list() ) {
   api_ref <- tidygeocoder::api_parameter_reference
   
   # required_fields_df <- tidygeocoder::api_parameter_reference %>% 
@@ -62,26 +65,25 @@ get_api_query <- function(method_name, generic_parameters, custom_api_parameters
       generic_parameters[[generic_parameter_name]]) 
       )
   }
+  #### TODO ----- Check for overlap between generic_parameters and custom_api_parameters
   
   #print('main_api_parameters: ')
   #print(main_api_parameters)
   
   ## Extract default parameter values ---------------
   # only extract values that have default values and don't already exist in main_api_parameters
-  default_api_parameters <- as.list(
-    api_ref[api_ref$method == 'osm' &
+  default_api_parameters <- tibble::deframe(
+    api_ref[which(api_ref$method == method_name &
       api_ref$required == TRUE &
       !is.na(api_ref$default_value) &
-      !api_ref$api_name %in% names(c(main_api_parameters,custom_api_parameters)),][c('api_name','default_value')]
+      !api_ref$api_name %in% names(c(main_api_parameters,custom_api_parameters))),][c('api_name','default_value')]
     )
-  
-  #### TODO ----- IMPLEMENT CUSTOM API PARAMETERS
   
   #print('default_api_parameters:')
   #print(default_api_parameters)
   
   # Combine address, api_key, and default parameters for full query
-  return( c(main_api_parameters,default_api_parameters) )
+  return( c(main_api_parameters, custom_api_parameters, default_api_parameters) )
 }
 
 #' Get raw results from an API

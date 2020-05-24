@@ -19,28 +19,29 @@
 #' geo_census("1600 Pennsylvania Ave Washington, DC")
 #' }
 #' @importFrom tibble tibble
-#' @importFrom stringr str_trim
 #' @export
 geo_census <- function(address, lat = lat, long = long, verbose=FALSE,
        benchmark=4,
        api_url="https://geocoding.geo.census.gov/geocoder/locations/onelineaddress"){
+  # parse inputs
   lat <- deparse(substitute(lat))
   long <- deparse(substitute(long))
-
+  address <- trimws(as.character(address))
   # what to return when we don't find results
   NA_value <- get_na_value(lat,long)
 
   if (verbose == TRUE) { message(address) }
 
   # if address is NA, numeric, or blank then return NA, else make call to census geocoder
-  if (!is.na(suppressWarnings(as.numeric(address))) | !is.character(address) | is.na(address) | stringr::str_trim(address) == "") {
+  if (!is.na(suppressWarnings(as.numeric(address))) | !is.character(address) | is.na(address) | is.null(address) | address == "") {
     if (verbose == TRUE) { message("Blank or missing address!") }
     return(NA_value)
   }
+  
     # API Call
     dat <- query_api(api_url, 
               list(address = address, format = 'json', benchmark = benchmark), 
-              content_encoding = "ISO-8859-1")
+              content_encoding = "UTF-8")
 
     # extract coordinates
     coords_xy <- dat$result$addressMatches$coordinates[1,]

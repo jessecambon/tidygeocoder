@@ -36,25 +36,24 @@ geo_osm <- function(address,lat=lat, long=long, min_time=1, verbose=FALSE, debug
                     api_url="http://nominatim.openstreetmap.org/search"){
   start_time <- Sys.time() # start timer
   
+  # parse inputs
   lat <- deparse(substitute(lat))
   long <- deparse(substitute(long))
-  
+  address <- trimws(as.character(address))
   # what to return when we don't find results
   NA_value <- get_na_value(lat,long)
   
-  if (verbose == TRUE) { message(address)}
-
-  # what to return if address is invalid or no coordinates are found
-
+  if (verbose == TRUE) message(address)
+  
   # if address is NA or blank then return NA, else make call to Nominatim geocoder
   # numeric data is allowed but must be in string format (ie. for zip codes)
-  if (is.na(address) | stringr::str_trim(address) == "") {
+  if (is.na(address) | is.null(address) | address == "") {
     if (verbose == TRUE) { message("Blank or missing address!") }
-      return(NA_value)
-  } else {
-    
+    return(NA_value)
+  }
+  
     ##########
-    # OSM Query
+    # API Query
     ##########  
     # addressdetails = 0/1
     # limit = 1 means we only return one query result
@@ -84,5 +83,4 @@ geo_osm <- function(address,lat=lat, long=long, min_time=1, verbose=FALSE, debug
       return(lat_lng) 
     }
     else return(NA_value)
-  }
 }
