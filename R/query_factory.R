@@ -2,23 +2,19 @@
 # given generic parameter name and a value
 create_api_parameter <- function(method_name, param_name, value) {
   
-  # Find the API specific parameter name
-  api_parameter_name_df <- 
-    tidygeocoder::api_parameter_reference[(tidygeocoder::api_parameter_reference['method'] == method_name) &
-    tidygeocoder::api_parameter_reference['generic_name'] ==  param_name,'api_name'] 
+  api_ref <- tidygeocoder::api_parameter_reference
   
-  # If api_parameter_name not found then return empty list
-  if (nrow(api_parameter_name_df) != 1) return(list())
-  
-  # Extract character value
-  api_parameter_name <- as.character(api_parameter_name_df)
+  # Extract the API specific parameter name
+  api_parameter_name <- 
+    api_ref[(api_ref$method == method_name) &
+        (api_ref$generic_name ==  param_name),]$api_name
   
   # api_parameter_name <- tidygeocoder::api_parameter_reference %>% 
   #   dplyr::filter(method == method_name & generic_name == param_name) %>% 
   #   dplyr::pull(api_name) 
   
   # If api_parameter_name is NA or missing then return empty list
-  #if ((length(api_parameter_name) == 0)) return(list())
+  if ((length(api_parameter_name) == 0)) return(list())
   if (is.na(api_parameter_name)) return(list())
   
   param <- list()
@@ -52,6 +48,7 @@ get_api_url <- function(method_name,url_name=NULL) {
 
 # api_key only needed for IQ and Geocodio services
 get_api_query <- function(method_name, generic_parameters, custom_api_parameters = list() ) {
+  api_ref <- tidygeocoder::api_parameter_reference
   
   # required_fields_df <- tidygeocoder::api_parameter_reference %>% 
   #   dplyr::filter(method == method_name & required == TRUE)
@@ -66,19 +63,28 @@ get_api_query <- function(method_name, generic_parameters, custom_api_parameters
       )
   }
   
+  #print('main_api_parameters: ')
+  #print(main_api_parameters)
+  
   ## Extract default parameter values ---------------
-  default_api_parameters <- tidygeocoder::api_parameter_reference %>% 
-    dplyr::filter(method == method_name & required == TRUE) %>%
-    dplyr::select(api_name, default_value) %>%
-    # only extract values that have default values and don't already exist in main_api_parameters
-    filter(!is.na(default_value) & (!api_name %in% names(main_api_parameters))) %>%
-    tibble::deframe(.)
+  # only extract values that have default values and don't already exist in main_api_parameters
+  default_api_parameters <- as.list(
+    api_ref[api_ref$method == 'osm' &
+      api_ref$required == TRUE &
+      !is.na(api_ref$default_value) &
+      !api_ref$api_name %in% names(c(main_api_parameters,custom_api_parameters)),][c('api_name','default_value')]
+    )
+  
+  #### TODO ----- IMPLEMENT CUSTOM API PARAMETERS
+  
+  #print('default_api_parameters:')
+  #print(default_api_parameters)
   
   # Combine address, api_key, and default parameters for full query
   return( c(main_api_parameters,default_api_parameters) )
 }
 
-#' Get raw results back from an API
+#' Get raw results from an API
 #' @param api_url Base URL of the API. query parameters are appended to this
 #' @param query_parameters api query parameters in the form of a named list
 #' @param content_encoding Encoding to be used for parsing content. 
@@ -90,37 +96,4 @@ query_api <- function(api_url, query_parameters, content_encoding='UTF-8') {
   return(jsonlite::fromJSON(httr::content(response, as = 'text', encoding = content_encoding))
   )
 }
-
-
-## -----------------------------------------
-  
-# Create and Return Completely Custom Query OR build query in steps... (order shouldn't matter)
-# 1. Add query defaults
-# 2. Add address field
-# 3. Add API Key (if necessary)
-# 4. Set API URL
-
-##### SCRAP -------------------------------
-
-## Set Address Parameter ----------------------------
-# address_param <- create_api_parameter(method_name,'address',address)
-
-#print(address_param)
-
-## Set API KEY Parameter ----------------------------
-# if ('api_key' %in% required_field_names) {
-#   if (is.null(api_key)) {
-#     warning('Required parameter API Key not specified')
-#     return(list())
-#   } else {
-#     api_key_param <- create_api_parameter(method_name,'api_key',api_key)
-#   }
-# } else {
-#   # if api key isn't required then leave it blank
-#   api_key_param <- list()
-# }
-
-## Set limit Parameter ----------------------------
-# if (is.null(limit)) limit_param <- list()
-# else limit_param <- limit_param <- create_api_parameter(method_name,'limit',limit)
 
