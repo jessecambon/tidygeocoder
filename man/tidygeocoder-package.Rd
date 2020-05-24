@@ -17,7 +17,6 @@ See \code{vignette("tidygeocoder")} for details.
 \itemize{
   \item US Census Geocoder: \url{https://geocoding.geo.census.gov/}
   \item Nominatim (OSM): \url{https://nominatim.openstreetmap.org/} and \url{https://nominatim.org/}
-  \item dplyr: \url{https://dplyr.tidyverse.org/}
 }
 }
 \seealso{

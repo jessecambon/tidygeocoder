@@ -13,16 +13,15 @@ geocode(.tbl, address, method = "census", lat = lat, long = long, ...)
 
 \item{method}{the geocoder function you want to use
 \itemize{
-  \item "census": \code{\link{geo_census}} - can only handle US street level addresses
-  \item "osm": \code{\link{geo_osm}} - more versatile than Census but has a usage limit
-  \item "cascade": \code{\link{geo_cascade}} - first tries to use census then tries osm
+  \item "census": only for US street level addresses
+  \item "osm": worldwide coverage but has a usage limit
 }}
 
 \item{lat}{name of latitude field}
 
 \item{long}{name of longitude field}
 
-\item{...}{arguments supplied to the relevant geocoder function}
+\item{...}{arguments passed to the \code{\link{geo}} function}
 }
 \value{
 input dataframe (.tbl) with latitude and longitude fields appended

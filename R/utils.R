@@ -37,10 +37,13 @@ extract_coords <- function(method, response) {
 #### Split list of coordinates into a dataframe with two columns and one row per coordinate
 #unnest_coordinates <- function(coordinate_list) do.call('rbind',lapply(coordinate_list, split_coordinates))
 
-### Return an NA tibble dataframe for coordinates
+### Return a 2 column, 1 row NA tibble dataframe for coordinates that aren't found
 # Given the column names (as strings)
 get_na_value <- function(lat, long) {
-  NA_df <- tibble::tibble(a = numeric(), b = numeric())
+  NA_df <- tibble::tribble(
+    ~a, ~b,
+    numeric(), numeric()
+  )
   colnames(NA_df) <- c(lat, long)
   return(NA_df)
 }
