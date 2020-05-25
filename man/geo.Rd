@@ -7,12 +7,15 @@
 geo(
   method = "census",
   address = NULL,
+  lat = lat,
+  long = long,
   api_key = NULL,
   limit = 1,
   api_url = NULL,
   full_results = FALSE,
   verbose = FALSE,
-  min_time = NULL
+  min_time = NULL,
+  debug = FALSE
 )
 }
 \arguments{

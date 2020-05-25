@@ -38,7 +38,7 @@ geocode <- function(.tbl, address , method='census', lat = lat, long = long, ...
   
   # Apply our selected geocoder function to the list of addresses
   # This returns a list of tibble dataframes of 2 columns and 1 row each
-  list_coords <- lapply(address_list,geo, method = method, ...)
+  list_coords <- lapply(address_list, geo, method = method, lat = lat, long = long, ...)
   
   # rbind the list of tibble dataframes together
   coordinates <- do.call('rbind',list_coords)
@@ -46,8 +46,9 @@ geocode <- function(.tbl, address , method='census', lat = lat, long = long, ...
   # Set column names of our coordinates
   colnames(coordinates) <- c(lat, long)
   
-  # cbind the original dataframe to the coordinates
-  final_df <- cbind(.tbl,coordinates)
+  # cbind the original dataframe to the coordinates and convert to tibble
+  # change column names to be unique if there are duplicate column names
+  final_df <- as_tibble(cbind(.tbl,coordinates), .name_repair='unique')
 
   return(final_df)
 }

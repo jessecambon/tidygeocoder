@@ -19,7 +19,7 @@ pause_until <- function(start_time,min_time,debug=FALSE) {
   }
 }
 
-# Extract latitude, longitude as as numeric vector
+# Extract latitude, longitude as as numeric vector c(lat, long)
 # response is the parsed json response
 extract_coords <- function(method, response) {
   if (method == 'census') {
@@ -28,6 +28,7 @@ extract_coords <- function(method, response) {
   } else if (method == 'osm') {
     lat_lng <- as.numeric( c(response$lat, response$lon) )
   }
+  # Convert to a 1 row 2 column tibble and return
   return(lat_lng)
 }  
 

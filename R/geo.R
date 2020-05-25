@@ -25,15 +25,27 @@
 #' @param address address to be geocoded
 #' @return parsed results from geocoder
 #' @export
-geo <- function(method='census', address=NULL, api_key=NULL, limit=1, api_url=NULL, full_results=FALSE,
-                verbose=FALSE, min_time=NULL) {
+geo <- function(method='census', address=NULL, lat = lat, long = long,
+    api_key=NULL, limit=1, api_url=NULL, 
+    full_results=FALSE, verbose=FALSE, min_time=NULL, debug = FALSE) {
+  
+  # debug turns on all messaging
+  if (debug == TRUE) verbose <- TRUE
+  
+  # NSE 
+  lat <- deparse(substitute(lat))
+  long <- deparse(substitute(long))
+  
   start_time <- Sys.time() # start timer
+  
+  # what to return when we don't find results
+  NA_value <- get_na_value(lat,long)
   
   ### Set min_time if not set
   if (method %in% c('osm','iq') & is.null(min_time))  min_time <- 1 
   else if (is.null(min_time)) min_time <- 0
 
-  ### Build Generic query ---------------------------
+  ### Build Generic query as named list ---------------------------
   generic_query <- list()
   if (!is.null(address)) generic_query[['address']] <- address
   if (!is.null(api_key)) generic_query[['api_key']] <- api_key
@@ -41,7 +53,6 @@ geo <- function(method='census', address=NULL, api_key=NULL, limit=1, api_url=NU
   
   # Convert our generic query parameters into parameters specific to our API (method)
   api_query_parameters <- get_api_query(method,generic_query)
-  # define api url based on method
   
   # If api_url is not set then define it automatically.
   # If it's defined then figure out if its a URL (http...) 
@@ -51,24 +62,35 @@ geo <- function(method='census', address=NULL, api_key=NULL, limit=1, api_url=NU
   ## TOdo --- implement custom URL field where user can specify the entire URL address
   #  else if (stringr::str_detect(stringr::str_trim(api_url),'^http'))  api_url <- api_url
   
-  if (length(api_url) == 0) stop('API URL not found')
-  
-  raw_results <- query_api(api_url, api_query_parameters)
-  #raw_results <- list()
-  
-  ##### TODO -------- make this return an NA_value
-  # If no results found, return NULL
-  if (length(raw_results) == 0) {
-    if (verbose == TRUE) message("No results found")
-    return(c())
+  if (length(api_url) == 0) {
+    warning('API URL not found')
+    return(NA_value)
   }
   
-  ## Parse geocoder results
+  ### Execute Query -----------------------------------------
+  raw_results <- query_api(api_url, api_query_parameters)
+  
+  # If no results found, return NA
+  if (length(raw_results) == 0) {
+    if (verbose == TRUE) message("No results found")
+    return(NA_value)
+  }
+  
+  ### Extract lat/long as an unnamed numeric vector c(lat,long)
   coords <- extract_coords(method,raw_results)
   
-  ## Make sure the proper amount of time has elapsed for the query per min_time
-  pause_until(start_time, min_time, debug = TRUE) 
+  if (length(coords) == 0) {
+    if (verbose == TRUE) message("No results found")
+    return(NA_value)
+  }
+  
+  # Convert numeric vector to tibble
+  names(coords) <- c(lat, long)
+  coords_tibble <- as_tibble_row(coords)
+  
+  ### Make sure the proper amount of time has elapsed for the query per min_time
+  pause_until(start_time, min_time, debug = verbose) 
   
   ### Return  results
-  return(coords)
+  return(coords_tibble)
 }
