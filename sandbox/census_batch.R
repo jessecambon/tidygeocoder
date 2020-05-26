@@ -2,7 +2,6 @@
 ## https://geocoding.geo.census.gov/geocoder/Geocoding_Services_API.pdf
 # https://github.com/slu-openGIS/censusxy/blob/master/R/internal.R
 
-
 ### NOTE: different endpoint urls for US and Europe are available
 
 library(tibble)
