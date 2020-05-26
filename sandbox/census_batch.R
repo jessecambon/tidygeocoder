@@ -1,57 +1,65 @@
 # Census
 ## https://geocoding.geo.census.gov/geocoder/Geocoding_Services_API.pdf
+# https://github.com/slu-openGIS/censusxy/blob/master/R/internal.R
+
 
 ### NOTE: different endpoint urls for US and Europe are available
 
-df <- data.frame(
-  id = id,
-  street = .data[[street]],
-  city = city,
-  state = state,
-  zip = zip,
-  stringsAsFactors = FALSE
-)
-
+library(tibble)
 library(httr)
 library(jsonlite)
 
+url_base <- "https://geocoding.geo.census.gov/geocoder/locations/addressbatch"
+
+return <- 'locations' # match to url used
+
+return_cols <- switch(return,
+ 'locations' = c('id', 'address', 'status', 'quality', 'matched_address', 'coords', 'tiger_line_id', 'tiger_side'),
+ 'geographies' = c('id', 'address', 'status', 'quality', 'matched_address', 'coords', 'tiger_line_id', 'tiger_side', 'state_id', 'county_id', 'tract_id', 'block_id')
+)
+
+addresses <- c("1600 Pennsylvania Ave Washington, DC", 
+               "2101 Constitution Ave NW, Washington, DC 20418",
+               "11 Wall Street, New York, New York",
+               "600 Montgomery St, San Francisco, CA 94111",
+               "233 S Wacker Dr, Chicago, IL 60606"
+               )
+
+num_addresses <- length(addresses)
+
+NA_values <- rep("",num_addresses)
+
+input_df <- tibble(
+  id = 1:num_addresses,
+  street = addresses,
+  city = NA_values,
+  state = NA_values,
+  zip = NA_values,
+)
+
 # Write a Temporary CSV
 tmp <- tempfile(fileext = '.csv')
-utils::write.table(df, tmp, col.names = FALSE, row.names = FALSE,
-                   na = '', sep = ',')
+utils::write.table(input_df, tmp, row.names = FALSE, col.names = FALSE, sep = ',', na = '')
 
-
-addr <- c("2101 Constitution Ave NW, Washington, DC 20418", '1600 Pennsylvania Ave Washington, DC')
-
-url_base <- "https://geocoding.geo.census.gov/geocoder/locations/addressbatch"
+check <- read.csv(tmp, header = FALSE)
 
 # limit=1 limits the query to one result
 req <-
-  httr::POST(url,
+  httr::POST(url_base,
              body = list(
                addressFile = httr::upload_file(tmp),
-               benchmark = benchmark,
-               vintage = vintage,
+               benchmark = 4,
                format = 'json'
              ),
              encode = 'multipart',
-             httr::timeout(timeout * 60)
+             httr::timeout(60)
   )
 
 cnt <- httr::content(req, as = 'text', encoding = 'UTF-8')
-resp <- httr::GET(url = url_base, 
-      query = list(address = addr, format = 'json', benchmark = '4'))
 
-df <- utils::read.csv(text = cnt, header = FALSE,
-                      col.names = cols,
+results <- utils::read.csv(text = cnt, header = FALSE,
+                      col.names = return_cols,
                       fill = TRUE, stringsAsFactors = FALSE,
                       na.strings = '')
 
-# dataframe is returned
-dat <- jsonlite::fromJSON(httr::content(resp, as = 'text', encoding = "UTF-8"), simplifyVector = TRUE)
-
-# Obtain latitude and longitude, take first one if there are multiple
-coord_xy <- dat$result$addressMatches$coordinates[1,]
-
-lat_lng <- c(coord_xy$y, coord_xy$x)
-
+#results <- jsonlite::fromJSON(cnt)

@@ -86,7 +86,7 @@ geo <- function(method='census', address=NULL, lat = lat, long = long,
   
   # Convert numeric vector to tibble
   names(coords) <- c(lat, long)
-  coords_tibble <- as_tibble_row(coords)
+  coords_tibble <- tibble::as_tibble_row(coords)
   
   ### Make sure the proper amount of time has elapsed for the query per min_time
   pause_until(start_time, min_time, debug = verbose) 
