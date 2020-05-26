@@ -62,4 +62,21 @@ results <- utils::read.csv(text = cnt, header = FALSE,
                       fill = TRUE, stringsAsFactors = FALSE,
                       na.strings = '')
 
+### Extract Coordinates
+
+# extract single coordinate value
+extract_coord <- function(input) as.numeric(unlist(strsplit(input,"\\,")))
+
+all_coordinates <- lapply(as.list(results$coords),extract_coord)
+
+coord_df <- do.call('rbind', all_coordinates)
+colnames(coord_df) <- c('lat', 'long')
+
+# Combine extracted lat/longs with other return results
+combi <- cbind(subset(results, select = -coords),coord_df)
+
+# convert to tibble
+df_final <- as_tibble(combi)
+
+
 #results <- jsonlite::fromJSON(cnt)
