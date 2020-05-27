@@ -43,7 +43,7 @@ extract_coords <- function(method, response) {
 get_na_value <- function(lat, long) {
   NA_df <- tibble::tribble(
     ~a, ~b,
-    numeric(), numeric()
+    NA, NA
   )
   colnames(NA_df) <- c(lat, long)
   return(NA_df)

@@ -37,12 +37,19 @@ geocode <- function(.tbl, address , method='census', lat = lat, long = long, ...
   # Extract list of addresses
   address_list <- as.list(.tbl[[address]])
   
+  ### TODO --- insert a mode that will allow batch geocoding for the 
+  ### services that allow it
+  
+  ### NON-BATCH GEOCODING -----------------------------------------------
   # Apply our selected geocoder function to the list of addresses
   # This returns a list of tibble dataframes of 2 columns and 1 row each
   list_coords <- lapply(address_list, geo, method = method, lat = lat, long = long, ...)
-  
   # rbind the list of tibble dataframes together
   coordinates <- do.call('rbind',list_coords)
+  
+  ### BATCH GEOCODING -   PLACEHOLDER           -----------------------
+  # list_coords <- geobatch(address_list, method = method, lat = lat, long = long, ...)
+  # coordinates <- placeholder_extract_coords(coordinates)
   
   # Set column names of our coordinates
   colnames(coordinates) <- c(lat, long)
