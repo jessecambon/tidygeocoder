@@ -12,6 +12,7 @@ geo(
   api_key = NULL,
   limit = 1,
   api_url = NULL,
+  custom_query = list(),
   full_results = FALSE,
   verbose = FALSE,
   min_time = NULL,

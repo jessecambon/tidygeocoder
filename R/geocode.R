@@ -25,13 +25,14 @@
 #'
 #' sample_addresses %>% geocode(addr,method='cascade',lat=latitude,long=longitude)
 #' }
-#' @importFrom tibble tibble
+#' @importFrom tibble tibble as_tibble
 #' @export
 geocode <- function(.tbl, address , method='census', lat = lat, long = long, ...) {
 
-  address <- deparse(substitute(address)) 
-  lat <- deparse(substitute(lat))
-  long <- deparse(substitute(long))
+  # NSE - Quoted unquoted vars without double quoting quoted vars
+  address <- gsub("\"","", deparse(substitute(address)))
+  lat <- gsub("\"","", deparse(substitute(lat)))
+  long <- gsub("\"","", deparse(substitute(long)))
   
   # Extract list of addresses
   address_list <- as.list(.tbl[[address]])
@@ -48,7 +49,7 @@ geocode <- function(.tbl, address , method='census', lat = lat, long = long, ...
   
   # cbind the original dataframe to the coordinates and convert to tibble
   # change column names to be unique if there are duplicate column names
-  final_df <- as_tibble(cbind(.tbl,coordinates), .name_repair='unique')
+  final_df <- tibble::as_tibble(cbind(.tbl,coordinates), .name_repair = 'unique')
 
   return(final_df)
 }

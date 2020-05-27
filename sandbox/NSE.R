@@ -2,10 +2,12 @@
 
 ## NSE - passing a variable name as a function argument
 select_mt2 <- function(x) {
-  mtcars[deparse(substitute(x))]
+  print(is.character(x))
+#  mtcars[deparse(substitute(x))]
 }
 
 select_mt2(cyl)
+select_mt2("cyl")
 
 
 ## Using the same variable name as a function that you call

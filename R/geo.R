@@ -26,20 +26,34 @@
 #' @return parsed results from geocoder
 #' @export
 geo <- function(method='census', address=NULL, lat = lat, long = long,
-    api_key=NULL, limit=1, api_url=NULL, 
+    api_key=NULL, limit=1, api_url=NULL, custom_query=list(),
     full_results=FALSE, verbose=FALSE, min_time=NULL, debug = FALSE) {
-  
   # debug turns on all messaging
   if (debug == TRUE) verbose <- TRUE
   
-  # NSE 
-  lat <- deparse(substitute(lat))
-  long <- deparse(substitute(long))
+  # NSE - Quoted unquoted vars without double quoting quoted vars
+  lat <- gsub("\"","", deparse(substitute(lat)))
+  long <- gsub("\"","", deparse(substitute(long)))
   
   start_time <- Sys.time() # start timer
   
   # what to return when we don't find results
   NA_value <- get_na_value(lat,long)
+  
+  # If there is no custom query then we are relying on the address and it must
+  # be non-missing/NA
+  
+  # Check if address NULL
+  if ((length(custom_query) == 0) & is.null(address)) {
+    if (verbose == TRUE) message("Blank or missing address!")
+    return(NA_value)    
+  }
+  
+  # Check if address is missing/NA
+  if ((length(custom_query) == 0) & (is.na(address) | trimws(address) == "")) {
+    if (verbose == TRUE) message("Blank or missing address!")
+    return(NA_value)
+  }
   
   ### Set min_time if not set
   if (method %in% c('osm','iq') & is.null(min_time))  min_time <- 1 

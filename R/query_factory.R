@@ -95,7 +95,8 @@ get_api_query <- function(method_name, generic_parameters = list(), custom_api_p
 #' @export
 query_api <- function(api_url, query_parameters, content_encoding='UTF-8') {
   response <- httr::GET(url = api_url, query = query_parameters)
-  return(jsonlite::fromJSON(httr::content(response, as = 'text', encoding = content_encoding))
-  )
+  httr::warn_for_status(response)
+  content <- jsonlite::fromJSON(httr::content(response, as = 'text', encoding = content_encoding))
+  return(content)
 }
 

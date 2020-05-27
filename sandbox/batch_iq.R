@@ -1,14 +1,14 @@
-# Geocodio
-## https://www.geocod.io/docs/#geocoding
-#  (obtain via personal account on https://www.geocod.io)
-# set api key with Sys.setenv(GEOCODIO_API_KEY="")
+# Location IQ
+## https://locationiq.com/docs#forward-geocoding
+# iq_api_key <- manually defined (obtain via personal account on https://my.locationiq.com/)
+# set api key with Sys.setenv(LOCATIONIQ_API_KEY="")
 # To permanently set, add to you .Renviron file in your HOME directory
 
-geocodio_api_key <- Sys.getenv("GEOCODIO_API_KEY")
+iq_api_key <- Sys.getenv("LOCATIONIQ_API_KEY")
 
 library(httr)
 library(jsonlite)
-url_base <- "https://api.geocod.io/v1.5/geocode"
+url_base <- "https://us1.locationiq.com/v1/search.php"
 
 
 addresses <- c("1600 Pennsylvania Ave Washington, DC", 
@@ -21,7 +21,7 @@ addresses <- c("1600 Pennsylvania Ave Washington, DC",
 
 # limit=1 limits the query to one result
 res <- httr::POST(url_base,
-                  query = list(api_key = geocodio_api_key), 
+                  query = list(api_key = iq_api_key, format = 'json'), 
                   body = as.list(addresses), encode = "json")
 
 httr::warn_for_status(res)
