@@ -42,16 +42,15 @@ utils::write.table(input_df, tmp, row.names = FALSE, col.names = FALSE, sep = ',
 
 check <- read.csv(tmp, header = FALSE)
 
-# limit=1 limits the query to one result
 req <-
   httr::POST(url_base,
-             body = list(
-               addressFile = httr::upload_file(tmp),
-               benchmark = 4,
-               format = 'json'
-             ),
-             encode = 'multipart',
-             httr::timeout(60)
+       body = list(
+         addressFile = httr::upload_file(tmp),
+         benchmark = 4,
+         format = 'json'
+       ),
+       encode = 'multipart',
+       httr::timeout(60)
   )
 
 cnt <- httr::content(req, as = 'text', encoding = 'UTF-8')
