@@ -8,9 +8,10 @@ geo_census <- function(...) geo(method = 'census', ...)
 #' @export
 geo_osm <- function(...) geo(method = 'osm',...)
 
-#'@rdname geo_census
 #' First try census then try osm. Considering deprecating...
 #' NOTE ----- UNTESTED
+#' Title
+#' @rdname geo_census
 #' @export
 geo_cascade <- function(...) {
   

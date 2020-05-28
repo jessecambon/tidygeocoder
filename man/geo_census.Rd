@@ -3,14 +3,21 @@
 \name{geo_census}
 \alias{geo_census}
 \alias{geo_osm}
+\alias{geo_cascade}
 \title{Conveniance functions for calling the \code{\link{geo}} function
 with a specified method.}
 \usage{
 geo_census(...)
 
 geo_osm(...)
+
+geo_cascade(...)
 }
 \description{
 Conveniance functions for calling the \code{\link{geo}} function
 with a specified method.
+
+First try census then try osm. Considering deprecating...
+NOTE ----- UNTESTED
+Title
 }

@@ -1,3 +1,39 @@
+#############################################
+##### Functions for constructing API queries
+#############################################
+
+##### API URLS -----------------------------------------------------
+
+# Return the API URL for the specified method
+# if URL not found then return ""
+#### TODO - incorporate flexible census url
+get_api_url <- function(method_name,url_name=NULL) {
+  # select rows pertaining to the relevant method
+  url_ref <- tidygeocoder::api_url_reference
+  
+  tmp <- url_ref[which(url_ref['method'] == method_name),]
+  
+  if (nrow(tmp) == 0) return('')
+  
+  # Select the first relevant listed api_url if url_name is NULL
+  # Otherwise select the url_name specified
+  if (is.null(url_name)) selected_url <- tmp[[1,'api_url']]
+  else selected_url <- tmp[which(tmp['name'] == url_name),'api_url'][[1]]
+  
+  if (length(selected_url) == 0) return('')
+  else return(selected_url)
+}
+
+### Get API URL for Census geocoder
+# return : returntype => 'locations' or 'geographies'
+# search:  searchtype => 'onelineaddress', 'addressbatch', 'address', or 'coordinates'
+get_census_url <- function(return, search) {
+  return(paste0("https://geocoding.geo.census.gov/geocoder/", return, "/", search))
+}
+
+
+##### API PARAMETERS -------------------------------------------------
+
 # Create an API-specific parameter for a given method
 # given generic parameter name and a value
 create_api_parameter <- function(method_name, param_name, value) {
@@ -24,25 +60,6 @@ create_api_parameter <- function(method_name, param_name, value) {
   param[[api_parameter_name]] <- value
 
   return(param)
-}
-
-# Return the API URL for the specified method
-# if URL not found then return ""
-get_api_url <- function(method_name,url_name=NULL) {
-  # select rows pertaining to the relevant method
-  url_ref <- tidygeocoder::api_url_reference
-  
-  tmp <- url_ref[which(url_ref['method'] == method_name),]
-  
-  if (nrow(tmp) == 0) return('')
-  
-  # Select the first relevant listed api_url if url_name is NULL
-  # Otherwise select the url_name specified
-  if (is.null(url_name)) selected_url <- tmp[[1,'api_url']]
-  else selected_url <- tmp[which(tmp['name'] == url_name),'api_url'][[1]]
-
-  if (length(selected_url) == 0) return('')
-  else return(selected_url)
 }
 
 # Construct an an api query based on generic parameters

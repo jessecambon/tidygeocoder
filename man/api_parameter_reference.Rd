@@ -16,9 +16,10 @@ A tibble dataframe
 }
 \source{
 \itemize{ 
-    \item \href{https://locationiq.com/docs}{IQ API Reference} 
-    \item \href{https://nominatim.org/release-docs/develop/api/Search}{Nominatim/OSM API Reference}
-    \item \href{https://geocoding.geo.census.gov/geocoder/Geocoding_Services_API.pdf}{Census API Documentation}
+    \item \href{https://locationiq.com/docs}{IQ} 
+    \item \href{https://nominatim.org/release-docs/develop/api/Search}{Nominatim (OSM)}
+    \item \href{https://geocoding.geo.census.gov/geocoder/Geocoding_Services_API.pdf}{Census}
+    \item \href{https://www.geocod.io/docs/}{Geocodio}
 }
 }
 \usage{
