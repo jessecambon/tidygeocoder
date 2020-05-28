@@ -44,27 +44,25 @@ census_batch <- function(address_list, return = 'locations', timeout=5) {
   ## NOTE - request will fail if vintage and benchmark are invalid
   req <-
     httr::POST(url_base,
-               body = list(
-                 addressFile = httr::upload_file(tmp),
-                 benchmark = 4,
-                 vintage = 'ACS2019_Current',
-                 format = 'json'
-               ),
-               encode = 'multipart',
-               httr::timeout(60*timeout)
+       body = list(
+         addressFile = httr::upload_file(tmp),
+         benchmark = 4,
+#         vintage = 'ACS2019_Current',
+         format = 'json'
+       ),
+       encode = 'multipart', # needed because of upload_file()
+       httr::timeout(60*timeout),
+       httr::verbose()
     )
-  
-  return(req)
   
   httr::stop_for_status(req) # error handling
   
-  cnt <- httr::content(req, as = 'text', encoding = 'UTF-8')
+  cnt <- httr::content(req, as = 'text', encoding = "ISO-8859-1")
   results <- utils::read.csv(text = cnt, header = FALSE,
                              col.names = return_cols,
                              fill = TRUE, stringsAsFactors = FALSE,
                              na.strings = '')
   
-  return(results)
   ## split out lat/lng
   all_coordinates <- lapply(as.list(results$coords),split_coords)
   
