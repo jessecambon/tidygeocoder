@@ -37,20 +37,14 @@ get_census_url <- function(return, search) {
 # Create an API-specific parameter for a given method
 # given generic parameter name and a value
 create_api_parameter <- function(method_name, param_name, value) {
-  
   api_ref <- tidygeocoder::api_parameter_reference
   
   # Extract the API specific parameter name
   api_parameter_name <- 
     api_ref[which( (api_ref$method == method_name) &
         (api_ref$generic_name ==  param_name)),'api_name'][[1]]
-  
   #print('api_parameter_name:')
   #print(api_parameter_name)
-  
-  # api_parameter_name <- tidygeocoder::api_parameter_reference %>% 
-  #   dplyr::filter(method == method_name & generic_name == param_name) %>% 
-  #   dplyr::pull(api_name) 
   
   # If api_parameter_name is NA or missing then return empty list
   if ((length(api_parameter_name) == 0)) return(list())
@@ -58,7 +52,6 @@ create_api_parameter <- function(method_name, param_name, value) {
   
   param <- list()
   param[[api_parameter_name]] <- value
-
   return(param)
 }
 
@@ -67,12 +60,11 @@ create_api_parameter <- function(method_name, param_name, value) {
 # are converted into api parameters using the api_parameter_reference
 # dataset. API specific parameters can be provided directly with custom_api_parameters =
 # Required defaults are filled in if not specified
+#' Function for creating api queries
+#'
+#' @export
 get_api_query <- function(method_name, generic_parameters = list(), custom_api_parameters = list() ) {
   api_ref <- tidygeocoder::api_parameter_reference
-  
-  # required_fields_df <- tidygeocoder::api_parameter_reference %>% 
-  #   dplyr::filter(method == method_name & required == TRUE)
-  # required_field_names <- required_fields_df %>% pull(generic_name)
   
   # create the "main" api parameters from the passed generic parameters
   main_api_parameters <- list()
@@ -106,14 +98,32 @@ get_api_query <- function(method_name, generic_parameters = list(), custom_api_p
 #' Get raw results from an API
 #' @param api_url Base URL of the API. query parameters are appended to this
 #' @param query_parameters api query parameters in the form of a named list
+#' @param mode Values:
+#'     "single" - geocode a single address
+#'     "list" - batch geocode list of addresses (geocodio)
+#'     "file" - batch geocode a file of addresses (census)
+#' @param batch_file a csv file of addresses to upload (census)
+#' @param address_list a list of addresses for batch geocoding (geocodio)
+#' should be 'json' for geocodio and 'multipart' for census 
 #' @param content_encoding Encoding to be used for parsing content. 
+#' @param timeout timeout in minutes for batch geocoding
 #' @return raw results from the query
 #' Census uses "ISO-8859-1", all other services use "UTF-8"
 #' @export
-query_api <- function(api_url, query_parameters, content_encoding='UTF-8') {
-  response <- httr::GET(url = api_url, query = query_parameters)
+query_api <- function(api_url, query_parameters, mode = 'single', 
+          batch_file=NULL, address_list = NULL, content_encoding='UTF-8', timeout = 15) {
+   response <- switch(mode,
+    'single' = httr::GET(api_url, query = query_parameters),
+    'list' = httr::POST(api_url, query = query_parameters, 
+          body = as.list(address_list), encode = 'json', httr::timeout(60*timeout)),
+    'file' = httr::POST(api_url,  
+          body = c(list(addressFile = httr::upload_file(batch_file)), query_parameters),
+          encode = 'multipart',
+          httr::timeout(60*timeout))
+   )
+  
   httr::warn_for_status(response)
-  content <- jsonlite::fromJSON(httr::content(response, as = 'text', encoding = content_encoding))
+  content <- httr::content(response, as = 'text', encoding = content_encoding)
   return(content)
 }
 

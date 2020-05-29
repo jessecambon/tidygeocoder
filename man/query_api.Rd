@@ -4,14 +4,34 @@
 \alias{query_api}
 \title{Get raw results from an API}
 \usage{
-query_api(api_url, query_parameters, content_encoding = "UTF-8")
+query_api(
+  api_url,
+  query_parameters,
+  mode = "single",
+  batch_file = NULL,
+  address_list = NULL,
+  content_encoding = "UTF-8",
+  timeout = 15
+)
 }
 \arguments{
 \item{api_url}{Base URL of the API. query parameters are appended to this}
 
 \item{query_parameters}{api query parameters in the form of a named list}
 
+\item{mode}{Values:
+"single" - geocode a single address
+"list" - batch geocode list of addresses (geocodio)
+"file" - batch geocode a file of addresses (census)}
+
+\item{batch_file}{a csv file of addresses to upload (census)}
+
+\item{address_list}{a list of addresses for batch geocoding (geocodio)
+should be 'json' for geocodio and 'multipart' for census}
+
 \item{content_encoding}{Encoding to be used for parsing content.}
+
+\item{timeout}{timeout in minutes for batch geocoding}
 }
 \value{
 raw results from the query

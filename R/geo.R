@@ -35,6 +35,10 @@ geo <- function(method='census', address=NULL, lat = lat, long = long,
   lat <- gsub("\"","", deparse(substitute(lat)))
   long <- gsub("\"","", deparse(substitute(long)))
   
+  # If cascade then call geo_cascade which will then call this function once or twice
+  if (method == 'cascade') return(geo_cascade(address = address, lat = lat, long = long, 
+        limit = limit, api_url = api_url, custom_query = custom_query))
+  
   start_time <- Sys.time() # start timer
   
   # what to return when we don't find results
@@ -82,7 +86,7 @@ geo <- function(method='census', address=NULL, lat = lat, long = long,
   }
   
   ### Execute Query -----------------------------------------
-  raw_results <- query_api(api_url, api_query_parameters)
+  raw_results <- jsonlite::fromJSON(query_api(api_url, api_query_parameters))
   
   # If no results found, return NA
   if (length(raw_results) == 0) {
