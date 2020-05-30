@@ -52,6 +52,7 @@ get_na_value <- function(lat, long) {
   return(NA_df)
 }
 
+
 # Quoted unquoted vars without double quoting quoted vars
 #nse_eval <- function(x) gsub("\"","", deparse(substitute(x)))
 

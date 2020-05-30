@@ -10,7 +10,8 @@
 #' Census batch geocoding
 #' Vingate must be defined if return = 'geographies'
 #' @export 
-batch_census <- function(address_list, return = 'locations', timeout=5) {
+batch_census <- function(address_list, return = 'locations', timeout=5, full_results = FALSE,
+                         lat = 'lat', long = 'long') {
   return_cols <- switch(return,
       'locations' = c('id', 'address', 'status', 'quality', 'matched_address', 'coords', 'tiger_line_id', 'tiger_side'),
       'geographies' = c('id', 'address', 'status', 'quality', 'matched_address',
@@ -33,7 +34,10 @@ batch_census <- function(address_list, return = 'locations', timeout=5) {
     zip = NA_values,
   )
   
-  print(input_df)
+  #print('input_df:')
+  #print(input_df)
+  
+  #print(input_df)
   
   # Write a Temporary CSV
   tmp <- tempfile(fileext = '.csv')
@@ -54,25 +58,33 @@ batch_census <- function(address_list, return = 'locations', timeout=5) {
                              col.names = return_cols,
                              fill = TRUE, stringsAsFactors = FALSE,
                              na.strings = '')
+
+  #print(results)
   
   ## split out lat/lng
   all_coordinates <- lapply(as.list(results$coords),split_coords)
   
   coord_df <- do.call('rbind', all_coordinates)
-  colnames(coord_df) <- c('lat', 'long')
+  colnames(coord_df) <- c(lat, long)
   
-  # Combine extracted lat/longs with other return results
-  combi <- cbind(subset(results, select = -coords),coord_df)
+  #print('coord_df: ')
+  #print(coord_df)
   
-  # convert to tibble
-  df_final <- tibble::as_tibble(combi)
-  
-  return(df_final)
+  if (full_results == FALSE) return(tibble::as_tibble(coord_df))
+  else {
+    # Combine extracted lat/longs with other return results
+    combi <- cbind(subset(results, select = -coords),coord_df)
+    
+    # convert to tibble
+    df_final <- tibble::as_tibble(combi)
+    
+    return(df_final)
+  }
 }
 
 #' Batch geocode with geocodio
 #' @export
-batch_geocodio <- function(address_list, timeout = 5) {
+batch_geocodio <- function(address_list, timeout = 5, full_results = FALSE) {
   url_base <- get_api_url('geocodio')
   # Construct query
   query_parameters <- get_api_query('geocodio', list(limit = 1, api_key = Sys.getenv('GEOCODIO_API_KEY')))

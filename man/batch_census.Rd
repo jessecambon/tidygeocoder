@@ -5,7 +5,14 @@
 \title{Census batch geocoding
 Vingate must be defined if return = 'geographies'}
 \usage{
-batch_census(address_list, return = "locations", timeout = 5)
+batch_census(
+  address_list,
+  return = "locations",
+  timeout = 5,
+  full_results = FALSE,
+  lat = "lat",
+  long = "long"
+)
 }
 \description{
 Census batch geocoding

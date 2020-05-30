@@ -31,18 +31,45 @@ geo <- function(method='census', address=NULL, lat = lat, long = long,
   # debug turns on all messaging
   if (debug == TRUE) verbose <- TRUE
   
+  ### Set min_time if not set
+  if (method %in% c('osm','iq') & is.null(min_time))  min_time <- 1 
+  else if (is.null(min_time)) min_time <- 0
+  
   # NSE - Quoted unquoted vars without double quoting quoted vars
   lat <- gsub("\"","", deparse(substitute(lat)))
   long <- gsub("\"","", deparse(substitute(long)))
   
+  start_time <- Sys.time() # start timer
+  # what to return when we don't find results
+  NA_value <- get_na_value(lat,long)
+  
+  ### Build Generic query as named list ---------------------------
+  generic_query <- list()
+  if (!is.null(api_key)) generic_query[['api_key']] <- api_key
+  if (!is.null(limit))   generic_query[['limit']]   <- limit
+  
+  
+  ### If more than one adress is passed then use batch mode if available
+  if ((length(c(address)) > 1)) {
+    if (!method %in% c('census', 'geocodio')) {
+      message(paste0('Batch geocoding not available for ', method, '. Pass a single address.'))
+    } else {
+      # Convert our generic query parameters into parameters specific to our API (method)
+      api_query_parameters <- get_api_query(method,generic_query)
+      return(switch(method,
+                    'census' = batch_census(c(address), full_results = full_results),
+                    'geocodio' = batch_geocodio(c(address), full_results = full_results)
+                    ))
+    }
+  }
+  
+  if (!is.null(address)) generic_query[['address']] <- address
+  # Convert our generic query parameters into parameters specific to our API (method)
+  api_query_parameters <- get_api_query(method,generic_query)
+  
   # If cascade then call geo_cascade which will then call this function once or twice
   if (method == 'cascade') return(geo_cascade(address = address, lat = lat, long = long, 
         limit = limit, api_url = api_url, custom_query = custom_query))
-  
-  start_time <- Sys.time() # start timer
-  
-  # what to return when we don't find results
-  NA_value <- get_na_value(lat,long)
   
   # If there is no custom query then we are relying on the address and it must
   # be non-missing/NA
@@ -59,18 +86,6 @@ geo <- function(method='census', address=NULL, lat = lat, long = long,
     return(NA_value)
   }
   
-  ### Set min_time if not set
-  if (method %in% c('osm','iq') & is.null(min_time))  min_time <- 1 
-  else if (is.null(min_time)) min_time <- 0
-
-  ### Build Generic query as named list ---------------------------
-  generic_query <- list()
-  if (!is.null(address)) generic_query[['address']] <- address
-  if (!is.null(api_key)) generic_query[['api_key']] <- api_key
-  if (!is.null(limit))   generic_query[['limit']]   <- limit
-  
-  # Convert our generic query parameters into parameters specific to our API (method)
-  api_query_parameters <- get_api_query(method,generic_query)
   
   # If api_url is not set then define it automatically.
   # If it's defined then figure out if its a URL (http...) 
@@ -85,7 +100,7 @@ geo <- function(method='census', address=NULL, lat = lat, long = long,
     return(NA_value)
   }
   
-  ### Execute Query -----------------------------------------
+  ### Execute Single Address Query -----------------------------------------
   raw_results <- jsonlite::fromJSON(query_api(api_url, api_query_parameters))
   
   # If no results found, return NA
