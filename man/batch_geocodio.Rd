@@ -4,7 +4,13 @@
 \alias{batch_geocodio}
 \title{Batch geocode with geocodio}
 \usage{
-batch_geocodio(address_list, timeout = 5, full_results = FALSE)
+batch_geocodio(
+  address_list,
+  lat = "lat",
+  long = "long",
+  timeout = 5,
+  full_results = FALSE
+)
 }
 \description{
 Batch geocode with geocodio

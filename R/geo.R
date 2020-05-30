@@ -25,7 +25,7 @@
 #' @param address address to be geocoded
 #' @return parsed results from geocoder
 #' @export
-geo <- function(method='census', address=NULL, lat = lat, long = long,
+geo <- function(address=NULL, method='census', lat = lat, long = long,
     api_key=NULL, limit=1, api_url=NULL, custom_query=list(),
     full_results=FALSE, verbose=FALSE, min_time=NULL, debug = FALSE) {
   # debug turns on all messaging

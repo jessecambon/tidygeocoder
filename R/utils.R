@@ -52,6 +52,18 @@ get_na_value <- function(lat, long) {
   return(NA_df)
 }
 
+# For a list of dataframes, creates an NA df with 1 row with the column name supplied
+filler_df <- function(x, column_names) {
+  if (nrow(x) == 0) {
+    filler_df <- data.frame(row.names = 1)
+
+    for (col_name in column_names) {
+      filler_df[col_name] <- NA
+    }
+    return(filler_df)
+    
+  } else return(x)
+}
 
 # Quoted unquoted vars without double quoting quoted vars
 #nse_eval <- function(x) gsub("\"","", deparse(substitute(x)))

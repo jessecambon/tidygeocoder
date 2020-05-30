@@ -84,17 +84,29 @@ batch_census <- function(address_list, return = 'locations', timeout=5, full_res
 
 #' Batch geocode with geocodio
 #' @export
-batch_geocodio <- function(address_list, timeout = 5, full_results = FALSE) {
+batch_geocodio <- function(address_list, lat = 'lat', long = 'long', timeout = 5, full_results = FALSE) {
   url_base <- get_api_url('geocodio')
   # Construct query
   query_parameters <- get_api_query('geocodio', list(limit = 1, api_key = Sys.getenv('GEOCODIO_API_KEY')))
   
   # Query API
-  raw_content <- query_api(url_base, query_parameters, mode = 'list', address_list = address_list)
-  
+  raw_content <- query_api(url_base, query_parameters, mode = 'list', address_list = as.list(address_list))
   content <- jsonlite::fromJSON(raw_content,flatten = TRUE)
   
-  results <- tibble::as_tibble(dplyr::bind_rows(content$results$response.results))
+  # results as a list of dataframes
+  result_list <- content$results$response.results
   
-  return(results)
+  # if no results are returned then there is a 0 row dataframe in this
+  # we need to replace this with a 1 row NA dataframe to preserve the number of rows
+  result_list_filled <- lapply(result_list,filler_df,c('location.lat','location.lng'))
+  
+  # combine list of dataframes into a single tibble. Column names may differ between the dataframes
+  results <- tibble::as_tibble(dplyr::bind_rows(result_list_filled))
+  
+  # rename lat/long columns
+  names(results)[names(results) == 'location.lat'] <- lat
+  names(results)[names(results) == 'location.lng'] <- long
+  
+  if (full_results == FALSE)  return(results[c(lat,long)])
+  else return(results)
 }

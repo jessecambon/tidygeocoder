@@ -5,8 +5,8 @@
 \title{Workhorse function for geocoding}
 \usage{
 geo(
-  method = "census",
   address = NULL,
+  method = "census",
   lat = lat,
   long = long,
   api_key = NULL,
@@ -20,13 +20,13 @@ geo(
 )
 }
 \arguments{
+\item{address}{address to be geocoded}
+
 \item{method}{the geocoder function you want to use
 \itemize{
   \item "census": US Census Geocoder. US street-level addresses only.
   \item "osm": Nominatim (OSM). Worldwide coverage.
 }}
-
-\item{address}{address to be geocoded}
 }
 \value{
 parsed results from geocoder
