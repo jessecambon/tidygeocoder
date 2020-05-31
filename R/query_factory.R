@@ -24,6 +24,23 @@ get_api_url <- function(method_name,url_name=NULL) {
   else return(selected_url)
 }
 
+# Get API Key from environmental variables
+get_key <- function(method) {
+  # define environmental variable name
+  env_var <- switch(method,
+         'geocodio' = "GEOCODIO_API_KEY",
+         'iq' = "LOCATIONIQ_API_KEY"
+         )
+  # load api key from environmental variable
+  key <- Sys.getenv(env_var)
+  
+  if (key == "") {
+    warning(paste0("An API Key is needed to use the '", method, "' method.\n
+    Set the \"", env_var, "\" variable in your .Renviron file."))
+  }
+  return(key)
+}
+
 ### Get API URL for Census geocoder
 # return : returntype => 'locations' or 'geographies'
 # search:  searchtype => 'onelineaddress', 'addressbatch', 'address', or 'coordinates'
@@ -70,8 +87,8 @@ get_api_query <- function(method_name, generic_parameters = list(), custom_api_p
   main_api_parameters <- list()
   for (generic_parameter_name in names(generic_parameters)) {
     main_api_parameters <- c(main_api_parameters, 
-      create_api_parameter(method_name, generic_parameter_name, 
-      generic_parameters[[generic_parameter_name]]) 
+      create_api_parameter(method_name, generic_parameter_name,
+      generic_parameters[[generic_parameter_name]])
       )
   }
   #### TODO ----- Check for overlap between generic_parameters and custom_api_parameters

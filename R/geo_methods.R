@@ -18,7 +18,7 @@ geo_cascade <- function(...) {
   # first attempt census
   census_results = geo(method = 'census',...)
   
-  # if census results are NA then attempt osm
+  # if census lat/long results are NA then attempt osm
   if (is.na(census_results[[1,1]]) | is.na(census_results[[1,2]])) {
     osm_results = geo(method = 'osm', ...)
     if (is.na(osm_results[[1,1]]) | is.na(osm_results[[1,2]])) {

@@ -5,17 +5,22 @@ get_seconds_elapsed <- function(t0) {
   return(as.numeric(difftime(Sys.time(), t0, units = 'secs')))
 }
 
+# print time
+print_time <- function(text, num_seconds) {
+  message(paste0(text, ': ', round(num_seconds,1),' seconds'))
+}
+
+
 # Use Sys.sleep() to pause until a certain amount of time has elapsed
 pause_until <- function(start_time,min_time,debug=FALSE) {
   ## Make sure the proper amount of time has elapsed for the query per min_time
   seconds_elapsed <- get_seconds_elapsed(start_time)
-  if (debug == TRUE) message(paste0('Time elapsed: ', round(seconds_elapsed,1),' seconds'))
+  if (debug == TRUE) print_time("Time elapsed", seconds_elapsed)
   
   # Sleep if necessary to make query take the minimum amount of time
   if (seconds_elapsed < min_time) {
     Sys.sleep(min_time - seconds_elapsed)
-    if (debug == TRUE) message(paste0('Time elapsed (after sleep): ', 
-                                      round(get_seconds_elapsed(start_time),1),' seconds'))
+    if (debug == TRUE) print_time("Time elapsed (after sleep)", get_seconds_elapsed(start_time))
   }
 }
 
@@ -64,7 +69,6 @@ filler_df <- function(x, column_names) {
     
   } else return(x)
 }
-
 
 
 # Quoted unquoted vars without double quoting quoted vars

@@ -27,8 +27,9 @@
 #' }
 #' @importFrom tibble tibble as_tibble
 #' @export
-geocode <- function(.tbl, address , method='census', mode='auto', lat = lat, long = long, ...) {
-
+geocode <- function(.tbl, address , method='census', mode='auto', lat = lat, long = long, verbose = FALSE, ...) {
+  start_time <- Sys.time() # start timer
+  
   # NSE - Quoted unquoted vars without double quoting quoted vars
   address <- gsub("\"","", deparse(substitute(address)))
   lat <- gsub("\"","", deparse(substitute(lat)))
@@ -37,26 +38,14 @@ geocode <- function(.tbl, address , method='census', mode='auto', lat = lat, lon
   # Extract list of addresses
   address_list <- as.list(.tbl[[address]])
   
-  ### NON-BATCH GEOCODING (one address at a time------------------------------
-  # Apply our selected geocoder function to the list of addresses
-  # This returns a list of tibble dataframes of 2 columns and 1 row each
-  if ((method %in% c('osm','iq')) | (mode == 'single') | (nrow(.tbl) <= 1)) {
-    list_coords <- lapply(address_list, geo, method = method, lat = lat, long = long, ...)
-    # rbind the list of tibble dataframes together
-    coordinates <- do.call('rbind',list_coords)
-    
-    # Set column names of our coordinates
-    colnames(coordinates) <- c(lat, long)
-  } else {
+  # Pass addresses to the geo function
+  coordinates <- geo(unlist(address_list), method = method, lat = lat, long = long, ...)
   
-  ### BATCH GEOCODING ---------------------------------------------------------
-  # list_coords <- geobatch(address_list, method = method, lat = lat, long = long, ...)
-  # coordinates <- placeholder_extract_coords(coordinates)
-    coordinates <- geo(unlist(address_list), method = method, lat = lat, long = long, ...)
-  }
   # cbind the original dataframe to the coordinates and convert to tibble
   # change column names to be unique if there are duplicate column names
   final_df <- tibble::as_tibble(cbind(.tbl,coordinates), .name_repair = 'unique')
 
+  if (verbose == TRUE) print_time("Query executed in", get_seconds_elapsed(start_time))
+  
   return(final_df)
 }

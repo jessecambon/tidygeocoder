@@ -87,7 +87,7 @@ batch_census <- function(address_list, return = 'locations', timeout=5, full_res
 batch_geocodio <- function(address_list, lat = 'lat', long = 'long', timeout = 5, full_results = FALSE) {
   url_base <- get_api_url('geocodio')
   # Construct query
-  query_parameters <- get_api_query('geocodio', list(limit = 1, api_key = Sys.getenv('GEOCODIO_API_KEY')))
+  query_parameters <- get_api_query('geocodio', list(limit = 1, api_key = get_key('geocodio')))
   
   # Query API
   raw_content <- query_api(url_base, query_parameters, mode = 'list', address_list = as.list(address_list))

@@ -11,6 +11,7 @@ geocode(
   mode = "auto",
   lat = lat,
   long = long,
+  verbose = FALSE,
   ...
 )
 }

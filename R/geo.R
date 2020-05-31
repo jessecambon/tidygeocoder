@@ -26,33 +26,51 @@
 #' @return parsed results from geocoder
 #' @export
 geo <- function(address=NULL, method='census', lat = lat, long = long,
-    api_key=NULL, limit=1, api_url=NULL, custom_query=list(),
-    full_results=FALSE, verbose=FALSE, min_time=NULL, debug = FALSE) {
-  # debug turns on all messaging
-  if (debug == TRUE) verbose <- TRUE
+    limit=1, api_url=NULL, custom_query=list(),
+    full_results=FALSE, verbose=FALSE, min_time=NULL) {
+  # NSE - Quoted unquoted vars without double quoting quoted vars
+  lat <- gsub("\"","", deparse(substitute(lat)))
+  long <- gsub("\"","", deparse(substitute(long)))
+  
+  # capture all function arguments including default values as a named list
+  all_args <- as.list(environment())
+  
+  # If method='cascade' is called then pass all function arguments 
+  # except for method to geo_cascade and return the results 
+  if (method == 'cascade') return(do.call(geo_cascade,all_args[names(all_args) != 'method']))
   
   ### Set min_time if not set
   if (method %in% c('osm','iq') & is.null(min_time))  min_time <- 1 
   else if (is.null(min_time)) min_time <- 0
   
-  # NSE - Quoted unquoted vars without double quoting quoted vars
-  lat <- gsub("\"","", deparse(substitute(lat)))
-  long <- gsub("\"","", deparse(substitute(long)))
-  
   start_time <- Sys.time() # start timer
+  
   # what to return when we don't find results
   NA_value <- get_na_value(lat,long)
   
   ### Build Generic query as named list ---------------------------
   generic_query <- list()
-  if (!is.null(api_key)) generic_query[['api_key']] <- api_key
-  if (!is.null(limit))   generic_query[['limit']]   <- limit
+  if (method %in% c('geocodio','iq')) {
+    generic_query[['api_key']] <- get_key(method)
+    if (generic_query[['api_key']] == '') stop("API Key must be defined")
+  }
+  if (!is.null(limit))                generic_query[['limit']]   <- limit
   
-  
-  ### If more than one adress is passed then use batch mode if available
+  ### If more than one adress is passed then either call a batch geocoder function or recall 
+  ### this function repeatedly for each individual address
   if ((length(c(address)) > 1)) {
-    if (!method %in% c('census', 'geocodio')) {
-      message(paste0('Batch geocoding not available for ', method, '. Pass a single address.'))
+    if (method %in% c('osm', 'iq')) {
+      # construct args for single address query
+      single_addr_args <- c(list(X = c(address), FUN = geo), all_args[names(all_args) != 'address'])
+      
+      # Geocode each address individually by recalling this function with lapply
+      list_coords <- do.call(lapply, single_addr_args)
+        
+      # rbind the list of tibble dataframes together
+      coordinates <- do.call('rbind',list_coords)
+      return(coordinates)
+      
+      #message(paste0('Batch geocoding not available for ', method, '. Pass a single address.'))
     } else {
       # Convert our generic query parameters into parameters specific to our API (method)
       api_query_parameters <- get_api_query(method,generic_query)
@@ -63,13 +81,11 @@ geo <- function(address=NULL, method='census', lat = lat, long = long,
     }
   }
   
+  #### Code past this point is for geocoding a single address
+  
   if (!is.null(address)) generic_query[['address']] <- address
   # Convert our generic query parameters into parameters specific to our API (method)
   api_query_parameters <- get_api_query(method,generic_query)
-  
-  # If cascade then call geo_cascade which will then call this function once or twice
-  if (method == 'cascade') return(geo_cascade(address = address, lat = lat, long = long, 
-        limit = limit, api_url = api_url, custom_query = custom_query))
   
   # If there is no custom query then we are relying on the address and it must
   # be non-missing/NA
