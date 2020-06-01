@@ -1,19 +1,7 @@
-### Generic geocoder wrapper function. Returns results for ONE query.
-
 # Query can be customized or left to default according to method (service) chosen. 
-
 # full_results : if true return all info provided by geocoder (not just lat/long)
-
-# Do not pass address if address = NULL ???
-
-## method argument here will be used for:
-# 1. setting the api_url and query options if they are not already set
-# 2. figuring out how to parse the results that are returned (ie is it a dataframe? or list? field names? etc.)
-
-
 ## Set defaults for query parameters but allow user to override them. 
 ## Include address and limit as a query parameter.
-
 # Either address of query_parameters must be defined
 
 #' Workhorse function for geocoding
@@ -32,6 +20,8 @@ geo <- function(address=NULL, method='census', lat = lat, long = long,
   lat <- gsub("\"","", deparse(substitute(lat)))
   long <- gsub("\"","", deparse(substitute(long)))
   
+  start_time <- Sys.time() # start timer
+  
   # capture all function arguments including default values as a named list
   all_args <- as.list(environment())
   
@@ -42,8 +32,6 @@ geo <- function(address=NULL, method='census', lat = lat, long = long,
   ### Set min_time if not set
   if (method %in% c('osm','iq') & is.null(min_time))  min_time <- 1 
   else if (is.null(min_time)) min_time <- 0
-  
-  start_time <- Sys.time() # start timer
   
   # what to return when we don't find results
   NA_value <- get_na_value(lat,long)
@@ -67,11 +55,13 @@ geo <- function(address=NULL, method='census', lat = lat, long = long,
       list_coords <- do.call(lapply, single_addr_args)
         
       # rbind the list of tibble dataframes together
-      coordinates <- do.call('rbind',list_coords)
+      coordinates <- dplyr::bind_rows(list_coords)
       return(coordinates)
       
       #message(paste0('Batch geocoding not available for ', method, '. Pass a single address.'))
     } else {
+      ### Call Batch Geocoding
+      if (verbose == TRUE) message(paste0('Calling the ', method, 'batch geocoder'))
       # Convert our generic query parameters into parameters specific to our API (method)
       api_query_parameters <- get_api_query(method,generic_query)
       return(switch(method,
@@ -117,6 +107,7 @@ geo <- function(address=NULL, method='census', lat = lat, long = long,
   }
   
   ### Execute Single Address Query -----------------------------------------
+  if (verbose == TRUE) message(paste0('Querying API URL: ', api_url))
   raw_results <- jsonlite::fromJSON(query_api(api_url, api_query_parameters))
   
   # If no results found, return NA

@@ -34,11 +34,6 @@ batch_census <- function(address_list, return = 'locations', timeout=5, full_res
     zip = NA_values,
   )
   
-  #print('input_df:')
-  #print(input_df)
-  
-  #print(input_df)
-  
   # Write a Temporary CSV
   tmp <- tempfile(fileext = '.csv')
   utils::write.table(input_df, tmp, row.names = FALSE, col.names = FALSE, sep = ',', na = '')
@@ -59,26 +54,18 @@ batch_census <- function(address_list, return = 'locations', timeout=5, full_res
                              fill = TRUE, stringsAsFactors = FALSE,
                              na.strings = '')
 
-  #print(results)
-  
   ## split out lat/lng
   all_coordinates <- lapply(as.list(results$coords),split_coords)
   
-  coord_df <- do.call('rbind', all_coordinates)
+  coord_df <- dplyr::bind_rows(all_coordinates)
   colnames(coord_df) <- c(lat, long)
-  
-  #print('coord_df: ')
-  #print(coord_df)
-  
-  if (full_results == FALSE) return(tibble::as_tibble(coord_df))
+
+  if (full_results == FALSE) return(coord_df)
   else {
     # Combine extracted lat/longs with other return results
-    combi <- cbind(subset(results, select = -coords),coord_df)
+    combi <- dplyr::bind_cols(dplyr::select(results,-coords),coord_df)
     
-    # convert to tibble
-    df_final <- tibble::as_tibble(combi)
-    
-    return(df_final)
+    return(combi)
   }
 }
 
@@ -101,7 +88,7 @@ batch_geocodio <- function(address_list, lat = 'lat', long = 'long', timeout = 5
   result_list_filled <- lapply(result_list,filler_df,c('location.lat','location.lng'))
   
   # combine list of dataframes into a single tibble. Column names may differ between the dataframes
-  results <- tibble::as_tibble(dplyr::bind_rows(result_list_filled))
+  results <- dplyr::bind_rows(result_list_filled)
   
   # rename lat/long columns
   names(results)[names(results) == 'location.lat'] <- lat

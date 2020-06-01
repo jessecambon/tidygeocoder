@@ -35,15 +35,12 @@ geocode <- function(.tbl, address , method='census', mode='auto', lat = lat, lon
   lat <- gsub("\"","", deparse(substitute(lat)))
   long <- gsub("\"","", deparse(substitute(long)))
   
-  # Extract list of addresses
-  address_list <- as.list(.tbl[[address]])
-  
   # Pass addresses to the geo function
-  coordinates <- geo(unlist(address_list), method = method, lat = lat, long = long, ...)
+  coordinates <- geo(.tbl[[address]], method = method, lat = lat, long = long, ...)
   
   # cbind the original dataframe to the coordinates and convert to tibble
   # change column names to be unique if there are duplicate column names
-  final_df <- tibble::as_tibble(cbind(.tbl,coordinates), .name_repair = 'unique')
+  final_df <- dplyr::bind_cols(.tbl,coordinates)
 
   if (verbose == TRUE) print_time("Query executed in", get_seconds_elapsed(start_time))
   

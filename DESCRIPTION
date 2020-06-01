@@ -14,6 +14,7 @@ Encoding: UTF-8
 LazyData: true
 Imports: 
     tibble,
+    dplyr,
     httr,
     jsonlite
 RoxygenNote: 7.1.0
