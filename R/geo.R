@@ -13,7 +13,8 @@
 #' @param address address to be geocoded
 #' @return parsed results from geocoder
 #' @export
-geo <- function(address=NULL, method='census', lat = lat, long = long,
+geo <- function(street=NULL, city = NULL, county = NULL, state = NULL, postalcode = NULL, country = NULL,
+                method='census', lat = lat, long = long,
     limit=1, api_url=NULL, custom_query=list(),
     full_results=FALSE, verbose=FALSE, min_time=NULL) {
   # NSE - Quoted unquoted vars without double quoting quoted vars

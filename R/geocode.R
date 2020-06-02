@@ -36,7 +36,7 @@ geocode <- function(.tbl, address , method='census', mode='auto', lat = lat, lon
   long <- gsub("\"","", deparse(substitute(long)))
   
   # Pass addresses to the geo function
-  coordinates <- geo(.tbl[[address]], method = method, lat = lat, long = long, ...)
+  coordinates <- geo(.tbl[[address]], method = method, lat = lat, long = long, verbose = verbose...)
   
   # cbind the original dataframe to the coordinates and convert to tibble
   # change column names to be unique if there are duplicate column names
