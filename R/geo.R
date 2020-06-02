@@ -69,7 +69,14 @@ geo <- function(street = NULL, city = NULL, county = NULL, state = NULL, postalc
   if (num_addresses > 1) {
     if (method %in% c('osm', 'iq')) {
       # construct args for single address query
-      single_addr_args <- c(list(FUN = geo), all_args, list(USE.NAMES = FALSE, SIMPLIFY = FALSE))
+      # note that non-address related fields go to the MoreArgs argument of mapply
+      # since we aren't interating through them
+      single_addr_args <- c(
+        list(FUN = geo), 
+        all_args[names(all_args) %in% address_arg_names],
+        MoreArgs = all_args[!names(all_args) %in% address_arg_names],
+        list(USE.NAMES = FALSE, SIMPLIFY = FALSE)
+      )
       single_addr_args <- single_addr_args[lengths(single_addr_args) != 0]  # remove NULL and 0 length items
       
       print('single_addr_args:')
