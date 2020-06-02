@@ -70,6 +70,9 @@ filler_df <- function(x, column_names) {
   } else return(x)
 }
 
+# remove a literal double quote from a string
+# used with NSE
+rm_quote <- function(string) gsub("\"","", string)
 
 # Quoted unquoted vars without double quoting quoted vars
 #nse_eval <- function(x) gsub("\"","", deparse(substitute(x)))

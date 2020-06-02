@@ -27,16 +27,41 @@
 #' }
 #' @importFrom tibble tibble as_tibble
 #' @export
-geocode <- function(.tbl, address , method='census', mode='auto', lat = lat, long = long, verbose = FALSE, ...) {
+geocode <- function(.tbl, street=NULL, city = NULL, county = NULL, state = NULL, postalcode = NULL, country = NULL,
+                    method='census', lat = lat, long = long, verbose = FALSE, ...) {
   start_time <- Sys.time() # start timer
   
-  # NSE - Quoted unquoted vars without double quoting quoted vars
-  address <- gsub("\"","", deparse(substitute(address)))
-  lat <- gsub("\"","", deparse(substitute(lat)))
-  long <- gsub("\"","", deparse(substitute(long)))
+  address_arg_names <- c('.tbl', 'street', 'city', 'county', 'state', 'postalcode', 'country')
+  
+  # NSE - Quote unquoted vars without double quoting quoted vars
+  # end result - all of these variables become character values
+  street <- rm_quote(deparse(substitute(street)))
+  city <- rm_quote(deparse(substitute(city)))
+  county <- rm_quote(deparse(substitute(county)))
+  state <- rm_quote(deparse(substitute(state)))
+  postalcode <- rm_quote(deparse(substitute(postalcode)))
+  country <- rm_quote(deparse(substitute(country)))
+  lat <- rm_quote(deparse(substitute(lat)))
+  long <- rm_quote(deparse(substitute(long)))
+  
+  # capture all function arguments including default values as a named list
+  all_args <- as.list(environment())
+  
+  # put all non-NULL address components into a named list
+  # create address parameters to be passed to the geo function as a named list of lists
+  addr_parameters <- list()
+  for (var in c(street, city, county, state, postalcode, country)) {
+    if (var != "NULL") addr_parameters[[var]] <- .tbl[var]
+  }
+  
+  geo_args <- c(addr_parameters, all_args[!names(all_args) %in% address_arg_names])
+  
+  print(geo_args)
+  
+  return(NULL)
   
   # Pass addresses to the geo function
-  coordinates <- geo(.tbl[[address]], method = method, lat = lat, long = long, verbose = verbose...)
+  coordinates <- do.call(geo, all_args)
   
   # cbind the original dataframe to the coordinates and convert to tibble
   # change column names to be unique if there are duplicate column names
