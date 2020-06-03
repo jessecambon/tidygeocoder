@@ -20,7 +20,7 @@ batch_census <- function(address_list, return = 'locations', timeout=5, full_res
   
   url_base <- get_census_url(return, 'addressbatch')
   
-  print(url_base)
+  message(url_base)
     
   num_addresses <- length(address_list)
   NA_values <- rep("",num_addresses)
@@ -54,16 +54,15 @@ batch_census <- function(address_list, return = 'locations', timeout=5, full_res
                              fill = TRUE, stringsAsFactors = FALSE,
                              na.strings = '')
 
-  ## split out lat/lng
-  all_coordinates <- lapply(as.list(results$coords),split_coords)
-  
-  coord_df <- dplyr::bind_rows(all_coordinates)
+  ## split out lat/lng. lapply is used with as.numeric to convert coordinates to numeric
+  coord_df <- do.call(rbind, lapply(strsplit(results$coords,",", fixed = TRUE),as.numeric))
   colnames(coord_df) <- c(lat, long)
+  coord_df <- tibble::as_tibble(coord_df)
 
   if (full_results == FALSE) return(coord_df)
   else {
     # Combine extracted lat/longs with other return results
-    combi <- dplyr::bind_cols(dplyr::select(results,-coords),coord_df)
+    combi <- tibble::as_tibble(dplyr::bind_cols(dplyr::select(results,-coords), coord_df))
     
     return(combi)
   }

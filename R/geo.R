@@ -23,13 +23,6 @@ geo <- function(street = NULL, city = NULL, county = NULL, state = NULL, postalc
   lat <- rm_quote(deparse(substitute(lat)))
   long <- rm_quote(deparse(substitute(long)))
   
-  print('lat: ')
-  print(lat)
-  print('long: ')
-  print(long)
-  print("verbose: ")
-  print(verbose)
-  
   # capture all function arguments including default values as a named list.
   # make sure to put this before any other variables are defined
   all_args <- as.list(environment())
@@ -48,6 +41,8 @@ geo <- function(street = NULL, city = NULL, county = NULL, state = NULL, postalc
   } 
   num_addresses <- max(address_component_lengths)
   
+  if (verbose == TRUE) message(paste0('num_addresses: ', num_addresses))
+  
   # If method='cascade' is called then pass all function arguments 
   # except for method to geo_cascade and return the results 
   if (method == 'cascade') return(do.call(geo_cascade,all_args[names(all_args) != 'method']))
@@ -65,36 +60,30 @@ geo <- function(street = NULL, city = NULL, county = NULL, state = NULL, postalc
   if (!is.null(limit))                generic_query[['limit']]   <- limit
   
   ### If more than one adress is passed then either call a batch geocoder function or recall 
-  ### this function repeatedly for each individual address
+  ### this function repeatedly for each individual address depending on the method
   if (num_addresses > 1) {
     if (method %in% c('osm', 'iq')) {
+      if (verbose == TRUE) message('Executing single address geocoding...')
+      
       # construct args for single address query
       # note that non-address related fields go to the MoreArgs argument of mapply
       # since we aren't interating through them
       single_addr_args <- c(
         list(FUN = geo), 
         all_args[names(all_args) %in% address_arg_names],
-        MoreArgs = all_args[!names(all_args) %in% address_arg_names],
-        list(USE.NAMES = FALSE, SIMPLIFY = FALSE)
+        list(MoreArgs = all_args[!names(all_args) %in% address_arg_names],
+          USE.NAMES = FALSE, SIMPLIFY = FALSE)
       )
-      single_addr_args <- single_addr_args[lengths(single_addr_args) != 0]  # remove NULL and 0 length items
-      
-      print('single_addr_args:')
-      print(single_addr_args)
+      # remove NULL and 0 length items
+      single_addr_args <- single_addr_args[sapply(single_addr_args,length, USE.NAMES = FALSE) != 0]  
       
       # Geocode each address individually by recalling this function with lapply
       list_coords <- do.call(mapply, single_addr_args)
-      
-      print('class(list_coords) : ')
-      print(class(list_coords))
-      print('list_coords: ')
-      print(list_coords)
         
       # rbind the list of tibble dataframes together
       coordinates <- dplyr::bind_rows(list_coords)
       return(coordinates)
       
-      #message(paste0('Batch geocoding not available for ', method, '. Pass a single address.'))
     } else {
       ### Call Batch Geocoding
       if (verbose == TRUE) message(paste0('Calling the ', method, 'batch geocoder'))
@@ -110,8 +99,6 @@ geo <- function(street = NULL, city = NULL, county = NULL, state = NULL, postalc
   #### Code past this point is for geocoding a single address
   # what to return when we don't find results
   NA_value <- get_na_value(lat,long)
-  print('NA_value:')
-  print(NA_value)
   
   if (!is.null(street)) generic_query[['address']] <- street
   # Convert our generic query parameters into parameters specific to our API (method)
@@ -123,7 +110,7 @@ geo <- function(street = NULL, city = NULL, county = NULL, state = NULL, postalc
   # Check if address NULL
   if ((length(custom_query) == 0) & is.null(street)) {
     if (verbose == TRUE) message("Blank or missing address!")
-    return(NA_value)    
+    return(NA_value)
   }
   
   # Check if address is missing/NA
@@ -166,10 +153,6 @@ geo <- function(street = NULL, city = NULL, county = NULL, state = NULL, postalc
   
   # Convert numeric vector to tibble
   names(coords) <- c(lat, long)
-  
-  print('names of coords:')
-  print(names(coords))
-  
   coords_tibble <- tibble::as_tibble_row(coords)
   
   ### Make sure the proper amount of time has elapsed for the query per min_time

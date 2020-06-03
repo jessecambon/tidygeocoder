@@ -8,13 +8,16 @@ country <- c('United States', 'United States')
 # used with NSE
 rm_quote <- function(string) gsub("\"","", string)
 
-dummy_print <- function(city, lat = lat,recurse = FALSE) {
+dummy_print <- function(city, lat = lat, recurse = FALSE) {
   lat <- lat <- rm_quote(deparse(substitute(lat)))
   
   if (recurse == TRUE) {
-    return(do.call(mapply, 
-list(FUN = dummy_print, USE.NAMES = FALSE, city = city, 
-     MoreArgs=list(lat = lat))))
+    mapply_args <- list(FUN = dummy_print, USE.NAMES = FALSE, city = city, 
+                        MoreArgs = list(lat = lat))
+    
+    print(mapply_args)
+    
+    return(do.call(mapply, mapply_args))
   }
   else {
     print(paste0('city: ', city))
@@ -24,4 +27,4 @@ list(FUN = dummy_print, USE.NAMES = FALSE, city = city,
 
 #x <- mapply(dummy_print, city, state, country)
 
-dummy_print(city, lat = latitude, recurse = TRUE)
+dummy_print(city, recurse = TRUE)

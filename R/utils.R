@@ -38,7 +38,7 @@ extract_coords <- function(method, response) {
 }  
 
 # split single coordinate set
-split_coords <- function(input) as.numeric(unlist(strsplit(input,"\\,")))
+#split_coords <- function(input) as.numeric(unlist(strsplit(input,"\\,")))
 
 #### Split c(lat,long) coordinates into a tibble with 1 row and 2 columns   
 #split_coordinates <- function(coords) tibble::tibble(lat = coords[[1]] ,long = coords[[2]])
