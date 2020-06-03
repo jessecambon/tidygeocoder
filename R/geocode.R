@@ -29,9 +29,6 @@
 #' @export
 geocode <- function(.tbl, street=NULL, city = NULL, county = NULL, state = NULL, postalcode = NULL, country = NULL,
                     method='census', lat = lat, long = long, verbose = FALSE, ...) {
-  start_time <- Sys.time() # start timer
-  
-  address_arg_names <- c('.tbl', 'street', 'city', 'county', 'state', 'postalcode', 'country')
   
   # NSE - Quote unquoted vars without double quoting quoted vars
   # end result - all of these variables become character values
@@ -47,21 +44,26 @@ geocode <- function(.tbl, street=NULL, city = NULL, county = NULL, state = NULL,
   # capture all function arguments including default values as a named list
   all_args <- as.list(environment())
   
+  start_time <- Sys.time() # start timer
+  address_arg_names <- c('.tbl', 'street', 'city', 'county', 'state', 'postalcode', 'country')
+  
   # put all non-NULL address components into a named list
   # create address parameters to be passed to the geo function as a named list of lists
   addr_parameters <- list()
-  for (var in c(street, city, county, state, postalcode, country)) {
-    if (var != "NULL") addr_parameters[[var]] <- .tbl[var]
+  for (var in c('street', 'city', 'county', 'state', 'postalcode', 'country')) {
+    if (var != "NULL") addr_parameters[[var]] <- .tbl[[all_args[[var]]]]
   }
   
-  geo_args <- c(addr_parameters, all_args[!names(all_args) %in% address_arg_names])
+  geo_args <- c(addr_parameters, all_args[!names(all_args) %in% address_arg_names], list(...))
   
-  print(geo_args)
-  
-  return(NULL)
+  #print('geo_args:')
+  #print(geo_args)
   
   # Pass addresses to the geo function
-  coordinates <- do.call(geo, all_args)
+  coordinates <- do.call(geo, geo_args)
+  
+  #print('coordinates:')
+  #print(coordinates)
   
   # cbind the original dataframe to the coordinates and convert to tibble
   # change column names to be unique if there are duplicate column names

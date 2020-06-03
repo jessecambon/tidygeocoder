@@ -12,10 +12,10 @@ raw_louisville <- read_csv('jefferson.zip')
 clean_louisville <- raw_louisville %>%
   janitor::clean_names() %>%
   transmute(street = str_c(number, ' ', street), 
-    city = 'Louisville', state = 'Kentucky', postcode, lon, lat) %>%
-  rename(latitude = lon, longitude = lon)
+    city = 'Louisville', state = 'Kentucky', postcode, lat, lon) %>%
+  rename(latitude = lat, longitude = lon, zip = postcode)
 
 louisville <- clean_louisville %>%
-  sample_n(12000)
+  sample_n(50)
 
 usethis::use_data(louisville, overwrite = TRUE)

@@ -16,7 +16,7 @@
 geo <- function(street = NULL, city = NULL, county = NULL, state = NULL, postalcode = NULL, country = NULL,
     method = 'census', lat = lat, long = long,
     limit=1, api_url=NULL, custom_query=list(),
-    full_results=FALSE, verbose=FALSE, min_time=NULL) {
+    full_results = FALSE, verbose = FALSE, min_time=NULL) {
   
   # NSE - Quote unquoted vars without double quoting quoted vars
   # end result - all of these variables become character values
@@ -90,8 +90,10 @@ geo <- function(street = NULL, city = NULL, county = NULL, state = NULL, postalc
       # Convert our generic query parameters into parameters specific to our API (method)
       api_query_parameters <- get_api_query(method,generic_query)
       return(switch(method,
-                    'census' = batch_census(street, full_results = full_results),
-                    'geocodio' = batch_geocodio(street, full_results = full_results)
+        'census' = do.call(batch_census, 
+            c(address_components[names(address_components) %in% c('street', 'city', 'state' , 'postalcode')],
+                      list(full_results = full_results, lat = lat, long = long, verbose = verbose))),
+        'geocodio' = batch_geocodio(street, full_results = full_results)
                     ))
     }
   }
