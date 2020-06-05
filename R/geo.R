@@ -10,10 +10,12 @@
 #'   \item "census": US Census Geocoder. US street-level addresses only.
 #'   \item "osm": Nominatim (OSM). Worldwide coverage.
 #' }
+#' @param address single line address
 #' @param street street address
 #' @return parsed results from geocoder
 #' @export
-geo <- function(street = NULL, city = NULL, county = NULL, state = NULL, postalcode = NULL, country = NULL,
+geo <- function(address = NULL, 
+      street = NULL, city = NULL, county = NULL, state = NULL, postalcode = NULL, country = NULL,
     method = 'census', lat = lat, long = long,
     limit=1, api_url=NULL, custom_query=list(),
     full_results = FALSE, verbose = FALSE, min_time=NULL) {
@@ -102,7 +104,7 @@ geo <- function(street = NULL, city = NULL, county = NULL, state = NULL, postalc
   # what to return when we don't find results
   NA_value <- get_na_value(lat,long)
   
-  if (!is.null(street)) generic_query[['address']] <- street
+  if (!is.null(address)) generic_query[['address']] <- street
   # Convert our generic query parameters into parameters specific to our API (method)
   api_query_parameters <- get_api_query(method,generic_query)
   
