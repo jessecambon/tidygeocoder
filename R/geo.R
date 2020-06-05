@@ -11,14 +11,31 @@
 #'   \item "osm": Nominatim (OSM). Worldwide coverage.
 #' }
 #' @param address single line address
+#' 
+#' Address components (do not combine with the single line 'address' parameter)
 #' @param street street address
+#' @param city
+#' @param county
+#' @param state
+#' @param postalcode
+#' @param country 
+#' 
+#' @param return    (census only) 'locations' (default) or 'geographies'
+#' @param vintage   (census only)
+#' @param benchmark (census only) 
+#' 
+#' @param api_url Custom URL to use for API. Overrides default URL
+#' @param custom_query API-specific parameters to be used
+#' @param full_results returns all data from API if True
 #' @return parsed results from geocoder
 #' @export
 geo <- function(address = NULL, 
       street = NULL, city = NULL, county = NULL, state = NULL, postalcode = NULL, country = NULL,
     method = 'census', lat = lat, long = long,
-    limit=1, api_url=NULL, custom_query=list(),
+    limit=1, api_url = NULL, return = 'locations', vintage = '', benchmark = '4', custom_query = list(),
     full_results = FALSE, verbose = FALSE, min_time=NULL) {
+  
+  #### TODO Do not pass address components to census geocoder if street is undefined
   
   # NSE - Quote unquoted vars without double quoting quoted vars
   # end result - all of these variables become character values
@@ -29,20 +46,26 @@ geo <- function(address = NULL,
   # make sure to put this before any other variables are defined
   all_args <- as.list(environment())
   
-  # names of all address component fields
-  address_arg_names <- c('street', 'city', 'county', 'state', 'postalcode', 'country')
+  
+  check_address_params(address, street, city, county, state, postalcode, country)
+  
+  # names of all address fields
+  address_arg_names <- c('address', 'street', 'city', 'county', 'state', 'postalcode', 'country')
   start_time <- Sys.time() # start timer
   
   ## Extract the address components
   address_components <- all_args[names(all_args) %in% address_arg_names]
   address_components[sapply(address_components, is.null)] <- NULL # remove NULL items
   
-  address_component_lengths <- sapply(address_components, length)
-  if (max(address_component_lengths) != min(address_component_lengths)) {
-    stop('Address components must be equal in length')
-  } 
-  num_addresses <- max(address_component_lengths)
-  
+  ## Find number of addresses
+  if (!is.null(address)) num_addresses <- length(address)
+  else { 
+    address_component_lengths <- sapply(address_components, length)
+    if (max(address_component_lengths) != min(address_component_lengths)) {
+      stop('Address components must be equal in length')
+    }
+    num_addresses <- max(address_component_lengths, na.rm = TRUE)
+  }
   if (verbose == TRUE) message(paste0('num_addresses: ', num_addresses))
   
   # If method='cascade' is called then pass all function arguments 
@@ -93,7 +116,7 @@ geo <- function(address = NULL,
       api_query_parameters <- get_api_query(method,generic_query)
       return(switch(method,
         'census' = do.call(batch_census, 
-            c(address_components[names(address_components) %in% c('street', 'city', 'state' , 'postalcode')],
+            c(address_components[names(address_components) %in% c('address', 'street', 'city', 'state' , 'postalcode')],
                       list(full_results = full_results, lat = lat, long = long, verbose = verbose))),
         'geocodio' = batch_geocodio(street, full_results = full_results)
                     ))
@@ -104,33 +127,45 @@ geo <- function(address = NULL,
   # what to return when we don't find results
   NA_value <- get_na_value(lat,long)
   
-  if (!is.null(address)) generic_query[['address']] <- street
+  # construct query with single-line address or address components
+  if  (!is.null(address)) {
+    search <- 'onelineaddress'
+    generic_query[['address']]      <- address
+  }
+  else {
+    search <- 'address'
+    if (!is.null(street))       generic_query[['street']]       <- street
+    if (!is.null(city))         generic_query[['city']]         <- city
+    if (!is.null(county))       generic_query[['county']]       <- county
+    if (!is.null(state))        generic_query[['state']]        <- state
+    if (!is.null(postalcode))   generic_query[['postalcode']]   <- postalcode
+    if (!is.null(country))      generic_query[['country']]      <- country
+  }
+  
   # Convert our generic query parameters into parameters specific to our API (method)
-  api_query_parameters <- get_api_query(method,generic_query)
+  api_query_parameters <- get_api_query(method, generic_query, custom_query)
   
   # If there is no custom query then we are relying on the address and it must
   # be non-missing/NA
   
-  # Check if address NULL
-  if ((length(custom_query) == 0) & is.null(street)) {
-    if (verbose == TRUE) message("Blank or missing address!")
-    return(NA_value)
+  ### Check if address NULL
+  # if ((length(custom_query) == 0) & is.null(street)) {
+  #   if (verbose == TRUE) message("Blank or missing address!")
+  #   return(NA_value)
+  # }
+  # 
+  ### Check if address is missing/NA
+  # if ((length(custom_query) == 0) & (is.na(street) | trimws(street) == "")) {
+  #   if (verbose == TRUE) message("Blank or missing address!")
+  #   return(NA_value)
+  # }
+  
+  
+  # Set API URL (if not already set) ---------------------------
+  if (is.null(api_url)) {
+    if (method == 'census') api_url <- get_census_url(return, search)
+    else api_url <- get_api_url(method) 
   }
-  
-  # Check if address is missing/NA
-  if ((length(custom_query) == 0) & (is.na(street) | trimws(street) == "")) {
-    if (verbose == TRUE) message("Blank or missing address!")
-    return(NA_value)
-  }
-  
-  
-  # If api_url is not set then define it automatically.
-  # If it's defined then figure out if its a URL (http...) 
-  if (is.null(api_url)) api_url <- get_api_url(method) 
-  else api_url <- get_api_url(method,url_name = trimws(api_url))
-  
-  ## TOdo --- implement custom URL field where user can specify the entire URL address
-  #  else if (stringr::str_detect(stringr::str_trim(api_url),'^http'))  api_url <- api_url
   
   if (length(api_url) == 0) {
     warning('API URL not found')
@@ -138,7 +173,12 @@ geo <- function(address = NULL,
   }
   
   ### Execute Single Address Query -----------------------------------------
-  if (verbose == TRUE) message(paste0('Querying API URL: ', api_url))
+  if (verbose == TRUE) {
+    message(paste0('Querying API URL: ', api_url))
+    message('Passing the following parameters to the API:')
+    for (var in names(api_query_parameters)) message(paste(var, '=', api_query_parameters[var]))
+    message('-----')
+  }
   raw_results <- jsonlite::fromJSON(query_api(api_url, api_query_parameters))
   
   # If no results found, return NA

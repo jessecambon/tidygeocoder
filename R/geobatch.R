@@ -10,7 +10,7 @@
 #' Census batch geocoding
 #' Vingate must be defined if return = 'geographies'
 #' @export 
-batch_census <- function(street = NA, city = NA, state = NA, postalcode = NA,
+batch_census <- function(address = NA, street = NA, city = NA, state = NA, postalcode = NA,
     return = 'locations', timeout=15, full_results = FALSE, verbose = FALSE,
                          lat = 'lat', long = 'long') {
   
@@ -23,9 +23,11 @@ batch_census <- function(street = NA, city = NA, state = NA, postalcode = NA,
   url_base <- get_census_url(return, 'addressbatch')
   if (verbose == TRUE) message(paste0('querying: ', url_base))
     
-  num_addresses <- max(sapply(list(street, city, state), length), na.rm = TRUE)
+  num_addresses <- max(sapply(list(address, street, city, state), length), na.rm = TRUE)
 
   if (verbose == TRUE) message(paste0('census batch geocoder, num_addresses: ', num_addresses))
+  
+  if (is.na(street)) street <- address
   
   # create input dataframe
   input_df <- tibble::tibble(
@@ -36,19 +38,14 @@ batch_census <- function(street = NA, city = NA, state = NA, postalcode = NA,
     zip     = postalcode,
   )
   
-  #print('input_df: ')
-  #print(input_df)
-  
   # Write a Temporary CSV
   tmp <- tempfile(fileext = '.csv')
   utils::write.table(input_df, tmp, row.names = FALSE, col.names = FALSE, sep = ',', na = '')
   #check <- read.csv(tmp, header = FALSE)
   
   ## NOTE - request will fail if vintage and benchmark are invalid for return = 'geographies'
-  
   # Construct query
-  query_parameters <- get_api_query('census', 
-        custom_api_parameters = list(vintage = 'ACS2019_Current'))
+  query_parameters <- get_api_query('census')
   
   # Query API
   raw_content <- query_api(url_base, query_parameters, mode = 'file', 
@@ -58,20 +55,13 @@ batch_census <- function(street = NA, city = NA, state = NA, postalcode = NA,
                              col.names = return_cols,
                              fill = TRUE, stringsAsFactors = FALSE,
                              na.strings = '')
-  
-  #print('results:')
-  #print(results)
 
   ## split out lat/lng. lapply is used with as.numeric to convert coordinates to numeric
   coord_df <- do.call(rbind, lapply(strsplit(as.character(results$coords),",", fixed = TRUE),as.numeric))
   colnames(coord_df) <- c(long, lat)  # <--- NOTE ORDER
   
-  
-  # convert to tibble and reorder
+  # convert to tibble and reorder coordinates
   coord_df <- tibble::as_tibble(coord_df)[c(lat, long)] 
-  
-  #print('coord_df: ') 
-  #print(coord_df)
 
   if (full_results == FALSE) return(coord_df)
   else {

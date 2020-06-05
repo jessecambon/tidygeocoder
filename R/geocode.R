@@ -31,9 +31,7 @@ geocode <- function(.tbl, address = NULL, street=NULL, city = NULL, county = NUL
                     state = NULL, postalcode = NULL, country = NULL,
                     method='census', lat = lat, long = long, verbose = FALSE, ...) {
   
-  if ((!is.null(address)) & (!is.null(street) | !is.null(city) | !is.null(county) | !is.null(state)) | !is.null(postalcode) | !is.null(country)) {
-    stop("Do not combine the 'address' argument with the address component arguments (street, city, etc.)")
-  }
+  check_address_params(address, street, city, county, state, postalcode, country)
   
   # NSE - Quote unquoted vars without double quoting quoted vars
   # end result - all of these variables become character values
@@ -62,18 +60,12 @@ geocode <- function(.tbl, address = NULL, street=NULL, city = NULL, county = NUL
   
   geo_args <- c(addr_parameters, all_args[!names(all_args) %in% c('.tbl',address_arg_names)], list(...))
   
-  #print('geo_args:')
-  #print(geo_args)
-  
   # Pass addresses to the geo function
   coordinates <- do.call(geo, geo_args)
   
-  #print('coordinates:')
-  #print(coordinates)
-  
   # cbind the original dataframe to the coordinates and convert to tibble
   # change column names to be unique if there are duplicate column names
-  final_df <- dplyr::bind_cols(.tbl,coordinates)
+  final_df <- tibble::as_tibble(cbind(.tbl,coordinates))
 
   if (verbose == TRUE) print_time("Query executed in", get_seconds_elapsed(start_time))
   

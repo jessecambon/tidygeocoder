@@ -6,11 +6,20 @@
 \usage{
 geo(
   address = NULL,
+  street = NULL,
+  city = NULL,
+  county = NULL,
+  state = NULL,
+  postalcode = NULL,
+  country = NULL,
   method = "census",
   lat = lat,
   long = long,
   limit = 1,
   api_url = NULL,
+  return = "locations",
+  vintage = "",
+  benchmark = "4",
   custom_query = list(),
   full_results = FALSE,
   verbose = FALSE,
@@ -18,13 +27,31 @@ geo(
 )
 }
 \arguments{
-\item{address}{address to be geocoded}
+\item{address}{single line address
+
+Address components (do not combine with the single line 'address' parameter)}
+
+\item{street}{street address}
+
+\item{country}{}
 
 \item{method}{the geocoder function you want to use
 \itemize{
   \item "census": US Census Geocoder. US street-level addresses only.
   \item "osm": Nominatim (OSM). Worldwide coverage.
 }}
+
+\item{api_url}{Custom URL to use for API. Overrides default URL}
+
+\item{return}{(census only) 'locations' (default) or 'geographies'}
+
+\item{vintage}{(census only)}
+
+\item{benchmark}{(census only)}
+
+\item{custom_query}{API-specific parameters to be used}
+
+\item{full_results}{returns all data from API if True}
 }
 \value{
 parsed results from geocoder

@@ -6,9 +6,14 @@
 \usage{
 geocode(
   .tbl,
-  address,
+  address = NULL,
+  street = NULL,
+  city = NULL,
+  county = NULL,
+  state = NULL,
+  postalcode = NULL,
+  country = NULL,
   method = "census",
-  mode = "auto",
   lat = lat,
   long = long,
   verbose = FALSE,

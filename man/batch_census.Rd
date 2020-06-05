@@ -6,10 +6,15 @@
 Vingate must be defined if return = 'geographies'}
 \usage{
 batch_census(
-  address_list,
+  address = NA,
+  street = NA,
+  city = NA,
+  state = NA,
+  postalcode = NA,
   return = "locations",
-  timeout = 5,
+  timeout = 15,
   full_results = FALSE,
+  verbose = FALSE,
   lat = "lat",
   long = "long"
 )

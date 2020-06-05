@@ -72,7 +72,7 @@ create_api_parameter <- function(method_name, param_name, value) {
   return(param)
 }
 
-# Construct an an api query based on generic parameters
+# Construct an api query based on generic parameters
 # and optional api-specific parameters. Generic parameters
 # are converted into api parameters using the api_parameter_reference
 # dataset. API specific parameters can be provided directly with custom_api_parameters =
@@ -91,10 +91,14 @@ get_api_query <- function(method_name, generic_parameters = list(), custom_api_p
       generic_parameters[[generic_parameter_name]])
       )
   }
-  #### TODO ----- Check for overlap between generic_parameters and custom_api_parameters
   
-  #print('main_api_parameters: ')
-  #print(main_api_parameters)
+  # Throw error if user passes the same parameter via a custom api-specific list 
+  # as they already did through the 'generic' parameters (address, street, etc.)
+  for (custom_name in names(custom_api_parameters)) {
+    if (custom_name %in% names(main_api_parameters)) {
+      stop(paste0("Custom API Parameter '", custom_name, "' was already specified"))
+    }
+  }
   
   ## Extract default parameter values ---------------
   # only extract values that have default values and don't already exist in main_api_parameters
@@ -104,9 +108,6 @@ get_api_query <- function(method_name, generic_parameters = list(), custom_api_p
       !is.na(api_ref$default_value) &
       !api_ref$api_name %in% names(c(main_api_parameters,custom_api_parameters))),][c('api_name','default_value')]
     )
-  
-  #print('default_api_parameters:')
-  #print(default_api_parameters)
   
   # Combine address, api_key, and default parameters for full query
   return( c(main_api_parameters, custom_api_parameters, default_api_parameters) )
