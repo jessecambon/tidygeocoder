@@ -46,7 +46,6 @@ geo <- function(address = NULL,
   # make sure to put this before any other variables are defined
   all_args <- as.list(environment())
   
-  
   check_address_params(address, street, city, county, state, postalcode, country)
   
   # names of all address fields

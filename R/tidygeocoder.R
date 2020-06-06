@@ -1,7 +1,7 @@
-#' @details
+#' \pkg{tidygeocoder} simplifies getting data from geocoder services. 
 #'
-#' The primary function to use is \code{\link{geocode}} which can call
-#'\code{\link{geo_census}}, \code{\link{geo_osm}}, or \code{\link{geo_cascade}} depending on the method argument.
+#' The primary functions to use are \code{\link{geocode}} and \code{\link{geo}}.
+#' The \code{\link{geocode}} function calls \code{\link{geo}}.
 #' See \code{vignette("tidygeocoder")} for details.
 #'
 #'@references
@@ -11,4 +11,3 @@
 #' }
 #' @keywords internal
 "_PACKAGE"
-#> [1] "_PACKAGE"
