@@ -46,6 +46,8 @@ geo <- function(address = NULL,
   # make sure to put this before any other variables are defined
   all_args <- as.list(environment())
   
+  start_time <- Sys.time() # start timer
+  
   # names of all address fields
   address_arg_names <- c('address', 'street', 'city', 'county', 'state', 'postalcode', 'country')
   
@@ -57,6 +59,7 @@ geo <- function(address = NULL,
   address_pack <- package_addresses(address, street, city , county, 
            state, postalcode, country)
   
+  num_addresses <- nrow(address_pack$unique)
   if (verbose == TRUE) message(paste0('num_addresses: ', nrow(address_pack$unique)))
   
   ### Set min_time if not set
@@ -103,20 +106,15 @@ geo <- function(address = NULL,
       api_query_parameters <- get_api_query(method,generic_query)
       raw_results <- switch(method,
         'census' = do.call(batch_census, 
-            c(as.list(address_pack$unique)[names(address_components) %in% c('address', 'street', 'city', 'state' , 'postalcode')],
+            c(as.list(address_pack$unique)[names(address_pack$unique) %in% c('address', 'street', 'city', 'state' , 'postalcode')],
                       list(full_results = full_results, lat = lat, long = long, verbose = verbose))),
         'geocodio' = do.call(batch_geocodio,
-            c(as.list(address_pack$unique)[names(address_components) %in% c('address', 'street', 'city', 'state', 'postalcode', 'country')],
+            c(as.list(address_pack$unique)[names(address_pack$unique) %in% c('address', 'street', 'city', 'state', 'postalcode', 'country')],
                       full_results = full_results, lat = lat, long = long, verbose = verbose)))
       
       # map the raw results back to the original addresses that were passed if there are duplicates
       if (nrow(address_pack$unique) == nrow(address_pack$crosswalk)) return(raw_results)
-      else {
-        #### PLACEHOLDER ------
-        address_pack$unique[['.uid']] <- 1:nrow(address_pack$unique)
-      
-        return(raw_results) 
-      }
+      else return(unpackage_addresses(address_pack, raw_results))
     }
   }
   

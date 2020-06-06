@@ -48,13 +48,20 @@ package_addresses <- function(address = NULL,
 #' @export
 unpackage_addresses <- function(package, results) {
   
-  #package$unique[['.uid']] <- 1:nrow(package$unique)
+  id_colnames <- names(package$crosswalk)
+  
+  # on the off chance that the results dataset has the
+  # id colnames in it then we remove them
+  results <- results[!names(results) %in% id_colnames]
+  
+  # create unique id column in results 
   results[['.uid']] <- 1:nrow(results)
   
+  # join crosswalk and results
   base <- merge(package$crosswalk, results, by = '.uid', all.x = TRUE, sort = FALSE)
   base <- base[order(base['.id']),]  # reorder
   
-  return(tibble::as_tibble(base[!names(base) %in% c('.id','.uid')]))
+  return(tibble::as_tibble(base[!names(base) %in% id_colnames]))
 }
 
 ### Test
