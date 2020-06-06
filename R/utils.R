@@ -80,8 +80,8 @@ rm_quote <- function(string) gsub("\"","", string)
 
 ## throw error if user passes both a single-line 'address' argument
 ## and address components (street, city, state, etc.)
-check_address_params <- function(address, street, city, county, state, postalcode, country ) {
-  if ((!is.null(address)) & (!is.null(street) | !is.null(city) | !is.null(county) | !is.null(state)) | !is.null(postalcode) | !is.null(country)) {
-    stop("Do not use both the single-line 'address' argument and the address component arguments (street, city, etc.)")
-  }
-}
+# check_address_params <- function(address, street, city, county, state, postalcode, country ) {
+#   if ((!is.null(address)) & (!is.null(street) | !is.null(city) | !is.null(county) | !is.null(state)) | !is.null(postalcode) | !is.null(country)) {
+#     stop("Do not use both the single-line 'address' argument and the address component arguments (street, city, etc.)")
+#   }
+# }

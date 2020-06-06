@@ -33,7 +33,15 @@ Address components (do not combine with the single line 'address' parameter)}
 
 \item{street}{street address}
 
-\item{country}{}
+\item{city}{city}
+
+\item{county}{county}
+
+\item{state}{state}
+
+\item{postalcode}{postalcode (zip code if in the United States)}
+
+\item{country}{country}
 
 \item{method}{the geocoder function you want to use
 \itemize{

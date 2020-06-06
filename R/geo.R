@@ -14,11 +14,11 @@
 #' 
 #' Address components (do not combine with the single line 'address' parameter)
 #' @param street street address
-#' @param city
-#' @param county
-#' @param state
-#' @param postalcode
-#' @param country 
+#' @param city city
+#' @param county county
+#' @param state state
+#' @param postalcode postalcode (zip code if in the United States)
+#' @param country country
 #' 
 #' @param return    (census only) 'locations' (default) or 'geographies'
 #' @param vintage   (census only)
@@ -46,30 +46,18 @@ geo <- function(address = NULL,
   # make sure to put this before any other variables are defined
   all_args <- as.list(environment())
   
-  check_address_params(address, street, city, county, state, postalcode, country)
-  
   # names of all address fields
   address_arg_names <- c('address', 'street', 'city', 'county', 'state', 'postalcode', 'country')
-  start_time <- Sys.time() # start timer
-  
-  ## Extract the address components
-  address_components <- all_args[names(all_args) %in% address_arg_names]
-  address_components[sapply(address_components, is.null)] <- NULL # remove NULL items
-  
-  ## Find number of addresses
-  if (!is.null(address)) num_addresses <- length(address)
-  else { 
-    address_component_lengths <- sapply(address_components, length)
-    if (max(address_component_lengths) != min(address_component_lengths)) {
-      stop('Address components must be equal in length')
-    }
-    num_addresses <- max(address_component_lengths, na.rm = TRUE)
-  }
-  if (verbose == TRUE) message(paste0('num_addresses: ', num_addresses))
   
   # If method='cascade' is called then pass all function arguments 
   # except for method to geo_cascade and return the results 
   if (method == 'cascade') return(do.call(geo_cascade,all_args[names(all_args) != 'method']))
+  
+  # check the address inputs
+  address_pack <- package_addresses(address, street, city , county, 
+           state, postalcode, country)
+  
+  if (verbose == TRUE) message(paste0('num_addresses: ', nrow(address_pack$unique)))
   
   ### Set min_time if not set
   if (method %in% c('osm','iq') & is.null(min_time))  min_time <- 1 
@@ -94,12 +82,12 @@ geo <- function(address = NULL,
       # since we aren't interating through them
       single_addr_args <- c(
         list(FUN = geo), 
-        all_args[names(all_args) %in% address_arg_names],
+        as.list(address_pack$unique),
         list(MoreArgs = all_args[!names(all_args) %in% address_arg_names],
           USE.NAMES = FALSE, SIMPLIFY = FALSE)
       )
-      # remove NULL and 0 length items
-      single_addr_args <- single_addr_args[sapply(single_addr_args,length, USE.NAMES = FALSE) != 0]  
+      # remove NULL and 0 length items  <--- Possibly uneccessary now?
+      single_addr_args <- single_addr_args[sapply(single_addr_args, length, USE.NAMES = FALSE) != 0]  
       
       # Geocode each address individually by recalling this function with lapply
       list_coords <- do.call(mapply, single_addr_args)
@@ -113,16 +101,29 @@ geo <- function(address = NULL,
       if (verbose == TRUE) message(paste0('Calling the ', method, 'batch geocoder'))
       # Convert our generic query parameters into parameters specific to our API (method)
       api_query_parameters <- get_api_query(method,generic_query)
-      return(switch(method,
+      raw_results <- switch(method,
         'census' = do.call(batch_census, 
-            c(address_components[names(address_components) %in% c('address', 'street', 'city', 'state' , 'postalcode')],
+            c(as.list(address_pack$unique)[names(address_components) %in% c('address', 'street', 'city', 'state' , 'postalcode')],
                       list(full_results = full_results, lat = lat, long = long, verbose = verbose))),
-        'geocodio' = batch_geocodio(street, full_results = full_results)
-                    ))
+        'geocodio' = do.call(batch_geocodio,
+            c(as.list(address_pack$unique)[names(address_components) %in% c('address', 'street', 'city', 'state', 'postalcode', 'country')],
+                      full_results = full_results, lat = lat, long = long, verbose = verbose)))
+      
+      # map the raw results back to the original addresses that were passed if there are duplicates
+      if (nrow(address_pack$unique) == nrow(address_pack$crosswalk)) return(raw_results)
+      else {
+        #### PLACEHOLDER ------
+        address_pack$unique[['.uid']] <- 1:nrow(address_pack$unique)
+      
+        return(raw_results) 
+      }
     }
   }
   
-  #### Code past this point is for geocoding a single address
+  #################################################################
+  #### Code past this point is for geocoding a single address #####
+  #################################################################
+  
   # what to return when we don't find results
   NA_value <- get_na_value(lat,long)
   
@@ -144,22 +145,6 @@ geo <- function(address = NULL,
   # Convert our generic query parameters into parameters specific to our API (method)
   api_query_parameters <- get_api_query(method, generic_query, custom_query)
   
-  # If there is no custom query then we are relying on the address and it must
-  # be non-missing/NA
-  
-  ### Check if address NULL
-  # if ((length(custom_query) == 0) & is.null(street)) {
-  #   if (verbose == TRUE) message("Blank or missing address!")
-  #   return(NA_value)
-  # }
-  # 
-  ### Check if address is missing/NA
-  # if ((length(custom_query) == 0) & (is.na(street) | trimws(street) == "")) {
-  #   if (verbose == TRUE) message("Blank or missing address!")
-  #   return(NA_value)
-  # }
-  
-  
   # Set API URL (if not already set) ---------------------------
   if (is.null(api_url)) {
     if (method == 'census') api_url <- get_census_url(return, search)
@@ -176,7 +161,7 @@ geo <- function(address = NULL,
     message(paste0('Querying API URL: ', api_url))
     message('Passing the following parameters to the API:')
     for (var in names(api_query_parameters)) message(paste(var, '=', api_query_parameters[var]))
-    message('-----')
+    message('')
   }
   raw_results <- jsonlite::fromJSON(query_api(api_url, api_query_parameters))
   
@@ -187,7 +172,7 @@ geo <- function(address = NULL,
   }
   
   ### Extract lat/long as an unnamed numeric vector c(lat,long)
-  coords <- extract_coords(method,raw_results)
+  coords <- extract_coords(method, raw_results)
   
   if (length(coords) == 0) {
     if (verbose == TRUE) message("No results found")
