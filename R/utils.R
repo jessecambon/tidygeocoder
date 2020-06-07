@@ -43,15 +43,16 @@ extract_coords <- function(method, response) {
 
 #' extract results. exclude lat/long
 #'@export
-extract_results <- function(method, response) {
+extract_results <- function(method, response, flatten = TRUE) {
   results <- switch(method,
-  'census' = jsonlite::flatten(
-    response$result$addressMatches[!names(response$result$addressMatches) %in% c('coordinates')])[1,],
+  'census' = response$result$addressMatches[!names(response$result$addressMatches) %in% c('coordinates')][1,],
   'osm' = response[!names(response) %in% c('lat', 'lon')],
   'iq' =  response[!names(response) %in% c('lat', 'lon')],
-  'geocodio' = jsonlite::flatten(response$results[!names(response$results) %in% c('location')])
+  'geocodio' = response$results[!names(response$results) %in% c('location')]
   )
-  return(results)
+  
+  if (flatten == TRUE) return(jsonlite::flatten(results))
+  else return(results)
 }
 
 ### Return a 2 column, 1 row NA tibble dataframe for coordinates that aren't found

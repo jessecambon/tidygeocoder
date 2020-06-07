@@ -24,17 +24,19 @@
 #' 
 #' @param api_url Custom URL to use for API. Overrides default URL
 #' @param custom_query API-specific parameters to be used
+#' 
 #' @param full_results returns all data from API if True
+#' @param flatten if TRUE then any nested dataframes in results are flattened
 #' 
 #' @param no_query if TRUE then no queries are sent to the geocoder and verbose is set to TRUE
-#' 
+#' TODO ----> implement a 'unique_only' argument
 #' @return parsed results from geocoder
 #' @export
 geo <- function(address = NULL, 
       street = NULL, city = NULL, county = NULL, state = NULL, postalcode = NULL, country = NULL,
     method = 'census', lat = lat, long = long,
     limit=1, api_url = NULL, return = 'locations', 
-    custom_query = list(), full_results = FALSE, verbose = FALSE, min_time=NULL, no_query = FALSE) {
+    custom_query = list(), full_results = FALSE, flatten = TRUE, verbose = FALSE, min_time=NULL, no_query = FALSE) {
   
   #### TODO Do not pass address components to census geocoder if both address and street are undefined
   
@@ -114,12 +116,11 @@ geo <- function(address = NULL,
       raw_results <- switch(method,
         'census' = do.call(batch_census, 
             c(as.list(address_pack$unique)[names(address_pack$unique) %in% c('address', 'street', 'city', 'state' , 'postalcode')],
-                      list(full_results = full_results, lat = lat, long = long, custom_query = custom_query, 
-                      verbose = verbose, return = return))),
+              all_args[!names(all_args) %in% address_arg_names])),
         'geocodio' = do.call(batch_geocodio,
             c(as.list(address_pack$unique)[names(address_pack$unique) %in% c('address', 'street', 'city', 'state', 'postalcode', 'country')],
-                      full_results = full_results, lat = lat, long = long, custom_query = custom_query,
-                      verbose = verbose)))
+              all_args[!names(all_args) %in% address_arg_names]))
+        )
       
       # map the raw results back to the original addresses that were passed if there are duplicates
       return(unpackage_addresses(address_pack, raw_results))
@@ -190,7 +191,7 @@ geo <- function(address = NULL,
   
   if (full_results == TRUE) {
     # extract result details (doesn't include coordinates)
-    result_details <- extract_results(method, raw_results)
+    result_details <- extract_results(method, raw_results, flatten)
     complete_results <- tibble::as_tibble(dplyr::bind_cols(coords_tibble, result_details))
     return(complete_results)
   } else return(coords_tibble)

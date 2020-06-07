@@ -17,7 +17,8 @@ batch_census(
   verbose = FALSE,
   custom_query = list(),
   lat = "lat",
-  long = "long"
+  long = "long",
+  ...
 )
 }
 \description{

@@ -4,7 +4,7 @@
 \alias{extract_results}
 \title{extract results. exclude lat/long}
 \usage{
-extract_results(method, response)
+extract_results(method, response, flatten = TRUE)
 }
 \description{
 extract results. exclude lat/long

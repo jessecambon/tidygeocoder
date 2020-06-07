@@ -9,7 +9,8 @@ batch_geocodio(
   lat = "lat",
   long = "long",
   timeout = 5,
-  full_results = FALSE
+  full_results = FALSE,
+  ...
 )
 }
 \description{

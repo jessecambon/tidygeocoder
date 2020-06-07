@@ -12,12 +12,13 @@
 #' @export 
 batch_census <- function(address = NA, street = NA, city = NA, state = NA, postalcode = NA,
     return = 'locations', timeout=15, full_results = FALSE, verbose = FALSE, custom_query = list(),
-                         lat = 'lat', long = 'long') {
+                         lat = 'lat', long = 'long', ...) {
   
+  location_cols <- c('id', 'input_address', 'match_indicator', 'match_type',
+                   'matched_address', 'coords', 'tiger_line_id', 'tiger_side')
   return_cols <- switch(return,
-      'locations' = c('id', 'address', 'status', 'quality', 'matched_address', 'coords', 'tiger_line_id', 'tiger_side'),
-      'geographies' = c('id', 'address', 'status', 'quality', 'matched_address',
-    'coords', 'tiger_line_id', 'tiger_side', 'state_id', 'county_id', 'tract_id', 'block_id')
+                        'locations' = location_cols,
+                        'geographies' = c(location_cols, c('state_fips', 'county_fips', 'census_tract', 'census_block'))
   )
   
   url_base <- get_census_url(return, 'addressbatch')
@@ -25,7 +26,6 @@ batch_census <- function(address = NA, street = NA, city = NA, state = NA, posta
   num_addresses <- max(sapply(list(address, street, city, state), length), na.rm = TRUE)
 
   if (verbose == TRUE) message(paste0('census batch geocoder, num_addresses: ', num_addresses))
-  
   if (is.na(street)) street <- address
   
   # create input dataframe
@@ -40,12 +40,10 @@ batch_census <- function(address = NA, street = NA, city = NA, state = NA, posta
   # Write a Temporary CSV
   tmp <- tempfile(fileext = '.csv')
   utils::write.table(input_df, tmp, row.names = FALSE, col.names = FALSE, sep = ',', na = '')
-  #check <- read.csv(tmp, header = FALSE)
   
-  ## NOTE - request will fail if vintage and benchmark are invalid for return = 'geographies'
   # Construct query
+  ## NOTE - request will fail if vintage and benchmark are invalid for return = 'geographies'
   query_parameters <- get_api_query('census', custom_api_parameters = custom_query)
-  
   if (verbose == TRUE) display_query(url_base, query_parameters)
   
   # Query API
@@ -62,20 +60,21 @@ batch_census <- function(address = NA, street = NA, city = NA, state = NA, posta
   colnames(coord_df) <- c(long, lat)  # <--- NOTE ORDER
   
   # convert to tibble and reorder coordinates
-  coord_df <- tibble::as_tibble(coord_df)[c(lat, long)] 
+  coord_df <- tibble::as_tibble(coord_df)[c(lat, long)]
 
   if (full_results == FALSE) return(coord_df)
   else {
     # Combine extracted lat/longs with other return results
     combi <- tibble::as_tibble(dplyr::bind_cols(coord_df, dplyr::select(results,-coords)))
-    
     return(combi)
   }
 }
 
+
+### TODO ---- implement use of address components
 #' Batch geocode with geocodio
 #' @export
-batch_geocodio <- function(address_list, lat = 'lat', long = 'long', timeout = 5, full_results = FALSE) {
+batch_geocodio <- function(address_list, lat = 'lat', long = 'long', timeout = 5, full_results = FALSE, ...) {
   url_base <- get_api_url('geocodio')
   # Construct query
   query_parameters <- get_api_query('geocodio', list(limit = 1, api_key = get_key('geocodio')))

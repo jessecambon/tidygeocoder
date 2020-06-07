@@ -12,9 +12,13 @@ url_base <- "https://geocoding.geo.census.gov/geocoder/locations/addressbatch"
 
 return <- 'locations' # match to url used
 
+# column names for what the census batch geocoder returns
+# https://www.census.gov/programs-surveys/geography/technical-documentation/complete-technical-documentation/census-geocoder.html
+
+location_cols <- c('id', 'input_address', 'match_indicator', 'match_type', 'matched_address', 'coords', 'tiger_line_id', 'tiger_side')
 return_cols <- switch(return,
- 'locations' = c('id', 'address', 'status', 'quality', 'matched_address', 'coords', 'tiger_line_id', 'tiger_side'),
- 'geographies' = c('id', 'address', 'status', 'quality', 'matched_address', 'coords', 'tiger_line_id', 'tiger_side', 'state_id', 'county_id', 'tract_id', 'block_id')
+ 'locations' = location_cols,
+ 'geographies' = c(location_cols, c('state_fips', 'county_fips', 'census_tract', 'census_block'))
 )
 
 # addresses <- c("1600 Pennsylvania Ave Washington, DC", 
@@ -43,14 +47,15 @@ utils::write.table(input_df, tmp, row.names = FALSE,
                    col.names = FALSE, sep = ',', na = '', 
                    qmethod = 'double', fileEncoding = "UTF-8")
 
-check <- read.table(tmp, header = FALSE,na.strings = '',sep=',')
+check <- read.table(tmp, header = FALSE,na.strings = '',sep = ',')
 
 req <-
   httr::POST(url_base,
        body = list(
          addressFile = httr::upload_file(tmp),
-         benchmark = 4,
-         format = 'json'
+         benchmark = 'Public_AR_Current',
+         format = 'json',
+         vintage = 'Current_Current'
        ),
        encode = 'multipart',
        httr::timeout(60),
