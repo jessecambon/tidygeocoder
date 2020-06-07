@@ -95,12 +95,13 @@ geo <- function(address = NULL,
       # remove NULL and 0 length items  <--- Possibly uneccessary now?
       single_addr_args <- single_addr_args[sapply(single_addr_args, length, USE.NAMES = FALSE) != 0]  
       
-      # Geocode each address individually by recalling this function with lapply
+      # Geocode each address individually by recalling this function with mapply
       list_coords <- do.call(mapply, single_addr_args)
         
       # rbind the list of tibble dataframes together
-      coordinates <- dplyr::bind_rows(list_coords)
-      return(coordinates)
+      stacked_results <- dplyr::bind_rows(list_coords)
+      
+      return(unpackage_addresses(address_pack, stacked_results))
       
     } else {
       ### Call Batch Geocoding
@@ -121,8 +122,7 @@ geo <- function(address = NULL,
                       verbose = verbose)))
       
       # map the raw results back to the original addresses that were passed if there are duplicates
-      if (nrow(address_pack$unique) == nrow(address_pack$crosswalk)) return(raw_results)
-      else return(unpackage_addresses(address_pack, raw_results))
+      return(unpackage_addresses(address_pack, raw_results))
     }
   }
   
@@ -135,11 +135,11 @@ geo <- function(address = NULL,
   
   # construct query with single-line address or address components
   if  (!is.null(address)) {
-    search <- 'onelineaddress'
+    search <- 'onelineaddress' # for census only
     generic_query[['address']]      <- address
   }
   else {
-    search <- 'address'
+    search <- 'address' # for census only
     if (!is.null(street))       generic_query[['street']]       <- street
     if (!is.null(city))         generic_query[['city']]         <- city
     if (!is.null(county))       generic_query[['county']]       <- county
@@ -188,6 +188,10 @@ geo <- function(address = NULL,
   ### Make sure the proper amount of time has elapsed for the query per min_time
   pause_until(start_time, min_time, debug = verbose) 
   
-  ### Return  results
-  return(coords_tibble)
+  if (full_results == TRUE) {
+    # extract result details (doesn't include coordinates)
+    result_details <- extract_results(method, raw_results)
+    complete_results <- tibble::as_tibble(dplyr::bind_cols(coords_tibble, result_details))
+    return(complete_results)
+  } else return(coords_tibble)
 }

@@ -3,6 +3,8 @@
 \name{geo_census}
 \alias{geo_census}
 \alias{geo_osm}
+\alias{geo_geocodio}
+\alias{geo_iq}
 \alias{geo_cascade}
 \title{Conveniance functions for calling the \code{\link{geo}} function
 with a specified method.}
@@ -10,6 +12,10 @@ with a specified method.}
 geo_census(...)
 
 geo_osm(...)
+
+geo_geocodio(...)
+
+geo_iq(...)
 
 geo_cascade(...)
 }

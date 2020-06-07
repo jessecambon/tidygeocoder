@@ -3,11 +3,13 @@
 \name{unpackage_addresses}
 \alias{unpackage_addresses}
 \title{Function for unpackaging and RE-deduping addresses
-so that we can return them in the same order that they were passed}
+so that we can return them in the same order that they were passed
+this function assumes that the results are in the same order as package$unique}
 \usage{
 unpackage_addresses(package, results)
 }
 \description{
 Function for unpackaging and RE-deduping addresses
 so that we can return them in the same order that they were passed
+this function assumes that the results are in the same order as package$unique
 }

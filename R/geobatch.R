@@ -67,7 +67,7 @@ batch_census <- function(address = NA, street = NA, city = NA, state = NA, posta
   if (full_results == FALSE) return(coord_df)
   else {
     # Combine extracted lat/longs with other return results
-    combi <- tibble::as_tibble(dplyr::bind_cols(dplyr::select(results,-coords), coord_df))
+    combi <- tibble::as_tibble(dplyr::bind_cols(coord_df, dplyr::select(results,-coords)))
     
     return(combi)
   }

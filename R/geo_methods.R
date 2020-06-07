@@ -6,7 +6,15 @@ geo_census <- function(...) geo(method = 'census', ...)
   
 #'@rdname geo_census
 #' @export
-geo_osm <- function(...) geo(method = 'osm',...)
+geo_osm <- function(...) geo(method = 'osm', ...)
+
+#'@rdname geo_census
+#' @export
+geo_geocodio <- function(...) geo(method = 'geocodio', ...)
+
+#'@rdname geo_census
+#' @export
+geo_iq <- function(...) geo(method = 'iq', ...)
 
 #' First try census then try osm. Considering deprecating...
 #' NOTE ----- UNTESTED

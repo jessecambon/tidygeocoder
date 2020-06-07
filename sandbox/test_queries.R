@@ -9,6 +9,12 @@ census_geo1 <- test1 <- geo(address = c('11 Wall St New York, NY', '1600 Pennsyl
 iq1 <- geo(address = 'Lima, Peru', method = 'iq')
 iq2 <- geo(city = c('Beijing', 'Lima'), country = c('China','Peru'), method = 'iq', verbose = T)
 
+## full results
+full1 <- geo_osm('Lima, Peru', full_results = TRUE)
+full2 <- geo('Vancouver, Canada', method = 'geocodio', full_results = TRUE, verbose = T)
+full3 <- geo('11 Wall St, New York, NY', method = 'census', full_results = TRUE, verbose = T)
+
+
 ## Testing helper functions
 
 package_addresses(city = c('Lima'), country = c('Peru'), verbose = T)

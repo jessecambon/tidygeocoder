@@ -27,8 +27,9 @@ pause_until <- function(start_time,min_time,debug=FALSE) {
   }
 }
 
-# Extract latitude, longitude as as numeric vector c(lat, long)
-# response is the parsed json response
+#' Extract latitude, longitude as as numeric vector c(lat, long)
+#' response is the parsed json response
+#' @export
 extract_coords <- function(method, response) {
   lat_lng <- switch(method,
   'census' = unlist(response$result$addressMatches$coordinates[1,][c('y','x')], 
@@ -38,6 +39,19 @@ extract_coords <- function(method, response) {
   'geocodio' = c(response$results$location$lat, response$results$location$lng)
   )
   return(lat_lng)
+}
+
+#' extract results. exclude lat/long
+#'@export
+extract_results <- function(method, response) {
+  results <- switch(method,
+  'census' = jsonlite::flatten(
+    response$result$addressMatches[!names(response$result$addressMatches) %in% c('coordinates')])[1,],
+  'osm' = response[!names(response) %in% c('lat', 'lon')],
+  'iq' =  response[!names(response) %in% c('lat', 'lon')],
+  'geocodio' = jsonlite::flatten(response$results[!names(response$results) %in% c('location')])
+  )
+  return(results)
 }
 
 ### Return a 2 column, 1 row NA tibble dataframe for coordinates that aren't found

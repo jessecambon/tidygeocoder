@@ -26,3 +26,6 @@ dat <- jsonlite::fromJSON(httr::content(resp, as = 'text', encoding = "UTF-8"))
 
 lat_lng <- c(dat$results$location$lat, dat$results$location$lng)
 
+
+mtcars[
+  'cyl']

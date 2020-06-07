@@ -52,9 +52,12 @@ package_addresses <- function(address = NULL,
 #'
 #' Function for unpackaging and RE-deduping addresses
 #' so that we can return them in the same order that they were passed
+#' this function assumes that the results are in the same order as package$unique
 #' 
 #' @export
 unpackage_addresses <- function(package, results) {
+  # if there are no duplicates then just return the raw results
+  if (nrow(package$unique) == nrow(package$crosswalk)) return(results)
   
   id_colnames <- names(package$crosswalk)
   
@@ -67,7 +70,7 @@ unpackage_addresses <- function(package, results) {
   
   # join crosswalk and results
   base <- merge(package$crosswalk, results, by = '.uid', all.x = TRUE, sort = FALSE)
-  base <- base[order(base['.id']),]  # reorder
+  base <- base[order(base['.id']), ]  # reorder
   
   return(tibble::as_tibble(base[!names(base) %in% id_colnames]))
 }
