@@ -15,6 +15,7 @@ batch_census(
   timeout = 15,
   full_results = FALSE,
   verbose = FALSE,
+  custom_query = list(),
   lat = "lat",
   long = "long"
 )

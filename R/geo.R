@@ -10,7 +10,7 @@
 #'   \item "census": US Census Geocoder. US street-level addresses only.
 #'   \item "osm": Nominatim (OSM). Worldwide coverage.
 #' }
-#' @param address single line address
+#' @param address single line address. do not combine with address component arguments below
 #' 
 #' Address components (do not combine with the single line 'address' parameter)
 #' @param street street address
@@ -21,21 +21,22 @@
 #' @param country country
 #' 
 #' @param return    (census only) 'locations' (default) or 'geographies'
-#' @param vintage   (census only)
-#' @param benchmark (census only) 
 #' 
 #' @param api_url Custom URL to use for API. Overrides default URL
 #' @param custom_query API-specific parameters to be used
 #' @param full_results returns all data from API if True
+#' 
+#' @param no_query if TRUE then no queries are sent to the geocoder and verbose is set to TRUE
+#' 
 #' @return parsed results from geocoder
 #' @export
 geo <- function(address = NULL, 
       street = NULL, city = NULL, county = NULL, state = NULL, postalcode = NULL, country = NULL,
     method = 'census', lat = lat, long = long,
-    limit=1, api_url = NULL, return = 'locations', vintage = '', benchmark = '4', custom_query = list(),
-    full_results = FALSE, verbose = FALSE, min_time=NULL) {
+    limit=1, api_url = NULL, return = 'locations', 
+    custom_query = list(), full_results = FALSE, verbose = FALSE, min_time=NULL, no_query = FALSE) {
   
-  #### TODO Do not pass address components to census geocoder if street is undefined
+  #### TODO Do not pass address components to census geocoder if both address and street are undefined
   
   # NSE - Quote unquoted vars without double quoting quoted vars
   # end result - all of these variables become character values
@@ -46,6 +47,8 @@ geo <- function(address = NULL,
   # make sure to put this before any other variables are defined
   all_args <- as.list(environment())
   
+  if (no_query == TRUE) verbose <- TRUE
+  
   start_time <- Sys.time() # start timer
   
   # names of all address fields
@@ -55,12 +58,12 @@ geo <- function(address = NULL,
   # except for method to geo_cascade and return the results 
   if (method == 'cascade') return(do.call(geo_cascade,all_args[names(all_args) != 'method']))
   
-  # check the address inputs
+  # check address inputs and deduplicate
   address_pack <- package_addresses(address, street, city , county, 
            state, postalcode, country)
   
   num_addresses <- nrow(address_pack$unique)
-  if (verbose == TRUE) message(paste0('num_addresses: ', nrow(address_pack$unique)))
+  if (verbose == TRUE) message(paste0('Number of Addresses: ', num_addresses))
   
   ### Set min_time if not set
   if (method %in% c('osm','iq') & is.null(min_time))  min_time <- 1 
@@ -78,7 +81,7 @@ geo <- function(address = NULL,
   ### this function repeatedly for each individual address depending on the method
   if (num_addresses > 1) {
     if (method %in% c('osm', 'iq')) {
-      if (verbose == TRUE) message('Executing single address geocoding...')
+      if (verbose == TRUE) message('Executing single address geocoding...\n')
       
       # construct args for single address query
       # note that non-address related fields go to the MoreArgs argument of mapply
@@ -103,14 +106,19 @@ geo <- function(address = NULL,
       ### Call Batch Geocoding
       if (verbose == TRUE) message(paste0('Calling the ', method, 'batch geocoder'))
       # Convert our generic query parameters into parameters specific to our API (method)
-      api_query_parameters <- get_api_query(method,generic_query)
+      #api_query_parameters <- get_api_query(method, generic_query, custom_query)
+      #if (verbose == TRUE) display_query(api_url, api_query_parameters)
+      if (no_query == TRUE) return(get_na_value(lat, long, rows = num_addresses))
+      
       raw_results <- switch(method,
         'census' = do.call(batch_census, 
             c(as.list(address_pack$unique)[names(address_pack$unique) %in% c('address', 'street', 'city', 'state' , 'postalcode')],
-                      list(full_results = full_results, lat = lat, long = long, verbose = verbose))),
+                      list(full_results = full_results, lat = lat, long = long, custom_query = custom_query, 
+                      verbose = verbose, return = return))),
         'geocodio' = do.call(batch_geocodio,
             c(as.list(address_pack$unique)[names(address_pack$unique) %in% c('address', 'street', 'city', 'state', 'postalcode', 'country')],
-                      full_results = full_results, lat = lat, long = long, verbose = verbose)))
+                      full_results = full_results, lat = lat, long = long, custom_query = custom_query,
+                      verbose = verbose)))
       
       # map the raw results back to the original addresses that were passed if there are duplicates
       if (nrow(address_pack$unique) == nrow(address_pack$crosswalk)) return(raw_results)
@@ -155,12 +163,8 @@ geo <- function(address = NULL,
   }
   
   ### Execute Single Address Query -----------------------------------------
-  if (verbose == TRUE) {
-    message(paste0('Querying API URL: ', api_url))
-    message('Passing the following parameters to the API:')
-    for (var in names(api_query_parameters)) message(paste(var, '=', api_query_parameters[var]))
-    message('')
-  }
+  if (verbose == TRUE) display_query(api_url, api_query_parameters)
+  if (no_query == TRUE) return(NA_value)
   raw_results <- jsonlite::fromJSON(query_api(api_url, api_query_parameters))
   
   # If no results found, return NA

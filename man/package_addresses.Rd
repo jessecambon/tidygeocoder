@@ -11,7 +11,8 @@ package_addresses(
   county = NULL,
   state = NULL,
   postalcode = NULL,
-  country = NULL
+  country = NULL,
+  verbose = FALSE
 )
 }
 \description{

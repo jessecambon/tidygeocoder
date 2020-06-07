@@ -1,5 +1,9 @@
 ## Put common utilities here
 
+# remove a literal double quote from a string
+# used with NSE
+rm_quote <- function(string) gsub("\"","", string)
+
 # How many seconds have elapsed since start time t0 (as defined by a t0 <- Sys.time() call) 
 get_seconds_elapsed <- function(t0) {
   return(as.numeric(difftime(Sys.time(), t0, units = 'secs')))
@@ -9,7 +13,6 @@ get_seconds_elapsed <- function(t0) {
 print_time <- function(text, num_seconds) {
   message(paste0(text, ': ', round(num_seconds,1),' seconds'))
 }
-
 
 # Use Sys.sleep() to pause until a certain amount of time has elapsed
 pause_until <- function(start_time,min_time,debug=FALSE) {
@@ -27,37 +30,26 @@ pause_until <- function(start_time,min_time,debug=FALSE) {
 # Extract latitude, longitude as as numeric vector c(lat, long)
 # response is the parsed json response
 extract_coords <- function(method, response) {
-  if (method == 'census') {
-    coord_xy <- response$result$addressMatches$coordinates[1,]
-    lat_lng <- c(coord_xy$y, coord_xy$x)
-  } else if (method == 'osm') {
-    lat_lng <- as.numeric( c(response$lat, response$lon) )
-  }
-  # Convert to a 1 row 2 column tibble and return
+  lat_lng <- switch(method,
+  'census' = unlist(response$result$addressMatches$coordinates[1,][c('y','x')], 
+                use.names = FALSE),
+  'osm' = as.numeric(c(response$lat, response$lon)),
+  'iq' = as.numeric(c(response$lat, response$lon)),
+  'geocodio' = c(response$results$location$lat, response$results$location$lng)
+  )
   return(lat_lng)
-}  
-
-# split single coordinate set
-#split_coords <- function(input) as.numeric(unlist(strsplit(input,"\\,")))
-
-#### Split c(lat,long) coordinates into a tibble with 1 row and 2 columns   
-#split_coordinates <- function(coords) tibble::tibble(lat = coords[[1]] ,long = coords[[2]])
-
-#### Split list of coordinates into a dataframe with two columns and one row per coordinate
-#unnest_coordinates <- function(coordinate_list) do.call('rbind',lapply(coordinate_list, split_coordinates))
+}
 
 ### Return a 2 column, 1 row NA tibble dataframe for coordinates that aren't found
 # Given the column names (as strings)
-get_na_value <- function(lat, long) {
-  NA_df <- tibble::tribble(
-    ~a, ~b,
-    NA, NA
-  )
+get_na_value <- function(lat, long, rows = 1) {
+  NA_df <- tibble::tibble(a = rep(NA, rows), b = rep(NA, rows))
   colnames(NA_df) <- c(lat, long)
   return(NA_df)
 }
 
 # For a list of dataframes, creates an NA df with 1 row with the column name supplied
+# this is used in parsing the response of the geocodio batch geocoder
 filler_df <- function(x, column_names) {
   if (nrow(x) == 0) {
     filler_df <- data.frame(row.names = 1)
@@ -69,19 +61,3 @@ filler_df <- function(x, column_names) {
     
   } else return(x)
 }
-
-# remove a literal double quote from a string
-# used with NSE
-rm_quote <- function(string) gsub("\"","", string)
-
-# Quoted unquoted vars without double quoting quoted vars
-#nse_eval <- function(x) gsub("\"","", deparse(substitute(x)))
-
-
-## throw error if user passes both a single-line 'address' argument
-## and address components (street, city, state, etc.)
-# check_address_params <- function(address, street, city, county, state, postalcode, country ) {
-#   if ((!is.null(address)) & (!is.null(street) | !is.null(city) | !is.null(county) | !is.null(state)) | !is.null(postalcode) | !is.null(country)) {
-#     stop("Do not use both the single-line 'address' argument and the address component arguments (street, city, etc.)")
-#   }
-# }

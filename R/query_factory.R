@@ -6,7 +6,6 @@
 
 # Return the API URL for the specified method
 # if URL not found then return ""
-#### TODO - incorporate flexible census url
 get_api_url <- function(method_name,url_name=NULL) {
   # select rows pertaining to the relevant method
   url_ref <- tidygeocoder::api_url_reference
@@ -59,7 +58,7 @@ create_api_parameter <- function(method_name, param_name, value) {
   # Extract the API specific parameter name
   api_parameter_name <- 
     api_ref[which( (api_ref$method == method_name) &
-        (api_ref$generic_name ==  param_name)),'api_name'][[1]]
+        (api_ref$generic_name ==  param_name)), 'api_name'][[1]]
   #print('api_parameter_name:')
   #print(api_parameter_name)
   
@@ -145,3 +144,15 @@ query_api <- function(api_url, query_parameters, mode = 'single',
   return(content)
 }
 
+# print values in named list
+display_named_list <- function(named_list) {
+  for (var in names(named_list)) message(paste(var, '=', named_list[var]))
+  message('')
+}
+
+# Displays query URL and parameters
+display_query <- function(api_url, api_query_parameters) {
+  message(paste0('Querying API URL: ', api_url))
+  message('Passing the following parameters to the API:')
+  display_named_list(api_query_parameters)
+}

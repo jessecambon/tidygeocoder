@@ -2,7 +2,7 @@
 % Please edit documentation in R/geocode.R
 \name{geocode}
 \alias{geocode}
-\title{Geocode street addresses in a dataframe}
+\title{Geocode addresses in a dataframe}
 \usage{
 geocode(
   .tbl,

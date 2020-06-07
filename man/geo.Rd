@@ -18,16 +18,15 @@ geo(
   limit = 1,
   api_url = NULL,
   return = "locations",
-  vintage = "",
-  benchmark = "4",
   custom_query = list(),
   full_results = FALSE,
   verbose = FALSE,
-  min_time = NULL
+  min_time = NULL,
+  no_query = FALSE
 )
 }
 \arguments{
-\item{address}{single line address
+\item{address}{single line address. do not combine with address component arguments below
 
 Address components (do not combine with the single line 'address' parameter)}
 
@@ -53,13 +52,11 @@ Address components (do not combine with the single line 'address' parameter)}
 
 \item{return}{(census only) 'locations' (default) or 'geographies'}
 
-\item{vintage}{(census only)}
-
-\item{benchmark}{(census only)}
-
 \item{custom_query}{API-specific parameters to be used}
 
 \item{full_results}{returns all data from API if True}
+
+\item{no_query}{if TRUE then no queries are sent to the geocoder and verbose is set to TRUE}
 }
 \value{
 parsed results from geocoder

@@ -1,4 +1,4 @@
-#' Geocode street addresses in a dataframe
+#' Geocode addresses in a dataframe
 #'
 #' Takes a dataframe containing addresses as a input. Returns
 #' the dataframe with latitude and longitude coordinate columns
@@ -57,7 +57,6 @@ geocode <- function(.tbl, address = NULL, street=NULL, city = NULL, county = NUL
   for (var in address_arg_names) {
     if (var != "NULL") addr_parameters[[var]] <- .tbl[[all_args[[var]]]]
   }
-  
   geo_args <- c(addr_parameters, all_args[!names(all_args) %in% c('.tbl',address_arg_names)], list(...))
   
   # Pass addresses to the geo function

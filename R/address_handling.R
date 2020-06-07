@@ -2,11 +2,19 @@
 #' 
 #' @export
 package_addresses <- function(address = NULL, 
-  street = NULL, city = NULL, county = NULL, state = NULL, postalcode = NULL, country = NULL) {
+  street = NULL, city = NULL, county = NULL, state = NULL, postalcode = NULL, country = NULL, verbose = FALSE) {
   # package all non-NULL address arguments into a named list
   combined_addr <- as.list(environment())
+  combined_addr <- combined_addr[names(combined_addr) != 'verbose']
   combined_addr[sapply(combined_addr, is.null)] <- NULL # remove NULL items
   
+  # trim all white space
+  for (param in names(combined_addr)) combined_addr[param] <- lapply(combined_addr[param], trimws)
+  
+  if (verbose == TRUE) {
+    display_named_list(combined_addr)
+    #message(paste0('combined_addr class: ', class(combined_addr)))
+  }
   
   arg_names <- names(combined_addr)
   
@@ -31,11 +39,11 @@ package_addresses <- function(address = NULL,
   unique_addr[['.uid']] <- 1:nrow(unique_addr)
   
   # create id to record original address order
-  addr_orig[['.id']] <- 1:nrow(addr_orig) 
+  addr_orig[['.id']] <- 1:nrow(addr_orig)
   
   # crosswalk
   crosswalk <- merge(addr_orig, unique_addr, by = addr_col_names, all.x = TRUE, sort = FALSE)
-  crosswalk <- crosswalk[order(crosswalk['.id']),]  # reorder
+  crosswalk <- crosswalk[order(crosswalk['.id']), ]  # reorder
   
   return(list(unique = tibble::as_tibble(subset(unique_addr, select = -.uid)), 
               crosswalk = tibble::as_tibble(crosswalk[!names(crosswalk) %in% addr_col_names])

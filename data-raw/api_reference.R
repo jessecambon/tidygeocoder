@@ -19,18 +19,20 @@
 # Use this for storing essential parameters 
 # Note that the format = JSON parameter is required because our parsing code expects json content
 api_parameter_reference <- tibble::tribble(
-  ~method,  ~generic_name,   ~api_name,    ~default_value,    ~required,
-  'census',   'format',     'format',      'json',            TRUE,
-  'census',   'limit',      NA,            NA,                FALSE,
-  'census',    NA,          'benchmark',   '4',               TRUE,
-  'census',    NA,          'vintage',     'ACS2019_Current', TRUE,
-  'census',   'address',    'address',     NA,                FALSE,
-  'census',   'street',     'street',      NA,                FALSE,
-  'census',   'city',       'city',        NA,                FALSE,
-  'census',   'county',     NA,            NA,                FALSE,
-  'census',   'state',      'state',       NA,                FALSE,
-  'census',   'postalcode', 'zip',         NA,                FALSE,
-  'census',   'country',    NA,            NA,                FALSE,
+  ~method,  ~generic_name,   ~api_name,    ~default_value,      ~required,
+  
+  # Note that vintage is only required when return = 'geographies'
+  'census',   'format',     'format',      'json',              TRUE,
+  'census',   'limit',      NA,            NA,                  FALSE,
+  'census',    NA,          'benchmark',   'Public_AR_Current', TRUE,
+  'census',    NA,          'vintage',     'Current_Current',   TRUE,
+  'census',   'address',    'address',     NA,                  FALSE,
+  'census',   'street',     'street',      NA,                  FALSE,
+  'census',   'city',       'city',        NA,                  FALSE,
+  'census',   'county',     NA,            NA,                  FALSE,
+  'census',   'state',      'state',       NA,                  FALSE,
+  'census',   'postalcode', 'zip',         NA,                  FALSE,
+  'census',   'country',    NA,            NA,                  FALSE,
   
   'osm',      'format',     'format',      'json',            TRUE,
   'osm',      'limit',      'limit',       '1',               FALSE,
