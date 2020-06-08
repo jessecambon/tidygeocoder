@@ -2,15 +2,10 @@
 % Please edit documentation in R/geobatch.R
 \name{batch_census}
 \alias{batch_census}
-\title{Census batch geocoding
-Vingate must be defined if return = 'geographies'}
+\title{Census batch geocoding}
 \usage{
 batch_census(
-  address = NA,
-  street = NA,
-  city = NA,
-  state = NA,
-  postalcode = NA,
+  address_pack,
   return = "locations",
   timeout = 15,
   full_results = FALSE,
@@ -21,7 +16,12 @@ batch_census(
   ...
 )
 }
+\arguments{
+\item{address_pack}{packaged addresses object}
+
+\item{return}{should be 'locations' or 'geographies'
+Vingate must be defined if return = 'geographies'}
+}
 \description{
 Census batch geocoding
-Vingate must be defined if return = 'geographies'
 }

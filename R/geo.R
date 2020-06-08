@@ -25,20 +25,18 @@
 #' @param api_url Custom URL to use for API. Overrides default URL
 #' @param custom_query API-specific parameters to be used
 #' 
-#' @param full_results returns all data from API if True
+#' @param full_results returns all data from API if TRUE
+#' @param unique_only only return unique results if TRUE
 #' @param flatten if TRUE then any nested dataframes in results are flattened
 #' 
 #' @param no_query if TRUE then no queries are sent to the geocoder and verbose is set to TRUE
-#' TODO ----> implement a 'unique_only' argument
 #' @return parsed results from geocoder
 #' @export
 geo <- function(address = NULL, 
-      street = NULL, city = NULL, county = NULL, state = NULL, postalcode = NULL, country = NULL,
-    method = 'census', lat = lat, long = long,
-    limit=1, api_url = NULL, return = 'locations', 
-    custom_query = list(), full_results = FALSE, flatten = TRUE, verbose = FALSE, min_time=NULL, no_query = FALSE) {
-  
-  #### TODO Do not pass address components to census geocoder if both address and street are undefined
+    street = NULL, city = NULL, county = NULL, state = NULL, postalcode = NULL, country = NULL,
+    method = 'census', lat = lat, long = long, limit=1, api_url = NULL, return = 'locations', 
+    custom_query = list(), full_results = FALSE, unique_only = FALSE, flatten = TRUE,
+    verbose = FALSE, min_time=NULL, no_query = FALSE) {
   
   # NSE - Quote unquoted vars without double quoting quoted vars
   # end result - all of these variables become character values
@@ -79,8 +77,8 @@ geo <- function(address = NULL,
   }
   if (!is.null(limit))                generic_query[['limit']]   <- limit
   
-  ### If more than one adress is passed then either call a batch geocoder function or recall 
-  ### this function repeatedly for each individual address depending on the method
+  ### If there are multiple addresses then we either call the geo function
+  ### repeatedly and aggregate the results OR we call a batch geocoder function
   if (num_addresses > 1) {
     if (method %in% c('osm', 'iq')) {
       if (verbose == TRUE) message('Executing single address geocoding...\n')
@@ -103,7 +101,7 @@ geo <- function(address = NULL,
       # rbind the list of tibble dataframes together
       stacked_results <- dplyr::bind_rows(list_coords)
       
-      return(unpackage_addresses(address_pack, stacked_results))
+      return(unpackage_addresses(address_pack, stacked_results, unique_only))
       
     } else {
       ### Call Batch Geocoding
@@ -114,8 +112,7 @@ geo <- function(address = NULL,
       if (no_query == TRUE) return(get_na_value(lat, long, rows = num_addresses))
       
       raw_results <- switch(method,
-        'census' = do.call(batch_census, 
-            c(as.list(address_pack$unique)[names(address_pack$unique) %in% c('address', 'street', 'city', 'state' , 'postalcode')],
+        'census' = do.call(batch_census, c(list(address_pack),
               all_args[!names(all_args) %in% address_arg_names])),
         'geocodio' = do.call(batch_geocodio,
             c(as.list(address_pack$unique)[names(address_pack$unique) %in% c('address', 'street', 'city', 'state', 'postalcode', 'country')],
@@ -123,7 +120,7 @@ geo <- function(address = NULL,
         )
       
       # map the raw results back to the original addresses that were passed if there are duplicates
-      return(unpackage_addresses(address_pack, raw_results))
+      return(unpackage_addresses(address_pack, raw_results, unique_only))
     }
   }
   

@@ -53,11 +53,12 @@ package_addresses <- function(address = NULL,
 #' Function for unpackaging and RE-deduping addresses
 #' so that we can return them in the same order that they were passed
 #' this function assumes that the results are in the same order as package$unique
+#' @param unique_only if TRUE then only unique results are returned
 #' 
 #' @export
-unpackage_addresses <- function(package, results) {
+unpackage_addresses <- function(package, results, unique_only = FALSE) {
   # if there are no duplicates then just return the raw results
-  if (nrow(package$unique) == nrow(package$crosswalk)) return(results)
+  if ((nrow(package$unique) == nrow(package$crosswalk)) | unique_only) return(results)
   
   id_colnames <- names(package$crosswalk)
   

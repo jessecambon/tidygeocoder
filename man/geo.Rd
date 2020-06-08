@@ -20,6 +20,7 @@ geo(
   return = "locations",
   custom_query = list(),
   full_results = FALSE,
+  unique_only = FALSE,
   flatten = TRUE,
   verbose = FALSE,
   min_time = NULL,
@@ -55,12 +56,13 @@ Address components (do not combine with the single line 'address' parameter)}
 
 \item{custom_query}{API-specific parameters to be used}
 
-\item{full_results}{returns all data from API if True}
+\item{full_results}{returns all data from API if TRUE}
+
+\item{unique_only}{only return unique results if TRUE}
 
 \item{flatten}{if TRUE then any nested dataframes in results are flattened}
 
-\item{no_query}{if TRUE then no queries are sent to the geocoder and verbose is set to TRUE
-TODO ----> implement a 'unique_only' argument}
+\item{no_query}{if TRUE then no queries are sent to the geocoder and verbose is set to TRUE}
 }
 \value{
 parsed results from geocoder

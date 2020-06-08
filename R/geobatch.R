@@ -8,33 +8,36 @@
 #### Function for census batch geocoder
 #### Accepts addresses as a vector
 #' Census batch geocoding
+#' @param address_pack packaged addresses object
+#' @param return should be 'locations' or 'geographies'
 #' Vingate must be defined if return = 'geographies'
 #' @export 
-batch_census <- function(address = NA, street = NA, city = NA, state = NA, postalcode = NA,
-    return = 'locations', timeout=15, full_results = FALSE, verbose = FALSE, custom_query = list(),
-                         lat = 'lat', long = 'long', ...) {
+batch_census <- function(address_pack,
+  return = 'locations', timeout=15, full_results = FALSE, verbose = FALSE, custom_query = list(),
+  lat = 'lat', long = 'long', ...) {
   
-  location_cols <- c('id', 'input_address', 'match_indicator', 'match_type',
-                   'matched_address', 'coords', 'tiger_line_id', 'tiger_side')
+  if (!'street' %in% names(address_pack$unique) & (!'address' %in% names(address_pack$unique))) {
+    stop("To use the census geocoder, either 'street' or 'address' must be defined")
+  }
+  
+  location_cols <- c('id', 'input_address', 'match_indicator', 'match_type','matched_address', 
+          'coords', 'tiger_line_id', 'tiger_side')
   return_cols <- switch(return,
-                        'locations' = location_cols,
-                        'geographies' = c(location_cols, c('state_fips', 'county_fips', 'census_tract', 'census_block'))
+          'locations' = location_cols,
+          'geographies' = c(location_cols, c('state_fips', 'county_fips', 'census_tract', 'census_block'))
   )
   
   url_base <- get_census_url(return, 'addressbatch')
-    
-  num_addresses <- max(sapply(list(address, street, city, state), length), na.rm = TRUE)
-
+  num_addresses <- nrow(address_pack$unique)
   if (verbose == TRUE) message(paste0('census batch geocoder, num_addresses: ', num_addresses))
-  if (is.na(street)) street <- address
   
   # create input dataframe
   input_df <- tibble::tibble(
     id      = 1:num_addresses,
-    street  = street,
-    city    = city,
-    state   = state,
-    zip     = postalcode,
+    street  = if ('street' %in% names(address_pack$unique)) address_pack$unique$street else address_pack$unique$address,
+    city    = if ('city' %in% names(address_pack$unique)) address_pack$unique$city else NA,
+    state   = if ('state' %in% names(address_pack$unique)) address_pack$unique$state else NA,
+    zip     = if ('postalcode' %in% names(address_pack$unique)) address_pack$unique$postalcode else NA
   )
   
   # Write a Temporary CSV
@@ -56,7 +59,7 @@ batch_census <- function(address = NA, street = NA, city = NA, state = NA, posta
                              na.strings = '')
 
   ## split out lat/lng. lapply is used with as.numeric to convert coordinates to numeric
-  coord_df <- do.call(rbind, lapply(strsplit(as.character(results$coords),",", fixed = TRUE), as.numeric))
+  coord_df <- do.call(rbind, lapply(strsplit(as.character(results$coords), ",", fixed = TRUE), as.numeric))
   colnames(coord_df) <- c(long, lat)  # <--- NOTE ORDER
   
   # convert to tibble and reorder coordinates
@@ -65,7 +68,7 @@ batch_census <- function(address = NA, street = NA, city = NA, state = NA, posta
   if (full_results == FALSE) return(coord_df)
   else {
     # Combine extracted lat/longs with other return results
-    combi <- tibble::as_tibble(dplyr::bind_cols(coord_df, dplyr::select(results,-coords)))
+    combi <- tibble::as_tibble(dplyr::bind_cols(coord_df, results[!names(results) %in% c('coords')]))
     return(combi)
   }
 }
@@ -81,14 +84,17 @@ batch_geocodio <- function(address_list, lat = 'lat', long = 'long', timeout = 5
   
   # Query API
   raw_content <- query_api(url_base, query_parameters, mode = 'list', address_list = as.list(address_list))
-  content <- jsonlite::fromJSON(raw_content,flatten = TRUE)
+  
+  # Note that flatten here is necessary in order to get rid of the
+  # nested dataframes that would cause dplyr::bind_rows (or rbind) to fail
+  content <- jsonlite::fromJSON(raw_content, flatten = TRUE)
   
   # results as a list of dataframes
   result_list <- content$results$response.results
   
   # if no results are returned then there is a 0 row dataframe in this
   # we need to replace this with a 1 row NA dataframe to preserve the number of rows
-  result_list_filled <- lapply(result_list,filler_df,c('location.lat','location.lng'))
+  result_list_filled <- lapply(result_list, filler_df, c('location.lat','location.long'))
   
   # combine list of dataframes into a single tibble. Column names may differ between the dataframes
   results <- dplyr::bind_rows(result_list_filled)
@@ -98,5 +104,5 @@ batch_geocodio <- function(address_list, lat = 'lat', long = 'long', timeout = 5
   names(results)[names(results) == 'location.lng'] <- long
   
   if (full_results == FALSE)  return(results[c(lat,long)])
-  else return(results)
+  else return(cbind(results[c(lat,long)], results[!names(results) %in% c(lat,long)]))
 }

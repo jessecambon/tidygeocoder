@@ -6,7 +6,10 @@
 so that we can return them in the same order that they were passed
 this function assumes that the results are in the same order as package$unique}
 \usage{
-unpackage_addresses(package, results)
+unpackage_addresses(package, results, unique_only = FALSE)
+}
+\arguments{
+\item{unique_only}{if TRUE then only unique results are returned}
 }
 \description{
 Function for unpackaging and RE-deduping addresses
