@@ -29,6 +29,9 @@
 #' @param unique_only only return unique results if TRUE
 #' @param flatten if TRUE then any nested dataframes in results are flattened
 #' 
+#' @param iq_region 'us' (default) or 'eu'
+#' @param geocodio_v 1.6
+#' 
 #' @param no_query if TRUE then no queries are sent to the geocoder and verbose is set to TRUE
 #' @return parsed results from geocoder
 #' @export
@@ -36,7 +39,7 @@ geo <- function(address = NULL,
     street = NULL, city = NULL, county = NULL, state = NULL, postalcode = NULL, country = NULL,
     method = 'census', lat = lat, long = long, limit=1, api_url = NULL, return = 'locations', 
     custom_query = list(), full_results = FALSE, unique_only = FALSE, flatten = TRUE,
-    verbose = FALSE, min_time=NULL, no_query = FALSE) {
+    verbose = FALSE, min_time=NULL, no_query = FALSE, iq_region = 'us', geocodio_v = 1.6) {
   
   # NSE - Quote unquoted vars without double quoting quoted vars
   # end result - all of these variables become character values
@@ -48,7 +51,6 @@ geo <- function(address = NULL,
   all_args <- as.list(environment())
   
   if (no_query == TRUE) verbose <- TRUE
-  
   start_time <- Sys.time() # start timer
   
   # names of all address fields
@@ -97,25 +99,20 @@ geo <- function(address = NULL,
       
       # Geocode each address individually by recalling this function with mapply
       list_coords <- do.call(mapply, single_addr_args)
-        
       # rbind the list of tibble dataframes together
       stacked_results <- dplyr::bind_rows(list_coords)
-      
       return(unpackage_addresses(address_pack, stacked_results, unique_only))
       
     } else {
       ### Call Batch Geocoding
       if (verbose == TRUE) message(paste0('Calling the ', method, 'batch geocoder'))
       # Convert our generic query parameters into parameters specific to our API (method)
-      #api_query_parameters <- get_api_query(method, generic_query, custom_query)
-      #if (verbose == TRUE) display_query(api_url, api_query_parameters)
       if (no_query == TRUE) return(get_na_value(lat, long, rows = num_addresses))
       
       raw_results <- switch(method,
         'census' = do.call(batch_census, c(list(address_pack),
               all_args[!names(all_args) %in% address_arg_names])),
-        'geocodio' = do.call(batch_geocodio,
-            c(as.list(address_pack$unique)[names(address_pack$unique) %in% c('address', 'street', 'city', 'state', 'postalcode', 'country')],
+        'geocodio' = do.call(batch_geocodio, c(list(address_pack),
               all_args[!names(all_args) %in% address_arg_names]))
         )
       
@@ -151,8 +148,12 @@ geo <- function(address = NULL,
   
   # Set API URL (if not already set) ---------------------------
   if (is.null(api_url)) {
-    if (method == 'census') api_url <- get_census_url(return, search)
-    else api_url <- get_api_url(method) 
+    api_url <- switch(method,
+      "census" = get_census_url(return, search),
+      "osm" = get_osm_url(),
+      "geocodio" = get_geocodio_url(geocodio_v),
+      "iq" = get_iq_url(iq_region)
+      )
   }
   
   if (length(api_url) == 0) {

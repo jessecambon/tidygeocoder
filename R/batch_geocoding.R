@@ -73,24 +73,44 @@ batch_census <- function(address_pack,
   }
 }
 
-
-### TODO ---- implement use of address components
 #' Batch geocode with geocodio
 #' @export
-batch_geocodio <- function(address_list, lat = 'lat', long = 'long', timeout = 5, full_results = FALSE, ...) {
+batch_geocodio <- function(address_pack, lat = 'lat', long = 'long', timeout = 5, full_results = FALSE, ...) {
+  # https://www.geocod.io/docs/#batch-geocoding
+  
+  # limit the dataframe to legitimate arguments
+  address_df <- address_pack$unique[names(address_pack$unique) %in% c('address', 'street', 'city', 'state', 'postalcode')]
+  
+  if ('address' %in% names(address_df)) {
+    address_list <- as.list(address_df[['address']])
+  } else {
+    # if address components are passed then ...
+    # convert dataframe into named lists which we will pass to the geocoder via httr::POST
+    address_list <- list()
+    for (index in 1:nrow(address_df)) {
+      address_list[[index]] <- as.list(address_df[index,])
+    }
+    names(address_list) <- 1:nrow(address_df)
+  }
+  
   url_base <- get_api_url('geocodio')
   # Construct query
   query_parameters <- get_api_query('geocodio', list(limit = 1, api_key = get_key('geocodio')))
-  
   # Query API
-  raw_content <- query_api(url_base, query_parameters, mode = 'list', address_list = as.list(address_list))
+  raw_content <- query_api(url_base, query_parameters, mode = 'list', address_list = address_list)
   
   # Note that flatten here is necessary in order to get rid of the
   # nested dataframes that would cause dplyr::bind_rows (or rbind) to fail
   content <- jsonlite::fromJSON(raw_content, flatten = TRUE)
   
-  # results as a list of dataframes
-  result_list <- content$results$response.results
+  if ('address' %in% names(address_df)) {
+    # results as a list of dataframes
+    result_list <- content$results$response.results
+  } else {
+    # if address components were used we need to do a little more work to get
+    # the results ...
+    result_list <- lapply(content$results, function(x) x$response$results)
+  }
   
   # if no results are returned then there is a 0 row dataframe in this
   # we need to replace this with a 1 row NA dataframe to preserve the number of rows

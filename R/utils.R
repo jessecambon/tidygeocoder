@@ -18,12 +18,12 @@ print_time <- function(text, num_seconds) {
 pause_until <- function(start_time,min_time,debug=FALSE) {
   ## Make sure the proper amount of time has elapsed for the query per min_time
   seconds_elapsed <- get_seconds_elapsed(start_time)
-  if (debug == TRUE) print_time("Time elapsed", seconds_elapsed)
+  if (debug == TRUE) print_time("Query completed in", seconds_elapsed)
   
   # Sleep if necessary to make query take the minimum amount of time
   if (seconds_elapsed < min_time) {
     Sys.sleep(min_time - seconds_elapsed)
-    if (debug == TRUE) print_time("Time elapsed (after sleep)", get_seconds_elapsed(start_time))
+    if (debug == TRUE) print_time("Total query time (including sleep)", get_seconds_elapsed(start_time))
   }
 }
 
@@ -75,4 +75,18 @@ filler_df <- function(x, column_names) {
     return(filler_df)
     
   } else return(x)
+}
+
+
+make_component_list <- function(address_df) {
+  # Accepts a dataframe of unique addresses
+  #(address_pack$unique from package_addresses() function) and returns
+  # a nested list to be used by the geocodio batch query
+  
+  addresses <- list()
+  for (index in 1:nrow(address_pack)) {
+    addresses[[index]] <- as.list(address_pack[index,])
+  }
+  names(addresses) <- 1:nrow(address_pack)
+  return(addresses)
 }

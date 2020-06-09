@@ -2,27 +2,6 @@
 ##### Functions for constructing API queries
 #############################################
 
-##### API URLS -----------------------------------------------------
-
-# Return the API URL for the specified method
-# if URL not found then return ""
-get_api_url <- function(method_name,url_name=NULL) {
-  # select rows pertaining to the relevant method
-  url_ref <- tidygeocoder::api_url_reference
-  
-  tmp <- url_ref[which(url_ref['method'] == method_name),]
-  
-  if (nrow(tmp) == 0) return('')
-  
-  # Select the first relevant listed api_url if url_name is NULL
-  # Otherwise select the url_name specified
-  if (is.null(url_name)) selected_url <- tmp[[1,'api_url']]
-  else selected_url <- tmp[which(tmp['name'] == url_name),'api_url'][[1]]
-  
-  if (length(selected_url) == 0) return('')
-  else return(selected_url)
-}
-
 # Get API Key from environmental variables
 get_key <- function(method) {
   # define environmental variable name
@@ -40,11 +19,26 @@ get_key <- function(method) {
   return(key)
 }
 
-### Get API URL for Census geocoder
+#####################################################
+################ API URL FUNCTIONS ##################
+#####################################################
+
 # return : returntype => 'locations' or 'geographies'
 # search:  searchtype => 'onelineaddress', 'addressbatch', 'address', or 'coordinates'
 get_census_url <- function(return, search) {
   return(paste0("https://geocoding.geo.census.gov/geocoder/", return, "/", search))
+}
+
+get_geocodio_url <- function(api_v) {
+  # return API URL based on api version (ex. 1.6)
+  return(paste0("https://api.geocod.io/v", as.character(api_v), "/geocode"))
+}
+
+get_osm_url <- function() return("http://nominatim.openstreetmap.org/search")
+
+get_iq_url <- function(region) {
+  # region can be 'us' or 'eu'
+  return(paste0("https://", region, "1.locationiq.com/v1/search.php"))
 }
 
 

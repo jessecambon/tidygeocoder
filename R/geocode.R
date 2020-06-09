@@ -31,8 +31,6 @@ geocode <- function(.tbl, address = NULL, street=NULL, city = NULL, county = NUL
                     state = NULL, postalcode = NULL, country = NULL,
                     method='census', lat = lat, long = long, verbose = FALSE, ...) {
   
-  check_address_params(address, street, city, county, state, postalcode, country)
-  
   # NSE - Quote unquoted vars without double quoting quoted vars
   # end result - all of these variables become character values
   address <- rm_quote(deparse(substitute(address)))

@@ -21,7 +21,10 @@
 api_parameter_reference <- tibble::tribble(
   ~method,  ~generic_name,   ~api_name,    ~default_value,      ~required,
   
-  # Note that vintage is only required when return = 'geographies'
+  #########################  Census #################################
+  # vintage is only required when return = 'geographies'
+  # there is no limit argument
+  
   'census',   'format',     'format',      'json',              TRUE,
   'census',   'limit',      NA,            NA,                  FALSE,
   'census',    NA,          'benchmark',   'Public_AR_Current', TRUE,
@@ -34,47 +37,45 @@ api_parameter_reference <- tibble::tribble(
   'census',   'postalcode', 'zip',         NA,                  FALSE,
   'census',   'country',    NA,            NA,                  FALSE,
   
-  'osm',      'format',     'format',      'json',            TRUE,
-  'osm',      'limit',      'limit',       '1',               FALSE,
-  'osm',      'address',    'q',           NA,                FALSE,
-  'osm',      'street',     'street',      NA,                FALSE,
-  'osm',      'city',       'city',        NA,                FALSE,
-  'osm',      'county',     'county',      NA,                FALSE,
-  'osm',      'state',      'state',       NA,                FALSE,
-  'osm',      'postalcode', 'postalcode',  NA,                FALSE,
-  'osm',      'country',    'country',     NA,                FALSE,
+  ###########################  OSM ###################################
   
-  'iq',       'api_key',    'key',         NA,                TRUE,
-  'iq',       'limit',      'limit',       '1',               FALSE,
-  'iq',       'format',     'format',      'json',            TRUE,
-  'iq',       'address',    'q',           NA,                FALSE,
-  'iq',       'street',     'street',      NA,                FALSE,
-  'iq',       'city',       'city',        NA,                FALSE,
-  'iq',       'county',     'county',      NA,                FALSE,
-  'iq',       'state',      'state',       NA,                FALSE,
-  'iq',       'postalcode', 'postalcode',  NA,                FALSE,
-  'iq',       'country',    'country',     NA,                FALSE,
+  'osm',      'format',     'format',      'json',              TRUE,
+  'osm',      'limit',      'limit',       '1',                 FALSE,
+  'osm',      'address',    'q',           NA,                  FALSE,
+  'osm',      'street',     'street',      NA,                  FALSE,
+  'osm',      'city',       'city',        NA,                  FALSE,
+  'osm',      'county',     'county',      NA,                  FALSE,
+  'osm',      'state',      'state',       NA,                  FALSE,
+  'osm',      'postalcode', 'postalcode',  NA,                  FALSE,
+  'osm',      'country',    'country',     NA,                  FALSE,
   
-  'geocodio', 'api_key',    'api_key',     NA,                TRUE,
-  'geocodio', 'limit',      'limit',       '1',               FALSE,
-  'geocodio', 'format',     NA,            NA,                FALSE,
-  'geocodio', 'address',    'q',           NA,                FALSE,
-  'geocodio', 'street',     'street',      NA,                FALSE,
-  'geocodio', 'city',       'city',        NA,                FALSE,
-  'geocodio', 'county',     NA,            NA,                FALSE,
-  'geocodio', 'state',      'state',       NA,                FALSE,
-  'geocodio', 'postalcode', 'postal_code', NA,                FALSE,
-  'geocodio', 'country',    'country',     NA,                FALSE,
-)
-
-# Note - see function in query_factory.R for census API URL
-api_url_reference <- tibble::tribble(
-  ~method,    ~name,                 ~api_url,
-  'osm',      "default",             "http://nominatim.openstreetmap.org/search",
-  'iq',       'us',                  "https://us1.locationiq.com/v1/search.php",
-  'iq',       'europe',              "https://eu1.locationiq.com/v1/search.php",
-  'geocodio', 'v1.5',                "https://api.geocod.io/v1.5/geocode"
+  ###########################  IQ  ###################################
+  # iq shares the same parameters as OSM but requires an api_key 
+  
+  'iq',       'api_key',    'key',         NA,                  TRUE,
+  'iq',       'format',     'format',      'json',              TRUE,
+  'iq',       'limit',      'limit',       '1',                 FALSE,
+  'iq',       'address',    'q',           NA,                  FALSE,
+  'iq',       'street',     'street',      NA,                  FALSE,
+  'iq',       'city',       'city',        NA,                  FALSE,
+  'iq',       'county',     'county',      NA,                  FALSE,
+  'iq',       'state',      'state',       NA,                  FALSE,
+  'iq',       'postalcode', 'postalcode',  NA,                  FALSE,
+  'iq',       'country',    'country',     NA,                  FALSE,
+  
+  #########################  Geocodio ################################
+  # geocodio returns json by default and has no 'format' argument
+  
+  'geocodio', 'api_key',    'api_key',     NA,                  TRUE,
+  'geocodio', 'limit',      'limit',       '1',                 FALSE,
+  'geocodio', 'format',     NA,            NA,                  FALSE,
+  'geocodio', 'address',    'q',           NA,                  FALSE,
+  'geocodio', 'street',     'street',      NA,                  FALSE,
+  'geocodio', 'city',       'city',        NA,                  FALSE,
+  'geocodio', 'county',     NA,            NA,                  FALSE,
+  'geocodio', 'state',      'state',       NA,                  FALSE,
+  'geocodio', 'postalcode', 'postal_code', NA,                  FALSE,
+  'geocodio', 'country',    'country',     NA,                  FALSE,
 )
 
 usethis::use_data(api_parameter_reference, overwrite = TRUE)
-usethis::use_data(api_url_reference, overwrite = TRUE)

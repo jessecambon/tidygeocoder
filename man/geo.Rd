@@ -24,7 +24,9 @@ geo(
   flatten = TRUE,
   verbose = FALSE,
   min_time = NULL,
-  no_query = FALSE
+  no_query = FALSE,
+  iq_region = "us",
+  geocodio_v = 1.6
 )
 }
 \arguments{
@@ -63,6 +65,10 @@ Address components (do not combine with the single line 'address' parameter)}
 \item{flatten}{if TRUE then any nested dataframes in results are flattened}
 
 \item{no_query}{if TRUE then no queries are sent to the geocoder and verbose is set to TRUE}
+
+\item{iq_region}{'us' (default) or 'eu'}
+
+\item{geocodio_v}{1.6}
 }
 \value{
 parsed results from geocoder
