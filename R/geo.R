@@ -20,25 +20,35 @@
 #' @param postalcode postalcode (zip code if in the United States)
 #' @param country country
 #' 
+#' @param lat latitude column name
+#' @param long longitude column name
+#' @param limit number of results to return per address
+#' @param min_time minimum amount of time for a query to take in seconds.
+#'  This parameter is used to abide by API usage limits.
+#' 
 #' @param return    (census only) 'locations' (default) or 'geographies'
 #' 
-#' @param api_url Custom URL to use for API. Overrides default URL
+#' @param api_url Custom API URL
+#' @param timeout query timeout (in minutes)
 #' @param custom_query API-specific parameters to be used
-#' 
+#' @param mode method of geocoding used. 'auto' (default), 'batch', or 'single'. 
+#'    Auto uses batch geocoding if there are multiple addresses
+#'  
 #' @param full_results returns all data from API if TRUE
 #' @param unique_only only return unique results if TRUE
 #' @param flatten if TRUE then any nested dataframes in results are flattened
+#' @param batch_limit limit to the number of addresses in a batch
 #' 
-#' @param iq_region 'us' (default) or 'eu'
-#' @param geocodio_v 1.6
+#' @param iq_region 'us' (default) or 'eu'. Used for establishing API URL
+#' @param geocodio_v version of geocodio api. 1.6 is default. used for establishing API URL
 #' 
 #' @param no_query if TRUE then no queries are sent to the geocoder and verbose is set to TRUE
 #' @return parsed results from geocoder
 #' @export
 geo <- function(address = NULL, 
     street = NULL, city = NULL, county = NULL, state = NULL, postalcode = NULL, country = NULL,
-    method = 'census', lat = lat, long = long, limit=1, api_url = NULL, return = 'locations', 
-    custom_query = list(), full_results = FALSE, unique_only = FALSE, flatten = TRUE,
+    method = 'census', lat = lat, long = long, limit=1, api_url = NULL, timeout = 20, return = 'locations',
+    custom_query = list(), mode = 'auto', full_results = FALSE, unique_only = FALSE, flatten = TRUE, batch_limit = 10000,
     verbose = FALSE, min_time=NULL, no_query = FALSE, iq_region = 'us', geocodio_v = 1.6) {
   
   # NSE - Quote unquoted vars without double quoting quoted vars
@@ -64,8 +74,18 @@ geo <- function(address = NULL,
   address_pack <- package_addresses(address, street, city , county, 
            state, postalcode, country)
   
-  num_addresses <- nrow(address_pack$unique)
+  num_addresses <- nrow(address_pack$unique) # unique addresses
+  
+  # either unique or includes duplicates depending on unique_only argument
+  num_orig_addresses <- ifelse(unique_only, num_addresses, nrow(address_pack$crosswalk))
+  
   if (verbose == TRUE) message(paste0('Number of Addresses: ', num_addresses))
+  
+  # if address(es) is/are blank then return NA
+  if  (max(sapply(address_pack$unique, nchar, allowNA = TRUE)) %in% c(0, NA)) {
+    if (verbose == TRUE) message("Blank or missing address!")
+    return(get_na_value(lat, long, rows = num_orig_addresses))
+  }
   
   ### Set min_time if not set
   if (method %in% c('osm','iq') & is.null(min_time))  min_time <- 1 
@@ -79,10 +99,10 @@ geo <- function(address = NULL,
   }
   if (!is.null(limit))                generic_query[['limit']]   <- limit
   
-  ### If there are multiple addresses then we either call the geo function
-  ### repeatedly and aggregate the results OR we call a batch geocoder function
-  if (num_addresses > 1) {
-    if (method %in% c('osm', 'iq')) {
+  ## If there are multiple addresses and we are using a method without a batch geocoder 
+  ## OR the user has explicitly specified single address geocoding.. call the 
+  ## single address geocoder in a loop
+  if ((num_addresses > 1) & ((method %in% c('osm', 'iq')) | (mode == 'single'))) {
       if (verbose == TRUE) message('Executing single address geocoding...\n')
       
       # construct args for single address query
@@ -102,12 +122,21 @@ geo <- function(address = NULL,
       # rbind the list of tibble dataframes together
       stacked_results <- dplyr::bind_rows(list_coords)
       return(unpackage_addresses(address_pack, stacked_results, unique_only))
+      }
       
-    } else {
-      ### Call Batch Geocoding
-      if (verbose == TRUE) message(paste0('Calling the ', method, 'batch geocoder'))
+      ### Batch geocoding -----------------------------------------------------
+      if ((num_addresses > 1) | (mode == 'batch')) {
+      
+      #### Enforce batch limit
+      if (num_addresses > batch_limit) {
+        message(paste0('Limiting batch query to ', batch_limit, ' addresses'))
+        address_pack$unique <- address_pack$unique[1:batch_limit, ]
+        num_addresses <- batch_limit
+      }
+      
+      if (verbose == TRUE) message(paste0('Calling the ', method, ' batch geocoder'))
       # Convert our generic query parameters into parameters specific to our API (method)
-      if (no_query == TRUE) return(get_na_value(lat, long, rows = num_addresses))
+      if (no_query == TRUE) return(get_na_value(lat, long, rows = num_orig_addresses))
       
       raw_results <- switch(method,
         'census' = do.call(batch_census, c(list(address_pack),
@@ -119,14 +148,13 @@ geo <- function(address = NULL,
       # map the raw results back to the original addresses that were passed if there are duplicates
       return(unpackage_addresses(address_pack, raw_results, unique_only))
     }
-  }
   
   #################################################################
   #### Code past this point is for geocoding a single address #####
   #################################################################
   
   # what to return when we don't find results
-  NA_value <- get_na_value(lat,long)
+  NA_value <- get_na_value(lat, long)
   
   # construct query with single-line address or address components
   if  (!is.null(address)) {

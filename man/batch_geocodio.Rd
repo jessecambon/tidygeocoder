@@ -2,17 +2,20 @@
 % Please edit documentation in R/batch_geocoding.R
 \name{batch_geocodio}
 \alias{batch_geocodio}
-\title{Batch geocode with geocodio}
+\title{Batch geocoding with geocodio}
 \usage{
 batch_geocodio(
   address_pack,
   lat = "lat",
   long = "long",
-  timeout = 5,
+  timeout = 20,
   full_results = FALSE,
+  verbose = FALSE,
+  api_url = NULL,
+  geocodio_v = 1.6,
   ...
 )
 }
 \description{
-Batch geocode with geocodio
+Batch geocoding with geocodio
 }

@@ -7,12 +7,13 @@
 batch_census(
   address_pack,
   return = "locations",
-  timeout = 15,
+  timeout = 20,
   full_results = FALSE,
-  verbose = FALSE,
   custom_query = list(),
+  api_url = NULL,
   lat = "lat",
   long = "long",
+  verbose = FALSE,
   ...
 )
 }

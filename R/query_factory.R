@@ -41,8 +41,9 @@ get_iq_url <- function(region) {
   return(paste0("https://", region, "1.locationiq.com/v1/search.php"))
 }
 
-
-##### API PARAMETERS -------------------------------------------------
+###########################################
+######### API PARAMETERS ##################
+###########################################
 
 # Create an API-specific parameter for a given method
 # given generic parameter name and a value
@@ -65,12 +66,16 @@ create_api_parameter <- function(method_name, param_name, value) {
   return(param)
 }
 
-# Construct an api query based on generic parameters
-# and optional api-specific parameters. Generic parameters
-# are converted into api parameters using the api_parameter_reference
-# dataset. API specific parameters can be provided directly with custom_api_parameters =
-# Required defaults are filled in if not specified
-#' Function for creating api queries
+#' Construct an api query 
+#' @description 
+#' Query is created using universal "generic" parameters
+#' and optional api-specific "custom" parameters. Generic parameters
+#' are converted into api parameters using the api_parameter_reference
+#' dataset. 
+#' @param method_name method name
+#' @param generic_parameters universal 'generic' parameters
+#' @param custom_api_parameters custom api-specific parameters
+#' @return named list of api-specific parameters 
 #'
 #' @export
 get_api_query <- function(method_name, generic_parameters = list(), custom_api_parameters = list() ) {
@@ -109,20 +114,20 @@ get_api_query <- function(method_name, generic_parameters = list(), custom_api_p
 #' Get raw results from an API
 #' @param api_url Base URL of the API. query parameters are appended to this
 #' @param query_parameters api query parameters in the form of a named list
-#' @param mode Values:
-#'     "single" - geocode a single address
-#'     "list" - batch geocode list of addresses (geocodio)
-#'     "file" - batch geocode a file of addresses (census)
+#' @param mode 
+#'     "single" : geocode a single address
+#'     "list"   : batch geocode list of addresses (geocodio)
+#'     "file"   : batch geocode a file of addresses (census)
 #' @param batch_file a csv file of addresses to upload (census)
 #' @param address_list a list of addresses for batch geocoding (geocodio)
 #' should be 'json' for geocodio and 'multipart' for census 
 #' @param content_encoding Encoding to be used for parsing content. 
+#'  Census uses "ISO-8859-1", all other services use "UTF-8"
 #' @param timeout timeout in minutes for batch geocoding
 #' @return raw results from the query
-#' Census uses "ISO-8859-1", all other services use "UTF-8"
-#' @export
+#' @export 
 query_api <- function(api_url, query_parameters, mode = 'single', 
-          batch_file=NULL, address_list = NULL, content_encoding='UTF-8', timeout = 15) {
+          batch_file=NULL, address_list = NULL, content_encoding='UTF-8', timeout = 25) {
    response <- switch(mode,
     'single' = httr::GET(api_url, query = query_parameters),
     'list' = httr::POST(api_url, query = query_parameters, 
@@ -138,7 +143,7 @@ query_api <- function(api_url, query_parameters, mode = 'single',
   return(content)
 }
 
-# print values in named list
+# print values in a named list
 display_named_list <- function(named_list) {
   for (var in names(named_list)) message(paste(var, '=', named_list[var]))
   message('')

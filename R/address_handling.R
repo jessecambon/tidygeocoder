@@ -1,11 +1,12 @@
 #' Function for packaging and deduping addresses
 #' 
-#' @export
+# @export
 package_addresses <- function(address = NULL, 
   street = NULL, city = NULL, county = NULL, state = NULL, postalcode = NULL, country = NULL, verbose = FALSE) {
+  
   # package all non-NULL address arguments into a named list
   combined_addr <- as.list(environment())
-  combined_addr <- combined_addr[names(combined_addr) != 'verbose']
+  combined_addr <- combined_addr[!names(combined_addr) %in% c('verbose')]
   combined_addr[sapply(combined_addr, is.null)] <- NULL # remove NULL items
   
   # trim all white space
@@ -45,7 +46,7 @@ package_addresses <- function(address = NULL,
   crosswalk <- merge(addr_orig, unique_addr, by = addr_col_names, all.x = TRUE, sort = FALSE)
   crosswalk <- crosswalk[order(crosswalk['.id']), ]  # reorder
   
-  return(list(unique = tibble::as_tibble(subset(unique_addr, select = -.uid)), 
+  return(list(unique = tibble::as_tibble(unique_addr[!names(unique_addr) %in% c('.uid')]), 
               crosswalk = tibble::as_tibble(crosswalk[!names(crosswalk) %in% addr_col_names])
   ))
 }
@@ -55,7 +56,7 @@ package_addresses <- function(address = NULL,
 #' this function assumes that the results are in the same order as package$unique
 #' @param unique_only if TRUE then only unique results are returned
 #' 
-#' @export
+# @export
 unpackage_addresses <- function(package, results, unique_only = FALSE) {
   # if there are no duplicates then just return the raw results
   if ((nrow(package$unique) == nrow(package$crosswalk)) | unique_only) return(results)
@@ -75,13 +76,3 @@ unpackage_addresses <- function(package, results, unique_only = FALSE) {
   
   return(tibble::as_tibble(base[!names(base) %in% id_colnames]))
 }
-
-### Test
-# > library(tidygeocoder)
-# > a <- package_addresses(city=c('Louisville', 'New Orleans', 'Louisville'), state = c('KY', 'LA', 'KY'))
-# > results <- tibble::tibble(x= c(1,2), y= c(10,5))
-# > unpackage_addresses(a, results)
-# x  y
-# 1 10
-# 2  5
-# 1 10

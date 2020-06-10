@@ -28,7 +28,9 @@ pause_until <- function(start_time,min_time,debug=FALSE) {
 }
 
 #' Extract latitude, longitude as as numeric vector c(lat, long)
-#' response is the parsed json response
+#' @param method method name
+#' @param response content from the geocoder service
+#' @return latitude and longitude as a numeric vector
 #' @export
 extract_coords <- function(method, response) {
   lat_lng <- switch(method,
@@ -41,7 +43,11 @@ extract_coords <- function(method, response) {
   return(lat_lng)
 }
 
-#' extract results. exclude lat/long
+#' Extract geocoder results (exclude lat/long coordinates)
+#' @param method method name
+#' @param response content from the geocoder service
+#' @param flatten if TRUE then 
+#' @return results in dataframe format
 #'@export
 extract_results <- function(method, response, flatten = TRUE) {
   results <- switch(method,
@@ -75,18 +81,4 @@ filler_df <- function(x, column_names) {
     return(filler_df)
     
   } else return(x)
-}
-
-
-make_component_list <- function(address_df) {
-  # Accepts a dataframe of unique addresses
-  #(address_pack$unique from package_addresses() function) and returns
-  # a nested list to be used by the geocodio batch query
-  
-  addresses <- list()
-  for (index in 1:nrow(address_pack)) {
-    addresses[[index]] <- as.list(address_pack[index,])
-  }
-  names(addresses) <- 1:nrow(address_pack)
-  return(addresses)
 }

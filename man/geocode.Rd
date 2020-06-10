@@ -21,9 +21,23 @@ geocode(
 )
 }
 \arguments{
-\item{.tbl}{dataframe}
+\item{.tbl}{dataframe
 
-\item{address}{name of column containing addresses in .tbl}
+Names of columns in the dataframe:}
+
+\item{address}{single line street address}
+
+\item{street}{street address}
+
+\item{city}{city}
+
+\item{county}{county}
+
+\item{state}{state}
+
+\item{postalcode}{postalcode (zip code if in the United States)}
+
+\item{country}{country}
 
 \item{method}{the geocoder function you want to use
 \itemize{
@@ -34,6 +48,8 @@ geocode(
 \item{lat}{name of latitude field}
 
 \item{long}{name of longitude field}
+
+\item{verbose}{toggle verbose output}
 
 \item{...}{arguments passed to the \code{\link{geo}} function}
 }

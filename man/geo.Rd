@@ -17,11 +17,14 @@ geo(
   long = long,
   limit = 1,
   api_url = NULL,
+  timeout = 20,
   return = "locations",
   custom_query = list(),
+  mode = "auto",
   full_results = FALSE,
   unique_only = FALSE,
   flatten = TRUE,
+  batch_limit = 10000,
   verbose = FALSE,
   min_time = NULL,
   no_query = FALSE,
@@ -52,11 +55,22 @@ Address components (do not combine with the single line 'address' parameter)}
   \item "osm": Nominatim (OSM). Worldwide coverage.
 }}
 
-\item{api_url}{Custom URL to use for API. Overrides default URL}
+\item{lat}{latitude column name}
+
+\item{long}{longitude column name}
+
+\item{limit}{number of results to return per address}
+
+\item{api_url}{Custom API URL}
+
+\item{timeout}{query timeout (in minutes)}
 
 \item{return}{(census only) 'locations' (default) or 'geographies'}
 
 \item{custom_query}{API-specific parameters to be used}
+
+\item{mode}{method of geocoding used. 'auto' (default), 'batch', or 'single'. 
+Auto uses batch geocoding if there are multiple addresses}
 
 \item{full_results}{returns all data from API if TRUE}
 
@@ -64,11 +78,16 @@ Address components (do not combine with the single line 'address' parameter)}
 
 \item{flatten}{if TRUE then any nested dataframes in results are flattened}
 
+\item{batch_limit}{limit to the number of addresses in a batch}
+
+\item{min_time}{minimum amount of time for a query to take in seconds.
+This parameter is used to abide by API usage limits.}
+
 \item{no_query}{if TRUE then no queries are sent to the geocoder and verbose is set to TRUE}
 
-\item{iq_region}{'us' (default) or 'eu'}
+\item{iq_region}{'us' (default) or 'eu'. Used for establishing API URL}
 
-\item{geocodio_v}{1.6}
+\item{geocodio_v}{version of geocodio api. 1.6 is default. used for establishing API URL}
 }
 \value{
 parsed results from geocoder

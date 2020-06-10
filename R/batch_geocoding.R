@@ -1,20 +1,11 @@
-# geobatch <- function(method, address_list,...) {
-#   switch(method, 
-#          "census"   = census_batch(address_list,...),
-#          'geocodio' = geocodio_batch(address_list,...)
-#   )
-# }
-
-#### Function for census batch geocoder
-#### Accepts addresses as a vector
 #' Census batch geocoding
 #' @param address_pack packaged addresses object
 #' @param return should be 'locations' or 'geographies'
 #' Vingate must be defined if return = 'geographies'
-#' @export 
+# @export 
 batch_census <- function(address_pack,
-  return = 'locations', timeout=15, full_results = FALSE, verbose = FALSE, custom_query = list(),
-  lat = 'lat', long = 'long', ...) {
+  return = 'locations', timeout=20, full_results = FALSE, custom_query = list(), api_url = NULL,
+  lat = 'lat', long = 'long', verbose = FALSE, ...) {
   
   if (!'street' %in% names(address_pack$unique) & (!'address' %in% names(address_pack$unique))) {
     stop("To use the census geocoder, either 'street' or 'address' must be defined")
@@ -27,7 +18,8 @@ batch_census <- function(address_pack,
           'geographies' = c(location_cols, c('state_fips', 'county_fips', 'census_tract', 'census_block'))
   )
   
-  url_base <- get_census_url(return, 'addressbatch')
+  if (is.null(api_url)) api_url <- get_census_url(return, 'addressbatch')
+  
   num_addresses <- nrow(address_pack$unique)
   if (verbose == TRUE) message(paste0('census batch geocoder, num_addresses: ', num_addresses))
   
@@ -47,10 +39,10 @@ batch_census <- function(address_pack,
   # Construct query
   ## NOTE - request will fail if vintage and benchmark are invalid for return = 'geographies'
   query_parameters <- get_api_query('census', custom_api_parameters = custom_query)
-  if (verbose == TRUE) display_query(url_base, query_parameters)
+  if (verbose == TRUE) display_query(api_url, query_parameters)
   
   # Query API
-  raw_content <- query_api(url_base, query_parameters, mode = 'file', 
+  raw_content <- query_api(api_url, query_parameters, mode = 'file', 
           batch_file = tmp, content_encoding = "ISO-8859-1", timeout = timeout)
 
   results <- utils::read.csv(text = raw_content, header = FALSE,
@@ -73,9 +65,10 @@ batch_census <- function(address_pack,
   }
 }
 
-#' Batch geocode with geocodio
-#' @export
-batch_geocodio <- function(address_pack, lat = 'lat', long = 'long', timeout = 5, full_results = FALSE, ...) {
+#' Batch geocoding with geocodio
+# @export
+batch_geocodio <- function(address_pack, lat = 'lat', long = 'long', timeout = 20, full_results = FALSE, verbose = FALSE,
+                           api_url = NULL, geocodio_v = 1.6, ...) {
   # https://www.geocod.io/docs/#batch-geocoding
   
   # limit the dataframe to legitimate arguments
@@ -93,11 +86,13 @@ batch_geocodio <- function(address_pack, lat = 'lat', long = 'long', timeout = 5
     names(address_list) <- 1:nrow(address_df)
   }
   
-  url_base <- get_api_url('geocodio')
+  if (is.null(api_url)) api_url <- get_geocodio_url(geocodio_v)
   # Construct query
   query_parameters <- get_api_query('geocodio', list(limit = 1, api_key = get_key('geocodio')))
+  if (verbose == TRUE) display_query(api_url, query_parameters)
+  
   # Query API
-  raw_content <- query_api(url_base, query_parameters, mode = 'list', address_list = address_list)
+  raw_content <- query_api(api_url, query_parameters, mode = 'list', address_list = address_list, timeout = timeout)
   
   # Note that flatten here is necessary in order to get rid of the
   # nested dataframes that would cause dplyr::bind_rows (or rbind) to fail

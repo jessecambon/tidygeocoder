@@ -7,7 +7,15 @@
 #' See example usage in \code{vignette("tidygeocoder")}
 #'
 #' @param .tbl dataframe
-#' @param address name of column containing addresses in .tbl
+#' 
+#' Names of columns in the dataframe:
+#' @param address single line street address
+#' @param street street address
+#' @param city city
+#' @param county county
+#' @param state state
+#' @param postalcode postalcode (zip code if in the United States)
+#' @param country country
 #' @param method the geocoder function you want to use
 #' \itemize{
 #'   \item "census": only for US street level addresses
@@ -15,6 +23,7 @@
 #' }
 #' @param lat name of latitude field
 #' @param long name of longitude field
+#' @param verbose toggle verbose output
 #' @param ... arguments passed to the \code{\link{geo}} function
 #' @return input dataframe (.tbl) with latitude and longitude fields appended
 #'

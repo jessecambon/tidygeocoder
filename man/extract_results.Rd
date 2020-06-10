@@ -2,10 +2,20 @@
 % Please edit documentation in R/utils.R
 \name{extract_results}
 \alias{extract_results}
-\title{extract results. exclude lat/long}
+\title{Extract geocoder results (exclude lat/long coordinates)}
 \usage{
 extract_results(method, response, flatten = TRUE)
 }
+\arguments{
+\item{method}{method name}
+
+\item{response}{content from the geocoder service}
+
+\item{flatten}{if TRUE then}
+}
+\value{
+results in dataframe format
+}
 \description{
-extract results. exclude lat/long
+Extract geocoder results (exclude lat/long coordinates)
 }
