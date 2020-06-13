@@ -1,14 +1,10 @@
 # Make sure there are no duplicates in our API reference files
-test_that("API Parameter References Have No Duplicates", {
+test_that("Check API Parameter Reference For Duplicates", {
   
   unique_api_param_rows <- nrow(tidygeocoder::api_parameter_reference[c('method','generic_name')])
   api_param_rows <- nrow(tidygeocoder::api_parameter_reference)
-    
-  unique_api_url_rows <- nrow(tidygeocoder::api_url_reference[c('method','name')])
-  api_url_rows <- nrow(tidygeocoder::api_url_reference)
   
   expect_equal(unique_api_param_rows,api_param_rows)
-  expect_equal(unique_api_url_rows,api_url_rows)
 })
 
 # Check column names with custom settings
@@ -35,12 +31,12 @@ test_that("geocode custom colnames", {
 
 # Check that null/empty address values are handled properly
 test_that("geocode null/empty addresses", {
-
+  NA_result <- get_na_value('lat', 'long')
+  
   # make sure blank addresses are not being sent to the geocoder
-  expect_message(geo_census(" ", verbose = TRUE),"Blank or missing address!")
-#  expect_message(geo_census(" 123 ", verbose = TRUE),"Blank or missing address!")
-  expect_message(geo_osm(" ", verbose = TRUE),"Blank or missing address!")
-#  expect_message(geo_cascade(" ", verbose = TRUE),"Blank or missing address!")
+  expect_identical(geo_census(" ", verbose = TRUE), NA_result)
+  expect_identical(geo_osm(" ", verbose = TRUE), NA_result)
+  expect_identical(geo_cascade(" ", verbose = TRUE), NA_result)
 
   # Test with tibble
   NA_data <- tibble::tribble(~addr,
@@ -48,14 +44,13 @@ test_that("geocode null/empty addresses", {
                              NA,
                              "")
 
-  result <- NA_data %>% geocode(addr,method = 'osm')
+  result <- NA_data %>% geocode(addr, method = 'osm')
   
   # check column names
   expected_colnames <- c(colnames(NA_data),'lat','long')
   expect_identical(colnames(result),expected_colnames)
   
   # make sure geo_method is NA when address is NA
-#  expect_identical(is.na(result$geo_method),rep(TRUE,nrow(NA_data)))
   expect_equal(nrow(result),nrow(NA_data)) # check dataframe length
 })
 

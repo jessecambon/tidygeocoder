@@ -2,6 +2,7 @@
 ## https://www.geocod.io/docs/#geocoding
 # geocodio_api_key <- manually defined (obtain via personal account on https://www.geocod.io)
 
+geocodio_api_key <- Sys.getenv("GEOCODIO_API_KEY")
 
 library(httr)
 library(jsonlite)
@@ -21,11 +22,10 @@ resp <- httr::GET(url = url_base,
         ))
 
 # Parse response to get named list with components 'input' and 'results'
-dat <- jsonlite::fromJSON(httr::content(resp, as = 'text', encoding = "UTF-8"), simplifyVector = TRUE)
+dat <- jsonlite::fromJSON(httr::content(resp, as = 'text', encoding = "UTF-8"))
 
-# 
-results <- dat$results
+lat_lng <- c(dat$results$location$lat, dat$results$location$lng)
 
 
-lat_lng <- c(results$location$lat, results$location$lng)
-
+mtcars[
+  'cyl']

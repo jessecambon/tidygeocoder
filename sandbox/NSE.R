@@ -1,5 +1,30 @@
 # http://adv-r.had.co.nz/Computing-on-the-language.html
 
+nse_eval <- function(x) gsub("\"","",deparse(x))
+
+print_nse <- function(x) {
+  x_str <-  nse_eval(substitute(x))
+  print(x_str)
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ## NSE - passing a variable name as a function argument
 select_mt2 <- function(x) {
   print(is.character(x))

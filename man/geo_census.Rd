@@ -3,6 +3,8 @@
 \name{geo_census}
 \alias{geo_census}
 \alias{geo_osm}
+\alias{geo_geocodio}
+\alias{geo_iq}
 \alias{geo_cascade}
 \title{Conveniance functions for calling the \code{\link{geo}} function
 with a specified method.}
@@ -11,13 +13,18 @@ geo_census(...)
 
 geo_osm(...)
 
+geo_geocodio(...)
+
+geo_iq(...)
+
 geo_cascade(...)
+}
+\arguments{
+\item{...}{arguments to be passed to the \code{\link{geo}}}
 }
 \description{
 Conveniance functions for calling the \code{\link{geo}} function
 with a specified method.
 
 First try census then try osm. Considering deprecating...
-NOTE ----- UNTESTED
-Title
 }

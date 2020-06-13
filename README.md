@@ -1,5 +1,7 @@
 
-# tidygeocoder
+<!-- README.md is generated from README.Rmd. Please edit that file directly and reknit -->
+
+# tidygeocoder <a href='https://jessecambon.github.io/tidygeocoder/'><img src='man/figures/tidygeocoder_hex.png' align="right" height="139" /></a>
 
 <!-- badges: start -->
 
@@ -51,8 +53,7 @@ lat_longs <- sample_addresses %>%
 Latitude and longitude columns are attached to our input dataset. Since
 we are using the US Census geocoder service (the default for the geocode
 function), locations outside the United States and addresses which are
-not at the street level (such as cities) are not
-found.
+not at the street level (such as cities) are not found.
 
 | name                 | addr                                       | latitude |   longitude |
 | :------------------- | :----------------------------------------- | -------: | ----------: |

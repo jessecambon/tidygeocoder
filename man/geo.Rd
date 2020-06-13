@@ -6,25 +6,95 @@
 \usage{
 geo(
   address = NULL,
+  street = NULL,
+  city = NULL,
+  county = NULL,
+  state = NULL,
+  postalcode = NULL,
+  country = NULL,
   method = "census",
   lat = lat,
   long = long,
   limit = 1,
+  min_time = NULL,
   api_url = NULL,
-  custom_query = list(),
+  timeout = 20,
+  mode = "auto",
   full_results = FALSE,
+  unique_only = FALSE,
+  return_addresses = TRUE,
+  flatten = TRUE,
+  batch_limit = 10000,
   verbose = FALSE,
-  min_time = NULL
+  no_query = FALSE,
+  custom_query = list(),
+  return = "locations",
+  iq_region = "us",
+  geocodio_v = 1.6
 )
 }
 \arguments{
-\item{address}{address to be geocoded}
+\item{address}{single line address. do not combine with address component arguments below
+
+Address components (do not combine with the single line 'address' parameter)}
+
+\item{street}{street address}
+
+\item{city}{city}
+
+\item{county}{county}
+
+\item{state}{state}
+
+\item{postalcode}{postalcode (zip code if in the United States)}
+
+\item{country}{country}
 
 \item{method}{the geocoder function you want to use
 \itemize{
   \item "census": US Census Geocoder. US street-level addresses only.
   \item "osm": Nominatim (OSM). Worldwide coverage.
+  \item "iq": Commercial OSM geocoder service.
+  \item "geocodio": Commercial geocoder. Covers US and Canada. 
 }}
+
+\item{lat}{latitude column name}
+
+\item{long}{longitude column name}
+
+\item{limit}{number of results to return per address}
+
+\item{min_time}{minimum amount of time for a query to take in seconds.
+This parameter is used to abide by API usage limits. Not used in batch geocoding}
+
+\item{api_url}{Custom API URL}
+
+\item{timeout}{query timeout (in minutes)}
+
+\item{mode}{method of geocoding used. 'auto' (default), 'batch', or 'single'. 
+Auto uses batch geocoding if there are multiple addresses}
+
+\item{full_results}{returns all data from API if TRUE}
+
+\item{unique_only}{only return unique results if TRUE}
+
+\item{return_addresses}{return input addresses with results}
+
+\item{flatten}{if TRUE then any nested dataframes in results are flattened}
+
+\item{batch_limit}{limit to the number of addresses in a batch}
+
+\item{verbose}{toggles console output. useful for debugging}
+
+\item{no_query}{if TRUE then no queries are sent to the geocoder and verbose is set to TRUE}
+
+\item{custom_query}{API-specific parameters to be used}
+
+\item{return}{(census only) 'locations' (default) or 'geographies'}
+
+\item{iq_region}{'us' (default) or 'eu'. Used for establishing API URL}
+
+\item{geocodio_v}{version of geocodio api. 1.6 is default. used for establishing API URL}
 }
 \value{
 parsed results from geocoder

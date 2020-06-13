@@ -2,6 +2,8 @@
 ## https://locationiq.com/docs#forward-geocoding
 # iq_api_key <- manually defined (obtain via personal account on https://my.locationiq.com/)
 
+iq_api_key <- Sys.getenv("LOCATIONIQ_API_KEY")
+  
 ### NOTE: different endpoint urls for US and Europe are available
 
 library(httr)
@@ -22,8 +24,8 @@ resp <- httr::GET(url = url_base,
         ))
 
 # dataframe is returned
-dat <- jsonlite::fromJSON(httr::content(resp, as = 'text', encoding = "UTF-8"), simplifyVector = TRUE)
+dat <- jsonlite::fromJSON(httr::content(resp, as = 'text', encoding = "UTF-8"))
 
 # Obtain latitude and longitude
-lat_lng <- c(dat$lat, dat$lon)
+lat_lng <- as.numeric(c(dat$lat, dat$lon))
 

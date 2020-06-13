@@ -2,14 +2,27 @@
 % Please edit documentation in R/query_factory.R
 \name{get_api_query}
 \alias{get_api_query}
-\title{Function for creating api queries}
+\title{Construct an api query}
 \usage{
 get_api_query(
   method_name,
   generic_parameters = list(),
-  custom_api_parameters = list()
+  custom_parameters = list()
 )
 }
+\arguments{
+\item{method_name}{method name}
+
+\item{generic_parameters}{universal 'generic' parameters}
+
+\item{custom_parameters}{custom api-specific parameters}
+}
+\value{
+named list of api-specific parameters
+}
 \description{
-Function for creating api queries
+Query is created using universal "generic" parameters
+and optional api-specific "custom" parameters. Generic parameters
+are converted into api parameters using the api_parameter_reference
+dataset.
 }

@@ -139,39 +139,84 @@
       </tr><tr>
         
         <td>
-          <p><code><a href="geo_cascade.html">geo_cascade()</a></code> </p>
+          <p><code><a href="batch_census.html">batch_census()</a></code> </p>
         </td>
-        <td><p>Geocode addresses</p></td>
+        <td><p>Census batch geocoding</p></td>
       </tr><tr>
         
         <td>
-          <p><code><a href="geo_census.html">geo_census()</a></code> </p>
+          <p><code><a href="batch_geocodio.html">batch_geocodio()</a></code> </p>
         </td>
-        <td><p>Geocode street addresses</p></td>
+        <td><p>Batch geocoding with geocodio</p></td>
       </tr><tr>
         
         <td>
-          <p><code><a href="geo_osm.html">geo_osm()</a></code> </p>
+          <p><code><a href="extract_coords.html">extract_coords()</a></code> </p>
         </td>
-        <td><p>Geocode addresses</p></td>
+        <td><p>Extract latitude, longitude as as numeric vector c(lat, long)</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="extract_results.html">extract_results()</a></code> </p>
+        </td>
+        <td><p>Extract geocoder results (exclude lat/long coordinates)</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="geo.html">geo()</a></code> </p>
+        </td>
+        <td><p>Workhorse function for geocoding</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="geo_census.html">geo_census()</a></code> <code><a href="geo_census.html">geo_osm()</a></code> <code><a href="geo_census.html">geo_geocodio()</a></code> <code><a href="geo_census.html">geo_iq()</a></code> <code><a href="geo_census.html">geo_cascade()</a></code> </p>
+        </td>
+        <td><p>Conveniance functions for calling the <code>geo</code> function
+with a specified method.</p></td>
       </tr><tr>
         
         <td>
           <p><code><a href="geocode.html">geocode()</a></code> </p>
         </td>
-        <td><p>Geocode street addresses in a dataframe</p></td>
+        <td><p>Geocode addresses in a dataframe</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="get_api_query.html">get_api_query()</a></code> </p>
+        </td>
+        <td><p>Construct an api query</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="louisville.html">louisville</a></code> </p>
+        </td>
+        <td><p>Louisville, Kentucky street addresses</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="package_addresses.html">package_addresses()</a></code> </p>
+        </td>
+        <td><p>Function for packaging and deduping addresses</p></td>
       </tr><tr>
         
         <td>
           <p><code><a href="query_api.html">query_api()</a></code> </p>
         </td>
-        <td><p>Get raw results back from an API</p></td>
+        <td><p>Get raw results from an API</p></td>
       </tr><tr>
         
         <td>
           <p><code><a href="sample_addresses.html">sample_addresses</a></code> </p>
         </td>
         <td><p>Some sample addresses for testing</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="unpackage_addresses.html">unpackage_addresses()</a></code> </p>
+        </td>
+        <td><p>Function for unpackaging and RE-deduping addresses
+so that we can return them in the same order that they were passed
+this function assumes that the results are in the same order as package$unique</p></td>
       </tr>
     </tbody>
     </table>

@@ -11,7 +11,7 @@ query_api(
   batch_file = NULL,
   address_list = NULL,
   content_encoding = "UTF-8",
-  timeout = 15
+  timeout = 20
 )
 }
 \arguments{
@@ -19,23 +19,22 @@ query_api(
 
 \item{query_parameters}{api query parameters in the form of a named list}
 
-\item{mode}{Values:
-"single" - geocode a single address
-"list" - batch geocode list of addresses (geocodio)
-"file" - batch geocode a file of addresses (census)}
+\item{mode}{"single" : geocode a single address
+"list"   : batch geocode list of addresses (geocodio)
+"file"   : batch geocode a file of addresses (census)}
 
 \item{batch_file}{a csv file of addresses to upload (census)}
 
 \item{address_list}{a list of addresses for batch geocoding (geocodio)
 should be 'json' for geocodio and 'multipart' for census}
 
-\item{content_encoding}{Encoding to be used for parsing content.}
+\item{content_encoding}{Encoding to be used for parsing content. 
+Census uses "ISO-8859-1", all other services use "UTF-8"}
 
 \item{timeout}{timeout in minutes for batch geocoding}
 }
 \value{
 raw results from the query
-Census uses "ISO-8859-1", all other services use "UTF-8"
 }
 \description{
 Get raw results from an API

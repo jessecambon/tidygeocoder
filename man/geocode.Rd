@@ -2,23 +2,43 @@
 % Please edit documentation in R/geocode.R
 \name{geocode}
 \alias{geocode}
-\title{Geocode street addresses in a dataframe}
+\title{Geocode addresses in a dataframe}
 \usage{
 geocode(
   .tbl,
-  address,
+  address = NULL,
+  street = NULL,
+  city = NULL,
+  county = NULL,
+  state = NULL,
+  postalcode = NULL,
+  country = NULL,
   method = "census",
-  mode = "auto",
   lat = lat,
   long = long,
   verbose = FALSE,
+  return_addresses = FALSE,
   ...
 )
 }
 \arguments{
-\item{.tbl}{dataframe}
+\item{.tbl}{dataframe
 
-\item{address}{name of column containing addresses in .tbl}
+Names of columns in the dataframe:}
+
+\item{address}{single line street address}
+
+\item{street}{street address}
+
+\item{city}{city}
+
+\item{county}{county}
+
+\item{state}{state}
+
+\item{postalcode}{postalcode (zip code if in the United States)}
+
+\item{country}{country}
 
 \item{method}{the geocoder function you want to use
 \itemize{
@@ -29,6 +49,11 @@ geocode(
 \item{lat}{name of latitude field}
 
 \item{long}{name of longitude field}
+
+\item{verbose}{toggle verbose output}
+
+\item{return_addresses}{if TRUE then addresses with standard names will be returned
+This is defaulted to false because the address fields are already in the input dataset}
 
 \item{...}{arguments passed to the \code{\link{geo}} function}
 }
