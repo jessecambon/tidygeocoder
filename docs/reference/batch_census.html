@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title><span class="pkg">tidygeocoder</span> simplifies getting data from geocoder services. — tidygeocoder-package • tidygeocoder</title>
+<title>Census batch geocoding — batch_census • tidygeocoder</title>
 
 
 <!-- jquery -->
@@ -39,10 +39,8 @@
 
 
 
-<meta property="og:title" content="<span class="pkg">tidygeocoder</span> simplifies getting data from geocoder services. — tidygeocoder-package" />
-<meta property="og:description" content="The primary functions to use are geocode and geo.
-The geocode function calls geo.
-See vignette(&quot;tidygeocoder&quot;) for details." />
+<meta property="og:title" content="Census batch geocoding — batch_census" />
+<meta property="og:description" content="Census batch geocoding" />
 
 
 
@@ -110,36 +108,42 @@ See vignette(&quot;tidygeocoder&quot;) for details." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1><span class="pkg">tidygeocoder</span> simplifies getting data from geocoder services.</h1>
-    <small class="dont-index">Source: <a href='https://github.com/jessecambon/tidygeocoder/blob/master/R/tidygeocoder.R'><code>R/tidygeocoder.R</code></a></small>
-    <div class="hidden name"><code>tidygeocoder-package.Rd</code></div>
+    <h1>Census batch geocoding</h1>
+    <small class="dont-index">Source: <a href='https://github.com/jessecambon/tidygeocoder/blob/master/R/batch_geocoding.R'><code>R/batch_geocoding.R</code></a></small>
+    <div class="hidden name"><code>batch_census.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>The primary functions to use are <code><a href='geocode.html'>geocode</a></code> and <code><a href='geo.html'>geo</a></code>.
-The <code><a href='geocode.html'>geocode</a></code> function calls <code><a href='geo.html'>geo</a></code>.
-See <code>vignette("tidygeocoder")</code> for details.</p>
+    <p>Census batch geocoding</p>
     </div>
 
+    <pre class="usage"><span class='fu'>batch_census</span>(
+  <span class='no'>address_pack</span>,
+  <span class='kw'>return</span> <span class='kw'>=</span> <span class='st'>"locations"</span>,
+  <span class='kw'>timeout</span> <span class='kw'>=</span> <span class='fl'>20</span>,
+  <span class='kw'>full_results</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>custom_query</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(),
+  <span class='kw'>api_url</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>lat</span> <span class='kw'>=</span> <span class='st'>"lat"</span>,
+  <span class='kw'>long</span> <span class='kw'>=</span> <span class='st'>"long"</span>,
+  <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='no'>...</span>
+)</pre>
 
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>address_pack</th>
+      <td><p>packaged addresses object</p></td>
+    </tr>
+    <tr>
+      <th>return</th>
+      <td><p>should be 'locations' or 'geographies'
+Vingate must be defined if return = 'geographies'</p></td>
+    </tr>
+    </table>
 
-    <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
-
-    
-<ul>
-<li><p>US Census Geocoder: <a href='https://geocoding.geo.census.gov/'>https://geocoding.geo.census.gov/</a></p></li>
-<li><p>Nominatim (OSM): <a href='https://nominatim.openstreetmap.org/'>https://nominatim.openstreetmap.org/</a> and <a href='https://nominatim.org/'>https://nominatim.org/</a></p></li>
-</ul>
-
-    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
-
-    <div class='dont-index'><p>Useful links:</p><ul>
-<li><p><a href='https://jessecambon.github.io/tidygeocoder'>https://jessecambon.github.io/tidygeocoder</a></p></li>
-<li><p><a href='https://github.com/jessecambon/tidygeocoder'>https://github.com/jessecambon/tidygeocoder</a></p></li>
-<li><p>Report bugs at <a href='https://github.com/jessecambon/tidygeocoder/issues'>https://github.com/jessecambon/tidygeocoder/issues</a></p></li>
-</ul>
-
-</div>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

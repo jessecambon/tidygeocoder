@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Geocode street addresses in a dataframe — geocode • tidygeocoder</title>
+<title>Geocode addresses in a dataframe — geocode • tidygeocoder</title>
 
 
 <!-- jquery -->
@@ -39,7 +39,7 @@
 
 
 
-<meta property="og:title" content="Geocode street addresses in a dataframe — geocode" />
+<meta property="og:title" content="Geocode addresses in a dataframe — geocode" />
 <meta property="og:description" content="Takes a dataframe containing addresses as a input. Returns
 the dataframe with latitude and longitude coordinate columns
 using a user specified geocoder function." />
@@ -110,7 +110,7 @@ using a user specified geocoder function." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Geocode street addresses in a dataframe</h1>
+    <h1>Geocode addresses in a dataframe</h1>
     <small class="dont-index">Source: <a href='https://github.com/jessecambon/tidygeocoder/blob/master/R/geocode.R'><code>R/geocode.R</code></a></small>
     <div class="hidden name"><code>geocode.Rd</code></div>
     </div>
@@ -121,25 +121,63 @@ the dataframe with latitude and longitude coordinate columns
 using a user specified geocoder function.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>geocode</span>(<span class='no'>.tbl</span>, <span class='no'>address</span>, <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"census"</span>, <span class='kw'>lat</span> <span class='kw'>=</span> <span class='no'>lat</span>, <span class='kw'>long</span> <span class='kw'>=</span> <span class='no'>long</span>, <span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>geocode</span>(
+  <span class='no'>.tbl</span>,
+  <span class='kw'>address</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>street</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>city</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>county</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>state</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>postalcode</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>country</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"census"</span>,
+  <span class='kw'>lat</span> <span class='kw'>=</span> <span class='no'>lat</span>,
+  <span class='kw'>long</span> <span class='kw'>=</span> <span class='no'>long</span>,
+  <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='no'>...</span>
+)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>.tbl</th>
-      <td><p>dataframe</p></td>
+      <td><p>dataframe</p>
+<p>Names of columns in the dataframe:</p></td>
     </tr>
     <tr>
       <th>address</th>
-      <td><p>name of column containing addresses in .tbl</p></td>
+      <td><p>single line street address</p></td>
+    </tr>
+    <tr>
+      <th>street</th>
+      <td><p>street address</p></td>
+    </tr>
+    <tr>
+      <th>city</th>
+      <td><p>city</p></td>
+    </tr>
+    <tr>
+      <th>county</th>
+      <td><p>county</p></td>
+    </tr>
+    <tr>
+      <th>state</th>
+      <td><p>state</p></td>
+    </tr>
+    <tr>
+      <th>postalcode</th>
+      <td><p>postalcode (zip code if in the United States)</p></td>
+    </tr>
+    <tr>
+      <th>country</th>
+      <td><p>country</p></td>
     </tr>
     <tr>
       <th>method</th>
       <td><p>the geocoder function you want to use</p><ul>
-<li><p>"census": <code><a href='geo_census.html'>geo_census</a></code> - can only handle US street level addresses</p></li>
-<li><p>"osm": <code><a href='geo_osm.html'>geo_osm</a></code> - more versatile than Census but has a usage limit</p></li>
-<li><p>"cascade": <code><a href='geo_cascade.html'>geo_cascade</a></code> - first tries to use census then tries osm</p></li>
+<li><p>"census": only for US street level addresses</p></li>
+<li><p>"osm": worldwide coverage but has a usage limit</p></li>
 </ul></td>
     </tr>
     <tr>
@@ -151,8 +189,12 @@ using a user specified geocoder function.</p>
       <td><p>name of longitude field</p></td>
     </tr>
     <tr>
+      <th>verbose</th>
+      <td><p>toggle verbose output</p></td>
+    </tr>
+    <tr>
       <th>...</th>
-      <td><p>arguments supplied to the relevant geocoder function</p></td>
+      <td><p>arguments passed to the <code><a href='geo.html'>geo</a></code> function</p></td>
     </tr>
     </table>
 
@@ -170,28 +212,30 @@ using a user specified geocoder function.</p>
 #&gt; <span class='message'></span>
 #&gt; <span class='message'>    filter, lag</span></div><div class='output co'>#&gt; <span class='message'>The following objects are masked from ‘package:base’:</span>
 #&gt; <span class='message'></span>
-#&gt; <span class='message'>    intersect, setdiff, setequal, union</span></div><div class='input'><span class='no'>sample_addresses</span> <span class='kw'>%&gt;%</span> <span class='fu'>geocode</span>(<span class='no'>addr</span>)</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 8 x 4</span><span>
-#&gt;   name                   addr                                         lat   long
-#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>                  </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>                                      </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>  </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #BCBCBC;'>1</span><span> </span><span style='color: #949494;'>"</span><span>White House</span><span style='color: #949494;'>"</span><span>          </span><span style='color: #949494;'>"</span><span>1600 Pennsylvania Ave Washington, DC</span><span style='color: #949494;'>"</span><span>      38.9  -</span><span style='color: #BB0000;'>77.0</span><span>
-#&gt; </span><span style='color: #BCBCBC;'>2</span><span> </span><span style='color: #949494;'>"</span><span>Transamerica Pyramid</span><span style='color: #949494;'>"</span><span> </span><span style='color: #949494;'>"</span><span>600 Montgomery St, San Francisco, CA 941…  37.8 -</span><span style='color: #BB0000;'>122.</span><span> 
-#&gt; </span><span style='color: #BCBCBC;'>3</span><span>  </span><span style='color: #BB0000;'>NA</span><span>                    </span><span style='color: #949494;'>"</span><span>Fake Address</span><span style='color: #949494;'>"</span><span>                              </span><span style='color: #BB0000;'>NA</span><span>     </span><span style='color: #BB0000;'>NA</span><span>  
-#&gt; </span><span style='color: #BCBCBC;'>4</span><span>  </span><span style='color: #BB0000;'>NA</span><span>                     </span><span style='color: #BB0000;'>NA</span><span>                                         </span><span style='color: #BB0000;'>NA</span><span>     </span><span style='color: #BB0000;'>NA</span><span>  
-#&gt; </span><span style='color: #BCBCBC;'>5</span><span> </span><span style='color: #949494;'>""</span><span>                     </span><span style='color: #949494;'>""</span><span>                                          </span><span style='color: #BB0000;'>NA</span><span>     </span><span style='color: #BB0000;'>NA</span><span>  
-#&gt; </span><span style='color: #BCBCBC;'>6</span><span> </span><span style='color: #949494;'>"</span><span>US City</span><span style='color: #949494;'>"</span><span>              </span><span style='color: #949494;'>"</span><span>Nashville,TN</span><span style='color: #949494;'>"</span><span>                              </span><span style='color: #BB0000;'>NA</span><span>     </span><span style='color: #BB0000;'>NA</span><span>  
-#&gt; </span><span style='color: #BCBCBC;'>7</span><span> </span><span style='color: #949494;'>"</span><span>Willis Tower</span><span style='color: #949494;'>"</span><span>         </span><span style='color: #949494;'>"</span><span>233 S Wacker Dr, Chicago, IL 60606</span><span style='color: #949494;'>"</span><span>        41.9  -</span><span style='color: #BB0000;'>87.6</span><span>
-#&gt; </span><span style='color: #BCBCBC;'>8</span><span> </span><span style='color: #949494;'>"</span><span>International City</span><span style='color: #949494;'>"</span><span>   </span><span style='color: #949494;'>"</span><span>Nairobi, Kenya</span><span style='color: #949494;'>"</span><span>                            </span><span style='color: #BB0000;'>NA</span><span>     </span><span style='color: #BB0000;'>NA</span><span>  </div><div class='input'>
-<span class='no'>sample_addresses</span> <span class='kw'>%&gt;%</span> <span class='fu'>geocode</span>(<span class='no'>addr</span>,<span class='kw'>method</span><span class='kw'>=</span><span class='st'>'cascade'</span>,<span class='kw'>lat</span><span class='kw'>=</span><span class='no'>latitude</span>,<span class='kw'>long</span><span class='kw'>=</span><span class='no'>longitude</span>)</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 8 x 5</span><span>
-#&gt;   name              addr                           latitude longitude geo_method
-#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>             </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>                             </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>     </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>     
-#&gt; </span><span style='color: #BCBCBC;'>1</span><span> </span><span style='color: #949494;'>"</span><span>White House</span><span style='color: #949494;'>"</span><span>     </span><span style='color: #949494;'>"</span><span>1600 Pennsylvania Ave Washin…    38.9      -</span><span style='color: #BB0000;'>77.0</span><span> census    
-#&gt; </span><span style='color: #BCBCBC;'>2</span><span> </span><span style='color: #949494;'>"</span><span>Transamerica Py… </span><span style='color: #949494;'>"</span><span>600 Montgomery St, San Franc…    37.8     -</span><span style='color: #BB0000;'>122.</span><span>  census    
-#&gt; </span><span style='color: #BCBCBC;'>3</span><span>  </span><span style='color: #BB0000;'>NA</span><span>               </span><span style='color: #949494;'>"</span><span>Fake Address</span><span style='color: #949494;'>"</span><span>                    </span><span style='color: #BB0000;'>NA</span><span>         </span><span style='color: #BB0000;'>NA</span><span>   </span><span style='color: #BB0000;'>NA</span><span>        
-#&gt; </span><span style='color: #BCBCBC;'>4</span><span>  </span><span style='color: #BB0000;'>NA</span><span>                </span><span style='color: #BB0000;'>NA</span><span>                               </span><span style='color: #BB0000;'>NA</span><span>         </span><span style='color: #BB0000;'>NA</span><span>   </span><span style='color: #BB0000;'>NA</span><span>        
-#&gt; </span><span style='color: #BCBCBC;'>5</span><span> </span><span style='color: #949494;'>""</span><span>                </span><span style='color: #949494;'>""</span><span>                                </span><span style='color: #BB0000;'>NA</span><span>         </span><span style='color: #BB0000;'>NA</span><span>   </span><span style='color: #BB0000;'>NA</span><span>        
-#&gt; </span><span style='color: #BCBCBC;'>6</span><span> </span><span style='color: #949494;'>"</span><span>US City</span><span style='color: #949494;'>"</span><span>         </span><span style='color: #949494;'>"</span><span>Nashville,TN</span><span style='color: #949494;'>"</span><span>                    36.2      -</span><span style='color: #BB0000;'>86.8</span><span> osm       
-#&gt; </span><span style='color: #BCBCBC;'>7</span><span> </span><span style='color: #949494;'>"</span><span>Willis Tower</span><span style='color: #949494;'>"</span><span>    </span><span style='color: #949494;'>"</span><span>233 S Wacker Dr, Chicago, IL…    41.9      -</span><span style='color: #BB0000;'>87.6</span><span> census    
-#&gt; </span><span style='color: #BCBCBC;'>8</span><span> </span><span style='color: #949494;'>"</span><span>International C… </span><span style='color: #949494;'>"</span><span>Nairobi, Kenya</span><span style='color: #949494;'>"</span><span>                  -</span><span style='color: #BB0000;'>1.28</span><span>      36.8 osm       </div><div class='input'># }
+#&gt; <span class='message'>    intersect, setdiff, setequal, union</span></div><div class='input'><span class='no'>sample_addresses</span> <span class='kw'>%&gt;%</span> <span class='fu'>geocode</span>(<span class='no'>addr</span>)</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 9 x 4</span><span>
+#&gt;   name                 addr                                           lat   long
+#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>                </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>                                        </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>  </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #BCBCBC;'>1</span><span> White House          1600 Pennsylvania Ave Washington, DC          38.9  -</span><span style='color: #BB0000;'>77.0</span><span>
+#&gt; </span><span style='color: #BCBCBC;'>2</span><span> Transamerica Pyramid 600 Montgomery St, San Francisco, CA 94111    37.8 -</span><span style='color: #BB0000;'>122.</span><span> 
+#&gt; </span><span style='color: #BCBCBC;'>3</span><span> NY Stock Exchange    11 Wall Street, New York, New York            40.7  -</span><span style='color: #BB0000;'>74.0</span><span>
+#&gt; </span><span style='color: #BCBCBC;'>4</span><span> Willis Tower         233 S Wacker Dr, Chicago, IL 60606            41.9  -</span><span style='color: #BB0000;'>87.6</span><span>
+#&gt; </span><span style='color: #BCBCBC;'>5</span><span> Château Frontenac    1 Rue des Carrières, Québec, QC G1R 4P5, Ca…  </span><span style='color: #BB0000;'>NA</span><span>     </span><span style='color: #BB0000;'>NA</span><span>  
+#&gt; </span><span style='color: #BCBCBC;'>6</span><span> Nashville            Nashville, TN                                 </span><span style='color: #BB0000;'>NA</span><span>     </span><span style='color: #BB0000;'>NA</span><span>  
+#&gt; </span><span style='color: #BCBCBC;'>7</span><span> Nairobi              Nairobi, Kenya                                </span><span style='color: #BB0000;'>NA</span><span>     </span><span style='color: #BB0000;'>NA</span><span>  
+#&gt; </span><span style='color: #BCBCBC;'>8</span><span> Istanbul             Istanbul, Turkey                              </span><span style='color: #BB0000;'>NA</span><span>     </span><span style='color: #BB0000;'>NA</span><span>  
+#&gt; </span><span style='color: #BCBCBC;'>9</span><span> Tokyo                Tokyo, Japan                                  </span><span style='color: #BB0000;'>NA</span><span>     </span><span style='color: #BB0000;'>NA</span><span>  </div><div class='input'>
+<span class='no'>sample_addresses</span> <span class='kw'>%&gt;%</span> <span class='fu'>geocode</span>(<span class='no'>addr</span>,<span class='kw'>method</span><span class='kw'>=</span><span class='st'>'cascade'</span>,<span class='kw'>lat</span><span class='kw'>=</span><span class='no'>latitude</span>,<span class='kw'>long</span><span class='kw'>=</span><span class='no'>longitude</span>)</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 9 x 5</span><span>
+#&gt;   name            addr                             latitude longitude geo_method
+#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>           </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>                               </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>     </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>     
+#&gt; </span><span style='color: #BCBCBC;'>1</span><span> White House     1600 Pennsylvania Ave Washingto…     38.9     -</span><span style='color: #BB0000;'>77.0</span><span> census    
+#&gt; </span><span style='color: #BCBCBC;'>2</span><span> Transamerica P… 600 Montgomery St, San Francisc…     37.8    -</span><span style='color: #BB0000;'>122.</span><span>  census    
+#&gt; </span><span style='color: #BCBCBC;'>3</span><span> NY Stock Excha… 11 Wall Street, New York, New Y…     40.7     -</span><span style='color: #BB0000;'>74.0</span><span> census    
+#&gt; </span><span style='color: #BCBCBC;'>4</span><span> Willis Tower    233 S Wacker Dr, Chicago, IL 60…     41.9     -</span><span style='color: #BB0000;'>87.6</span><span> census    
+#&gt; </span><span style='color: #BCBCBC;'>5</span><span> Château Fronte… 1 Rue des Carrières, Québec, QC…     </span><span style='color: #BB0000;'>NA</span><span>        </span><span style='color: #BB0000;'>NA</span><span>   census    
+#&gt; </span><span style='color: #BCBCBC;'>6</span><span> Nashville       Nashville, TN                        </span><span style='color: #BB0000;'>NA</span><span>        </span><span style='color: #BB0000;'>NA</span><span>   census    
+#&gt; </span><span style='color: #BCBCBC;'>7</span><span> Nairobi         Nairobi, Kenya                       </span><span style='color: #BB0000;'>NA</span><span>        </span><span style='color: #BB0000;'>NA</span><span>   census    
+#&gt; </span><span style='color: #BCBCBC;'>8</span><span> Istanbul        Istanbul, Turkey                     </span><span style='color: #BB0000;'>NA</span><span>        </span><span style='color: #BB0000;'>NA</span><span>   census    
+#&gt; </span><span style='color: #BCBCBC;'>9</span><span> Tokyo           Tokyo, Japan                         </span><span style='color: #BB0000;'>NA</span><span>        </span><span style='color: #BB0000;'>NA</span><span>   census    </div><div class='input'># }
 </div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

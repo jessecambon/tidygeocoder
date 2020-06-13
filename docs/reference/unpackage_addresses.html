@@ -6,7 +6,9 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title><span class="pkg">tidygeocoder</span> simplifies getting data from geocoder services. — tidygeocoder-package • tidygeocoder</title>
+<title>Function for unpackaging and RE-deduping addresses
+so that we can return them in the same order that they were passed
+this function assumes that the results are in the same order as package$unique — unpackage_addresses • tidygeocoder</title>
 
 
 <!-- jquery -->
@@ -39,10 +41,12 @@
 
 
 
-<meta property="og:title" content="<span class="pkg">tidygeocoder</span> simplifies getting data from geocoder services. — tidygeocoder-package" />
-<meta property="og:description" content="The primary functions to use are geocode and geo.
-The geocode function calls geo.
-See vignette(&quot;tidygeocoder&quot;) for details." />
+<meta property="og:title" content="Function for unpackaging and RE-deduping addresses
+so that we can return them in the same order that they were passed
+this function assumes that the results are in the same order as package$unique — unpackage_addresses" />
+<meta property="og:description" content="Function for unpackaging and RE-deduping addresses
+so that we can return them in the same order that they were passed
+this function assumes that the results are in the same order as package$unique" />
 
 
 
@@ -110,36 +114,30 @@ See vignette(&quot;tidygeocoder&quot;) for details." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1><span class="pkg">tidygeocoder</span> simplifies getting data from geocoder services.</h1>
-    <small class="dont-index">Source: <a href='https://github.com/jessecambon/tidygeocoder/blob/master/R/tidygeocoder.R'><code>R/tidygeocoder.R</code></a></small>
-    <div class="hidden name"><code>tidygeocoder-package.Rd</code></div>
+    <h1>Function for unpackaging and RE-deduping addresses
+so that we can return them in the same order that they were passed
+this function assumes that the results are in the same order as package$unique</h1>
+    <small class="dont-index">Source: <a href='https://github.com/jessecambon/tidygeocoder/blob/master/R/address_handling.R'><code>R/address_handling.R</code></a></small>
+    <div class="hidden name"><code>unpackage_addresses.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>The primary functions to use are <code><a href='geocode.html'>geocode</a></code> and <code><a href='geo.html'>geo</a></code>.
-The <code><a href='geocode.html'>geocode</a></code> function calls <code><a href='geo.html'>geo</a></code>.
-See <code>vignette("tidygeocoder")</code> for details.</p>
+    <p>Function for unpackaging and RE-deduping addresses
+so that we can return them in the same order that they were passed
+this function assumes that the results are in the same order as package$unique</p>
     </div>
 
+    <pre class="usage"><span class='fu'>unpackage_addresses</span>(<span class='no'>package</span>, <span class='no'>results</span>, <span class='kw'>unique_only</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
 
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>unique_only</th>
+      <td><p>if TRUE then only unique results are returned</p></td>
+    </tr>
+    </table>
 
-    <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
-
-    
-<ul>
-<li><p>US Census Geocoder: <a href='https://geocoding.geo.census.gov/'>https://geocoding.geo.census.gov/</a></p></li>
-<li><p>Nominatim (OSM): <a href='https://nominatim.openstreetmap.org/'>https://nominatim.openstreetmap.org/</a> and <a href='https://nominatim.org/'>https://nominatim.org/</a></p></li>
-</ul>
-
-    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
-
-    <div class='dont-index'><p>Useful links:</p><ul>
-<li><p><a href='https://jessecambon.github.io/tidygeocoder'>https://jessecambon.github.io/tidygeocoder</a></p></li>
-<li><p><a href='https://github.com/jessecambon/tidygeocoder'>https://github.com/jessecambon/tidygeocoder</a></p></li>
-<li><p>Report bugs at <a href='https://github.com/jessecambon/tidygeocoder/issues'>https://github.com/jessecambon/tidygeocoder/issues</a></p></li>
-</ul>
-
-</div>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
