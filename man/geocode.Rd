@@ -17,6 +17,7 @@ geocode(
   lat = lat,
   long = long,
   verbose = FALSE,
+  return_addresses = FALSE,
   ...
 )
 }
@@ -50,6 +51,9 @@ Names of columns in the dataframe:}
 \item{long}{name of longitude field}
 
 \item{verbose}{toggle verbose output}
+
+\item{return_addresses}{if TRUE then addresses with standard names will be returned
+This is defaulted to false because the address fields are already in the input dataset}
 
 \item{...}{arguments passed to the \code{\link{geo}} function}
 }

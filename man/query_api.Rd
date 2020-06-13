@@ -11,7 +11,7 @@ query_api(
   batch_file = NULL,
   address_list = NULL,
   content_encoding = "UTF-8",
-  timeout = 25
+  timeout = 20
 )
 }
 \arguments{

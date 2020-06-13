@@ -2,6 +2,7 @@
 #' with a specified method.
 #' 
 #' @export
+#' @param ... arguments to be passed to the \code{\link{geo}}
 geo_census <- function(...) geo(method = 'census', ...)
   
 #'@rdname geo_census
@@ -17,8 +18,6 @@ geo_geocodio <- function(...) geo(method = 'geocodio', ...)
 geo_iq <- function(...) geo(method = 'iq', ...)
 
 #' First try census then try osm. Considering deprecating...
-#' NOTE ----- UNTESTED
-#' Title
 #' @rdname geo_census
 #' @export
 geo_cascade <- function(...) {

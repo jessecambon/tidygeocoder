@@ -19,11 +19,12 @@ geo_iq(...)
 
 geo_cascade(...)
 }
+\arguments{
+\item{...}{arguments to be passed to the \code{\link{geo}}}
+}
 \description{
 Conveniance functions for calling the \code{\link{geo}} function
 with a specified method.
 
 First try census then try osm. Considering deprecating...
-NOTE ----- UNTESTED
-Title
 }

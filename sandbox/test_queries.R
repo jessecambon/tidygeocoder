@@ -40,3 +40,12 @@ full3 <- geo('11 Wall St, New York, NY', method = 'census', full_results = TRUE,
 package_addresses(city = c('Lima'), country = c('Peru'), verbose = T)
 package_addresses(city = c('Lima', 'Shanghai'), country = c('Peru', 'China'), verbose = T)
 
+
+## Advanced Options
+
+geo(c('11 Wall St NY, NY', '1600 Pennsylvania Ave NW Washington, DC', '11 Wall St NY, NY'),verbose = T, unique_only = T, return_addresses = T)
+geo(c('11 Wall St NY, NY', '1600 Pennsylvania Ave NW Washington, DC', ''), method = 'osm', verbose = T, unique_only = F, return_addresses = T, no_query = T)
+gca1 <- geo(c('11 Wall St NY, NY', '1600 Pennsylvania Ave NW Washington, DC', ''), method = 'geocodio', mode = 'single', 
+              verbose = T, unique_only =T, return_addresses = T, full_results = T)
+gca2 <- geo(c('11 Wall St NY, NY', ''), method = 'geocodio', mode = 'batch', verbose = T, unique_only = T, return_addresses = T, full_results = T)
+

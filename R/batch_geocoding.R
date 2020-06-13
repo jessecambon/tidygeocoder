@@ -1,7 +1,7 @@
-#' Census batch geocoding
-#' @param address_pack packaged addresses object
-#' @param return should be 'locations' or 'geographies'
-#' Vingate must be defined if return = 'geographies'
+# Census batch geocoding
+# @param address_pack packaged addresses object
+# @param return should be 'locations' or 'geographies'
+# Vingate must be defined if return = 'geographies'
 # @export 
 batch_census <- function(address_pack,
   return = 'locations', timeout=20, full_results = FALSE, custom_query = list(), api_url = NULL,
@@ -38,7 +38,7 @@ batch_census <- function(address_pack,
   
   # Construct query
   ## NOTE - request will fail if vintage and benchmark are invalid for return = 'geographies'
-  query_parameters <- get_api_query('census', custom_api_parameters = custom_query)
+  query_parameters <- get_api_query('census', custom_parameters = custom_query)
   if (verbose == TRUE) display_query(api_url, query_parameters)
   
   # Query API
@@ -65,7 +65,7 @@ batch_census <- function(address_pack,
   }
 }
 
-#' Batch geocoding with geocodio
+# Batch geocoding with geocodio
 # @export
 batch_geocodio <- function(address_pack, lat = 'lat', long = 'long', timeout = 20, full_results = FALSE, verbose = FALSE,
                            api_url = NULL, geocodio_v = 1.6, ...) {

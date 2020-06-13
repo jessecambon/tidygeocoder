@@ -7,7 +7,7 @@
 get_api_query(
   method_name,
   generic_parameters = list(),
-  custom_api_parameters = list()
+  custom_parameters = list()
 )
 }
 \arguments{
@@ -15,7 +15,7 @@ get_api_query(
 
 \item{generic_parameters}{universal 'generic' parameters}
 
-\item{custom_api_parameters}{custom api-specific parameters}
+\item{custom_parameters}{custom api-specific parameters}
 }
 \value{
 named list of api-specific parameters

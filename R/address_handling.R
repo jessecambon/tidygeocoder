@@ -1,5 +1,5 @@
-#' Function for packaging and deduping addresses
-#' 
+# Function for packaging and deduping addresses
+# 
 # @export
 package_addresses <- function(address = NULL, 
   street = NULL, city = NULL, county = NULL, state = NULL, postalcode = NULL, country = NULL, verbose = FALSE) {
@@ -50,17 +50,22 @@ package_addresses <- function(address = NULL,
               crosswalk = tibble::as_tibble(crosswalk[!names(crosswalk) %in% addr_col_names])
   ))
 }
-#'
-#' Function for unpackaging and RE-deduping addresses
-#' so that we can return them in the same order that they were passed
-#' this function assumes that the results are in the same order as package$unique
-#' @param unique_only if TRUE then only unique results are returned
-#' 
+#
+# Function for unpackaging and RE-deduping addresses
+# so that we can return them in the same order that they were passed
+# this function assumes that the results are in the same order as package$unique
+# @param unique_only if TRUE then only unique results are returned
+# 
 # @export
-unpackage_addresses <- function(package, results, unique_only = FALSE) {
+unpackage_addresses <- function(package, results, unique_only = FALSE, return_addresses = FALSE) {
+  
+  # Add addresses to results if we are returning them
+  if (return_addresses == TRUE) results <- cbind(package$unique, results)
+  
   # if there are no duplicates then just return the raw results
   if ((nrow(package$unique) == nrow(package$crosswalk)) | unique_only) return(results)
   
+  # If there are duplicates then we need to use the crosswalk to return results properly
   id_colnames <- names(package$crosswalk)
   
   # on the off chance that the results dataset has the
@@ -73,6 +78,6 @@ unpackage_addresses <- function(package, results, unique_only = FALSE) {
   # join crosswalk and results
   base <- merge(package$crosswalk, results, by = '.uid', all.x = TRUE, sort = FALSE)
   base <- base[order(base['.id']), ]  # reorder
-  
+
   return(tibble::as_tibble(base[!names(base) %in% id_colnames]))
 }

@@ -1,14 +1,10 @@
 # Make sure there are no duplicates in our API reference files
-test_that("API Parameter References Have No Duplicates", {
+test_that("Check API Parameter Reference For Duplicates", {
   
   unique_api_param_rows <- nrow(tidygeocoder::api_parameter_reference[c('method','generic_name')])
   api_param_rows <- nrow(tidygeocoder::api_parameter_reference)
-    
-  unique_api_url_rows <- nrow(tidygeocoder::api_url_reference[c('method','name')])
-  api_url_rows <- nrow(tidygeocoder::api_url_reference)
   
   expect_equal(unique_api_param_rows,api_param_rows)
-  expect_equal(unique_api_url_rows,api_url_rows)
 })
 
 # Check column names with custom settings
@@ -39,7 +35,6 @@ test_that("geocode null/empty addresses", {
   
   # make sure blank addresses are not being sent to the geocoder
   expect_identical(geo_census(" ", verbose = TRUE), NA_result)
-  expect_identical(geo_census(" 123 ", verbose = TRUE), NA_result)
   expect_identical(geo_osm(" ", verbose = TRUE), NA_result)
   expect_identical(geo_cascade(" ", verbose = TRUE), NA_result)
 

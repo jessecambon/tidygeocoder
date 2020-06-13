@@ -24,6 +24,8 @@
 #' @param lat name of latitude field
 #' @param long name of longitude field
 #' @param verbose toggle verbose output
+#' @param return_addresses if TRUE then addresses with standard names will be returned
+#'   This is defaulted to false because the address fields are already in the input dataset
 #' @param ... arguments passed to the \code{\link{geo}} function
 #' @return input dataframe (.tbl) with latitude and longitude fields appended
 #'
@@ -38,7 +40,7 @@
 #' @export
 geocode <- function(.tbl, address = NULL, street=NULL, city = NULL, county = NULL, 
                     state = NULL, postalcode = NULL, country = NULL,
-                    method='census', lat = lat, long = long, verbose = FALSE, ...) {
+                    method='census', lat = lat, long = long, verbose = FALSE, return_addresses = FALSE, ...) {
   
   # NSE - Quote unquoted vars without double quoting quoted vars
   # end result - all of these variables become character values

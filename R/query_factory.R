@@ -74,11 +74,11 @@ create_api_parameter <- function(method_name, param_name, value) {
 #' dataset. 
 #' @param method_name method name
 #' @param generic_parameters universal 'generic' parameters
-#' @param custom_api_parameters custom api-specific parameters
+#' @param custom_parameters custom api-specific parameters
 #' @return named list of api-specific parameters 
 #'
 #' @export
-get_api_query <- function(method_name, generic_parameters = list(), custom_api_parameters = list() ) {
+get_api_query <- function(method_name, generic_parameters = list(), custom_parameters = list() ) {
   api_ref <- tidygeocoder::api_parameter_reference
   
   # create the "main" api parameters from the passed generic parameters
@@ -92,7 +92,7 @@ get_api_query <- function(method_name, generic_parameters = list(), custom_api_p
   
   # Throw error if user passes the same parameter via a custom api-specific list 
   # as they already did through the 'generic' parameters (address, street, etc.)
-  for (custom_name in names(custom_api_parameters)) {
+  for (custom_name in names(custom_parameters)) {
     if (custom_name %in% names(main_api_parameters)) {
       stop(paste0("Custom API Parameter '", custom_name, "' was already specified"))
     }
@@ -104,11 +104,11 @@ get_api_query <- function(method_name, generic_parameters = list(), custom_api_p
     api_ref[which(api_ref$method == method_name &
       api_ref$required == TRUE &
       !is.na(api_ref$default_value) &
-      !api_ref$api_name %in% names(c(main_api_parameters,custom_api_parameters))),][c('api_name','default_value')]
+      !api_ref$api_name %in% names(c(main_api_parameters,custom_parameters))),][c('api_name','default_value')]
     )
   
   # Combine address, api_key, and default parameters for full query
-  return( c(main_api_parameters, custom_api_parameters, default_api_parameters) )
+  return( c(main_api_parameters, custom_parameters, default_api_parameters) )
 }
 
 #' Get raw results from an API
@@ -127,7 +127,7 @@ get_api_query <- function(method_name, generic_parameters = list(), custom_api_p
 #' @return raw results from the query
 #' @export 
 query_api <- function(api_url, query_parameters, mode = 'single', 
-          batch_file=NULL, address_list = NULL, content_encoding='UTF-8', timeout = 25) {
+          batch_file=NULL, address_list = NULL, content_encoding='UTF-8', timeout = 20) {
    response <- switch(mode,
     'single' = httr::GET(api_url, query = query_parameters),
     'list' = httr::POST(api_url, query = query_parameters, 
@@ -143,7 +143,7 @@ query_api <- function(api_url, query_parameters, mode = 'single',
   return(content)
 }
 
-# print values in a named list
+# print values in a named list (used for displaying query parameters)
 display_named_list <- function(named_list) {
   for (var in names(named_list)) message(paste(var, '=', named_list[var]))
   message('')
