@@ -16,11 +16,10 @@ library(rnaturalearth)
 library(rnaturalearthdata)
 library(rgeos)
 library(tidyverse)
+library(hexSticker)
 ```
 
 ```{r}
-#world <- ne_countries(scale = "medium", returnclass = "sf")
-
 ctrys50m <- ne_countries(scale = 50, type = "countries", returnclass = "sf") %>%
   select(iso_a3, iso_n3, admin)
 
@@ -39,12 +38,9 @@ globe_background <- ggplot()  +
   geom_sf(data = ctrys50m, color = "white", alpha = 0, size = 0.09) +
   theme_void() + theme_transparent()
 
-globe_background
+globe_background + theme(panel.background = element_rect(fill = 'steelblue'))
 ```
 
-```{r}
-globe_background
-```
 
 
 
@@ -58,7 +54,6 @@ font_add_google("Roboto Slab")
 
 
 ```{r}
-library(hexSticker)
 s <- sticker(globe_background,
     package = "tidygeocoder", p_size = 20, s_x = 1, s_y = .75, s_width = 1.4, s_height = 1.1, p_family = "Roboto Slab",
     h_color = 'dimgrey', h_fill = 'steelblue3', p_color = 'white', filename = here::here("man/figures/tidygeocoder_hex.png"))
