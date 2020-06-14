@@ -49,3 +49,10 @@ gca1 <- geo(c('11 Wall St NY, NY', '1600 Pennsylvania Ave NW Washington, DC', ''
               verbose = T, unique_only =T, return_addresses = T, full_results = T)
 gca2 <- geo(c('11 Wall St NY, NY', ''), method = 'geocodio', mode = 'batch', verbose = T, unique_only = T, return_addresses = T, full_results = T)
 
+test_cgeo1 <- sample_addresses %>% 
+  geocode(addr, return_addresses = TRUE, lat = latitude, long = longitude, 
+          return = 'geographies', full_results = T, verbose = T)
+
+## Test Dedupping / Invalid Addresses
+
+geo(c("1600 Pennsylvania Ave NW Washington, DC", '11 Wall St NY, NY', NA, '', ' ', '11 Wall St NY, NY  '), verbose = T)

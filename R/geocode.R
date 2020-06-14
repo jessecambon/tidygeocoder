@@ -18,8 +18,10 @@
 #' @param country country
 #' @param method the geocoder function you want to use
 #' \itemize{
-#'   \item "census": only for US street level addresses
-#'   \item "osm": worldwide coverage but has a usage limit
+#'   \item "census": US Census Geocoder. US street-level addresses only.
+#'   \item "osm": Nominatim (OSM). Worldwide coverage.
+#'   \item "iq": Commercial OSM geocoder service.
+#'   \item "geocodio": Commercial geocoder. Covers US and Canada. 
 #' }
 #' @param lat name of latitude field
 #' @param long name of longitude field
