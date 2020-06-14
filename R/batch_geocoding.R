@@ -21,7 +21,7 @@ batch_census <- function(address_pack,
   if (is.null(api_url)) api_url <- get_census_url(return, 'addressbatch')
   
   num_addresses <- nrow(address_pack$unique)
-  if (verbose == TRUE) message(paste0('census batch geocoder, num_addresses: ', num_addresses))
+  if (verbose == TRUE) message(paste0('Number of Unique Addresses Passed to the Census Batch Geocoder: ', num_addresses))
   
   # create input dataframe
   input_df <- tibble::tibble(
@@ -74,6 +74,7 @@ batch_geocodio <- function(address_pack, lat = 'lat', long = 'long', timeout = 2
   # limit the dataframe to legitimate arguments
   address_df <- address_pack$unique[names(address_pack$unique) %in% c('address', 'street', 'city', 'state', 'postalcode')]
   
+  ## If single line addresses are passed then we will package them as a single list
   if ('address' %in% names(address_df)) {
     address_list <- as.list(address_df[['address']])
   } else {

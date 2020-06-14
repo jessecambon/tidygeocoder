@@ -12,11 +12,9 @@ get_key <- function(method) {
   # load api key from environmental variable
   key <- Sys.getenv(env_var)
   
-  if (key == "") {
-    warning(paste0("An API Key is needed to use the '", method, "' method.\n
-    Set the \"", env_var, "\" variable in your .Renviron file."))
-  }
-  return(key)
+  if (key == "") stop(paste0("An API Key is needed to use the '", method, "' method.
+    Set the \"", env_var, "\" variable in your .Renviron file or with Sys.getenv()."))
+  else return(key)
 }
 
 #####################################################

@@ -2,7 +2,7 @@
 % Please edit documentation in R/geo.R
 \name{geo}
 \alias{geo}
-\title{Workhorse function for geocoding}
+\title{Geocode addresses that are passed as character value or vectors}
 \usage{
 geo(
   address = NULL,
@@ -100,5 +100,5 @@ Auto uses batch geocoding if there are multiple addresses}
 parsed results from geocoder
 }
 \description{
-Workhorse function for geocoding
+Geocode addresses that are passed as character value or vectors
 }

@@ -1,10 +1,4 @@
-# Query can be customized or left to default according to method (service) chosen. 
-# full_results : if true return all info provided by geocoder (not just lat/long)
-## Set defaults for query parameters but allow user to override them. 
-## Include address and limit as a query parameter.
-# Either address of query_parameters must be defined
-
-#' Workhorse function for geocoding
+#' Geocode addresses that are passed as character value or vectors
 #' @param address single line address. do not combine with address component arguments below
 #' 
 #' Address components (do not combine with the single line 'address' parameter)
@@ -72,7 +66,7 @@ geo <- function(address = NULL,
   
   # If method='cascade' is called then pass all function arguments 
   # except for method to geo_cascade and return the results 
-  if (method == 'cascade') return(do.call(geo_cascade,all_args[names(all_args) != 'method']))
+  if (method == 'cascade') return(do.call(geo_cascade, all_args[names(all_args) != 'method']))
   
   # check address inputs and deduplicate
   address_pack <- package_addresses(address, street, city , county, 
@@ -100,7 +94,7 @@ geo <- function(address = NULL,
       
       # construct args for single address query
       # note that non-address related fields go to the MoreArgs argument of mapply
-      # since we aren't interating through them
+      # since we aren't iterating through them
       single_addr_args <- c(
         list(FUN = geo), 
         as.list(address_pack$unique),
@@ -125,11 +119,12 @@ geo <- function(address = NULL,
         message(paste0('Limiting batch query to ', batch_limit, ' addresses'))
         address_pack$unique <- address_pack$unique[1:batch_limit, ]
       }
-      
+        
       if (verbose == TRUE) message(paste0('Calling the ', method, ' batch geocoder'))
       # Convert our generic query parameters into parameters specific to our API (method)
       if (no_query == TRUE) return(get_na_value(lat, long, rows = num_rows_to_return))
       
+        
       raw_results <- switch(method,
         'census' = do.call(batch_census, c(list(address_pack),
               all_args[!names(all_args) %in% address_arg_names])),
@@ -152,18 +147,18 @@ geo <- function(address = NULL,
   if (method %in% c('osm','iq') & is.null(min_time))  min_time <- 1 
   else if (is.null(min_time)) min_time <- 0
   
-  ### Build Generic query as named list ---------------------------
+  ### Start to build 'generic' query as named list -------------------------
   generic_query <- list()
+  ## Geocodio and IQ services require an API key
   if (method %in% c('geocodio','iq')) {
     generic_query[['api_key']] <- get_key(method)
-    if (generic_query[['api_key']] == '') stop("API Key must be defined")
   }
-  if (!is.null(limit))                generic_query[['limit']]   <- limit
+  if (!is.null(limit)) generic_query[['limit']]   <- limit
   
   # construct query with single-line address or address components
   if  (!is.null(address)) {
     search <- 'onelineaddress' # for census only
-    generic_query[['address']]      <- address_pack$unique$address
+    generic_query[['address']] <- address_pack$unique$address
   }
   else {
     search <- 'address' # for census only
@@ -188,10 +183,7 @@ geo <- function(address = NULL,
       )
   }
   
-  if (length(api_url) == 0) {
-    warning('API URL not found')
-    return(unpackage_addresses(address_pack, NA_value, unique_only, return_addresses))
-  }
+  if (length(api_url) == 0) stop('API URL not found')
   
   ### Execute Single Address Query -----------------------------------------
   if (verbose == TRUE) display_query(api_url, api_query_parameters)

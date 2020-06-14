@@ -1,55 +1,63 @@
-# Function for packaging and deduping addresses
-# 
-# @export
+# Function for packaging and deduping addresses that are passed to the geo function
+#' package addresses
+#' @export
 package_addresses <- function(address = NULL, 
-  street = NULL, city = NULL, county = NULL, state = NULL, postalcode = NULL, country = NULL, verbose = FALSE) {
+  street = NULL, city = NULL, county = NULL, state = NULL, postalcode = NULL, country = NULL) {
   
   # package all non-NULL address arguments into a named list
   combined_addr <- as.list(environment())
-  combined_addr <- combined_addr[!names(combined_addr) %in% c('verbose')]
   combined_addr[sapply(combined_addr, is.null)] <- NULL # remove NULL items
-  
-  # trim all white space
-  for (param in names(combined_addr)) combined_addr[param] <- lapply(combined_addr[param], trimws)
-  
-  if (verbose == TRUE) {
-    display_named_list(combined_addr)
-    #message(paste0('combined_addr class: ', class(combined_addr)))
-  }
-  
   arg_names <- names(combined_addr)
   
+  ## QA check the address inputs 
   if (('address' %in% arg_names) & (length(arg_names) > 1)) {
-    warning("Do not use other address component parameters with the single line 'address' parameter")
-    return(list())
+    stop("Do not use other address component parameters with the single line 'address' parameter")
+  #  return(list())
   }
-  
   address_component_lengths <- lengths(combined_addr)
-  #print(address_component_lengths)
   if (max(address_component_lengths) != min(address_component_lengths)) {
-    warning('Address components must be equal in length')
-    return(list())
+    stop('Address components must be equal in length')
+  #  return(list())
   }
-
-  # put original addresses in a tibble
-  addr_orig <- tibble::as_tibble(combined_addr)
-  addr_col_names <- names(addr_orig)
   
-  # dedup addresses
-  unique_addr <- unique(addr_orig)
+  # Turn address inputs into a dataframe
+  addr_orig <- tibble::as_tibble(combined_addr)
+  addr_colnames <- names(addr_orig) # store column names
+  
+  # trim white space in all columns. as_tibble() and renaming the columns is needed because apply 
+  # converts the dataframe to a matrix
+  addr_orig <- tibble::as_tibble(apply(addr_orig, 2, trimws))
+  names(addr_orig) <- addr_colnames
+  
+  #print('addr_orig:')
+  #print(addr_orig)
+  
+  ### Clean and deduplicate addresses. Remove all NA/missing addresses 
+  # remove rows that are entirely blank or NA
+  unique_addr <- addr_orig[!apply(is.na(addr_orig) | trimws(addr_orig) == "", 1, all), ]
+  # only keep unique columns and then create a unique identifier column
+  unique_addr <- unique(unique_addr)
   unique_addr[['.uid']] <- 1:nrow(unique_addr)
+  
+  #print('unique_addr:')
+  #print(unique_addr)
   
   # create id to record original address order
   addr_orig[['.id']] <- 1:nrow(addr_orig)
   
   # crosswalk
-  crosswalk <- merge(addr_orig, unique_addr, by = addr_col_names, all.x = TRUE, sort = FALSE)
+  crosswalk <- merge(addr_orig, unique_addr, by = addr_colnames, all.x = TRUE, sort = FALSE)
   crosswalk <- crosswalk[order(crosswalk['.id']), ]  # reorder
   
+  # Return a named list containing two dataframes.
+  # unique contains all the unique addresses to pass to the geocoder service
+  # crosswalk contains only the .uid and .id columns to match the geocoder results
+  # back to the original input addresses (which may contain duplicates/blanks/etc)
   return(list(unique = tibble::as_tibble(unique_addr[!names(unique_addr) %in% c('.uid')]), 
-              crosswalk = tibble::as_tibble(crosswalk[!names(crosswalk) %in% addr_col_names])
+              crosswalk = tibble::as_tibble(crosswalk[!names(crosswalk) %in% addr_colnames])
   ))
 }
+
 #
 # Function for unpackaging and RE-deduping addresses
 # so that we can return them in the same order that they were passed
