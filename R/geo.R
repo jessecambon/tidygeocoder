@@ -74,17 +74,21 @@ geo <- function(address = NULL,
   
   # count number of unique addresses
   num_unique_addresses <- nrow(address_pack$unique) # unique addresses
-  
   # determine how many rows will be returned (either unique or includes duplicate address rows)
   num_rows_to_return <- ifelse(unique_only, num_unique_addresses, nrow(address_pack$crosswalk))
   
   if (verbose == TRUE) message(paste0('Number of Unique Addresses: ', num_unique_addresses))
   
-  # if address(es) is/are blank then return NA
-  if  (max(sapply(address_pack$unique, nchar, allowNA = TRUE)) %in% c(0, NA)) {
-    if (verbose == TRUE) message("Blank or missing address!")
+  # If no valid/nonblank addresses are passed then return NA
+  if (num_unique_addresses == 0) {
+    if (verbose == TRUE) message(paste0('No non-blank non-NA addreses found. Returning NA results.'))
     return(get_na_value(lat, long, rows = num_rows_to_return))
   }
+  ### if address(es) is/are blank then return NA (should no longer be needed)
+  # if  (max(sapply(address_pack$unique, nchar, allowNA = TRUE)) %in% c(0, NA)) {
+  #   if (verbose == TRUE) message("Blank or missing address!")
+  #   return(get_na_value(lat, long, rows = num_rows_to_return))
+  # }
   
   ## If there are multiple addresses and we are using a method without a batch geocoder 
   ## OR the user has explicitly specified single address geocoding.. call the 

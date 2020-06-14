@@ -1,6 +1,20 @@
+# trims all whitespace from all columns
+# converts any pure whitespace values to NA
+trim_df <- function(df) {
+  m <- as.matrix(df) 
+  m[is.na(m)] <- '' # convert all NAs to blanks
+  m <- apply(m, 2, trimws) # trim all whitespace
+  m[m == ''] <- NA # convert all blanks to NAs
+  
+  # convert to dataframe and return
+  trimmed_df <- tibble::as_tibble(m)
+  names(trimmed_df) <- names(df)
+  return(trimmed_df)
+}
+
 # Function for packaging and deduping addresses that are passed to the geo function
-#' package addresses
-#' @export
+# package addresses
+# @export
 package_addresses <- function(address = NULL, 
   street = NULL, city = NULL, county = NULL, state = NULL, postalcode = NULL, country = NULL) {
   
@@ -12,38 +26,39 @@ package_addresses <- function(address = NULL,
   ## QA check the address inputs 
   if (('address' %in% arg_names) & (length(arg_names) > 1)) {
     stop("Do not use other address component parameters with the single line 'address' parameter")
-  #  return(list())
   }
   address_component_lengths <- lengths(combined_addr)
   if (max(address_component_lengths) != min(address_component_lengths)) {
     stop('Address components must be equal in length')
-  #  return(list())
   }
   
   # Turn address inputs into a dataframe
   addr_orig <- tibble::as_tibble(combined_addr)
   addr_colnames <- names(addr_orig) # store column names
   
-  # trim white space in all columns. as_tibble() and renaming the columns is needed because apply 
-  # converts the dataframe to a matrix
-  addr_orig <- tibble::as_tibble(apply(addr_orig, 2, trimws))
-  names(addr_orig) <- addr_colnames
-  
-  #print('addr_orig:')
-  #print(addr_orig)
+  # Trim whitespace and convert all purely whitespace values to NA
+  addr_orig <- trim_df(addr_orig)
   
   ### Clean and deduplicate addresses. Remove all NA/missing addresses 
+  unique_addr <- addr_orig
   # remove rows that are entirely blank or NA
-  unique_addr <- addr_orig[!apply(is.na(addr_orig) | trimws(addr_orig) == "", 1, all), ]
+  unique_addr <- unique_addr[!apply(is.na(unique_addr) | unique_addr == "", 1, all), ]
   # only keep unique columns and then create a unique identifier column
   unique_addr <- unique(unique_addr)
+  
+  # if there are 0 valid/nonblank addresses then 0 rows for unique tibble
+  # and return a tibble of the same number of rows as the input for crosswalk
+  if (nrow(unique_addr) == 0) return(list(unique=tibble::tibble(), crosswalk = tibble::tibble(.id = 1:nrow(addr_orig))))
+  
+  ## Create unique identifiers
   unique_addr[['.uid']] <- 1:nrow(unique_addr)
-  
-  #print('unique_addr:')
-  #print(unique_addr)
-  
   # create id to record original address order
   addr_orig[['.id']] <- 1:nrow(addr_orig)
+  
+  # print('addr_orig:')
+  # print(addr_orig)
+  # print('unique_addr:')
+  # print(unique_addr)
   
   # crosswalk
   crosswalk <- merge(addr_orig, unique_addr, by = addr_colnames, all.x = TRUE, sort = FALSE)
