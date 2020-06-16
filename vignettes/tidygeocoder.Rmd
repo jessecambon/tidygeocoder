@@ -15,19 +15,17 @@ options(tibble.print_min = 4L, tibble.print_max = 4L)
 set.seed(42)
 ```
 
-Geocoding services are used to provide data about addresses such as longitude and latitude coordinates. Tidygeocoder makes getting data from geocoding services easy. The two main functions to use are `geocode` which takes a dataframe as an input and `geo` which takes character values or vectors of character values.
+Geocoding services are used to provide data about addresses such as longitude and latitude coordinates. The goal of tidygeocoder is to make  getting data from these services easy. The two main functions to use are `geocode` which takes a dataframe as an input and `geo` which takes character values or vectors of character values.
 
-## Getting Started
+Before you jump into using tidygeocoder, you'll need to make a couple of decisions:
 
-Before you jump into geocoding, you'll need to make a couple of decisions:
-
-* **Which geocoding service do you want to use?** Specify with the `method` argument.
+1. **Which geocoding service do you want to use?** Specify with the `method` argument. 
   * `'census'` : The US Census geocoder service. Covers street level addresses for the US.
   * `'geocodio'` : a commercial geocoder service for the US and Canada.
   * `'osm'` : The Nominatim service queriese OSM (Open Street Map) data. 
   * `'iq'` : a commercial offering of the Nominatim (OSM) service
   
-* **Do you want to use single-line addressees or address components?** (ie. `address = '60 Main St, Pawnee, IN'` compared to `street = '60 Main St', city = 'Pawnee', state = 'IN'`)
+2. **Do you want to use single-line addressees or address components?** (ie. `address = '60 Main St, Pawnee, IN'` compared to `street = '60 Main St', city = 'Pawnee', state = 'IN'`)
   * For single-line addresses, use the `address` argument
   * Alternatively, you can use some combination of the `street`, `city`, `state`, `county`, `postalcode`, and `country` arguments. Note that not all of these parameters are required and geocoder services don't necessarily support all of these inputs, refer to the API documentation of the geocoder services for details. For example, the Census geocoder is only for the United States and has no reason to support a `country` input. 
 
@@ -38,14 +36,38 @@ library(tibble)
 library(dplyr)
 library(tidygeocoder)
 
-a1 <- tibble(singlelineaddress = '11 Wall St, NY, NY')
-a1
+address_single <- tibble(singlelineaddress = c('11 Wall St, NY, NY', '600 Peachtree Street NE, Atlanta, Georgia'))
+address_components <- tribble(
+  ~str                          , ~cty,             ~st,
+  '11 Wall St',                  'NY',               'NY',
+  '600 Peachtree Street NE',     'Atlanta',          'GA'
+)
+```
 
-a1 %>% geocode(address = singlelineaddress, method = 'census')
+Use the `address` argument for single line addresses:
+
+```{r}
+address_single
+address_single %>% geocode(address = singlelineaddress, method = 'census')
+```
+
+Alternatively use any combination of the following arguments to specify addresses: `street`, `city`, `state`, `county`, `postalcode`, and `country`.
+
+```{r}
+address_components
+address_components %>% geocode(street = str, city = cty, state = st, method = 'census')
+```
+
+To return data other than latitude and longitude, specify `full_results = TRUE`. Additionally, for the census geocoder you can get details on  geographies such as census tracts by specifying `return = 'geographies'`.
+
+```{r}
+census_full1 <- address_single %>% geocode(address = singlelineaddress, 
+      method = 'census', full_results = TRUE, return = 'geographies')
+glimpse(census_full1)
 ```
 
 
-
+## The geo function
 
 
 Here is how you would geocode an address using the Census geocoder:

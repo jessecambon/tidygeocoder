@@ -4,7 +4,7 @@
 # Vingate must be defined if return = 'geographies'
 # @export 
 batch_census <- function(address_pack,
-  return = 'locations', timeout=20, full_results = FALSE, custom_query = list(), api_url = NULL,
+  return = 'locations', timeout = 20, full_results = FALSE, custom_query = list(), api_url = NULL,
   lat = 'lat', long = 'long', verbose = FALSE, ...) {
   
   if (!'street' %in% names(address_pack$unique) & (!'address' %in% names(address_pack$unique))) {
