@@ -1,10 +1,13 @@
 Package: tidygeocoder
 Type: Package
-Title: Tidyverse-Style Interface for Geocoding
+Title: Make Geocoding Easy
 Version: 0.2.6
-Author: Jesse Cambon
-Maintainer: Jesse Cambon <jesse.cambon@gmail.com>
-Description: An intuitive tidyverse-style interface for geocoding. Obtains latitude and longitude coordinates in tibble format from addresses. The currently supported services are the US Census geocoder and Nominatim (OSM). 
+Authors@R:
+    c(person(given = "Jesse",
+             family = "Cambon",
+             role = c("aut", "cre"),
+             email = "jesse.cambon@gmail.com"))
+Description: An intuitive interface for getting data from geocoder services
 URL: https://jessecambon.github.io/tidygeocoder, 
     https://github.com/jessecambon/tidygeocoder
 BugReports: https://github.com/jessecambon/tidygeocoder/issues

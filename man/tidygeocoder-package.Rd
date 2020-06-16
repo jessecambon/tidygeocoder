@@ -25,4 +25,8 @@ Useful links:
 }
 
 }
+\author{
+\strong{Maintainer}: Jesse Cambon \email{jesse.cambon@gmail.com}
+
+}
 \keyword{internal}

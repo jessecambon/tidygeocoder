@@ -1,0 +1,48 @@
+---
+title: "Introduction to tidygeocoder"
+output: rmarkdown::html_vignette
+description: >
+  Start here if this is your first time using tidygeocder.
+vignette: >
+  %\VignetteIndexEntry{Introduction to tidygeocoder}
+  %\VignetteEngine{knitr::rmarkdown}
+  \usepackage[utf8]{inputenc}
+---
+
+```{r, echo = FALSE, message = FALSE}
+knitr::opts_chunk$set(collapse = T, comment = "#>")
+options(tibble.print_min = 4L, tibble.print_max = 4L)
+library(tidygeocoder)
+set.seed(42)
+```
+
+Geocoding services are used to provide data about addresses such as longitude and latitude coordinates. Tidygeocoder makes getting data from geocoding services easy. Here is how you would geocode an address using the Census geocoder:
+
+```{r}
+geo(address = "600 Peachtree Street NE, Atlanta, Georgia", method = "census")
+```
+Alternatively, you can specify an address in components:
+
+```{r}
+geo(street = "600 Peachtree Street NE", city = "Atlanta", state = "Georgia", method = "census")
+```
+To use a different geocoder service, you can specify it with the `method` argument. To geocode multiple addresses, pass them as a vector. In this case we are using the Nomanitim (OSM) geocoder service.
+
+```{r}
+geo(address = c("Tokyo, Japan", "Lima, Peru", "Nairobi, Kenya"), method = 'osm')
+```
+
+## Working With Dataframes
+
+To use geocoding directly on addresses in a dataframe, you can use the `geocode` function. The `geocode` function has identical arguments to the `geo` function but instead of directly specifying the address you will specify the columns that the address resides in.
+
+```{r}
+library(tibble)
+library(dplyr)
+
+a1 <- tibble(singlelineaddress = '11 Wall St, NY, NY')
+a1
+
+a1 %>% geocode(address = singlelineaddress)
+```
+

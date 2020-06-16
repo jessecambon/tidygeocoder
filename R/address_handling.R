@@ -1,17 +1,3 @@
-# trims all whitespace from all columns
-# converts any pure whitespace values to NA
-trim_df <- function(df) {
-  m <- as.matrix(df) 
-  m[is.na(m)] <- '' # convert all NAs to blanks
-  m <- apply(m, 2, trimws) # trim all whitespace
-  m[m == ''] <- NA # convert all blanks to NAs
-  
-  # convert to dataframe and return
-  trimmed_df <- tibble::as_tibble(m)
-  names(trimmed_df) <- names(df)
-  return(trimmed_df)
-}
-
 # Function for packaging and deduping addresses that are passed to the geo function
 # package addresses
 # @export
@@ -21,6 +7,9 @@ package_addresses <- function(address = NULL,
   # package all non-NULL address arguments into a named list
   combined_addr <- as.list(environment())
   combined_addr[sapply(combined_addr, is.null)] <- NULL # remove NULL items
+  # apply trimws to non-NA values (trimws will turn NA into 'NA' character value otherwise)
+  combined_addr<- lapply(combined_addr, function(x) ifelse(is.na(x), NA, trimws(x)))
+  
   arg_names <- names(combined_addr)
   
   ## QA check the address inputs 
@@ -36,8 +25,6 @@ package_addresses <- function(address = NULL,
   addr_orig <- tibble::as_tibble(combined_addr)
   addr_colnames <- names(addr_orig) # store column names
   
-  # Trim whitespace and convert all purely whitespace values to NA
-  addr_orig <- trim_df(addr_orig)
   
   ### Clean and deduplicate addresses. Remove all NA/missing addresses 
   unique_addr <- addr_orig
