@@ -12,11 +12,43 @@ vignette: >
 ```{r, echo = FALSE, message = FALSE}
 knitr::opts_chunk$set(collapse = T, comment = "#>")
 options(tibble.print_min = 4L, tibble.print_max = 4L)
-library(tidygeocoder)
 set.seed(42)
 ```
 
-Geocoding services are used to provide data about addresses such as longitude and latitude coordinates. Tidygeocoder makes getting data from geocoding services easy. Here is how you would geocode an address using the Census geocoder:
+Geocoding services are used to provide data about addresses such as longitude and latitude coordinates. Tidygeocoder makes getting data from geocoding services easy. The two main functions to use are `geocode` which takes a dataframe as an input and `geo` which takes character values or vectors of character values.
+
+## Getting Started
+
+Before you jump into geocoding, you'll need to make a couple of decisions:
+
+* **Which geocoding service do you want to use?** Specify with the `method` argument.
+  * `'census'` : The US Census geocoder service. Covers street level addresses for the US.
+  * `'geocodio'` : a commercial geocoder service for the US and Canada.
+  * `'osm'` : The Nominatim service queriese OSM (Open Street Map) data. 
+  * `'iq'` : a commercial offering of the Nominatim (OSM) service
+  
+* **Do you want to use single-line addressees or address components?** (ie. `address = '60 Main St, Pawnee, IN'` compared to `street = '60 Main St', city = 'Pawnee', state = 'IN'`)
+  * For single-line addresses, use the `address` argument
+  * Alternatively, you can use some combination of the `street`, `city`, `state`, `county`, `postalcode`, and `country` arguments. Note that not all of these parameters are required and geocoder services don't necessarily support all of these inputs, refer to the API documentation of the geocoder services for details. For example, the Census geocoder is only for the United States and has no reason to support a `country` input. 
+
+## Making a Query
+
+```{r}
+library(tibble)
+library(dplyr)
+library(tidygeocoder)
+
+a1 <- tibble(singlelineaddress = '11 Wall St, NY, NY')
+a1
+
+a1 %>% geocode(address = singlelineaddress, method = 'census')
+```
+
+
+
+
+
+Here is how you would geocode an address using the Census geocoder:
 
 ```{r}
 geo(address = "600 Peachtree Street NE, Atlanta, Georgia", method = "census")
@@ -32,17 +64,4 @@ To use a different geocoder service, you can specify it with the `method` argume
 geo(address = c("Tokyo, Japan", "Lima, Peru", "Nairobi, Kenya"), method = 'osm')
 ```
 
-## Working With Dataframes
-
 To use geocoding directly on addresses in a dataframe, you can use the `geocode` function. The `geocode` function has identical arguments to the `geo` function but instead of directly specifying the address you will specify the columns that the address resides in.
-
-```{r}
-library(tibble)
-library(dplyr)
-
-a1 <- tibble(singlelineaddress = '11 Wall St, NY, NY')
-a1
-
-a1 %>% geocode(address = singlelineaddress)
-```
-
