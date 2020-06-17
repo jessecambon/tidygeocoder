@@ -20,14 +20,26 @@ library(hexSticker)
 ```
 
 ```{r}
-ctrys50m <- ne_countries(scale = 50, type = "countries", returnclass = "sf") %>%
-  select(iso_a3, iso_n3, admin)
+# ctrys50m <- ne_countries(scale = 50, type = "countries", returnclass = "sf") %>%
+#   select(iso_a3, iso_n3, admin)
 
-crs <- "+proj=laea +lat_0=14 +lon_0=32"
+world_coastlines <- ne_coastline(scale = 'medium', returnclass = 'sf')
+
+#crs <- "+proj=robin +ellps=WGS84 +lat_0=20 +lon_0=30"
+#crs <- "+proj=aeqd +lat_0=0 +lon_0=0 +x_0=0 +y_0=0 +ellps=WGS84 +datum=WGS84 +units=m +no_defs"
+
 sphere <- st_graticule(ndiscr = 10000, margin = 10e-6) %>%
-  st_transform(crs = crs) %>%
+  st_transform(crs = 3035) %>%
   st_convex_hull() %>%
   summarise(geometry = st_union(geometry))
+```
+
+```{r}
+ggplot()  +
+  geom_sf(data = sphere) +
+  geom_sf(data = world_coastlines) +
+  coord_sf(crs = st_crs(3035))
+  
 ```
 
 
@@ -35,7 +47,8 @@ sphere <- st_graticule(ndiscr = 10000, margin = 10e-6) %>%
 ```{r}
 globe_background <- ggplot()  +
   geom_sf(data = sphere, alpha = 0, color = 'white', size = 0.20) +
-  geom_sf(data = ctrys50m, color = "white", alpha = 0, size = 0.09) +
+  geom_sf(data = world_coastlines, color = "white", alpha = 0, size = 0.09) +
+  coord_sf(crs = st_crs(3035)) +
   theme_void() + theme_transparent()
 
 globe_background + theme(panel.background = element_rect(fill = 'steelblue'))
@@ -55,7 +68,7 @@ font_add_google("Roboto Slab")
 
 ```{r}
 s <- sticker(globe_background,
-    package = "tidygeocoder", p_size = 20, s_x = 1, s_y = .75, s_width = 1.4, s_height = 1.1, p_family = "Roboto Slab",
+    package = "tidygeocoder", p_size = 19, s_x = 1, s_y = .75, s_width = 1, s_height = 1, p_family = "Roboto Slab",
     h_color = 'dimgrey', h_fill = 'steelblue3', p_color = 'white', filename = here::here("man/figures/tidygeocoder_hex.png"))
 
 plot(s)
