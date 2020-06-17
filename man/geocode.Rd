@@ -13,10 +13,8 @@ geocode(
   state = NULL,
   postalcode = NULL,
   country = NULL,
-  method = "census",
   lat = lat,
   long = long,
-  verbose = FALSE,
   return_addresses = FALSE,
   ...
 )
@@ -40,19 +38,9 @@ Names of columns in the dataframe:}
 
 \item{country}{country}
 
-\item{method}{the geocoder function you want to use
-\itemize{
-  \item "census": US Census Geocoder. US street-level addresses only.
-  \item "osm": Nominatim (OSM). Worldwide coverage.
-  \item "iq": Commercial OSM geocoder service.
-  \item "geocodio": Commercial geocoder. Covers US and Canada. 
-}}
-
 \item{lat}{name of latitude field}
 
 \item{long}{name of longitude field}
-
-\item{verbose}{toggle verbose output}
 
 \item{return_addresses}{if TRUE then addresses with standard names will be returned
 This is defaulted to false because the address fields are already in the input dataset}

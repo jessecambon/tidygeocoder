@@ -23,8 +23,8 @@ get_key <- function(method) {
 
 # return : returntype => 'locations' or 'geographies'
 # search:  searchtype => 'onelineaddress', 'addressbatch', 'address', or 'coordinates'
-get_census_url <- function(return, search) {
-  return(paste0("https://geocoding.geo.census.gov/geocoder/", return, "/", search))
+get_census_url <- function(return_type, search) {
+  return(paste0("https://geocoding.geo.census.gov/geocoder/", return_type, "/", search))
 }
 
 get_geocodio_url <- function(api_v) {

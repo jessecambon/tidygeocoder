@@ -16,16 +16,8 @@
 #' @param state state
 #' @param postalcode postalcode (zip code if in the United States)
 #' @param country country
-#' @param method the geocoder function you want to use
-#' \itemize{
-#'   \item "census": US Census Geocoder. US street-level addresses only.
-#'   \item "osm": Nominatim (OSM). Worldwide coverage.
-#'   \item "iq": Commercial OSM geocoder service.
-#'   \item "geocodio": Commercial geocoder. Covers US and Canada. 
-#' }
 #' @param lat name of latitude field
 #' @param long name of longitude field
-#' @param verbose toggle verbose output
 #' @param return_addresses if TRUE then addresses with standard names will be returned
 #'   This is defaulted to false because the address fields are already in the input dataset
 #' @param ... arguments passed to the \code{\link{geo}} function
@@ -40,9 +32,9 @@
 #' }
 #' @importFrom tibble tibble as_tibble
 #' @export
-geocode <- function(.tbl, address = NULL, street=NULL, city = NULL, county = NULL, 
+geocode <- function(.tbl, address = NULL, street = NULL, city = NULL, county = NULL, 
                     state = NULL, postalcode = NULL, country = NULL,
-                    method='census', lat = lat, long = long, verbose = FALSE, return_addresses = FALSE, ...) {
+                    lat = lat, long = long, return_addresses = FALSE, ...) {
   
   # NSE - Quote unquoted vars without double quoting quoted vars
   # end result - all of these variables become character values
@@ -59,6 +51,11 @@ geocode <- function(.tbl, address = NULL, street=NULL, city = NULL, county = NUL
   # capture all function arguments including default values as a named list
   all_args <- as.list(environment())
   
+  # print('all_args:')
+  # print(all_args)
+  # print('list(...): ')
+  # print(list(...))
+  
   start_time <- Sys.time() # start timer
   address_arg_names <- c('address', 'street', 'city', 'county', 'state', 'postalcode', 'country')
   
@@ -71,13 +68,13 @@ geocode <- function(.tbl, address = NULL, street=NULL, city = NULL, county = NUL
   geo_args <- c(addr_parameters, all_args[!names(all_args) %in% c('.tbl',address_arg_names)], list(...))
   
   # Pass addresses to the geo function
-  coordinates <- do.call(geo, geo_args)
+  results <- do.call(geo, geo_args)
   
   # cbind the original dataframe to the coordinates and convert to tibble
   # change column names to be unique if there are duplicate column names
-  final_df <- tibble::as_tibble(cbind(.tbl,coordinates))
+  final_df <- tibble::as_tibble(cbind(.tbl, results))
 
-  if (verbose == TRUE) print_time("Query executed in", get_seconds_elapsed(start_time))
+  #if (verbose == TRUE) print_time("Query executed in", get_seconds_elapsed(start_time))
   
   return(final_df)
 }

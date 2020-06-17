@@ -36,7 +36,7 @@
 #' @param no_query if TRUE then no queries are sent to the geocoder and verbose is set to TRUE
 
 #' @param custom_query API-specific parameters to be used
-#' @param return    (census only) 'locations' (default) or 'geographies'
+#' @param return_type    (census only) 'locations' (default) or 'geographies'
 #' @param iq_region 'us' (default) or 'eu'. Used for establishing API URL
 #' @param geocodio_v version of geocodio api. 1.6 is default. used for establishing API URL
 #' 
@@ -47,8 +47,12 @@ geo <- function(address = NULL,
     method = 'census', lat = lat, long = long, limit=1, min_time=NULL, api_url = NULL, timeout = 20,
     mode = 'auto', full_results = FALSE, unique_only = FALSE, return_addresses = TRUE, 
     flatten = TRUE, batch_limit = 10000, verbose = FALSE, no_query = FALSE, 
-    custom_query = list(), return = 'locations', iq_region = 'us', geocodio_v = 1.6) {
+    custom_query = list(), return_type = 'locations', iq_region = 'us', geocodio_v = 1.6) {
   
+  # print('return_type: ')
+  # print(return_type)
+  # print('class of return_type: ')
+  # print(class(return_type))
   # NSE - Quote unquoted vars without double quoting quoted vars
   # end result - all of these variables become character values
   lat <- rm_quote(deparse(substitute(lat)))
@@ -180,7 +184,7 @@ geo <- function(address = NULL,
   # Set API URL (if not already set) ---------------------------
   if (is.null(api_url)) {
     api_url <- switch(method,
-      "census" = get_census_url(return, search),
+      "census" = get_census_url(return_type, search),
       "osm" = get_osm_url(),
       "geocodio" = get_geocodio_url(geocodio_v),
       "iq" = get_iq_url(iq_region)

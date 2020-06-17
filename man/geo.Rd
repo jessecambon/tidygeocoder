@@ -28,7 +28,7 @@ geo(
   verbose = FALSE,
   no_query = FALSE,
   custom_query = list(),
-  return = "locations",
+  return_type = "locations",
   iq_region = "us",
   geocodio_v = 1.6
 )
@@ -90,7 +90,7 @@ Auto uses batch geocoding if there are multiple addresses}
 
 \item{custom_query}{API-specific parameters to be used}
 
-\item{return}{(census only) 'locations' (default) or 'geographies'}
+\item{return_type}{(census only) 'locations' (default) or 'geographies'}
 
 \item{iq_region}{'us' (default) or 'eu'. Used for establishing API URL}
 

@@ -20,9 +20,9 @@ Geocoding services are used to provide data about addresses such as longitude an
 Before you jump into using tidygeocoder, you'll need to make a couple of decisions:
 
 1. **Which geocoding service do you want to use?** Specify with the `method` argument. 
-  * `'census'` : The US Census geocoder service. Covers street level addresses for the US.
+  * `'census'` : the US Census geocoder service. Covers street level addresses for the US.
   * `'geocodio'` : a commercial geocoder service for the US and Canada.
-  * `'osm'` : The Nominatim service queriese OSM (Open Street Map) data. 
+  * `'osm'` : the Nominatim service queries OSM (Open Street Map) data. 
   * `'iq'` : a commercial offering of the Nominatim (OSM) service
   
 2. **Do you want to use single-line addressees or address components?** (ie. `address = '60 Main St, Pawnee, IN'` compared to `street = '60 Main St', city = 'Pawnee', state = 'IN'`)
@@ -31,7 +31,8 @@ Before you jump into using tidygeocoder, you'll need to make a couple of decisio
 
 ## Making a Query
 
-```{r}
+
+```{r, warning = FALSE, message = FALSE}
 library(tibble)
 library(dplyr)
 library(tidygeocoder)
@@ -44,30 +45,36 @@ address_components <- tribble(
 )
 ```
 
+The `geocode` function takes a dataframe input with address data. Note that all parameters are passed to the `geo` function so refer to that function's documentation for more details on possible arguments.
+
 Use the `address` argument for single line addresses:
 
 ```{r}
-address_single
 address_single %>% geocode(address = singlelineaddress, method = 'census')
 ```
 
 Alternatively use any combination of the following arguments to specify addresses: `street`, `city`, `state`, `county`, `postalcode`, and `country`.
 
 ```{r}
-address_components
 address_components %>% geocode(street = str, city = cty, state = st, method = 'census')
 ```
 
-To return data other than latitude and longitude, specify `full_results = TRUE`. Additionally, for the census geocoder you can get details on  geographies such as census tracts by specifying `return = 'geographies'`.
+To return data other than latitude and longitude, specify `full_results = TRUE`. Additionally, for the census geocoder you can get details on  geographies such as census tracts by specifying `return_type = 'geographies'`.
 
 ```{r}
 census_full1 <- address_single %>% geocode(address = singlelineaddress, 
-      method = 'census', full_results = TRUE, return = 'geographies')
+      method = 'census', full_results = TRUE, return_type = 'geographies')
 glimpse(census_full1)
 ```
 
-
 ## The geo function
+
+Alternatively, you can pass address values directly to the `geo` function.
+
+```{r}
+salz <- geo('Salzburg, Austria', method = 'osm', full_results = T, verbose = T)
+glimpse(salz)
+```
 
 
 Here is how you would geocode an address using the Census geocoder:

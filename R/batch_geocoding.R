@@ -4,8 +4,11 @@
 # Vingate must be defined if return = 'geographies'
 # @export 
 batch_census <- function(address_pack,
-  return = 'locations', timeout = 20, full_results = FALSE, custom_query = list(), api_url = NULL,
+  return_type = 'locations', timeout = 20, full_results = FALSE, custom_query = list(), api_url = NULL,
   lat = 'lat', long = 'long', verbose = FALSE, ...) {
+  
+  #print('census batch return_type:')
+  #print(return_type)
   
   if (!'street' %in% names(address_pack$unique) & (!'address' %in% names(address_pack$unique))) {
     stop("To use the census geocoder, either 'street' or 'address' must be defined")
@@ -13,12 +16,12 @@ batch_census <- function(address_pack,
   
   location_cols <- c('id', 'input_address', 'match_indicator', 'match_type','matched_address', 
           'coords', 'tiger_line_id', 'tiger_side')
-  return_cols <- switch(return,
+  return_cols <- switch(return_type,
           'locations' = location_cols,
           'geographies' = c(location_cols, c('state_fips', 'county_fips', 'census_tract', 'census_block'))
   )
   
-  if (is.null(api_url)) api_url <- get_census_url(return, 'addressbatch')
+  if (is.null(api_url)) api_url <- get_census_url(return_type, 'addressbatch')
   
   num_addresses <- nrow(address_pack$unique)
   if (verbose == TRUE) message(paste0('Number of Unique Addresses Passed to the Census Batch Geocoder: ', num_addresses))
@@ -37,7 +40,7 @@ batch_census <- function(address_pack,
   utils::write.table(input_df, tmp, row.names = FALSE, col.names = FALSE, sep = ',', na = '')
   
   # Construct query
-  ## NOTE - request will fail if vintage and benchmark are invalid for return = 'geographies'
+  ## NOTE - request will fail if vintage and benchmark are invalid for return_type = 'geographies'
   query_parameters <- get_api_query('census', custom_parameters = custom_query)
   if (verbose == TRUE) display_query(api_url, query_parameters)
   
