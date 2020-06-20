@@ -12,7 +12,7 @@ census_results <- tibble::tribble(
    45, 3)
 
 # find NA result indices for census
-na_indices <- is.na(census_results['lat']) | is.na(census_results['long'])
+na_indices <- is.na(census_results[['lat']]) | is.na(census_results[['long']])
 
 # this is what we give to osm
 retry_input <- lapply(input, function(x, bools) x[bools], na_indices)
@@ -25,3 +25,5 @@ retry_results <- tibble::tribble(
 ## combine census and retry results
 combi <- census_results
 combi[na_indices,] <- retry_results
+
+combi$geo_method <- ifelse(na_indices, 'osm', 'census')

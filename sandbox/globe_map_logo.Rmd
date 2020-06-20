@@ -15,32 +15,45 @@ library(sf)
 library(rnaturalearth)
 library(rnaturalearthdata)
 library(rgeos)
+library(mapview)
+library(lwgeom)
 library(tidyverse)
 library(hexSticker)
 ```
 
 ```{r}
-# ctrys50m <- ne_countries(scale = 50, type = "countries", returnclass = "sf") %>%
-#   select(iso_a3, iso_n3, admin)
+ctrys50m <- ne_countries(scale = 50, type = "countries", returnclass = "sf") %>%
+  select(iso_a3, iso_n3, admin)
 
-world_coastlines <- ne_coastline(scale = 'medium', returnclass = 'sf')
+world_coastlines <- ne_coastline(scale = 110, returnclass = 'sf')
 
-#crs <- "+proj=robin +ellps=WGS84 +lat_0=20 +lon_0=30"
-#crs <- "+proj=aeqd +lat_0=0 +lon_0=0 +x_0=0 +y_0=0 +ellps=WGS84 +datum=WGS84 +units=m +no_defs"
+world  <- st_cast(world_coastlines, 'MULTILINESTRING') %>%
+  st_cast('LINESTRING', do_split=TRUE) %>%
+  mutate(npts = npts(geometry, by_feature = TRUE)) %>%
+  st_cast('POLYGON')
 
-sphere <- st_graticule(ndiscr = 10000, margin = 10e-6) %>%
-  st_transform(crs = 3035) %>%
+
+crs <- "+proj=laea +lat_0=10 +lon_0=-20"
+
+sphere <- st_graticule(ndiscr = 10e4, margin = 10e-3) %>%
+  st_transform(crs = crs) %>%
   st_convex_hull() %>%
   summarise(geometry = st_union(geometry))
 ```
 
+```{r}
+ggplot()  +
+  geom_sf(data = world_coastlines) +
+  coord_sf( crs= "+proj=ortho +lat_0=20 +lon_0=-30")
+  
+```
 
-Make the plot
+
 
 ```{r}
 globe_background <- ggplot()  +
-  geom_sf(data = sphere, color = 'black', size = 0.06, fill = 'white') +
-  geom_sf(data = world_coastlines, color = "black", size = 0.03) +
+  geom_sf(data = sphere, alpha = 0, color = 'white', size = 0.20) +
+  geom_sf(data = ctrys50m, color = "white", alpha = 0, size = 0.09) +
   theme_void() + theme_transparent()
 
 globe_background + theme(panel.background = element_rect(fill = 'steelblue'))
@@ -54,13 +67,13 @@ globe_background + theme(panel.background = element_rect(fill = 'steelblue'))
 ```{r}
 library(showtext)
 ## Loading Google fonts (http://www.google.com/fonts)
-font_add_google("Noto Serif")
+font_add_google("Roboto Slab")
 ```
 
 
 ```{r}
 s <- sticker(globe_background,
-    package = "tidygeocoder", p_size = 18, s_x = 1, s_y = .75, s_width = 1, s_height = 1, p_family = "Noto Serif",
+    package = "tidygeocoder", p_size = 20, s_x = 1, s_y = .75, s_width = 1.4, s_height = 1.1, p_family = "Roboto Slab",
     h_color = 'dimgrey', h_fill = 'steelblue3', p_color = 'white', filename = here::here("man/figures/tidygeocoder_hex.png"))
 
 plot(s)

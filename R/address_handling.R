@@ -33,9 +33,14 @@ package_addresses <- function(address = NULL,
   # only keep unique columns and then create a unique identifier column
   unique_addr <- unique(unique_addr)
   
-  # if there are 0 valid/nonblank addresses then 0 rows for unique tibble
-  # and return a tibble of the same number of rows as the input for crosswalk
-  if (nrow(unique_addr) == 0) return(list(unique=tibble::tibble(), crosswalk = tibble::tibble(.id = 1:nrow(addr_orig))))
+  # if there are 0 valid/nonblank addresses... return a tibble with 1 row for unique
+  # and a crosswalk the same length as input addresses
+  if (nrow(unique_addr) == 0) {
+    NA_list <- as.list(rep(NA, length(addr_colnames)))
+    names(NA_list) <- addr_colnames
+    return(list(unique=tibble::as_tibble(NA_list), 
+                      crosswalk = tibble::tibble(.id = 1:nrow(addr_orig), .uid=1)))
+  }
   
   ## Create unique identifiers
   unique_addr[['.uid']] <- 1:nrow(unique_addr)

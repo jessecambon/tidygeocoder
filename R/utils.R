@@ -1,5 +1,9 @@
 ## Put common utilities here
 
+# Declaring global variables
+pkg.globals <- new.env()
+pkg.globals$address_arg_names <- c('address', 'street', 'city', 'county', 'state', 'postalcode', 'country')
+
 # remove a literal double quote from a string
 # used with NSE
 rm_quote <- function(string) gsub("\"","", string)
