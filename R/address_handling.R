@@ -78,7 +78,9 @@ unpackage_addresses <- function(package, results, unique_only = FALSE, return_ad
   if (return_addresses == TRUE) results <- cbind(package$unique, results)
   
   # if there are no duplicates then just return the raw results
-  if ((nrow(package$unique) == nrow(package$crosswalk)) | unique_only) return(results)
+  if ((nrow(package$unique) == nrow(package$crosswalk)) | unique_only) {
+    return(tibble::as_tibble(results))
+  }
   
   # If there are duplicates then we need to use the crosswalk to return results properly
   id_colnames <- names(package$crosswalk)
