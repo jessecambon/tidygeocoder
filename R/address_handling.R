@@ -33,9 +33,14 @@ package_addresses <- function(address = NULL,
   # only keep unique columns and then create a unique identifier column
   unique_addr <- unique(unique_addr)
   
-  # if there are 0 valid/nonblank addresses then 0 rows for unique tibble
-  # and return a tibble of the same number of rows as the input for crosswalk
-  if (nrow(unique_addr) == 0) return(list(unique=tibble::tibble(), crosswalk = tibble::tibble(.id = 1:nrow(addr_orig))))
+  # if there are 0 valid/nonblank addresses... return a tibble with 1 row for unique
+  # and a crosswalk the same length as input addresses
+  if (nrow(unique_addr) == 0) {
+    NA_list <- as.list(rep(NA, length(addr_colnames)))
+    names(NA_list) <- addr_colnames
+    return(list(unique=tibble::as_tibble(NA_list), 
+                      crosswalk = tibble::tibble(.id = 1:nrow(addr_orig), .uid=1)))
+  }
   
   ## Create unique identifiers
   unique_addr[['.uid']] <- 1:nrow(unique_addr)
@@ -73,7 +78,9 @@ unpackage_addresses <- function(package, results, unique_only = FALSE, return_ad
   if (return_addresses == TRUE) results <- cbind(package$unique, results)
   
   # if there are no duplicates then just return the raw results
-  if ((nrow(package$unique) == nrow(package$crosswalk)) | unique_only) return(results)
+  if ((nrow(package$unique) == nrow(package$crosswalk)) | unique_only) {
+    return(tibble::as_tibble(results))
+  }
   
   # If there are duplicates then we need to use the crosswalk to return results properly
   id_colnames <- names(package$crosswalk)

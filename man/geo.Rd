@@ -13,6 +13,7 @@ geo(
   postalcode = NULL,
   country = NULL,
   method = "census",
+  cascade_order = c("geocodio", "osm"),
   lat = lat,
   long = long,
   limit = 1,
@@ -34,9 +35,8 @@ geo(
 )
 }
 \arguments{
-\item{address}{single line address. do not combine with address component arguments below
-
-Address components (do not combine with the single line 'address' parameter)}
+\item{address}{single line address. do not combine with the
+address component arguments (street, city , county, state, postalcode, country)}
 
 \item{street}{street address}
 

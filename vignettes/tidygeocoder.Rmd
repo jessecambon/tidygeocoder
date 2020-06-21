@@ -67,6 +67,17 @@ census_full1 <- address_single %>% geocode(address = singlelineaddress,
 glimpse(census_full1)
 ```
 
+## Cascade
+
+```{r}
+address_components %>% bind_rows(tibble(city=c(NA, 'Tokyo'), ))
+
+
+geo_casade(street = c())
+```
+
+
+
 ## The geo function
 
 Alternatively, you can pass address values directly to the `geo` function.
@@ -82,11 +93,13 @@ Here is how you would geocode an address using the Census geocoder:
 ```{r}
 geo(address = "600 Peachtree Street NE, Atlanta, Georgia", method = "census")
 ```
+
 Alternatively, you can specify an address in components:
 
 ```{r}
 geo(street = "600 Peachtree Street NE", city = "Atlanta", state = "Georgia", method = "census")
 ```
+
 To use a different geocoder service, you can specify it with the `method` argument. To geocode multiple addresses, pass them as a vector. In this case we are using the Nomanitim (OSM) geocoder service.
 
 ```{r}

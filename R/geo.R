@@ -1,7 +1,6 @@
 #' Geocode addresses that are passed as character value or vectors
-#' @param address single line address. do not combine with address component arguments below
-#' 
-#' Address components (do not combine with the single line 'address' parameter)
+#' @param address single line address. do not combine with the
+#'    address component arguments (street, city , county, state, postalcode, country)
 #' @param street street address
 #' @param city city
 #' @param county county
@@ -44,15 +43,12 @@
 #' @export
 geo <- function(address = NULL, 
     street = NULL, city = NULL, county = NULL, state = NULL, postalcode = NULL, country = NULL,
-    method = 'census', lat = lat, long = long, limit=1, min_time=NULL, api_url = NULL, timeout = 20,
+    method = 'census', cascade_order = c('geocodio', 'osm'), lat = lat, long = long, limit=1, 
+    min_time=NULL, api_url = NULL, timeout = 20,
     mode = 'auto', full_results = FALSE, unique_only = FALSE, return_addresses = TRUE, 
     flatten = TRUE, batch_limit = 10000, verbose = FALSE, no_query = FALSE, 
     custom_query = list(), return_type = 'locations', iq_region = 'us', geocodio_v = 1.6) {
-  
-  # print('return_type: ')
-  # print(return_type)
-  # print('class of return_type: ')
-  # print(class(return_type))
+
   # NSE - Quote unquoted vars without double quoting quoted vars
   # end result - all of these variables become character values
   lat <- rm_quote(deparse(substitute(lat)))
@@ -65,12 +61,9 @@ geo <- function(address = NULL,
   if (no_query == TRUE) verbose <- TRUE
   start_time <- Sys.time() # start timer
   
-  # names of all address fields
-  address_arg_names <- c('address', 'street', 'city', 'county', 'state', 'postalcode', 'country')
-  
   # If method='cascade' is called then pass all function arguments 
   # except for method to geo_cascade and return the results 
-  if (method == 'cascade') return(do.call(geo_cascade, all_args[names(all_args) != 'method']))
+  if (method == 'cascade') return(do.call(geo_cascade, all_args[!names(all_args) %in% c('method')]))
   
   # check address inputs and deduplicate
   address_pack <- package_addresses(address, street, city , county, 
@@ -81,18 +74,15 @@ geo <- function(address = NULL,
   # determine how many rows will be returned (either unique or includes duplicate address rows)
   num_rows_to_return <- ifelse(unique_only, num_unique_addresses, nrow(address_pack$crosswalk))
   
+  NA_value <- get_na_value(lat, long, rows = num_rows_to_return)
+  
   if (verbose == TRUE) message(paste0('Number of Unique Addresses: ', num_unique_addresses))
   
   # If no valid/nonblank addresses are passed then return NA
-  if (num_unique_addresses == 0) {
+  if (num_unique_addresses == 1 & all(is.na(address_pack$unique))) {
     if (verbose == TRUE) message(paste0('No non-blank non-NA addreses found. Returning NA results.'))
-    return(get_na_value(lat, long, rows = num_rows_to_return))
+    return(unpackage_addresses(address_pack, NA_value, unique_only, return_addresses))
   }
-  ### if address(es) is/are blank then return NA (should no longer be needed)
-  # if  (max(sapply(address_pack$unique, nchar, allowNA = TRUE)) %in% c(0, NA)) {
-  #   if (verbose == TRUE) message("Blank or missing address!")
-  #   return(get_na_value(lat, long, rows = num_rows_to_return))
-  # }
   
   ## If there are multiple addresses and we are using a method without a batch geocoder 
   ## OR the user has explicitly specified single address geocoding.. call the 
@@ -106,7 +96,7 @@ geo <- function(address = NULL,
       single_addr_args <- c(
         list(FUN = geo), 
         as.list(address_pack$unique),
-        list(MoreArgs = all_args[!names(all_args) %in% address_arg_names],
+        list(MoreArgs = all_args[!names(all_args) %in% pkg.globals$address_arg_names],
           USE.NAMES = FALSE, SIMPLIFY = FALSE)
       )
       # remove NULL and 0 length items  <--- Possibly uneccessary now?
@@ -116,7 +106,9 @@ geo <- function(address = NULL,
       list_coords <- do.call(mapply, single_addr_args)
       # rbind the list of tibble dataframes together
       stacked_results <- dplyr::bind_rows(list_coords)
-      return(unpackage_addresses(address_pack, stacked_results, unique_only, return_addresses))
+      # note that return_addresses has been set to FALSE here since addresses will already
+      # be returned in the first geo function call (if asked for)
+      return(unpackage_addresses(address_pack, stacked_results, unique_only, return_addresses = FALSE))
       }
       
       ### Batch geocoding -----------------------------------------------------
@@ -130,14 +122,14 @@ geo <- function(address = NULL,
         
       if (verbose == TRUE) message(paste0('Calling the ', method, ' batch geocoder'))
       # Convert our generic query parameters into parameters specific to our API (method)
-      if (no_query == TRUE) return(get_na_value(lat, long, rows = num_rows_to_return))
+      if (no_query == TRUE) return(unpackage_addresses(address_pack, NA_value, unique_only, return_addresses))
       
         
       raw_results <- switch(method,
         'census' = do.call(batch_census, c(list(address_pack),
-              all_args[!names(all_args) %in% address_arg_names])),
+              all_args[!names(all_args) %in% pkg.globals$address_arg_names])),
         'geocodio' = do.call(batch_geocodio, c(list(address_pack),
-              all_args[!names(all_args) %in% address_arg_names]))
+              all_args[!names(all_args) %in% pkg.globals$address_arg_names]))
         )
       
       # map the raw results back to the original addresses that were passed if there are duplicates
@@ -147,9 +139,6 @@ geo <- function(address = NULL,
   #################################################################
   #### Code past this point is for geocoding a single address #####
   #################################################################
-  
-  # what to return when we don't find results
-  NA_value <- get_na_value(lat, long)
   
   ### Set min_time if not set
   if (method %in% c('osm','iq') & is.null(min_time))  min_time <- 1 
@@ -195,7 +184,7 @@ geo <- function(address = NULL,
   
   ### Execute Single Address Query -----------------------------------------
   if (verbose == TRUE) display_query(api_url, api_query_parameters)
-  if (no_query == TRUE) return(NA_value)
+  if (no_query == TRUE) return(unpackage_addresses(address_pack, NA_value, unique_only, return_addresses))
   raw_results <- jsonlite::fromJSON(query_api(api_url, api_query_parameters))
   
   # If no results found, return NA
@@ -223,6 +212,7 @@ geo <- function(address = NULL,
     # extract result details (doesn't include coordinates)
     result_details <- extract_results(method, raw_results, flatten)
     complete_results <- tibble::as_tibble(dplyr::bind_cols(coords_tibble, result_details))
+    
     return(unpackage_addresses(address_pack, complete_results, unique_only, return_addresses))
   } else return(unpackage_addresses(address_pack, coords_tibble, unique_only, return_addresses))
 }
