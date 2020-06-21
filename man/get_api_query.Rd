@@ -2,7 +2,7 @@
 % Please edit documentation in R/query_factory.R
 \name{get_api_query}
 \alias{get_api_query}
-\title{Construct an api query}
+\title{Construct a Geocoder API Query.}
 \usage{
 get_api_query(
   method_name,
@@ -11,7 +11,7 @@ get_api_query(
 )
 }
 \arguments{
-\item{method_name}{method name}
+\item{method_name}{method name (ie. 'census')}
 
 \item{generic_parameters}{universal 'generic' parameters}
 

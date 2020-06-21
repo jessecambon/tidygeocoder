@@ -31,11 +31,8 @@ pause_until <- function(start_time,min_time,debug=FALSE) {
   }
 }
 
-#' Extract latitude, longitude as as numeric vector c(lat, long)
-#' @param method method name
-#' @param response content from the geocoder service
-#' @return latitude and longitude as a numeric vector
-#' @export
+# Extract latitude, longitude as a numeric vector. Not used for batch
+# geocoding
 extract_coords <- function(method, response) {
   lat_lng <- switch(method,
   'census' = unlist(response$result$addressMatches$coordinates[1,][c('y','x')], 
@@ -47,12 +44,12 @@ extract_coords <- function(method, response) {
   return(lat_lng)
 }
 
-#' Extract geocoder results (exclude lat/long coordinates)
-#' @param method method name
-#' @param response content from the geocoder service
-#' @param flatten if TRUE then 
-#' @return results in dataframe format
-#'@export
+## Extract geocoder results (exclude lat/long coordinates). Not used for batch
+## geocoding.
+## ARGS:
+# method: method name
+# response:  content from the geocoder service (returned by the )
+# flatten: if TRUE then flatten any nested dataframe content
 extract_results <- function(method, response, flatten = TRUE) {
   results <- switch(method,
   'census' = response$result$addressMatches[!names(response$result$addressMatches) %in% c('coordinates')][1,],

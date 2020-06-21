@@ -2,7 +2,8 @@
 % Please edit documentation in R/geo.R
 \name{geo}
 \alias{geo}
-\title{Geocode addresses that are passed as character value or vectors}
+\title{Geocode addresses that are passed as character values or
+character vectors}
 \usage{
 geo(
   address = NULL,
@@ -13,14 +14,14 @@ geo(
   postalcode = NULL,
   country = NULL,
   method = "census",
-  cascade_order = c("geocodio", "osm"),
+  cascade_order = c("census", "osm"),
   lat = lat,
   long = long,
   limit = 1,
   min_time = NULL,
   api_url = NULL,
   timeout = 20,
-  mode = "auto",
+  mode = "",
   full_results = FALSE,
   unique_only = FALSE,
   return_addresses = TRUE,
@@ -38,24 +39,27 @@ geo(
 \item{address}{single line address. do not combine with the
 address component arguments (street, city , county, state, postalcode, country)}
 
-\item{street}{street address}
+\item{street}{street address (ie. '1600 Pennsylvania Ave NW')}
 
-\item{city}{city}
+\item{city}{city (ie. 'Tokyo')}
 
 \item{county}{county}
 
-\item{state}{state}
+\item{state}{state (ie. 'Kentucky')}
 
 \item{postalcode}{postalcode (zip code if in the United States)}
 
-\item{country}{country}
+\item{country}{country (ie. 'Japan')}
 
-\item{method}{the geocoder function you want to use
+\item{method}{the geocoder service you want to use
 \itemize{
   \item "census": US Census Geocoder. US street-level addresses only.
   \item "osm": Nominatim (OSM). Worldwide coverage.
   \item "iq": Commercial OSM geocoder service.
   \item "geocodio": Commercial geocoder. Covers US and Canada. 
+  \item "cascade" : Tries one geocoder service first and then tries
+    another geocoder service if the first service didn't return results
+    per the cascade_order argument
 }}
 
 \item{lat}{latitude column name}
@@ -71,8 +75,11 @@ This parameter is used to abide by API usage limits. Not used in batch geocoding
 
 \item{timeout}{query timeout (in minutes)}
 
-\item{mode}{method of geocoding used. 'auto' (default), 'batch', or 'single'. 
-Auto uses batch geocoding if there are multiple addresses}
+\item{mode}{set to 'batch' to force batch geocoding and 'single' to 
+force single address geocoding (one address per query). If not 
+specified then batch geocoding will be used if available
+(given method selected) when multiple addresses are passed, otherwise
+single address geocoding will be used.}
 
 \item{full_results}{returns all data from API if TRUE}
 
@@ -82,23 +89,29 @@ Auto uses batch geocoding if there are multiple addresses}
 
 \item{flatten}{if TRUE then any nested dataframes in results are flattened}
 
-\item{batch_limit}{limit to the number of addresses in a batch}
+\item{batch_limit}{limit to the number of addresses in a batch. Both geocodio and census
+batch geocoders have a 10,000 address limit so this is the default.}
 
 \item{verbose}{toggles console output. useful for debugging}
 
-\item{no_query}{if TRUE then no queries are sent to the geocoder and verbose is set to TRUE}
+\item{no_query}{if TRUE then no queries are sent to the geocoder and verbose is set to TRUE.}
 
-\item{custom_query}{API-specific parameters to be used}
+\item{custom_query}{API-specific parameters to be used, passed as a named list 
+(ie. list(vintage = '“Current_Census2010'))}
 
-\item{return_type}{(census only) 'locations' (default) or 'geographies'}
+\item{return_type}{(census only) 'locations' (default) or 'geographies' which 
+returns additional census geography columns. See the Census geocoder API 
+documentation for more details.}
 
-\item{iq_region}{'us' (default) or 'eu'. Used for establishing API URL}
+\item{iq_region}{'us' (default) or 'eu'. Used for establishing API URL for the 'iq' method}
 
-\item{geocodio_v}{version of geocodio api. 1.6 is default. used for establishing API URL}
+\item{geocodio_v}{version of geocodio api. 1.6 is default. Used for establishing API URL
+for the 'geocodio' method.}
 }
 \value{
 parsed results from geocoder
 }
 \description{
-Geocode addresses that are passed as character value or vectors
+Geocode addresses that are passed as character values or
+character vectors
 }

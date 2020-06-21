@@ -20,40 +20,44 @@ geocode(
 )
 }
 \arguments{
-\item{.tbl}{dataframe
+\item{.tbl}{dataframe containing addresses
 
 Names of columns in the dataframe:}
 
-\item{address}{single line street address}
+\item{address}{single line street address column name. Do not combine with 
+address component arguments (street, city, county, state, postalcode, country)}
 
-\item{street}{street address}
+\item{street}{street address column name}
 
-\item{city}{city}
+\item{city}{city column name}
 
-\item{county}{county}
+\item{county}{county column name}
 
-\item{state}{state}
+\item{state}{state column name}
 
-\item{postalcode}{postalcode (zip code if in the United States)}
+\item{postalcode}{postalcode column name (zip code if in the United States)}
 
-\item{country}{country}
+\item{country}{country column name}
 
 \item{lat}{name of latitude field}
 
 \item{long}{name of longitude field}
 
 \item{return_addresses}{if TRUE then addresses with standard names will be returned
-This is defaulted to false because the address fields are already in the input dataset}
+This is defaulted to FALSE because the address fields are already in the input dataset}
 
 \item{...}{arguments passed to the \code{\link{geo}} function}
 }
 \value{
-input dataframe (.tbl) with latitude and longitude fields appended
+input dataframe (.tbl) with geocoder results appended as columns
 }
 \description{
-Takes a dataframe containing addresses as a input. Returns
+Takes a dataframe containing addresses as a input. It returns
 the dataframe with latitude and longitude coordinate columns
-using a user specified geocoder function.
+using a user specified geocoder service. This function passes
+all additional parameters (...) to the \code{\link{geo}} function
+so you can refer to its documentation for more details on possible
+arguments.
 }
 \details{
 See example usage in \code{vignette("tidygeocoder")}
@@ -61,8 +65,13 @@ See example usage in \code{vignette("tidygeocoder")}
 \examples{
 \donttest{
 library(dplyr)
-sample_addresses \%>\% geocode(addr)
+sample_addresses[1:3, ] \%>\% geocode(addr)
 
-sample_addresses \%>\% geocode(addr,method='cascade',lat=latitude,long=longitude)
+louisville[1:5, ] \%>\% geocode(street = street, city = city, state = state,
+  postalcode = zip, method = 'osm', verbose = T)
+
+sample_addresses[1:3, ] \%>\% geocode(addr, method='osm',lat='lattes', long='longos')
+
+sample_addresses[1:3, ] \%>\% geocode(addr, method='cascade', lat=latitude, long=longitude)
 }
 }

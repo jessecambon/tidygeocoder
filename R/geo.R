@@ -1,19 +1,24 @@
-#' Geocode addresses that are passed as character value or vectors
+#' Geocode addresses that are passed as character values or
+#' character vectors
+#' 
 #' @param address single line address. do not combine with the
 #'    address component arguments (street, city , county, state, postalcode, country)
-#' @param street street address
-#' @param city city
+#' @param street street address (ie. '1600 Pennsylvania Ave NW')
+#' @param city city (ie. 'Tokyo')
 #' @param county county
-#' @param state state
+#' @param state state (ie. 'Kentucky')
 #' @param postalcode postalcode (zip code if in the United States)
-#' @param country country
+#' @param country country (ie. 'Japan')
 #' 
-#' @param method the geocoder function you want to use
+#' @param method the geocoder service you want to use
 #' \itemize{
 #'   \item "census": US Census Geocoder. US street-level addresses only.
 #'   \item "osm": Nominatim (OSM). Worldwide coverage.
 #'   \item "iq": Commercial OSM geocoder service.
 #'   \item "geocodio": Commercial geocoder. Covers US and Canada. 
+#'   \item "cascade" : Tries one geocoder service first and then tries
+#'     another geocoder service if the first service didn't return results
+#'     per the cascade_order argument
 #' }
 #' @param lat latitude column name
 #' @param long longitude column name
@@ -23,29 +28,37 @@
 #' @param api_url Custom API URL
 #' @param timeout query timeout (in minutes)
 #' 
-#' @param mode method of geocoding used. 'auto' (default), 'batch', or 'single'. 
-#'    Auto uses batch geocoding if there are multiple addresses
+#' @param mode set to 'batch' to force batch geocoding and 'single' to 
+#'  force single address geocoding (one address per query). If not 
+#'  specified then batch geocoding will be used if available
+#'  (given method selected) when multiple addresses are passed, otherwise
+#'  single address geocoding will be used.  
 #' @param full_results returns all data from API if TRUE
 #' @param unique_only only return unique results if TRUE
 #' @param return_addresses return input addresses with results
 #' 
 #' @param flatten if TRUE then any nested dataframes in results are flattened
-#' @param batch_limit limit to the number of addresses in a batch 
+#' @param batch_limit limit to the number of addresses in a batch. Both geocodio and census
+#'  batch geocoders have a 10,000 address limit so this is the default.
 #' @param verbose toggles console output. useful for debugging
-#' @param no_query if TRUE then no queries are sent to the geocoder and verbose is set to TRUE
+#' @param no_query if TRUE then no queries are sent to the geocoder and verbose is set to TRUE. 
 
-#' @param custom_query API-specific parameters to be used
-#' @param return_type    (census only) 'locations' (default) or 'geographies'
-#' @param iq_region 'us' (default) or 'eu'. Used for establishing API URL
-#' @param geocodio_v version of geocodio api. 1.6 is default. used for establishing API URL
+#' @param custom_query API-specific parameters to be used, passed as a named list 
+#'    (ie. list(vintage = '“Current_Census2010'))
+#' @param return_type    (census only) 'locations' (default) or 'geographies' which 
+#'    returns additional census geography columns. See the Census geocoder API 
+#'    documentation for more details.
+#' @param iq_region 'us' (default) or 'eu'. Used for establishing API URL for the 'iq' method
+#' @param geocodio_v version of geocodio api. 1.6 is default. Used for establishing API URL
+#'   for the 'geocodio' method.
 #' 
 #' @return parsed results from geocoder
 #' @export
 geo <- function(address = NULL, 
     street = NULL, city = NULL, county = NULL, state = NULL, postalcode = NULL, country = NULL,
-    method = 'census', cascade_order = c('geocodio', 'osm'), lat = lat, long = long, limit=1, 
+    method = 'census', cascade_order = c('census', 'osm'), lat = lat, long = long, limit=1, 
     min_time=NULL, api_url = NULL, timeout = 20,
-    mode = 'auto', full_results = FALSE, unique_only = FALSE, return_addresses = TRUE, 
+    mode = '', full_results = FALSE, unique_only = FALSE, return_addresses = TRUE, 
     flatten = TRUE, batch_limit = 10000, verbose = FALSE, no_query = FALSE, 
     custom_query = list(), return_type = 'locations', iq_region = 'us', geocodio_v = 1.6) {
 
@@ -118,11 +131,15 @@ geo <- function(address = NULL,
       if (num_unique_addresses > batch_limit) {
         message(paste0('Limiting batch query to ', batch_limit, ' addresses'))
         address_pack$unique <- address_pack$unique[1:batch_limit, ]
+        num_rows_to_return <- batch_limit
+        #address_pack$crosswalk <- subset(address_pack$crosswalk, address_pack$crosswalk$.uid <= batch_limit)
       }
         
       if (verbose == TRUE) message(paste0('Calling the ', method, ' batch geocoder'))
       # Convert our generic query parameters into parameters specific to our API (method)
-      if (no_query == TRUE) return(unpackage_addresses(address_pack, NA_value, unique_only, return_addresses))
+      if (no_query == TRUE) return(unpackage_addresses(address_pack, 
+           get_na_value(lat, long, rows = num_rows_to_return), 
+           unique_only, return_addresses))
       
         
       raw_results <- switch(method,

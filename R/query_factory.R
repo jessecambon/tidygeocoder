@@ -64,13 +64,13 @@ create_api_parameter <- function(method_name, param_name, value) {
   return(param)
 }
 
-#' Construct an api query 
+#' Construct a Geocoder API Query.
 #' @description 
 #' Query is created using universal "generic" parameters
 #' and optional api-specific "custom" parameters. Generic parameters
 #' are converted into api parameters using the api_parameter_reference
 #' dataset. 
-#' @param method_name method name
+#' @param method_name method name (ie. 'census')
 #' @param generic_parameters universal 'generic' parameters
 #' @param custom_parameters custom api-specific parameters
 #' @return named list of api-specific parameters 
@@ -125,7 +125,7 @@ get_api_query <- function(method_name, generic_parameters = list(), custom_param
 #' @return raw results from the query
 #' @export 
 query_api <- function(api_url, query_parameters, mode = 'single', 
-          batch_file=NULL, address_list = NULL, content_encoding='UTF-8', timeout = 20) {
+          batch_file = NULL, address_list = NULL, content_encoding='UTF-8', timeout = 20) {
    response <- switch(mode,
     'single' = httr::GET(api_url, query = query_parameters),
     'list' = httr::POST(api_url, query = query_parameters, 

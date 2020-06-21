@@ -36,8 +36,8 @@ Make the plot
 
 ```{r}
 globe_background <- ggplot()  +
-  geom_sf(data = sphere, color = 'black', size = 0.2, fill = 'white') +
-  geom_sf(data = world_coastlines, color = "black", size = 0.1) +
+  geom_sf(data = sphere, color = 'black', size = 0.23, fill = 'white') +
+  geom_sf(data = world_coastlines, color = "black", size = 0.15) +
   theme_void() + theme_transparent()
 globe_background + theme(panel.background = element_rect(fill = 'steelblue'))
 ```
@@ -49,13 +49,13 @@ globe_background + theme(panel.background = element_rect(fill = 'steelblue'))
 ```{r}
 library(showtext)
 ## Loading Google fonts (http://www.google.com/fonts)
-font_add_google("Noto Serif")
+font_add_google("Merriweather")
 ```
 
 
 ```{r}
 s <- sticker(globe_background,
-    package = "tidygeocoder", p_size = 18, s_x = 1, s_y = .75, s_width = 1, s_height = 1, p_family = "Noto Serif",
+    package = "tidygeocoder", p_size = 18, s_x = 1, s_y = .75, s_width = 1, s_height = 1, p_family = "Merriweather",
     h_color = 'dimgrey', h_fill = 'steelblue3', p_color = 'white', filename = here::here("man/figures/tidygeocoder_hex.png"))
 plot(s)
 #filename ="logo.png"
