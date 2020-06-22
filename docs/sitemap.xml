@@ -7,19 +7,10 @@
     <loc>https://jessecambon.github.io/tidygeocoder/reference/api_parameter_reference.html</loc>
   </url>
   <url>
-    <loc>https://jessecambon.github.io/tidygeocoder/reference/batch_census.html</loc>
-  </url>
-  <url>
-    <loc>https://jessecambon.github.io/tidygeocoder/reference/batch_geocodio.html</loc>
-  </url>
-  <url>
-    <loc>https://jessecambon.github.io/tidygeocoder/reference/extract_coords.html</loc>
-  </url>
-  <url>
-    <loc>https://jessecambon.github.io/tidygeocoder/reference/extract_results.html</loc>
-  </url>
-  <url>
     <loc>https://jessecambon.github.io/tidygeocoder/reference/geo.html</loc>
+  </url>
+  <url>
+    <loc>https://jessecambon.github.io/tidygeocoder/reference/geo_cascade.html</loc>
   </url>
   <url>
     <loc>https://jessecambon.github.io/tidygeocoder/reference/geo_census.html</loc>
@@ -34,9 +25,6 @@
     <loc>https://jessecambon.github.io/tidygeocoder/reference/louisville.html</loc>
   </url>
   <url>
-    <loc>https://jessecambon.github.io/tidygeocoder/reference/package_addresses.html</loc>
-  </url>
-  <url>
     <loc>https://jessecambon.github.io/tidygeocoder/reference/query_api.html</loc>
   </url>
   <url>
@@ -46,6 +34,6 @@
     <loc>https://jessecambon.github.io/tidygeocoder/reference/tidygeocoder-package.html</loc>
   </url>
   <url>
-    <loc>https://jessecambon.github.io/tidygeocoder/reference/unpackage_addresses.html</loc>
+    <loc>https://jessecambon.github.io/tidygeocoder/articles/tidygeocoder.html</loc>
   </url>
 </urlset>

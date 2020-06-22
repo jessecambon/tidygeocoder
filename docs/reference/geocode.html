@@ -40,9 +40,12 @@
 
 
 <meta property="og:title" content="Geocode addresses in a dataframe — geocode" />
-<meta property="og:description" content="Takes a dataframe containing addresses as a input. Returns
+<meta property="og:description" content="Takes a dataframe containing addresses as a input. It returns
 the dataframe with latitude and longitude coordinate columns
-using a user specified geocoder function." />
+using a user specified geocoder service. This function passes
+all additional parameters (...) to the geo function
+so you can refer to its documentation for more details on possible
+arguments." />
 
 
 
@@ -87,6 +90,9 @@ using a user specified geocoder function." />
   </a>
 </li>
 <li>
+  <a href="../articles/tidygeocoder.html">Get started</a>
+</li>
+<li>
   <a href="../reference/index.html">Reference</a>
 </li>
       </ul>
@@ -116,9 +122,12 @@ using a user specified geocoder function." />
     </div>
 
     <div class="ref-description">
-    <p>Takes a dataframe containing addresses as a input. Returns
+    <p>Takes a dataframe containing addresses as a input. It returns
 the dataframe with latitude and longitude coordinate columns
-using a user specified geocoder function.</p>
+using a user specified geocoder service. This function passes
+all additional parameters (...) to the <code><a href='geo.html'>geo</a></code> function
+so you can refer to its documentation for more details on possible
+arguments.</p>
     </div>
 
     <pre class="usage"><span class='fu'>geocode</span>(
@@ -130,10 +139,9 @@ using a user specified geocoder function.</p>
   <span class='kw'>state</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>postalcode</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>country</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"census"</span>,
   <span class='kw'>lat</span> <span class='kw'>=</span> <span class='no'>lat</span>,
   <span class='kw'>long</span> <span class='kw'>=</span> <span class='no'>long</span>,
-  <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>return_addresses</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
   <span class='no'>...</span>
 )</pre>
 
@@ -142,43 +150,37 @@ using a user specified geocoder function.</p>
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>.tbl</th>
-      <td><p>dataframe</p>
+      <td><p>dataframe containing addresses</p>
 <p>Names of columns in the dataframe:</p></td>
     </tr>
     <tr>
       <th>address</th>
-      <td><p>single line street address</p></td>
+      <td><p>single line street address column name. Do not combine with 
+address component arguments (street, city, county, state, postalcode, country)</p></td>
     </tr>
     <tr>
       <th>street</th>
-      <td><p>street address</p></td>
+      <td><p>street address column name</p></td>
     </tr>
     <tr>
       <th>city</th>
-      <td><p>city</p></td>
+      <td><p>city column name</p></td>
     </tr>
     <tr>
       <th>county</th>
-      <td><p>county</p></td>
+      <td><p>county column name</p></td>
     </tr>
     <tr>
       <th>state</th>
-      <td><p>state</p></td>
+      <td><p>state column name</p></td>
     </tr>
     <tr>
       <th>postalcode</th>
-      <td><p>postalcode (zip code if in the United States)</p></td>
+      <td><p>postalcode column name (zip code if in the United States)</p></td>
     </tr>
     <tr>
       <th>country</th>
-      <td><p>country</p></td>
-    </tr>
-    <tr>
-      <th>method</th>
-      <td><p>the geocoder function you want to use</p><ul>
-<li><p>"census": only for US street level addresses</p></li>
-<li><p>"osm": worldwide coverage but has a usage limit</p></li>
-</ul></td>
+      <td><p>country column name</p></td>
     </tr>
     <tr>
       <th>lat</th>
@@ -189,8 +191,9 @@ using a user specified geocoder function.</p>
       <td><p>name of longitude field</p></td>
     </tr>
     <tr>
-      <th>verbose</th>
-      <td><p>toggle verbose output</p></td>
+      <th>return_addresses</th>
+      <td><p>if TRUE then addresses with standard names will be returned
+This is defaulted to FALSE because the address fields are already in the input dataset</p></td>
     </tr>
     <tr>
       <th>...</th>
@@ -200,10 +203,10 @@ using a user specified geocoder function.</p>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>input dataframe (.tbl) with latitude and longitude fields appended</p>
+    <p>input dataframe (.tbl) with geocoder results appended as columns</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>See example usage in <code>vignette("tidygeocoder")</code></p>
+    <p>See example usage in <code><a href='../articles/tidygeocoder.html'>vignette("tidygeocoder")</a></code></p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># \donttest{</span>
@@ -212,30 +215,28 @@ using a user specified geocoder function.</p>
 #&gt; <span class='message'></span>
 #&gt; <span class='message'>    filter, lag</span></div><div class='output co'>#&gt; <span class='message'>The following objects are masked from ‘package:base’:</span>
 #&gt; <span class='message'></span>
-#&gt; <span class='message'>    intersect, setdiff, setequal, union</span></div><div class='input'><span class='no'>sample_addresses</span> <span class='kw'>%&gt;%</span> <span class='fu'>geocode</span>(<span class='no'>addr</span>)</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 9 x 4</span><span>
-#&gt;   name                 addr                                           lat   long
-#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>                </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>                                        </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>  </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #BCBCBC;'>1</span><span> White House          1600 Pennsylvania Ave Washington, DC          38.9  -</span><span style='color: #BB0000;'>77.0</span><span>
-#&gt; </span><span style='color: #BCBCBC;'>2</span><span> Transamerica Pyramid 600 Montgomery St, San Francisco, CA 94111    37.8 -</span><span style='color: #BB0000;'>122.</span><span> 
-#&gt; </span><span style='color: #BCBCBC;'>3</span><span> NY Stock Exchange    11 Wall Street, New York, New York            40.7  -</span><span style='color: #BB0000;'>74.0</span><span>
-#&gt; </span><span style='color: #BCBCBC;'>4</span><span> Willis Tower         233 S Wacker Dr, Chicago, IL 60606            41.9  -</span><span style='color: #BB0000;'>87.6</span><span>
-#&gt; </span><span style='color: #BCBCBC;'>5</span><span> Château Frontenac    1 Rue des Carrières, Québec, QC G1R 4P5, Ca…  </span><span style='color: #BB0000;'>NA</span><span>     </span><span style='color: #BB0000;'>NA</span><span>  
-#&gt; </span><span style='color: #BCBCBC;'>6</span><span> Nashville            Nashville, TN                                 </span><span style='color: #BB0000;'>NA</span><span>     </span><span style='color: #BB0000;'>NA</span><span>  
-#&gt; </span><span style='color: #BCBCBC;'>7</span><span> Nairobi              Nairobi, Kenya                                </span><span style='color: #BB0000;'>NA</span><span>     </span><span style='color: #BB0000;'>NA</span><span>  
-#&gt; </span><span style='color: #BCBCBC;'>8</span><span> Istanbul             Istanbul, Turkey                              </span><span style='color: #BB0000;'>NA</span><span>     </span><span style='color: #BB0000;'>NA</span><span>  
-#&gt; </span><span style='color: #BCBCBC;'>9</span><span> Tokyo                Tokyo, Japan                                  </span><span style='color: #BB0000;'>NA</span><span>     </span><span style='color: #BB0000;'>NA</span><span>  </div><div class='input'>
-<span class='no'>sample_addresses</span> <span class='kw'>%&gt;%</span> <span class='fu'>geocode</span>(<span class='no'>addr</span>,<span class='kw'>method</span><span class='kw'>=</span><span class='st'>'cascade'</span>,<span class='kw'>lat</span><span class='kw'>=</span><span class='no'>latitude</span>,<span class='kw'>long</span><span class='kw'>=</span><span class='no'>longitude</span>)</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 9 x 5</span><span>
-#&gt;   name            addr                             latitude longitude geo_method
-#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>           </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>                               </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>     </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>     
-#&gt; </span><span style='color: #BCBCBC;'>1</span><span> White House     1600 Pennsylvania Ave Washingto…     38.9     -</span><span style='color: #BB0000;'>77.0</span><span> census    
-#&gt; </span><span style='color: #BCBCBC;'>2</span><span> Transamerica P… 600 Montgomery St, San Francisc…     37.8    -</span><span style='color: #BB0000;'>122.</span><span>  census    
-#&gt; </span><span style='color: #BCBCBC;'>3</span><span> NY Stock Excha… 11 Wall Street, New York, New Y…     40.7     -</span><span style='color: #BB0000;'>74.0</span><span> census    
-#&gt; </span><span style='color: #BCBCBC;'>4</span><span> Willis Tower    233 S Wacker Dr, Chicago, IL 60…     41.9     -</span><span style='color: #BB0000;'>87.6</span><span> census    
-#&gt; </span><span style='color: #BCBCBC;'>5</span><span> Château Fronte… 1 Rue des Carrières, Québec, QC…     </span><span style='color: #BB0000;'>NA</span><span>        </span><span style='color: #BB0000;'>NA</span><span>   census    
-#&gt; </span><span style='color: #BCBCBC;'>6</span><span> Nashville       Nashville, TN                        </span><span style='color: #BB0000;'>NA</span><span>        </span><span style='color: #BB0000;'>NA</span><span>   census    
-#&gt; </span><span style='color: #BCBCBC;'>7</span><span> Nairobi         Nairobi, Kenya                       </span><span style='color: #BB0000;'>NA</span><span>        </span><span style='color: #BB0000;'>NA</span><span>   census    
-#&gt; </span><span style='color: #BCBCBC;'>8</span><span> Istanbul        Istanbul, Turkey                     </span><span style='color: #BB0000;'>NA</span><span>        </span><span style='color: #BB0000;'>NA</span><span>   census    
-#&gt; </span><span style='color: #BCBCBC;'>9</span><span> Tokyo           Tokyo, Japan                         </span><span style='color: #BB0000;'>NA</span><span>        </span><span style='color: #BB0000;'>NA</span><span>   census    </div><div class='input'># }
+#&gt; <span class='message'>    intersect, setdiff, setequal, union</span></div><div class='input'><span class='no'>sample_addresses</span>[<span class='fl'>1</span>:<span class='fl'>3</span>, ] <span class='kw'>%&gt;%</span> <span class='fu'>geocode</span>(<span class='no'>addr</span>)</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 3 x 4</span><span>
+#&gt;   name                 addr                                         lat   long
+#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>                </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>                                      </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>  </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #BCBCBC;'>1</span><span> White House          1600 Pennsylvania Ave Washington, DC        38.9  -</span><span style='color: #BB0000;'>77.0</span><span>
+#&gt; </span><span style='color: #BCBCBC;'>2</span><span> Transamerica Pyramid 600 Montgomery St, San Francisco, CA 94111  37.8 -</span><span style='color: #BB0000;'>122.</span><span> 
+#&gt; </span><span style='color: #BCBCBC;'>3</span><span> NY Stock Exchange    11 Wall Street, New York, New York          40.7  -</span><span style='color: #BB0000;'>74.0</span><span></div><div class='input'>
+<span class='no'>louisville</span>[<span class='fl'>1</span>:<span class='fl'>5</span>, ] <span class='kw'>%&gt;%</span> <span class='fu'>geocode</span>(<span class='kw'>street</span> <span class='kw'>=</span> <span class='no'>street</span>, <span class='kw'>city</span> <span class='kw'>=</span> <span class='no'>city</span>, <span class='kw'>state</span> <span class='kw'>=</span> <span class='no'>state</span>,
+  <span class='kw'>postalcode</span> <span class='kw'>=</span> <span class='no'>zip</span>, <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>'osm'</span>, <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='no'>T</span>)</div><div class='output co'>#&gt; <span class='message'>Number of Unique Addresses: 5</span></div><div class='output co'>#&gt; <span class='message'>Executing single address geocoding...</span></div><div class='output co'>#&gt; <span class='message'>Number of Unique Addresses: 1</span></div><div class='output co'>#&gt; <span class='message'>Querying API URL: http://nominatim.openstreetmap.org/search</span></div><div class='output co'>#&gt; <span class='message'>Passing the following parameters to the API:</span></div><div class='output co'>#&gt; <span class='message'>limit = 1</span></div><div class='output co'>#&gt; <span class='message'>street = 2722 ELLIOTT AVE</span></div><div class='output co'>#&gt; <span class='message'>city = Louisville</span></div><div class='output co'>#&gt; <span class='message'>state = Kentucky</span></div><div class='output co'>#&gt; <span class='message'>postalcode = 40211</span></div><div class='output co'>#&gt; <span class='message'>format = json</span></div><div class='output co'>#&gt; </div><div class='output co'>#&gt; <span class='message'>Query completed in: 0.7 seconds</span></div><div class='output co'>#&gt; <span class='message'>Total query time (including sleep): 1 seconds</span></div><div class='output co'>#&gt; <span class='message'>Number of Unique Addresses: 1</span></div><div class='output co'>#&gt; <span class='message'>Querying API URL: http://nominatim.openstreetmap.org/search</span></div><div class='output co'>#&gt; <span class='message'>Passing the following parameters to the API:</span></div><div class='output co'>#&gt; <span class='message'>limit = 1</span></div><div class='output co'>#&gt; <span class='message'>street = 850 WASHBURN AVE</span></div><div class='output co'>#&gt; <span class='message'>city = Louisville</span></div><div class='output co'>#&gt; <span class='message'>state = Kentucky</span></div><div class='output co'>#&gt; <span class='message'>postalcode = 40222</span></div><div class='output co'>#&gt; <span class='message'>format = json</span></div><div class='output co'>#&gt; </div><div class='output co'>#&gt; <span class='message'>No results found</span></div><div class='output co'>#&gt; <span class='message'>Number of Unique Addresses: 1</span></div><div class='output co'>#&gt; <span class='message'>Querying API URL: http://nominatim.openstreetmap.org/search</span></div><div class='output co'>#&gt; <span class='message'>Passing the following parameters to the API:</span></div><div class='output co'>#&gt; <span class='message'>limit = 1</span></div><div class='output co'>#&gt; <span class='message'>street = 1449 ST JAMES CT</span></div><div class='output co'>#&gt; <span class='message'>city = Louisville</span></div><div class='output co'>#&gt; <span class='message'>state = Kentucky</span></div><div class='output co'>#&gt; <span class='message'>postalcode = 40208</span></div><div class='output co'>#&gt; <span class='message'>format = json</span></div><div class='output co'>#&gt; </div><div class='output co'>#&gt; <span class='message'>Query completed in: 0.5 seconds</span></div><div class='output co'>#&gt; <span class='message'>Total query time (including sleep): 1 seconds</span></div><div class='output co'>#&gt; <span class='message'>Number of Unique Addresses: 1</span></div><div class='output co'>#&gt; <span class='message'>Querying API URL: http://nominatim.openstreetmap.org/search</span></div><div class='output co'>#&gt; <span class='message'>Passing the following parameters to the API:</span></div><div class='output co'>#&gt; <span class='message'>limit = 1</span></div><div class='output co'>#&gt; <span class='message'>street = 9007 SAGEBRUSH CT</span></div><div class='output co'>#&gt; <span class='message'>city = Louisville</span></div><div class='output co'>#&gt; <span class='message'>state = Kentucky</span></div><div class='output co'>#&gt; <span class='message'>postalcode = 40228</span></div><div class='output co'>#&gt; <span class='message'>format = json</span></div><div class='output co'>#&gt; </div><div class='output co'>#&gt; <span class='message'>No results found</span></div><div class='output co'>#&gt; <span class='message'>Number of Unique Addresses: 1</span></div><div class='output co'>#&gt; <span class='message'>Querying API URL: http://nominatim.openstreetmap.org/search</span></div><div class='output co'>#&gt; <span class='message'>Passing the following parameters to the API:</span></div><div class='output co'>#&gt; <span class='message'>limit = 1</span></div><div class='output co'>#&gt; <span class='message'>street = 376 FLIRTATION WALK</span></div><div class='output co'>#&gt; <span class='message'>city = Louisville</span></div><div class='output co'>#&gt; <span class='message'>state = Kentucky</span></div><div class='output co'>#&gt; <span class='message'>postalcode = 40219</span></div><div class='output co'>#&gt; <span class='message'>format = json</span></div><div class='output co'>#&gt; </div><div class='output co'>#&gt; <span class='message'>Query completed in: 0.5 seconds</span></div><div class='output co'>#&gt; <span class='message'>Total query time (including sleep): 1 seconds</span></div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 5 x 8</span><span>
+#&gt;   street              city       state      zip latitude longitude   lat  long
+#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>               </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>    </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>    </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>     </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #BCBCBC;'>1</span><span> 2722 ELLIOTT AVE    Louisville Kentucky </span><span style='text-decoration: underline;'>40</span><span>211     38.3     -</span><span style='color: #BB0000;'>85.8</span><span>  38.3 -</span><span style='color: #BB0000;'>85.8</span><span>
+#&gt; </span><span style='color: #BCBCBC;'>2</span><span> 850 WASHBURN AVE    Louisville Kentucky </span><span style='text-decoration: underline;'>40</span><span>222     38.3     -</span><span style='color: #BB0000;'>85.6</span><span>  </span><span style='color: #BB0000;'>NA</span><span>    </span><span style='color: #BB0000;'>NA</span><span>  
+#&gt; </span><span style='color: #BCBCBC;'>3</span><span> 1449 ST JAMES CT    Louisville Kentucky </span><span style='text-decoration: underline;'>40</span><span>208     38.2     -</span><span style='color: #BB0000;'>85.8</span><span>  38.2 -</span><span style='color: #BB0000;'>85.8</span><span>
+#&gt; </span><span style='color: #BCBCBC;'>4</span><span> 9007 SAGEBRUSH CT   Louisville Kentucky </span><span style='text-decoration: underline;'>40</span><span>228     38.1     -</span><span style='color: #BB0000;'>85.6</span><span>  </span><span style='color: #BB0000;'>NA</span><span>    </span><span style='color: #BB0000;'>NA</span><span>  
+#&gt; </span><span style='color: #BCBCBC;'>5</span><span> 376 FLIRTATION WALK Louisville Kentucky </span><span style='text-decoration: underline;'>40</span><span>219     38.2     -</span><span style='color: #BB0000;'>85.7</span><span>  38.2 -</span><span style='color: #BB0000;'>85.7</span><span></div><div class='input'>
+<span class='no'>sample_addresses</span>[<span class='fl'>1</span>:<span class='fl'>3</span>, ] <span class='kw'>%&gt;%</span> <span class='fu'>geocode</span>(<span class='no'>addr</span>, <span class='kw'>method</span><span class='kw'>=</span><span class='st'>'osm'</span>,<span class='kw'>lat</span><span class='kw'>=</span><span class='st'>'lattes'</span>, <span class='kw'>long</span><span class='kw'>=</span><span class='st'>'longos'</span>)</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 3 x 4</span><span>
+#&gt;   name                 addr                                       lattes longos
+#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>                </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>                                       </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>  </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #BCBCBC;'>1</span><span> White House          1600 Pennsylvania Ave Washington, DC         38.9  -</span><span style='color: #BB0000;'>77.0</span><span>
+#&gt; </span><span style='color: #BCBCBC;'>2</span><span> Transamerica Pyramid 600 Montgomery St, San Francisco, CA 94111   37.8 -</span><span style='color: #BB0000;'>122.</span><span> 
+#&gt; </span><span style='color: #BCBCBC;'>3</span><span> NY Stock Exchange    11 Wall Street, New York, New York           40.7  -</span><span style='color: #BB0000;'>74.0</span><span></div><div class='input'>
+<span class='no'>sample_addresses</span>[<span class='fl'>1</span>:<span class='fl'>3</span>, ] <span class='kw'>%&gt;%</span> <span class='fu'>geocode</span>(<span class='no'>addr</span>, <span class='kw'>method</span><span class='kw'>=</span><span class='st'>'cascade'</span>, <span class='kw'>lat</span><span class='kw'>=</span><span class='no'>latitude</span>, <span class='kw'>long</span><span class='kw'>=</span><span class='no'>longitude</span>)</div><div class='output co'>#&gt; <span class='error'>Error: </span></div><div class='input'># }
 </div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

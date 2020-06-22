@@ -26,7 +26,7 @@ geo_iq <- function(...) geo(method = 'iq', ...)
 #' @param cascade_order a vector with two character method values showing 
 #' the order to be attempted
 #' @export
-geo_cascade <- function(..., cascade_order = c('geocodio', 'osm')) {
+geo_cascade <- function(..., cascade_order = c('census', 'osm')) {
   # Note for both attempts we disable unique_only so as to keep the 
   # input address lists in line with the dataframe output so we can
   # more easily splice the results together

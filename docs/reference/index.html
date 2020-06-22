@@ -71,7 +71,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">tidygeocoder</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.6</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.0.0</span>
       </span>
     </div>
 
@@ -82,6 +82,9 @@
     <span class="fas fa fas fa-home fa-lg"></span>
      
   </a>
+</li>
+<li>
+  <a href="../articles/tidygeocoder.html">Get started</a>
 </li>
 <li>
   <a href="../reference/index.html">Reference</a>
@@ -121,7 +124,84 @@
     <tbody>
       <tr>
         <th colspan="2">
-          <h2 id="section-all-functions" class="hasAnchor"><a href="#section-all-functions" class="anchor"></a>All functions</h2>
+          <h2 id="section-geocoding-functions" class="hasAnchor"><a href="#section-geocoding-functions" class="anchor"></a>Geocoding functions</h2>
+          <p class="section-desc"><p>These are the main functions to call for geocoding</p></p>
+        </th>
+      </tr>
+      
+      
+    </tbody><tbody>
+      
+      
+      <tr>
+        
+        <td>
+          <p><code><a href="geocode.html">geocode()</a></code> </p>
+        </td>
+        <td><p>Geocode addresses in a dataframe</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="geo.html">geo()</a></code> </p>
+        </td>
+        <td><p>Geocode addresses that are passed as character values or
+character vectors</p></td>
+      </tr>
+    </tbody><tbody>
+      <tr>
+        <th colspan="2">
+          <h2 id="section-conveniance-functions" class="hasAnchor"><a href="#section-conveniance-functions" class="anchor"></a>Conveniance functions</h2>
+          <p class="section-desc"></p>
+        </th>
+      </tr>
+      
+      
+    </tbody><tbody>
+      
+      
+      <tr>
+        
+        <td>
+          <p><code><a href="geo_cascade.html">geo_cascade()</a></code> </p>
+        </td>
+        <td><p>First try one method and then try another method</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="geo_census.html">geo_census()</a></code> <code><a href="geo_census.html">geo_osm()</a></code> <code><a href="geo_census.html">geo_geocodio()</a></code> <code><a href="geo_census.html">geo_iq()</a></code> </p>
+        </td>
+        <td><p>Conveniance functions for calling the <code>geo</code> function
+with a specified method.</p></td>
+      </tr>
+    </tbody><tbody>
+      <tr>
+        <th colspan="2">
+          <h2 id="section-data" class="hasAnchor"><a href="#section-data" class="anchor"></a>Data</h2>
+          <p class="section-desc"></p>
+        </th>
+      </tr>
+      
+      
+    </tbody><tbody>
+      
+      
+      <tr>
+        
+        <td>
+          <p><code><a href="louisville.html">louisville</a></code> </p>
+        </td>
+        <td><p>Louisville, Kentucky street addresses</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="sample_addresses.html">sample_addresses</a></code> </p>
+        </td>
+        <td><p>Some sample addresses for testing</p></td>
+      </tr>
+    </tbody><tbody>
+      <tr>
+        <th colspan="2">
+          <h2 id="section-other" class="hasAnchor"><a href="#section-other" class="anchor"></a>Other</h2>
           <p class="section-desc"></p>
         </th>
       </tr>
@@ -139,84 +219,15 @@
       </tr><tr>
         
         <td>
-          <p><code><a href="batch_census.html">batch_census()</a></code> </p>
-        </td>
-        <td><p>Census batch geocoding</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="batch_geocodio.html">batch_geocodio()</a></code> </p>
-        </td>
-        <td><p>Batch geocoding with geocodio</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="extract_coords.html">extract_coords()</a></code> </p>
-        </td>
-        <td><p>Extract latitude, longitude as as numeric vector c(lat, long)</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="extract_results.html">extract_results()</a></code> </p>
-        </td>
-        <td><p>Extract geocoder results (exclude lat/long coordinates)</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="geo.html">geo()</a></code> </p>
-        </td>
-        <td><p>Workhorse function for geocoding</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="geo_census.html">geo_census()</a></code> <code><a href="geo_census.html">geo_osm()</a></code> <code><a href="geo_census.html">geo_geocodio()</a></code> <code><a href="geo_census.html">geo_iq()</a></code> <code><a href="geo_census.html">geo_cascade()</a></code> </p>
-        </td>
-        <td><p>Conveniance functions for calling the <code>geo</code> function
-with a specified method.</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="geocode.html">geocode()</a></code> </p>
-        </td>
-        <td><p>Geocode addresses in a dataframe</p></td>
-      </tr><tr>
-        
-        <td>
           <p><code><a href="get_api_query.html">get_api_query()</a></code> </p>
         </td>
-        <td><p>Construct an api query</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="louisville.html">louisville</a></code> </p>
-        </td>
-        <td><p>Louisville, Kentucky street addresses</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="package_addresses.html">package_addresses()</a></code> </p>
-        </td>
-        <td><p>Function for packaging and deduping addresses</p></td>
+        <td><p>Construct a Geocoder API Query.</p></td>
       </tr><tr>
         
         <td>
           <p><code><a href="query_api.html">query_api()</a></code> </p>
         </td>
         <td><p>Get raw results from an API</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="sample_addresses.html">sample_addresses</a></code> </p>
-        </td>
-        <td><p>Some sample addresses for testing</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="unpackage_addresses.html">unpackage_addresses()</a></code> </p>
-        </td>
-        <td><p>Function for unpackaging and RE-deduping addresses
-so that we can return them in the same order that they were passed
-this function assumes that the results are in the same order as package$unique</p></td>
       </tr>
     </tbody>
     </table>

@@ -6,7 +6,8 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Workhorse function for geocoding — geo • tidygeocoder</title>
+<title>Geocode addresses that are passed as character values or
+character vectors — geo • tidygeocoder</title>
 
 
 <!-- jquery -->
@@ -39,8 +40,10 @@
 
 
 
-<meta property="og:title" content="Workhorse function for geocoding — geo" />
-<meta property="og:description" content="Workhorse function for geocoding" />
+<meta property="og:title" content="Geocode addresses that are passed as character values or
+character vectors — geo" />
+<meta property="og:description" content="Geocode addresses that are passed as character values or
+character vectors" />
 
 
 
@@ -85,6 +88,9 @@
   </a>
 </li>
 <li>
+  <a href="../articles/tidygeocoder.html">Get started</a>
+</li>
+<li>
   <a href="../reference/index.html">Reference</a>
 </li>
       </ul>
@@ -108,13 +114,15 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Workhorse function for geocoding</h1>
+    <h1>Geocode addresses that are passed as character values or
+character vectors</h1>
     <small class="dont-index">Source: <a href='https://github.com/jessecambon/tidygeocoder/blob/master/R/geo.R'><code>R/geo.R</code></a></small>
     <div class="hidden name"><code>geo.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Workhorse function for geocoding</p>
+    <p>Geocode addresses that are passed as character values or
+character vectors</p>
     </div>
 
     <pre class="usage"><span class='fu'>geo</span>(
@@ -126,21 +134,23 @@
   <span class='kw'>postalcode</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>country</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"census"</span>,
+  <span class='kw'>cascade_order</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"census"</span>, <span class='st'>"osm"</span>),
   <span class='kw'>lat</span> <span class='kw'>=</span> <span class='no'>lat</span>,
   <span class='kw'>long</span> <span class='kw'>=</span> <span class='no'>long</span>,
   <span class='kw'>limit</span> <span class='kw'>=</span> <span class='fl'>1</span>,
+  <span class='kw'>min_time</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>api_url</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>timeout</span> <span class='kw'>=</span> <span class='fl'>20</span>,
-  <span class='kw'>return</span> <span class='kw'>=</span> <span class='st'>"locations"</span>,
-  <span class='kw'>custom_query</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(),
-  <span class='kw'>mode</span> <span class='kw'>=</span> <span class='st'>"auto"</span>,
+  <span class='kw'>mode</span> <span class='kw'>=</span> <span class='st'>""</span>,
   <span class='kw'>full_results</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
   <span class='kw'>unique_only</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>return_addresses</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
   <span class='kw'>flatten</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
   <span class='kw'>batch_limit</span> <span class='kw'>=</span> <span class='fl'>10000</span>,
   <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>min_time</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>no_query</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>custom_query</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(),
+  <span class='kw'>return_type</span> <span class='kw'>=</span> <span class='st'>"locations"</span>,
   <span class='kw'>iq_region</span> <span class='kw'>=</span> <span class='st'>"us"</span>,
   <span class='kw'>geocodio_v</span> <span class='kw'>=</span> <span class='fl'>1.6</span>
 )</pre>
@@ -150,16 +160,16 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>address</th>
-      <td><p>single line address. do not combine with address component arguments below</p>
-<p>Address components (do not combine with the single line 'address' parameter)</p></td>
+      <td><p>single line address. do not combine with the
+address component arguments (street, city , county, state, postalcode, country)</p></td>
     </tr>
     <tr>
       <th>street</th>
-      <td><p>street address</p></td>
+      <td><p>street address (ie. '1600 Pennsylvania Ave NW')</p></td>
     </tr>
     <tr>
       <th>city</th>
-      <td><p>city</p></td>
+      <td><p>city (ie. 'Tokyo')</p></td>
     </tr>
     <tr>
       <th>county</th>
@@ -167,7 +177,7 @@
     </tr>
     <tr>
       <th>state</th>
-      <td><p>state</p></td>
+      <td><p>state (ie. 'Kentucky')</p></td>
     </tr>
     <tr>
       <th>postalcode</th>
@@ -175,13 +185,18 @@
     </tr>
     <tr>
       <th>country</th>
-      <td><p>country</p></td>
+      <td><p>country (ie. 'Japan')</p></td>
     </tr>
     <tr>
       <th>method</th>
-      <td><p>the geocoder function you want to use</p><ul>
+      <td><p>the geocoder service you want to use</p><ul>
 <li><p>"census": US Census Geocoder. US street-level addresses only.</p></li>
 <li><p>"osm": Nominatim (OSM). Worldwide coverage.</p></li>
+<li><p>"iq": Commercial OSM geocoder service.</p></li>
+<li><p>"geocodio": Commercial geocoder. Covers US and Canada.</p></li>
+<li><p>"cascade" : Tries one geocoder service first and then tries
+    another geocoder service if the first service didn't return results
+    per the cascade_order argument</p></li>
 </ul></td>
     </tr>
     <tr>
@@ -197,6 +212,11 @@
       <td><p>number of results to return per address</p></td>
     </tr>
     <tr>
+      <th>min_time</th>
+      <td><p>minimum amount of time for a query to take in seconds.
+This parameter is used to abide by API usage limits. Not used in batch geocoding</p></td>
+    </tr>
+    <tr>
       <th>api_url</th>
       <td><p>Custom API URL</p></td>
     </tr>
@@ -205,17 +225,12 @@
       <td><p>query timeout (in minutes)</p></td>
     </tr>
     <tr>
-      <th>return</th>
-      <td><p>(census only) 'locations' (default) or 'geographies'</p></td>
-    </tr>
-    <tr>
-      <th>custom_query</th>
-      <td><p>API-specific parameters to be used</p></td>
-    </tr>
-    <tr>
       <th>mode</th>
-      <td><p>method of geocoding used. 'auto' (default), 'batch', or 'single'. 
-Auto uses batch geocoding if there are multiple addresses</p></td>
+      <td><p>set to 'batch' to force batch geocoding and 'single' to 
+force single address geocoding (one address per query). If not 
+specified then batch geocoding will be used if available
+(given method selected) when multiple addresses are passed, otherwise
+single address geocoding will be used.</p></td>
     </tr>
     <tr>
       <th>full_results</th>
@@ -226,29 +241,45 @@ Auto uses batch geocoding if there are multiple addresses</p></td>
       <td><p>only return unique results if TRUE</p></td>
     </tr>
     <tr>
+      <th>return_addresses</th>
+      <td><p>return input addresses with results</p></td>
+    </tr>
+    <tr>
       <th>flatten</th>
       <td><p>if TRUE then any nested dataframes in results are flattened</p></td>
     </tr>
     <tr>
       <th>batch_limit</th>
-      <td><p>limit to the number of addresses in a batch</p></td>
+      <td><p>limit to the number of addresses in a batch. Both geocodio and census
+batch geocoders have a 10,000 address limit so this is the default.</p></td>
     </tr>
     <tr>
-      <th>min_time</th>
-      <td><p>minimum amount of time for a query to take in seconds.
-This parameter is used to abide by API usage limits.</p></td>
+      <th>verbose</th>
+      <td><p>toggles console output. useful for debugging</p></td>
     </tr>
     <tr>
       <th>no_query</th>
-      <td><p>if TRUE then no queries are sent to the geocoder and verbose is set to TRUE</p></td>
+      <td><p>if TRUE then no queries are sent to the geocoder and verbose is set to TRUE.</p></td>
+    </tr>
+    <tr>
+      <th>custom_query</th>
+      <td><p>API-specific parameters to be used, passed as a named list 
+(ie. list(vintage = '“Current_Census2010'))</p></td>
+    </tr>
+    <tr>
+      <th>return_type</th>
+      <td><p>(census only) 'locations' (default) or 'geographies' which 
+returns additional census geography columns. See the Census geocoder API 
+documentation for more details.</p></td>
     </tr>
     <tr>
       <th>iq_region</th>
-      <td><p>'us' (default) or 'eu'. Used for establishing API URL</p></td>
+      <td><p>'us' (default) or 'eu'. Used for establishing API URL for the 'iq' method</p></td>
     </tr>
     <tr>
       <th>geocodio_v</th>
-      <td><p>version of geocodio api. 1.6 is default. used for establishing API URL</p></td>
+      <td><p>version of geocodio api. 1.6 is default. Used for establishing API URL
+for the 'geocodio' method.</p></td>
     </tr>
     </table>
 

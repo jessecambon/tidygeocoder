@@ -70,12 +70,11 @@ glimpse(census_full1)
 ## Cascade
 
 ```{r}
-address_components %>% bind_rows(tibble(city=c(NA, 'Tokyo'), ))
+addr_comp1 <- address_components %>% 
+  bind_rows(tibble(cty=c('Toronto', 'Tokyo'), country = c('Canada', 'Japan')))
 
-
-geo_casade(street = c())
+addr_comp1 %>% geocode(street = str, state = st, city = cty, country = country, method = 'cascade', verbose = TRUE)
 ```
-
 
 
 ## The geo function

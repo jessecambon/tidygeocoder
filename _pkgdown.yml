@@ -1,1 +1,20 @@
 url: https://jessecambon.github.io/tidygeocoder
+
+reference:
+- title: Geocoding functions
+  desc: These are the main functions to call for geocoding
+  contents:
+  - geocode
+  - geo 
+- title: Conveniance functions
+  contents:
+  - starts_with("geo_")
+- title: Data
+  contents:
+  - louisville
+  - sample_addresses
+- title: Other
+  contents:
+  - api_parameter_reference
+  - get_api_query
+  - query_api

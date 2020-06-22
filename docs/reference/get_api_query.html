@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Construct an api query — get_api_query • tidygeocoder</title>
+<title>Construct a Geocoder API Query. — get_api_query • tidygeocoder</title>
 
 
 <!-- jquery -->
@@ -39,7 +39,7 @@
 
 
 
-<meta property="og:title" content="Construct an api query — get_api_query" />
+<meta property="og:title" content="Construct a Geocoder API Query. — get_api_query" />
 <meta property="og:description" content="Query is created using universal &quot;generic&quot; parameters
 and optional api-specific &quot;custom&quot; parameters. Generic parameters
 are converted into api parameters using the api_parameter_reference
@@ -88,6 +88,9 @@ dataset." />
   </a>
 </li>
 <li>
+  <a href="../articles/tidygeocoder.html">Get started</a>
+</li>
+<li>
   <a href="../reference/index.html">Reference</a>
 </li>
       </ul>
@@ -111,7 +114,7 @@ dataset." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Construct an api query</h1>
+    <h1>Construct a Geocoder API Query.</h1>
     <small class="dont-index">Source: <a href='https://github.com/jessecambon/tidygeocoder/blob/master/R/query_factory.R'><code>R/query_factory.R</code></a></small>
     <div class="hidden name"><code>get_api_query.Rd</code></div>
     </div>
@@ -126,7 +129,7 @@ dataset.</p>
     <pre class="usage"><span class='fu'>get_api_query</span>(
   <span class='no'>method_name</span>,
   <span class='kw'>generic_parameters</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(),
-  <span class='kw'>custom_api_parameters</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>()
+  <span class='kw'>custom_parameters</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>()
 )</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -134,14 +137,14 @@ dataset.</p>
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>method_name</th>
-      <td><p>method name</p></td>
+      <td><p>method name (ie. 'census')</p></td>
     </tr>
     <tr>
       <th>generic_parameters</th>
       <td><p>universal 'generic' parameters</p></td>
     </tr>
     <tr>
-      <th>custom_api_parameters</th>
+      <th>custom_parameters</th>
       <td><p>custom api-specific parameters</p></td>
     </tr>
     </table>
