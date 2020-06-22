@@ -6,7 +6,7 @@ reference:
   contents:
   - geocode
   - geo 
-- title: Conveniance functions
+- title: Convenience functions
   contents:
   - starts_with("geo_")
 - title: Data
