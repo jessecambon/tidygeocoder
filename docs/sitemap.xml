@@ -4,16 +4,28 @@
     <loc>https://jessecambon.github.io/tidygeocoder/index.html</loc>
   </url>
   <url>
+    <loc>https://jessecambon.github.io/tidygeocoder/reference/api_parameter_reference.html</loc>
+  </url>
+  <url>
+    <loc>https://jessecambon.github.io/tidygeocoder/reference/geo.html</loc>
+  </url>
+  <url>
     <loc>https://jessecambon.github.io/tidygeocoder/reference/geo_cascade.html</loc>
   </url>
   <url>
     <loc>https://jessecambon.github.io/tidygeocoder/reference/geo_census.html</loc>
   </url>
   <url>
-    <loc>https://jessecambon.github.io/tidygeocoder/reference/geo_osm.html</loc>
+    <loc>https://jessecambon.github.io/tidygeocoder/reference/geocode.html</loc>
   </url>
   <url>
-    <loc>https://jessecambon.github.io/tidygeocoder/reference/geocode.html</loc>
+    <loc>https://jessecambon.github.io/tidygeocoder/reference/get_api_query.html</loc>
+  </url>
+  <url>
+    <loc>https://jessecambon.github.io/tidygeocoder/reference/louisville.html</loc>
+  </url>
+  <url>
+    <loc>https://jessecambon.github.io/tidygeocoder/reference/query_api.html</loc>
   </url>
   <url>
     <loc>https://jessecambon.github.io/tidygeocoder/reference/sample_addresses.html</loc>

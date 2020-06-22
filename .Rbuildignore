@@ -1,10 +1,16 @@
+^renv$
+^renv\.lock$
 ^.*\.Rproj$
 ^\.Rproj\.user$
 ^doc$
 ^Meta$
 ^data-raw$
-^us_map.png$
 ^LICENSE.md$
 ^_pkgdown\.yml$
 ^docs$
 ^pkgdown$
+^bin$
+^tidygeocoder\.yml$
+^data/durham_test\.rda$
+^README\.Rmd$
+^sandbox$

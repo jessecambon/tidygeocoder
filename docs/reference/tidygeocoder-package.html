@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>tidygeocoder: Tidyverse-Style Interface for Geocoding — tidygeocoder-package • tidygeocoder</title>
+<title><span class="pkg">tidygeocoder</span> simplifies getting data from geocoder services. — tidygeocoder-package • tidygeocoder</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,10 @@
 
 
 
-<meta property="og:title" content="tidygeocoder: Tidyverse-Style Interface for Geocoding — tidygeocoder-package" />
-<meta property="og:description" content="An intuitive tidyverse-style interface for geocoding. Obtains latitude and longitude coordinates in tibble format from addresses. The currently supported services are the US Census geocoder and Nominatim (OSM)." />
+<meta property="og:title" content="<span class="pkg">tidygeocoder</span> simplifies getting data from geocoder services. — tidygeocoder-package" />
+<meta property="og:description" content="The primary functions to use are geocode and geo.
+The geocode function calls geo.
+See vignette(&quot;tidygeocoder&quot;) for details." />
 
 
 
@@ -72,7 +74,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">tidygeocoder</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.6</span>
       </span>
     </div>
 
@@ -111,35 +113,31 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>tidygeocoder: Tidyverse-Style Interface for Geocoding</h1>
-    <small class="dont-index">Source: <a href='https://github.com/jessecambon/tidygeocoder/blob/master/R/pkgname.R'><code>R/pkgname.R</code></a></small>
+    <h1><span class="pkg">tidygeocoder</span> simplifies getting data from geocoder services.</h1>
+    <small class="dont-index">Source: <a href='https://github.com/jessecambon/tidygeocoder/blob/master/R/tidygeocoder.R'><code>R/tidygeocoder.R</code></a></small>
     <div class="hidden name"><code>tidygeocoder-package.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>An intuitive tidyverse-style interface for geocoding. Obtains latitude and longitude coordinates in tibble format from addresses. The currently supported services are the US Census geocoder and Nominatim (OSM).</p>
+    <p>The primary functions to use are <code><a href='geocode.html'>geocode</a></code> and <code><a href='geo.html'>geo</a></code>.
+The <code><a href='geocode.html'>geocode</a></code> function calls <code><a href='geo.html'>geo</a></code>.
+See <code><a href='../articles/tidygeocoder.html'>vignette("tidygeocoder")</a></code> for details.</p>
     </div>
 
 
 
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
-
-    <p>The primary function to use is <code>geocode</code> which can call
-<code>geo_census</code>, <code>geo_osm</code>, or <code>geo_cascade</code> depending on the method argument.
-See <code><a href='../articles/tidygeocoder.html'>vignette("tidygeocoder")</a></code> for details.</p>
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
     
 <ul>
 <li><p>US Census Geocoder: <a href='https://geocoding.geo.census.gov/'>https://geocoding.geo.census.gov/</a></p></li>
 <li><p>Nominatim (OSM): <a href='https://nominatim.openstreetmap.org/'>https://nominatim.openstreetmap.org/</a> and <a href='https://nominatim.org/'>https://nominatim.org/</a></p></li>
-<li><p>tmaptools package (used for OSM geocoding): <a href='https://cran.r-project.org/package=tmaptools'>https://cran.r-project.org/package=tmaptools</a></p></li>
-<li><p>dplyr: <a href='https://dplyr.tidyverse.org/'>https://dplyr.tidyverse.org/</a></p></li>
 </ul>
 
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>Useful links:</p><ul>
+<li><p><a href='https://jessecambon.github.io/tidygeocoder'>https://jessecambon.github.io/tidygeocoder</a></p></li>
 <li><p><a href='https://github.com/jessecambon/tidygeocoder'>https://github.com/jessecambon/tidygeocoder</a></p></li>
 <li><p>Report bugs at <a href='https://github.com/jessecambon/tidygeocoder/issues'>https://github.com/jessecambon/tidygeocoder/issues</a></p></li>
 </ul>
