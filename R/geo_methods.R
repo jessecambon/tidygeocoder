@@ -32,6 +32,9 @@ geo_cascade <- function(..., cascade_order = c('census', 'osm')) {
   # more easily splice the results together
   input <- list(...)
   
+  # print('input: ')
+  # print(input)
+  
   ## TODO --- Use a global package variable for lat/long names ?
   if ('lat' %in% names(input)) lat <- input[['lat']]
   else lat <- 'lat'

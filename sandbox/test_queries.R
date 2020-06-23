@@ -57,7 +57,7 @@ test_cgeo1 <- sample_addresses %>%
 geo(c("1600 Pennsylvania Ave NW Washington, DC", '11 Wall St NY, NY', NA, '', ' ', '11 Wall St NY, NY  '), verbose = T)
 
 ### Test Cascade
-geo_cascade(street=c('3 Rue Cambon, 75001',NA,NA,''), city =c('Paris', '', NA, 'Toronto'), 
+geo_cascade(street=c('3 Rue Cambon, 75001',NA, NA,''), city = c('Paris', '', NA, 'Toronto'), 
             country=c('France',' ','  ', 'Canada'), verbose = T, unique_only = TRUE)
 sample_addresses %>% geocode(addr, method = 'cascade')
 

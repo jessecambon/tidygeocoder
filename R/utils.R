@@ -83,3 +83,16 @@ filler_df <- function(x, column_names) {
     
   } else return(x)
 }
+
+split_coords <- function(input) {
+  ## Used by batch census function
+  # input is a single character value. 
+  # output is an unnamed numeric list with 2 elements: lat, long
+  # if comma contained in input then split it. otherwise return NA list
+  if (grepl(',', input, fixed = TRUE)) {
+    split <- as.list(unlist(strsplit(input,",", fixed = TRUE)))
+  }
+  else split <- (list('',''))
+  
+  return(as.numeric(split))
+}

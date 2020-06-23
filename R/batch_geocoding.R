@@ -52,9 +52,17 @@ batch_census <- function(address_pack,
                              col.names = return_cols,
                              fill = TRUE, stringsAsFactors = FALSE,
                              na.strings = '')
+  
+  #print('results:')
+  #print(results)
 
   ## split out lat/lng. lapply is used with as.numeric to convert coordinates to numeric
-  coord_df <- do.call(rbind, lapply(strsplit(as.character(results$coords), ",", fixed = TRUE), as.numeric))
+  coord_df <- do.call(rbind, lapply(results$coords, split_coords))
+  #coord_df <- do.call(rbind, lapply(strsplit(results$coords, ",", fixed = TRUE), as.numeric))
+  
+  #print('coord_df:')
+  #print(coord_df)
+  
   colnames(coord_df) <- c(long, lat)  # <--- NOTE ORDER
   
   # convert to tibble and reorder coordinates
