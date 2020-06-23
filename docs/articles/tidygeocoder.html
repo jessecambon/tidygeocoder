@@ -81,11 +81,11 @@
 
     
     
-<p>Geocoding services are used to provide data about addresses such as longitude and latitude coordinates. The goal of tidygeocoder is to make getting data from these services easy. The two main functions to use are <code>geocode</code> which takes a dataframe as an input and <code>geo</code> which takes character values or vectors of character values.</p>
+<p>Geocoding services are used to provide data about addresses such as longitude and latitude coordinates. The goal of tidygeocoder is to make getting data from these services easy. The two main functions to use are <code><a href="../reference/geocode.html">geocode()</a></code> which takes a dataframe as an input and <code><a href="../reference/geo.html">geo()</a></code> which takes character values or vectors of character values.</p>
 <p>Before you jump into using tidygeocoder, you’ll need to make a couple of decisions:</p>
 <ol style="list-style-type: decimal">
 <li>
-<strong>Which geocoding service do you want to use?</strong> Specify with the <code>method</code> argument.</li>
+<strong>Which geocoding service do you want to use?</strong> Specify with the <code>method</code> argument:</li>
 </ol>
 <ul>
 <li>
@@ -120,7 +120,7 @@
   <span class="st">'11 Wall St'</span>,                  <span class="st">'NY'</span>,               <span class="st">'NY'</span>,
   <span class="st">'600 Peachtree Street NE'</span>,     <span class="st">'Atlanta'</span>,          <span class="st">'GA'</span>
 )</pre></body></html></div>
-<p>The <code>geocode</code> function takes a dataframe input with address data. Note that all parameters are passed to the <code>geo</code> function so refer to that function’s documentation for more details on possible arguments.</p>
+<p>The <code><a href="../reference/geocode.html">geocode()</a></code> function takes a dataframe input with address data. Note that all parameters are passed to the <code><a href="../reference/geo.html">geo()</a></code> function so refer to that function’s documentation for more details on possible arguments.</p>
 <p>Use the <code>address</code> argument for single line addresses:</p>
 <div class="sourceCode" id="cb2"><html><body><pre class="r"><span class="no">address_single</span> <span class="kw">%&gt;%</span> <span class="fu"><a href="../reference/geocode.html">geocode</a></span>(<span class="kw">address</span> <span class="kw">=</span> <span class="no">singlelineaddress</span>, <span class="kw">method</span> <span class="kw">=</span> <span class="st">'census'</span>)
 <span class="co">#&gt; # A tibble: 2 x 3</span>
@@ -185,7 +185,7 @@
 <span class="co">#&gt; country = Canada</span>
 <span class="co">#&gt; format = json</span>
 <span class="co">#&gt; </span>
-<span class="co">#&gt; Query completed in: 0.7 seconds</span>
+<span class="co">#&gt; Query completed in: 0.6 seconds</span>
 <span class="co">#&gt; Total query time (including sleep): 1 seconds</span>
 <span class="co">#&gt; Number of Unique Addresses: 1</span>
 <span class="co">#&gt; Querying API URL: http://nominatim.openstreetmap.org/search</span>
@@ -197,7 +197,7 @@
 <span class="co">#&gt; country = Japan</span>
 <span class="co">#&gt; format = json</span>
 <span class="co">#&gt; </span>
-<span class="co">#&gt; Query completed in: 0.4 seconds</span>
+<span class="co">#&gt; Query completed in: 0.3 seconds</span>
 <span class="co">#&gt; Total query time (including sleep): 1 seconds</span>
 <span class="co">#&gt; # A tibble: 4 x 7</span>
 <span class="co">#&gt;   str                     cty     st    country   lat  long geo_method</span>
@@ -210,7 +210,7 @@
 <div id="the-geo-function" class="section level2">
 <h2 class="hasAnchor">
 <a href="#the-geo-function" class="anchor"></a>The geo function</h2>
-<p>As an alternative to using the <code>geocode</code> function, which operates on dataframes, you can pass address values directly to the <code>geo</code> function as character values.</p>
+<p>As an alternative to using the <code><a href="../reference/geocode.html">geocode()</a></code> function, which operates on dataframes, you can pass address values directly to the <code><a href="../reference/geo.html">geo()</a></code> function as character values.</p>
 <div class="sourceCode" id="cb6"><html><body><pre class="r"><span class="no">salz</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/geo.html">geo</a></span>(<span class="st">'Salzburg, Austria'</span>, <span class="kw">method</span> <span class="kw">=</span> <span class="st">'osm'</span>, <span class="kw">full_results</span> <span class="kw">=</span> <span class="no">T</span>, <span class="kw">verbose</span> <span class="kw">=</span> <span class="no">T</span>)
 <span class="co">#&gt; Number of Unique Addresses: 1</span>
 <span class="co">#&gt; Querying API URL: http://nominatim.openstreetmap.org/search</span>

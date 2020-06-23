@@ -26,7 +26,7 @@ options(tibble.print_min = 5, tibble.print_max = 5)
 
 ## Introduction
 
-Tidygeocoder is a [tidyverse](https://www.tidyverse.org/)-style geocoder interface for R. Utilizes [US Census](https://geocoding.geo.census.gov/) and [Nominatim](https://nominatim.org) (OSM) geocoder services. Returns latitude and longitude in [tibble format](https://tibble.tidyverse.org/) from addresses. You can find a demo I wrote up on R-Bloggers [here](https://www.r-bloggers.com/geocoding-with-tidygeocoder/).
+Tidygeocoder makes getting data from geocoding services easy. Currently supported services include the [US Census](https://geocoding.geo.census.gov/), [Nominatim (OSM)](https://nominatim.org), [Geocodio](https://www.geocod.io/), and [Location IQ](https://locationiq.com/). You can find a demo I wrote up on using this package to plot landmarks in Washington, DC [here](https://jessecambon.github.io/2019/11/11/tidygeocoder-demo.html).
 
 ## Installation
 
@@ -45,7 +45,7 @@ devtools::install_github("jessecambon/tidygeocoder")
 
 ## Usage
 
-In this brief example, we will use the US Census API to geocode some addresses in the `sample_addresses` dataset.
+In this brief example, we will use the US Census API to geocode a few select addresses in the `sample_addresses` dataset.
 
 ```{r,warning=F,message=F}
 library(dplyr)
@@ -56,34 +56,29 @@ lat_longs <- sample_addresses %>%
   geocode(addr,lat=latitude,long=longitude)
 ```
 
-Latitude and longitude columns are attached to our input dataset. Since we are using the US Census geocoder service (the default for the geocode function), locations outside the United States and addresses which are not at the street level (such as cities) are not found.
+Latitude and longitude columns are attached to our input dataset. 
 
 ```{r,echo=F}
 library(knitr)
 kable(lat_longs)
 ```
 
-Now we can plot our geolocated points with ggplot:
+Now that we have the latitude and longitude, we can plot our addresses with ggplot:
 
 ```{r}
 library(ggplot2)
 library(maps)
 library(ggrepel)
 
-ggplot(lat_longs %>% filter(!is.na(longitude)), aes(longitude, latitude), color="grey98") +
-  borders("state") + theme_classic() + geom_point() +
-  theme(line = element_blank(), text = element_blank(), title = element_blank()) +
-  geom_label_repel(aes(label =name),show.legend=F) +
-  scale_x_continuous(breaks = NULL) + scale_y_continuous(breaks = NULL)
+ggplot(lat_longs %>% filter(!is.na(longitude)), aes(longitude, latitude), color="grey99") +
+  borders("state") + geom_point() + geom_label_repel(aes(label = name), show.legend=F) + 
+  theme_void()
 ```
 
-To geocode addresses outside the United States or non-street level addresses you can use the Nominatim (aka "osm") geocoder service by specifying it with `geocode(addr,method='osm')`. See the [documentation on the geocode function](https://jessecambon.github.io/tidygeocoder/reference/geocode.html) for more details.
+For further documentation, refer to the [Getting Started page](https://jessecambon.github.io/tidygeocoder/articles/tidygeocoder.html) and the [function references](https://jessecambon.github.io/tidygeocoder/reference/index.html).
 
 ## References
 
 * [US Census Geocoder](https://geocoding.geo.census.gov/)
 * [Nominatim Geocoder](https://nominatim.org)
 * [Nominatim Address Check](https://nominatim.openstreetmap.org/)
-* [tmaptools](https://cran.r-project.org/package=tmaptools) package (used for OSM geocoding)
-* [dplyr](https://dplyr.tidyverse.org/)
-* [tidyr](https://tidyr.tidyverse.org)

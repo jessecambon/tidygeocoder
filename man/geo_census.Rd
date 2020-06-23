@@ -5,7 +5,7 @@
 \alias{geo_osm}
 \alias{geo_geocodio}
 \alias{geo_iq}
-\title{Conveniance functions for calling the \code{\link{geo}} function
+\title{Convenience functions for calling the \code{\link{geo}} function
 with a specified method.}
 \usage{
 geo_census(...)
@@ -20,6 +20,6 @@ geo_iq(...)
 \item{...}{arguments to be passed to the \code{\link{geo}}}
 }
 \description{
-Conveniance functions for calling the \code{\link{geo}} function
+Convenience functions for calling the \code{\link{geo}} function
 with a specified method.
 }

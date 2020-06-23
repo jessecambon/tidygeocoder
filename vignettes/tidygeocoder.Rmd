@@ -15,11 +15,11 @@ options(tibble.print_min = 4L, tibble.print_max = 4L)
 set.seed(42)
 ```
 
-Geocoding services are used to provide data about addresses such as longitude and latitude coordinates. The goal of tidygeocoder is to make getting data from these services easy. The two main functions to use are `geocode` which takes a dataframe as an input and `geo` which takes character values or vectors of character values.
+Geocoding services are used to provide data about addresses such as longitude and latitude coordinates. The goal of tidygeocoder is to make getting data from these services easy. The two main functions to use are `geocode()` which takes a dataframe as an input and `geo()` which takes character values or vectors of character values.
 
 Before you jump into using tidygeocoder, you'll need to make a couple of decisions:
 
-1. **Which geocoding service do you want to use?** Specify with the `method` argument. 
+1. **Which geocoding service do you want to use?** Specify with the `method` argument:
   * `'census'` : the US Census geocoder service. Covers street level addresses for the US.
   * `'geocodio'` : a commercial geocoder service for the US and Canada.
   * `'osm'` : the Nominatim service queries OSM (Open Street Map) data. 
@@ -45,7 +45,7 @@ address_components <- tribble(
 )
 ```
 
-The `geocode` function takes a dataframe input with address data. Note that all parameters are passed to the `geo` function so refer to that function's documentation for more details on possible arguments.
+The `geocode()` function takes a dataframe input with address data. Note that all parameters are passed to the `geo()` function so refer to that function's documentation for more details on possible arguments.
 
 Use the `address` argument for single line addresses:
 
@@ -81,7 +81,7 @@ addr_comp1 %>% geocode(street = str, state = st, city = cty, country = country, 
 
 ## The geo function
 
-As an alternative to using the `geocode` function, which operates on dataframes, you can pass address values directly to the `geo` function as character values.
+As an alternative to using the `geocode()` function, which operates on dataframes, you can pass address values directly to the `geo()` function as character values.
 
 ```{r}
 salz <- geo('Salzburg, Austria', method = 'osm', full_results = T, verbose = T)

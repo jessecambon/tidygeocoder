@@ -4,7 +4,7 @@
 \alias{geo_cascade}
 \title{First try one method and then try another method}
 \usage{
-geo_cascade(..., cascade_order = c("geocodio", "osm"))
+geo_cascade(..., cascade_order = c("census", "osm"))
 }
 \arguments{
 \item{...}{arguments passed from and to the \code{\link{geo}} function}

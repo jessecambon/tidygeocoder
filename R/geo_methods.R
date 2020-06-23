@@ -1,4 +1,4 @@
-#' Conveniance functions for calling the \code{\link{geo}} function
+#' Convenience functions for calling the \code{\link{geo}} function
 #' with a specified method.
 #' 
 #' @export
