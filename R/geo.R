@@ -1,31 +1,39 @@
 #' Geocode addresses that are passed as character values or
 #' character vectors
 #' 
-#' @param address single line address. do not combine with the
-#'    address component arguments (street, city , county, state, postalcode, country)
+#' @param address single line address (ie. '1600 Pennsylvania Ave NW, Washington, DC').
+#'    Do not combine with the address component arguments below
+#'    (street, city , county, state, postalcode, country).
 #' @param street street address (ie. '1600 Pennsylvania Ave NW')
 #' @param city city (ie. 'Tokyo')
-#' @param county county
+#' @param county county (ie. 'Jefferson')
 #' @param state state (ie. 'Kentucky')
 #' @param postalcode postalcode (zip code if in the United States)
 #' @param country country (ie. 'Japan')
 #' 
-#' @param method the geocoder service you want to use
+#' @param method the geocoder service to be used. Refer to 
+#' \code{\link{api_parameter_reference}} and the API documentation for
+#' each geocoder service for more details on usage on each service.
 #' \itemize{
-#'   \item "census": US Census Geocoder. US street-level addresses only.
+#'   \item "census": US Census Geocoder. US street-level addresses only. 
+#'      Can perform batch geocoding.
 #'   \item "osm": Nominatim (OSM). Worldwide coverage.
 #'   \item "iq": Commercial OSM geocoder service.
-#'   \item "geocodio": Commercial geocoder. Covers US and Canada. 
+#'   \item "geocodio": Commercial geocoder. Covers US and Canada and has
+#'      batch geocoding capabilities.
 #'   \item "cascade" : Tries one geocoder service first and then tries
 #'     another geocoder service if the first service didn't return results
-#'     per the cascade_order argument
+#'     per the cascade_order argument. Note that this cannot be used with
+#'     full_results = TRUE as different geocoders have different columns
+#'     that they return.
 #' }
 #' @param lat latitude column name
 #' @param long longitude column name
 #' @param limit number of results to return per address
 #' @param min_time minimum amount of time for a query to take in seconds.
 #'  This parameter is used to abide by API usage limits. Not used in batch geocoding
-#' @param api_url Custom API URL
+#' @param api_url Custom API URL. If specified, the default API URL will be overriden.
+#'    This can be used to specify a local Nominatim server.
 #' @param timeout query timeout (in minutes)
 #' 
 #' @param mode set to 'batch' to force batch geocoding and 'single' to 
@@ -33,18 +41,18 @@
 #'  specified then batch geocoding will be used if available
 #'  (given method selected) when multiple addresses are passed, otherwise
 #'  single address geocoding will be used.  
-#' @param full_results returns all data from API if TRUE
-#' @param unique_only only return unique results if TRUE
-#' @param return_addresses return input addresses with results
+#' @param full_results returns all data from geocoder if TRUE
+#' @param unique_only only return results for unique addresses if TRUE
+#' @param return_addresses return input addresses with results if TRUE
 #' 
 #' @param flatten if TRUE then any nested dataframes in results are flattened
 #' @param batch_limit limit to the number of addresses in a batch. Both geocodio and census
 #'  batch geocoders have a 10,000 address limit so this is the default.
-#' @param verbose toggles console output. useful for debugging
-#' @param no_query if TRUE then no queries are sent to the geocoder and verbose is set to TRUE. 
+#' @param verbose if TRUE then logs are output to the console
+#' @param no_query if TRUE then no queries are sent to the geocoder and verbose is set to TRUE 
 
 #' @param custom_query API-specific parameters to be used, passed as a named list 
-#'    (ie. list(vintage = '“Current_Census2010'))
+#'    (ie. list(vintage = 'Current_Census2010'))
 #' @param return_type    (census only) 'locations' (default) or 'geographies' which 
 #'    returns additional census geography columns. See the Census geocoder API 
 #'    documentation for more details.
@@ -52,7 +60,17 @@
 #' @param geocodio_v version of geocodio api. 1.6 is default. Used for establishing API URL
 #'   for the 'geocodio' method.
 #' 
-#' @return parsed results from geocoder
+#' @return parsed results from the geocoder service
+#' @examples
+#' \donttest{
+#' 
+#' geo(street = "600 Peachtree Street NE", city = "Atlanta", state = "Georgia", method = "census")
+#' 
+#' geo(address = c("Tokyo, Japan", "Lima, Peru", "Nairobi, Kenya"), method = 'osm')
+#' 
+#' geo(county='Jefferson', state = "Kentucky", country = "US", method = 'osm')
+#' 
+#' }
 #' @export
 geo <- function(address = NULL, 
     street = NULL, city = NULL, county = NULL, state = NULL, postalcode = NULL, country = NULL,
@@ -76,7 +94,10 @@ geo <- function(address = NULL,
   
   # If method='cascade' is called then pass all function arguments 
   # except for method to geo_cascade and return the results 
-  if (method == 'cascade') return(do.call(geo_cascade, all_args[!names(all_args) %in% c('method')]))
+  if (method == 'cascade') {
+    if (full_results == TRUE) stop("full_results = TRUE cannot be used with the cascade method.")
+    return(do.call(geo_cascade, all_args[!names(all_args) %in% c('method')]))
+  }
   
   # check address inputs and deduplicate
   address_pack <- package_addresses(address, street, city , county, 

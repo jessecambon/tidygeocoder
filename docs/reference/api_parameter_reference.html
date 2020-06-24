@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>REST API Parameter Reference — api_parameter_reference • tidygeocoder</title>
+<title>Geocoder Service REST API Parameter Reference — api_parameter_reference • tidygeocoder</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,11 @@
 
 
 
-<meta property="og:title" content="REST API Parameter Reference — api_parameter_reference" />
-<meta property="og:description" content="REST API Parameter Reference" />
+<meta property="og:title" content="Geocoder Service REST API Parameter Reference — api_parameter_reference" />
+<meta property="og:description" content="This dataset contains the mapping that allows this package to use a 
+universal syntax for specifying parameters for different geocoder
+service APIs. Reference the documentation for geo for
+more information." />
 
 
 
@@ -111,13 +114,16 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>REST API Parameter Reference</h1>
+    <h1>Geocoder Service REST API Parameter Reference</h1>
     <small class="dont-index">Source: <a href='https://github.com/jessecambon/tidygeocoder/blob/master/R/data.R'><code>R/data.R</code></a></small>
     <div class="hidden name"><code>api_parameter_reference.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>REST API Parameter Reference</p>
+    <p>This dataset contains the mapping that allows this package to use a 
+universal syntax for specifying parameters for different geocoder
+service APIs. Reference the documentation for <code><a href='geo.html'>geo</a></code> for
+more information.</p>
     </div>
 
     <pre class="usage"><span class='no'>api_parameter_reference</span></pre>
@@ -126,11 +132,11 @@
     <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
 
     <p>A tibble dataframe</p><dl'>
-<dt>method</dt><dd><p>Geocoder service shortname</p></dd>
-<dt>generic_name</dt><dd><p>Generic name of the API parameter</p></dd>
-<dt>api_name</dt><dd><p>Name of the parameter for the geocoder service specified in the method field</p></dd>
+<dt>method</dt><dd><p>Geocoder service name.</p></dd>
+<dt>generic_name</dt><dd><p>The universal name of the API parameter</p></dd>
+<dt>api_name</dt><dd><p>Name of the parameter for the specified geocoder service (method column value)</p></dd>
 <dt>default_value</dt><dd><p>Default value of this parameter</p></dd>
-<dt>required</dt><dd><p>Is the parameter required by the API?</p></dd>
+<dt>required</dt><dd><p>Is the parameter required by the specified geocoder service</p></dd>
 
 </dl>
 
@@ -144,6 +150,9 @@
 <li><p><a href='https://www.geocod.io/docs/'>Geocodio</a></p></li>
 </ul>
 
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <div class='dont-index'><p><code><a href='get_api_query.html'>get_api_query</a></code> <code><a href='query_api.html'>query_api</a></code></p></div>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

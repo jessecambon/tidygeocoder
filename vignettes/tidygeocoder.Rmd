@@ -15,22 +15,11 @@ options(tibble.print_min = 4L, tibble.print_max = 4L)
 set.seed(42)
 ```
 
-Geocoding services are used to provide data about addresses such as longitude and latitude coordinates. The goal of tidygeocoder is to make getting data from these services easy. The two main functions to use are `geocode()` which takes a dataframe as an input and `geo()` which takes character values or vectors of character values.
+Geocoding services are used to provide data about addresses such as longitude and latitude coordinates. The goal of tidygeocoder is to make getting data from these services easy. The two main functions to use are `geocode()` which takes a dataframe as an input and `geo()` which takes character values.
 
-Before you jump into using tidygeocoder, you'll need to make a couple of decisions:
+The `geocode()` function extracts specified address columns from the input dataframe and passes them to `geo()` to perform geocoding. All extra arguments (`...`) given to `geocode()` are passed to `geo()` so refer to the documentation in `geo()` for all the possible arguments you can give to the `geocode()` function.
 
-1. **Which geocoding service do you want to use?** Specify with the `method` argument:
-  * `'census'` : the US Census geocoder service. Covers street level addresses for the US.
-  * `'geocodio'` : a commercial geocoder service for the US and Canada.
-  * `'osm'` : the Nominatim service queries OSM (Open Street Map) data. 
-  * `'iq'` : a commercial offering of the Nominatim (OSM) service
-  * `'cascade'`: this method first calls one geocoder service and if no results are found calls another geocoder service.
-  
-2. **Do you want to use single-line addressees or address components?** (ie. `address = '60 Main St, Pawnee, IN'` compared to `street = '60 Main St', city = 'Pawnee', state = 'IN'`)
-  * For single-line addresses, use the `address` argument
-  * Alternatively, you can use some combination of the `street`, `city`, `state`, `county`, `postalcode`, and `country` arguments. Note that not all of these parameters are required and geocoder services don't necessarily support all of these inputs, refer to the API documentation of the geocoder services for details. For example, the Census geocoder is only for the United States and has no reason to support a `country` input. 
-
-## Making a Query
+## Basic Queries
 
 ```{r, warning = FALSE, message = FALSE}
 library(tibble)
@@ -45,21 +34,36 @@ address_components <- tribble(
 )
 ```
 
-The `geocode()` function takes a dataframe input with address data. Note that all parameters are passed to the `geo()` function so refer to that function's documentation for more details on possible arguments.
-
-Use the `address` argument for single line addresses:
+The `geocode()` function takes a dataframe input with address data. Use the `address` argument for single line addresses:
 
 ```{r}
 address_single %>% geocode(address = singlelineaddress, method = 'census')
 ```
 
-Alternatively use any combination of the following arguments to specify addresses: `street`, `city`, `state`, `county`, `postalcode`, and `country`.
+Alternatively you can run the same query with the `geo()` function by passing the address values from the dataframe directly. Additionally, `verbose = TRUE` displays logs to the console.
 
 ```{r}
-address_components %>% geocode(street = str, city = cty, state = st, method = 'census')
+geo(address = address_single$singlelineaddress, method = 'census', verbose = TRUE)
 ```
 
-To return data other than latitude and longitude, specify `full_results = TRUE`. Additionally, for the census geocoder you can get details on  geographies such as census tracts by specifying `return_type = 'geographies'`.
+Instead of single line addresses, you can use any combination of the following arguments to specify your addresses: `street`, `city`, `state`, `county`, `postalcode`, and `country`. Note that not all of these parameters are required and geocoder services don't necessarily support all of these inputs, refer to `api_parameter_reference` and the API documentation of the geocoder services for details. For example, the Census geocoder is only for the United States and has no reason to support a `country` input. 
+
+```{r}
+address_components %>% geocode(street = str, city = cty, state = st, method = 'census',  verbose = TRUE)
+```
+
+The `cascade` method by default first tries to use one geocoder service and then retries addresses that were not found using a second geocoder service. By default it first uses the Census Geocoder and then OSM, but you can specify any two methods you want (in order) with `cascade_order` argument.
+
+```{r}
+addr_comp1 <- address_components %>% 
+  bind_rows(tibble(cty=c('Toronto', 'Tokyo'), country = c('Canada', 'Japan')))
+
+addr_comp1 %>% geocode(street = str, state = st, city = cty, country = country, method = 'cascade')
+```
+
+## Beyond Latitude and Longitude
+
+To return data other than latitude and longitude, specify `full_results = TRUE`. Additionally, for the Census geocoder you can get details on  geographies such as census tracts by specifying `return_type = 'geographies'`. Be sure to use `full_results = TRUE` with `return_type = 'geographies'` in order to allow the Census geography columns to be returned.
 
 ```{r}
 census_full1 <- address_single %>% geocode(address = singlelineaddress, 
@@ -67,41 +71,9 @@ census_full1 <- address_single %>% geocode(address = singlelineaddress,
 glimpse(census_full1)
 ```
 
-## The cascade method
-
-The `cascade` method by default first tries to use the census geocoder and then if no results are found then it attempts to use the OSM (Nominatim) geocoder. However, you can specify any two methods you would like to try in the order you'd like to try them using the `cascade_order` argument. 
+As mentioned earlier, the `geocode()` function passes addresses in dataframes to the `geo()` function for geocoding so we can also directly use `geo()` function in a similar way:
 
 ```{r}
-addr_comp1 <- address_components %>% 
-  bind_rows(tibble(cty=c('Toronto', 'Tokyo'), country = c('Canada', 'Japan')))
-
-addr_comp1 %>% geocode(street = str, state = st, city = cty, country = country, method = 'cascade', verbose = TRUE)
-```
-
-
-## The geo function
-
-As an alternative to using the `geocode()` function, which operates on dataframes, you can pass address values directly to the `geo()` function as character values.
-
-```{r}
-salz <- geo('Salzburg, Austria', method = 'osm', full_results = T, verbose = T)
+salz <- geo('Salzburg, Austria', method = 'osm', full_results = T)
 glimpse(salz)
-```
-
-Here is how you would geocode an address using the Census geocoder:
-
-```{r}
-geo(address = "600 Peachtree Street NE, Atlanta, Georgia", method = "census")
-```
-
-Alternatively, you can specify an address in components:
-
-```{r}
-geo(street = "600 Peachtree Street NE", city = "Atlanta", state = "Georgia", method = "census")
-```
-
-To use a different geocoder service, you can specify it with the `method` argument. To geocode multiple addresses, pass them as a vector. In this case we are using the Nominatim (OSM) geocoder service.
-
-```{r}
-geo(address = c("Tokyo, Japan", "Lima, Peru", "Nairobi, Kenya"), method = 'osm')
 ```

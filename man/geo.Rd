@@ -36,14 +36,15 @@ geo(
 )
 }
 \arguments{
-\item{address}{single line address. do not combine with the
-address component arguments (street, city , county, state, postalcode, country)}
+\item{address}{single line address (ie. '1600 Pennsylvania Ave NW, Washington, DC').
+Do not combine with the address component arguments below
+(street, city , county, state, postalcode, country).}
 
 \item{street}{street address (ie. '1600 Pennsylvania Ave NW')}
 
 \item{city}{city (ie. 'Tokyo')}
 
-\item{county}{county}
+\item{county}{county (ie. 'Jefferson')}
 
 \item{state}{state (ie. 'Kentucky')}
 
@@ -51,15 +52,21 @@ address component arguments (street, city , county, state, postalcode, country)}
 
 \item{country}{country (ie. 'Japan')}
 
-\item{method}{the geocoder service you want to use
+\item{method}{the geocoder service to be used. Refer to 
+\code{\link{api_parameter_reference}} and the API documentation for
+each geocoder service for more details on usage on each service.
 \itemize{
-  \item "census": US Census Geocoder. US street-level addresses only.
+  \item "census": US Census Geocoder. US street-level addresses only. 
+     Can perform batch geocoding.
   \item "osm": Nominatim (OSM). Worldwide coverage.
   \item "iq": Commercial OSM geocoder service.
-  \item "geocodio": Commercial geocoder. Covers US and Canada. 
+  \item "geocodio": Commercial geocoder. Covers US and Canada and has
+     batch geocoding capabilities.
   \item "cascade" : Tries one geocoder service first and then tries
     another geocoder service if the first service didn't return results
-    per the cascade_order argument
+    per the cascade_order argument. Note that this cannot be used with
+    full_results = TRUE as different geocoders have different columns
+    that they return.
 }}
 
 \item{lat}{latitude column name}
@@ -71,7 +78,8 @@ address component arguments (street, city , county, state, postalcode, country)}
 \item{min_time}{minimum amount of time for a query to take in seconds.
 This parameter is used to abide by API usage limits. Not used in batch geocoding}
 
-\item{api_url}{Custom API URL}
+\item{api_url}{Custom API URL. If specified, the default API URL will be overriden.
+This can be used to specify a local Nominatim server.}
 
 \item{timeout}{query timeout (in minutes)}
 
@@ -81,23 +89,23 @@ specified then batch geocoding will be used if available
 (given method selected) when multiple addresses are passed, otherwise
 single address geocoding will be used.}
 
-\item{full_results}{returns all data from API if TRUE}
+\item{full_results}{returns all data from geocoder if TRUE}
 
-\item{unique_only}{only return unique results if TRUE}
+\item{unique_only}{only return results for unique addresses if TRUE}
 
-\item{return_addresses}{return input addresses with results}
+\item{return_addresses}{return input addresses with results if TRUE}
 
 \item{flatten}{if TRUE then any nested dataframes in results are flattened}
 
 \item{batch_limit}{limit to the number of addresses in a batch. Both geocodio and census
 batch geocoders have a 10,000 address limit so this is the default.}
 
-\item{verbose}{toggles console output. useful for debugging}
+\item{verbose}{if TRUE then logs are output to the console}
 
-\item{no_query}{if TRUE then no queries are sent to the geocoder and verbose is set to TRUE.}
+\item{no_query}{if TRUE then no queries are sent to the geocoder and verbose is set to TRUE}
 
 \item{custom_query}{API-specific parameters to be used, passed as a named list 
-(ie. list(vintage = '“Current_Census2010'))}
+(ie. list(vintage = 'Current_Census2010'))}
 
 \item{return_type}{(census only) 'locations' (default) or 'geographies' which 
 returns additional census geography columns. See the Census geocoder API 
@@ -109,9 +117,20 @@ documentation for more details.}
 for the 'geocodio' method.}
 }
 \value{
-parsed results from geocoder
+parsed results from the geocoder service
 }
 \description{
 Geocode addresses that are passed as character values or
 character vectors
+}
+\examples{
+\donttest{
+
+geo(street = "600 Peachtree Street NE", city = "Atlanta", state = "Georgia", method = "census")
+
+geo(address = c("Tokyo, Japan", "Lima, Peru", "Nairobi, Kenya"), method = 'osm')
+
+geo(county='Jefferson', state = "Kentucky", country = "US", method = 'osm')
+
+}
 }

@@ -63,21 +63,20 @@ geo_cascade <- function(..., cascade_order = c('census', 'osm')) {
   # print(initial_results)
   
   # find NA result indices for initial attempt
-  na_indices <- is.na(initial_results[['lat']]) | is.na(initial_results[['long']])
+  na_indices <- is.na(initial_results[[lat]]) | is.na(initial_results[[long]])
   
   # print('na_indices:')
   # print(na_indices)
   
-  # these are the addresses we retry
-  if (is.null(names(initial_parameters))) retry_addresses <- input[na_indices]
-  else retry_addresses <- lapply(input[names(input) %in% pkg.globals$address_arg_names], 
-                function(x, bools) x[bools], na_indices)
-  
-  # print('retry_addresses:')
-  # print(retry_addresses)
-  # 
-  if (length(retry_addresses) > 0) {
-  
+  if (any(na_indices)) {
+    # if some results weren't found then we retry
+    if (is.null(names(initial_parameters))) retry_addresses <- input[na_indices]
+    else retry_addresses <- lapply(input[names(input) %in% pkg.globals$address_arg_names], 
+                  function(x, bools) x[bools], na_indices)
+    
+    # print('retry_addresses:')
+    # print(retry_addresses)
+    
     retry_results = do.call(geo, c(retry_addresses,
           input[!names(input) %in% c(pkg.globals$address_arg_names, 'method', 'unique_only')],
             list(method = cascade_order[2], unique_only = FALSE)))
@@ -88,12 +87,14 @@ geo_cascade <- function(..., cascade_order = c('census', 'osm')) {
     ## combine census and retry results
     combi <- initial_results
     combi[na_indices,] <- retry_results
-  } else combi <- initial_results
-  
-  combi$geo_method <- ifelse(na_indices, cascade_order[2], cascade_order[1])
-  
+    combi$geo_method <- ifelse(na_indices, cascade_order[2], cascade_order[1])
+  } else {
+    # if all addresses were found then just return initial results
+    combi <- initial_results
+    combi$geo_method <- cascade_order[1]
+  }
+
   # if user requested unique only then return distinct dataset
   if (unique_results_requested == TRUE) return(unique(combi)) 
   else return(combi)
-  
 }

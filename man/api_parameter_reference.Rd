@@ -3,15 +3,15 @@
 \docType{data}
 \name{api_parameter_reference}
 \alias{api_parameter_reference}
-\title{REST API Parameter Reference}
+\title{Geocoder Service REST API Parameter Reference}
 \format{
 A tibble dataframe
 \describe{
-\item{method}{Geocoder service shortname}
-\item{generic_name}{Generic name of the API parameter}
-\item{api_name}{Name of the parameter for the geocoder service specified in the method field}
+\item{method}{Geocoder service name.}
+\item{generic_name}{The universal name of the API parameter}
+\item{api_name}{Name of the parameter for the specified geocoder service (method column value)}
 \item{default_value}{Default value of this parameter}
-\item{required}{Is the parameter required by the API?}
+\item{required}{Is the parameter required by the specified geocoder service}
 }
 }
 \source{
@@ -26,6 +26,12 @@ A tibble dataframe
 api_parameter_reference
 }
 \description{
-REST API Parameter Reference
+This dataset contains the mapping that allows this package to use a 
+universal syntax for specifying parameters for different geocoder
+service APIs. Reference the documentation for \code{\link{geo}} for
+more information.
+}
+\seealso{
+\code{\link{get_api_query}} \code{\link{query_api}}
 }
 \keyword{datasets}

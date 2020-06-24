@@ -65,13 +65,13 @@ See example usage in \code{vignette("tidygeocoder")}
 \examples{
 \donttest{
 library(dplyr)
-sample_addresses[1:3, ] \%>\% geocode(addr)
+sample_addresses[1:3,] \%>\% geocode(addr)
 
-louisville[1:5, ] \%>\% geocode(street = street, city = city, state = state,
-  postalcode = zip, method = 'osm', verbose = T)
+louisville[1:2, ] \%>\% geocode(street = street, city = city, state = state,
+  postalcode = zip)
 
-sample_addresses[1:3, ] \%>\% geocode(addr, method='osm',lat='lattes', long='longos')
+sample_addresses[8:9,] \%>\% geocode(addr, method='osm',lat='lattes', long='longos')
 
-sample_addresses[1:3, ] \%>\% geocode(addr, method='cascade', lat=latitude, long=longitude)
+sample_addresses[1:3,] \%>\% geocode(addr, method='cascade', lat=latitude, long=longitude)
 }
 }

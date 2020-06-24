@@ -13,13 +13,17 @@ MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/je
 
 ## Introduction
 
-Tidygeocoder makes getting data from geocoding services easy. Currently
-supported services include the [US
+Tidygeocoder makes getting data from geocoding services easy. The
+currently supported services are the [US
 Census](https://geocoding.geo.census.gov/), [Nominatim
 (OSM)](https://nominatim.org), [Geocodio](https://www.geocod.io/), and
 [Location IQ](https://locationiq.com/). You can find a demo I wrote up
 on using this package to plot landmarks in Washington, DC
 [here](https://jessecambon.github.io/2019/11/11/tidygeocoder-demo.html).
+
+Batch geocoding (passing multiple addresses per query) is supported for
+the US Census and Geocodio services. Only unique addresses are passed to
+geocoder services to reduce query sizes.
 
 ## Installation
 
@@ -39,19 +43,31 @@ devtools::install_github("jessecambon/tidygeocoder")
 
 ## Usage
 
-In this brief example, we will use the US Census API to geocode a few
-select addresses in the `sample_addresses` dataset.
+In this example we will geocode a few addresses in the
+`sample_addresses` dataset using the `geocode()` function and plot them
+on a map with ggplot. Note that the `geocode()` function extracts
+addresses from the dataframe it is passed and sends them to the `geo()`
+function for geocoding. All extra arguments (`...`) given to the
+`geocode()` function are passed to `geo()` so you can refer to the
+`geo()` function documentation for a full list of possible arguments
+that you can use for the `geocode()` function.
 
 ``` r
 library(dplyr)
 library(tidygeocoder)
 
 lat_longs <- sample_addresses %>% 
-  filter(name %in% c('White House','Transamerica Pyramid','Willis Tower')) %>%
-  geocode(addr,lat=latitude,long=longitude)
+  filter(name %in% c('White House', 'Transamerica Pyramid', 'Willis Tower')) %>%
+  geocode(addr, lat = latitude , long = longitude)
 ```
 
-Latitude and longitude columns are attached to our input dataset.
+The `geocode()` function attaches latitude and longitude columns to our
+input dataset of addresses. Note that this code uses the US Census
+geocoder since the `method` argument is not specified. To use other
+geocoder services, you can specify them with the `method` argument.
+Also, only the latitude and longitude are returned by default, but you
+can obtain the full results returned by the geocoder service by using
+`full_results = TRUE`. See the `geo()` documentation for details.
 
 | name                 | addr                                       | latitude |   longitude |
 | :------------------- | :----------------------------------------- | -------: | ----------: |
@@ -59,28 +75,23 @@ Latitude and longitude columns are attached to our input dataset.
 | Transamerica Pyramid | 600 Montgomery St, San Francisco, CA 94111 | 37.79470 | \-122.40314 |
 | Willis Tower         | 233 S Wacker Dr, Chicago, IL 60606         | 41.87851 |  \-87.63666 |
 
-Now that we have the latitude and longitude, we can plot our addresses
-with ggplot:
+We can then plot our addresses on a map using the longitude and
+latitude.
 
 ``` r
 library(ggplot2)
 library(maps)
 library(ggrepel)
 
-ggplot(lat_longs %>% filter(!is.na(longitude)), aes(longitude, latitude), color="grey99") +
-  borders("state") + geom_point() + geom_label_repel(aes(label = name), show.legend=F) + 
+ggplot(lat_longs, aes(longitude, latitude), color="grey99") +
+  borders("state") + geom_point() + 
+  geom_label_repel(aes(label = name)) + 
   theme_void()
 ```
 
 <img src="man/figures/README-unnamed-chunk-6-1.png" style="display: block; margin: auto;" />
 
-For further documentation, refer to the [Getting Started
-page](https://jessecambon.github.io/tidygeocoder/articles/tidygeocoder.html)
+For further details, refer to the [Getting Started
+Vignette](https://jessecambon.github.io/tidygeocoder/articles/tidygeocoder.html)
 and the [function
-references](https://jessecambon.github.io/tidygeocoder/reference/index.html).
-
-## References
-
-  - [US Census Geocoder](https://geocoding.geo.census.gov/)
-  - [Nominatim Geocoder](https://nominatim.org)
-  - [Nominatim Address Check](https://nominatim.openstreetmap.org/)
+documentation](https://jessecambon.github.io/tidygeocoder/reference/index.html).
