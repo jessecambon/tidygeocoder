@@ -7,9 +7,9 @@ geocodio_api_key <- Sys.getenv("GEOCODIO_API_KEY")
 library(httr)
 library(jsonlite)
 
-addr <- '1 Rue des Carrières, Québec, QC G1R 4P5, Canada' # address to geocode
+addr <- 'Tokyo' # address to geocode
 
-url_base <- "https://api.geocod.io/v1.5/geocode"
+url_base <- "https://api.geocod.io/v1.6/geocode"
 
 # limit=1 limits the query to one result
 
@@ -22,10 +22,9 @@ resp <- httr::GET(url = url_base,
         ))
 
 # Parse response to get named list with components 'input' and 'results'
-dat <- jsonlite::fromJSON(httr::content(resp, as = 'text', encoding = "UTF-8"))
+response <- jsonlite::fromJSON(httr::content(resp, as = 'text', encoding = "UTF-8"))
 
-lat_lng <- c(dat$results$location$lat, dat$results$location$lng)
+product <- response$results[!names(response$results) %in% c('location')]
 
 
-mtcars[
-  'cyl']
+#lat_lng <- c(dat$results$location$lat, dat$results$location$lng)

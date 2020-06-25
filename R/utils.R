@@ -33,33 +33,79 @@ pause_until <- function(start_time,min_time,debug=FALSE) {
 
 # Extract latitude, longitude as a numeric vector. Not used for batch
 # geocoding
-extract_coords <- function(method, response) {
-  lat_lng <- switch(method,
-  'census' = unlist(response$result$addressMatches$coordinates[1,][c('y','x')], 
-                use.names = FALSE),
-  'osm' = as.numeric(c(response$lat, response$lon)),
-  'iq' = as.numeric(c(response$lat, response$lon)),
-  'geocodio' = c(response$results$location$lat, response$results$location$lng)
-  )
-  return(lat_lng)
-}
+# extract_coords <- function(method, response) {
+#   lat_lng <- switch(method,
+#   'census' = response$result$addressMatches$coordinates[c('y','x')],
+#   'osm' = response[c('lat', 'lon')],
+#   'iq' = response[c('lat', 'lon')],
+#   'geocodio' = response$results$location[c('lat', 'lng')]
+#   )
+#   
+#   if (length(lat_lng) == 0) lat_lng <- tibble::tibble(lat = NA, long = NA)
+#   
+#   names(lat_lng) <- c('lat','long')
+#   lat_lng$lat <- as.numeric(lat_lng$lat)
+#   lat_lng$long <- as.numeric(lat_lng$long)
+#   
+#   return(tibble::as_tibble(lat_lng))
+# }
 
-## Extract geocoder results (exclude lat/long coordinates). Not used for batch
-## geocoding.
-## ARGS:
-# method: method name
-# response:  content from the geocoder service (returned by the )
-# flatten: if TRUE then flatten any nested dataframe content
-extract_results <- function(method, response, flatten = TRUE) {
-  results <- switch(method,
-  'census' = response$result$addressMatches[!names(response$result$addressMatches) %in% c('coordinates')][1,],
-  'osm' = response[!names(response) %in% c('lat', 'lon')],
-  'iq' =  response[!names(response) %in% c('lat', 'lon')],
-  'geocodio' = response$results[!names(response$results) %in% c('location')]
+#' Extract geocoder results 
+#' Not used for batch geocoding. Latitude and longitude and extracted into
+#' the first two columns of the returned dataframe
+#' @param method method name
+#' @param response  content from the geocoder service (returned by the )
+#' @param flatten if TRUE then flatten any nested dataframe content
+#' @export 
+extract_results <- function(method, response, full_results = TRUE, flatten = TRUE) {
+  
+  NA_result <- tibble::tibble(lat = NA, long = NA)
+  
+  ## extract latitude and longitude as a dataframe
+  lat_lng <- switch(method,
+    'census' = response$result$addressMatches$coordinates[c('y','x')],
+    'osm' = response[c('lat', 'lon')],
+    'iq' = response[c('lat', 'lon')],
+    'geocodio' = response$results$location[c('lat', 'lng')]
   )
   
-  if (flatten == TRUE) return(jsonlite::flatten(results))
-  else return(results)
+  #print('lat_lng:')
+  #print(lat_lng)
+  
+  # if null result then return NA
+  if (length(lat_lng) == 0 ) return(NA_result)
+  # check to make sure results aren't na or wrong width
+  if (nrow(lat_lng) == 0 | ncol(lat_lng) != 2) return(NA_result)
+  
+  #print('checkpoint 1')
+  # convert to numeric format
+  #lat_lng <- tibble::as_tibble(sapply(lat_lng, function(x) as.numeric(as.character(x))))
+  lat_lng[, 1] <- as.numeric(as.character(lat_lng[, 1]))
+  lat_lng[, 2] <- as.numeric(as.character(lat_lng[, 2]))
+  #print('checkpoint 2')
+  
+  
+  if (full_results == TRUE) {
+  ## extract full results excluding latitude and longitude
+    results <- switch(method,
+      'census' = response$result$addressMatches[!names(response$result$addressMatches) %in% c('coordinates')],
+      'osm' = response[!names(response) %in% c('lat', 'lon')],
+      'iq' =  response[!names(response) %in% c('lat', 'lon')],
+      'geocodio' = response$results[!names(response$results) %in% c('location')]
+    )
+    
+    combined_results <- tibble::as_tibble(cbind(lat_lng, results))
+  } else {
+    combined_results <- lat_lng
+  }
+  
+  combined_results <- tibble::as_tibble(combined_results)
+  
+  #print('combined_results:')
+  #print(combined_results)
+
+  if (flatten == TRUE) return(jsonlite::flatten(combined_results))
+  else return(combined_results)
 }
 
 ### Return a 2 column, 1 row NA tibble dataframe for coordinates that aren't found

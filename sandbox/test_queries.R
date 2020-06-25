@@ -58,6 +58,11 @@ test_cgeo1 <- sample_addresses %>%
 ## Test Dedupping / Invalid Addresses
 geo(c("1600 Pennsylvania Ave NW Washington, DC", '11 Wall St NY, NY', NA, '', ' ', '11 Wall St NY, NY  '), verbose = T)
 
+## Advanced Batch Geocoding (ie. limit > 1 )
+geo(c('Toronto', 'New York', 'Paris'), method = 'geocodio', verbose = T,
+    limit = 5, full_results = TRUE, return_addresses = FALSE)
+
+
 ### Test Cascade
 geo_cascade(street=c('3 Rue Cambon, 75001',NA, NA,''), city = c('Paris', '', NA, 'Toronto'), 
             country=c('France',' ','  ', 'Canada'), verbose = T, unique_only = TRUE)

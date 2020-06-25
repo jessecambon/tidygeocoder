@@ -1,11 +1,15 @@
+### Functions for geocoding that are called by geo()
+
+
+
 # Census batch geocoding
 # @param address_pack packaged addresses object
 # @param return should be 'locations' or 'geographies'
 # Vingate must be defined if return = 'geographies'
 # @export 
 batch_census <- function(address_pack,
-  return_type = 'locations', timeout = 20, full_results = FALSE, custom_query = list(), api_url = NULL,
-  lat = 'lat', long = 'long', verbose = FALSE, ...) {
+     return_type = 'locations', timeout = 20, full_results = FALSE, custom_query = list(), api_url = NULL,
+     lat = 'lat', long = 'long', verbose = FALSE, ...) {
   
   #print('census batch return_type:')
   #print(return_type)
@@ -24,7 +28,7 @@ batch_census <- function(address_pack,
   if (is.null(api_url)) api_url <- get_census_url(return_type, 'addressbatch')
   
   num_addresses <- nrow(address_pack$unique)
-  if (verbose == TRUE) message(paste0('Number of Unique Addresses Passed to the Census Batch Geocoder: ', num_addresses))
+  #if (verbose == TRUE) message(paste0('Number of Unique Addresses Passed to the Census Batch Geocoder: ', num_addresses))
   
   # create input dataframe
   input_df <- tibble::tibble(
@@ -77,9 +81,10 @@ batch_census <- function(address_pack,
 }
 
 # Batch geocoding with geocodio
+# ... are arguments passed from the geo() function
 # @export
 batch_geocodio <- function(address_pack, lat = 'lat', long = 'long', timeout = 20, full_results = FALSE, verbose = FALSE,
-                           api_url = NULL, geocodio_v = 1.6, ...) {
+   api_url = NULL, geocodio_v = 1.6, limit = 1, ...) {
   # https://www.geocod.io/docs/#batch-geocoding
   
   # limit the dataframe to legitimate arguments
@@ -100,7 +105,7 @@ batch_geocodio <- function(address_pack, lat = 'lat', long = 'long', timeout = 2
   
   if (is.null(api_url)) api_url <- get_geocodio_url(geocodio_v)
   # Construct query
-  query_parameters <- get_api_query('geocodio', list(limit = 1, api_key = get_key('geocodio')))
+  query_parameters <- get_api_query('geocodio', list(limit = limit, api_key = get_key('geocodio')))
   if (verbose == TRUE) display_query(api_url, query_parameters)
   
   # Query API

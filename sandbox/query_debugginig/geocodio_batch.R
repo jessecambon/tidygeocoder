@@ -18,11 +18,11 @@ desired_format <- '{
 
 r_format <- jsonlite::fromJSON(desired_format)
 
-
 geocodio_api_key <- Sys.getenv("GEOCODIO_API_KEY")
 
 library(httr)
 library(jsonlite)
+library(tibble)
 url_base <- "https://api.geocod.io/v1.6/geocode"
 
 ### single line addresses
