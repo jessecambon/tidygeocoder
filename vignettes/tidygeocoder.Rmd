@@ -34,22 +34,22 @@ address_components <- tribble(
 )
 ```
 
-The `geocode()` function takes a dataframe input with address data. Use the `address` argument for single line addresses:
+The `geocode()` function takes a dataframe input with address data. Use the `address` argument for single line addresses. Note that because multiple addresses are passed, the batch geocoding functionality of the Census geocoder service is used. Additionally, `verbose = TRUE` displays logs to the console.
 
 ```{r}
-address_single %>% geocode(address = singlelineaddress, method = 'census')
+address_single %>% geocode(address = singlelineaddress, method = 'census', verbose = TRUE)
 ```
 
-Alternatively you can run the same query with the `geo()` function by passing the address values from the dataframe directly. Additionally, `verbose = TRUE` displays logs to the console.
+Alternatively you can run the same query with the `geo()` function by passing the address values from the dataframe directly.
 
 ```{r}
-geo(address = address_single$singlelineaddress, method = 'census', verbose = TRUE)
+geo(address = address_single$singlelineaddress, method = 'osm')
 ```
 
 Instead of single line addresses, you can use any combination of the following arguments to specify your addresses: `street`, `city`, `state`, `county`, `postalcode`, and `country`. Note that not all of these parameters are required and geocoder services don't necessarily support all of these inputs, refer to `api_parameter_reference` and the API documentation of the geocoder services for details. For example, the Census geocoder is only for the United States and has no reason to support a `country` input. 
 
 ```{r}
-address_components %>% geocode(street = str, city = cty, state = st, method = 'census',  verbose = TRUE)
+address_components %>% geocode(street = str, city = cty, state = st, method = 'census')
 ```
 
 The `cascade` method by default first tries to use one geocoder service and then retries addresses that were not found using a second geocoder service. By default it first uses the Census Geocoder and then OSM, but you can specify any two methods you want (in order) with `cascade_order` argument.
@@ -74,15 +74,24 @@ glimpse(census_full1)
 As mentioned earlier, the `geocode()` function passes addresses in dataframes to the `geo()` function for geocoding so we can also directly use `geo()` function in a similar way:
 
 ```{r}
-salz <- geo('Salzburg, Austria', method = 'osm', full_results = T)
+salz <- geo('Salzburg, Austria', method = 'osm', full_results = TRUE)
 glimpse(salz)
 ```
 
 ## Advanced Usage
 
-Here are some advanced usage notes for the `geocode()` and `geo()` functions.
+The `limit` argument can be specified to return multiple matches per address if available:
+
+```{r}
+geo(c('Lima, Peru', 'Cairo, Egypt'), method = 'osm', limit = 3, full_results = TRUE)
+```
+
+
+
+Here are some additional usage notes for the `geocode()` and `geo()` functions:
 
 * To specify a custom Geocoder API URL, use the `api_url` argument. Also, the `iq_region` and `geocodio_v` arguments are helper functions for customizing the API URL. 
 * By default batch geocoding will be used if available when more than one address is passed, otherwise single address geocoding will be used. To ovveride this default, use the `mode` argument.
 * API parameters can be passed directly using the `custom_query` parameter.
-* Refer to the `api_parameter_reference` dataset and the `get_api_query` function for more details on how geocoding queries are constructed. 
+* The `min_time` argument defaults to 1 second for Nominatim (OSM) and Location IQ to abide by usage limits. If you are using a local Nominatim server or have commercial Location IQ plan that has less restrictive usage limits, you can manually set `min_time` to 0 or a lower value. 
+* Refer to the `api_parameter_reference` dataset and the `get_api_query()` and `query_api()` functions for more details on how geocoding queries are constructed.

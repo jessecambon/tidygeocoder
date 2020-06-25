@@ -17,13 +17,16 @@ Tidygeocoder makes getting data from geocoding services easy. The
 currently supported services are the [US
 Census](https://geocoding.geo.census.gov/), [Nominatim
 (OSM)](https://nominatim.org), [Geocodio](https://www.geocod.io/), and
-[Location IQ](https://locationiq.com/). You can find an example of
-geocoding landmarks in Washington, DC
+[Location IQ](https://locationiq.com/). In addition to the usage example
+below, you can find a blog post I wrote on geocoding landmarks in
+Washington, DC
 [here](https://jessecambon.github.io/2019/11/11/tidygeocoder-demo.html).
 
-Batch geocoding (passing multiple addresses per query) is supported for
-the US Census and Geocodio services. Only unique addresses are passed to
-geocoder services to reduce query sizes.
+Batch geocoding (passing multiple addresses per query) is used by
+default for the US Census and Geocodio services when multiple addresses
+are passed as input. The OSM and Location IQ services don’t support
+batch geocoding. Also only unique addresses are passed to geocoder
+services to reduce query sizes.
 
 ## Installation
 
@@ -84,7 +87,38 @@ ggplot(lat_longs, aes(longitude, latitude), color="grey99") +
 
 <img src="man/figures/README-unnamed-chunk-6-1.png" style="display: block; margin: auto;" />
 
-For further details, refer to the [Getting Started
+Additionally, to return the full results from the geocoder service (not
+just latitude and longitude) you can use `full_results = TRUE`.
+Additionally, for the Census geocoder you can use `return_type =
+'geographies'` to return geography columns (state, county, Census tract,
+and Census block).
+
+``` r
+full <- sample_addresses %>% 
+  filter(name %in% c('White House', 'Transamerica Pyramid', 'Willis Tower')) %>%
+  geocode(addr, full_results = TRUE, return_type = 'geographies')
+
+glimpse(full)
+#> Rows: 3
+#> Columns: 15
+#> $ name            <chr> "White House", "Transamerica Pyramid", "Willis Tower"
+#> $ addr            <chr> "1600 Pennsylvania Ave Washington, DC", "600 Montgome…
+#> $ lat             <dbl> 38.89875, 37.79470, 41.87851
+#> $ long            <dbl> -77.03535, -122.40314, -87.63666
+#> $ id              <int> 1, 2, 3
+#> $ input_address   <chr> "1600 Pennsylvania Ave Washington, DC, , , ", "600 Mo…
+#> $ match_indicator <chr> "Match", "Match", "Match"
+#> $ match_type      <chr> "Non_Exact", "Exact", "Exact"
+#> $ matched_address <chr> "1600 PENNSYLVANIA AVE NW, WASHINGTON, DC, 20006", "6…
+#> $ tiger_line_id   <int> 76225813, 192281262, 112050003
+#> $ tiger_side      <chr> "L", "R", "L"
+#> $ state_fips      <int> 11, 6, 17
+#> $ county_fips     <int> 1, 75, 31
+#> $ census_tract    <int> 6202, 61100, 839100
+#> $ census_block    <int> 1031, 1013, 2006
+```
+
+For further documentation, refer to the [Getting Started
 Vignette](https://jessecambon.github.io/tidygeocoder/articles/tidygeocoder.html)
 and the [function
 documentation](https://jessecambon.github.io/tidygeocoder/reference/index.html).

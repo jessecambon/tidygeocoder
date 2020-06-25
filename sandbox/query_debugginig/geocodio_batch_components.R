@@ -18,11 +18,11 @@ desired_format <- '{
 
 r_format <- jsonlite::fromJSON(desired_format)
 
-
 geocodio_api_key <- Sys.getenv("GEOCODIO_API_KEY")
 
 library(httr)
 library(jsonlite)
+library(tibble)
 url_base <- "https://api.geocod.io/v1.6/geocode"
 
 ### single line addresses
@@ -32,11 +32,10 @@ url_base <- "https://api.geocod.io/v1.6/geocode"
 # '1 Rue des Carrières, Québec, QC G1R 4P5, Canada' )
 
 ### component addresses
-addr_pack <- tibble(street = c('11 Wall St', '1600 Pennsylvania Ave NW', '290 Bremner Blvd')
-            #  city = c('New York', 'Washington', 'Toronto'), 
-            #  state = c('New York', 'DC', 'Ontario'),
-            #  country = c('United States', 'United States', 'Canada')
-            )
+addr_pack <- tibble(street = c('11 Wall St', '1600 Pennsylvania Ave NW', '290 Bremner Blvd'),
+              city = c('New York', 'Washington', 'Toronto'), 
+              state = c('New York', 'DC', 'Ontario'),
+              country = c('United States', 'United States', 'Canada'))
 
 ## convert from tibble to list of lists
 ## each row is converted to a list and put into a named list

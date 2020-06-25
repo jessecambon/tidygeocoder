@@ -2,8 +2,7 @@
 % Please edit documentation in R/geo.R
 \name{geo}
 \alias{geo}
-\title{Geocode addresses that are passed as character values or
-character vectors}
+\title{Geocode addresses}
 \usage{
 geo(
   address = NULL,
@@ -58,10 +57,11 @@ each geocoder service for more details on usage on each service.
 \itemize{
   \item "census": US Census Geocoder. US street-level addresses only. 
      Can perform batch geocoding.
-  \item "osm": Nominatim (OSM). Worldwide coverage.
-  \item "iq": Commercial OSM geocoder service.
+  \item "osm": Nominatim (OSM). Worldwide coverage. Has a usage limit
+       (see API documentation for details).
+  \item "iq": Commercial OSM geocoder service. Requires an API Key.
   \item "geocodio": Commercial geocoder. Covers US and Canada and has
-     batch geocoding capabilities.
+     batch geocoding capabilities. Requires an API Key.
   \item "cascade" : Tries one geocoder service first and then tries
     another geocoder service if the first service didn't return results
     per the cascade_order argument. Note that this cannot be used with
@@ -73,12 +73,14 @@ each geocoder service for more details on usage on each service.
 
 \item{long}{longitude column name}
 
-\item{limit}{number of results to return per address}
+\item{limit}{number of results to return per address. Note that 
+limit > 1 is not compatible with batch geocoding if return_addresses = TRUE.}
 
-\item{min_time}{minimum amount of time for a query to take in seconds.
-This parameter is used to abide by API usage limits. Not used in batch geocoding}
+\item{min_time}{minimum amount of time for a query to take (in seconds) if using
+Location IQ or OSM. This parameter is used to abide by API usage limits. You can
+set it to a lower value (or 0) if using a local Nominatim server, for instance.}
 
-\item{api_url}{Custom API URL. If specified, the default API URL will be overriden.
+\item{api_url}{Custom API URL. If specified, the default API URL will be overridden.
 This can be used to specify a local Nominatim server.}
 
 \item{timeout}{query timeout (in minutes)}
@@ -120,8 +122,12 @@ for the 'geocodio' method.}
 parsed results from the geocoder service
 }
 \description{
-Geocode addresses that are passed as character values or
-character vectors
+The \code{\link{geocode}} function utilizes this function
+on addresses contained in dataframes. Refer to \code{\link{api_parameter_reference}}
+for more details on geocoder services and API usage. This 
+function uses the \code{\link{get_api_query}}, \code{\link{query_api}}, and
+\code{\link{extract_results}} functions to create, execute, and parse the geocoder
+API queries.
 }
 \examples{
 \donttest{

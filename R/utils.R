@@ -55,6 +55,8 @@ pause_until <- function(start_time,min_time,debug=FALSE) {
 #' the first two columns of the returned dataframe
 #' @param method method name
 #' @param response  content from the geocoder service (returned by the )
+#' @param full_results if TRUE then the full results (not just latitude and longitude)
+#'   will be returned.
 #' @param flatten if TRUE then flatten any nested dataframe content
 #' @export 
 extract_results <- function(method, response, full_results = TRUE, flatten = TRUE) {
@@ -119,7 +121,7 @@ get_na_value <- function(lat, long, rows = 1) {
 # For a list of dataframes, creates an NA df with 1 row with the column name supplied
 # this is used in parsing the response of the geocodio batch geocoder
 filler_df <- function(x, column_names) {
-  if (nrow(x) == 0) {
+  if (length(x) == 0) {
     filler_df <- data.frame(row.names = 1)
 
     for (col_name in column_names) {

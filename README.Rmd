@@ -26,9 +26,9 @@ options(tibble.print_min = 5, tibble.print_max = 5)
 
 ## Introduction
 
-Tidygeocoder makes getting data from geocoding services easy. The currently supported services are the [US Census](https://geocoding.geo.census.gov/), [Nominatim (OSM)](https://nominatim.org), [Geocodio](https://www.geocod.io/), and [Location IQ](https://locationiq.com/). You can find an example of geocoding landmarks in Washington, DC [here](https://jessecambon.github.io/2019/11/11/tidygeocoder-demo.html). 
+Tidygeocoder makes getting data from geocoding services easy. The currently supported services are the [US Census](https://geocoding.geo.census.gov/), [Nominatim (OSM)](https://nominatim.org), [Geocodio](https://www.geocod.io/), and [Location IQ](https://locationiq.com/). In addition to the usage example below, you can find a blog post I wrote on geocoding landmarks in Washington, DC [here](https://jessecambon.github.io/2019/11/11/tidygeocoder-demo.html).
 
-Batch geocoding (passing multiple addresses per query) is supported for the US Census and Geocodio services. Only unique addresses are passed to geocoder services to reduce query sizes.
+Batch geocoding (passing multiple addresses per query) is used by default for the US Census and Geocodio services when multiple addresses are passed as input. The OSM and Location IQ services don't support batch geocoding. Also only unique addresses are passed to geocoder services to reduce query sizes.
 
 ## Installation
 
@@ -79,4 +79,14 @@ ggplot(lat_longs, aes(longitude, latitude), color="grey99") +
   theme_void()
 ```
 
-For further details, refer to the [Getting Started Vignette](https://jessecambon.github.io/tidygeocoder/articles/tidygeocoder.html) and the [function documentation](https://jessecambon.github.io/tidygeocoder/reference/index.html).
+Additionally, to return the full results from the geocoder service (not just latitude and longitude) you can use `full_results = TRUE`. Additionally, for the Census geocoder you can use `return_type = 'geographies'` to return geography columns (state, county, Census tract, and Census block).
+
+```{r}
+full <- sample_addresses %>% 
+  filter(name %in% c('White House', 'Transamerica Pyramid', 'Willis Tower')) %>%
+  geocode(addr, full_results = TRUE, return_type = 'geographies')
+
+glimpse(full)
+```
+
+For further documentation, refer to the [Getting Started Vignette](https://jessecambon.github.io/tidygeocoder/articles/tidygeocoder.html) and the [function documentation](https://jessecambon.github.io/tidygeocoder/reference/index.html).

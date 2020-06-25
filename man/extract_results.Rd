@@ -13,6 +13,9 @@ extract_results(method, response, full_results = TRUE, flatten = TRUE)
 
 \item{response}{content from the geocoder service (returned by the )}
 
+\item{full_results}{if TRUE then the full results (not just latitude and longitude)
+will be returned.}
+
 \item{flatten}{if TRUE then flatten any nested dataframe content}
 }
 \description{

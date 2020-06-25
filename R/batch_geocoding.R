@@ -56,7 +56,6 @@ batch_census <- function(address_pack,
                              col.names = return_cols,
                              fill = TRUE, stringsAsFactors = FALSE,
                              na.strings = '')
-  
   #print('results:')
   #print(results)
 
@@ -124,16 +123,25 @@ batch_geocodio <- function(address_pack, lat = 'lat', long = 'long', timeout = 2
     result_list <- lapply(content$results, function(x) x$response$results)
   }
   
-  # if no results are returned then there is a 0 row dataframe in this
-  # we need to replace this with a 1 row NA dataframe to preserve the number of rows
+  # print('result_list:')
+  # print(result_list)
+  
+  # if no results are returned for a given address then there is a 0 row dataframe in this
+  # list and we need to replace it with a 1 row NA dataframe to preserve the number of rows
   result_list_filled <- lapply(result_list, filler_df, c('location.lat','location.long'))
   
   # combine list of dataframes into a single tibble. Column names may differ between the dataframes
   results <- dplyr::bind_rows(result_list_filled)
   
+  # print('results before: ')
+  # print(results)
+  
   # rename lat/long columns
   names(results)[names(results) == 'location.lat'] <- lat
-  names(results)[names(results) == 'location.lng'] <- long
+  names(results)[names(results) == 'location.long'] <- long
+  
+  # print('results:')
+  # print(results)
   
   if (full_results == FALSE)  return(results[c(lat,long)])
   else return(cbind(results[c(lat,long)], results[!names(results) %in% c(lat,long)]))

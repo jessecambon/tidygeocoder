@@ -31,23 +31,7 @@ url_base <- "https://api.geocod.io/v1.6/geocode"
 # Montgomery St, San Francisco, CA 94111", "233 S Wacker Dr, Chicago, IL 60606",
 # '1 Rue des Carrières, Québec, QC G1R 4P5, Canada' )
 
-### component addresses
-addr_pack <- tibble(street = c('11 Wall St', '1600 Pennsylvania Ave NW', '290 Bremner Blvd'),
-              city = c('New York', 'Washington', 'Toronto'), 
-              state = c('New York', 'DC', 'Ontario'),
-              country = c('United States', 'United States', 'Canada'))
-
-## convert from tibble to list of lists
-## each row is converted to a list and put into a named list
-addresses <- list()
-for (index in 1:nrow(addr_pack)) {
-  addresses[[index]] <- as.list(addr_pack[index,])
-}
-names(addresses) <- 1:nrow(addr_pack)
-
-# jsonlite::toJSON(addresses, pretty = TRUE)
-
-#addresses <- sample_addresses$addr
+addresses <- c('Tokyo', 'Tokyo1')
 
 # limit=1 limits the query to one result
 res <- httr::POST(url_base,

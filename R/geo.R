@@ -1,5 +1,11 @@
-#' Geocode addresses that are passed as character values or
-#' character vectors
+#' Geocode addresses
+#' 
+#' The \code{\link{geocode}} function utilizes this function
+#' on addresses contained in dataframes. Refer to \code{\link{api_parameter_reference}}
+#' for more details on geocoder services and API usage. This 
+#' function uses the \code{\link{get_api_query}}, \code{\link{query_api}}, and
+#' \code{\link{extract_results}} functions to create, execute, and parse the geocoder
+#' API queries.
 #' 
 #' @param address single line address (ie. '1600 Pennsylvania Ave NW, Washington, DC').
 #'    Do not combine with the address component arguments below
@@ -17,10 +23,11 @@
 #' \itemize{
 #'   \item "census": US Census Geocoder. US street-level addresses only. 
 #'      Can perform batch geocoding.
-#'   \item "osm": Nominatim (OSM). Worldwide coverage.
-#'   \item "iq": Commercial OSM geocoder service.
+#'   \item "osm": Nominatim (OSM). Worldwide coverage. Has a usage limit
+#'        (see API documentation for details).
+#'   \item "iq": Commercial OSM geocoder service. Requires an API Key.
 #'   \item "geocodio": Commercial geocoder. Covers US and Canada and has
-#'      batch geocoding capabilities.
+#'      batch geocoding capabilities. Requires an API Key.
 #'   \item "cascade" : Tries one geocoder service first and then tries
 #'     another geocoder service if the first service didn't return results
 #'     per the cascade_order argument. Note that this cannot be used with
@@ -31,8 +38,9 @@
 #' @param long longitude column name
 #' @param limit number of results to return per address. Note that 
 #'    limit > 1 is not compatible with batch geocoding if return_addresses = TRUE.
-#' @param min_time minimum amount of time for a query to take in seconds.
-#'  This parameter is used to abide by API usage limits. Not used in batch geocoding
+#' @param min_time minimum amount of time for a query to take (in seconds) if using
+#'    Location IQ or OSM. This parameter is used to abide by API usage limits. You can
+#'    set it to a lower value (or 0) if using a local Nominatim server, for instance.
 #' @param api_url Custom API URL. If specified, the default API URL will be overridden.
 #'    This can be used to specify a local Nominatim server.
 #' @param timeout query timeout (in minutes)
@@ -146,7 +154,7 @@ geo <- function(address = NULL,
           USE.NAMES = FALSE, SIMPLIFY = FALSE)
       )
       # remove NULL and 0 length items  <--- Possibly uneccessary now?
-      single_addr_args <- single_addr_args[sapply(single_addr_args, length, USE.NAMES = FALSE) != 0]  
+      #single_addr_args <- single_addr_args[sapply(single_addr_args, length, USE.NAMES = FALSE) != 0]  
       
       # Geocode each address individually by recalling this function with mapply
       list_coords <- do.call(mapply, single_addr_args)
@@ -162,11 +170,11 @@ geo <- function(address = NULL,
     
     if (limit != 1 & return_addresses == TRUE) {
     stop('For batch geocoding (more than one address per query) the limit argument must 
-       be 1 (default) OR the return_addresses argument must be FALSE. Possible solutions:
-       1) Set the mode argument to "single" to force single (not batch) geocoding 
-       2) Set limit argument to 1 (ie. 1 result is returned per address)
-       3) Set return_addresses to FALSE
-         See the geo() function documentation for details.')
+    be 1 (default) OR the return_addresses argument must be FALSE. Possible solutions:
+    1) Set the mode argument to "single" to force single (not batch) geocoding 
+    2) Set limit argument to 1 (ie. 1 result is returned per address)
+    3) Set return_addresses to FALSE
+    See the geo() function documentation for details.')
     }
   
     #### Enforce batch limit
