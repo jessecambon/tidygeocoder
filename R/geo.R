@@ -234,23 +234,14 @@ geo <- function(address = NULL,
   ### Extract lat/long as an unnamed numeric vector c(lat,long)
   coords <- extract_coords(method, raw_results)
   
-  if (length(coords) == 0) {
-    if (verbose == TRUE) message("No results found")
-    return(unpackage_addresses(address_pack, NA_value, unique_only, return_addresses))
-  }
-  
-  # Convert numeric vector to tibble
-  names(coords) <- c(lat, long)
-  coords_tibble <- tibble::as_tibble_row(coords)
-  
   ### Make sure the proper amount of time has elapsed for the query per min_time
   pause_until(start_time, min_time, debug = verbose) 
   
   if (full_results == TRUE) {
     # extract result details (doesn't include coordinates)
     result_details <- extract_results(method, raw_results, flatten)
-    complete_results <- tibble::as_tibble(dplyr::bind_cols(coords_tibble, result_details))
+    complete_results <- tibble::as_tibble(dplyr::bind_cols(coords, result_details))
     
     return(unpackage_addresses(address_pack, complete_results, unique_only, return_addresses))
-  } else return(unpackage_addresses(address_pack, coords_tibble, unique_only, return_addresses))
+  } else return(unpackage_addresses(address_pack, coords, unique_only, return_addresses))
 }

@@ -35,13 +35,19 @@ pause_until <- function(start_time,min_time,debug=FALSE) {
 # geocoding
 extract_coords <- function(method, response) {
   lat_lng <- switch(method,
-  'census' = unlist(response$result$addressMatches$coordinates[1,][c('y','x')], 
-                use.names = FALSE),
-  'osm' = as.numeric(c(response$lat, response$lon)),
-  'iq' = as.numeric(c(response$lat, response$lon)),
-  'geocodio' = c(response$results$location$lat, response$results$location$lng)
+  'census' = response$result$addressMatches$coordinates[c('y','x')],
+  'osm' = response[c('lat', 'lon')],
+  'iq' = response[c('lat', 'lon')],
+  'geocodio' = response$results$location[c('lat', 'lng')]
   )
-  return(lat_lng)
+  
+  if (length(lat_lng) == 0) lat_lng <- tibble::tibble(lat = NA, long = NA)
+  
+  names(lat_lng) <- c('lat','long')
+  lat_lng$lat <- as.numeric(lat_lng$lat)
+  lat_lng$long <- as.numeric(lat_lng$long)
+  
+  return(tibble::as_tibble(lat_lng))
 }
 
 ## Extract geocoder results (exclude lat/long coordinates). Not used for batch
@@ -52,11 +58,16 @@ extract_coords <- function(method, response) {
 # flatten: if TRUE then flatten any nested dataframe content
 extract_results <- function(method, response, flatten = TRUE) {
   results <- switch(method,
-  'census' = response$result$addressMatches[!names(response$result$addressMatches) %in% c('coordinates')][1,],
+  'census' = response$result$addressMatches[!names(response$result$addressMatches) %in% c('coordinates')],
   'osm' = response[!names(response) %in% c('lat', 'lon')],
   'iq' =  response[!names(response) %in% c('lat', 'lon')],
   'geocodio' = response$results[!names(response$results) %in% c('location')]
   )
+  
+  if (length(results == 0) | is.data.frame(results) == FALSE) {
+    if ('error' %in% colnames(results)) message(results$error)
+    return(tibble::tibble(.rows = 1))
+  }
   
   if (flatten == TRUE) return(jsonlite::flatten(results))
   else return(results)
