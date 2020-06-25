@@ -79,7 +79,7 @@ ggplot(lat_longs, aes(longitude, latitude), color="grey99") +
   theme_void()
 ```
 
-Additionally, to return the full results from the geocoder service (not just latitude and longitude) you can use `full_results = TRUE`. Additionally, for the Census geocoder you can use `return_type = 'geographies'` to return geography columns (state, county, Census tract, and Census block).
+To return the full results from a geocoder service (not just latitude and longitude) you can use `full_results = TRUE`. Additionally, for the Census geocoder you can use `return_type = 'geographies'` to return geography columns (state, county, Census tract, and Census block).
 
 ```{r}
 full <- sample_addresses %>% 
