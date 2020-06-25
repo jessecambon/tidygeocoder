@@ -78,7 +78,7 @@
 <div id="introduction" class="section level2">
 <h2 class="hasAnchor">
 <a href="#introduction" class="anchor"></a>Introduction</h2>
-<p>Tidygeocoder makes getting data from geocoding services easy. The currently supported services are the <a href="https://geocoding.geo.census.gov/">US Census</a>, <a href="https://nominatim.org">Nominatim (OSM)</a>, <a href="https://www.geocod.io/">Geocodio</a>, and <a href="https://locationiq.com/">Location IQ</a>. You can find a demo I wrote up on using this package to plot landmarks in Washington, DC <a href="https://jessecambon.github.io/2019/11/11/tidygeocoder-demo.html">here</a>.</p>
+<p>Tidygeocoder makes getting data from geocoding services easy. The currently supported services are the <a href="https://geocoding.geo.census.gov/">US Census</a>, <a href="https://nominatim.org">Nominatim (OSM)</a>, <a href="https://www.geocod.io/">Geocodio</a>, and <a href="https://locationiq.com/">Location IQ</a>. You can find an example of geocoding landmarks in Washington, DC <a href="https://jessecambon.github.io/2019/11/11/tidygeocoder-demo.html">here</a>.</p>
 <p>Batch geocoding (passing multiple addresses per query) is supported for the US Census and Geocodio services. Only unique addresses are passed to geocoder services to reduce query sizes.</p>
 </div>
 <div id="installation" class="section level2">
@@ -93,14 +93,14 @@
 <div id="usage" class="section level2">
 <h2 class="hasAnchor">
 <a href="#usage" class="anchor"></a>Usage</h2>
-<p>In this example we will geocode a few addresses in the <code>sample_addresses</code> dataset using the <code><a href="reference/geocode.html">geocode()</a></code> function and plot them on a map with ggplot. Note that the <code><a href="reference/geocode.html">geocode()</a></code> function extracts addresses from the dataframe it is passed and sends them to the <code><a href="reference/geo.html">geo()</a></code> function for geocoding. All extra arguments (<code>...</code>) given to the <code><a href="reference/geocode.html">geocode()</a></code> function are passed to <code><a href="reference/geo.html">geo()</a></code> so you can refer to the <code><a href="reference/geo.html">geo()</a></code> function documentation for a full list of possible arguments that you can use for the <code><a href="reference/geocode.html">geocode()</a></code> function.</p>
+<p>In this example we will geocode a few addresses in the <code>sample_addresses</code> dataset using the <code><a href="reference/geocode.html">geocode()</a></code> function and plot them on a map with ggplot.</p>
 <div class="sourceCode" id="cb3"><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">dplyr</span>)
 <span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">tidygeocoder</span>)
 
 <span class="no">lat_longs</span> <span class="kw">&lt;-</span> <span class="no">sample_addresses</span> <span class="kw">%&gt;%</span>
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span>(<span class="no">name</span> <span class="kw">%in%</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">'White House'</span>, <span class="st">'Transamerica Pyramid'</span>, <span class="st">'Willis Tower'</span>)) <span class="kw">%&gt;%</span>
   <span class="fu"><a href="reference/geocode.html">geocode</a></span>(<span class="no">addr</span>, <span class="kw">lat</span> <span class="kw">=</span> <span class="no">latitude</span> , <span class="kw">long</span> <span class="kw">=</span> <span class="no">longitude</span>)</pre></div>
-<p>The <code><a href="reference/geocode.html">geocode()</a></code> function attaches latitude and longitude columns to our input dataset of addresses. Note that this code uses the US Census geocoder since the <code>method</code> argument is not specified. To use other geocoder services, you can specify them with the <code>method</code> argument. Also, only the latitude and longitude are returned by default, but you can obtain the full results returned by the geocoder service by using <code>full_results = TRUE</code>. See the <code><a href="reference/geo.html">geo()</a></code> documentation for details.</p>
+<p>The <code><a href="reference/geocode.html">geocode()</a></code> function attaches latitude and longitude columns to our input dataset of addresses. Note that this code uses the US Census geocoder since the <code>method</code> argument is not specified. To use other geocoder services, you can specify them with the <code>method</code> argument. See the <code><a href="reference/geo.html">geo()</a></code> function documentation for details.</p>
 <table class="table">
 <colgroup>
 <col width="24%">
@@ -135,7 +135,7 @@
 </tr>
 </tbody>
 </table>
-<p>We can then plot our addresses on a map using the longitude and latitude.</p>
+<p>We can then plot our addresses on a map using the longitude and latitude coordinates.</p>
 <div class="sourceCode" id="cb4"><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">ggplot2</span>)
 <span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">maps</span>)
 <span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">ggrepel</span>)

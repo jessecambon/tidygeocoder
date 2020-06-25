@@ -77,3 +77,12 @@ As mentioned earlier, the `geocode()` function passes addresses in dataframes to
 salz <- geo('Salzburg, Austria', method = 'osm', full_results = T)
 glimpse(salz)
 ```
+
+## Advanced Usage
+
+Here are some advanced usage notes for the `geocode()` and `geo()` functions.
+
+* To specify a custom Geocoder API URL, use the `api_url` argument. Also, the `iq_region` and `geocodio_v` arguments are helper functions for customizing the API URL. 
+* By default batch geocoding will be used if available when more than one address is passed, otherwise single address geocoding will be used. To ovveride this default, use the `mode` argument.
+* API parameters can be passed directly using the `custom_query` parameter.
+* Refer to the `api_parameter_reference` dataset and the `get_api_query` functions for more details on how geocoding queries are constructed. 

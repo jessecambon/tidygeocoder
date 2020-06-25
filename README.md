@@ -17,8 +17,8 @@ Tidygeocoder makes getting data from geocoding services easy. The
 currently supported services are the [US
 Census](https://geocoding.geo.census.gov/), [Nominatim
 (OSM)](https://nominatim.org), [Geocodio](https://www.geocod.io/), and
-[Location IQ](https://locationiq.com/). You can find a demo I wrote up
-on using this package to plot landmarks in Washington, DC
+[Location IQ](https://locationiq.com/). You can find an example of
+geocoding landmarks in Washington, DC
 [here](https://jessecambon.github.io/2019/11/11/tidygeocoder-demo.html).
 
 Batch geocoding (passing multiple addresses per query) is supported for
@@ -45,12 +45,7 @@ devtools::install_github("jessecambon/tidygeocoder")
 
 In this example we will geocode a few addresses in the
 `sample_addresses` dataset using the `geocode()` function and plot them
-on a map with ggplot. Note that the `geocode()` function extracts
-addresses from the dataframe it is passed and sends them to the `geo()`
-function for geocoding. All extra arguments (`...`) given to the
-`geocode()` function are passed to `geo()` so you can refer to the
-`geo()` function documentation for a full list of possible arguments
-that you can use for the `geocode()` function.
+on a map with ggplot.
 
 ``` r
 library(dplyr)
@@ -64,10 +59,8 @@ lat_longs <- sample_addresses %>%
 The `geocode()` function attaches latitude and longitude columns to our
 input dataset of addresses. Note that this code uses the US Census
 geocoder since the `method` argument is not specified. To use other
-geocoder services, you can specify them with the `method` argument.
-Also, only the latitude and longitude are returned by default, but you
-can obtain the full results returned by the geocoder service by using
-`full_results = TRUE`. See the `geo()` documentation for details.
+geocoder services, you can specify them with the `method` argument. See
+the `geo()` function documentation for details.
 
 | name                 | addr                                       | latitude |   longitude |
 | :------------------- | :----------------------------------------- | -------: | ----------: |
@@ -75,8 +68,8 @@ can obtain the full results returned by the geocoder service by using
 | Transamerica Pyramid | 600 Montgomery St, San Francisco, CA 94111 | 37.79470 | \-122.40314 |
 | Willis Tower         | 233 S Wacker Dr, Chicago, IL 60606         | 41.87851 |  \-87.63666 |
 
-We can then plot our addresses on a map using the longitude and
-latitude.
+We can then plot our addresses on a map using the longitude and latitude
+coordinates.
 
 ``` r
 library(ggplot2)
