@@ -29,10 +29,11 @@
 #' }
 #' @param lat latitude column name
 #' @param long longitude column name
-#' @param limit number of results to return per address
+#' @param limit number of results to return per address. Note that 
+#'    limit > 1 is not compatible with batch geocoding if return_addresses = TRUE.
 #' @param min_time minimum amount of time for a query to take in seconds.
 #'  This parameter is used to abide by API usage limits. Not used in batch geocoding
-#' @param api_url Custom API URL. If specified, the default API URL will be overriden.
+#' @param api_url Custom API URL. If specified, the default API URL will be overridden.
 #'    This can be used to specify a local Nominatim server.
 #' @param timeout query timeout (in minutes)
 #' 
@@ -246,8 +247,10 @@ geo <- function(address = NULL,
   
   # If no results found, return NA
   # otherwise extract results
-  if (length(raw_results) == 0) {
+  if (length(raw_results) == 0 | (!is.data.frame(raw_results))) {
     if (verbose == TRUE) message("No results found")
+    # output error message for geocodio if present
+    if ('error' %in% names(raw_results)) message(paste0('Error: ', raw_results$error))
     results <- NA_value
   } else {
     ### Extract results. Use the full_results and flatten parameters
