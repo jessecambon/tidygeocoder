@@ -11,9 +11,11 @@ library(jsonlite)
 # limit =1 limits query to one result
 
 soup <- httr::GET(url = url_base, 
-                  query = list(q = addr, format = 'json',limit = '1', addressdetails = '1'))
+                  query = list(q = addr, format = 'json',limit = 5, addressdetails = '1'))
 
-dat <- jsonlite::fromJSON(httr::content(soup, as = 'text', encoding = "UTF-8"))
+raw_results <- jsonlite::fromJSON(httr::content(soup, as = 'text', encoding = "UTF-8"))
 
-# Get lat/long coordinates
-coords <- as.numeric( c(dat$lat, dat$lon) )
+
+#coords <- raw_results[c('lat', 'lon')]
+
+results <- extract_results('osm', raw_results)
