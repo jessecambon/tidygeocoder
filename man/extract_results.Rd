@@ -2,9 +2,7 @@
 % Please edit documentation in R/utils.R
 \name{extract_results}
 \alias{extract_results}
-\title{Extract geocoder results 
-Not used for batch geocoding. Latitude and longitude and extracted into
-the first two columns of the returned dataframe}
+\title{Extract geocoder results}
 \usage{
 extract_results(method, response, full_results = TRUE, flatten = TRUE)
 }
@@ -18,8 +16,12 @@ will be returned.}
 
 \item{flatten}{if TRUE then flatten any nested dataframe content}
 }
+\value{
+geocoder results in tibble format
+}
 \description{
-Extract geocoder results 
-Not used for batch geocoding. Latitude and longitude and extracted into
-the first two columns of the returned dataframe
+Parses the output of the \code{\link{query_api}} function.
+Latitude and longitude are extracted into the first two columns
+of the returned dataframe. This function is not used for batch 
+geocoded results.
 }

@@ -15,18 +15,16 @@ MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/je
 
 Tidygeocoder makes getting data from geocoding services easy. The
 currently supported services are the [US
-Census](https://geocoding.geo.census.gov/), [Nominatim
+Census](https://geocoding.geo.census.gov/) geocoder, [Nominatim
 (OSM)](https://nominatim.org), [Geocodio](https://www.geocod.io/), and
-[Location IQ](https://locationiq.com/). In addition to the usage example
-below, you can find a blog post I wrote on geocoding landmarks in
-Washington, DC
-[here](https://jessecambon.github.io/2019/11/11/tidygeocoder-demo.html).
+[Location IQ](https://locationiq.com/). Batch geocoding (geocoding
+multiple addresses per query) is used by default for the US Census and
+Geocodio services when given multiple addresses. Also only unique
+addresses are passed to geocoder services.
 
-Batch geocoding (passing multiple addresses per query) is used by
-default for the US Census and Geocodio services when multiple addresses
-are passed as input. The OSM and Location IQ services don’t support
-batch geocoding. Also only unique addresses are passed to geocoder
-services to reduce query sizes.
+In addition to the usage example below, you can find a blog post I wrote
+up on geocoding landmarks in Washington, DC
+[here](https://jessecambon.github.io/2019/11/11/tidygeocoder-demo.html).
 
 ## Installation
 

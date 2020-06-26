@@ -2,7 +2,7 @@
 % Please edit documentation in R/query_factory.R
 \name{query_api}
 \alias{query_api}
-\title{Get raw results from an API}
+\title{Query a Geocoder API}
 \usage{
 query_api(
   api_url,
@@ -19,8 +19,8 @@ query_api(
 
 \item{query_parameters}{api query parameters in the form of a named list}
 
-\item{mode}{"single" : geocode a single address
-"list"   : batch geocode list of addresses (geocodio)
+\item{mode}{"single" : geocode a single address (all methods)
+"list"   : batch geocode a list of addresses (geocodio)
 "file"   : batch geocode a file of addresses (census)}
 
 \item{batch_file}{a csv file of addresses to upload (census)}
@@ -37,5 +37,6 @@ Census uses "ISO-8859-1", all other services use "UTF-8"}
 raw results from the query
 }
 \description{
-Get raw results from an API
+The \code{\link{get_api_query}} function can create queries for this
+function to execute.
 }

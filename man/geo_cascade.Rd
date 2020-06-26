@@ -2,7 +2,8 @@
 % Please edit documentation in R/geo_methods.R
 \name{geo_cascade}
 \alias{geo_cascade}
-\title{First try one method and then try another method}
+\title{Convenience function for calling the \code{\link{geo}} function
+with method = 'cascade'}
 \usage{
 geo_cascade(..., cascade_order = c("census", "osm"))
 }
@@ -13,5 +14,6 @@ geo_cascade(..., cascade_order = c("census", "osm"))
 the order to be attempted}
 }
 \description{
-First try one method and then try another method
+Convenience function for calling the \code{\link{geo}} function
+with method = 'cascade'
 }

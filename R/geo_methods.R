@@ -20,7 +20,8 @@ geo_iq <- function(...) geo(method = 'iq', ...)
 
 
 
-#' First try one method and then try another method 
+#' Convenience function for calling the \code{\link{geo}} function
+#' with method = 'cascade'
 #' 
 #' @param ... arguments passed from and to the \code{\link{geo}} function
 #' @param cascade_order a vector with two character method values showing 

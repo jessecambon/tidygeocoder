@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Construct a Geocoder API Query. — get_api_query • tidygeocoder</title>
+<title>Construct a Geocoder API Query — get_api_query • tidygeocoder</title>
 
 
 <!-- jquery -->
@@ -39,11 +39,13 @@
 
 
 
-<meta property="og:title" content="Construct a Geocoder API Query. — get_api_query" />
-<meta property="og:description" content="Query is created using universal &quot;generic&quot; parameters
+<meta property="og:title" content="Construct a Geocoder API Query — get_api_query" />
+<meta property="og:description" content="The geocoder API query is created using universal &quot;generic&quot; parameters
 and optional api-specific &quot;custom&quot; parameters. Generic parameters
-are converted into api parameters using the api_parameter_reference
-dataset." />
+are converted into api parameters using the  api_parameter_reference 
+dataset.
+The query_api function executes the queries created 
+by this function." />
 
 
 
@@ -114,29 +116,27 @@ dataset." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Construct a Geocoder API Query.</h1>
+    <h1>Construct a Geocoder API Query</h1>
     <small class="dont-index">Source: <a href='https://github.com/jessecambon/tidygeocoder/blob/master/R/query_factory.R'><code>R/query_factory.R</code></a></small>
     <div class="hidden name"><code>get_api_query.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Query is created using universal "generic" parameters
+    <p>The geocoder API query is created using universal "generic" parameters
 and optional api-specific "custom" parameters. Generic parameters
-are converted into api parameters using the api_parameter_reference
+are converted into api parameters using the  <code><a href='api_parameter_reference.html'>api_parameter_reference</a></code> 
 dataset.</p>
+<p>The <code><a href='query_api.html'>query_api</a></code> function executes the queries created 
+by this function.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>get_api_query</span>(
-  <span class='no'>method_name</span>,
-  <span class='kw'>generic_parameters</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(),
-  <span class='kw'>custom_parameters</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>()
-)</pre>
+    <pre class="usage"><span class='fu'>get_api_query</span>(<span class='no'>method</span>, <span class='kw'>generic_parameters</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(), <span class='kw'>custom_parameters</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>())</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>method_name</th>
+      <th>method</th>
       <td><p>method name (ie. 'census')</p></td>
     </tr>
     <tr>
@@ -151,7 +151,7 @@ dataset.</p>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>named list of api-specific parameters</p>
+    <p>named list of parameters</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

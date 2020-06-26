@@ -90,14 +90,16 @@
 <span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">dplyr</span>)
 <span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">tidygeocoder</span>)
 
-<span class="no">address_single</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span>(<span class="kw">singlelineaddress</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">'11 Wall St, NY, NY'</span>, <span class="st">'600 Peachtree Street NE, Atlanta, Georgia'</span>))
+<span class="no">address_single</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span>(<span class="kw">singlelineaddress</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">'11 Wall St, NY, NY'</span>,
+                    <span class="st">'600 Peachtree Street NE, Atlanta, Georgia'</span>))
 <span class="no">address_components</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tribble.html">tribble</a></span>(
   ~<span class="no">str</span>                          , ~<span class="no">cty</span>,             ~<span class="no">st</span>,
   <span class="st">'11 Wall St'</span>,                  <span class="st">'NY'</span>,               <span class="st">'NY'</span>,
   <span class="st">'600 Peachtree Street NE'</span>,     <span class="st">'Atlanta'</span>,          <span class="st">'GA'</span>
 )</pre></body></html></div>
 <p>The <code><a href="../reference/geocode.html">geocode()</a></code> function takes a dataframe input with address data. Use the <code>address</code> argument for single line addresses. Note that because multiple addresses are passed, the batch geocoding functionality of the Census geocoder service is used. Additionally, <code>verbose = TRUE</code> displays logs to the console.</p>
-<div class="sourceCode" id="cb2"><html><body><pre class="r"><span class="no">address_single</span> <span class="kw">%&gt;%</span> <span class="fu"><a href="../reference/geocode.html">geocode</a></span>(<span class="kw">address</span> <span class="kw">=</span> <span class="no">singlelineaddress</span>, <span class="kw">method</span> <span class="kw">=</span> <span class="st">'census'</span>, <span class="kw">verbose</span> <span class="kw">=</span> <span class="fl">TRUE</span>)
+<div class="sourceCode" id="cb2"><html><body><pre class="r"><span class="no">address_single</span> <span class="kw">%&gt;%</span> <span class="fu"><a href="../reference/geocode.html">geocode</a></span>(<span class="kw">address</span> <span class="kw">=</span> <span class="no">singlelineaddress</span>, <span class="kw">method</span> <span class="kw">=</span> <span class="st">'census'</span>,
+                           <span class="kw">verbose</span> <span class="kw">=</span> <span class="fl">TRUE</span>)
 <span class="co">#&gt; Number of Unique Addresses: 2</span>
 <span class="co">#&gt; Calling the census batch geocoder</span>
 <span class="co">#&gt; Querying API URL: https://geocoding.geo.census.gov/geocoder/locations/addressbatch</span>
@@ -119,7 +121,8 @@
 <span class="co">#&gt; 1 11 Wall St, NY, NY                         40.7 -74.0</span>
 <span class="co">#&gt; 2 600 Peachtree Street NE, Atlanta, Georgia  33.8 -84.4</span></pre></body></html></div>
 <p>Instead of single line addresses, you can use any combination of the following arguments to specify your addresses: <code>street</code>, <code>city</code>, <code>state</code>, <code>county</code>, <code>postalcode</code>, and <code>country</code>. Note that not all of these parameters are required and geocoder services don’t necessarily support all of these inputs, refer to <code>api_parameter_reference</code> and the API documentation of the geocoder services for details. For example, the Census geocoder is only for the United States and has no reason to support a <code>country</code> input.</p>
-<div class="sourceCode" id="cb4"><html><body><pre class="r"><span class="no">address_components</span> <span class="kw">%&gt;%</span> <span class="fu"><a href="../reference/geocode.html">geocode</a></span>(<span class="kw">street</span> <span class="kw">=</span> <span class="no">str</span>, <span class="kw">city</span> <span class="kw">=</span> <span class="no">cty</span>, <span class="kw">state</span> <span class="kw">=</span> <span class="no">st</span>, <span class="kw">method</span> <span class="kw">=</span> <span class="st">'census'</span>)
+<div class="sourceCode" id="cb4"><html><body><pre class="r"><span class="no">address_components</span> <span class="kw">%&gt;%</span> <span class="fu"><a href="../reference/geocode.html">geocode</a></span>(<span class="kw">street</span> <span class="kw">=</span> <span class="no">str</span>, <span class="kw">city</span> <span class="kw">=</span> <span class="no">cty</span>, <span class="kw">state</span> <span class="kw">=</span> <span class="no">st</span>,
+                               <span class="kw">method</span> <span class="kw">=</span> <span class="st">'census'</span>)
 <span class="co">#&gt; # A tibble: 2 x 5</span>
 <span class="co">#&gt;   str                     cty     st      lat  long</span>
 <span class="co">#&gt;   &lt;chr&gt;                   &lt;chr&gt;   &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt;</span>
@@ -129,7 +132,8 @@
 <div class="sourceCode" id="cb5"><html><body><pre class="r"><span class="no">addr_comp1</span> <span class="kw">&lt;-</span> <span class="no">address_components</span> <span class="kw">%&gt;%</span>
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/bind.html">bind_rows</a></span>(<span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span>(<span class="kw">cty</span><span class="kw">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">'Toronto'</span>, <span class="st">'Tokyo'</span>), <span class="kw">country</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">'Canada'</span>, <span class="st">'Japan'</span>)))
 
-<span class="no">addr_comp1</span> <span class="kw">%&gt;%</span> <span class="fu"><a href="../reference/geocode.html">geocode</a></span>(<span class="kw">street</span> <span class="kw">=</span> <span class="no">str</span>, <span class="kw">state</span> <span class="kw">=</span> <span class="no">st</span>, <span class="kw">city</span> <span class="kw">=</span> <span class="no">cty</span>, <span class="kw">country</span> <span class="kw">=</span> <span class="no">country</span>, <span class="kw">method</span> <span class="kw">=</span> <span class="st">'cascade'</span>)
+<span class="no">addr_comp1</span> <span class="kw">%&gt;%</span> <span class="fu"><a href="../reference/geocode.html">geocode</a></span>(<span class="kw">street</span> <span class="kw">=</span> <span class="no">str</span>, <span class="kw">state</span> <span class="kw">=</span> <span class="no">st</span>, <span class="kw">city</span> <span class="kw">=</span> <span class="no">cty</span>,
+                       <span class="kw">country</span> <span class="kw">=</span> <span class="no">country</span>, <span class="kw">method</span> <span class="kw">=</span> <span class="st">'cascade'</span>)
 <span class="co">#&gt; # A tibble: 4 x 7</span>
 <span class="co">#&gt;   str                     cty     st    country   lat  long geo_method</span>
 <span class="co">#&gt;   &lt;chr&gt;                   &lt;chr&gt;   &lt;chr&gt; &lt;chr&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;     </span>
@@ -184,7 +188,8 @@
 <h2 class="hasAnchor">
 <a href="#advanced-usage" class="anchor"></a>Advanced Usage</h2>
 <p>The <code>limit</code> argument can be specified to return multiple matches per address if available:</p>
-<div class="sourceCode" id="cb8"><html><body><pre class="r"><span class="fu"><a href="../reference/geo.html">geo</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">'Lima, Peru'</span>, <span class="st">'Cairo, Egypt'</span>), <span class="kw">method</span> <span class="kw">=</span> <span class="st">'osm'</span>, <span class="kw">limit</span> <span class="kw">=</span> <span class="fl">3</span>, <span class="kw">full_results</span> <span class="kw">=</span> <span class="fl">TRUE</span>)
+<div class="sourceCode" id="cb8"><html><body><pre class="r"><span class="fu"><a href="../reference/geo.html">geo</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">'Lima, Peru'</span>, <span class="st">'Cairo, Egypt'</span>), <span class="kw">method</span> <span class="kw">=</span> <span class="st">'osm'</span>,
+    <span class="kw">limit</span> <span class="kw">=</span> <span class="fl">3</span>, <span class="kw">full_results</span> <span class="kw">=</span> <span class="fl">TRUE</span>)
 <span class="co">#&gt; # A tibble: 4 x 13</span>
 <span class="co">#&gt;   address   lat  long place_id licence osm_type osm_id boundingbox display_name</span>
 <span class="co">#&gt;   &lt;chr&gt;   &lt;dbl&gt; &lt;dbl&gt;    &lt;int&gt; &lt;chr&gt;   &lt;chr&gt;     &lt;int&gt; &lt;list&gt;      &lt;chr&gt;       </span>
@@ -196,8 +201,8 @@
 <span class="co">#&gt; #   icon &lt;chr&gt;</span></pre></body></html></div>
 <p>Here are some additional usage notes for the <code><a href="../reference/geocode.html">geocode()</a></code> and <code><a href="../reference/geo.html">geo()</a></code> functions:</p>
 <ul>
-<li>To specify a custom Geocoder API URL, use the <code>api_url</code> argument. Also, the <code>iq_region</code> and <code>geocodio_v</code> arguments are helper functions for customizing the API URL.</li>
-<li>By default batch geocoding will be used if available when more than one address is passed, otherwise single address geocoding will be used. To ovveride this default, use the <code>mode</code> argument.</li>
+<li>To specify a custom geocoder API URL, use the <code>api_url</code> argument. Alternatively, the <code>iq_region</code> and <code>geocodio_v</code> arguments are helper functions for customizing the API URL.</li>
+<li>By default batch geocoding will be used if available when more than one address is passed, otherwise single address geocoding will be used. To override this default, use the <code>mode</code> argument.</li>
 <li>API parameters can be passed directly using the <code>custom_query</code> parameter.</li>
 <li>The <code>min_time</code> argument defaults to 1 second for Nominatim (OSM) and Location IQ to abide by usage limits. If you are using a local Nominatim server or have commercial Location IQ plan that has less restrictive usage limits, you can manually set <code>min_time</code> to 0 or a lower value.</li>
 <li>Refer to the <code>api_parameter_reference</code> dataset and the <code><a href="../reference/get_api_query.html">get_api_query()</a></code> and <code><a href="../reference/query_api.html">query_api()</a></code> functions for more details on how geocoding queries are constructed.</li>

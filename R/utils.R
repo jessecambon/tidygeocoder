@@ -31,33 +31,20 @@ pause_until <- function(start_time,min_time,debug=FALSE) {
   }
 }
 
-# Extract latitude, longitude as a numeric vector. Not used for batch
-# geocoding
-# extract_coords <- function(method, response) {
-#   lat_lng <- switch(method,
-#   'census' = response$result$addressMatches$coordinates[c('y','x')],
-#   'osm' = response[c('lat', 'lon')],
-#   'iq' = response[c('lat', 'lon')],
-#   'geocodio' = response$results$location[c('lat', 'lng')]
-#   )
-#   
-#   if (length(lat_lng) == 0) lat_lng <- tibble::tibble(lat = NA, long = NA)
-#   
-#   names(lat_lng) <- c('lat','long')
-#   lat_lng$lat <- as.numeric(lat_lng$lat)
-#   lat_lng$long <- as.numeric(lat_lng$long)
-#   
-#   return(tibble::as_tibble(lat_lng))
-# }
-
 #' Extract geocoder results 
-#' Not used for batch geocoding. Latitude and longitude and extracted into
-#' the first two columns of the returned dataframe
+#' 
+#' @description
+#' Parses the output of the \code{\link{query_api}} function.
+#' Latitude and longitude are extracted into the first two columns
+#' of the returned dataframe. This function is not used for batch 
+#' geocoded results.
+#' 
 #' @param method method name
 #' @param response  content from the geocoder service (returned by the )
 #' @param full_results if TRUE then the full results (not just latitude and longitude)
 #'   will be returned.
 #' @param flatten if TRUE then flatten any nested dataframe content
+#' @return geocoder results in tibble format 
 #' @export 
 extract_results <- function(method, response, full_results = TRUE, flatten = TRUE) {
   
@@ -71,21 +58,15 @@ extract_results <- function(method, response, full_results = TRUE, flatten = TRU
     'geocodio' = response$results$location[c('lat', 'lng')]
   )
   
-  #print('lat_lng:')
-  #print(lat_lng)
-  
   # if null result then return NA
   if (length(lat_lng) == 0 ) return(NA_result)
   # check to make sure results aren't na or wrong width
   if (nrow(lat_lng) == 0 | ncol(lat_lng) != 2) return(NA_result)
   
-  #print('checkpoint 1')
   # convert to numeric format
   #lat_lng <- tibble::as_tibble(sapply(lat_lng, function(x) as.numeric(as.character(x))))
   lat_lng[, 1] <- as.numeric(as.character(lat_lng[, 1]))
   lat_lng[, 2] <- as.numeric(as.character(lat_lng[, 2]))
-  #print('checkpoint 2')
-  
   
   if (full_results == TRUE) {
   ## extract full results excluding latitude and longitude
@@ -102,9 +83,6 @@ extract_results <- function(method, response, full_results = TRUE, flatten = TRU
   }
   
   combined_results <- tibble::as_tibble(combined_results)
-  
-  #print('combined_results:')
-  #print(combined_results)
 
   if (flatten == TRUE) return(jsonlite::flatten(combined_results))
   else return(combined_results)

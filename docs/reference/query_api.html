@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Get raw results from an API — query_api • tidygeocoder</title>
+<title>Query a Geocoder API — query_api • tidygeocoder</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,9 @@
 
 
 
-<meta property="og:title" content="Get raw results from an API — query_api" />
-<meta property="og:description" content="Get raw results from an API" />
+<meta property="og:title" content="Query a Geocoder API — query_api" />
+<meta property="og:description" content="The get_api_query function can create queries for this
+function to execute." />
 
 
 
@@ -111,13 +112,14 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Get raw results from an API</h1>
+    <h1>Query a Geocoder API</h1>
     <small class="dont-index">Source: <a href='https://github.com/jessecambon/tidygeocoder/blob/master/R/query_factory.R'><code>R/query_factory.R</code></a></small>
     <div class="hidden name"><code>query_api.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Get raw results from an API</p>
+    <p>The <code><a href='get_api_query.html'>get_api_query</a></code> function can create queries for this
+function to execute.</p>
     </div>
 
     <pre class="usage"><span class='fu'>query_api</span>(
@@ -143,8 +145,8 @@
     </tr>
     <tr>
       <th>mode</th>
-      <td><p>"single" : geocode a single address
-"list"   : batch geocode list of addresses (geocodio)
+      <td><p>"single" : geocode a single address (all methods)
+"list"   : batch geocode a list of addresses (geocodio)
 "file"   : batch geocode a file of addresses (census)</p></td>
     </tr>
     <tr>

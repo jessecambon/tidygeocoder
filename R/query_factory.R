@@ -64,26 +64,31 @@ create_api_parameter <- function(method_name, param_name, value) {
   return(param)
 }
 
-#' Construct a Geocoder API Query.
+#' Construct a Geocoder API Query
+#' 
 #' @description 
-#' Query is created using universal "generic" parameters
+#' The geocoder API query is created using universal "generic" parameters
 #' and optional api-specific "custom" parameters. Generic parameters
-#' are converted into api parameters using the api_parameter_reference
+#' are converted into api parameters using the  \code{\link{api_parameter_reference}} 
 #' dataset. 
-#' @param method_name method name (ie. 'census')
+#' 
+#' The \code{\link{query_api}} function executes the queries created 
+#' by this function.
+#'  
+#' @param method method name (ie. 'census')
 #' @param generic_parameters universal 'generic' parameters
 #' @param custom_parameters custom api-specific parameters
-#' @return named list of api-specific parameters 
+#' @return named list of parameters
 #'
 #' @export
-get_api_query <- function(method_name, generic_parameters = list(), custom_parameters = list() ) {
+get_api_query <- function(method, generic_parameters = list(), custom_parameters = list() ) {
   api_ref <- tidygeocoder::api_parameter_reference
   
   # create the "main" api parameters from the passed generic parameters
   main_api_parameters <- list()
   for (generic_parameter_name in names(generic_parameters)) {
     main_api_parameters <- c(main_api_parameters, 
-      create_api_parameter(method_name, generic_parameter_name,
+      create_api_parameter(method, generic_parameter_name,
       generic_parameters[[generic_parameter_name]])
       )
   }
@@ -99,22 +104,27 @@ get_api_query <- function(method_name, generic_parameters = list(), custom_param
   ## Extract default parameter values ---------------
   # only extract values that have default values and don't already exist in main_api_parameters
   default_api_parameters <- tibble::deframe(
-    api_ref[which(api_ref$method == method_name &
+    api_ref[which(api_ref[['method']] == method &
       api_ref$required == TRUE &
       !is.na(api_ref$default_value) &
-      !api_ref$api_name %in% names(c(main_api_parameters,custom_parameters))),][c('api_name','default_value')]
+      !api_ref$api_name %in% names(c(main_api_parameters, custom_parameters))), ][c('api_name','default_value')]
     )
   
   # Combine address, api_key, and default parameters for full query
   return( c(main_api_parameters, custom_parameters, default_api_parameters) )
 }
 
-#' Get raw results from an API
+#' Query a Geocoder API
+#' 
+#' @description
+#' The \code{\link{get_api_query}} function can create queries for this
+#' function to execute.  
+#' 
 #' @param api_url Base URL of the API. query parameters are appended to this
 #' @param query_parameters api query parameters in the form of a named list
 #' @param mode 
-#'     "single" : geocode a single address
-#'     "list"   : batch geocode list of addresses (geocodio)
+#'     "single" : geocode a single address (all methods)
+#'     "list"   : batch geocode a list of addresses (geocodio)
 #'     "file"   : batch geocode a file of addresses (census)
 #' @param batch_file a csv file of addresses to upload (census)
 #' @param address_list a list of addresses for batch geocoding (geocodio)
