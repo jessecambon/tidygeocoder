@@ -21,8 +21,8 @@
 #' @param postalcode postalcode column name (zip code if in the United States)
 #' @param country country column name
 #' 
-#' @param lat name of latitude field
-#' @param long name of longitude field
+#' @param lat latitude column name. Can be quoted or unquoted (ie. lat or 'lat').
+#' @param long longitude column name. Can be quoted or unquoted (ie. long or 'long').
 #' @param return_addresses if TRUE then addresses with standard names will be returned
 #'   This is defaulted to FALSE because the address fields are already in the input dataset
 #' @param ... arguments passed to the \code{\link{geo}} function
@@ -36,9 +36,11 @@
 #' louisville[1:2, ] %>% geocode(street = street, city = city, state = state,
 #'   postalcode = zip)
 #' 
-#' sample_addresses[8:9,] %>% geocode(addr, method='osm',lat='lattes', long='longos')
+#' sample_addresses[8:9,] %>% geocode(addr, method = 'osm',
+#'   lat = 'lattes', long = 'longos')
 #'
-#' sample_addresses[1:3,] %>% geocode(addr, method='cascade', lat=latitude, long=longitude)
+#' sample_addresses[1:3,] %>% geocode(addr, method = 'cascade',
+#'   lat = latitude, long = longitude)
 #' }
 #' @export
 geocode <- function(.tbl, address = NULL, street = NULL, city = NULL, county = NULL, 
@@ -59,7 +61,6 @@ geocode <- function(.tbl, address = NULL, street = NULL, city = NULL, county = N
   
   # capture all function arguments including default values as a named list
   all_args <- as.list(environment())
-  start_time <- Sys.time() # start timer
   
   # put all non-NULL address components into a named list
   # create address parameters to be passed to the geo function as a named list of lists
@@ -76,8 +77,6 @@ geocode <- function(.tbl, address = NULL, street = NULL, city = NULL, county = N
   # cbind the original dataframe to the coordinates and convert to tibble
   # change column names to be unique if there are duplicate column names
   final_df <- tibble::as_tibble(cbind(.tbl, results))
-
-  #if (verbose == TRUE) print_time("Query executed in", get_seconds_elapsed(start_time))
   
   return(final_df)
 }

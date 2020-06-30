@@ -34,8 +34,10 @@
 #'     full_results = TRUE as different geocoders have different columns
 #'     that they return.
 #' }
-#' @param lat latitude column name
-#' @param long longitude column name
+#' @param cascade_order a vector with two character method values showing 
+#' the order to be attempted for method = 'cascade'
+#' @param lat latitude column name. Can be quoted or unquoted (ie. lat or 'lat').
+#' @param long longitude column name. Can be quoted or unquoted (ie. long or 'long').
 #' @param limit number of results to return per address. Note that 
 #'    limit > 1 is not compatible with batch geocoding if return_addresses = TRUE.
 #' @param min_time minimum amount of time for a query to take (in seconds) if using

@@ -38,8 +38,8 @@
 #' }
 #' 
 #' @seealso \code{\link{get_api_query}} \code{\link{query_api}}
-#' 
-#' @source \itemize{ 
+#' @source API Documentation:
+#' \itemize{ 
 #'     \item \href{https://locationiq.com/docs}{LocationIQ (IQ)} 
 #'     \item \href{https://nominatim.org/release-docs/develop/api/Search}{Nominatim (OSM)}
 #'     \item \href{https://geocoding.geo.census.gov/geocoder/Geocoding_Services_API.pdf}{Census}

@@ -15,7 +15,7 @@ options(tibble.print_min = 4L, tibble.print_max = 4L)
 set.seed(42)
 ```
 
-Geocoding services are used to provide data about addresses such as longitude and latitude coordinates. The goal of tidygeocoder is to make getting data from these services easy. The two main functions to use are `geocode()` which takes a dataframe as an input and `geo()` which takes character values.
+Geocoding services are used to provide data about addresses such as longitude and latitude coordinates. The goal of tidygeocoder is to make getting data from these services easy. The two main functions to use are `geocode()` which takes a dataframe as an input and `geo()` which takes character values as inputs.
 
 The `geocode()` function extracts specified address columns from the input dataframe and passes them to `geo()` to perform geocoding. All extra arguments (`...`) given to `geocode()` are passed to `geo()` so refer to the documentation in `geo()` for all the possible arguments you can give to the `geocode()` function.
 
@@ -29,7 +29,7 @@ library(tidygeocoder)
 address_single <- tibble(singlelineaddress = c('11 Wall St, NY, NY', 
                     '600 Peachtree Street NE, Atlanta, Georgia'))
 address_components <- tribble(
-  ~str                          , ~cty,             ~st,
+  ~street                      , ~cty,               ~st,
   '11 Wall St',                  'NY',               'NY',
   '600 Peachtree Street NE',     'Atlanta',          'GA'
 )
@@ -42,16 +42,17 @@ address_single %>% geocode(address = singlelineaddress, method = 'census',
                            verbose = TRUE)
 ```
 
-Alternatively you can run the same query with the `geo()` function by passing the address values from the dataframe directly.
+Alternatively you can run the same query with the `geo()` function by passing the address values from the dataframe directly. In either `geo()` or `geocode()`, the `lat` and `long` arguments are used to name the resulting latitude and longitude fields.
 
 ```{r}
-geo(address = address_single$singlelineaddress, method = 'osm')
+geo(address = address_single$singlelineaddress, method = 'osm', 
+    lat = latitude, long = longitude)
 ```
 
 Instead of single line addresses, you can use any combination of the following arguments to specify your addresses: `street`, `city`, `state`, `county`, `postalcode`, and `country`. Note that not all of these parameters are required and geocoder services don't necessarily support all of these inputs, refer to `api_parameter_reference` and the API documentation of the geocoder services for details. For example, the Census geocoder is only for the United States and has no reason to support a `country` input. 
 
 ```{r}
-address_components %>% geocode(street = str, city = cty, state = st,
+address_components %>% geocode(street = street, city = cty, state = st,
                                method = 'census')
 ```
 
@@ -59,9 +60,9 @@ The `cascade` method by default first tries to use one geocoder service and then
 
 ```{r}
 addr_comp1 <- address_components %>% 
-  bind_rows(tibble(cty=c('Toronto', 'Tokyo'), country = c('Canada', 'Japan')))
+  bind_rows(tibble(cty = c('Toronto', 'Tokyo'), country = c('Canada', 'Japan')))
 
-addr_comp1 %>% geocode(street = str, state = st, city = cty,
+addr_comp1 %>% geocode(street = street, state = st, city = cty,
                        country = country, method = 'cascade')
 ```
 
@@ -82,21 +83,64 @@ salz <- geo('Salzburg, Austria', method = 'osm', full_results = TRUE)
 glimpse(salz)
 ```
 
+## Under the Hood
+
+Only unique addresses are passed to geocoder services even if your data contains duplicates. Also, NA and whitespace addresses are excluded from queries. 
+
+```{r}
+duplicate_addrs <- address_single %>%
+  bind_rows(address_single) %>%
+  bind_rows(tibble(singlelineaddress=rep(NA,3)))
+
+duplicate_addrs %>%
+  geocode(singlelineaddress, verbose = T)
+```
+
+
+By default, as shown above, duplicates will not be removed from your results. However, if you chose you can only return unique results with the `unique_only` argument:
+
+```{r, eval = FALSE}
+duplicate_addrs %>%
+  geocode(singlelineaddress, unique_only = TRUE)
+```
+
+
 ## Advanced Usage
 
 The `limit` argument can be specified to return multiple matches per address if available:
 
 ```{r}
-geo(c('Lima, Peru', 'Cairo, Egypt'), method = 'osm', 
+geo_limit <- geo(c('Lima, Peru', 'Cairo, Egypt'), method = 'osm', 
     limit = 3, full_results = TRUE)
+glimpse(geo_limit)
 ```
 
+To directly specify specific API parameters for a given `method` you can use the `custom_query` parameter. For example, 'the Nominatim (OSM) geocoder has a `polygon_geojson` argument](https://nominatim.org/release-docs/develop/api/Details/#parameters) that can be used to return GeoJSON geometry content. To pass this parameter you can insert it with a named list using the `custom_query` argument:
+
+```{r}
+cairo_geo <- geo('Cairo, Egypt', method = 'osm', full_results = TRUE,
+    custom_query = list(polygon_geojson = 1), verbose = TRUE)
+glimpse(cairo_geo)
+```
 
 
 Here are some additional usage notes for the `geocode()` and `geo()` functions:
 
 * To specify a custom geocoder API URL, use the `api_url` argument. Alternatively, the `iq_region` and `geocodio_v` arguments are helper functions for customizing the API URL. 
 * By default batch geocoding will be used if available when more than one address is passed, otherwise single address geocoding will be used. To override this default, use the `mode` argument.
-* API parameters can be passed directly using the `custom_query` parameter.
 * The `min_time` argument defaults to 1 second for Nominatim (OSM) and Location IQ to abide by usage limits. If you are using a local Nominatim server or have commercial Location IQ plan that has less restrictive usage limits, you can manually set `min_time` to 0 or a lower value. 
-* Refer to the `api_parameter_reference` dataset and the `get_api_query()` and `query_api()` functions for more details on how geocoding queries are constructed.
+
+## API Reference
+
+You can refer to the `api_parameter_reference` dataset to see which which parameters are supported with each `method`. This dataset is displayed below. The `generic_name` field corresponds to what the field would be referred to as in the `geo()`, `geocode()` and `get_api_query()` functions. The `api_name` field shows the parameter name for the specific `method`.
+
+Refer to the [`api_parameter_reference` documentation](https://jessecambon.github.io/tidygeocoder/reference/api_parameter_reference.html) for more details and links to the API documentation for each geocoder service.
+
+```{r}
+api_parameter_reference %>% 
+  select(-required) %>%
+  mutate(across(c(method, generic_name, api_name), as.factor)) %>%
+  DT::datatable(filter = 'top', rownames = FALSE, 
+  options = list(pageLength = 12, autoWidth = TRUE))
+```
+

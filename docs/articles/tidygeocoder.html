@@ -68,7 +68,13 @@
 
       
 
-      </header><div class="row">
+      </header><script src="tidygeocoder_files/htmlwidgets-1.5.1/htmlwidgets.js"></script><script src="tidygeocoder_files/jquery-1.12.4/jquery.min.js"></script><link href="tidygeocoder_files/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet">
+<script src="tidygeocoder_files/datatables-binding-0.13/datatables.js"></script><link href="tidygeocoder_files/dt-core-1.10.20/css/jquery.dataTables.min.css" rel="stylesheet">
+<link href="tidygeocoder_files/dt-core-1.10.20/css/jquery.dataTables.extra.css" rel="stylesheet">
+<script src="tidygeocoder_files/dt-core-1.10.20/js/jquery.dataTables.min.js"></script><link href="tidygeocoder_files/nouislider-7.0.10/jquery.nouislider.min.css" rel="stylesheet">
+<script src="tidygeocoder_files/nouislider-7.0.10/jquery.nouislider.min.js"></script><link href="tidygeocoder_files/selectize-0.12.0/selectize.bootstrap3.css" rel="stylesheet">
+<script src="tidygeocoder_files/selectize-0.12.0/selectize.min.js"></script><link href="tidygeocoder_files/crosstalk-1.1.0.1/css/crosstalk.css" rel="stylesheet">
+<script src="tidygeocoder_files/crosstalk-1.1.0.1/js/crosstalk.min.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Introduction to tidygeocoder</h1>
@@ -81,7 +87,7 @@
 
     
     
-<p>Geocoding services are used to provide data about addresses such as longitude and latitude coordinates. The goal of tidygeocoder is to make getting data from these services easy. The two main functions to use are <code><a href="../reference/geocode.html">geocode()</a></code> which takes a dataframe as an input and <code><a href="../reference/geo.html">geo()</a></code> which takes character values.</p>
+<p>Geocoding services are used to provide data about addresses such as longitude and latitude coordinates. The goal of tidygeocoder is to make getting data from these services easy. The two main functions to use are <code><a href="../reference/geocode.html">geocode()</a></code> which takes a dataframe as an input and <code><a href="../reference/geo.html">geo()</a></code> which takes character values as inputs.</p>
 <p>The <code><a href="../reference/geocode.html">geocode()</a></code> function extracts specified address columns from the input dataframe and passes them to <code><a href="../reference/geo.html">geo()</a></code> to perform geocoding. All extra arguments (<code>...</code>) given to <code><a href="../reference/geocode.html">geocode()</a></code> are passed to <code><a href="../reference/geo.html">geo()</a></code> so refer to the documentation in <code><a href="../reference/geo.html">geo()</a></code> for all the possible arguments you can give to the <code><a href="../reference/geocode.html">geocode()</a></code> function.</p>
 <div id="basic-queries" class="section level2">
 <h2 class="hasAnchor">
@@ -93,7 +99,7 @@
 <span class="no">address_single</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span>(<span class="kw">singlelineaddress</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">'11 Wall St, NY, NY'</span>,
                     <span class="st">'600 Peachtree Street NE, Atlanta, Georgia'</span>))
 <span class="no">address_components</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tribble.html">tribble</a></span>(
-  ~<span class="no">str</span>                          , ~<span class="no">cty</span>,             ~<span class="no">st</span>,
+  ~<span class="no">street</span>                      , ~<span class="no">cty</span>,               ~<span class="no">st</span>,
   <span class="st">'11 Wall St'</span>,                  <span class="st">'NY'</span>,               <span class="st">'NY'</span>,
   <span class="st">'600 Peachtree Street NE'</span>,     <span class="st">'Atlanta'</span>,          <span class="st">'GA'</span>
 )</pre></body></html></div>
@@ -113,29 +119,30 @@
 <span class="co">#&gt;   &lt;chr&gt;                                     &lt;dbl&gt; &lt;dbl&gt;</span>
 <span class="co">#&gt; 1 11 Wall St, NY, NY                         40.7 -74.0</span>
 <span class="co">#&gt; 2 600 Peachtree Street NE, Atlanta, Georgia  33.8 -84.4</span></pre></body></html></div>
-<p>Alternatively you can run the same query with the <code><a href="../reference/geo.html">geo()</a></code> function by passing the address values from the dataframe directly.</p>
-<div class="sourceCode" id="cb3"><html><body><pre class="r"><span class="fu"><a href="../reference/geo.html">geo</a></span>(<span class="kw">address</span> <span class="kw">=</span> <span class="no">address_single</span>$<span class="no">singlelineaddress</span>, <span class="kw">method</span> <span class="kw">=</span> <span class="st">'osm'</span>)
+<p>Alternatively you can run the same query with the <code><a href="../reference/geo.html">geo()</a></code> function by passing the address values from the dataframe directly. In either <code><a href="../reference/geo.html">geo()</a></code> or <code><a href="../reference/geocode.html">geocode()</a></code>, the <code>lat</code> and <code>long</code> arguments are used to name the resulting latitude and longitude fields.</p>
+<div class="sourceCode" id="cb3"><html><body><pre class="r"><span class="fu"><a href="../reference/geo.html">geo</a></span>(<span class="kw">address</span> <span class="kw">=</span> <span class="no">address_single</span>$<span class="no">singlelineaddress</span>, <span class="kw">method</span> <span class="kw">=</span> <span class="st">'osm'</span>,
+    <span class="kw">lat</span> <span class="kw">=</span> <span class="no">latitude</span>, <span class="kw">long</span> <span class="kw">=</span> <span class="no">longitude</span>)
 <span class="co">#&gt; # A tibble: 2 x 3</span>
-<span class="co">#&gt;   address                                     lat  long</span>
-<span class="co">#&gt;   &lt;chr&gt;                                     &lt;dbl&gt; &lt;dbl&gt;</span>
-<span class="co">#&gt; 1 11 Wall St, NY, NY                         40.7 -74.0</span>
-<span class="co">#&gt; 2 600 Peachtree Street NE, Atlanta, Georgia  33.8 -84.4</span></pre></body></html></div>
+<span class="co">#&gt;   address                                   latitude longitude</span>
+<span class="co">#&gt;   &lt;chr&gt;                                        &lt;dbl&gt;     &lt;dbl&gt;</span>
+<span class="co">#&gt; 1 11 Wall St, NY, NY                            40.7     -74.0</span>
+<span class="co">#&gt; 2 600 Peachtree Street NE, Atlanta, Georgia     33.8     -84.4</span></pre></body></html></div>
 <p>Instead of single line addresses, you can use any combination of the following arguments to specify your addresses: <code>street</code>, <code>city</code>, <code>state</code>, <code>county</code>, <code>postalcode</code>, and <code>country</code>. Note that not all of these parameters are required and geocoder services don’t necessarily support all of these inputs, refer to <code>api_parameter_reference</code> and the API documentation of the geocoder services for details. For example, the Census geocoder is only for the United States and has no reason to support a <code>country</code> input.</p>
-<div class="sourceCode" id="cb4"><html><body><pre class="r"><span class="no">address_components</span> <span class="kw">%&gt;%</span> <span class="fu"><a href="../reference/geocode.html">geocode</a></span>(<span class="kw">street</span> <span class="kw">=</span> <span class="no">str</span>, <span class="kw">city</span> <span class="kw">=</span> <span class="no">cty</span>, <span class="kw">state</span> <span class="kw">=</span> <span class="no">st</span>,
+<div class="sourceCode" id="cb4"><html><body><pre class="r"><span class="no">address_components</span> <span class="kw">%&gt;%</span> <span class="fu"><a href="../reference/geocode.html">geocode</a></span>(<span class="kw">street</span> <span class="kw">=</span> <span class="no">street</span>, <span class="kw">city</span> <span class="kw">=</span> <span class="no">cty</span>, <span class="kw">state</span> <span class="kw">=</span> <span class="no">st</span>,
                                <span class="kw">method</span> <span class="kw">=</span> <span class="st">'census'</span>)
 <span class="co">#&gt; # A tibble: 2 x 5</span>
-<span class="co">#&gt;   str                     cty     st      lat  long</span>
+<span class="co">#&gt;   street                  cty     st      lat  long</span>
 <span class="co">#&gt;   &lt;chr&gt;                   &lt;chr&gt;   &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt;</span>
 <span class="co">#&gt; 1 11 Wall St              NY      NY     40.7 -74.0</span>
 <span class="co">#&gt; 2 600 Peachtree Street NE Atlanta GA     33.8 -84.4</span></pre></body></html></div>
 <p>The <code>cascade</code> method by default first tries to use one geocoder service and then retries addresses that were not found using a second geocoder service. By default it first uses the Census Geocoder and then OSM, but you can specify any two methods you want (in order) with <code>cascade_order</code> argument.</p>
 <div class="sourceCode" id="cb5"><html><body><pre class="r"><span class="no">addr_comp1</span> <span class="kw">&lt;-</span> <span class="no">address_components</span> <span class="kw">%&gt;%</span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/bind.html">bind_rows</a></span>(<span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span>(<span class="kw">cty</span><span class="kw">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">'Toronto'</span>, <span class="st">'Tokyo'</span>), <span class="kw">country</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">'Canada'</span>, <span class="st">'Japan'</span>)))
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/bind.html">bind_rows</a></span>(<span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span>(<span class="kw">cty</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">'Toronto'</span>, <span class="st">'Tokyo'</span>), <span class="kw">country</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">'Canada'</span>, <span class="st">'Japan'</span>)))
 
-<span class="no">addr_comp1</span> <span class="kw">%&gt;%</span> <span class="fu"><a href="../reference/geocode.html">geocode</a></span>(<span class="kw">street</span> <span class="kw">=</span> <span class="no">str</span>, <span class="kw">state</span> <span class="kw">=</span> <span class="no">st</span>, <span class="kw">city</span> <span class="kw">=</span> <span class="no">cty</span>,
+<span class="no">addr_comp1</span> <span class="kw">%&gt;%</span> <span class="fu"><a href="../reference/geocode.html">geocode</a></span>(<span class="kw">street</span> <span class="kw">=</span> <span class="no">street</span>, <span class="kw">state</span> <span class="kw">=</span> <span class="no">st</span>, <span class="kw">city</span> <span class="kw">=</span> <span class="no">cty</span>,
                        <span class="kw">country</span> <span class="kw">=</span> <span class="no">country</span>, <span class="kw">method</span> <span class="kw">=</span> <span class="st">'cascade'</span>)
 <span class="co">#&gt; # A tibble: 4 x 7</span>
-<span class="co">#&gt;   str                     cty     st    country   lat  long geo_method</span>
+<span class="co">#&gt;   street                  cty     st    country   lat  long geo_method</span>
 <span class="co">#&gt;   &lt;chr&gt;                   &lt;chr&gt;   &lt;chr&gt; &lt;chr&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;     </span>
 <span class="co">#&gt; 1 11 Wall St              NY      NY    &lt;NA&gt;     40.7 -74.0 census    </span>
 <span class="co">#&gt; 2 600 Peachtree Street NE Atlanta GA    &lt;NA&gt;     33.8 -84.4 census    </span>
@@ -184,29 +191,108 @@
 <span class="co">#&gt; $ importance   &lt;dbl&gt; 0.6854709</span>
 <span class="co">#&gt; $ icon         &lt;chr&gt; "https://nominatim.openstreetmap.org/images/mapicons/poi…</span></pre></body></html></div>
 </div>
+<div id="under-the-hood" class="section level2">
+<h2 class="hasAnchor">
+<a href="#under-the-hood" class="anchor"></a>Under the Hood</h2>
+<p>Only unique addresses are passed to geocoder services even if your data contains duplicates. Also, NA and whitespace addresses are excluded from queries.</p>
+<div class="sourceCode" id="cb8"><html><body><pre class="r"><span class="no">duplicate_addrs</span> <span class="kw">&lt;-</span> <span class="no">address_single</span> <span class="kw">%&gt;%</span>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/bind.html">bind_rows</a></span>(<span class="no">address_single</span>) <span class="kw">%&gt;%</span>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/bind.html">bind_rows</a></span>(<span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span>(<span class="kw">singlelineaddress</span><span class="kw">=</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span>(<span class="fl">NA</span>,<span class="fl">3</span>)))
+
+<span class="no">duplicate_addrs</span> <span class="kw">%&gt;%</span>
+  <span class="fu"><a href="../reference/geocode.html">geocode</a></span>(<span class="no">singlelineaddress</span>, <span class="kw">verbose</span> <span class="kw">=</span> <span class="no">T</span>)
+<span class="co">#&gt; Number of Unique Addresses: 2</span>
+<span class="co">#&gt; Calling the census batch geocoder</span>
+<span class="co">#&gt; Querying API URL: https://geocoding.geo.census.gov/geocoder/locations/addressbatch</span>
+<span class="co">#&gt; Passing the following parameters to the API:</span>
+<span class="co">#&gt; format = json</span>
+<span class="co">#&gt; benchmark = Public_AR_Current</span>
+<span class="co">#&gt; vintage = Current_Current</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; # A tibble: 7 x 3</span>
+<span class="co">#&gt;   singlelineaddress                           lat  long</span>
+<span class="co">#&gt;   &lt;chr&gt;                                     &lt;dbl&gt; &lt;dbl&gt;</span>
+<span class="co">#&gt; 1 11 Wall St, NY, NY                         40.7 -74.0</span>
+<span class="co">#&gt; 2 600 Peachtree Street NE, Atlanta, Georgia  33.8 -84.4</span>
+<span class="co">#&gt; 3 11 Wall St, NY, NY                         40.7 -74.0</span>
+<span class="co">#&gt; 4 600 Peachtree Street NE, Atlanta, Georgia  33.8 -84.4</span>
+<span class="co">#&gt; # … with 3 more rows</span></pre></body></html></div>
+<p>By default, as shown above, duplicates will not be removed from your results. However, if you chose you can only return unique results with the <code>unique_only</code> argument:</p>
+<div class="sourceCode" id="cb9"><html><body><pre class="r"><span class="no">duplicate_addrs</span> <span class="kw">%&gt;%</span>
+  <span class="fu"><a href="../reference/geocode.html">geocode</a></span>(<span class="no">singlelineaddress</span>, <span class="kw">unique_only</span> <span class="kw">=</span> <span class="fl">TRUE</span>)</pre></body></html></div>
+</div>
 <div id="advanced-usage" class="section level2">
 <h2 class="hasAnchor">
 <a href="#advanced-usage" class="anchor"></a>Advanced Usage</h2>
 <p>The <code>limit</code> argument can be specified to return multiple matches per address if available:</p>
-<div class="sourceCode" id="cb8"><html><body><pre class="r"><span class="fu"><a href="../reference/geo.html">geo</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">'Lima, Peru'</span>, <span class="st">'Cairo, Egypt'</span>), <span class="kw">method</span> <span class="kw">=</span> <span class="st">'osm'</span>,
+<div class="sourceCode" id="cb10"><html><body><pre class="r"><span class="no">geo_limit</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/geo.html">geo</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">'Lima, Peru'</span>, <span class="st">'Cairo, Egypt'</span>), <span class="kw">method</span> <span class="kw">=</span> <span class="st">'osm'</span>,
     <span class="kw">limit</span> <span class="kw">=</span> <span class="fl">3</span>, <span class="kw">full_results</span> <span class="kw">=</span> <span class="fl">TRUE</span>)
-<span class="co">#&gt; # A tibble: 4 x 13</span>
-<span class="co">#&gt;   address   lat  long place_id licence osm_type osm_id boundingbox display_name</span>
-<span class="co">#&gt;   &lt;chr&gt;   &lt;dbl&gt; &lt;dbl&gt;    &lt;int&gt; &lt;chr&gt;   &lt;chr&gt;     &lt;int&gt; &lt;list&gt;      &lt;chr&gt;       </span>
-<span class="co">#&gt; 1 Lima, … -12.1 -77.0   2.87e8 Data ©… relation 1.94e6 &lt;chr [4]&gt;   Lima, Peru  </span>
-<span class="co">#&gt; 2 Lima, … -12.2 -76.3   2.36e8 Data ©… relation 1.94e6 &lt;chr [4]&gt;   Lima, Peru  </span>
-<span class="co">#&gt; 3 Lima, … -12.0 -76.8   2.35e8 Data ©… relation 1.94e6 &lt;chr [4]&gt;   Lima, Peru  </span>
-<span class="co">#&gt; 4 Cairo,…  30.0  31.2   2.36e8 Data ©… relation 5.47e6 &lt;chr [4]&gt;   القاهرة, Eg…</span>
-<span class="co">#&gt; # … with 4 more variables: class &lt;chr&gt;, type &lt;chr&gt;, importance &lt;dbl&gt;,</span>
-<span class="co">#&gt; #   icon &lt;chr&gt;</span></pre></body></html></div>
+<span class="fu"><a href="https://tibble.tidyverse.org/reference/glimpse.html">glimpse</a></span>(<span class="no">geo_limit</span>)
+<span class="co">#&gt; Rows: 4</span>
+<span class="co">#&gt; Columns: 13</span>
+<span class="co">#&gt; $ address      &lt;chr&gt; "Lima, Peru", "Lima, Peru", "Lima, Peru", "Cairo, Egypt"</span>
+<span class="co">#&gt; $ lat          &lt;dbl&gt; -12.06211, -12.20011, -11.99997, 30.04882</span>
+<span class="co">#&gt; $ long         &lt;dbl&gt; -77.03653, -76.28506, -76.83322, 31.24367</span>
+<span class="co">#&gt; $ place_id     &lt;int&gt; 286976132, 235673177, 235480647, 236205997</span>
+<span class="co">#&gt; $ licence      &lt;chr&gt; "Data © OpenStreetMap contributors, ODbL 1.0. https://os…</span>
+<span class="co">#&gt; $ osm_type     &lt;chr&gt; "relation", "relation", "relation", "relation"</span>
+<span class="co">#&gt; $ osm_id       &lt;int&gt; 1944756, 1944659, 1944670, 5466227</span>
+<span class="co">#&gt; $ boundingbox  &lt;list&gt; [&lt;"-12.0797663", "-12.0303496", "-77.0884555", "-77.001…</span>
+<span class="co">#&gt; $ display_name &lt;chr&gt; "Lima, Peru", "Lima, Peru", "Lima, Peru", "القاهرة, Egyp…</span>
+<span class="co">#&gt; $ class        &lt;chr&gt; "boundary", "boundary", "boundary", "place"</span>
+<span class="co">#&gt; $ type         &lt;chr&gt; "administrative", "administrative", "administrative", "c…</span>
+<span class="co">#&gt; $ importance   &lt;dbl&gt; 0.8930015, 0.7219761, 0.7034835, 0.7960286</span>
+<span class="co">#&gt; $ icon         &lt;chr&gt; "https://nominatim.openstreetmap.org/images/mapicons/poi…</span></pre></body></html></div>
+<p>To directly specify specific API parameters for a given <code>method</code> you can use the <code>custom_query</code> parameter. For example, ’the Nominatim (OSM) geocoder has a <code>polygon_geojson</code> argument](<a href="https://nominatim.org/release-docs/develop/api/Details/#parameters" class="uri">https://nominatim.org/release-docs/develop/api/Details/#parameters</a>) that can be used to return GeoJSON geometry content. To pass this parameter you can insert it with a named list using the <code>custom_query</code> argument:</p>
+<div class="sourceCode" id="cb11"><html><body><pre class="r"><span class="no">cairo_geo</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/geo.html">geo</a></span>(<span class="st">'Cairo, Egypt'</span>, <span class="kw">method</span> <span class="kw">=</span> <span class="st">'osm'</span>, <span class="kw">full_results</span> <span class="kw">=</span> <span class="fl">TRUE</span>,
+    <span class="kw">custom_query</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="kw">polygon_geojson</span> <span class="kw">=</span> <span class="fl">1</span>), <span class="kw">verbose</span> <span class="kw">=</span> <span class="fl">TRUE</span>)
+<span class="co">#&gt; Number of Unique Addresses: 1</span>
+<span class="co">#&gt; Querying API URL: http://nominatim.openstreetmap.org/search</span>
+<span class="co">#&gt; Passing the following parameters to the API:</span>
+<span class="co">#&gt; limit = 1</span>
+<span class="co">#&gt; q = Cairo, Egypt</span>
+<span class="co">#&gt; polygon_geojson = 1</span>
+<span class="co">#&gt; format = json</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Query completed in: 0.3 seconds</span>
+<span class="co">#&gt; Total query time (including sleep): 1 seconds</span>
+<span class="fu"><a href="https://tibble.tidyverse.org/reference/glimpse.html">glimpse</a></span>(<span class="no">cairo_geo</span>)
+<span class="co">#&gt; Rows: 1</span>
+<span class="co">#&gt; Columns: 15</span>
+<span class="co">#&gt; $ address             &lt;chr&gt; "Cairo, Egypt"</span>
+<span class="co">#&gt; $ lat                 &lt;dbl&gt; 30.04882</span>
+<span class="co">#&gt; $ long                &lt;dbl&gt; 31.24367</span>
+<span class="co">#&gt; $ place_id            &lt;int&gt; 236205997</span>
+<span class="co">#&gt; $ licence             &lt;chr&gt; "Data © OpenStreetMap contributors, ODbL 1.0. htt…</span>
+<span class="co">#&gt; $ osm_type            &lt;chr&gt; "relation"</span>
+<span class="co">#&gt; $ osm_id              &lt;int&gt; 5466227</span>
+<span class="co">#&gt; $ boundingbox         &lt;list&gt; [&lt;"29.7483062", "30.3209168", "31.2200331", "31.…</span>
+<span class="co">#&gt; $ display_name        &lt;chr&gt; "القاهرة, Egypt / مصر"</span>
+<span class="co">#&gt; $ class               &lt;chr&gt; "place"</span>
+<span class="co">#&gt; $ type                &lt;chr&gt; "city"</span>
+<span class="co">#&gt; $ importance          &lt;dbl&gt; 0.7960286</span>
+<span class="co">#&gt; $ icon                &lt;chr&gt; "https://nominatim.openstreetmap.org/images/mapic…</span>
+<span class="co">#&gt; $ geojson.type        &lt;chr&gt; "Polygon"</span>
+<span class="co">#&gt; $ geojson.coordinates &lt;list&gt; [&lt;array[1 x 119 x 2]&gt;]</span></pre></body></html></div>
 <p>Here are some additional usage notes for the <code><a href="../reference/geocode.html">geocode()</a></code> and <code><a href="../reference/geo.html">geo()</a></code> functions:</p>
 <ul>
 <li>To specify a custom geocoder API URL, use the <code>api_url</code> argument. Alternatively, the <code>iq_region</code> and <code>geocodio_v</code> arguments are helper functions for customizing the API URL.</li>
 <li>By default batch geocoding will be used if available when more than one address is passed, otherwise single address geocoding will be used. To override this default, use the <code>mode</code> argument.</li>
-<li>API parameters can be passed directly using the <code>custom_query</code> parameter.</li>
 <li>The <code>min_time</code> argument defaults to 1 second for Nominatim (OSM) and Location IQ to abide by usage limits. If you are using a local Nominatim server or have commercial Location IQ plan that has less restrictive usage limits, you can manually set <code>min_time</code> to 0 or a lower value.</li>
-<li>Refer to the <code>api_parameter_reference</code> dataset and the <code><a href="../reference/get_api_query.html">get_api_query()</a></code> and <code><a href="../reference/query_api.html">query_api()</a></code> functions for more details on how geocoding queries are constructed.</li>
 </ul>
+</div>
+<div id="api-reference" class="section level2">
+<h2 class="hasAnchor">
+<a href="#api-reference" class="anchor"></a>API Reference</h2>
+<p>You can refer to the <code>api_parameter_reference</code> dataset to see which which parameters are supported with each <code>method</code>. This dataset is displayed below. The <code>generic_name</code> field corresponds to what the field would be referred to as in the <code><a href="../reference/geo.html">geo()</a></code>, <code><a href="../reference/geocode.html">geocode()</a></code> and <code><a href="../reference/get_api_query.html">get_api_query()</a></code> functions. The <code>api_name</code> field shows the parameter name for the specific <code>method</code>.</p>
+<p>Refer to the <a href="https://jessecambon.github.io/tidygeocoder/reference/api_parameter_reference.html"><code>api_parameter_reference</code> documentation</a> for more details and links to the API documentation for each geocoder service.</p>
+<div class="sourceCode" id="cb12"><html><body><pre class="r"><span class="no">api_parameter_reference</span> <span class="kw">%&gt;%</span>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span>(-<span class="no">required</span>) <span class="kw">%&gt;%</span>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span>(<span class="fu"><a href="https://dplyr.tidyverse.org/reference/across.html">across</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="no">method</span>, <span class="no">generic_name</span>, <span class="no">api_name</span>), <span class="no">as.factor</span>)) <span class="kw">%&gt;%</span>
+  <span class="kw pkg">DT</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/DT/man/datatable.html">datatable</a></span>(<span class="kw">filter</span> <span class="kw">=</span> <span class="st">'top'</span>, <span class="kw">rownames</span> <span class="kw">=</span> <span class="fl">FALSE</span>,
+  <span class="kw">options</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="kw">pageLength</span> <span class="kw">=</span> <span class="fl">12</span>, <span class="kw">autoWidth</span> <span class="kw">=</span> <span class="fl">TRUE</span>))</pre></body></html></div>
+<div id="htmlwidget-30e4409849e39179307f" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-30e4409849e39179307f">{"x":{"filter":"top","filterHTML":"<tr>\n  <td data-type=\"factor\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"width: 100%; display: none;\">\n      <select multiple=\"multiple\" style=\"width: 100%;\" data-options=\"[&quot;census&quot;,&quot;geocodio&quot;,&quot;iq&quot;,&quot;osm&quot;]\"><\/select>\n    <\/div>\n  <\/td>\n  <td data-type=\"factor\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"width: 100%; display: none;\">\n      <select multiple=\"multiple\" style=\"width: 100%;\" data-options=\"[&quot;address&quot;,&quot;api_key&quot;,&quot;city&quot;,&quot;country&quot;,&quot;county&quot;,&quot;format&quot;,&quot;limit&quot;,&quot;postalcode&quot;,&quot;state&quot;,&quot;street&quot;]\"><\/select>\n    <\/div>\n  <\/td>\n  <td data-type=\"factor\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"width: 100%; display: none;\">\n      <select multiple=\"multiple\" style=\"width: 100%;\" data-options=\"[&quot;address&quot;,&quot;api_key&quot;,&quot;benchmark&quot;,&quot;city&quot;,&quot;country&quot;,&quot;county&quot;,&quot;format&quot;,&quot;key&quot;,&quot;limit&quot;,&quot;postal_code&quot;,&quot;postalcode&quot;,&quot;q&quot;,&quot;state&quot;,&quot;street&quot;,&quot;vintage&quot;,&quot;zip&quot;]\"><\/select>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n<\/tr>","data":[["census","census","census","census","census","census","census","census","census","census","census","osm","osm","osm","osm","osm","osm","osm","osm","osm","iq","iq","iq","iq","iq","iq","iq","iq","iq","iq","geocodio","geocodio","geocodio","geocodio","geocodio","geocodio","geocodio","geocodio","geocodio","geocodio"],["format","limit",null,null,"address","street","city","county","state","postalcode","country","format","limit","address","street","city","county","state","postalcode","country","api_key","format","limit","address","street","city","county","state","postalcode","country","api_key","limit","format","address","street","city","county","state","postalcode","country"],["format",null,"benchmark","vintage","address","street","city",null,"state","zip",null,"format","limit","q","street","city","county","state","postalcode","country","key","format","limit","q","street","city","county","state","postalcode","country","api_key","limit",null,"q","street","city",null,"state","postal_code","country"],["json",null,"Public_AR_Current","Current_Current",null,null,null,null,null,null,null,"json","1",null,null,null,null,null,null,null,null,"json","1",null,null,null,null,null,null,null,null,"1",null,null,null,null,null,null,null,null]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>method<\/th>\n      <th>generic_name<\/th>\n      <th>api_name<\/th>\n      <th>default_value<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":12,"autoWidth":true,"order":[],"orderClasses":false,"orderCellsTop":true,"lengthMenu":[10,12,25,50,100]}},"evals":[],"jsHooks":[]}</script>
 </div>
   </div>
 

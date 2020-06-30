@@ -39,9 +39,9 @@ address component arguments (street, city, county, state, postalcode, country)}
 
 \item{country}{country column name}
 
-\item{lat}{name of latitude field}
+\item{lat}{latitude column name. Can be quoted or unquoted (ie. lat or 'lat').}
 
-\item{long}{name of longitude field}
+\item{long}{longitude column name. Can be quoted or unquoted (ie. long or 'long').}
 
 \item{return_addresses}{if TRUE then addresses with standard names will be returned
 This is defaulted to FALSE because the address fields are already in the input dataset}
@@ -70,8 +70,10 @@ sample_addresses[1:3,] \%>\% geocode(addr)
 louisville[1:2, ] \%>\% geocode(street = street, city = city, state = state,
   postalcode = zip)
 
-sample_addresses[8:9,] \%>\% geocode(addr, method='osm',lat='lattes', long='longos')
+sample_addresses[8:9,] \%>\% geocode(addr, method = 'osm',
+  lat = 'lattes', long = 'longos')
 
-sample_addresses[1:3,] \%>\% geocode(addr, method='cascade', lat=latitude, long=longitude)
+sample_addresses[1:3,] \%>\% geocode(addr, method = 'cascade',
+  lat = latitude, long = longitude)
 }
 }

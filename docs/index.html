@@ -78,8 +78,8 @@
 <div id="introduction" class="section level2">
 <h2 class="hasAnchor">
 <a href="#introduction" class="anchor"></a>Introduction</h2>
-<p>Tidygeocoder makes getting data from geocoding services easy. The currently supported services are the <a href="https://geocoding.geo.census.gov/">US Census</a> geocoder, <a href="https://nominatim.org">Nominatim (OSM)</a>, <a href="https://www.geocod.io/">Geocodio</a>, and <a href="https://locationiq.com/">Location IQ</a>. Batch geocoding (geocoding multiple addresses per query) is used by default for the US Census and Geocodio services when given multiple addresses. Also only unique addresses are passed to geocoder services.</p>
-<p>In addition to the usage example below, you can find a blog post I wrote up on geocoding landmarks in Washington, DC <a href="https://jessecambon.github.io/2019/11/11/tidygeocoder-demo.html">here</a>.</p>
+<p>Tidygeocoder makes getting data from geocoding services easy. The currently supported services are the <a href="https://geocoding.geo.census.gov/">US Census</a> geocoder, <a href="https://nominatim.org">Nominatim (OSM)</a>, <a href="https://www.geocod.io/">Geocodio</a>, and <a href="https://locationiq.com/">Location IQ</a>. Batch geocoding (geocoding multiple addresses per query) is used by default for the US Census and Geocodio services when given multiple addresses. Duplicate, NA, and blank address data is handled elegantly - only unique addresses are passed to geocoder services.</p>
+<p>In addition to the brief usage example below, you can find a blog post I wrote up on geocoding landmarks in Washington, DC <a href="https://jessecambon.github.io/2019/11/11/tidygeocoder-demo.html">here</a>.</p>
 </div>
 <div id="installation" class="section level2">
 <h2 class="hasAnchor">
@@ -95,10 +95,19 @@
 <a href="#usage" class="anchor"></a>Usage</h2>
 <p>In this example we will geocode a few addresses in the <code>sample_addresses</code> dataset using the <code><a href="reference/geocode.html">geocode()</a></code> function and plot them on a map with ggplot.</p>
 <div class="sourceCode" id="cb3"><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">dplyr</span>)
+<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">tibble</span>)
 <span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">tidygeocoder</span>)
 
-<span class="no">lat_longs</span> <span class="kw">&lt;-</span> <span class="no">sample_addresses</span> <span class="kw">%&gt;%</span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span>(<span class="no">name</span> <span class="kw">%in%</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">'White House'</span>, <span class="st">'Transamerica Pyramid'</span>, <span class="st">'Willis Tower'</span>)) <span class="kw">%&gt;%</span>
+<span class="co"># create a dataframe with addresses</span>
+<span class="no">some_addresses</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/reexports.html">tribble</a></span>(
+~<span class="no">name</span>,                  ~<span class="no">addr</span>,
+<span class="st">"White House"</span>,          <span class="st">"1600 Pennsylvania Ave Washington, DC"</span>,
+<span class="st">"Transamerica Pyramid"</span>, <span class="st">"600 Montgomery St, San Francisco, CA 94111"</span>,
+<span class="st">"Willis Tower"</span>,         <span class="st">"233 S Wacker Dr, Chicago, IL 60606"</span>
+)
+
+<span class="co"># geocode the addresses</span>
+<span class="no">lat_longs</span> <span class="kw">&lt;-</span> <span class="no">some_addresses</span> <span class="kw">%&gt;%</span>
   <span class="fu"><a href="reference/geocode.html">geocode</a></span>(<span class="no">addr</span>, <span class="kw">lat</span> <span class="kw">=</span> <span class="no">latitude</span> , <span class="kw">long</span> <span class="kw">=</span> <span class="no">longitude</span>)</pre></div>
 <p>The <code><a href="reference/geocode.html">geocode()</a></code> function attaches latitude and longitude columns to our input dataset of addresses. Note that this code uses the US Census geocoder since the <code>method</code> argument is not specified. To use other geocoder services, you can specify them with the <code>method</code> argument. See the <code><a href="reference/geo.html">geo()</a></code> function documentation for details.</p>
 <table class="table">
@@ -146,8 +155,7 @@
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_void</a></span>()</pre></div>
 <p><img src="reference/figures/README-unnamed-chunk-6-1.png" style="display: block; margin: auto;"></p>
 <p>To return the full results from a geocoder service (not just latitude and longitude) you can use <code>full_results = TRUE</code>. Additionally, for the Census geocoder you can use <code>return_type = 'geographies'</code> to return geography columns (state, county, Census tract, and Census block).</p>
-<div class="sourceCode" id="cb5"><pre class="r"><span class="no">full</span> <span class="kw">&lt;-</span> <span class="no">sample_addresses</span> <span class="kw">%&gt;%</span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span>(<span class="no">name</span> <span class="kw">%in%</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">'White House'</span>, <span class="st">'Transamerica Pyramid'</span>, <span class="st">'Willis Tower'</span>)) <span class="kw">%&gt;%</span>
+<div class="sourceCode" id="cb5"><pre class="r"><span class="no">full</span> <span class="kw">&lt;-</span> <span class="no">some_addresses</span> <span class="kw">%&gt;%</span>
   <span class="fu"><a href="reference/geocode.html">geocode</a></span>(<span class="no">addr</span>, <span class="kw">full_results</span> <span class="kw">=</span> <span class="fl">TRUE</span>, <span class="kw">return_type</span> <span class="kw">=</span> <span class="st">'geographies'</span>)
 
 <span class="fu"><a href="https://dplyr.tidyverse.org/reference/reexports.html">glimpse</a></span>(<span class="no">full</span>)

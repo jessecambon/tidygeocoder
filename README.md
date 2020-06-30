@@ -19,11 +19,12 @@ Census](https://geocoding.geo.census.gov/) geocoder, [Nominatim
 (OSM)](https://nominatim.org), [Geocodio](https://www.geocod.io/), and
 [Location IQ](https://locationiq.com/). Batch geocoding (geocoding
 multiple addresses per query) is used by default for the US Census and
-Geocodio services when given multiple addresses. Also only unique
-addresses are passed to geocoder services.
+Geocodio services when given multiple addresses. Duplicate, NA, and
+blank address data is handled elegantly - only unique addresses are
+passed to geocoder services.
 
-In addition to the usage example below, you can find a blog post I wrote
-up on geocoding landmarks in Washington, DC
+In addition to the brief usage example below, you can find a blog post I
+wrote up on geocoding landmarks in Washington, DC
 [here](https://jessecambon.github.io/2019/11/11/tidygeocoder-demo.html).
 
 ## Installation
@@ -50,10 +51,19 @@ on a map with ggplot.
 
 ``` r
 library(dplyr)
+library(tibble)
 library(tidygeocoder)
 
-lat_longs <- sample_addresses %>% 
-  filter(name %in% c('White House', 'Transamerica Pyramid', 'Willis Tower')) %>%
+# create a dataframe with addresses
+some_addresses <- tribble(
+~name,                  ~addr,
+"White House",          "1600 Pennsylvania Ave Washington, DC",
+"Transamerica Pyramid", "600 Montgomery St, San Francisco, CA 94111",     
+"Willis Tower",         "233 S Wacker Dr, Chicago, IL 60606"                                  
+)
+
+# geocode the addresses
+lat_longs <- some_addresses %>%
   geocode(addr, lat = latitude , long = longitude)
 ```
 
@@ -91,8 +101,7 @@ Census geocoder you can use `return_type = 'geographies'` to return
 geography columns (state, county, Census tract, and Census block).
 
 ``` r
-full <- sample_addresses %>% 
-  filter(name %in% c('White House', 'Transamerica Pyramid', 'Willis Tower')) %>%
+full <- some_addresses %>%
   geocode(addr, full_results = TRUE, return_type = 'geographies')
 
 glimpse(full)

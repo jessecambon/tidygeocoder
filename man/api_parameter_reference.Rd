@@ -15,6 +15,7 @@ A tibble dataframe
 }
 }
 \source{
+API Documentation:
 \itemize{ 
     \item \href{https://locationiq.com/docs}{LocationIQ (IQ)} 
     \item \href{https://nominatim.org/release-docs/develop/api/Search}{Nominatim (OSM)}

@@ -69,9 +69,12 @@ each geocoder service for more details on usage on each service.
     that they return.
 }}
 
-\item{lat}{latitude column name}
+\item{cascade_order}{a vector with two character method values showing 
+the order to be attempted for method = 'cascade'}
 
-\item{long}{longitude column name}
+\item{lat}{latitude column name. Can be quoted or unquoted (ie. lat or 'lat').}
+
+\item{long}{longitude column name. Can be quoted or unquoted (ie. long or 'long').}
 
 \item{limit}{number of results to return per address. Note that 
 limit > 1 is not compatible with batch geocoding if return_addresses = TRUE.}
