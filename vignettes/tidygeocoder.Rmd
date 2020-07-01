@@ -83,7 +83,7 @@ salz <- geo('Salzburg, Austria', method = 'osm', full_results = TRUE)
 glimpse(salz)
 ```
 
-## Under the Hood
+## Working With Messy Address Data
 
 Only unique addresses are passed to geocoder services even if your data contains duplicates. Also, NA and whitespace addresses are excluded from queries. 
 
@@ -97,13 +97,12 @@ duplicate_addrs %>%
 ```
 
 
-By default, as shown above, duplicates will not be removed from your results. However, if you chose you can only return unique results with the `unique_only` argument:
+By default, as shown above, duplicates will not be removed from your results. However, if you chose you can only return unique results with the `unique_only` argument. Note that when used with `geocode()` passing `unique_only = TRUE` will result in the original dataframe format (including column names) being discarded in favor of the standard field names (ie. address, city, state, etc.).
 
-```{r, eval = FALSE}
+```{r}
 duplicate_addrs %>%
   geocode(singlelineaddress, unique_only = TRUE)
 ```
-
 
 ## Advanced Usage
 
@@ -136,7 +135,7 @@ You can refer to the `api_parameter_reference` dataset to see which which parame
 
 Refer to the [`api_parameter_reference` documentation](https://jessecambon.github.io/tidygeocoder/reference/api_parameter_reference.html) for more details and links to the API documentation for each geocoder service.
 
-```{r}
+```{r, echo = FALSE}
 api_parameter_reference %>% 
   select(-required) %>%
   mutate(across(c(method, generic_name, api_name), as.factor)) %>%

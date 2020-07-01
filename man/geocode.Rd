@@ -16,6 +16,7 @@ geocode(
   lat = lat,
   long = long,
   return_addresses = FALSE,
+  unique_only = FALSE,
   ...
 )
 }
@@ -45,6 +46,10 @@ address component arguments (street, city, county, state, postalcode, country)}
 
 \item{return_addresses}{if TRUE then addresses with standard names will be returned
 This is defaulted to FALSE because the address fields are already in the input dataset}
+
+\item{unique_only}{if TRUE then only unique addresses and results will be returned. 
+The input dataframe's format is not preserved. Addresses will also be returned if 
+TRUE (overrides return_addresses argument).}
 
 \item{...}{arguments passed to the \code{\link{geo}} function}
 }

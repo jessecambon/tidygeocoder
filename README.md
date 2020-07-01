@@ -17,11 +17,12 @@ Tidygeocoder makes getting data from geocoding services easy. The
 currently supported services are the [US
 Census](https://geocoding.geo.census.gov/) geocoder, [Nominatim
 (OSM)](https://nominatim.org), [Geocodio](https://www.geocod.io/), and
-[Location IQ](https://locationiq.com/). Batch geocoding (geocoding
-multiple addresses per query) is used by default for the US Census and
-Geocodio services when given multiple addresses. Duplicate, NA, and
-blank address data is handled elegantly - only unique addresses are
-passed to geocoder services.
+[Location IQ](https://locationiq.com/).
+
+Batch geocoding (geocoding multiple addresses per query) is used by
+default for the US Census and Geocodio services when given multiple
+addresses. Duplicate, missing/NA, and blank address data is handled
+elegantly - only unique addresses are passed to geocoder services.
 
 In addition to the brief usage example below, you can find a blog post I
 wrote up on geocoding landmarks in Washington, DC

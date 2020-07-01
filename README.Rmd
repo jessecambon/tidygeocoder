@@ -26,7 +26,9 @@ options(tibble.print_min = 5, tibble.print_max = 5)
 
 ## Introduction
 
-Tidygeocoder makes getting data from geocoding services easy. The currently supported services are the [US Census](https://geocoding.geo.census.gov/) geocoder, [Nominatim (OSM)](https://nominatim.org), [Geocodio](https://www.geocod.io/), and [Location IQ](https://locationiq.com/). Batch geocoding (geocoding multiple addresses per query) is used by default for the US Census and Geocodio services when given multiple addresses. Duplicate, NA, and blank address data is handled elegantly - only unique addresses are passed to geocoder services.
+Tidygeocoder makes getting data from geocoding services easy. The currently supported services are the [US Census](https://geocoding.geo.census.gov/) geocoder, [Nominatim (OSM)](https://nominatim.org), [Geocodio](https://www.geocod.io/), and [Location IQ](https://locationiq.com/). 
+
+Batch geocoding (geocoding multiple addresses per query) is used by default for the US Census and Geocodio services when given multiple addresses. Duplicate, missing/NA, and blank address data is handled elegantly - only unique addresses are passed to geocoder services.
 
 In addition to the brief usage example below, you can find a blog post I wrote up on geocoding landmarks in Washington, DC [here](https://jessecambon.github.io/2019/11/11/tidygeocoder-demo.html).
 
@@ -70,7 +72,7 @@ lat_longs <- some_addresses %>%
 
 The `geocode()` function attaches latitude and longitude columns to our input dataset of addresses. Note that this code uses the US Census geocoder since the `method` argument is not specified. To use other geocoder services, you can specify them with the `method` argument. See the `geo()` function documentation for details.
 
-```{r, echo=F}
+```{r, echo = FALSE}
 knitr::kable(lat_longs)
 ```
 
