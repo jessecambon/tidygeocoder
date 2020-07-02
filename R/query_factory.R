@@ -52,8 +52,6 @@ create_api_parameter <- function(method_name, param_name, value) {
   api_parameter_name <- 
     api_ref[which( (api_ref$method == method_name) &
         (api_ref$generic_name ==  param_name)), 'api_name'][[1]]
-  #print('api_parameter_name:')
-  #print(api_parameter_name)
   
   # If api_parameter_name is NA or missing then return empty list
   if ((length(api_parameter_name) == 0)) return(list())
@@ -153,7 +151,7 @@ query_api <- function(api_url, query_parameters, mode = 'single',
 
 # print values in a named list (used for displaying query parameters)
 display_named_list <- function(named_list) {
-  for (var in names(named_list)) message(paste(var, '=', named_list[var]))
+  for (var in names(named_list)) message(paste0(var, ' : "', named_list[var], '"'))
   message('')
 }
 

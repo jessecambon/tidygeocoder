@@ -107,12 +107,12 @@
 <div class="sourceCode" id="cb2"><html><body><pre class="r"><span class="no">address_single</span> <span class="kw">%&gt;%</span> <span class="fu"><a href="../reference/geocode.html">geocode</a></span>(<span class="kw">address</span> <span class="kw">=</span> <span class="no">singlelineaddress</span>, <span class="kw">method</span> <span class="kw">=</span> <span class="st">'census'</span>,
                            <span class="kw">verbose</span> <span class="kw">=</span> <span class="fl">TRUE</span>)
 <span class="co">#&gt; Number of Unique Addresses: 2</span>
-<span class="co">#&gt; Calling the census batch geocoder</span>
+<span class="co">#&gt; Passing 2 addresses to the census batch geocoder</span>
 <span class="co">#&gt; Querying API URL: https://geocoding.geo.census.gov/geocoder/locations/addressbatch</span>
 <span class="co">#&gt; Passing the following parameters to the API:</span>
-<span class="co">#&gt; format = json</span>
-<span class="co">#&gt; benchmark = Public_AR_Current</span>
-<span class="co">#&gt; vintage = Current_Current</span>
+<span class="co">#&gt; format : "json"</span>
+<span class="co">#&gt; benchmark : "Public_AR_Current"</span>
+<span class="co">#&gt; vintage : "Current_Current"</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; # A tibble: 2 x 3</span>
 <span class="co">#&gt;   singlelineaddress                           lat  long</span>
@@ -202,12 +202,12 @@
 <span class="no">duplicate_addrs</span> <span class="kw">%&gt;%</span>
   <span class="fu"><a href="../reference/geocode.html">geocode</a></span>(<span class="no">singlelineaddress</span>, <span class="kw">verbose</span> <span class="kw">=</span> <span class="no">T</span>)
 <span class="co">#&gt; Number of Unique Addresses: 2</span>
-<span class="co">#&gt; Calling the census batch geocoder</span>
+<span class="co">#&gt; Passing 2 addresses to the census batch geocoder</span>
 <span class="co">#&gt; Querying API URL: https://geocoding.geo.census.gov/geocoder/locations/addressbatch</span>
 <span class="co">#&gt; Passing the following parameters to the API:</span>
-<span class="co">#&gt; format = json</span>
-<span class="co">#&gt; benchmark = Public_AR_Current</span>
-<span class="co">#&gt; vintage = Current_Current</span>
+<span class="co">#&gt; format : "json"</span>
+<span class="co">#&gt; benchmark : "Public_AR_Current"</span>
+<span class="co">#&gt; vintage : "Current_Current"</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; # A tibble: 7 x 3</span>
 <span class="co">#&gt;   singlelineaddress                           lat  long</span>
@@ -254,10 +254,10 @@
 <span class="co">#&gt; Number of Unique Addresses: 1</span>
 <span class="co">#&gt; Querying API URL: http://nominatim.openstreetmap.org/search</span>
 <span class="co">#&gt; Passing the following parameters to the API:</span>
-<span class="co">#&gt; limit = 1</span>
-<span class="co">#&gt; q = Cairo, Egypt</span>
-<span class="co">#&gt; polygon_geojson = 1</span>
-<span class="co">#&gt; format = json</span>
+<span class="co">#&gt; limit : "1"</span>
+<span class="co">#&gt; q : "Cairo, Egypt"</span>
+<span class="co">#&gt; polygon_geojson : "1"</span>
+<span class="co">#&gt; format : "json"</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; Query completed in: 0.3 seconds</span>
 <span class="co">#&gt; Total query time (including sleep): 1 seconds</span>

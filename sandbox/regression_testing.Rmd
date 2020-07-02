@@ -1,0 +1,47 @@
+---
+title: "Regression Testing"
+output: github_document
+---
+
+Regression testing. Make sure to cover geocodio and iq since those methods aren't covered in the vignettes.
+
+```{r setup}
+library(tibble)
+library(dplyr)
+library(knitr)
+
+sample1 <- tibble(address = c('11 Wall St New York, NY', NA, '',
+    '1600 Pennsylvania Ave NW Washington, DC', '11 Wall St New York, NY', 
+    'Toronto, Canada'))
+
+sample2 <- tibble(street = c('1600 Pennsylvania Ave NW', '11 Wall Street', ''), 
+  city = c('Washington', 'New York', 'Nashville'), state = c('DC', 'NY', 'TN'))
+```
+
+
+```{r}
+gc1 <- geocode_geocodio1 <- sample1 %>% 
+  geocode(address = address, method = 'geocodio', verbose = TRUE)
+gc1
+```
+
+```{r}
+iq1 <- geocode_geocodio1 <- sample1 %>% 
+  geocode(address = address, method = 'iq', full_results = TRUE, verbose = TRUE)
+iq1
+```
+
+
+
+```{r}
+gc_c1 <- geo(method = 'geocodio', street = c('1600 Pennsylvania Ave NW', '11 Wall Street', ''), 
+  city = c('Washington', 'New York', 'Nashville'), state = c('DC', 'NY', 'TN'), verbose = TRUE, full_results = TRUE)
+gc_c1
+```
+
+```{r}
+iq_c1 <- sample2 %>% 
+  geocode(street = street, city = city, state = state, method = 'iq', verbose = TRUE, full_results = TRUE)
+iq_c1
+```
+

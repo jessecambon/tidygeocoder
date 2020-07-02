@@ -1,12 +1,9 @@
-### Functions for geocoding that are called by geo()
-
+### Functions for batch geocoding that are called by geo()
 
 
 # Census batch geocoding
 # @param address_pack packaged addresses object
-# @param return should be 'locations' or 'geographies'
-# Vingate must be defined if return = 'geographies'
-# @export 
+# Vintage must be defined if return = 'geographies'
 batch_census <- function(address_pack,
      return_type = 'locations', timeout = 20, full_results = FALSE, custom_query = list(), api_url = NULL,
      lat = 'lat', long = 'long', verbose = FALSE, ...) {
@@ -56,16 +53,9 @@ batch_census <- function(address_pack,
                              col.names = return_cols,
                              fill = TRUE, stringsAsFactors = FALSE,
                              na.strings = '')
-  #print('results:')
-  #print(results)
 
   ## split out lat/lng. lapply is used with as.numeric to convert coordinates to numeric
   coord_df <- do.call(rbind, lapply(results$coords, split_coords))
-  #coord_df <- do.call(rbind, lapply(strsplit(results$coords, ",", fixed = TRUE), as.numeric))
-  
-  #print('coord_df:')
-  #print(coord_df)
-  
   colnames(coord_df) <- c(long, lat)  # <--- NOTE ORDER
   
   # convert to tibble and reorder coordinates
@@ -81,7 +71,6 @@ batch_census <- function(address_pack,
 
 # Batch geocoding with geocodio
 # ... are arguments passed from the geo() function
-# @export
 batch_geocodio <- function(address_pack, lat = 'lat', long = 'long', timeout = 20, full_results = FALSE, verbose = FALSE,
    api_url = NULL, geocodio_v = 1.6, limit = 1, ...) {
   # https://www.geocod.io/docs/#batch-geocoding
@@ -114,12 +103,12 @@ batch_geocodio <- function(address_pack, lat = 'lat', long = 'long', timeout = 2
   # nested dataframes that would cause dplyr::bind_rows (or rbind) to fail
   content <- jsonlite::fromJSON(raw_content, flatten = TRUE)
   
+  # How results are parsed depends on whether single line addresses or address
+  # components were passed
+  # result_list is a list of dataframes
   if ('address' %in% names(address_df)) {
-    # results as a list of dataframes
     result_list <- content$results$response.results
   } else {
-    # if address components were used we need to do a little more work to get
-    # the results ...
     result_list <- lapply(content$results, function(x) x$response$results)
   }
   
@@ -128,7 +117,7 @@ batch_geocodio <- function(address_pack, lat = 'lat', long = 'long', timeout = 2
   
   # if no results are returned for a given address then there is a 0 row dataframe in this
   # list and we need to replace it with a 1 row NA dataframe to preserve the number of rows
-  result_list_filled <- lapply(result_list, filler_df, c('location.lat','location.long'))
+  result_list_filled <- lapply(result_list, filler_df, c('location.lat','location.lng'))
   
   # combine list of dataframes into a single tibble. Column names may differ between the dataframes
   results <- dplyr::bind_rows(result_list_filled)
@@ -138,11 +127,11 @@ batch_geocodio <- function(address_pack, lat = 'lat', long = 'long', timeout = 2
   
   # rename lat/long columns
   names(results)[names(results) == 'location.lat'] <- lat
-  names(results)[names(results) == 'location.long'] <- long
+  names(results)[names(results) == 'location.lng'] <- long
   
   # print('results:')
   # print(results)
   
-  if (full_results == FALSE)  return(results[c(lat,long)])
-  else return(cbind(results[c(lat,long)], results[!names(results) %in% c(lat,long)]))
+  if (full_results == FALSE)  return(results[c(lat, long)])
+  else return(cbind(results[c(lat,long)], results[!names(results) %in% c(lat, long)]))
 }

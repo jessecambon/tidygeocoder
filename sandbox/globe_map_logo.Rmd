@@ -47,15 +47,17 @@ globe_background + theme(panel.background = element_rect(fill = 'steelblue'))
 ## Create Hex
 
 ```{r}
+font_name <- "Open Sans"
+
 library(showtext)
 ## Loading Google fonts (http://www.google.com/fonts)
-font_add_google("Merriweather")
+font_add_google(font_name)
 ```
 
 
 ```{r}
 s <- sticker(globe_background,
-    package = "tidygeocoder", p_size = 18, s_x = 1, s_y = .75, s_width = 1, s_height = 1, p_family = "Merriweather",
+    package = "tidygeocoder", p_size = 18, s_x = 1, s_y = .7, s_width = 1.1, s_height = 1.1, p_family = font_name,
     h_color = 'dimgrey', h_fill = 'steelblue3', p_color = 'white', filename = here::here("man/figures/tidygeocoder_hex.png"))
 plot(s)
 #filename ="logo.png"

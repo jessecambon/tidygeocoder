@@ -100,14 +100,11 @@ geo <- function(address = NULL,
   # make sure to put this before any other variables are defined
   all_args <- as.list(environment())
   
-  #print('all_args:')
-  #print(all_args)
-  
   ## Check inputs
   stopifnot(mode %in% c('', 'single', 'batch'), 
     method %in% c('census', 'osm', 'iq', 'geocodio', 'cascade'),
     is.logical(verbose), is.logical(no_query), is.logical(flatten), 
-     is.logical(full_results),is.logical(unique_only), is.logical(return_addresses), 
+     is.logical(full_results), is.logical(unique_only), is.logical(return_addresses), 
      limit >= 1, batch_limit >= 1)
   
   if (no_query == TRUE) verbose <- TRUE
@@ -184,10 +181,10 @@ geo <- function(address = NULL,
       message(paste0('Limiting batch query to ', batch_limit, ' addresses'))
       address_pack$unique <- address_pack$unique[1:batch_limit, ]
       num_rows_to_return <- batch_limit
-      #address_pack$crosswalk <- subset(address_pack$crosswalk, address_pack$crosswalk$.uid <= batch_limit)
     }
       
-    if (verbose == TRUE) message(paste0('Calling the ', method, ' batch geocoder'))
+    if (verbose == TRUE) message(paste0('Passing ', num_unique_addresses, 
+                          ' addresses to the ', method, ' batch geocoder'))
     # Convert our generic query parameters into parameters specific to our API (method)
     if (no_query == TRUE) return(unpackage_addresses(address_pack, 
          get_na_value(lat, long, rows = num_rows_to_return), 
@@ -267,7 +264,7 @@ geo <- function(address = NULL,
     ### to control the output
     results <- extract_results(method, raw_results, full_results, flatten)
     
-    # Name the latitude and longitude columns in accordance with 
+    # Name the latitude and longitude columns in accordance with lat/long arguments
     names(results)[1] <- lat
     names(results)[2] <- long
     
