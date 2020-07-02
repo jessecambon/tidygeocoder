@@ -21,8 +21,9 @@ The `geocode()` function extracts specified address columns from the input dataf
 
 ## Basic Queries
 
-```{r, warning = FALSE, message = FALSE}
+```{r setup, warning = FALSE, message = FALSE}
 library(tibble)
+library(DT)
 library(dplyr)
 library(tidygeocoder)
 
@@ -139,7 +140,7 @@ Refer to the [`api_parameter_reference` documentation](https://jessecambon.githu
 api_parameter_reference %>% 
   select(-required) %>%
   mutate(across(c(method, generic_name, api_name), as.factor)) %>%
-  DT::datatable(filter = 'top', rownames = FALSE, 
+  datatable(filter = 'top', rownames = FALSE, 
   options = list(pageLength = 12, autoWidth = TRUE))
 ```
 

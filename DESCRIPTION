@@ -7,7 +7,7 @@ Authors@R:
              family = "Cambon",
              role = c("aut", "cre"),
              email = "jesse.cambon@gmail.com"))
-Description: An intuitive interface for getting data from geocoder services
+Description: An intuitive interface for getting data from geocoder services. 
 URL: https://jessecambon.github.io/tidygeocoder, 
     https://github.com/jessecambon/tidygeocoder
 BugReports: https://github.com/jessecambon/tidygeocoder/issues
@@ -23,6 +23,7 @@ Imports:
 RoxygenNote: 7.1.0
 Suggests: 
     knitr,
+    DT,
     rmarkdown,
     ggplot2,
     ggrepel,
