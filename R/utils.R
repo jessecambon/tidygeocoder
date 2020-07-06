@@ -60,7 +60,7 @@ extract_results <- function(method, response, full_results = TRUE, flatten = TRU
   
   # if null result then return NA
   if (length(lat_lng) == 0 ) return(NA_result)
-  # check to make sure results aren't na or wrong width
+  # check to make sure results aren't na or the wrong width
   if (nrow(lat_lng) == 0 | ncol(lat_lng) != 2) return(NA_result)
   
   # convert to numeric format

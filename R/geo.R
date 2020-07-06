@@ -252,13 +252,20 @@ geo <- function(address = NULL,
   if (no_query == TRUE) return(unpackage_addresses(address_pack, NA_value, unique_only, return_addresses))
   raw_results <- jsonlite::fromJSON(query_api(api_url, api_query_parameters))
   
-  # If no results found, return NA
-  # otherwise extract results
-  if (length(raw_results) == 0 | (!is.data.frame(raw_results))) {
-    if (verbose == TRUE) message("No results found")
-    # output error message for geocodio if present
-    if ('error' %in% names(raw_results)) message(paste0('Error: ', raw_results$error))
+  # print(class(raw_results))
+  # print('raw_results: ')
+  # print(raw_results)
+  
+  ## output error message for geocodio if present
+  if ((method == 'geocodio') & (!is.data.frame(raw_results)) & ("error" %in% names(raw_results))) {
+    message(paste0('Error: ', raw_results$error))
     results <- NA_value
+  } 
+  else if (length(raw_results) == 0) {
+    # If no results found, return NA
+    # otherwise extract results
+    results <- NA_value
+    if (verbose == TRUE) message("No results found")
   } else {
     ### Extract results. Use the full_results and flatten parameters
     ### to control the output
