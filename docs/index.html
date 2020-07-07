@@ -12,7 +12,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
 <!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="pkgdown.css" rel="stylesheet">
 <script src="pkgdown.js"></script><meta property="og:title" content="Geocoding Made Easy">
-<meta property="og:description" content="An intuitive interface for getting data from geocoder services">
+<meta property="og:description" content="An intuitive interface for getting data from geocoder services. ">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
@@ -79,8 +79,8 @@
 <h2 class="hasAnchor">
 <a href="#introduction" class="anchor"></a>Introduction</h2>
 <p>Tidygeocoder makes getting data from geocoding services easy. The currently supported services are the <a href="https://geocoding.geo.census.gov/">US Census</a> geocoder, <a href="https://nominatim.org">Nominatim (OSM)</a>, <a href="https://www.geocod.io/">Geocodio</a>, and <a href="https://locationiq.com/">Location IQ</a>.</p>
-<p>Batch geocoding (geocoding multiple addresses per query) is used by default for the US Census and Geocodio services when given multiple addresses. Duplicate, missing/NA, and blank address data is handled elegantly - only unique addresses are passed to geocoder services.</p>
-<p>In addition to the brief usage example below, you can find a blog post I wrote up on geocoding landmarks in Washington, DC <a href="https://jessecambon.github.io/2019/11/11/tidygeocoder-demo.html">here</a>.</p>
+<p>Batch geocoding (geocoding multiple addresses per query) is used by default for the US Census and Geocodio services when multiple addresses are provided. Duplicate, missing/NA, and blank address data is handled elegantly - only unique addresses are passed to geocoder services, but the rows in the original data are preserved.</p>
+<p>In addition to the brief usage example below, you can find a blog post on geocoding landmarks in Washington, DC <a href="https://jessecambon.github.io/2019/11/11/tidygeocoder-demo.html">here</a>.</p>
 </div>
 <div id="installation" class="section level2">
 <h2 class="hasAnchor">
@@ -109,8 +109,8 @@
 
 <span class="co"># geocode the addresses</span>
 <span class="no">lat_longs</span> <span class="kw">&lt;-</span> <span class="no">some_addresses</span> <span class="kw">%&gt;%</span>
-  <span class="fu"><a href="reference/geocode.html">geocode</a></span>(<span class="no">addr</span>, <span class="kw">lat</span> <span class="kw">=</span> <span class="no">latitude</span> , <span class="kw">long</span> <span class="kw">=</span> <span class="no">longitude</span>)</pre></div>
-<p>The <code><a href="reference/geocode.html">geocode()</a></code> function attaches latitude and longitude columns to our input dataset of addresses. Note that this code uses the US Census geocoder since the <code>method</code> argument is not specified. To use other geocoder services, you can specify them with the <code>method</code> argument. See the <code><a href="reference/geo.html">geo()</a></code> function documentation for details.</p>
+  <span class="fu"><a href="reference/geocode.html">geocode</a></span>(<span class="no">addr</span>, <span class="kw">method</span> <span class="kw">=</span> <span class="st">'census'</span>, <span class="kw">lat</span> <span class="kw">=</span> <span class="no">latitude</span> , <span class="kw">long</span> <span class="kw">=</span> <span class="no">longitude</span>)</pre></div>
+<p>The <code><a href="reference/geocode.html">geocode()</a></code> function attaches latitude and longitude columns to our input dataset of addresses. The US Census geocoder is used here, but other services can be specified with the <code>method</code> argument. See the <code><a href="reference/geo.html">geo()</a></code> function documentation for details.</p>
 <table class="table">
 <colgroup>
 <col width="24%">
@@ -145,7 +145,7 @@
 </tr>
 </tbody>
 </table>
-<p>We can then plot our addresses on a map using the longitude and latitude coordinates.</p>
+<p>Now that we have the longitude and latitude coordinates, we can use ggplot to plot our addresses on a map.</p>
 <div class="sourceCode" id="cb4"><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">ggplot2</span>)
 <span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">maps</span>)
 <span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">ggrepel</span>)
@@ -157,7 +157,7 @@
 <p><img src="reference/figures/README-unnamed-chunk-6-1.png" style="display: block; margin: auto;"></p>
 <p>To return the full results from a geocoder service (not just latitude and longitude) you can use <code>full_results = TRUE</code>. Additionally, for the Census geocoder you can use <code>return_type = 'geographies'</code> to return geography columns (state, county, Census tract, and Census block).</p>
 <div class="sourceCode" id="cb5"><pre class="r"><span class="no">full</span> <span class="kw">&lt;-</span> <span class="no">some_addresses</span> <span class="kw">%&gt;%</span>
-  <span class="fu"><a href="reference/geocode.html">geocode</a></span>(<span class="no">addr</span>, <span class="kw">full_results</span> <span class="kw">=</span> <span class="fl">TRUE</span>, <span class="kw">return_type</span> <span class="kw">=</span> <span class="st">'geographies'</span>)
+  <span class="fu"><a href="reference/geocode.html">geocode</a></span>(<span class="no">addr</span>, <span class="kw">method</span> <span class="kw">=</span> <span class="st">'census'</span>, <span class="kw">full_results</span> <span class="kw">=</span> <span class="fl">TRUE</span>, <span class="kw">return_type</span> <span class="kw">=</span> <span class="st">'geographies'</span>)
 
 <span class="fu"><a href="https://dplyr.tidyverse.org/reference/reexports.html">glimpse</a></span>(<span class="no">full</span>)
 <span class="co">#&gt; Rows: 3</span>

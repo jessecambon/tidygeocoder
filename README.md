@@ -20,12 +20,13 @@ Census](https://geocoding.geo.census.gov/) geocoder, [Nominatim
 [Location IQ](https://locationiq.com/).
 
 Batch geocoding (geocoding multiple addresses per query) is used by
-default for the US Census and Geocodio services when given multiple
-addresses. Duplicate, missing/NA, and blank address data is handled
-elegantly - only unique addresses are passed to geocoder services.
+default for the US Census and Geocodio services when multiple addresses
+are provided. Duplicate, missing/NA, and blank address data is handled
+elegantly - only unique addresses are passed to geocoder services, but
+the rows in the original data are preserved.
 
-In addition to the brief usage example below, you can find a blog post I
-wrote up on geocoding landmarks in Washington, DC
+In addition to the brief usage example below, you can find a blog post
+on geocoding landmarks in Washington, DC
 [here](https://jessecambon.github.io/2019/11/11/tidygeocoder-demo.html).
 
 ## Installation
@@ -65,14 +66,13 @@ some_addresses <- tribble(
 
 # geocode the addresses
 lat_longs <- some_addresses %>%
-  geocode(addr, lat = latitude , long = longitude)
+  geocode(addr, method = 'census', lat = latitude , long = longitude)
 ```
 
 The `geocode()` function attaches latitude and longitude columns to our
-input dataset of addresses. Note that this code uses the US Census
-geocoder since the `method` argument is not specified. To use other
-geocoder services, you can specify them with the `method` argument. See
-the `geo()` function documentation for details.
+input dataset of addresses. The US Census geocoder is used here, but
+other services can be specified with the `method` argument. See the
+`geo()` function documentation for details.
 
 | name                 | addr                                       | latitude |   longitude |
 | :------------------- | :----------------------------------------- | -------: | ----------: |
@@ -80,8 +80,8 @@ the `geo()` function documentation for details.
 | Transamerica Pyramid | 600 Montgomery St, San Francisco, CA 94111 | 37.79470 | \-122.40314 |
 | Willis Tower         | 233 S Wacker Dr, Chicago, IL 60606         | 41.87851 |  \-87.63666 |
 
-We can then plot our addresses on a map using the longitude and latitude
-coordinates.
+Now that we have the longitude and latitude coordinates, we can use
+ggplot to plot our addresses on a map.
 
 ``` r
 library(ggplot2)
@@ -103,7 +103,7 @@ geography columns (state, county, Census tract, and Census block).
 
 ``` r
 full <- some_addresses %>%
-  geocode(addr, full_results = TRUE, return_type = 'geographies')
+  geocode(addr, method = 'census', full_results = TRUE, return_type = 'geographies')
 
 glimpse(full)
 #> Rows: 3

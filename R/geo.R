@@ -1,9 +1,11 @@
 #' Geocode addresses
 #' 
 #' The \code{\link{geocode}} function utilizes this function
-#' on addresses contained in dataframes. Refer to \code{\link{api_parameter_reference}}
-#' for more details on geocoder services and API usage. This 
-#' function uses the \code{\link{get_api_query}}, \code{\link{query_api}}, and
+#' on addresses contained in dataframes. Note that not all geocoder services
+#' support certain address component parameters. For example, the census geocoder only
+#' covers the United States and does not have a `country` parameter. Refer to
+#' \code{\link{api_parameter_reference}} for more details on geocoder services and API usage. 
+#' This function uses the \code{\link{get_api_query}}, \code{\link{query_api}}, and
 #' \code{\link{extract_results}} functions to create, execute, and parse the geocoder
 #' API queries.
 #' 
@@ -25,17 +27,19 @@
 #'      Can perform batch geocoding.
 #'   \item "osm": Nominatim (OSM). Worldwide coverage. Has a usage limit
 #'        (see API documentation for details).
-#'   \item "iq": Commercial OSM geocoder service. Requires an API Key.
+#'   \item "iq": Commercial OSM geocoder service. Requires an API Key to
+#'      be stored in the "LOCATIONIQ_API_KEY" environmental variable.
 #'   \item "geocodio": Commercial geocoder. Covers US and Canada and has
-#'      batch geocoding capabilities. Requires an API Key.
-#'   \item "cascade" : Tries one geocoder service first and then tries
-#'     another geocoder service if the first service didn't return results
-#'     per the cascade_order argument. Note that this cannot be used with
-#'     full_results = TRUE as different geocoders have different columns
-#'     that they return.
+#'      batch geocoding capabilities. Requires an API Key to be stored in
+#'      the "GEOCODIO_API_KEY" environmental variable.
+#'   \item "cascade" : Attempts to use one geocoder service and then uses
+#'     as second geocoder service if the first service didn't return results.
+#'     The services and order is specified by the cascade_order argument. 
+#'     Note that this is not compatible with full_results = TRUE as different
+#'     services have different columns that they return.
 #' }
 #' @param cascade_order a vector with two character method values showing 
-#' the order to be attempted for method = 'cascade'
+#' the order to be attempted for method = "cascade"
 #' @param lat latitude column name. Can be quoted or unquoted (ie. lat or 'lat').
 #' @param long longitude column name. Can be quoted or unquoted (ie. long or 'long').
 #' @param limit number of results to return per address. Note that 
@@ -251,10 +255,6 @@ geo <- function(address = NULL,
   if (verbose == TRUE) display_query(api_url, api_query_parameters)
   if (no_query == TRUE) return(unpackage_addresses(address_pack, NA_value, unique_only, return_addresses))
   raw_results <- jsonlite::fromJSON(query_api(api_url, api_query_parameters))
-  
-  # print(class(raw_results))
-  # print('raw_results: ')
-  # print(raw_results)
   
   ## output error message for geocodio if present
   if ((method == 'geocodio') & (!is.data.frame(raw_results)) & ("error" %in% names(raw_results))) {

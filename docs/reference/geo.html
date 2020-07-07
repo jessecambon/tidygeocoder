@@ -41,9 +41,11 @@
 
 <meta property="og:title" content="Geocode addresses — geo" />
 <meta property="og:description" content="The geocode function utilizes this function
-on addresses contained in dataframes. Refer to api_parameter_reference
-for more details on geocoder services and API usage. This 
-function uses the get_api_query, query_api, and
+on addresses contained in dataframes. Note that not all geocoder services
+support certain address component parameters. For example, the census geocoder only
+covers the United States and does not have a `country` parameter. Refer to
+api_parameter_reference for more details on geocoder services and API usage. 
+This function uses the get_api_query, query_api, and
 extract_results functions to create, execute, and parse the geocoder
 API queries." />
 
@@ -123,9 +125,11 @@ API queries." />
 
     <div class="ref-description">
     <p>The <code><a href='geocode.html'>geocode</a></code> function utilizes this function
-on addresses contained in dataframes. Refer to <code><a href='api_parameter_reference.html'>api_parameter_reference</a></code>
-for more details on geocoder services and API usage. This 
-function uses the <code><a href='get_api_query.html'>get_api_query</a></code>, <code><a href='query_api.html'>query_api</a></code>, and
+on addresses contained in dataframes. Note that not all geocoder services
+support certain address component parameters. For example, the census geocoder only
+covers the United States and does not have a `country` parameter. Refer to
+<code><a href='api_parameter_reference.html'>api_parameter_reference</a></code> for more details on geocoder services and API usage. 
+This function uses the <code><a href='get_api_query.html'>get_api_query</a></code>, <code><a href='query_api.html'>query_api</a></code>, and
 <code><a href='extract_results.html'>extract_results</a></code> functions to create, execute, and parse the geocoder
 API queries.</p>
     </div>
@@ -202,20 +206,22 @@ each geocoder service for more details on usage on each service.</p><ul>
      Can perform batch geocoding.</p></li>
 <li><p>"osm": Nominatim (OSM). Worldwide coverage. Has a usage limit
        (see API documentation for details).</p></li>
-<li><p>"iq": Commercial OSM geocoder service. Requires an API Key.</p></li>
+<li><p>"iq": Commercial OSM geocoder service. Requires an API Key to
+     be stored in the "LOCATIONIQ_API_KEY" environmental variable.</p></li>
 <li><p>"geocodio": Commercial geocoder. Covers US and Canada and has
-     batch geocoding capabilities. Requires an API Key.</p></li>
-<li><p>"cascade" : Tries one geocoder service first and then tries
-    another geocoder service if the first service didn't return results
-    per the cascade_order argument. Note that this cannot be used with
-    full_results = TRUE as different geocoders have different columns
-    that they return.</p></li>
+     batch geocoding capabilities. Requires an API Key to be stored in
+     the "GEOCODIO_API_KEY" environmental variable.</p></li>
+<li><p>"cascade" : Attempts to use one geocoder service and then uses
+    as second geocoder service if the first service didn't return results.
+    The services and order is specified by the cascade_order argument. 
+    Note that this is not compatible with full_results = TRUE as different
+    services have different columns that they return.</p></li>
 </ul></td>
     </tr>
     <tr>
       <th>cascade_order</th>
       <td><p>a vector with two character method values showing 
-the order to be attempted for method = 'cascade'</p></td>
+the order to be attempted for method = "cascade"</p></td>
     </tr>
     <tr>
       <th>lat</th>
@@ -312,9 +318,9 @@ for the 'geocodio' method.</p></td>
     <pre class="examples"><div class='input'><span class='co'># \donttest{</span>
 
 <span class='fu'>geo</span>(<span class='kw'>street</span> <span class='kw'>=</span> <span class='st'>"600 Peachtree Street NE"</span>, <span class='kw'>city</span> <span class='kw'>=</span> <span class='st'>"Atlanta"</span>, <span class='kw'>state</span> <span class='kw'>=</span> <span class='st'>"Georgia"</span>, <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"census"</span>)</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 1 x 5</span><span>
-#&gt;   street                  city    state   lat   long 
-#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>                   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>   </span><span style='color: #949494;font-style: italic;'>&lt;lgl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;lgl&gt;</span><span>
-#&gt; </span><span style='color: #BCBCBC;'>1</span><span> 600 Peachtree Street NE Atlanta Georgia </span><span style='color: #BB0000;'>NA</span><span>    </span><span style='color: #BB0000;'>NA</span><span>   </div><div class='input'>
+#&gt;   street                  city    state     lat  long
+#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>                   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>   </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #BCBCBC;'>1</span><span> 600 Peachtree Street NE Atlanta Georgia  33.8 -</span><span style='color: #BB0000;'>84.4</span><span></div><div class='input'>
 <span class='fu'>geo</span>(<span class='kw'>address</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"Tokyo, Japan"</span>, <span class='st'>"Lima, Peru"</span>, <span class='st'>"Nairobi, Kenya"</span>), <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>'osm'</span>)</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 3 x 3</span><span>
 #&gt;   address           lat  long
 #&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>           </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>

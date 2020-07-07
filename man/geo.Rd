@@ -59,18 +59,20 @@ each geocoder service for more details on usage on each service.
      Can perform batch geocoding.
   \item "osm": Nominatim (OSM). Worldwide coverage. Has a usage limit
        (see API documentation for details).
-  \item "iq": Commercial OSM geocoder service. Requires an API Key.
+  \item "iq": Commercial OSM geocoder service. Requires an API Key to
+     be stored in the "LOCATIONIQ_API_KEY" environmental variable.
   \item "geocodio": Commercial geocoder. Covers US and Canada and has
-     batch geocoding capabilities. Requires an API Key.
-  \item "cascade" : Tries one geocoder service first and then tries
-    another geocoder service if the first service didn't return results
-    per the cascade_order argument. Note that this cannot be used with
-    full_results = TRUE as different geocoders have different columns
-    that they return.
+     batch geocoding capabilities. Requires an API Key to be stored in
+     the "GEOCODIO_API_KEY" environmental variable.
+  \item "cascade" : Attempts to use one geocoder service and then uses
+    as second geocoder service if the first service didn't return results.
+    The services and order is specified by the cascade_order argument. 
+    Note that this is not compatible with full_results = TRUE as different
+    services have different columns that they return.
 }}
 
 \item{cascade_order}{a vector with two character method values showing 
-the order to be attempted for method = 'cascade'}
+the order to be attempted for method = "cascade"}
 
 \item{lat}{latitude column name. Can be quoted or unquoted (ie. lat or 'lat').}
 
@@ -126,9 +128,11 @@ parsed results from the geocoder service
 }
 \description{
 The \code{\link{geocode}} function utilizes this function
-on addresses contained in dataframes. Refer to \code{\link{api_parameter_reference}}
-for more details on geocoder services and API usage. This 
-function uses the \code{\link{get_api_query}}, \code{\link{query_api}}, and
+on addresses contained in dataframes. Note that not all geocoder services
+support certain address component parameters. For example, the census geocoder only
+covers the United States and does not have a `country` parameter. Refer to
+\code{\link{api_parameter_reference}} for more details on geocoder services and API usage. 
+This function uses the \code{\link{get_api_query}}, \code{\link{query_api}}, and
 \code{\link{extract_results}} functions to create, execute, and parse the geocoder
 API queries.
 }

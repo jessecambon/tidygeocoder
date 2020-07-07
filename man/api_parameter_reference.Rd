@@ -7,19 +7,19 @@
 \format{
 A tibble dataframe
 \describe{
-\item{method}{Geocoder service name.}
-\item{generic_name}{The universal name of the API parameter}
-\item{api_name}{Name of the parameter for the specified geocoder service (method column value)}
-\item{default_value}{Default value of this parameter}
-\item{required}{Is the parameter required by the specified geocoder service}
+\item{method}{Geocoder service name}
+\item{generic_name}{Universal parameter name}
+\item{api_name}{Name of the parameter for the specified geocoder service}
+\item{default_value}{Default value of the parameter}
+\item{required}{Is the parameter required by the specified geocoder service?}
 }
 }
 \source{
-API Documentation:
+Links to API documentation for each geocoder service are below.
 \itemize{ 
-    \item \href{https://locationiq.com/docs}{LocationIQ (IQ)} 
-    \item \href{https://nominatim.org/release-docs/develop/api/Search}{Nominatim (OSM)}
-    \item \href{https://geocoding.geo.census.gov/geocoder/Geocoding_Services_API.pdf}{Census}
+    \item \href{https://locationiq.com/docs}{Location IQ ("iq")} 
+    \item \href{https://nominatim.org/release-docs/develop/api/Search}{Nominatim ("osm")}
+    \item \href{https://www.census.gov/programs-surveys/geography/technical-documentation/complete-technical-documentation/census-geocoder.html}{Census}
     \item \href{https://www.geocod.io/docs/}{Geocodio}
 }
 }

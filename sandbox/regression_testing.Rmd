@@ -18,6 +18,13 @@ sample2 <- tibble(street = c('1600 Pennsylvania Ave NW', '11 Wall Street', ''),
   city = c('Washington', 'New York', 'Nashville'), state = c('DC', 'NY', 'TN'))
 ```
 
+Check geocodio error catching
+
+```{r}
+geo(' -----', method ='geocodio')
+```
+
+
 
 ```{r}
 gc1 <- geocode_geocodio1 <- sample1 %>% 
