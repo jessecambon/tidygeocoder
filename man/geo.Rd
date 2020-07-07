@@ -59,15 +59,15 @@ each geocoder service for more details on usage on each service.
      Can perform batch geocoding.
   \item "osm": Nominatim (OSM). Worldwide coverage. Has a usage limit
        (see API documentation for details).
-  \item "iq": Commercial OSM geocoder service. Requires an API Key to
-     be stored in the "LOCATIONIQ_API_KEY" environmental variable.
   \item "geocodio": Commercial geocoder. Covers US and Canada and has
      batch geocoding capabilities. Requires an API Key to be stored in
      the "GEOCODIO_API_KEY" environmental variable.
+  \item "iq": Commercial OSM geocoder service. Requires an API Key to
+     be stored in the "LOCATIONIQ_API_KEY" environmental variable.
   \item "cascade" : Attempts to use one geocoder service and then uses
-    as second geocoder service if the first service didn't return results.
+    a second geocoder service if the first service didn't return results.
     The services and order is specified by the cascade_order argument. 
-    Note that this is not compatible with full_results = TRUE as different
+    Note that this is not compatible with full_results = TRUE as geocoder
     services have different columns that they return.
 }}
 
@@ -83,7 +83,7 @@ limit > 1 is not compatible with batch geocoding if return_addresses = TRUE.}
 
 \item{min_time}{minimum amount of time for a query to take (in seconds) if using
 Location IQ or OSM. This parameter is used to abide by API usage limits. You can
-set it to a lower value (or 0) if using a local Nominatim server, for instance.}
+set it to a lower value (ie. 0) if using a local Nominatim server, for instance.}
 
 \item{api_url}{Custom API URL. If specified, the default API URL will be overridden.
 This can be used to specify a local Nominatim server.}
@@ -93,10 +93,10 @@ This can be used to specify a local Nominatim server.}
 \item{mode}{set to 'batch' to force batch geocoding and 'single' to 
 force single address geocoding (one address per query). If not 
 specified then batch geocoding will be used if available
-(given method selected) when multiple addresses are passed, otherwise
+(given method selected) when multiple addresses are provided, otherwise
 single address geocoding will be used.}
 
-\item{full_results}{returns all data from geocoder if TRUE}
+\item{full_results}{returns all data from geocoder service if TRUE}
 
 \item{unique_only}{only return results for unique addresses if TRUE}
 
@@ -104,10 +104,11 @@ single address geocoding will be used.}
 
 \item{flatten}{if TRUE then any nested dataframes in results are flattened}
 
-\item{batch_limit}{limit to the number of addresses in a batch. Both geocodio and census
-batch geocoders have a 10,000 address limit so this is the default.}
+\item{batch_limit}{limit to the number of addresses in a batch geocoding query.
+Both geocodio and census batch geocoders have a 10,000 address limit so this
+is the default.}
 
-\item{verbose}{if TRUE then logs are output to the console}
+\item{verbose}{if TRUE then detailed logs are output to the console}
 
 \item{no_query}{if TRUE then no queries are sent to the geocoder and verbose is set to TRUE}
 
@@ -129,7 +130,7 @@ parsed results from the geocoder service
 \description{
 The \code{\link{geocode}} function utilizes this function
 on addresses contained in dataframes. Note that not all geocoder services
-support certain address component parameters. For example, the census geocoder only
+support certain address component parameters. For example, the Census geocoder only
 covers the United States and does not have a `country` parameter. Refer to
 \code{\link{api_parameter_reference}} for more details on geocoder services and API usage. 
 This function uses the \code{\link{get_api_query}}, \code{\link{query_api}}, and

@@ -151,7 +151,13 @@ query_api <- function(api_url, query_parameters, mode = 'single',
 
 # print values in a named list (used for displaying query parameters)
 display_named_list <- function(named_list) {
-  for (var in names(named_list)) message(paste0(var, ' : "', named_list[var], '"'))
+  for (var in names(named_list)) {
+    ## censor API Key values
+    if (var %in% c('api_key', 'key')) {
+      named_list[var] <- paste(rep('x', nchar(named_list[var])), collapse ='')
+    }
+    message(paste0(var, ' : "', named_list[var], '"'))
+  }
   message('')
 }
 

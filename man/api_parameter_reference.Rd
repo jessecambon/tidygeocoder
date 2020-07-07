@@ -3,24 +3,24 @@
 \docType{data}
 \name{api_parameter_reference}
 \alias{api_parameter_reference}
-\title{Geocoder Service REST API Parameter Reference}
+\title{Geocoder Service API Parameter Reference}
 \format{
 A tibble dataframe
 \describe{
-\item{method}{Geocoder service name}
-\item{generic_name}{Universal parameter name}
-\item{api_name}{Name of the parameter for the specified geocoder service}
-\item{default_value}{Default value of the parameter}
-\item{required}{Is the parameter required by the specified geocoder service?}
+ \item{method}{Geocoder service name}
+ \item{generic_name}{Universal parameter name}
+ \item{api_name}{Name of the parameter for the specified geocoder service}
+ \item{default_value}{Default value of the parameter}
+ \item{required}{Is the parameter required by the specified geocoder service?}
 }
 }
 \source{
 Links to API documentation for each geocoder service are below.
 \itemize{ 
-    \item \href{https://locationiq.com/docs}{Location IQ ("iq")} 
-    \item \href{https://nominatim.org/release-docs/develop/api/Search}{Nominatim ("osm")}
-    \item \href{https://www.census.gov/programs-surveys/geography/technical-documentation/complete-technical-documentation/census-geocoder.html}{Census}
-    \item \href{https://www.geocod.io/docs/}{Geocodio}
+ \item \href{https://www.census.gov/programs-surveys/geography/technical-documentation/complete-technical-documentation/census-geocoder.html}{Census}
+ \item \href{https://nominatim.org/release-docs/develop/api/Search}{Nominatim ("osm")}
+ \item \href{https://www.geocod.io/docs/}{Geocodio}
+ \item \href{https://locationiq.com/docs}{Location IQ ("iq")} 
 }
 }
 \usage{
@@ -30,7 +30,8 @@ api_parameter_reference
 This dataset contains the mapping that allows this package to use a 
 universal syntax for specifying parameters for different geocoder
 service APIs. Reference the documentation for \code{\link{geo}} for
-more information.
+more information. Also reference \code{vignette("tidygeocoder")} for
+more details on constructing API queries.
 }
 \seealso{
 \code{\link{get_api_query}} \code{\link{query_api}}

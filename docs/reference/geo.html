@@ -42,7 +42,7 @@
 <meta property="og:title" content="Geocode addresses — geo" />
 <meta property="og:description" content="The geocode function utilizes this function
 on addresses contained in dataframes. Note that not all geocoder services
-support certain address component parameters. For example, the census geocoder only
+support certain address component parameters. For example, the Census geocoder only
 covers the United States and does not have a `country` parameter. Refer to
 api_parameter_reference for more details on geocoder services and API usage. 
 This function uses the get_api_query, query_api, and
@@ -126,7 +126,7 @@ API queries." />
     <div class="ref-description">
     <p>The <code><a href='geocode.html'>geocode</a></code> function utilizes this function
 on addresses contained in dataframes. Note that not all geocoder services
-support certain address component parameters. For example, the census geocoder only
+support certain address component parameters. For example, the Census geocoder only
 covers the United States and does not have a `country` parameter. Refer to
 <code><a href='api_parameter_reference.html'>api_parameter_reference</a></code> for more details on geocoder services and API usage. 
 This function uses the <code><a href='get_api_query.html'>get_api_query</a></code>, <code><a href='query_api.html'>query_api</a></code>, and
@@ -206,15 +206,15 @@ each geocoder service for more details on usage on each service.</p><ul>
      Can perform batch geocoding.</p></li>
 <li><p>"osm": Nominatim (OSM). Worldwide coverage. Has a usage limit
        (see API documentation for details).</p></li>
-<li><p>"iq": Commercial OSM geocoder service. Requires an API Key to
-     be stored in the "LOCATIONIQ_API_KEY" environmental variable.</p></li>
 <li><p>"geocodio": Commercial geocoder. Covers US and Canada and has
      batch geocoding capabilities. Requires an API Key to be stored in
      the "GEOCODIO_API_KEY" environmental variable.</p></li>
+<li><p>"iq": Commercial OSM geocoder service. Requires an API Key to
+     be stored in the "LOCATIONIQ_API_KEY" environmental variable.</p></li>
 <li><p>"cascade" : Attempts to use one geocoder service and then uses
-    as second geocoder service if the first service didn't return results.
+    a second geocoder service if the first service didn't return results.
     The services and order is specified by the cascade_order argument. 
-    Note that this is not compatible with full_results = TRUE as different
+    Note that this is not compatible with full_results = TRUE as geocoder
     services have different columns that they return.</p></li>
 </ul></td>
     </tr>
@@ -240,7 +240,7 @@ limit &gt; 1 is not compatible with batch geocoding if return_addresses = TRUE.<
       <th>min_time</th>
       <td><p>minimum amount of time for a query to take (in seconds) if using
 Location IQ or OSM. This parameter is used to abide by API usage limits. You can
-set it to a lower value (or 0) if using a local Nominatim server, for instance.</p></td>
+set it to a lower value (ie. 0) if using a local Nominatim server, for instance.</p></td>
     </tr>
     <tr>
       <th>api_url</th>
@@ -256,12 +256,12 @@ This can be used to specify a local Nominatim server.</p></td>
       <td><p>set to 'batch' to force batch geocoding and 'single' to 
 force single address geocoding (one address per query). If not 
 specified then batch geocoding will be used if available
-(given method selected) when multiple addresses are passed, otherwise
+(given method selected) when multiple addresses are provided, otherwise
 single address geocoding will be used.</p></td>
     </tr>
     <tr>
       <th>full_results</th>
-      <td><p>returns all data from geocoder if TRUE</p></td>
+      <td><p>returns all data from geocoder service if TRUE</p></td>
     </tr>
     <tr>
       <th>unique_only</th>
@@ -277,12 +277,13 @@ single address geocoding will be used.</p></td>
     </tr>
     <tr>
       <th>batch_limit</th>
-      <td><p>limit to the number of addresses in a batch. Both geocodio and census
-batch geocoders have a 10,000 address limit so this is the default.</p></td>
+      <td><p>limit to the number of addresses in a batch geocoding query.
+Both geocodio and census batch geocoders have a 10,000 address limit so this
+is the default.</p></td>
     </tr>
     <tr>
       <th>verbose</th>
-      <td><p>if TRUE then logs are output to the console</p></td>
+      <td><p>if TRUE then detailed logs are output to the console</p></td>
     </tr>
     <tr>
       <th>no_query</th>

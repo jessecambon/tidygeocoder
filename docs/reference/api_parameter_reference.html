@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Geocoder Service REST API Parameter Reference — api_parameter_reference • tidygeocoder</title>
+<title>Geocoder Service API Parameter Reference — api_parameter_reference • tidygeocoder</title>
 
 
 <!-- jquery -->
@@ -39,11 +39,12 @@
 
 
 
-<meta property="og:title" content="Geocoder Service REST API Parameter Reference — api_parameter_reference" />
+<meta property="og:title" content="Geocoder Service API Parameter Reference — api_parameter_reference" />
 <meta property="og:description" content="This dataset contains the mapping that allows this package to use a 
 universal syntax for specifying parameters for different geocoder
 service APIs. Reference the documentation for geo for
-more information." />
+more information. Also reference vignette(&quot;tidygeocoder&quot;) for
+more details on constructing API queries." />
 
 
 
@@ -114,7 +115,7 @@ more information." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Geocoder Service REST API Parameter Reference</h1>
+    <h1>Geocoder Service API Parameter Reference</h1>
     <small class="dont-index">Source: <a href='https://github.com/jessecambon/tidygeocoder/blob/master/R/data.R'><code>R/data.R</code></a></small>
     <div class="hidden name"><code>api_parameter_reference.Rd</code></div>
     </div>
@@ -123,7 +124,8 @@ more information." />
     <p>This dataset contains the mapping that allows this package to use a 
 universal syntax for specifying parameters for different geocoder
 service APIs. Reference the documentation for <code><a href='geo.html'>geo</a></code> for
-more information.</p>
+more information. Also reference <code><a href='../articles/tidygeocoder.html'>vignette("tidygeocoder")</a></code> for
+more details on constructing API queries.</p>
     </div>
 
     <pre class="usage"><span class='no'>api_parameter_reference</span></pre>
@@ -132,21 +134,21 @@ more information.</p>
     <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
 
     <p>A tibble dataframe</p><dl'>
-<dt>method</dt><dd><p>Geocoder service name</p></dd>
-<dt>generic_name</dt><dd><p>Universal parameter name</p></dd>
-<dt>api_name</dt><dd><p>Name of the parameter for the specified geocoder service</p></dd>
-<dt>default_value</dt><dd><p>Default value of the parameter</p></dd>
-<dt>required</dt><dd><p>Is the parameter required by the specified geocoder service?</p></dd>
+ <dt>method</dt><dd><p>Geocoder service name</p></dd>
+ <dt>generic_name</dt><dd><p>Universal parameter name</p></dd>
+ <dt>api_name</dt><dd><p>Name of the parameter for the specified geocoder service</p></dd>
+ <dt>default_value</dt><dd><p>Default value of the parameter</p></dd>
+ <dt>required</dt><dd><p>Is the parameter required by the specified geocoder service?</p></dd>
 
 </dl>
 
     <h2 class="hasAnchor" id="source"><a class="anchor" href="#source"></a>Source</h2>
 
     <p>Links to API documentation for each geocoder service are below.</p><ul>
-<li><p><a href='https://locationiq.com/docs'>Location IQ ("iq")</a></p></li>
-<li><p><a href='https://nominatim.org/release-docs/develop/api/Search'>Nominatim ("osm")</a></p></li>
 <li><p><a href='https://www.census.gov/programs-surveys/geography/technical-documentation/complete-technical-documentation/census-geocoder.html'>Census</a></p></li>
+<li><p><a href='https://nominatim.org/release-docs/develop/api/Search'>Nominatim ("osm")</a></p></li>
 <li><p><a href='https://www.geocod.io/docs/'>Geocodio</a></p></li>
+<li><p><a href='https://locationiq.com/docs'>Location IQ ("iq")</a></p></li>
 </ul>
 
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>

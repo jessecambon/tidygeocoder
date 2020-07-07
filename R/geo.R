@@ -2,7 +2,7 @@
 #' 
 #' The \code{\link{geocode}} function utilizes this function
 #' on addresses contained in dataframes. Note that not all geocoder services
-#' support certain address component parameters. For example, the census geocoder only
+#' support certain address component parameters. For example, the Census geocoder only
 #' covers the United States and does not have a `country` parameter. Refer to
 #' \code{\link{api_parameter_reference}} for more details on geocoder services and API usage. 
 #' This function uses the \code{\link{get_api_query}}, \code{\link{query_api}}, and
@@ -27,15 +27,15 @@
 #'      Can perform batch geocoding.
 #'   \item "osm": Nominatim (OSM). Worldwide coverage. Has a usage limit
 #'        (see API documentation for details).
-#'   \item "iq": Commercial OSM geocoder service. Requires an API Key to
-#'      be stored in the "LOCATIONIQ_API_KEY" environmental variable.
 #'   \item "geocodio": Commercial geocoder. Covers US and Canada and has
 #'      batch geocoding capabilities. Requires an API Key to be stored in
 #'      the "GEOCODIO_API_KEY" environmental variable.
+#'   \item "iq": Commercial OSM geocoder service. Requires an API Key to
+#'      be stored in the "LOCATIONIQ_API_KEY" environmental variable.
 #'   \item "cascade" : Attempts to use one geocoder service and then uses
-#'     as second geocoder service if the first service didn't return results.
+#'     a second geocoder service if the first service didn't return results.
 #'     The services and order is specified by the cascade_order argument. 
-#'     Note that this is not compatible with full_results = TRUE as different
+#'     Note that this is not compatible with full_results = TRUE as geocoder
 #'     services have different columns that they return.
 #' }
 #' @param cascade_order a vector with two character method values showing 
@@ -43,34 +43,35 @@
 #' @param lat latitude column name. Can be quoted or unquoted (ie. lat or 'lat').
 #' @param long longitude column name. Can be quoted or unquoted (ie. long or 'long').
 #' @param limit number of results to return per address. Note that 
-#'    limit > 1 is not compatible with batch geocoding if return_addresses = TRUE.
+#'  limit > 1 is not compatible with batch geocoding if return_addresses = TRUE.
 #' @param min_time minimum amount of time for a query to take (in seconds) if using
-#'    Location IQ or OSM. This parameter is used to abide by API usage limits. You can
-#'    set it to a lower value (or 0) if using a local Nominatim server, for instance.
+#'  Location IQ or OSM. This parameter is used to abide by API usage limits. You can
+#'  set it to a lower value (ie. 0) if using a local Nominatim server, for instance.
 #' @param api_url Custom API URL. If specified, the default API URL will be overridden.
-#'    This can be used to specify a local Nominatim server.
+#'  This can be used to specify a local Nominatim server.
 #' @param timeout query timeout (in minutes)
 #' 
 #' @param mode set to 'batch' to force batch geocoding and 'single' to 
 #'  force single address geocoding (one address per query). If not 
 #'  specified then batch geocoding will be used if available
-#'  (given method selected) when multiple addresses are passed, otherwise
-#'  single address geocoding will be used.  
-#' @param full_results returns all data from geocoder if TRUE
+#'  (given method selected) when multiple addresses are provided, otherwise
+#'  single address geocoding will be used.
+#' @param full_results returns all data from geocoder service if TRUE
 #' @param unique_only only return results for unique addresses if TRUE
 #' @param return_addresses return input addresses with results if TRUE
 #' 
 #' @param flatten if TRUE then any nested dataframes in results are flattened
-#' @param batch_limit limit to the number of addresses in a batch. Both geocodio and census
-#'  batch geocoders have a 10,000 address limit so this is the default.
-#' @param verbose if TRUE then logs are output to the console
+#' @param batch_limit limit to the number of addresses in a batch geocoding query.
+#'  Both geocodio and census batch geocoders have a 10,000 address limit so this
+#'  is the default.
+#' @param verbose if TRUE then detailed logs are output to the console
 #' @param no_query if TRUE then no queries are sent to the geocoder and verbose is set to TRUE 
 
 #' @param custom_query API-specific parameters to be used, passed as a named list 
-#'    (ie. list(vintage = 'Current_Census2010'))
+#'  (ie. list(vintage = 'Current_Census2010'))
 #' @param return_type    (census only) 'locations' (default) or 'geographies' which 
-#'    returns additional census geography columns. See the Census geocoder API 
-#'    documentation for more details.
+#'  returns additional census geography columns. See the Census geocoder API 
+#'  documentation for more details.
 #' @param iq_region 'us' (default) or 'eu'. Used for establishing API URL for the 'iq' method
 #' @param geocodio_v version of geocodio api. 1.6 is default. Used for establishing API URL
 #'   for the 'geocodio' method.

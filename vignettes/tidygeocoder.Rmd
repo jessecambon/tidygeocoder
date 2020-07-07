@@ -36,28 +36,28 @@ address_components <- tribble(
 )
 ```
 
-The `geocode()` function takes a dataframe input with address data. Use the `address` argument for single line addresses. Note that because multiple addresses are passed, the batch geocoding functionality of the Census geocoder service is used. Additionally, `verbose = TRUE` displays logs to the console.
+You can use the `address` argument to specify single-line addresses. Note that when multiple addresses are provided, the batch geocoding functionality of the Census geocoder service is used. Additionally, `verbose = TRUE` displays logs to the console.
 
 ```{r}
 address_single %>% geocode(address = singlelineaddress, method = 'census',
                            verbose = TRUE)
 ```
 
-Alternatively you can run the same query with the `geo()` function by passing the address values from the dataframe directly. In either `geo()` or `geocode()`, the `lat` and `long` arguments are used to name the resulting latitude and longitude fields.
+Alternatively you can run the same query with the `geo()` function by passing the address values from the dataframe directly. In either `geo()` or `geocode()`, the `lat` and `long` arguments are used to name the resulting latitude and longitude fields. Here the `method` argument is used to specify the OSM (Nominatim) geocoder service.
 
 ```{r}
 geo(address = address_single$singlelineaddress, method = 'osm', 
     lat = latitude, long = longitude)
 ```
 
-Instead of single line addresses, you can use any combination of the following arguments to specify your addresses: `street`, `city`, `state`, `county`, `postalcode`, and `country`. Note that not all of these parameters are required and geocoder services don't necessarily support all of these inputs, refer to `api_parameter_reference` and the API documentation of the geocoder services for details. For example, the Census geocoder is only for the United States and has no reason to support a `country` input. 
+Instead of single-line addresses, you can use any combination of the following arguments to specify your addresses: `street`, `city`, `state`, `county`, `postalcode`, and `country`. Note that not all of these parameters are required and geocoder services don't necessarily support all of these inputs. For example, the Census geocoder is only for the United States and has no reason to support a `country` input. Refer to `api_parameter_reference` and the API documentation of the geocoder services for details.
 
 ```{r}
 address_components %>% geocode(street = street, city = cty, state = st,
                                method = 'census')
 ```
 
-The `cascade` method by default first tries to use one geocoder service and then retries addresses that were not found using a second geocoder service. By default it first uses the Census Geocoder and then OSM, but you can specify any two methods you want (in order) with `cascade_order` argument.
+The `cascade` method first tries to use one geocoder service and then again attempts to geocode addresses that were not found using a second geocoder service. By default it first uses the Census Geocoder and then OSM, but you can specify any two methods you want (in order) with the `cascade_order` argument.
 
 ```{r}
 addr_comp1 <- address_components %>% 
@@ -69,7 +69,7 @@ addr_comp1 %>% geocode(street = street, state = st, city = cty,
 
 ## Beyond Latitude and Longitude
 
-To return data other than latitude and longitude, specify `full_results = TRUE`. Additionally, for the Census geocoder you can get details on  geographies such as census tracts by specifying `return_type = 'geographies'`. Be sure to use `full_results = TRUE` with `return_type = 'geographies'` in order to allow the Census geography columns to be returned.
+To return more data than just the latitude and longitude, specify `full_results = TRUE`. Additionally, for the Census geocoder you can get fields for geographies such as Census tracts by specifying `return_type = 'geographies'`. Be sure to use `full_results = TRUE` with `return_type = 'geographies'` in order to allow the Census geography columns to be returned.
 
 ```{r}
 census_full1 <- address_single %>% geocode(address = singlelineaddress, 
@@ -97,8 +97,7 @@ duplicate_addrs %>%
   geocode(singlelineaddress, verbose = T)
 ```
 
-
-By default, as shown above, duplicates will not be removed from your results. However, if you chose you can only return unique results with the `unique_only` argument. Note that when used with `geocode()` passing `unique_only = TRUE` will result in the original dataframe format (including column names) being discarded in favor of the standard field names (ie. address, city, state, etc.).
+As shown above, duplicates will not be removed from your results by default. However, you can return only unique results by using `unique_only = TRUE`. Note that passing `unique_only = TRUE` to `geocode()` will result in the original dataframe format (including column names) to be discarded in favor of the standard field names (ie. "address", "city", "state", etc.).
 
 ```{r}
 duplicate_addrs %>%
@@ -123,18 +122,23 @@ cairo_geo <- geo('Cairo, Egypt', method = 'osm', full_results = TRUE,
 glimpse(cairo_geo)
 ```
 
+To test a query without sending any data to a geocoder service, you can use `no_query = TRUE` (NA results are returned). In this example, the `mode` argument is used to prevent batch geocoding from being used.
+
+```{r}
+geo(c('Vancouver, Canada', 'Las Vegas, NV'), no_query = TRUE, method = 'geocodio', mode = 'single')
+```
 
 Here are some additional usage notes for the `geocode()` and `geo()` functions:
 
 * To specify a custom geocoder API URL, use the `api_url` argument. Alternatively, the `iq_region` and `geocodio_v` arguments are helper functions for customizing the API URL. 
-* By default batch geocoding will be used if available when more than one address is passed, otherwise single address geocoding will be used. To override this default, use the `mode` argument.
 * The `min_time` argument defaults to 1 second for Nominatim (OSM) and Location IQ to abide by usage limits. If you are using a local Nominatim server or have commercial Location IQ plan that has less restrictive usage limits, you can manually set `min_time` to 0 or a lower value. 
+* By default batch geocoding will be used if available when more than one address is passed, otherwise single address geocoding will be used. To override this default, use the `mode` argument.
 
 ## API Reference
 
-You can refer to the `api_parameter_reference` dataset to see which which parameters are supported with each `method`. This dataset is displayed below. The `generic_name` field corresponds to what the field would be referred to as in the `geo()`, `geocode()` and `get_api_query()` functions. The `api_name` field shows the parameter name for the specific `method`.
+You can refer to the `api_parameter_reference` dataset to see which which parameters are supported with each geocoder service. This dataset is displayed below. The `generic_name` field is a universal field name while the `api_name` field shows the specific parameter name for the given geocoder service (`method`).
 
-When the `api_name` is missing that means the given parameter is not supported by the given geocoder service. When `generic_name` is missing (such as for the vintage and benchmark parameters for the census) that means the given parameter is specific to that geocoding service. 
+When the `api_name` is missing this means that the parameter is not supported by the given geocoder service. When `generic_name` is missing this means the parameter is specific to that geocoding service.
 
 Refer to the [`api_parameter_reference` documentation](https://jessecambon.github.io/tidygeocoder/reference/api_parameter_reference.html) for more details and links to the API documentation for each geocoder service.
 
