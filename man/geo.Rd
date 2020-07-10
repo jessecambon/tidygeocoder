@@ -71,8 +71,8 @@ each geocoder service for more details on usage on each service.
     services have different columns that they return.
 }}
 
-\item{cascade_order}{a vector with two character method values showing 
-the order to be attempted for method = "cascade"}
+\item{cascade_order}{a vector with two character values for the method argument 
+in the order in which the geocoder services will be attempted for method = "cascade"}
 
 \item{lat}{latitude column name. Can be quoted or unquoted (ie. lat or 'lat').}
 
@@ -136,6 +136,9 @@ covers the United States and does not have a `country` parameter. Refer to
 This function uses the \code{\link{get_api_query}}, \code{\link{query_api}}, and
 \code{\link{extract_results}} functions to create, execute, and parse the geocoder
 API queries.
+}
+\details{
+See example usage in \code{vignette("tidygeocoder")}
 }
 \examples{
 \donttest{

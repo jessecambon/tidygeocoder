@@ -25,3 +25,6 @@ dataset.
 The \code{\link{query_api}} function executes the queries created 
 by this function.
 }
+\seealso{
+\code{\link{query_api}} \code{\link{geo}}
+}

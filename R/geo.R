@@ -9,6 +9,8 @@
 #' \code{\link{extract_results}} functions to create, execute, and parse the geocoder
 #' API queries.
 #' 
+#' See example usage in \code{vignette("tidygeocoder")}
+#' 
 #' @param address single line address (ie. '1600 Pennsylvania Ave NW, Washington, DC').
 #'    Do not combine with the address component arguments below
 #'    (street, city , county, state, postalcode, country).
@@ -38,8 +40,8 @@
 #'     Note that this is not compatible with full_results = TRUE as geocoder
 #'     services have different columns that they return.
 #' }
-#' @param cascade_order a vector with two character method values showing 
-#' the order to be attempted for method = "cascade"
+#' @param cascade_order a vector with two character values for the method argument 
+#' in the order in which the geocoder services will be attempted for method = "cascade"
 #' @param lat latitude column name. Can be quoted or unquoted (ie. lat or 'lat').
 #' @param long longitude column name. Can be quoted or unquoted (ie. long or 'long').
 #' @param limit number of results to return per address. Note that 
@@ -90,7 +92,7 @@
 #' @export
 geo <- function(address = NULL, 
     street = NULL, city = NULL, county = NULL, state = NULL, postalcode = NULL, country = NULL,
-    method = 'census', cascade_order = c('census', 'osm'), lat = lat, long = long, limit=1, 
+    method = 'census', cascade_order = c('census', 'osm'), lat = lat, long = long, limit = 1, 
     min_time = NULL, api_url = NULL, timeout = 20,
     mode = '', full_results = FALSE, unique_only = FALSE, return_addresses = TRUE, 
     flatten = TRUE, batch_limit = 10000, verbose = FALSE, no_query = FALSE, 
@@ -157,8 +159,6 @@ geo <- function(address = NULL,
         list(MoreArgs = all_args[!names(all_args) %in% pkg.globals$address_arg_names],
           USE.NAMES = FALSE, SIMPLIFY = FALSE)
       )
-      # remove NULL and 0 length items  <--- Possibly uneccessary now?
-      #single_addr_args <- single_addr_args[sapply(single_addr_args, length, USE.NAMES = FALSE) != 0]  
       
       # Geocode each address individually by recalling this function with mapply
       list_coords <- do.call(mapply, single_addr_args)

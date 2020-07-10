@@ -77,7 +77,7 @@ create_api_parameter <- function(method_name, param_name, value) {
 #' @param generic_parameters universal 'generic' parameters
 #' @param custom_parameters custom api-specific parameters
 #' @return named list of parameters
-#'
+#' @seealso \code{\link{query_api}} \code{\link{geo}}
 #' @export
 get_api_query <- function(method, generic_parameters = list(), custom_parameters = list() ) {
   api_ref <- tidygeocoder::api_parameter_reference
@@ -112,7 +112,7 @@ get_api_query <- function(method, generic_parameters = list(), custom_parameters
   return( c(main_api_parameters, custom_parameters, default_api_parameters) )
 }
 
-#' Query a Geocoder API
+#' Execute a Geocoder API Query
 #' 
 #' @description
 #' The \code{\link{get_api_query}} function can create queries for this
@@ -129,11 +129,12 @@ get_api_query <- function(method, generic_parameters = list(), custom_parameters
 #' should be 'json' for geocodio and 'multipart' for census 
 #' @param content_encoding Encoding to be used for parsing content. 
 #'  Census uses "ISO-8859-1", all other services use "UTF-8"
-#' @param timeout timeout in minutes for batch geocoding
+#' @param timeout timeout in minutes
 #' @return raw results from the query
+#' @seealso \code{\link{get_api_query}} \code{\link{extract_results}} \code{\link{geo}}
 #' @export 
 query_api <- function(api_url, query_parameters, mode = 'single', 
-          batch_file = NULL, address_list = NULL, content_encoding='UTF-8', timeout = 20) {
+          batch_file = NULL, address_list = NULL, content_encoding = 'UTF-8', timeout = 20) {
    response <- switch(mode,
     'single' = httr::GET(api_url, query = query_parameters),
     'list' = httr::POST(api_url, query = query_parameters, 

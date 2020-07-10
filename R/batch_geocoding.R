@@ -8,9 +8,6 @@ batch_census <- function(address_pack,
      return_type = 'locations', timeout = 20, full_results = FALSE, custom_query = list(), api_url = NULL,
      lat = 'lat', long = 'long', verbose = FALSE, ...) {
   
-  #print('census batch return_type:')
-  #print(return_type)
-  
   if (!'street' %in% names(address_pack$unique) & (!'address' %in% names(address_pack$unique))) {
     stop("To use the census geocoder, either 'street' or 'address' must be defined")
   }
@@ -25,8 +22,7 @@ batch_census <- function(address_pack,
   if (is.null(api_url)) api_url <- get_census_url(return_type, 'addressbatch')
   
   num_addresses <- nrow(address_pack$unique)
-  #if (verbose == TRUE) message(paste0('Number of Unique Addresses Passed to the Census Batch Geocoder: ', num_addresses))
-  
+
   # create input dataframe
   input_df <- tibble::tibble(
     id      = 1:num_addresses,
@@ -53,6 +49,8 @@ batch_census <- function(address_pack,
                              col.names = return_cols,
                              fill = TRUE, stringsAsFactors = FALSE,
                              na.strings = '')
+  
+  results <- results[order(results['id']), ]  # make sure results remain in proper order
 
   ## split out lat/lng. lapply is used with as.numeric to convert coordinates to numeric
   coord_df <- do.call(rbind, lapply(results$coords, split_coords))
@@ -112,9 +110,6 @@ batch_geocodio <- function(address_pack, lat = 'lat', long = 'long', timeout = 2
     result_list <- lapply(content$results, function(x) x$response$results)
   }
   
-  # print('result_list:')
-  # print(result_list)
-  
   # if no results are returned for a given address then there is a 0 row dataframe in this
   # list and we need to replace it with a 1 row NA dataframe to preserve the number of rows
   result_list_filled <- lapply(result_list, filler_df, c('location.lat','location.lng'))
@@ -122,15 +117,9 @@ batch_geocodio <- function(address_pack, lat = 'lat', long = 'long', timeout = 2
   # combine list of dataframes into a single tibble. Column names may differ between the dataframes
   results <- dplyr::bind_rows(result_list_filled)
   
-  # print('results before: ')
-  # print(results)
-  
   # rename lat/long columns
   names(results)[names(results) == 'location.lat'] <- lat
   names(results)[names(results) == 'location.lng'] <- long
-  
-  # print('results:')
-  # print(results)
   
   if (full_results == FALSE)  return(results[c(lat, long)])
   else return(cbind(results[c(lat,long)], results[!names(results) %in% c(lat, long)]))

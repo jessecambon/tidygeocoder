@@ -94,7 +94,7 @@
 <div id="usage" class="section level2">
 <h2 class="hasAnchor">
 <a href="#usage" class="anchor"></a>Usage</h2>
-<p>In this example we will geocode a few addresses in the <code>sample_addresses</code> dataset using the <code><a href="reference/geocode.html">geocode()</a></code> function and plot them on a map with ggplot.</p>
+<p>In this example we will geocode a few addresses using the <code><a href="reference/geocode.html">geocode()</a></code> function and plot them on a map with ggplot.</p>
 <div class="sourceCode" id="cb3"><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">dplyr</span>)
 <span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">tibble</span>)
 <span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">tidygeocoder</span>)
@@ -102,7 +102,7 @@
 <span class="co"># create a dataframe with addresses</span>
 <span class="no">some_addresses</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/reexports.html">tribble</a></span>(
 ~<span class="no">name</span>,                  ~<span class="no">addr</span>,
-<span class="st">"White House"</span>,          <span class="st">"1600 Pennsylvania Ave Washington, DC"</span>,
+<span class="st">"White House"</span>,          <span class="st">"1600 Pennsylvania Ave, Washington, DC"</span>,
 <span class="st">"Transamerica Pyramid"</span>, <span class="st">"600 Montgomery St, San Francisco, CA 94111"</span>,
 <span class="st">"Willis Tower"</span>,         <span class="st">"233 S Wacker Dr, Chicago, IL 60606"</span>
 )
@@ -127,7 +127,7 @@
 <tbody>
 <tr class="odd">
 <td align="left">White House</td>
-<td align="left">1600 Pennsylvania Ave Washington, DC</td>
+<td align="left">1600 Pennsylvania Ave, Washington, DC</td>
 <td align="right">38.89875</td>
 <td align="right">-77.03535</td>
 </tr>
@@ -163,11 +163,11 @@
 <span class="co">#&gt; Rows: 3</span>
 <span class="co">#&gt; Columns: 15</span>
 <span class="co">#&gt; $ name            &lt;chr&gt; "White House", "Transamerica Pyramid", "Willis Tower"</span>
-<span class="co">#&gt; $ addr            &lt;chr&gt; "1600 Pennsylvania Ave Washington, DC", "600 Montgome…</span>
+<span class="co">#&gt; $ addr            &lt;chr&gt; "1600 Pennsylvania Ave, Washington, DC", "600 Montgom…</span>
 <span class="co">#&gt; $ lat             &lt;dbl&gt; 38.89875, 37.79470, 41.87851</span>
 <span class="co">#&gt; $ long            &lt;dbl&gt; -77.03535, -122.40314, -87.63666</span>
 <span class="co">#&gt; $ id              &lt;int&gt; 1, 2, 3</span>
-<span class="co">#&gt; $ input_address   &lt;chr&gt; "1600 Pennsylvania Ave Washington, DC, , , ", "600 Mo…</span>
+<span class="co">#&gt; $ input_address   &lt;chr&gt; "1600 Pennsylvania Ave, Washington, DC, , , ", "600 M…</span>
 <span class="co">#&gt; $ match_indicator &lt;chr&gt; "Match", "Match", "Match"</span>
 <span class="co">#&gt; $ match_type      &lt;chr&gt; "Non_Exact", "Exact", "Exact"</span>
 <span class="co">#&gt; $ matched_address &lt;chr&gt; "1600 PENNSYLVANIA AVE NW, WASHINGTON, DC, 20006", "6…</span>

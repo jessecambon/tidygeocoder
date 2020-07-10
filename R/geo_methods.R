@@ -2,7 +2,7 @@
 #' with a specified method.
 #' 
 #' @export
-#' @param ... arguments to be passed to the \code{\link{geo}}
+#' @param ... arguments to be passed to the \code{\link{geo}} function
 geo_census <- function(...) geo(method = 'census', ...)
   
 #'@rdname geo_census
@@ -18,14 +18,12 @@ geo_geocodio <- function(...) geo(method = 'geocodio', ...)
 geo_iq <- function(...) geo(method = 'iq', ...)
 
 
-
-
 #' Convenience function for calling the \code{\link{geo}} function
 #' with method = 'cascade'
 #' 
 #' @param ... arguments passed from and to the \code{\link{geo}} function
-#' @param cascade_order a vector with two character method values showing 
-#' the order to be attempted
+#' @param cascade_order a vector with two character values for the method argument 
+#' in the order in which the geocoder services will be attempted
 #' @export
 geo_cascade <- function(..., cascade_order = c('census', 'osm')) {
   # Note for both attempts we disable unique_only so as to keep the 
@@ -33,10 +31,6 @@ geo_cascade <- function(..., cascade_order = c('census', 'osm')) {
   # more easily splice the results together
   input <- list(...)
   
-  # print('input: ')
-  # print(input)
-  
-  ## TODO --- Use a global package variable for lat/long names ?
   if ('lat' %in% names(input)) lat <- input[['lat']]
   else lat <- 'lat'
   if ('long' %in% names(input)) long <- input[['long']]
@@ -54,36 +48,21 @@ geo_cascade <- function(..., cascade_order = c('census', 'osm')) {
   }
   initial_parameters <- c(initial_parameters, list(method = cascade_order[1], unique_only = FALSE))
   
-  # print('initial_parameters: ')
-  # print(initial_parameters)
-  
   # first attempt 
   initial_results = do.call(geo, initial_parameters)
   
-  # print('initial_results')
-  # print(initial_results)
-  
   # find NA result indices for initial attempt
   na_indices <- is.na(initial_results[[lat]]) | is.na(initial_results[[long]])
-  
-  # print('na_indices:')
-  # print(na_indices)
   
   if (any(na_indices)) {
     # if some results weren't found then we retry
     if (is.null(names(initial_parameters))) retry_addresses <- input[na_indices]
     else retry_addresses <- lapply(input[names(input) %in% pkg.globals$address_arg_names], 
                   function(x, bools) x[bools], na_indices)
-    
-    # print('retry_addresses:')
-    # print(retry_addresses)
-    
+
     retry_results = do.call(geo, c(retry_addresses,
           input[!names(input) %in% c(pkg.globals$address_arg_names, 'method', 'unique_only')],
             list(method = cascade_order[2], unique_only = FALSE)))
-    
-    # print('retry_results: ')
-    # print(retry_results)
     
     ## combine census and retry results
     combi <- initial_results

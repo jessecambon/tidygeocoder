@@ -2,7 +2,7 @@
 % Please edit documentation in R/utils.R
 \name{extract_results}
 \alias{extract_results}
-\title{Extract geocoder results}
+\title{Extract Geocoder Results}
 \usage{
 extract_results(method, response, full_results = TRUE, flatten = TRUE)
 }
@@ -24,4 +24,7 @@ Parses the output of the \code{\link{query_api}} function.
 Latitude and longitude are extracted into the first two columns
 of the returned dataframe. This function is not used for batch 
 geocoded results.
+}
+\seealso{
+\code{\link{get_api_query}} \code{\link{query_api}} \code{\link{geo}}
 }

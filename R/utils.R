@@ -31,7 +31,7 @@ pause_until <- function(start_time,min_time,debug=FALSE) {
   }
 }
 
-#' Extract geocoder results 
+#' Extract Geocoder Results 
 #' 
 #' @description
 #' Parses the output of the \code{\link{query_api}} function.
@@ -45,6 +45,7 @@ pause_until <- function(start_time,min_time,debug=FALSE) {
 #'   will be returned.
 #' @param flatten if TRUE then flatten any nested dataframe content
 #' @return geocoder results in tibble format 
+#' @seealso \code{\link{get_api_query}} \code{\link{query_api}} \code{\link{geo}}
 #' @export 
 extract_results <- function(method, response, full_results = TRUE, flatten = TRUE) {
   
@@ -116,7 +117,7 @@ split_coords <- function(input) {
   # output is an unnamed numeric list with 2 elements: lat, long
   # if comma contained in input then split it. otherwise return NA list
   if (grepl(',', input, fixed = TRUE)) {
-    split <- as.list(unlist(strsplit(input,",", fixed = TRUE)))
+    split <- as.list(unlist(strsplit(input, "," , fixed = TRUE)))
   }
   else split <- (list('',''))
   

@@ -49,7 +49,7 @@ devtools::install_github("jessecambon/tidygeocoder")
 
 ## Usage
 
-In this example we will geocode a few addresses in the `sample_addresses` dataset using the `geocode()` function and plot them on a map with ggplot. 
+In this example we will geocode a few addresses using the `geocode()` function and plot them on a map with ggplot. 
 
 
 ```{r, warning = F, message = F}
@@ -60,7 +60,7 @@ library(tidygeocoder)
 # create a dataframe with addresses
 some_addresses <- tribble(
 ~name,                  ~addr,
-"White House",          "1600 Pennsylvania Ave Washington, DC",
+"White House",          "1600 Pennsylvania Ave, Washington, DC",
 "Transamerica Pyramid", "600 Montgomery St, San Francisco, CA 94111",     
 "Willis Tower",         "233 S Wacker Dr, Chicago, IL 60606"                                  
 )

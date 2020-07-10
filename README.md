@@ -47,9 +47,8 @@ devtools::install_github("jessecambon/tidygeocoder")
 
 ## Usage
 
-In this example we will geocode a few addresses in the
-`sample_addresses` dataset using the `geocode()` function and plot them
-on a map with ggplot.
+In this example we will geocode a few addresses using the `geocode()`
+function and plot them on a map with ggplot.
 
 ``` r
 library(dplyr)
@@ -59,7 +58,7 @@ library(tidygeocoder)
 # create a dataframe with addresses
 some_addresses <- tribble(
 ~name,                  ~addr,
-"White House",          "1600 Pennsylvania Ave Washington, DC",
+"White House",          "1600 Pennsylvania Ave, Washington, DC",
 "Transamerica Pyramid", "600 Montgomery St, San Francisco, CA 94111",     
 "Willis Tower",         "233 S Wacker Dr, Chicago, IL 60606"                                  
 )
@@ -76,7 +75,7 @@ other services can be specified with the `method` argument. See the
 
 | name                 | addr                                       | latitude |   longitude |
 | :------------------- | :----------------------------------------- | -------: | ----------: |
-| White House          | 1600 Pennsylvania Ave Washington, DC       | 38.89875 |  \-77.03535 |
+| White House          | 1600 Pennsylvania Ave, Washington, DC      | 38.89875 |  \-77.03535 |
 | Transamerica Pyramid | 600 Montgomery St, San Francisco, CA 94111 | 37.79470 | \-122.40314 |
 | Willis Tower         | 233 S Wacker Dr, Chicago, IL 60606         | 41.87851 |  \-87.63666 |
 
@@ -109,11 +108,11 @@ glimpse(full)
 #> Rows: 3
 #> Columns: 15
 #> $ name            <chr> "White House", "Transamerica Pyramid", "Willis Tower"
-#> $ addr            <chr> "1600 Pennsylvania Ave Washington, DC", "600 Montgome…
+#> $ addr            <chr> "1600 Pennsylvania Ave, Washington, DC", "600 Montgom…
 #> $ lat             <dbl> 38.89875, 37.79470, 41.87851
 #> $ long            <dbl> -77.03535, -122.40314, -87.63666
 #> $ id              <int> 1, 2, 3
-#> $ input_address   <chr> "1600 Pennsylvania Ave Washington, DC, , , ", "600 Mo…
+#> $ input_address   <chr> "1600 Pennsylvania Ave, Washington, DC, , , ", "600 M…
 #> $ match_indicator <chr> "Match", "Match", "Match"
 #> $ match_type      <chr> "Non_Exact", "Exact", "Exact"
 #> $ matched_address <chr> "1600 PENNSYLVANIA AVE NW, WASHINGTON, DC, 20006", "6…

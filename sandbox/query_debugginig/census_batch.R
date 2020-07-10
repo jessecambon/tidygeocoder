@@ -27,18 +27,18 @@ return_cols <- switch(return,
 #                "600 Montgomery St, San Francisco, CA 94111",
 #                "233 S Wacker Dr, Chicago, IL 60606"
 #                )
-addresses <- as.vector(sample_addresses$addr)[c(1:3,5)]
+#addresses <- as.vector(sample_addresses$addr)[c(1:3,5)]
 
-num_addresses <- length(addresses)
+#num_addresses <- length(addresses)
 
-NA_values <- rep("",num_addresses)
+#NA_values <- rep("",num_addresses)
 
 input_df <- tibble(
-  id = 1:num_addresses,
-  street = addresses,
-  city = NA_values,
-  state = NA_values,
-  zip = NA_values,
+  id = 1:50,
+  street = louisville$street,
+  city = louisville$city,
+  state = louisville$state,
+  zip = louisville$zip,
 )
 
 # Write a Temporary CSV
@@ -70,6 +70,9 @@ results <- utils::read.csv(text = cnt, header = FALSE,
                       col.names = return_cols,
                       fill = TRUE, stringsAsFactors = FALSE,
                       na.strings = '')
+
+# reorder by id column
+results <- results[order(results['id']), ] 
 
 ### Extract Coordinates
 

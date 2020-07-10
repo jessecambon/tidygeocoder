@@ -47,11 +47,6 @@ package_addresses <- function(address = NULL,
   # create id to record original address order
   addr_orig[['.id']] <- 1:nrow(addr_orig)
   
-  # print('addr_orig:')
-  # print(addr_orig)
-  # print('unique_addr:')
-  # print(unique_addr)
-  
   # crosswalk
   crosswalk <- merge(addr_orig, unique_addr, by = addr_colnames, all.x = TRUE, sort = FALSE)
   crosswalk <- crosswalk[order(crosswalk['.id']), ]  # reorder

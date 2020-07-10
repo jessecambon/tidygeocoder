@@ -1,7 +1,7 @@
 #' Geocode addresses in a dataframe
 #'
-#' Takes a dataframe containing addresses as a input. It returns
-#' the dataframe with latitude and longitude coordinate columns
+#' Takes a dataframe containing addresses as a input. The dataframe is 
+#' returned with latitude and longitude coordinate columns
 #' using a user specified geocoder service. This function passes
 #' all additional parameters (...) to the \code{\link{geo}} function
 #' so you can refer to its documentation for more details on possible

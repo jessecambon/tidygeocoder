@@ -18,6 +18,33 @@ sample2 <- tibble(street = c('1600 Pennsylvania Ave NW', '11 Wall Street', ''),
   city = c('Washington', 'New York', 'Nashville'), state = c('DC', 'NY', 'TN'))
 ```
 
+```{r}
+louisville_check <- louisville %>% 
+  geocode(street = street, city = city, state = state, postalcode = zip, verbose = TRUE) %>%
+  mutate(lat_diff = lat - latitude, long_diff = long - longitude)
+
+louisville_check
+```
+
+```{r}
+louisville_geocodio <- louisville %>% 
+  geocode(street = street, city = city, state = state, postalcode = zip, verbose = TRUE, method = 'geocodio') %>%
+   mutate(lat_diff = lat - latitude, long_diff = long - longitude)
+
+louisville_geocodio
+```
+
+
+
+```{r}
+geo(street='1449 ST JAMES CT', city =  'Louisville', state = 'KY', postalcode =  '40208', full_results = TRUE, verbose = T)	
+```
+
+```{r}
+geo('blank address', method = 'makeanerror')
+```
+
+
 Check geocodio error catching
 
 ```{r}

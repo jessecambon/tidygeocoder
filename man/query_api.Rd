@@ -2,7 +2,7 @@
 % Please edit documentation in R/query_factory.R
 \name{query_api}
 \alias{query_api}
-\title{Query a Geocoder API}
+\title{Execute a Geocoder API Query}
 \usage{
 query_api(
   api_url,
@@ -31,7 +31,7 @@ should be 'json' for geocodio and 'multipart' for census}
 \item{content_encoding}{Encoding to be used for parsing content. 
 Census uses "ISO-8859-1", all other services use "UTF-8"}
 
-\item{timeout}{timeout in minutes for batch geocoding}
+\item{timeout}{timeout in minutes}
 }
 \value{
 raw results from the query
@@ -39,4 +39,7 @@ raw results from the query
 \description{
 The \code{\link{get_api_query}} function can create queries for this
 function to execute.
+}
+\seealso{
+\code{\link{get_api_query}} \code{\link{extract_results}} \code{\link{geo}}
 }

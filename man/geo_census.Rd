@@ -17,7 +17,7 @@ geo_geocodio(...)
 geo_iq(...)
 }
 \arguments{
-\item{...}{arguments to be passed to the \code{\link{geo}}}
+\item{...}{arguments to be passed to the \code{\link{geo}} function}
 }
 \description{
 Convenience functions for calling the \code{\link{geo}} function
