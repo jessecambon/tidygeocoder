@@ -40,12 +40,16 @@
 
 
 <meta property="og:title" content="Geocode addresses in a dataframe — geocode" />
-<meta property="og:description" content="Takes a dataframe containing addresses as a input. The dataframe is 
-returned with latitude and longitude coordinate columns
-using a user specified geocoder service. This function passes
-all additional parameters (...) to the geo function
-so you can refer to its documentation for more details on possible
-arguments." />
+<meta property="og:description" content="Takes a dataframe containing addresses as an input and returns 
+the dataframe results from a specified geocoder service by using the
+geo function. See example usage in vignette(&quot;tidygeocoder&quot;).
+This function passes all additional parameters (...) to the 
+geo function, so you can refer to its documentation for more details
+on possible arguments.
+Note that the arguments used for specifying address columns (address, 
+street, city, county, state, postalcode, and country) accept either
+quoted or unquoted column names (ie. &quot;address_col&quot; and address_col are 
+both acceptable)." />
 
 
 
@@ -122,12 +126,16 @@ arguments." />
     </div>
 
     <div class="ref-description">
-    <p>Takes a dataframe containing addresses as a input. The dataframe is 
-returned with latitude and longitude coordinate columns
-using a user specified geocoder service. This function passes
-all additional parameters (...) to the <code><a href='geo.html'>geo</a></code> function
-so you can refer to its documentation for more details on possible
-arguments.</p>
+    <p>Takes a dataframe containing addresses as an input and returns 
+the dataframe results from a specified geocoder service by using the
+<code><a href='geo.html'>geo</a></code> function. See example usage in <code><a href='../articles/tidygeocoder.html'>vignette("tidygeocoder")</a></code>.</p>
+<p>This function passes all additional parameters (...) to the 
+<code><a href='geo.html'>geo</a></code> function, so you can refer to its documentation for more details
+on possible arguments.</p>
+<p>Note that the arguments used for specifying address columns (address, 
+street, city, county, state, postalcode, and country) accept either
+quoted or unquoted column names (ie. "address_col" and address_col are 
+both acceptable).</p>
     </div>
 
     <pre class="usage"><span class='fu'>geocode</span>(
@@ -151,8 +159,7 @@ arguments.</p>
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>.tbl</th>
-      <td><p>dataframe containing addresses</p>
-<p>Names of columns in the dataframe:</p></td>
+      <td><p>dataframe containing addresses</p></td>
     </tr>
     <tr>
       <th>address</th>
@@ -211,9 +218,6 @@ TRUE (overrides return_addresses argument).</p></td>
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>input dataframe (.tbl) with geocoder results appended as columns</p>
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
-
-    <p>See example usage in <code><a href='../articles/tidygeocoder.html'>vignette("tidygeocoder")</a></code></p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># \donttest{</span>
@@ -228,7 +232,7 @@ TRUE (overrides return_addresses argument).</p></td>
 #&gt; </span><span style='color: #BCBCBC;'>1</span><span> White House          1600 Pennsylvania Ave Washington, DC        38.9  -</span><span style='color: #BB0000;'>77.0</span><span>
 #&gt; </span><span style='color: #BCBCBC;'>2</span><span> Transamerica Pyramid 600 Montgomery St, San Francisco, CA 94111  37.8 -</span><span style='color: #BB0000;'>122.</span><span> 
 #&gt; </span><span style='color: #BCBCBC;'>3</span><span> NY Stock Exchange    11 Wall Street, New York, New York          40.7  -</span><span style='color: #BB0000;'>74.0</span><span></div><div class='input'>
-<span class='no'>louisville</span>[<span class='fl'>1</span>:<span class='fl'>2</span>, ] <span class='kw'>%&gt;%</span> <span class='fu'>geocode</span>(<span class='kw'>street</span> <span class='kw'>=</span> <span class='no'>street</span>, <span class='kw'>city</span> <span class='kw'>=</span> <span class='no'>city</span>, <span class='kw'>state</span> <span class='kw'>=</span> <span class='no'>state</span>,
+<span class='no'>louisville</span>[<span class='fl'>1</span>:<span class='fl'>2</span>,] <span class='kw'>%&gt;%</span> <span class='fu'>geocode</span>(<span class='kw'>street</span> <span class='kw'>=</span> <span class='no'>street</span>, <span class='kw'>city</span> <span class='kw'>=</span> <span class='no'>city</span>, <span class='kw'>state</span> <span class='kw'>=</span> <span class='no'>state</span>,
   <span class='kw'>postalcode</span> <span class='kw'>=</span> <span class='no'>zip</span>)</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 2 x 8</span><span>
 #&gt;   street           city       state      zip latitude longitude   lat  long
 #&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>            </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>    </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>    </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>     </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>

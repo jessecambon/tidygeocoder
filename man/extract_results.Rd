@@ -9,7 +9,7 @@ extract_results(method, response, full_results = TRUE, flatten = TRUE)
 \arguments{
 \item{method}{method name}
 
-\item{response}{content from the geocoder service (returned by the )}
+\item{response}{content from the geocoder service (returned by the \code{\link{query_api}} function)}
 
 \item{full_results}{if TRUE then the full results (not just latitude and longitude)
 will be returned.}

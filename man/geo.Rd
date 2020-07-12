@@ -128,26 +128,30 @@ for the 'geocodio' method.}
 parsed results from the geocoder service
 }
 \description{
-The \code{\link{geocode}} function utilizes this function
-on addresses contained in dataframes. Note that not all geocoder services
-support certain address component parameters. For example, the Census geocoder only
-covers the United States and does not have a `country` parameter. Refer to
-\code{\link{api_parameter_reference}} for more details on geocoder services and API usage. 
+Geocodes addresses given as character values. The \code{\link{geocode}}
+function utilizes this function on addresses contained in dataframes.
+See example usage in \code{vignette("tidygeocoder")} 
+
+Note that not all geocoder services support certain address component 
+parameters. For example, the Census geocoder only covers the United States 
+and does not have a `country` parameter. Refer to \code{\link{api_parameter_reference}} 
+for more details on geocoder services and API usage. 
+
 This function uses the \code{\link{get_api_query}}, \code{\link{query_api}}, and
 \code{\link{extract_results}} functions to create, execute, and parse the geocoder
 API queries.
 }
-\details{
-See example usage in \code{vignette("tidygeocoder")}
-}
 \examples{
 \donttest{
 
-geo(street = "600 Peachtree Street NE", city = "Atlanta", state = "Georgia", method = "census")
+geo(street = "600 Peachtree Street NE", city = "Atlanta",
+ state = "Georgia", method = "census")
 
-geo(address = c("Tokyo, Japan", "Lima, Peru", "Nairobi, Kenya"), method = 'osm')
+geo(address = c("Tokyo, Japan", "Lima, Peru", "Nairobi, Kenya"),
+ method = 'osm')
 
-geo(county='Jefferson', state = "Kentucky", country = "US", method = 'osm')
+geo(county = 'Jefferson', state = "Kentucky", country = "US",
+     method = 'osm')
 
 }
 }

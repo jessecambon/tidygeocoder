@@ -1,15 +1,18 @@
 #' Geocode addresses
 #' 
-#' The \code{\link{geocode}} function utilizes this function
-#' on addresses contained in dataframes. Note that not all geocoder services
-#' support certain address component parameters. For example, the Census geocoder only
-#' covers the United States and does not have a `country` parameter. Refer to
-#' \code{\link{api_parameter_reference}} for more details on geocoder services and API usage. 
+#' @description
+#' Geocodes addresses given as character values. The \code{\link{geocode}}
+#' function utilizes this function on addresses contained in dataframes.
+#' See example usage in \code{vignette("tidygeocoder")} 
+#' 
+#' Note that not all geocoder services support certain address component 
+#' parameters. For example, the Census geocoder only covers the United States 
+#' and does not have a `country` parameter. Refer to \code{\link{api_parameter_reference}} 
+#' for more details on geocoder services and API usage. 
+#' 
 #' This function uses the \code{\link{get_api_query}}, \code{\link{query_api}}, and
 #' \code{\link{extract_results}} functions to create, execute, and parse the geocoder
 #' API queries.
-#' 
-#' See example usage in \code{vignette("tidygeocoder")}
 #' 
 #' @param address single line address (ie. '1600 Pennsylvania Ave NW, Washington, DC').
 #'    Do not combine with the address component arguments below
@@ -82,11 +85,14 @@
 #' @examples
 #' \donttest{
 #' 
-#' geo(street = "600 Peachtree Street NE", city = "Atlanta", state = "Georgia", method = "census")
+#' geo(street = "600 Peachtree Street NE", city = "Atlanta",
+#'  state = "Georgia", method = "census")
 #' 
-#' geo(address = c("Tokyo, Japan", "Lima, Peru", "Nairobi, Kenya"), method = 'osm')
+#' geo(address = c("Tokyo, Japan", "Lima, Peru", "Nairobi, Kenya"),
+#'  method = 'osm')
 #' 
-#' geo(county='Jefferson', state = "Kentucky", country = "US", method = 'osm')
+#' geo(county = 'Jefferson', state = "Kentucky", country = "US",
+#'      method = 'osm')
 #' 
 #' }
 #' @export
@@ -201,6 +207,9 @@ geo <- function(address = NULL,
       'geocodio' = do.call(batch_geocodio, c(list(address_pack),
             all_args[!names(all_args) %in% pkg.globals$address_arg_names]))
       )
+    
+    # if verbose = TRUE, tell user how long batch query took
+    if (verbose == TRUE) print_time("Query completed in", get_seconds_elapsed(start_time))
     
     # map the raw results back to the original addresses that were passed if there are duplicates
     return(unpackage_addresses(address_pack, batch_results, unique_only, return_addresses))

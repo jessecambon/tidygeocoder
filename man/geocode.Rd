@@ -21,9 +21,7 @@ geocode(
 )
 }
 \arguments{
-\item{.tbl}{dataframe containing addresses
-
-Names of columns in the dataframe:}
+\item{.tbl}{dataframe containing addresses}
 
 \item{address}{single line street address column name. Do not combine with 
 address component arguments (street, city, county, state, postalcode, country)}
@@ -57,22 +55,25 @@ TRUE (overrides return_addresses argument).}
 input dataframe (.tbl) with geocoder results appended as columns
 }
 \description{
-Takes a dataframe containing addresses as a input. The dataframe is 
-returned with latitude and longitude coordinate columns
-using a user specified geocoder service. This function passes
-all additional parameters (...) to the \code{\link{geo}} function
-so you can refer to its documentation for more details on possible
-arguments.
-}
-\details{
-See example usage in \code{vignette("tidygeocoder")}
+Takes a dataframe containing addresses as an input and returns 
+the dataframe results from a specified geocoder service by using the
+\code{\link{geo}} function. See example usage in \code{vignette("tidygeocoder")}.
+
+This function passes all additional parameters (...) to the 
+\code{\link{geo}} function, so you can refer to its documentation for more details
+on possible arguments.
+
+Note that the arguments used for specifying address columns (address, 
+street, city, county, state, postalcode, and country) accept either
+quoted or unquoted column names (ie. "address_col" and address_col are 
+both acceptable).
 }
 \examples{
 \donttest{
 library(dplyr)
 sample_addresses[1:3,] \%>\% geocode(addr)
 
-louisville[1:2, ] \%>\% geocode(street = street, city = city, state = state,
+louisville[1:2,] \%>\% geocode(street = street, city = city, state = state,
   postalcode = zip)
 
 sample_addresses[8:9,] \%>\% geocode(addr, method = 'osm',

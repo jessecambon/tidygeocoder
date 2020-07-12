@@ -15,7 +15,7 @@ options(tibble.print_min = 4L, tibble.print_max = 4L)
 set.seed(42)
 ```
 
-Geocoding services are used to provide data about locations and addresses such as longitude and latitude coordinates. The goal of tidygeocoder is to make getting data from these services easy. The two main functions to use are `geocode()` which takes a dataframe as an input and `geo()` which takes character values as inputs.
+Geocoding services are used to provide data about locations such as longitude and latitude coordinates. The goal of tidygeocoder is to make getting data from these services easy. The two main functions to use are `geocode()` which takes a dataframe as an input and `geo()` which takes character values as inputs.
 
 The `geocode()` function extracts specified address columns from the input dataframe and passes them to `geo()` to perform geocoding. All extra arguments (`...`) given to `geocode()` are passed to `geo()` so refer to the documentation in `geo()` for all the possible arguments you can give to the `geocode()` function.
 
@@ -50,7 +50,7 @@ geo(address = address_single$singlelineaddress, method = 'osm',
     lat = latitude, long = longitude)
 ```
 
-Instead of single-line addresses, you can use any combination of the following arguments to specify your addresses: `street`, `city`, `state`, `county`, `postalcode`, and `country`. Note that not all of these parameters are required and geocoder services don't necessarily support all of these inputs. For example, the Census geocoder is only for the United States and has no reason to support a `country` input. Refer to `api_parameter_reference` and the API documentation of the geocoder services for details.
+Instead of single-line addresses, you can use any combination of the following arguments to specify your addresses: `street`, `city`, `state`, `county`, `postalcode`, and `country`. 
 
 ```{r}
 address_components %>% geocode(street = street, city = cty, state = st,
@@ -69,7 +69,7 @@ addr_comp1 %>% geocode(street = street, state = st, city = cty,
 
 ## Beyond Latitude and Longitude
 
-To return more data than just the latitude and longitude, specify `full_results = TRUE`. Additionally, for the Census geocoder you can get fields for geographies such as Census tracts by specifying `return_type = 'geographies'`. Be sure to use `full_results = TRUE` with `return_type = 'geographies'` in order to allow the Census geography columns to be returned.
+To return more data than just the latitude and longitude coordinates, specify `full_results = TRUE`. Additionally, for the Census geocoder you can get fields for geographies such as Census tracts by specifying `return_type = 'geographies'`. Be sure to use `full_results = TRUE` with `return_type = 'geographies'` in order to allow the Census geography columns to be returned.
 
 ```{r}
 census_full1 <- address_single %>% geocode(address = singlelineaddress, 
@@ -93,8 +93,10 @@ duplicate_addrs <- address_single %>%
   bind_rows(address_single) %>%
   bind_rows(tibble(singlelineaddress=rep(NA, 3)))
 
-duplicate_addrs %>%
+duplicates_geocoded <- duplicate_addrs %>%
   geocode(singlelineaddress, verbose = T)
+
+knitr::kable(duplicates_geocoded)
 ```
 
 As shown above, duplicates will not be removed from your results by default. However, you can return only unique results by using `unique_only = TRUE`. Note that passing `unique_only = TRUE` to `geocode()` will result in the original dataframe format (including column names) to be discarded in favor of the standard field names (ie. "address", "city", "state", etc.).
@@ -125,7 +127,8 @@ glimpse(cairo_geo)
 To test a query without sending any data to a geocoder service, you can use `no_query = TRUE` (NA results are returned). In this example, the `mode` argument is used to prevent batch geocoding from being used.
 
 ```{r}
-geo(c('Vancouver, Canada', 'Las Vegas, NV'), no_query = TRUE, method = 'geocodio', mode = 'single')
+geo(c('Vancouver, Canada', 'Las Vegas, NV'), no_query = TRUE, 
+    method = 'geocodio', mode = 'single')
 ```
 
 Here are some additional usage notes for the `geocode()` and `geo()` functions:
@@ -136,9 +139,7 @@ Here are some additional usage notes for the `geocode()` and `geo()` functions:
 
 ## API Reference
 
-You can refer to the `api_parameter_reference` dataset to see which which parameters are supported with each geocoder service. This dataset is displayed below. The `generic_name` field is a universal field name while the `api_name` field shows the specific parameter name for the given geocoder service (`method`).
-
-When the `api_name` is missing this means that the parameter is not supported by the given geocoder service. When `generic_name` is missing this means the parameter is specific to that geocoding service.
+You can refer to the `api_parameter_reference` dataset to see which which parameters are supported with each geocoder service. This dataset is displayed below. 
 
 Refer to the [`api_parameter_reference` documentation](https://jessecambon.github.io/tidygeocoder/reference/api_parameter_reference.html) for more details and links to the API documentation for each geocoder service.
 
