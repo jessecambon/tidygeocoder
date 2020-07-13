@@ -15,7 +15,7 @@ get_seconds_elapsed <- function(t0) {
 
 # print time
 print_time <- function(text, num_seconds) {
-  message(paste0(text, ': ', round(num_seconds,1),' seconds'))
+  message(paste0(text, ': ', round(num_seconds, 1), ' seconds'))
 }
 
 # Use Sys.sleep() to pause until a certain amount of time has elapsed
@@ -27,7 +27,8 @@ pause_until <- function(start_time, min_time, debug=FALSE) {
   # Sleep if necessary to make query take the minimum amount of time
   if (seconds_elapsed < min_time) {
     Sys.sleep(min_time - seconds_elapsed)
-    if (debug == TRUE) print_time("Total query time (including sleep)", get_seconds_elapsed(start_time))
+    total_time_elapsed <- get_seconds_elapsed(start_time)
+    if (debug == TRUE) print_time("Total query time (including sleep)", total_time_elapsed)
   }
 }
 

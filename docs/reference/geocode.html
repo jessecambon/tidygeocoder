@@ -129,7 +129,7 @@ both acceptable)." />
     <p>Takes a dataframe containing addresses as an input and returns 
 the dataframe results from a specified geocoder service by using the
 <code><a href='geo.html'>geo</a></code> function. See example usage in <code><a href='../articles/tidygeocoder.html'>vignette("tidygeocoder")</a></code>.</p>
-<p>This function passes all additional parameters (...) to the 
+<p>This function passes all additional parameters (<code>...</code>) to the 
 <code><a href='geo.html'>geo</a></code> function, so you can refer to its documentation for more details
 on possible arguments.</p>
 <p>Note that the arguments used for specifying address columns (address, 
@@ -218,6 +218,9 @@ TRUE (overrides return_addresses argument).</p></td>
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>input dataframe (.tbl) with geocoder results appended as columns</p>
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <div class='dont-index'><p><code><a href='geo.html'>geo</a></code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># \donttest{</span>
@@ -263,7 +266,7 @@ TRUE (overrides return_addresses argument).</p></td>
 
       <footer>
       <div class="copyright">
-  <p>Developed by Jesse Cambon.</p>
+  <p>Developed by <a href='https://jessecambon.github.io'>Jesse Cambon</a>.</p>
 </div>
 
 <div class="pkgdown">

@@ -31,10 +31,10 @@ This dataset contains the mapping that allows this package to use a
 universal syntax to specify parameters for different geocoder
 services. 
 
-The `generic_name` field is a universal field name while the `api_name`
-field shows the specific parameter name for the given geocoder service (`method`).
-When the `api_name` is missing this means that the parameter is not 
-supported by the given geocoder service. When `generic_name` is missing 
+The "generic_name" field is a universal field name while the \code{api_name}
+field shows the specific parameter name for the given geocoder service (\code{method}).
+When the \code{api_name} is missing this means that the parameter is not 
+supported by the given geocoder service. When \code{generic_name} is missing 
 this means the parameter is specific to that geocoding service.
  
 Reference the documentation 

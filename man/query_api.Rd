@@ -28,8 +28,8 @@ query_api(
 \item{address_list}{a list of addresses for batch geocoding (geocodio)
 should be 'json' for geocodio and 'multipart' for census}
 
-\item{content_encoding}{Encoding to be used for parsing content. 
-Census uses "ISO-8859-1", all other services use "UTF-8"}
+\item{content_encoding}{Encoding to be used for parsing content. "UTF-8" is 
+the default, but "ISO-8859-1" is used for Census batch queries.}
 
 \item{timeout}{timeout in minutes}
 }

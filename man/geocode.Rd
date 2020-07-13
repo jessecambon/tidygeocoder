@@ -59,7 +59,7 @@ Takes a dataframe containing addresses as an input and returns
 the dataframe results from a specified geocoder service by using the
 \code{\link{geo}} function. See example usage in \code{vignette("tidygeocoder")}.
 
-This function passes all additional parameters (...) to the 
+This function passes all additional parameters (\code{...}) to the 
 \code{\link{geo}} function, so you can refer to its documentation for more details
 on possible arguments.
 
@@ -82,4 +82,7 @@ sample_addresses[8:9,] \%>\% geocode(addr, method = 'osm',
 sample_addresses[1:3,] \%>\% geocode(addr, method = 'cascade',
   lat = latitude, long = longitude)
 }
+}
+\seealso{
+\code{\link{geo}}
 }

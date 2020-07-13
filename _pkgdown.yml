@@ -19,3 +19,6 @@ reference:
   - get_api_query
   - query_api
   - extract_results
+authors:
+  Jesse Cambon:
+    href: https://jessecambon.github.io

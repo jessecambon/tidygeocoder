@@ -40,17 +40,6 @@ louisville_geocodio
 geo(street='1449 ST JAMES CT', city =  'Louisville', state = 'KY', postalcode =  '40208', full_results = TRUE, verbose = T)	
 ```
 
-```{r}
-geo('blank address', method = 'makeanerror')
-```
-
-
-Check geocodio error catching
-
-```{r}
-geo(' -----', method ='geocodio')
-```
-
 
 
 ```{r}
@@ -79,3 +68,14 @@ iq_c1 <- sample2 %>%
 iq_c1
 ```
 
+
+```{r}
+geo('blank address', method = 'makeanerror')
+```
+
+
+Check geocodio error catching
+
+```{r}
+geo(' -----', method ='geocodio')
+```

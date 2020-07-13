@@ -91,7 +91,7 @@ Only unique addresses are passed to geocoder services even if your data contains
 ```{r}
 duplicate_addrs <- address_single %>%
   bind_rows(address_single) %>%
-  bind_rows(tibble(singlelineaddress=rep(NA, 3)))
+  bind_rows(tibble(singlelineaddress = rep(NA, 3)))
 
 duplicates_geocoded <- duplicate_addrs %>%
   geocode(singlelineaddress, verbose = T)
@@ -116,7 +116,7 @@ geo_limit <- geo(c('Lima, Peru', 'Cairo, Egypt'), method = 'osm',
 glimpse(geo_limit)
 ```
 
-To directly specify specific API parameters for a given `method` you can use the `custom_query` parameter. For example, ['the Nominatim (OSM) geocoder has a `polygon_geojson` argument](https://nominatim.org/release-docs/develop/api/Details/#parameters) that can be used to return GeoJSON geometry content. To pass this parameter you can insert it with a named list using the `custom_query` argument:
+To directly specify specific API parameters for a given `method` you can use the `custom_query` parameter. For example, [the Nominatim (OSM) geocoder has a 'polygon_geojson' argument](https://nominatim.org/release-docs/develop/api/Details/#parameters) that can be used to return GeoJSON geometry content. To pass this parameter you can insert it with a named list using the `custom_query` argument:
 
 ```{r}
 cairo_geo <- geo('Cairo, Egypt', method = 'osm', full_results = TRUE,
@@ -141,7 +141,7 @@ Here are some additional usage notes for the `geocode()` and `geo()` functions:
 
 You can refer to the `api_parameter_reference` dataset to see which which parameters are supported with each geocoder service. This dataset is displayed below. 
 
-Refer to the [`api_parameter_reference` documentation](https://jessecambon.github.io/tidygeocoder/reference/api_parameter_reference.html) for more details and links to the API documentation for each geocoder service.
+Refer to `?api_parameter_reference` for more details and links to the API documentation for each geocoder service.
 
 ```{r, echo = FALSE}
 api_parameter_reference %>% 

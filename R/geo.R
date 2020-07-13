@@ -7,7 +7,7 @@
 #' 
 #' Note that not all geocoder services support certain address component 
 #' parameters. For example, the Census geocoder only covers the United States 
-#' and does not have a `country` parameter. Refer to \code{\link{api_parameter_reference}} 
+#' and does not have a "country" parameter. Refer to \code{\link{api_parameter_reference}} 
 #' for more details on geocoder services and API usage. 
 #' 
 #' This function uses the \code{\link{get_api_query}}, \code{\link{query_api}}, and
@@ -25,22 +25,21 @@
 #' @param country country (ie. 'Japan')
 #' 
 #' @param method the geocoder service to be used. Refer to 
-#' \code{\link{api_parameter_reference}} and the API documentation for
-#' each geocoder service for more details on usage on each service.
+#' `api_parameter_reference` and the API documentation for
+#' each geocoder service for usage details and limitations.
 #' \itemize{
-#'   \item "census": US Census Geocoder. US street-level addresses only. 
+#'   \item \code{"census"}: US Census Geocoder. US street-level addresses only. 
 #'      Can perform batch geocoding.
-#'   \item "osm": Nominatim (OSM). Worldwide coverage. Has a usage limit
-#'        (see API documentation for details).
-#'   \item "geocodio": Commercial geocoder. Covers US and Canada and has
+#'   \item \code{"osm"}: Nominatim (OSM). Worldwide coverage.
+#'   \item \code{"geocodio"}: Commercial geocoder. Covers US and Canada and has
 #'      batch geocoding capabilities. Requires an API Key to be stored in
 #'      the "GEOCODIO_API_KEY" environmental variable.
-#'   \item "iq": Commercial OSM geocoder service. Requires an API Key to
+#'   \item \code{"iq"}: Commercial Nominatim geocoder service. Requires an API Key to
 #'      be stored in the "LOCATIONIQ_API_KEY" environmental variable.
-#'   \item "cascade" : Attempts to use one geocoder service and then uses
+#'   \item \code{"cascade"} : Attempts to use one geocoder service and then uses
 #'     a second geocoder service if the first service didn't return results.
 #'     The services and order is specified by the cascade_order argument. 
-#'     Note that this is not compatible with full_results = TRUE as geocoder
+#'     Note that this is not compatible with \code{full_results = TRUE} as geocoder
 #'     services have different columns that they return.
 #' }
 #' @param cascade_order a vector with two character values for the method argument 
@@ -73,7 +72,7 @@
 #' @param no_query if TRUE then no queries are sent to the geocoder and verbose is set to TRUE 
 
 #' @param custom_query API-specific parameters to be used, passed as a named list 
-#'  (ie. list(vintage = 'Current_Census2010'))
+#'  (ie. `list(vintage = 'Current_Census2010')`)
 #' @param return_type    (census only) 'locations' (default) or 'geographies' which 
 #'  returns additional census geography columns. See the Census geocoder API 
 #'  documentation for more details.
@@ -95,6 +94,7 @@
 #'      method = 'osm')
 #' 
 #' }
+#' @seealso \code{\link{api_parameter_reference}}
 #' @export
 geo <- function(address = NULL, 
     street = NULL, city = NULL, county = NULL, state = NULL, postalcode = NULL, country = NULL,
@@ -209,7 +209,10 @@ geo <- function(address = NULL,
       )
     
     # if verbose = TRUE, tell user how long batch query took
-    if (verbose == TRUE) print_time("Query completed in", get_seconds_elapsed(start_time))
+    if (verbose == TRUE) {
+      batch_time_elapsed <- get_seconds_elapsed(start_time)
+      print_time("Query completed in", batch_time_elapsed)
+    }
     
     # map the raw results back to the original addresses that were passed if there are duplicates
     return(unpackage_addresses(address_pack, batch_results, unique_only, return_addresses))
@@ -287,6 +290,7 @@ geo <- function(address = NULL,
     
     ### Make sure the proper amount of time has elapsed for the query per min_time
     pause_until(start_time, min_time, debug = verbose) 
+    if (verbose == TRUE) message() # insert ending line break if verbose
   }
   
   return(unpackage_addresses(address_pack, results, unique_only, return_addresses))

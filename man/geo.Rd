@@ -52,22 +52,21 @@ Do not combine with the address component arguments below
 \item{country}{country (ie. 'Japan')}
 
 \item{method}{the geocoder service to be used. Refer to 
-\code{\link{api_parameter_reference}} and the API documentation for
-each geocoder service for more details on usage on each service.
+`api_parameter_reference` and the API documentation for
+each geocoder service for usage details and limitations.
 \itemize{
-  \item "census": US Census Geocoder. US street-level addresses only. 
+  \item \code{"census"}: US Census Geocoder. US street-level addresses only. 
      Can perform batch geocoding.
-  \item "osm": Nominatim (OSM). Worldwide coverage. Has a usage limit
-       (see API documentation for details).
-  \item "geocodio": Commercial geocoder. Covers US and Canada and has
+  \item \code{"osm"}: Nominatim (OSM). Worldwide coverage.
+  \item \code{"geocodio"}: Commercial geocoder. Covers US and Canada and has
      batch geocoding capabilities. Requires an API Key to be stored in
      the "GEOCODIO_API_KEY" environmental variable.
-  \item "iq": Commercial OSM geocoder service. Requires an API Key to
+  \item \code{"iq"}: Commercial Nominatim geocoder service. Requires an API Key to
      be stored in the "LOCATIONIQ_API_KEY" environmental variable.
-  \item "cascade" : Attempts to use one geocoder service and then uses
+  \item \code{"cascade"} : Attempts to use one geocoder service and then uses
     a second geocoder service if the first service didn't return results.
     The services and order is specified by the cascade_order argument. 
-    Note that this is not compatible with full_results = TRUE as geocoder
+    Note that this is not compatible with \code{full_results = TRUE} as geocoder
     services have different columns that they return.
 }}
 
@@ -113,7 +112,7 @@ is the default.}
 \item{no_query}{if TRUE then no queries are sent to the geocoder and verbose is set to TRUE}
 
 \item{custom_query}{API-specific parameters to be used, passed as a named list 
-(ie. list(vintage = 'Current_Census2010'))}
+(ie. `list(vintage = 'Current_Census2010')`)}
 
 \item{return_type}{(census only) 'locations' (default) or 'geographies' which 
 returns additional census geography columns. See the Census geocoder API 
@@ -134,7 +133,7 @@ See example usage in \code{vignette("tidygeocoder")}
 
 Note that not all geocoder services support certain address component 
 parameters. For example, the Census geocoder only covers the United States 
-and does not have a `country` parameter. Refer to \code{\link{api_parameter_reference}} 
+and does not have a "country" parameter. Refer to \code{\link{api_parameter_reference}} 
 for more details on geocoder services and API usage. 
 
 This function uses the \code{\link{get_api_query}}, \code{\link{query_api}}, and
@@ -154,4 +153,7 @@ geo(county = 'Jefferson', state = "Kentucky", country = "US",
      method = 'osm')
 
 }
+}
+\seealso{
+\code{\link{api_parameter_reference}}
 }

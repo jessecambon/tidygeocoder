@@ -127,8 +127,8 @@ get_api_query <- function(method, generic_parameters = list(), custom_parameters
 #' @param batch_file a csv file of addresses to upload (census)
 #' @param address_list a list of addresses for batch geocoding (geocodio)
 #' should be 'json' for geocodio and 'multipart' for census 
-#' @param content_encoding Encoding to be used for parsing content. 
-#'  Census uses "ISO-8859-1", all other services use "UTF-8"
+#' @param content_encoding Encoding to be used for parsing content. "UTF-8" is 
+#'  the default, but "ISO-8859-1" is used for Census batch queries. 
 #' @param timeout timeout in minutes
 #' @return raw results from the query
 #' @seealso \code{\link{get_api_query}} \code{\link{extract_results}} \code{\link{geo}}
@@ -138,7 +138,7 @@ query_api <- function(api_url, query_parameters, mode = 'single',
    response <- switch(mode,
     'single' = httr::GET(api_url, query = query_parameters),
     'list' = httr::POST(api_url, query = query_parameters, 
-          body = as.list(address_list), encode = 'json', httr::timeout(60*timeout)),
+          body = as.list(address_list), encode = 'json', httr::timeout(60 * timeout)),
     'file' = httr::POST(api_url,  
           body = c(list(addressFile = httr::upload_file(batch_file)), query_parameters),
           encode = 'multipart',
