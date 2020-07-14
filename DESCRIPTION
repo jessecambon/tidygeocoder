@@ -1,7 +1,7 @@
 Package: tidygeocoder
 Type: Package
 Title: Geocoding Made Easy
-Version: 0.3.0.9000
+Version: 1.0.0
 Authors@R:
     c(person(given = "Jesse",
              family = "Cambon",
