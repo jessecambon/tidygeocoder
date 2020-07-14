@@ -13,12 +13,9 @@ MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/je
 
 ## Introduction
 
-Tidygeocoder makes getting data from geocoding services easy. The
-currently supported services are the [US Census
-geocoder](https://geocoding.geo.census.gov/), [Nominatim
-(OSM)](https://nominatim.org), [Geocodio](https://www.geocod.io/), and
-[Location IQ](https://locationiq.com/). In addition to the usage example
-below, you can find a blog post on geocoding landmarks in Washington, DC
+Tidygeocoder makes getting data from geocoder services easy. In addition
+to the usage example below, you can find a blog post on geocoding
+landmarks in Washington, DC
 [here](https://jessecambon.github.io/2019/11/11/tidygeocoder-demo.html).
 
 All results are returned in [tibble
@@ -31,16 +28,19 @@ data are preserved.
 
 ## Geocoder Services
 
-The Census geocoder is restricted to street-level addresses in the
-United States, Geocodio covers the U.S. and Canada, while Location IQ
-and OSM have worldwide coverage. The Census and OSM services support
-batch geocoding while Location IQ and OSM do not.
+The currently supported services are the [US Census
+geocoder](https://geocoding.geo.census.gov/), [Nominatim
+(OSM)](https://nominatim.org), [Geocodio](https://www.geocod.io/), and
+[Location IQ](https://locationiq.com/). The Census geocoder is
+restricted to street-level addresses in the United States, Geocodio
+covers the U.S. and Canada, while Location IQ and OSM have worldwide
+coverage. The Census and OSM services support batch geocoding (Location
+IQ and OSM do not).
 
-The Census and OSM services are free while both Geocodio and Location IQ
-are commercial services that require API keys, but also offer free usage
+The Census and OSM services are free; Geocodio and Location IQ are
+commercial services that require API keys, but also offer free usage
 tiers. OSM and Location IQ both have usage frequency limits. Refer to
-the websites and documentation of the geocoder services for more
-details.
+the documentation of each service for more details.
 
 ## Installation
 
