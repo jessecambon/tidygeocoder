@@ -78,9 +78,14 @@
 <div id="introduction" class="section level2">
 <h2 class="hasAnchor">
 <a href="#introduction" class="anchor"></a>Introduction</h2>
-<p>Tidygeocoder makes getting data from geocoding services easy. The currently supported services are the <a href="https://geocoding.geo.census.gov/">US Census</a> geocoder, <a href="https://nominatim.org">Nominatim (OSM)</a>, <a href="https://www.geocod.io/">Geocodio</a>, and <a href="https://locationiq.com/">Location IQ</a>.</p>
-<p>Batch geocoding (geocoding multiple addresses per query) is used by default for the US Census and Geocodio services when multiple addresses are provided. Duplicate, missing/NA, and blank address data is handled elegantly - only unique addresses are passed to geocoder services, but the rows in the original data are preserved.</p>
-<p>In addition to the brief usage example below, you can find a blog post on geocoding landmarks in Washington, DC <a href="https://jessecambon.github.io/2019/11/11/tidygeocoder-demo.html">here</a>.</p>
+<p>Tidygeocoder makes getting data from geocoding services easy. The currently supported services are the <a href="https://geocoding.geo.census.gov/">US Census geocoder</a>, <a href="https://nominatim.org">Nominatim (OSM)</a>, <a href="https://www.geocod.io/">Geocodio</a>, and <a href="https://locationiq.com/">Location IQ</a>. In addition to the usage example below, you can find a blog post on geocoding landmarks in Washington, DC <a href="https://jessecambon.github.io/2019/11/11/tidygeocoder-demo.html">here</a>.</p>
+<p>All results are returned in <a href="https://tibble.tidyverse.org/">tibble format</a>. Batch geocoding (geocoding multiple addresses per query) is used by default for the US Census and Geocodio services when multiple addresses are provided. Duplicate, missing/NA, and blank address data is handled elegantly - only unique addresses are passed to geocoder services, but the rows in the original data are preserved.</p>
+</div>
+<div id="geocoder-services" class="section level2">
+<h2 class="hasAnchor">
+<a href="#geocoder-services" class="anchor"></a>Geocoder Services</h2>
+<p>The Census geocoder is restricted to street-level addresses in the United States, Geocodio covers the U.S. and Canada, while Location IQ and OSM have worldwide coverage. The Census and OSM services support batch geocoding while Location IQ and OSM do not.</p>
+<p>The Census and OSM services are free while both Geocodio and Location IQ are commercial services that require API keys, but also offer free usage tiers. OSM and Location IQ both have usage frequency limits. Refer to the websites and documentation of the geocoder services for more details.</p>
 </div>
 <div id="installation" class="section level2">
 <h2 class="hasAnchor">

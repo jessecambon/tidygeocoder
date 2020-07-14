@@ -26,11 +26,15 @@ options(tibble.print_min = 5, tibble.print_max = 5)
 
 ## Introduction
 
-Tidygeocoder makes getting data from geocoding services easy. The currently supported services are the [US Census](https://geocoding.geo.census.gov/) geocoder, [Nominatim (OSM)](https://nominatim.org), [Geocodio](https://www.geocod.io/), and [Location IQ](https://locationiq.com/). 
+Tidygeocoder makes getting data from geocoding services easy. The currently supported services are the [US Census geocoder](https://geocoding.geo.census.gov/), [Nominatim (OSM)](https://nominatim.org), [Geocodio](https://www.geocod.io/), and [Location IQ](https://locationiq.com/). In addition to the usage example below, you can find a blog post on geocoding landmarks in Washington, DC [here](https://jessecambon.github.io/2019/11/11/tidygeocoder-demo.html).
 
-Batch geocoding (geocoding multiple addresses per query) is used by default for the US Census and Geocodio services when multiple addresses are provided. Duplicate, missing/NA, and blank address data is handled elegantly - only unique addresses are passed to geocoder services, but the rows in the original data are preserved.
+All results are returned in [tibble format](https://tibble.tidyverse.org/). Batch geocoding (geocoding multiple addresses per query) is used by default for the US Census and Geocodio services when multiple addresses are provided. Duplicate, missing/NA, and blank address data is handled elegantly - only unique addresses are passed to geocoder services, but the rows in the original data are preserved.
 
-In addition to the brief usage example below, you can find a blog post on geocoding landmarks in Washington, DC [here](https://jessecambon.github.io/2019/11/11/tidygeocoder-demo.html).
+## Geocoder Services
+
+The Census geocoder is restricted to street-level addresses in the United States, Geocodio covers the U.S. and Canada, while Location IQ and OSM have worldwide coverage. The Census and OSM services support batch geocoding while Location IQ and OSM do not. 
+
+The Census and OSM services are free while both Geocodio and Location IQ are commercial services that require API keys, but also offer free usage tiers. OSM and Location IQ both have usage frequency limits. Refer to the websites and documentation of the geocoder services for more details.
 
 ## Installation
 
