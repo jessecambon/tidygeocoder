@@ -229,7 +229,7 @@ geo <- function(address = NULL,
   ### Start to build 'generic' query as named list -------------------------
   generic_query <- list()
   ## Geocodio and IQ services require an API key
-  if (method %in% c('geocodio','iq')) {
+  if ((method %in% c('geocodio','iq')) & no_query == FALSE) {
     generic_query[['api_key']] <- get_key(method)
   }
   if (!is.null(limit)) generic_query[['limit']]   <- limit
