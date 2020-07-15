@@ -14,9 +14,12 @@ MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/je
 ## Introduction
 
 Tidygeocoder makes getting data from geocoder services easy. In addition
-to the usage example below, you can find a blog post on geocoding
-landmarks in Washington, DC
-[here](https://jessecambon.github.io/2019/11/11/tidygeocoder-demo.html).
+to the example below, you can find example usage in [this
+post](https://jessecambon.github.io/2020/07/15/tidygeocoder-1-0-0.html)
+on mapping the stadiums of European soccer clubs, [this
+post](https://jessecambon.github.io/2019/11/11/tidygeocoder-demo.html)
+on mapping landmarks in Washington, DC, and the
+[vignette](https://jessecambon.github.io/tidygeocoder/articles/tidygeocoder.html).
 
 All results are returned in [tibble
 format](https://tibble.tidyverse.org/). Batch geocoding (geocoding
