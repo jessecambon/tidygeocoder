@@ -154,7 +154,10 @@ geo <- function(address = NULL,
   ## OR the user has explicitly specified single address geocoding.. call the 
   ## single address geocoder in a loop
   if ((num_unique_addresses > 1) & ((method %in% c('osm', 'iq')) | (mode == 'single'))) {
-      if (verbose == TRUE) message('Executing single address geocoding...\n')
+      if (verbose == TRUE) {
+        message('Executing single address geocoding...')
+        message()
+      }
       
       # construct args for single address query
       # note that non-address related fields go to the MoreArgs argument of mapply
@@ -287,11 +290,11 @@ geo <- function(address = NULL,
     # Name the latitude and longitude columns in accordance with lat/long arguments
     names(results)[1] <- lat
     names(results)[2] <- long
-    
-    ### Make sure the proper amount of time has elapsed for the query per min_time
-    pause_until(start_time, min_time, debug = verbose) 
-    if (verbose == TRUE) message() # insert ending line break if verbose
   }
+  
+  ### Make sure the proper amount of time has elapsed for the query per min_time
+  pause_until(start_time, min_time, debug = verbose) 
+  if (verbose == TRUE) message() # insert ending line break if verbose
   
   return(unpackage_addresses(address_pack, results, unique_only, return_addresses))
 }
