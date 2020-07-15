@@ -124,11 +124,11 @@ cairo_geo <- geo('Cairo, Egypt', method = 'osm', full_results = TRUE,
 glimpse(cairo_geo)
 ```
 
-To test a query without sending any data to a geocoder service, you can use `no_query = TRUE` (NA results are returned). In this example, the `mode` argument is used to prevent batch geocoding from being used.
+To test a query without sending any data to a geocoder service, you can use `no_query = TRUE` (NA results are returned).
 
 ```{r}
 geo(c('Vancouver, Canada', 'Las Vegas, NV'), no_query = TRUE, 
-    method = 'geocodio', mode = 'single')
+    method = 'osm')
 ```
 
 Here are some additional usage notes for the `geocode()` and `geo()` functions:
