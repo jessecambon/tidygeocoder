@@ -26,7 +26,7 @@ options(tibble.print_min = 5, tibble.print_max = 5)
 
 ## Introduction
 
-Tidygeocoder makes getting data from geocoder services easy. In addition to the example below, you can find example usage in [this post](https://jessecambon.github.io/2020/07/15/tidygeocoder-1-0-0.html) on mapping the stadiums of European soccer clubs, [this post](https://jessecambon.github.io/2019/11/11/tidygeocoder-demo.html) on mapping landmarks in Washington, DC, and the [vignette](https://jessecambon.github.io/tidygeocoder/articles/tidygeocoder.html).
+Tidygeocoder makes getting data from geocoder services easy. In addition to the usage example below you can find a post on making a map of European soccer club stadiums [here](https://jessecambon.github.io/2020/07/15/tidygeocoder-1-0-0.html), a post on mapping landmarks in Washington, DC [here](https://jessecambon.github.io/2019/11/11/tidygeocoder-demo.html), and a vignette with more detailed usage examples [here](https://jessecambon.github.io/tidygeocoder/articles/tidygeocoder.html).
 
 All results are returned in [tibble format](https://tibble.tidyverse.org/). Batch geocoding (geocoding multiple addresses per query) is used by default for the US Census and Geocodio services when multiple addresses are provided. Duplicate, missing/NA, and blank address data is handled elegantly - only unique addresses are passed to geocoder services, but the rows in the original data are preserved.
 

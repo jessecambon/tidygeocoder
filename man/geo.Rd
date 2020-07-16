@@ -37,7 +37,7 @@ geo(
 \arguments{
 \item{address}{single line address (ie. '1600 Pennsylvania Ave NW, Washington, DC').
 Do not combine with the address component arguments below
-(street, city , county, state, postalcode, country).}
+(street, city, county, state, postalcode, country).}
 
 \item{street}{street address (ie. '1600 Pennsylvania Ave NW')}
 
