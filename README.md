@@ -48,12 +48,6 @@ the documentation of each service for more details.
 
 ## Installation
 
-**Note**: *There is [an
-issue](https://github.com/jessecambon/tidygeocoder/issues/35) with
-installing the current CRAN release on R \< 4.0. This issue will be
-addressed in the next CRAN release, but for now you can install the
-development version from GitHub (instructions below).*
-
 To install the stable version from CRAN (the official R package
 servers):
 

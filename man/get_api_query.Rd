@@ -25,6 +25,13 @@ dataset.
 The \code{\link{query_api}} function executes the queries created 
 by this function.
 }
+\examples{
+get_api_query("osm", list(address = 'Hanoi, Vietnam'))
+
+get_api_query("census", list(street = '11 Wall St', city = "NY", state = 'NY'),
+  list(benchmark = "Public_AR_Census2010"))
+
+}
 \seealso{
 \code{\link{query_api}} \code{\link{geo}}
 }

@@ -23,7 +23,8 @@ geocoder results in tibble format
 Parses the output of the \code{\link{query_api}} function.
 Latitude and longitude are extracted into the first two columns
 of the returned dataframe. This function is not used for batch 
-geocoded results.
+geocoded results. Refer to \code{\link{query_api}} for example
+usage.
 }
 \seealso{
 \code{\link{get_api_query}} \code{\link{query_api}} \code{\link{geo}}

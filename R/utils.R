@@ -1,4 +1,4 @@
-## Put common utilities here
+### Put common utility functions here
 
 # Declaring global variables
 pkg.globals <- new.env()
@@ -38,7 +38,8 @@ pause_until <- function(start_time, min_time, debug=FALSE) {
 #' Parses the output of the \code{\link{query_api}} function.
 #' Latitude and longitude are extracted into the first two columns
 #' of the returned dataframe. This function is not used for batch 
-#' geocoded results.
+#' geocoded results. Refer to \code{\link{query_api}} for example
+#' usage.
 #' 
 #' @param method method name
 #' @param response  content from the geocoder service (returned by the \code{\link{query_api}} function)
@@ -66,12 +67,11 @@ extract_results <- function(method, response, full_results = TRUE, flatten = TRU
   if (nrow(lat_lng) == 0 | ncol(lat_lng) != 2) return(NA_result)
   
   # convert to numeric format
-  #lat_lng <- tibble::as_tibble(sapply(lat_lng, function(x) as.numeric(as.character(x))))
   lat_lng[, 1] <- as.numeric(as.character(lat_lng[, 1]))
   lat_lng[, 2] <- as.numeric(as.character(lat_lng[, 2]))
   
   if (full_results == TRUE) {
-  ## extract full results excluding latitude and longitude
+  # extract full results excluding latitude and longitude
     results <- switch(method,
       'census' = response$result$addressMatches[!names(response$result$addressMatches) %in% c('coordinates')],
       'osm' = response[!names(response) %in% c('lat', 'lon')],
@@ -120,7 +120,7 @@ split_coords <- function(input) {
   if (grepl(',', input, fixed = TRUE)) {
     split <- as.list(unlist(strsplit(input, "," , fixed = TRUE)))
   }
-  else split <- (list('',''))
+  else split <- (list('', ''))
   
   return(as.numeric(split))
 }

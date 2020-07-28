@@ -113,7 +113,7 @@ geo <- function(address = NULL,
   # make sure to put this before any other variables are defined
   all_args <- as.list(environment())
   
-  ## Check inputs
+  # Check inputs
   stopifnot(mode %in% c('', 'single', 'batch'), 
     method %in% c('census', 'osm', 'iq', 'geocodio', 'cascade'),
     is.logical(verbose), is.logical(no_query), is.logical(flatten), 
@@ -123,8 +123,8 @@ geo <- function(address = NULL,
   if (no_query == TRUE) verbose <- TRUE
   start_time <- Sys.time() # start timer
   
-  # If method='cascade' is called then pass all function arguments 
-  # except for method to geo_cascade and return the results 
+  # If method = 'cascade' is called then pass all function arguments 
+  # except for method to geo_cascade() and return the results 
   if (method == 'cascade') {
     if (full_results == TRUE) stop("full_results = TRUE cannot be used with the cascade method.")
     if (limit != 1) stop("limit argument must be 1 (default) to use the cascade method.")
@@ -150,9 +150,9 @@ geo <- function(address = NULL,
     return(unpackage_addresses(address_pack, NA_value, unique_only, return_addresses))
   }
   
-  ## If there are multiple addresses and we are using a method without a batch geocoder 
-  ## OR the user has explicitly specified single address geocoding.. call the 
-  ## single address geocoder in a loop
+  # If there are multiple addresses and we are using a method without a batch geocoder 
+  # OR the user has explicitly specified single address geocoding.. call the 
+  # single address geocoder in a loop
   if ((num_unique_addresses > 1) & ((method %in% c('osm', 'iq')) | (mode == 'single'))) {
       if (verbose == TRUE) {
         message('Executing single address geocoding...')
@@ -190,7 +190,7 @@ geo <- function(address = NULL,
     See the geo() function documentation for details.')
     }
   
-    #### Enforce batch limit
+    # Enforce batch limit
     if (num_unique_addresses > batch_limit) {
       message(paste0('Limiting batch query to ', batch_limit, ' addresses'))
       address_pack$unique <- address_pack$unique[1:batch_limit, ]
@@ -225,13 +225,13 @@ geo <- function(address = NULL,
   #### Code past this point is for geocoding a single address #####
   #################################################################
   
-  ### Set min_time if not set
+  # Set min_time if not set
   if (method %in% c('osm','iq') & is.null(min_time))  min_time <- 1 
   else if (is.null(min_time)) min_time <- 0
   
-  ### Start to build 'generic' query as named list -------------------------
+  # Start to build 'generic' query as named list -------------------------
   generic_query <- list()
-  ## Geocodio and IQ services require an API key
+  # Geocodio and IQ services require an API key
   if (method %in% c('geocodio','iq')) {
     generic_query[['api_key']] <- get_key(method)
   }
@@ -267,12 +267,12 @@ geo <- function(address = NULL,
   
   if (length(api_url) == 0) stop('API URL not found')
   
-  ### Execute Single Address Query -----------------------------------------
+  # Execute Single Address Query -----------------------------------------
   if (verbose == TRUE) display_query(api_url, api_query_parameters)
   if (no_query == TRUE) return(unpackage_addresses(address_pack, NA_value, unique_only, return_addresses))
   raw_results <- jsonlite::fromJSON(query_api(api_url, api_query_parameters))
   
-  ## output error message for geocodio if present
+  # output error message for geocodio if present
   if ((method == 'geocodio') & (!is.data.frame(raw_results)) & ("error" %in% names(raw_results))) {
     message(paste0('Error: ', raw_results$error))
     results <- NA_value
@@ -283,8 +283,8 @@ geo <- function(address = NULL,
     results <- NA_value
     if (verbose == TRUE) message("No results found")
   } else {
-    ### Extract results. Use the full_results and flatten parameters
-    ### to control the output
+    # Extract results. Use the full_results and flatten parameters
+    # to control the output
     results <- extract_results(method, raw_results, full_results, flatten)
     
     # Name the latitude and longitude columns in accordance with lat/long arguments
@@ -292,7 +292,7 @@ geo <- function(address = NULL,
     names(results)[2] <- long
   }
   
-  ### Make sure the proper amount of time has elapsed for the query per min_time
+  # Make sure the proper amount of time has elapsed for the query per min_time
   pause_until(start_time, min_time, debug = verbose) 
   if (verbose == TRUE) message() # insert ending line break if verbose
   

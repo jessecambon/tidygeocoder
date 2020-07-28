@@ -77,6 +77,12 @@ create_api_parameter <- function(method_name, param_name, value) {
 #' @param generic_parameters universal 'generic' parameters
 #' @param custom_parameters custom api-specific parameters
 #' @return named list of parameters
+#' @examples
+#' get_api_query("osm", list(address = 'Hanoi, Vietnam'))
+#' 
+#' get_api_query("census", list(street = '11 Wall St', city = "NY", state = 'NY'),
+#'   list(benchmark = "Public_AR_Census2010"))
+#'
 #' @seealso \code{\link{query_api}} \code{\link{geo}}
 #' @export
 get_api_query <- function(method, generic_parameters = list(), custom_parameters = list() ) {
@@ -131,6 +137,14 @@ get_api_query <- function(method, generic_parameters = list(), custom_parameters
 #'  the default, but "ISO-8859-1" is used for Census batch queries. 
 #' @param timeout timeout in minutes
 #' @return raw results from the query
+#' @examples
+#' \donttest{
+#' raw <- query_api("http://nominatim.openstreetmap.org/search", 
+#'    get_api_query("osm", list(address = 'Hanoi, Vietnam')))
+#'    
+#' extract_results('osm', jsonlite::fromJSON(raw))
+#' }
+#' 
 #' @seealso \code{\link{get_api_query}} \code{\link{extract_results}} \code{\link{geo}}
 #' @export 
 query_api <- function(api_url, query_parameters, mode = 'single', 

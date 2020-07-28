@@ -40,6 +40,15 @@ raw results from the query
 The \code{\link{get_api_query}} function can create queries for this
 function to execute.
 }
+\examples{
+\donttest{
+raw <- query_api("http://nominatim.openstreetmap.org/search", 
+   get_api_query("osm", list(address = 'Hanoi, Vietnam')))
+   
+extract_results('osm', jsonlite::fromJSON(raw))
+}
+
+}
 \seealso{
 \code{\link{get_api_query}} \code{\link{extract_results}} \code{\link{geo}}
 }
