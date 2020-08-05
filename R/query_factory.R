@@ -1,6 +1,5 @@
-#############################################
-##### Functions for constructing API queries
-#############################################
+### Functions for constructing API queries
+
 
 # Get API Key from environmental variables
 get_key <- function(method) {
@@ -17,9 +16,7 @@ get_key <- function(method) {
   else return(key)
 }
 
-#####################################################
-################ API URL FUNCTIONS ##################
-#####################################################
+# API URL Functions ----------------------------------------------------------------
 
 # return : returntype => 'locations' or 'geographies'
 # search:  searchtype => 'onelineaddress', 'addressbatch', 'address', or 'coordinates'
@@ -39,9 +36,7 @@ get_iq_url <- function(region) {
   return(paste0("https://", region, "1.locationiq.com/v1/search.php"))
 }
 
-###########################################
-######### API PARAMETERS ##################
-###########################################
+# API Parameters ----------------------------------------------------------------
 
 # Create an API-specific parameter for a given method
 # given generic parameter name and a value
@@ -105,7 +100,7 @@ get_api_query <- function(method, generic_parameters = list(), custom_parameters
     }
   }
   
-  ## Extract default parameter values ---------------
+  # Extract default parameter values ----------------------------------------------------------
   # only extract values that have default values and don't already exist in main_api_parameters
   default_api_parameters <- tibble::deframe(
     api_ref[which(api_ref[['method']] == method &
@@ -163,6 +158,8 @@ query_api <- function(api_url, query_parameters, mode = 'single',
   content <- httr::content(response, as = 'text', encoding = content_encoding)
   return(content)
 }
+
+# Functions for displaying API queries (when verbose = TRUE) ----------------------
 
 # print values in a named list (used for displaying query parameters)
 display_named_list <- function(named_list) {

@@ -3,7 +3,7 @@
 \docType{data}
 \name{api_parameter_reference}
 \alias{api_parameter_reference}
-\title{Geocoder Service API Parameter Reference}
+\title{Geocoder service API parameter reference}
 \format{
 A tibble dataframe
 \describe{

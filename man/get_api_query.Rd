@@ -2,7 +2,7 @@
 % Please edit documentation in R/query_factory.R
 \name{get_api_query}
 \alias{get_api_query}
-\title{Construct a Geocoder API Query}
+\title{Construct a geocoder API query}
 \usage{
 get_api_query(method, generic_parameters = list(), custom_parameters = list())
 }

@@ -3,13 +3,14 @@ title: "Operation Logo"
 output: github_document
 ---
 
+Create the package hex sticker
+
 https://www.r-spatial.org/r/2018/10/25/ggplot2-sf.html
 https://stackoverflow.com/questions/43207947/whole-earth-polygon-for-world-map-in-ggplot2-and-sf
-
 https://github.com/GuangchuangYu/hexSticker
 
 
-```{r}
+```{r setup}
 library(ggplot2)
 library(sf)
 library(rnaturalearth)
@@ -20,8 +21,6 @@ library(hexSticker)
 ```
 
 ```{r}
-# ctrys50m <- ne_countries(scale = 50, type = "countries", returnclass = "sf") %>%
-#   select(iso_a3, iso_n3, admin)
 world_coastlines <- ne_coastline(scale = 'medium', returnclass = 'sf')
 #crs <- "+proj=robin +ellps=WGS84 +lat_0=20 +lon_0=30"
 #crs <- "+proj=aeqd +lat_0=0 +lon_0=0 +x_0=0 +y_0=0 +ellps=WGS84 +datum=WGS84 +units=m +no_defs"

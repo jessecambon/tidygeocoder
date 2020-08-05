@@ -2,7 +2,7 @@
 % Please edit documentation in R/query_factory.R
 \name{query_api}
 \alias{query_api}
-\title{Execute a Geocoder API Query}
+\title{Execute a geocoder API query}
 \usage{
 query_api(
   api_url,

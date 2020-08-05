@@ -6,7 +6,7 @@
 \alias{geo_geocodio}
 \alias{geo_iq}
 \title{Convenience functions for calling the \code{\link{geo}} function
-with a specified method.}
+with a specified method}
 \usage{
 geo_census(...)
 
@@ -21,5 +21,5 @@ geo_iq(...)
 }
 \description{
 Convenience functions for calling the \code{\link{geo}} function
-with a specified method.
+with a specified method
 }

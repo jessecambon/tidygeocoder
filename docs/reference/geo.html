@@ -99,6 +99,9 @@ API queries." />
 <li>
   <a href="../reference/index.html">Reference</a>
 </li>
+<li>
+  <a href="../news/index.html">Changelog</a>
+</li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
@@ -325,24 +328,24 @@ for the 'geocodio' method.</p></td>
     <pre class="examples"><div class='input'><span class='co'># \donttest{</span>
 
 <span class='fu'>geo</span>(<span class='kw'>street</span> <span class='kw'>=</span> <span class='st'>"600 Peachtree Street NE"</span>, <span class='kw'>city</span> <span class='kw'>=</span> <span class='st'>"Atlanta"</span>,
- <span class='kw'>state</span> <span class='kw'>=</span> <span class='st'>"Georgia"</span>, <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"census"</span>)</div><div class='output co'>#&gt; # A tibble: 1 x 5
+ <span class='kw'>state</span> <span class='kw'>=</span> <span class='st'>"Georgia"</span>, <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"census"</span>)</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 1 x 5</span><span>
 #&gt;   street                  city    state     lat  long
-#&gt;   &lt;chr&gt;                   &lt;chr&gt;   &lt;chr&gt;   &lt;dbl&gt; &lt;dbl&gt;
-#&gt; 1 600 Peachtree Street NE Atlanta Georgia  33.8 -84.4</div><div class='input'>
+#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>                   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>   </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #BCBCBC;'>1</span><span> 600 Peachtree Street NE Atlanta Georgia  33.8 -</span><span style='color: #BB0000;'>84.4</span><span></div><div class='input'>
 <span class='fu'>geo</span>(<span class='kw'>address</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"Tokyo, Japan"</span>, <span class='st'>"Lima, Peru"</span>, <span class='st'>"Nairobi, Kenya"</span>),
- <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>'osm'</span>)</div><div class='output co'>#&gt; # A tibble: 3 x 3
+ <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>'osm'</span>)</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 3 x 3</span><span>
 #&gt;   address           lat  long
-#&gt;   &lt;chr&gt;           &lt;dbl&gt; &lt;dbl&gt;
-#&gt; 1 Tokyo, Japan    35.7  140. 
-#&gt; 2 Lima, Peru     -12.1  -77.0
-#&gt; 3 Nairobi, Kenya  -1.28  36.8</div><div class='input'>
+#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>           </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #BCBCBC;'>1</span><span> Tokyo, Japan    35.7  140. 
+#&gt; </span><span style='color: #BCBCBC;'>2</span><span> Lima, Peru     -</span><span style='color: #BB0000;'>12.1</span><span>  -</span><span style='color: #BB0000;'>77.0</span><span>
+#&gt; </span><span style='color: #BCBCBC;'>3</span><span> Nairobi, Kenya  -</span><span style='color: #BB0000;'>1.28</span><span>  36.8</div><div class='input'>
 <span class='fu'>geo</span>(<span class='kw'>county</span> <span class='kw'>=</span> <span class='st'>'Jefferson'</span>, <span class='kw'>state</span> <span class='kw'>=</span> <span class='st'>"Kentucky"</span>, <span class='kw'>country</span> <span class='kw'>=</span> <span class='st'>"US"</span>,
-     <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>'osm'</span>)</div><div class='output co'>#&gt; # A tibble: 1 x 5
+     <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>'osm'</span>)</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 1 x 5</span><span>
 #&gt;   county    state    country   lat  long
-#&gt;   &lt;chr&gt;     &lt;chr&gt;    &lt;chr&gt;   &lt;dbl&gt; &lt;dbl&gt;
-#&gt; 1 Jefferson Kentucky US       38.2 -85.7</div><div class='input'>
+#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>     </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>    </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>   </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #BCBCBC;'>1</span><span> Jefferson Kentucky US       38.2 -</span><span style='color: #BB0000;'>85.7</span><span></div><div class='input'>
 # }
-</div></pre>
+</div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

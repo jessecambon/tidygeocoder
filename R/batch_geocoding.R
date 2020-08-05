@@ -37,7 +37,7 @@ batch_census <- function(address_pack,
   utils::write.table(input_df, tmp, row.names = FALSE, col.names = FALSE, sep = ',', na = '')
   
   # Construct query
-  ## NOTE - request will fail if vintage and benchmark are invalid for return_type = 'geographies'
+  # NOTE - request will fail if vintage and benchmark are invalid for return_type = 'geographies'
   query_parameters <- get_api_query('census', custom_parameters = custom_query)
   if (verbose == TRUE) display_query(api_url, query_parameters)
   
@@ -52,7 +52,7 @@ batch_census <- function(address_pack,
   
   results <- results[order(results['id']), ]  # make sure results remain in proper order
 
-  ## split out lat/lng. lapply is used with as.numeric to convert coordinates to numeric
+  # split out lat/lng. lapply is used with as.numeric to convert coordinates to numeric
   coord_df <- do.call(rbind, lapply(results$coords, split_coords))
   colnames(coord_df) <- c(long, lat)  # <--- NOTE ORDER
   
@@ -66,6 +66,7 @@ batch_census <- function(address_pack,
     return(combi)
   }
 }
+
 
 # Batch geocoding with geocodio
 # ... are arguments passed from the geo() function
