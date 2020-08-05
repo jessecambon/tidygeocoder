@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Extract Geocoder Results — extract_results • tidygeocoder</title>
+<title>Extract geocoder results — extract_results • tidygeocoder</title>
 
 
 <!-- jquery -->
@@ -39,11 +39,12 @@
 
 
 
-<meta property="og:title" content="Extract Geocoder Results — extract_results" />
+<meta property="og:title" content="Extract geocoder results — extract_results" />
 <meta property="og:description" content="Parses the output of the query_api function.
 Latitude and longitude are extracted into the first two columns
 of the returned dataframe. This function is not used for batch 
-geocoded results." />
+geocoded results. Refer to query_api for example
+usage." />
 
 
 
@@ -75,7 +76,7 @@ geocoded results." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">tidygeocoder</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.1.9000</span>
       </span>
     </div>
 
@@ -92,6 +93,9 @@ geocoded results." />
 </li>
 <li>
   <a href="../reference/index.html">Reference</a>
+</li>
+<li>
+  <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -114,7 +118,7 @@ geocoded results." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Extract Geocoder Results</h1>
+    <h1>Extract geocoder results</h1>
     <small class="dont-index">Source: <a href='https://github.com/jessecambon/tidygeocoder/blob/master/R/utils.R'><code>R/utils.R</code></a></small>
     <div class="hidden name"><code>extract_results.Rd</code></div>
     </div>
@@ -123,7 +127,8 @@ geocoded results." />
     <p>Parses the output of the <code><a href='query_api.html'>query_api</a></code> function.
 Latitude and longitude are extracted into the first two columns
 of the returned dataframe. This function is not used for batch 
-geocoded results.</p>
+geocoded results. Refer to <code><a href='query_api.html'>query_api</a></code> for example
+usage.</p>
     </div>
 
     <pre class="usage"><span class='fu'>extract_results</span>(<span class='no'>method</span>, <span class='no'>response</span>, <span class='kw'>full_results</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>flatten</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>

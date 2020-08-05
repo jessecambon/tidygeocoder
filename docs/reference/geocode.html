@@ -81,7 +81,7 @@ both acceptable)." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">tidygeocoder</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.1.9000</span>
       </span>
     </div>
 
@@ -98,6 +98,9 @@ both acceptable)." />
 </li>
 <li>
   <a href="../reference/index.html">Reference</a>
+</li>
+<li>
+  <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -229,12 +232,11 @@ TRUE (overrides return_addresses argument).</p></td>
 #&gt; <span class='message'></span>
 #&gt; <span class='message'>    filter, lag</span></div><div class='output co'>#&gt; <span class='message'>The following objects are masked from ‘package:base’:</span>
 #&gt; <span class='message'></span>
-#&gt; <span class='message'>    intersect, setdiff, setequal, union</span></div><div class='input'><span class='no'>sample_addresses</span>[<span class='fl'>1</span>:<span class='fl'>3</span>,] <span class='kw'>%&gt;%</span> <span class='fu'>geocode</span>(<span class='no'>addr</span>)</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 3 x 4</span><span>
+#&gt; <span class='message'>    intersect, setdiff, setequal, union</span></div><div class='input'><span class='no'>sample_addresses</span>[<span class='fl'>1</span>:<span class='fl'>2</span>,] <span class='kw'>%&gt;%</span> <span class='fu'>geocode</span>(<span class='no'>addr</span>)</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 2 x 4</span><span>
 #&gt;   name                 addr                                         lat   long
 #&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>                </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>                                      </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>  </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
 #&gt; </span><span style='color: #BCBCBC;'>1</span><span> White House          1600 Pennsylvania Ave Washington, DC        38.9  -</span><span style='color: #BB0000;'>77.0</span><span>
-#&gt; </span><span style='color: #BCBCBC;'>2</span><span> Transamerica Pyramid 600 Montgomery St, San Francisco, CA 94111  37.8 -</span><span style='color: #BB0000;'>122.</span><span> 
-#&gt; </span><span style='color: #BCBCBC;'>3</span><span> NY Stock Exchange    11 Wall Street, New York, New York          40.7  -</span><span style='color: #BB0000;'>74.0</span><span></div><div class='input'>
+#&gt; </span><span style='color: #BCBCBC;'>2</span><span> Transamerica Pyramid 600 Montgomery St, San Francisco, CA 94111  37.8 -</span><span style='color: #BB0000;'>122.</span><span> </div><div class='input'>
 <span class='no'>louisville</span>[<span class='fl'>1</span>:<span class='fl'>2</span>,] <span class='kw'>%&gt;%</span> <span class='fu'>geocode</span>(<span class='kw'>street</span> <span class='kw'>=</span> <span class='no'>street</span>, <span class='kw'>city</span> <span class='kw'>=</span> <span class='no'>city</span>, <span class='kw'>state</span> <span class='kw'>=</span> <span class='no'>state</span>,
   <span class='kw'>postalcode</span> <span class='kw'>=</span> <span class='no'>zip</span>)</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 2 x 8</span><span>
 #&gt;   street           city       state      zip latitude longitude   lat  long
@@ -247,13 +249,12 @@ TRUE (overrides return_addresses argument).</p></td>
 #&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>    </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>             </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>  </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
 #&gt; </span><span style='color: #BCBCBC;'>1</span><span> Istanbul Istanbul, Turkey   41.0   29.0
 #&gt; </span><span style='color: #BCBCBC;'>2</span><span> Tokyo    Tokyo, Japan       35.7  140. </div><div class='input'>
-<span class='no'>sample_addresses</span>[<span class='fl'>1</span>:<span class='fl'>3</span>,] <span class='kw'>%&gt;%</span> <span class='fu'>geocode</span>(<span class='no'>addr</span>, <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>'cascade'</span>,
-  <span class='kw'>lat</span> <span class='kw'>=</span> <span class='no'>latitude</span>, <span class='kw'>long</span> <span class='kw'>=</span> <span class='no'>longitude</span>)</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 3 x 5</span><span>
-#&gt;   name             addr                            latitude longitude geo_method
-#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>            </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>                              </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>     </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>     
-#&gt; </span><span style='color: #BCBCBC;'>1</span><span> White House      1600 Pennsylvania Ave Washingt…     38.9     -</span><span style='color: #BB0000;'>77.0</span><span> census    
-#&gt; </span><span style='color: #BCBCBC;'>2</span><span> Transamerica Py… 600 Montgomery St, San Francis…     37.8    -</span><span style='color: #BB0000;'>122.</span><span>  census    
-#&gt; </span><span style='color: #BCBCBC;'>3</span><span> NY Stock Exchan… 11 Wall Street, New York, New …     40.7     -</span><span style='color: #BB0000;'>74.0</span><span> census    </div><div class='input'># }
+<span class='no'>sample_addresses</span>[<span class='fl'>4</span>:<span class='fl'>5</span>,] <span class='kw'>%&gt;%</span> <span class='fu'>geocode</span>(<span class='no'>addr</span>, <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>'cascade'</span>,
+  <span class='kw'>lat</span> <span class='kw'>=</span> <span class='no'>latitude</span>, <span class='kw'>long</span> <span class='kw'>=</span> <span class='no'>longitude</span>)</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 2 x 5</span><span>
+#&gt;   name           addr                              latitude longitude geo_method
+#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>                                </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>     </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>     
+#&gt; </span><span style='color: #BCBCBC;'>1</span><span> Willis Tower   233 S Wacker Dr, Chicago, IL 606…     41.9     -</span><span style='color: #BB0000;'>87.6</span><span> census    
+#&gt; </span><span style='color: #BCBCBC;'>2</span><span> Château Front… 1 Rue des Carrières, Québec, QC …     46.8     -</span><span style='color: #BB0000;'>71.2</span><span> osm       </div><div class='input'># }
 </div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

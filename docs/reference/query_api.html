@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Execute a Geocoder API Query — query_api • tidygeocoder</title>
+<title>Execute a geocoder API query — query_api • tidygeocoder</title>
 
 
 <!-- jquery -->
@@ -39,7 +39,7 @@
 
 
 
-<meta property="og:title" content="Execute a Geocoder API Query — query_api" />
+<meta property="og:title" content="Execute a geocoder API query — query_api" />
 <meta property="og:description" content="The get_api_query function can create queries for this
 function to execute." />
 
@@ -73,7 +73,7 @@ function to execute." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">tidygeocoder</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.1.9000</span>
       </span>
     </div>
 
@@ -90,6 +90,9 @@ function to execute." />
 </li>
 <li>
   <a href="../reference/index.html">Reference</a>
+</li>
+<li>
+  <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -112,7 +115,7 @@ function to execute." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Execute a Geocoder API Query</h1>
+    <h1>Execute a geocoder API query</h1>
     <small class="dont-index">Source: <a href='https://github.com/jessecambon/tidygeocoder/blob/master/R/query_factory.R'><code>R/query_factory.R</code></a></small>
     <div class="hidden name"><code>query_api.Rd</code></div>
     </div>
@@ -176,6 +179,18 @@ the default, but "ISO-8859-1" is used for Census batch queries.</p></td>
 
     <div class='dont-index'><p><code><a href='get_api_query.html'>get_api_query</a></code> <code><a href='extract_results.html'>extract_results</a></code> <code><a href='geo.html'>geo</a></code></p></div>
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='co'># \donttest{</span>
+<span class='no'>raw</span> <span class='kw'>&lt;-</span> <span class='fu'>query_api</span>(<span class='st'>"http://nominatim.openstreetmap.org/search"</span>,
+   <span class='fu'><a href='get_api_query.html'>get_api_query</a></span>(<span class='st'>"osm"</span>, <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>address</span> <span class='kw'>=</span> <span class='st'>'Hanoi, Vietnam'</span>)))
+
+<span class='fu'><a href='extract_results.html'>extract_results</a></span>(<span class='st'>'osm'</span>, <span class='kw pkg'>jsonlite</span><span class='kw ns'>::</span><span class='fu'><a href='https://jeroen.cran.dev/jsonlite/reference/fromJSON.html'>fromJSON</a></span>(<span class='no'>raw</span>))</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 1 x 12</span><span>
+#&gt;     lat   lon place_id licence osm_type osm_id boundingbox display_name class
+#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>    </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>     </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;list&gt;</span><span>      </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>        </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>
+#&gt; </span><span style='color: #BCBCBC;'>1</span><span>  21.0  106.   2.74</span><span style='color: #949494;'>e</span><span>8 Data ©… relation 1.90</span><span style='color: #949494;'>e</span><span>6 </span><span style='color: #949494;'>&lt;chr [4]&gt;</span><span>   Hà Nội, Việ… boun…
+#&gt; </span><span style='color: #949494;'># … with 3 more variables: type </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span style='color: #949494;'>, importance </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #949494;'>, icon </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span></div><div class='input'># }
+
+</div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

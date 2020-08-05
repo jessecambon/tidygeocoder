@@ -1,6 +1,5 @@
-#############################################
-##### Functions for constructing API queries
-#############################################
+### Functions for constructing API queries
+
 
 # Get API Key from environmental variables
 get_key <- function(method) {
@@ -17,9 +16,7 @@ get_key <- function(method) {
   else return(key)
 }
 
-#####################################################
-################ API URL FUNCTIONS ##################
-#####################################################
+# API URL Functions ----------------------------------------------------------------
 
 # return : returntype => 'locations' or 'geographies'
 # search:  searchtype => 'onelineaddress', 'addressbatch', 'address', or 'coordinates'
@@ -39,9 +36,7 @@ get_iq_url <- function(region) {
   return(paste0("https://", region, "1.locationiq.com/v1/search.php"))
 }
 
-###########################################
-######### API PARAMETERS ##################
-###########################################
+# API Parameters ----------------------------------------------------------------
 
 # Create an API-specific parameter for a given method
 # given generic parameter name and a value
@@ -62,7 +57,7 @@ create_api_parameter <- function(method_name, param_name, value) {
   return(param)
 }
 
-#' Construct a Geocoder API Query
+#' Construct a geocoder API query
 #' 
 #' @description 
 #' The geocoder API query is created using universal "generic" parameters
@@ -77,6 +72,12 @@ create_api_parameter <- function(method_name, param_name, value) {
 #' @param generic_parameters universal 'generic' parameters
 #' @param custom_parameters custom api-specific parameters
 #' @return named list of parameters
+#' @examples
+#' get_api_query("osm", list(address = 'Hanoi, Vietnam'))
+#' 
+#' get_api_query("census", list(street = '11 Wall St', city = "NY", state = 'NY'),
+#'   list(benchmark = "Public_AR_Census2010"))
+#'
 #' @seealso \code{\link{query_api}} \code{\link{geo}}
 #' @export
 get_api_query <- function(method, generic_parameters = list(), custom_parameters = list() ) {
@@ -99,7 +100,7 @@ get_api_query <- function(method, generic_parameters = list(), custom_parameters
     }
   }
   
-  ## Extract default parameter values ---------------
+  # Extract default parameter values ----------------------------------------------------------
   # only extract values that have default values and don't already exist in main_api_parameters
   default_api_parameters <- tibble::deframe(
     api_ref[which(api_ref[['method']] == method &
@@ -112,7 +113,7 @@ get_api_query <- function(method, generic_parameters = list(), custom_parameters
   return( c(main_api_parameters, custom_parameters, default_api_parameters) )
 }
 
-#' Execute a Geocoder API Query
+#' Execute a geocoder API query
 #' 
 #' @description
 #' The \code{\link{get_api_query}} function can create queries for this
@@ -131,6 +132,14 @@ get_api_query <- function(method, generic_parameters = list(), custom_parameters
 #'  the default, but "ISO-8859-1" is used for Census batch queries. 
 #' @param timeout timeout in minutes
 #' @return raw results from the query
+#' @examples
+#' \donttest{
+#' raw <- query_api("http://nominatim.openstreetmap.org/search", 
+#'    get_api_query("osm", list(address = 'Hanoi, Vietnam')))
+#'    
+#' extract_results('osm', jsonlite::fromJSON(raw))
+#' }
+#' 
 #' @seealso \code{\link{get_api_query}} \code{\link{extract_results}} \code{\link{geo}}
 #' @export 
 query_api <- function(api_url, query_parameters, mode = 'single', 
@@ -149,6 +158,8 @@ query_api <- function(api_url, query_parameters, mode = 'single',
   content <- httr::content(response, as = 'text', encoding = content_encoding)
   return(content)
 }
+
+# Functions for displaying API queries (when verbose = TRUE) ----------------------
 
 # print values in a named list (used for displaying query parameters)
 display_named_list <- function(named_list) {

@@ -1,5 +1,3 @@
-^renv$
-^renv\.lock$
 ^.*\.Rproj$
 ^\.Rproj\.user$
 ^doc$
@@ -11,6 +9,5 @@
 ^pkgdown$
 ^bin$
 ^tidygeocoder\.yml$
-^data/durham_test\.rda$
 ^README\.Rmd$
 ^sandbox$

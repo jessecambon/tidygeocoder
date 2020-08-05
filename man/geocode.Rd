@@ -71,7 +71,7 @@ both acceptable).
 \examples{
 \donttest{
 library(dplyr)
-sample_addresses[1:3,] \%>\% geocode(addr)
+sample_addresses[1:2,] \%>\% geocode(addr)
 
 louisville[1:2,] \%>\% geocode(street = street, city = city, state = state,
   postalcode = zip)
@@ -79,7 +79,7 @@ louisville[1:2,] \%>\% geocode(street = street, city = city, state = state,
 sample_addresses[8:9,] \%>\% geocode(addr, method = 'osm',
   lat = 'lattes', long = 'longos')
 
-sample_addresses[1:3,] \%>\% geocode(addr, method = 'cascade',
+sample_addresses[4:5,] \%>\% geocode(addr, method = 'cascade',
   lat = latitude, long = longitude)
 }
 }

@@ -22,11 +22,12 @@ options(tibble.print_min = 5, tibble.print_max = 5)
 [![CRAN](https://www.r-pkg.org/badges/version/tidygeocoder)](https://cran.r-project.org/package=tidygeocoder)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/jessecambon/tidygeocoder/blob/master/LICENSE.md)
 [![CRAN\_Download\_Badge](http://cranlogs.r-pkg.org/badges/grand-total/tidygeocoder)](https://CRAN.R-project.org/package=tidygeocoder)
+[![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
 <!-- badges: end -->
 
 ## Introduction
 
-Tidygeocoder makes getting data from geocoder services easy. In addition to the usage example below you can find a post on making a map of European soccer club stadiums [here](https://jessecambon.github.io/2020/07/15/tidygeocoder-1-0-0.html), a post on mapping landmarks in Washington, DC [here](https://jessecambon.github.io/2019/11/11/tidygeocoder-demo.html), and a vignette with more detailed usage examples [here](https://jessecambon.github.io/tidygeocoder/articles/tidygeocoder.html).
+Tidygeocoder makes getting data from geocoder services easy. In addition to the usage example below you can  refer to [a post on making a map of European soccer club stadiums](https://jessecambon.github.io/2020/07/15/tidygeocoder-1-0-0.html), [a post on mapping landmarks in Washington, DC](https://jessecambon.github.io/2019/11/11/tidygeocoder-demo.html), and [a vignette with more detailed usage examples](https://jessecambon.github.io/tidygeocoder/articles/tidygeocoder.html).
 
 All results are returned in [tibble format](https://tibble.tidyverse.org/). Batch geocoding (geocoding multiple addresses per query) is used by default for the US Census and Geocodio services when multiple addresses are provided. Duplicate, missing/NA, and blank address data is handled elegantly - only unique addresses are passed to geocoder services, but the rows in the original data are preserved.
 
@@ -37,8 +38,6 @@ The currently supported services are the [US Census geocoder](https://geocoding.
 The Census and OSM services are free; Geocodio and Location IQ are commercial services that require API keys, but also offer free usage tiers. OSM and Location IQ both have usage frequency limits. Refer to the documentation of each service for more details.
 
 ## Installation
-
-**Note**: *There is [an issue](https://github.com/jessecambon/tidygeocoder/issues/35) with installing the current CRAN release on R < 4.0. This issue will be addressed in the next CRAN release, but for now you can install the development version from GitHub (instructions below).*
 
 To install the stable version from CRAN (the official R package servers):
 
