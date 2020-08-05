@@ -1,6 +1,5 @@
 ### Functions for constructing API queries
 
-
 # Get API Key from environmental variables
 get_key <- function(method) {
   # define environmental variable name
@@ -71,7 +70,7 @@ create_api_parameter <- function(method_name, param_name, value) {
 #' @param method method name (ie. 'census')
 #' @param generic_parameters universal 'generic' parameters
 #' @param custom_parameters custom api-specific parameters
-#' @return named list of parameters
+#' @return API parameters as a named list
 #' @examples
 #' get_api_query("osm", list(address = 'Hanoi, Vietnam'))
 #' 

@@ -78,6 +78,8 @@ geocode <- function(.tbl, address = NULL, street = NULL, city = NULL, county = N
   for (var in pkg.globals$address_arg_names) {
     if (!is.null(all_args[[var]])) addr_parameters[[var]] <- .tbl[[all_args[[var]]]]
   }
+  
+  # Arguments to pass to geo()
   geo_args <- c(addr_parameters, 
       all_args[!names(all_args) %in% c('.tbl', pkg.globals$address_arg_names)], list(...))
   

@@ -298,13 +298,13 @@ is the default.</p></td>
     <tr>
       <th>custom_query</th>
       <td><p>API-specific parameters to be used, passed as a named list 
-(ie. `list(vintage = 'Current_Census2010')`)</p></td>
+(ie. <code><a href='https://rdrr.io/r/base/list.html'>list(vintage = 'Current_Census2010')</a></code>)</p></td>
     </tr>
     <tr>
       <th>return_type</th>
-      <td><p>(census only) 'locations' (default) or 'geographies' which 
-returns additional census geography columns. See the Census geocoder API 
-documentation for more details.</p></td>
+      <td><p>only used for method = 'census'. Two possible values: 
+'locations' (default) or 'geographies' which returns additional census
+geography columns. See the Census geocoder API documentation for more details.</p></td>
     </tr>
     <tr>
       <th>iq_region</th>
@@ -319,10 +319,10 @@ for the 'geocodio' method.</p></td>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>parsed results from the geocoder service</p>
+    <p>parsed geocoding results in tibble format</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><code><a href='api_parameter_reference.html'>api_parameter_reference</a></code></p></div>
+    <div class='dont-index'><p><code><a href='geocode.html'>geocode</a></code> <code><a href='api_parameter_reference.html'>api_parameter_reference</a></code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># \donttest{</span>

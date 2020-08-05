@@ -72,15 +72,15 @@
 #' @param no_query if TRUE then no queries are sent to the geocoder and verbose is set to TRUE 
 
 #' @param custom_query API-specific parameters to be used, passed as a named list 
-#'  (ie. `list(vintage = 'Current_Census2010')`)
-#' @param return_type    (census only) 'locations' (default) or 'geographies' which 
-#'  returns additional census geography columns. See the Census geocoder API 
-#'  documentation for more details.
+#'  (ie. \code{list(vintage = 'Current_Census2010')})
+#' @param return_type only used for method = 'census'. Two possible values: 
+#'  'locations' (default) or 'geographies' which returns additional census
+#'  geography columns. See the Census geocoder API documentation for more details.
 #' @param iq_region 'us' (default) or 'eu'. Used for establishing API URL for the 'iq' method
 #' @param geocodio_v version of geocodio api. 1.6 is default. Used for establishing API URL
 #'   for the 'geocodio' method.
 #' 
-#' @return parsed results from the geocoder service
+#' @return parsed geocoding results in tibble format
 #' @examples
 #' \donttest{
 #' 
@@ -94,7 +94,7 @@
 #'      method = 'osm')
 #' 
 #' }
-#' @seealso \code{\link{api_parameter_reference}}
+#' @seealso \code{\link{geocode}} \code{\link{api_parameter_reference}}
 #' @export
 geo <- function(address = NULL, 
     street = NULL, city = NULL, county = NULL, state = NULL, postalcode = NULL, country = NULL,
@@ -150,16 +150,17 @@ geo <- function(address = NULL,
     return(unpackage_addresses(address_pack, NA_value, unique_only, return_addresses))
   }
   
+  # Single Address geocoding -------------------------------------------------------------
   # If there are multiple addresses and we are using a method without a batch geocoder 
   # OR the user has explicitly specified single address geocoding.. call the 
-  # single address geocoder in a loop
+  # single address geocoder in a loop (ie. recursively call this function)
   if ((num_unique_addresses > 1) & ((method %in% c('osm', 'iq')) | (mode == 'single'))) {
       if (verbose == TRUE) {
         message('Executing single address geocoding...')
         message()
       }
       
-      # construct args for single address query
+      # construct arguments for a single address query
       # note that non-address related fields go to the MoreArgs argument of mapply
       # since we aren't iterating through them
       single_addr_args <- c(
@@ -173,12 +174,13 @@ geo <- function(address = NULL,
       list_coords <- do.call(mapply, single_addr_args)
       # rbind the list of tibble dataframes together
       stacked_results <- dplyr::bind_rows(list_coords)
+      
       # note that return_addresses has been set to FALSE here since addresses will already
       # be returned in the first geo function call (if asked for)
       return(unpackage_addresses(address_pack, stacked_results, unique_only, return_addresses = FALSE))
       }
       
-  ### Batch geocoding -----------------------------------------------------
+  # Batch geocoding ---------------------------------------------------------------
   if ((num_unique_addresses > 1) | (mode == 'batch')) {
     
     if (limit != 1 & return_addresses == TRUE) {

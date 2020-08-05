@@ -14,7 +14,7 @@ get_api_query(method, generic_parameters = list(), custom_parameters = list())
 \item{custom_parameters}{custom api-specific parameters}
 }
 \value{
-named list of parameters
+API parameters as a named list
 }
 \description{
 The geocoder API query is created using universal "generic" parameters

@@ -112,11 +112,11 @@ is the default.}
 \item{no_query}{if TRUE then no queries are sent to the geocoder and verbose is set to TRUE}
 
 \item{custom_query}{API-specific parameters to be used, passed as a named list 
-(ie. `list(vintage = 'Current_Census2010')`)}
+(ie. \code{list(vintage = 'Current_Census2010')})}
 
-\item{return_type}{(census only) 'locations' (default) or 'geographies' which 
-returns additional census geography columns. See the Census geocoder API 
-documentation for more details.}
+\item{return_type}{only used for method = 'census'. Two possible values: 
+'locations' (default) or 'geographies' which returns additional census
+geography columns. See the Census geocoder API documentation for more details.}
 
 \item{iq_region}{'us' (default) or 'eu'. Used for establishing API URL for the 'iq' method}
 
@@ -124,7 +124,7 @@ documentation for more details.}
 for the 'geocodio' method.}
 }
 \value{
-parsed results from the geocoder service
+parsed geocoding results in tibble format
 }
 \description{
 Geocodes addresses given as character values. The \code{\link{geocode}}
@@ -155,5 +155,5 @@ geo(county = 'Jefferson', state = "Kentucky", country = "US",
 }
 }
 \seealso{
-\code{\link{api_parameter_reference}}
+\code{\link{geocode}} \code{\link{api_parameter_reference}}
 }
