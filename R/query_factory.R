@@ -62,7 +62,7 @@ create_api_parameter <- function(method_name, param_name, value) {
   return(param)
 }
 
-#' Construct a Geocoder API Query
+#' Construct a geocoder API query
 #' 
 #' @description 
 #' The geocoder API query is created using universal "generic" parameters
@@ -118,7 +118,7 @@ get_api_query <- function(method, generic_parameters = list(), custom_parameters
   return( c(main_api_parameters, custom_parameters, default_api_parameters) )
 }
 
-#' Execute a Geocoder API Query
+#' Execute a geocoder API query
 #' 
 #' @description
 #' The \code{\link{get_api_query}} function can create queries for this

@@ -32,7 +32,7 @@ pause_until <- function(start_time, min_time, debug=FALSE) {
   }
 }
 
-#' Extract Geocoder Results 
+#' Extract geocoder results 
 #' 
 #' @description
 #' Parses the output of the \code{\link{query_api}} function.
@@ -53,7 +53,7 @@ extract_results <- function(method, response, full_results = TRUE, flatten = TRU
   
   NA_result <- tibble::tibble(lat = NA, long = NA)
   
-  ## extract latitude and longitude as a dataframe
+  # extract latitude and longitude as a dataframe
   lat_lng <- switch(method,
     'census' = response$result$addressMatches$coordinates[c('y','x')],
     'osm' = response[c('lat', 'lon')],
@@ -90,7 +90,7 @@ extract_results <- function(method, response, full_results = TRUE, flatten = TRU
   else return(combined_results)
 }
 
-### Return a 2 column, 1 row NA tibble dataframe for coordinates that aren't found
+# Return a 2 column, 1 row NA tibble dataframe for coordinates that aren't found
 # Given the column names (as strings)
 get_na_value <- function(lat, long, rows = 1) {
   NA_df <- tibble::tibble(a = rep(NA, rows), b = rep(NA, rows))
@@ -113,7 +113,7 @@ filler_df <- function(x, column_names) {
 }
 
 split_coords <- function(input) {
-  ## Used by batch census function
+  # Used by batch census function
   # input is a single character value. 
   # output is an unnamed numeric list with 2 elements: lat, long
   # if comma contained in input then split it. otherwise return NA list

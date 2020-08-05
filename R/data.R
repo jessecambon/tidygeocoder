@@ -7,7 +7,7 @@
 #' }
 "sample_addresses"
 
-#' Louisville, Kentucky Street Addresses
+#' Louisville, Kentucky street addresses
 #'
 #' @format A tibble dataframe with component street addresses
 #' \describe{
@@ -20,7 +20,7 @@
 #'  on June 1st 2020
 "louisville"
 
-#' Geocoder Service API Parameter Reference
+#' Geocoder service API parameter reference
 #' 
 #' @description
 #' This dataset contains the mapping that allows this package to use a 

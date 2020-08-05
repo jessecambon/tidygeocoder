@@ -1,5 +1,5 @@
 #' Convenience functions for calling the \code{\link{geo}} function
-#' with a specified method.
+#' with a specified method
 #' 
 #' @export
 #' @param ... arguments to be passed to the \code{\link{geo}} function

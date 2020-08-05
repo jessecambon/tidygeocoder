@@ -3,7 +3,7 @@
 \docType{data}
 \name{louisville}
 \alias{louisville}
-\title{Louisville, Kentucky Street Addresses}
+\title{Louisville, Kentucky street addresses}
 \format{
 A tibble dataframe with component street addresses
 \describe{
@@ -21,6 +21,6 @@ Downloaded from http://results.openaddresses.io/sources/us/ky/jefferson
 louisville
 }
 \description{
-Louisville, Kentucky Street Addresses
+Louisville, Kentucky street addresses
 }
 \keyword{datasets}
