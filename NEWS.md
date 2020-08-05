@@ -5,7 +5,7 @@
 
 # tidygeocoder 1.0.0
 
-## New Functionality
+### New Functionality
 * **New geocoder services**: Support for the Geocodio and Location IQ services has been added. 
 * **Batch geocoding** (geocoding multiple addresses per query) is now available for both the Census and Geocodio services.
 * **Full results** from the geocoder services can now be returned by using `full_results = TRUE`. This will return all data provided by the geocoder service instead of just latitude and longitude coordinates. Additionally, the `return_type = 'geographies'` argument for the Census geocoder will return geography columns.
@@ -17,7 +17,7 @@
 * **Custom API URLs** can now be specified. This will allow users to specify their own local Nominatim server, for instance.
 * The parameters passed to the geocoder service are now displayed to the console when `verbose = TRUE` 
 
-## Under the Hood Improvements
+### Under the Hood Improvements
 * **Reduced dependencies**: The package has been overhauled so that the only remaining dependencies are `tibble`, `dplyr`, `jsonlite`, and `httr`. The package no longer has direct dependencies on `tmaptools`, `stringr`, `purrr`, `tidyr`, and `rlang`.
 * All geocoding queries are now directly executed by `httr`. The inbuilt `api_parameter_reference` dataset is used to map standard "generic" parameter names to the parameter names used by each specific geocoder service. 
 * All geocoding functionality has been centralized in the `geo()` function. Users can still use `geocode()`, `geo_osm()`, and `geo_census()` as before. However, `geo_osm()` and `geo_census()` are now just convenience functions that call `geo()` and `geocode()` passes all addresses to `geo()` for geocoding. 
