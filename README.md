@@ -17,13 +17,13 @@ developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.re
 ## Introduction
 
 Tidygeocoder makes getting data from geocoder services easy. In addition
-to the usage example below you can also refer to [a post on making a map
-of European soccer club
-stadiums](https://jessecambon.github.io/2020/07/15/tidygeocoder-1-0-0.html),
-[a post on mapping landmarks in Washington,
-DC](https://jessecambon.github.io/2019/11/11/tidygeocoder-demo.html),
-and [a vignette with more detailed usage
-examples](https://jessecambon.github.io/tidygeocoder/articles/tidygeocoder.html).
+to the usage example below you can find a post on making a map of
+European soccer club stadiums
+[here](https://jessecambon.github.io/2020/07/15/tidygeocoder-1-0-0.html),
+a post on mapping landmarks in Washington, DC
+[here](https://jessecambon.github.io/2019/11/11/tidygeocoder-demo.html),
+and a vignette with more detailed usage examples
+[here](https://jessecambon.github.io/tidygeocoder/articles/tidygeocoder.html).
 
 All results are returned in [tibble
 format](https://tibble.tidyverse.org/). Batch geocoding (geocoding
@@ -50,6 +50,7 @@ tiers. OSM and Location IQ both have usage frequency limits. Refer to
 the documentation of each service for more details.
 
 ## Installation
+
 **Note**: *There is [an
 issue](https://github.com/jessecambon/tidygeocoder/issues/35) with
 installing the current CRAN release on R \< 4.0. This issue will be
