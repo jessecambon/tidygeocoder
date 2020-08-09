@@ -42,6 +42,6 @@ for \code{\link{geo}} for more information. Also reference \code{vignette("tidyg
 for more details on constructing API queries.
 }
 \seealso{
-\code{\link{get_api_query}} \code{\link{query_api}}
+\code{\link{get_api_query}} \code{\link{query_api}} \code{\link{geo}} \code{\link{geocode}}
 }
 \keyword{datasets}

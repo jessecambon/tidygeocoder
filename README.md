@@ -55,12 +55,6 @@ the documentation of each service for more details.
 
 ## Installation
 
-**Note**: *There is [an
-issue](https://github.com/jessecambon/tidygeocoder/issues/35) with
-installing the current CRAN release on R \< 4.0. This issue will be
-addressed in the next CRAN release, but for now you can install the
-development version from GitHub (instructions below).*
-
 To install the stable version from CRAN (the official R package
 servers):
 
@@ -123,7 +117,7 @@ ggplot(lat_longs, aes(longitude, latitude), color="grey99") +
   theme_void()
 ```
 
-<img src="man/figures/README-unnamed-chunk-6-1.png" style="display: block; margin: auto;" />
+<img src="man/figures/README-usamap-1.png" style="display: block; margin: auto;" />
 
 To return the full results from a geocoder service (not just latitude
 and longitude) you can use `full_results = TRUE`. Additionally, for the

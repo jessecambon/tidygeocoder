@@ -11,3 +11,4 @@
 ^tidygeocoder\.yml$
 ^README\.Rmd$
 ^sandbox$
+^cran-comments\.md$

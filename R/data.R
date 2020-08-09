@@ -46,7 +46,7 @@
 #'  \item{required}{Is the parameter required by the specified geocoder service?}
 #' }
 #' 
-#' @seealso \code{\link{get_api_query}} \code{\link{query_api}}
+#' @seealso \code{\link{get_api_query}} \code{\link{query_api}} \code{\link{geo}} \code{\link{geocode}}
 #' @source Links to API documentation for each geocoder service are below.
 #' \itemize{ 
 #'  \item \href{https://www.census.gov/programs-surveys/geography/technical-documentation/complete-technical-documentation/census-geocoder.html}{Census}
