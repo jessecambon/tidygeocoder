@@ -227,7 +227,8 @@ each geocoder service for usage details and limitations.</p><ul>
     <tr>
       <th>cascade_order</th>
       <td><p>a vector with two character values for the method argument 
-in the order in which the geocoder services will be attempted for method = "cascade"</p></td>
+in the order in which the geocoder services will be attempted for method = "cascade"
+(ie. <code><a href='https://rdrr.io/r/base/c.html'>c('census', 'geocodio')</a></code>)</p></td>
     </tr>
     <tr>
       <th>lat</th>
@@ -250,7 +251,7 @@ set it to a lower value (ie. 0) if using a local Nominatim server, for instance.
     </tr>
     <tr>
       <th>api_url</th>
-      <td><p>Custom API URL. If specified, the default API URL will be overridden.
+      <td><p>custom API URL. If specified, the default API URL will be overridden.
 This can be used to specify a local Nominatim server.</p></td>
     </tr>
     <tr>
@@ -267,7 +268,8 @@ single address geocoding will be used.</p></td>
     </tr>
     <tr>
       <th>full_results</th>
-      <td><p>returns all data from geocoder service if TRUE</p></td>
+      <td><p>returns all data, not just latitude and longitude, 
+from the geocoder service if TRUE</p></td>
     </tr>
     <tr>
       <th>unique_only</th>
@@ -279,7 +281,8 @@ single address geocoding will be used.</p></td>
     </tr>
     <tr>
       <th>flatten</th>
-      <td><p>if TRUE then any nested dataframes in results are flattened</p></td>
+      <td><p>if TRUE then any nested dataframes in results are flattened if possible.
+Geocodio batch geocoding results are not flattened.</p></td>
     </tr>
     <tr>
       <th>batch_limit</th>
@@ -302,9 +305,11 @@ is the default.</p></td>
     </tr>
     <tr>
       <th>return_type</th>
-      <td><p>only used for method = 'census'. Two possible values: 
-'locations' (default) or 'geographies' which returns additional census
-geography columns. See the Census geocoder API documentation for more details.</p></td>
+      <td><p>only used when method = 'census'. Two possible values:</p><ul>
+<li><p><code>"locations"</code> (default)</p></li>
+<li><p><code>"geographies"</code>: returns additional geography columns. 
+    See the Census geocoder API documentation for more details.</p></li>
+</ul></td>
     </tr>
     <tr>
       <th>iq_region</th>
@@ -326,7 +331,6 @@ for the 'geocodio' method.</p></td>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># \donttest{</span>
-
 <span class='fu'>geo</span>(<span class='kw'>street</span> <span class='kw'>=</span> <span class='st'>"600 Peachtree Street NE"</span>, <span class='kw'>city</span> <span class='kw'>=</span> <span class='st'>"Atlanta"</span>,
  <span class='kw'>state</span> <span class='kw'>=</span> <span class='st'>"Georgia"</span>, <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"census"</span>)</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 1 x 5</span><span>
 #&gt;   street                  city    state     lat  long
@@ -343,8 +347,7 @@ for the 'geocodio' method.</p></td>
      <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>'osm'</span>)</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 1 x 5</span><span>
 #&gt;   county    state    country   lat  long
 #&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>     </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>    </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>   </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #BCBCBC;'>1</span><span> Jefferson Kentucky US       38.2 -</span><span style='color: #BB0000;'>85.7</span><span></div><div class='input'>
-# }
+#&gt; </span><span style='color: #BCBCBC;'>1</span><span> Jefferson Kentucky US       38.2 -</span><span style='color: #BB0000;'>85.7</span><span></div><div class='input'># }
 </div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
