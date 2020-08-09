@@ -77,7 +77,7 @@ create_api_parameter <- function(method_name, param_name, value) {
 #' get_api_query("census", list(street = '11 Wall St', city = "NY", state = 'NY'),
 #'   list(benchmark = "Public_AR_Census2010"))
 #'
-#' @seealso \code{\link{query_api}} \code{\link{geo}}
+#' @seealso \code{\link{query_api}} \code{\link{geo}} \code{\link{api_parameter_reference}} 
 #' @export
 get_api_query <- function(method, generic_parameters = list(), custom_parameters = list() ) {
   api_ref <- tidygeocoder::api_parameter_reference

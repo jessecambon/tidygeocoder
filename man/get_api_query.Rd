@@ -33,5 +33,5 @@ get_api_query("census", list(street = '11 Wall St', city = "NY", state = 'NY'),
 
 }
 \seealso{
-\code{\link{query_api}} \code{\link{geo}}
+\code{\link{query_api}} \code{\link{geo}} \code{\link{api_parameter_reference}}
 }

@@ -158,10 +158,10 @@
 <span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">maps</span>)
 <span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">ggrepel</span>)
 
-<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span>(<span class="no">lat_longs</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(<span class="no">longitude</span>, <span class="no">latitude</span>), <span class="kw">color</span><span class="kw">=</span><span class="st">"grey99"</span>) +
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/borders.html">borders</a></span>(<span class="st">"state"</span>) + <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span>() +
-  <span class="fu"><a href="https://rdrr.io/pkg/ggrepel/man/geom_text_repel.html">geom_label_repel</a></span>(<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(<span class="kw">label</span> <span class="kw">=</span> <span class="no">name</span>)) +
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_void</a></span>()</pre></div>
+<span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/ggplot.html">ggplot</a></span>(<span class="no">lat_longs</span>, <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/aes.html">aes</a></span>(<span class="no">longitude</span>, <span class="no">latitude</span>), <span class="kw">color</span><span class="kw">=</span><span class="st">"grey99"</span>) +
+  <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/borders.html">borders</a></span>(<span class="st">"state"</span>) + <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/geom_point.html">geom_point</a></span>() +
+  <span class="fu"><a href="https://rdrr.io/pkg/ggrepel/man/geom_text_repel.html">geom_label_repel</a></span>(<span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/aes.html">aes</a></span>(<span class="kw">label</span> <span class="kw">=</span> <span class="no">name</span>)) +
+  <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/ggtheme.html">theme_void</a></span>()</pre></div>
 <p><img src="reference/figures/README-usamap-1.png" style="display: block; margin: auto;"></p>
 <p>To return the full results from a geocoder service (not just latitude and longitude) you can use <code>full_results = TRUE</code>. Additionally, for the Census geocoder you can use <code>return_type = 'geographies'</code> to return geography columns (state, county, Census tract, and Census block).</p>
 <div class="sourceCode" id="cb5"><pre class="r"><span class="no">full</span> <span class="kw">&lt;-</span> <span class="no">some_addresses</span> <span class="kw">%&gt;%</span>
