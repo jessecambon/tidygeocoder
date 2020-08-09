@@ -25,7 +25,7 @@
 #' @param country country (ie. 'Japan')
 #' 
 #' @param method the geocoder service to be used. Refer to 
-#' `api_parameter_reference` and the API documentation for
+#' \code{\link{api_parameter_reference}} and the API documentation for
 #' each geocoder service for usage details and limitations.
 #' \itemize{
 #'   \item \code{"census"}: US Census Geocoder. US street-level addresses only. 
@@ -56,23 +56,23 @@
 #'  This can be used to specify a local Nominatim server.
 #' @param timeout query timeout (in minutes)
 #' 
-#' @param mode set to 'batch' to force batch geocoding and 'single' to 
+#' @param mode set to 'batch' to force batch geocoding or 'single' to 
 #'  force single address geocoding (one address per query). If not 
 #'  specified then batch geocoding will be used if available
 #'  (given method selected) when multiple addresses are provided, otherwise
 #'  single address geocoding will be used.
-#' @param full_results returns all data, not just latitude and longitude, 
-#'  from the geocoder service if TRUE
+#' @param full_results returns all data from the geocoder service if TRUE. 
+#' If FALSE then only longitude and latitude are returned from the geocoder service.
 #' @param unique_only only return results for unique addresses if TRUE
 #' @param return_addresses return input addresses with results if TRUE
 #' 
 #' @param flatten if TRUE then any nested dataframes in results are flattened if possible.
-#'    Geocodio batch geocoding results are not flattened.
+#'    Note that Geocodio batch geocoding results are flattened regardless.
 #' @param batch_limit limit to the number of addresses in a batch geocoding query.
 #'  Both geocodio and census batch geocoders have a 10,000 address limit so this
 #'  is the default.
 #' @param verbose if TRUE then detailed logs are output to the console
-#' @param no_query if TRUE then no queries are sent to the geocoder and verbose is set to TRUE 
+#' @param no_query if TRUE then no queries are sent to the geocoder and verbose is set to TRUE
 
 #' @param custom_query API-specific parameters to be used, passed as a named list 
 #'  (ie. \code{list(vintage = 'Current_Census2010')}).

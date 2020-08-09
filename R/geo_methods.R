@@ -23,7 +23,8 @@ geo_iq <- function(...) geo(method = 'iq', ...)
 #' 
 #' @param ... arguments passed from and to the \code{\link{geo}} function
 #' @param cascade_order a vector with two character values for the method argument 
-#' in the order in which the geocoder services will be attempted
+#'  in the order in which the geocoder services will be attempted
+#'  (ie. \code{c('census', 'geocodio')})
 #' @export
 geo_cascade <- function(..., cascade_order = c('census', 'osm')) {
   # Note for both attempts we disable unique_only so as to keep the 

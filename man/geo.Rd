@@ -52,7 +52,7 @@ Do not combine with the address component arguments below
 \item{country}{country (ie. 'Japan')}
 
 \item{method}{the geocoder service to be used. Refer to 
-`api_parameter_reference` and the API documentation for
+\code{\link{api_parameter_reference}} and the API documentation for
 each geocoder service for usage details and limitations.
 \itemize{
   \item \code{"census"}: US Census Geocoder. US street-level addresses only. 
@@ -90,21 +90,21 @@ This can be used to specify a local Nominatim server.}
 
 \item{timeout}{query timeout (in minutes)}
 
-\item{mode}{set to 'batch' to force batch geocoding and 'single' to 
+\item{mode}{set to 'batch' to force batch geocoding or 'single' to 
 force single address geocoding (one address per query). If not 
 specified then batch geocoding will be used if available
 (given method selected) when multiple addresses are provided, otherwise
 single address geocoding will be used.}
 
-\item{full_results}{returns all data, not just latitude and longitude, 
-from the geocoder service if TRUE}
+\item{full_results}{returns all data from the geocoder service if TRUE. 
+If FALSE then only longitude and latitude are returned from the geocoder service.}
 
 \item{unique_only}{only return results for unique addresses if TRUE}
 
 \item{return_addresses}{return input addresses with results if TRUE}
 
 \item{flatten}{if TRUE then any nested dataframes in results are flattened if possible.
-Geocodio batch geocoding results are not flattened.}
+Note that Geocodio batch geocoding results are flattened regardless.}
 
 \item{batch_limit}{limit to the number of addresses in a batch geocoding query.
 Both geocodio and census batch geocoders have a 10,000 address limit so this

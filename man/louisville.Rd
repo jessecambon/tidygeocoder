@@ -14,7 +14,7 @@ A tibble dataframe with component street addresses
 }
 }
 \source{
-Downloaded from http://results.openaddresses.io/sources/us/ky/jefferson
+Downloaded from \href{http://results.openaddresses.io/sources/us/ky/jefferson}{OpenAddresses.io}
  on June 1st 2020
 }
 \usage{

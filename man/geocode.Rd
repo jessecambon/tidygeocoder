@@ -84,5 +84,5 @@ sample_addresses[4:5,] \%>\% geocode(addr, method = 'cascade',
 }
 }
 \seealso{
-\code{\link{geo}}
+\code{\link{geo}} \code{\link{api_parameter_reference}}
 }

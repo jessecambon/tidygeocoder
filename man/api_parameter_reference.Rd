@@ -28,18 +28,16 @@ api_parameter_reference
 }
 \description{
 This dataset contains the mapping that allows this package to use a 
-universal syntax to specify parameters for different geocoder
-services. 
+universal syntax to specify parameters for different geocoder services. 
 
-The "generic_name" field is a universal field name while the \code{api_name}
+The \code{generic_name} field is a universal field name while the \code{api_name}
 field shows the specific parameter name for the given geocoder service (\code{method}).
 When the \code{api_name} is missing this means that the parameter is not 
 supported by the given geocoder service. When \code{generic_name} is missing 
 this means the parameter is specific to that geocoding service.
  
-Reference the documentation 
-for \code{\link{geo}} for more information. Also reference \code{vignette("tidygeocoder")} 
-for more details on constructing API queries.
+Reference the documentation for \code{\link{geo}} for more information. 
+Also reference \code{vignette("tidygeocoder")} for more details on constructing API queries.
 }
 \seealso{
 \code{\link{get_api_query}} \code{\link{query_api}} \code{\link{geo}} \code{\link{geocode}}

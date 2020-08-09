@@ -207,7 +207,7 @@ Do not combine with the address component arguments below
     <tr>
       <th>method</th>
       <td><p>the geocoder service to be used. Refer to 
-`api_parameter_reference` and the API documentation for
+<code><a href='api_parameter_reference.html'>api_parameter_reference</a></code> and the API documentation for
 each geocoder service for usage details and limitations.</p><ul>
 <li><p><code>"census"</code>: US Census Geocoder. US street-level addresses only. 
      Can perform batch geocoding.</p></li>
@@ -260,7 +260,7 @@ This can be used to specify a local Nominatim server.</p></td>
     </tr>
     <tr>
       <th>mode</th>
-      <td><p>set to 'batch' to force batch geocoding and 'single' to 
+      <td><p>set to 'batch' to force batch geocoding or 'single' to 
 force single address geocoding (one address per query). If not 
 specified then batch geocoding will be used if available
 (given method selected) when multiple addresses are provided, otherwise
@@ -268,8 +268,8 @@ single address geocoding will be used.</p></td>
     </tr>
     <tr>
       <th>full_results</th>
-      <td><p>returns all data, not just latitude and longitude, 
-from the geocoder service if TRUE</p></td>
+      <td><p>returns all data from the geocoder service if TRUE. 
+If FALSE then only longitude and latitude are returned from the geocoder service.</p></td>
     </tr>
     <tr>
       <th>unique_only</th>
@@ -282,7 +282,7 @@ from the geocoder service if TRUE</p></td>
     <tr>
       <th>flatten</th>
       <td><p>if TRUE then any nested dataframes in results are flattened if possible.
-Geocodio batch geocoding results are not flattened.</p></td>
+Note that Geocodio batch geocoding results are flattened regardless.</p></td>
     </tr>
     <tr>
       <th>batch_limit</th>

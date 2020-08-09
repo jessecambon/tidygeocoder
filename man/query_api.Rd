@@ -19,17 +19,18 @@ query_api(
 
 \item{query_parameters}{api query parameters in the form of a named list}
 
-\item{mode}{"single" : geocode a single address (all methods)
-"list"   : batch geocode a list of addresses (geocodio)
-"file"   : batch geocode a file of addresses (census)}
+\item{mode}{\itemize{
+    \item \code{"single"} : geocode a single address (all methods)
+    \item \code{"list"} : batch geocode a list of addresses (geocodio)
+    \item \code{"file"} : batch geocode a file of addresses (census)
+}}
 
 \item{batch_file}{a csv file of addresses to upload (census)}
 
 \item{address_list}{a list of addresses for batch geocoding (geocodio)
 should be 'json' for geocodio and 'multipart' for census}
 
-\item{content_encoding}{Encoding to be used for parsing content. "UTF-8" is 
-the default, but "ISO-8859-1" is used for Census batch queries.}
+\item{content_encoding}{Encoding to be used for parsing content}
 
 \item{timeout}{timeout in minutes}
 }

@@ -148,9 +148,11 @@ function to execute.</p>
     </tr>
     <tr>
       <th>mode</th>
-      <td><p>"single" : geocode a single address (all methods)
-"list"   : batch geocode a list of addresses (geocodio)
-"file"   : batch geocode a file of addresses (census)</p></td>
+      <td><ul>
+<li><p><code>"single"</code> : geocode a single address (all methods)</p></li>
+<li><p><code>"list"</code> : batch geocode a list of addresses (geocodio)</p></li>
+<li><p><code>"file"</code> : batch geocode a file of addresses (census)</p></li>
+</ul></td>
     </tr>
     <tr>
       <th>batch_file</th>
@@ -163,8 +165,7 @@ should be 'json' for geocodio and 'multipart' for census</p></td>
     </tr>
     <tr>
       <th>content_encoding</th>
-      <td><p>Encoding to be used for parsing content. "UTF-8" is 
-the default, but "ISO-8859-1" is used for Census batch queries.</p></td>
+      <td><p>Encoding to be used for parsing content</p></td>
     </tr>
     <tr>
       <th>timeout</th>
