@@ -13,7 +13,7 @@ See \code{vignette("tidygeocoder")} for details.
 \seealso{
 Useful links:
 \itemize{
-  \item \url{https://jessecambon.github.io/tidygeocoder}
+  \item \url{https://jessecambon.github.io/tidygeocoder/}
   \item \url{https://github.com/jessecambon/tidygeocoder}
   \item Report bugs at \url{https://github.com/jessecambon/tidygeocoder/issues}
 }

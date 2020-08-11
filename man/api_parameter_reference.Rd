@@ -18,7 +18,7 @@ A tibble dataframe
 Links to API documentation for each geocoder service are below.
 \itemize{ 
  \item \href{https://www.census.gov/programs-surveys/geography/technical-documentation/complete-technical-documentation/census-geocoder.html}{Census}
- \item \href{https://nominatim.org/release-docs/develop/api/Search}{Nominatim} ("osm")
+ \item \href{https://nominatim.org/release-docs/develop/api/Search/}{Nominatim} ("osm")
  \item \href{https://www.geocod.io/docs/}{Geocodio}
  \item \href{https://locationiq.com/docs}{Location IQ} ("iq") 
 }

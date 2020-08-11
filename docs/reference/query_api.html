@@ -185,13 +185,13 @@ should be 'json' for geocodio and 'multipart' for census</p></td>
 <span class='no'>raw</span> <span class='kw'>&lt;-</span> <span class='fu'>query_api</span>(<span class='st'>"http://nominatim.openstreetmap.org/search"</span>,
    <span class='fu'><a href='get_api_query.html'>get_api_query</a></span>(<span class='st'>"osm"</span>, <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>address</span> <span class='kw'>=</span> <span class='st'>'Hanoi, Vietnam'</span>)))
 
-<span class='fu'><a href='extract_results.html'>extract_results</a></span>(<span class='st'>'osm'</span>, <span class='kw pkg'>jsonlite</span><span class='kw ns'>::</span><span class='fu'><a href='https://jeroen.cran.dev/jsonlite/reference/fromJSON.html'>fromJSON</a></span>(<span class='no'>raw</span>))</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 1 x 12</span><span>
+<span class='fu'><a href='extract_results.html'>extract_results</a></span>(<span class='st'>'osm'</span>, <span class='kw pkg'>jsonlite</span><span class='kw ns'>::</span><span class='fu'><a href='https://jeroen.cran.dev/jsonlite/reference/fromJSON.html'>fromJSON</a></span>(<span class='no'>raw</span>))</div><div class='output co'>#&gt; # A tibble: 1 x 12
 #&gt;     lat   lon place_id licence osm_type osm_id boundingbox display_name class
-#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>    </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>     </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;list&gt;</span><span>      </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>        </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>
-#&gt; </span><span style='color: #BCBCBC;'>1</span><span>  21.0  106.   2.74</span><span style='color: #949494;'>e</span><span>8 Data ©… relation 1.90</span><span style='color: #949494;'>e</span><span>6 </span><span style='color: #949494;'>&lt;chr [4]&gt;</span><span>   Hà Nội, Việ… boun…
-#&gt; </span><span style='color: #949494;'># … with 3 more variables: type </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span style='color: #949494;'>, importance </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #949494;'>, icon </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span></div><div class='input'># }
+#&gt;   &lt;dbl&gt; &lt;dbl&gt;    &lt;int&gt; &lt;chr&gt;   &lt;chr&gt;     &lt;int&gt; &lt;list&gt;      &lt;chr&gt;        &lt;chr&gt;
+#&gt; 1  21.0  106.   2.74e8 Data ©… relation 1.90e6 &lt;chr [4]&gt;   Hà Nội, Việ… boun…
+#&gt; # … with 3 more variables: type &lt;chr&gt;, importance &lt;dbl&gt;, icon &lt;chr&gt;</div><div class='input'># }
 
-</div></span></pre>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

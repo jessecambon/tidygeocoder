@@ -43,7 +43,7 @@ address_single %>% geocode(address = singlelineaddress, method = 'census',
                            verbose = TRUE)
 ```
 
-Alternatively you can run the same query with the `geo()` function by passing the address values from the dataframe directly. In either `geo()` or `geocode()`, the `lat` and `long` arguments are used to name the resulting latitude and longitude fields. Here the `method` argument is used to specify the OSM (Nominatim) geocoder service.
+Alternatively you can run the same query with the `geo()` function by passing the address values from the dataframe directly. In either `geo()` or `geocode()`, the `lat` and `long` arguments are used to name the resulting latitude and longitude fields. Here the `method` argument is used to specify the OSM (Nominatim) geocoder service. Refer to the `geo()` function documentation for the possible values of the `method` argument.
 
 ```{r}
 geo(address = address_single$singlelineaddress, method = 'osm', 
@@ -148,6 +148,6 @@ api_parameter_reference %>%
   select(-required) %>%
   mutate(across(c(method, generic_name, api_name), as.factor)) %>%
   datatable(filter = 'top', rownames = FALSE, 
-  options = list(pageLength = 12, autoWidth = TRUE))
+  options = list(lengthMenu = c(5, 8, 12, nrow(.)), pageLength = 12, autoWidth = TRUE))
 ```
 
