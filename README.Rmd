@@ -24,7 +24,7 @@ options(tibble.print_min = 5, tibble.print_max = 5)
 [![CRAN](https://www.r-pkg.org/badges/version/tidygeocoder)](https://cran.r-project.org/package=tidygeocoder)
 [![CRAN Total Downloads](http://cranlogs.r-pkg.org/badges/grand-total/tidygeocoder)](https://CRAN.R-project.org/package=tidygeocoder)
 [![CRAN Downloads Per Month](http://cranlogs.r-pkg.org/badges/tidygeocoder)](https://cran.r-project.org/package=tidygeocoder)
-[![Github Stars](https://img.shields.io/github/stars/jessecambon/tidygeocoder?style=social&label=Github)](https://github.com/jessecambon/tidygeocoder)
+<!--[![Github Stars](https://img.shields.io/github/stars/jessecambon/tidygeocoder?style=social&label=Github)](https://github.com/jessecambon/tidygeocoder) -->
 <!-- badges: end -->
 
 ## Introduction
@@ -40,11 +40,6 @@ The currently supported services are the [US Census geocoder](https://geocoding.
 The Census and OSM services are free; Geocodio and Location IQ are commercial services that require API keys, but also offer free usage tiers. OSM and Location IQ both have usage frequency limits. Refer to the documentation of each service for more details.
 
 ## Installation
-**Note**: *There is [an
-issue](https://github.com/jessecambon/tidygeocoder/issues/35) with
-installing the current CRAN release on R \< 4.0. This issue will be
-addressed in the next CRAN release, but for now you can install the
-development version from GitHub (instructions below).*
 
 To install the stable version from CRAN (the official R package servers):
 
@@ -62,7 +57,6 @@ devtools::install_github("jessecambon/tidygeocoder")
 ## Usage
 
 In this example we will geocode a few addresses using the `geocode()` function and plot them on a map with ggplot. 
-
 
 ```{r, warning = F, message = F}
 library(dplyr)
@@ -90,7 +84,7 @@ knitr::kable(lat_longs)
 
 Now that we have the longitude and latitude coordinates, we can use ggplot to plot our addresses on a map.
 
-```{r}
+```{r usamap}
 library(ggplot2)
 library(maps)
 library(ggrepel)

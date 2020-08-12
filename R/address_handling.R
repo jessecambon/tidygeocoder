@@ -1,6 +1,5 @@
 # Function for packaging and deduping addresses that are passed to the geo function
 # package addresses
-# @export
 package_addresses <- function(address = NULL, 
   street = NULL, city = NULL, county = NULL, state = NULL, postalcode = NULL, country = NULL) {
   
@@ -63,7 +62,9 @@ package_addresses <- function(address = NULL,
 # Function for unpackaging and RE-deduping addresses
 # so that we can return them in the same order that they were passed
 # this function assumes that the results are in the same order as package$unique
-# @param unique_only if TRUE then only unique results are returned
+# Args:
+#   unique_only: if TRUE then only unique results are returned
+#   return_addresses: if TRUE then include input addresses in the returned results
 # 
 # @export
 unpackage_addresses <- function(package, results, unique_only = FALSE, return_addresses = FALSE) {

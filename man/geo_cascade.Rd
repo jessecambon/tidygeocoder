@@ -11,7 +11,8 @@ geo_cascade(..., cascade_order = c("census", "osm"))
 \item{...}{arguments passed from and to the \code{\link{geo}} function}
 
 \item{cascade_order}{a vector with two character values for the method argument 
-in the order in which the geocoder services will be attempted}
+in the order in which the geocoder services will be attempted
+(ie. \code{c('census', 'geocodio')})}
 }
 \description{
 Convenience function for calling the \code{\link{geo}} function

@@ -25,7 +25,7 @@
 #' @param country country (ie. 'Japan')
 #' 
 #' @param method the geocoder service to be used. Refer to 
-#' `api_parameter_reference` and the API documentation for
+#' \code{\link{api_parameter_reference}} and the API documentation for
 #' each geocoder service for usage details and limitations.
 #' \itemize{
 #'   \item \code{"census"}: US Census Geocoder. US street-level addresses only. 
@@ -43,7 +43,8 @@
 #'     services have different columns that they return.
 #' }
 #' @param cascade_order a vector with two character values for the method argument 
-#' in the order in which the geocoder services will be attempted for method = "cascade"
+#'  in the order in which the geocoder services will be attempted for method = "cascade"
+#'  (ie. \code{c('census', 'geocodio')})
 #' @param lat latitude column name. Can be quoted or unquoted (ie. lat or 'lat').
 #' @param long longitude column name. Can be quoted or unquoted (ie. long or 'long').
 #' @param limit number of results to return per address. Note that 
@@ -51,31 +52,36 @@
 #' @param min_time minimum amount of time for a query to take (in seconds) if using
 #'  Location IQ or OSM. This parameter is used to abide by API usage limits. You can
 #'  set it to a lower value (ie. 0) if using a local Nominatim server, for instance.
-#' @param api_url Custom API URL. If specified, the default API URL will be overridden.
+#' @param api_url custom API URL. If specified, the default API URL will be overridden.
 #'  This can be used to specify a local Nominatim server.
 #' @param timeout query timeout (in minutes)
 #' 
-#' @param mode set to 'batch' to force batch geocoding and 'single' to 
+#' @param mode set to 'batch' to force batch geocoding or 'single' to 
 #'  force single address geocoding (one address per query). If not 
 #'  specified then batch geocoding will be used if available
 #'  (given method selected) when multiple addresses are provided, otherwise
 #'  single address geocoding will be used.
-#' @param full_results returns all data from geocoder service if TRUE
+#' @param full_results returns all data from the geocoder service if TRUE. 
+#' If FALSE then only longitude and latitude are returned from the geocoder service.
 #' @param unique_only only return results for unique addresses if TRUE
 #' @param return_addresses return input addresses with results if TRUE
 #' 
-#' @param flatten if TRUE then any nested dataframes in results are flattened
+#' @param flatten if TRUE then any nested dataframes in results are flattened if possible.
+#'    Note that Geocodio batch geocoding results are flattened regardless.
 #' @param batch_limit limit to the number of addresses in a batch geocoding query.
 #'  Both geocodio and census batch geocoders have a 10,000 address limit so this
 #'  is the default.
 #' @param verbose if TRUE then detailed logs are output to the console
-#' @param no_query if TRUE then no queries are sent to the geocoder and verbose is set to TRUE 
+#' @param no_query if TRUE then no queries are sent to the geocoder and verbose is set to TRUE
 
 #' @param custom_query API-specific parameters to be used, passed as a named list 
-#'  (ie. \code{list(vintage = 'Current_Census2010')})
-#' @param return_type only used for method = 'census'. Two possible values: 
-#'  'locations' (default) or 'geographies' which returns additional census
-#'  geography columns. See the Census geocoder API documentation for more details.
+#'  (ie. \code{list(vintage = 'Current_Census2010')}).
+#' @param return_type only used when method = 'census'. Two possible values: 
+#' \itemize{
+#'     \item \code{"locations"} (default)
+#'     \item \code{"geographies"}: returns additional geography columns. 
+#'     See the Census geocoder API documentation for more details.
+#' }
 #' @param iq_region 'us' (default) or 'eu'. Used for establishing API URL for the 'iq' method
 #' @param geocodio_v version of geocodio api. 1.6 is default. Used for establishing API URL
 #'   for the 'geocodio' method.
@@ -83,7 +89,6 @@
 #' @return parsed geocoding results in tibble format
 #' @examples
 #' \donttest{
-#' 
 #' geo(street = "600 Peachtree Street NE", city = "Atlanta",
 #'  state = "Georgia", method = "census")
 #' 
@@ -92,7 +97,6 @@
 #' 
 #' geo(county = 'Jefferson', state = "Kentucky", country = "US",
 #'      method = 'osm')
-#' 
 #' }
 #' @seealso \code{\link{geocode}} \code{\link{api_parameter_reference}}
 #' @export
@@ -180,12 +184,12 @@ geo <- function(address = NULL,
       return(unpackage_addresses(address_pack, stacked_results, unique_only, return_addresses = FALSE))
       }
       
-  # Batch geocoding ---------------------------------------------------------------
+  # Batch geocoding --------------------------------------------------------------------------
   if ((num_unique_addresses > 1) | (mode == 'batch')) {
     
     if (limit != 1 & return_addresses == TRUE) {
     stop('For batch geocoding (more than one address per query) the limit argument must 
-    be 1 (default) OR the return_addresses argument must be FALSE. Possible solutions:
+    be 1 (the default) OR the return_addresses argument must be FALSE. Possible solutions:
     1) Set the mode argument to "single" to force single (not batch) geocoding 
     2) Set limit argument to 1 (ie. 1 result is returned per address)
     3) Set return_addresses to FALSE

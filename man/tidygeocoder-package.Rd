@@ -7,13 +7,14 @@
 \title{\pkg{tidygeocoder} makes getting data from geocoder services easy.}
 \description{
 The primary functions to use are \code{\link{geocode}} and \code{\link{geo}}.
-The \code{\link{geocode}} function calls \code{\link{geo}}.
-See \code{vignette("tidygeocoder")} for details.
+Refer to the documentation on the method argument of the \code{\link{geo}} function
+for more details on the available geocoder services. Also see \code{vignette("tidygeocoder")} 
+for example usage.
 }
 \seealso{
 Useful links:
 \itemize{
-  \item \url{https://jessecambon.github.io/tidygeocoder}
+  \item \url{https://jessecambon.github.io/tidygeocoder/}
   \item \url{https://github.com/jessecambon/tidygeocoder}
   \item Report bugs at \url{https://github.com/jessecambon/tidygeocoder/issues}
 }

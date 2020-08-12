@@ -81,7 +81,7 @@ API queries." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">tidygeocoder</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.1.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.1</span>
       </span>
     </div>
 
@@ -207,7 +207,7 @@ Do not combine with the address component arguments below
     <tr>
       <th>method</th>
       <td><p>the geocoder service to be used. Refer to 
-`api_parameter_reference` and the API documentation for
+<code><a href='api_parameter_reference.html'>api_parameter_reference</a></code> and the API documentation for
 each geocoder service for usage details and limitations.</p><ul>
 <li><p><code>"census"</code>: US Census Geocoder. US street-level addresses only. 
      Can perform batch geocoding.</p></li>
@@ -227,7 +227,8 @@ each geocoder service for usage details and limitations.</p><ul>
     <tr>
       <th>cascade_order</th>
       <td><p>a vector with two character values for the method argument 
-in the order in which the geocoder services will be attempted for method = "cascade"</p></td>
+in the order in which the geocoder services will be attempted for method = "cascade"
+(ie. <code><a href='https://rdrr.io/r/base/c.html'>c('census', 'geocodio')</a></code>)</p></td>
     </tr>
     <tr>
       <th>lat</th>
@@ -250,7 +251,7 @@ set it to a lower value (ie. 0) if using a local Nominatim server, for instance.
     </tr>
     <tr>
       <th>api_url</th>
-      <td><p>Custom API URL. If specified, the default API URL will be overridden.
+      <td><p>custom API URL. If specified, the default API URL will be overridden.
 This can be used to specify a local Nominatim server.</p></td>
     </tr>
     <tr>
@@ -259,7 +260,7 @@ This can be used to specify a local Nominatim server.</p></td>
     </tr>
     <tr>
       <th>mode</th>
-      <td><p>set to 'batch' to force batch geocoding and 'single' to 
+      <td><p>set to 'batch' to force batch geocoding or 'single' to 
 force single address geocoding (one address per query). If not 
 specified then batch geocoding will be used if available
 (given method selected) when multiple addresses are provided, otherwise
@@ -267,7 +268,8 @@ single address geocoding will be used.</p></td>
     </tr>
     <tr>
       <th>full_results</th>
-      <td><p>returns all data from geocoder service if TRUE</p></td>
+      <td><p>returns all data from the geocoder service if TRUE. 
+If FALSE then only longitude and latitude are returned from the geocoder service.</p></td>
     </tr>
     <tr>
       <th>unique_only</th>
@@ -279,7 +281,8 @@ single address geocoding will be used.</p></td>
     </tr>
     <tr>
       <th>flatten</th>
-      <td><p>if TRUE then any nested dataframes in results are flattened</p></td>
+      <td><p>if TRUE then any nested dataframes in results are flattened if possible.
+Note that Geocodio batch geocoding results are flattened regardless.</p></td>
     </tr>
     <tr>
       <th>batch_limit</th>
@@ -298,13 +301,15 @@ is the default.</p></td>
     <tr>
       <th>custom_query</th>
       <td><p>API-specific parameters to be used, passed as a named list 
-(ie. <code><a href='https://rdrr.io/r/base/list.html'>list(vintage = 'Current_Census2010')</a></code>)</p></td>
+(ie. <code><a href='https://rdrr.io/r/base/list.html'>list(vintage = 'Current_Census2010')</a></code>).</p></td>
     </tr>
     <tr>
       <th>return_type</th>
-      <td><p>only used for method = 'census'. Two possible values: 
-'locations' (default) or 'geographies' which returns additional census
-geography columns. See the Census geocoder API documentation for more details.</p></td>
+      <td><p>only used when method = 'census'. Two possible values:</p><ul>
+<li><p><code>"locations"</code> (default)</p></li>
+<li><p><code>"geographies"</code>: returns additional geography columns. 
+    See the Census geocoder API documentation for more details.</p></li>
+</ul></td>
     </tr>
     <tr>
       <th>iq_region</th>
@@ -326,7 +331,6 @@ for the 'geocodio' method.</p></td>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># \donttest{</span>
-
 <span class='fu'>geo</span>(<span class='kw'>street</span> <span class='kw'>=</span> <span class='st'>"600 Peachtree Street NE"</span>, <span class='kw'>city</span> <span class='kw'>=</span> <span class='st'>"Atlanta"</span>,
  <span class='kw'>state</span> <span class='kw'>=</span> <span class='st'>"Georgia"</span>, <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"census"</span>)</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 1 x 5</span><span>
 #&gt;   street                  city    state     lat  long
@@ -343,8 +347,7 @@ for the 'geocodio' method.</p></td>
      <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>'osm'</span>)</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 1 x 5</span><span>
 #&gt;   county    state    country   lat  long
 #&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>     </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>    </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>   </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #BCBCBC;'>1</span><span> Jefferson Kentucky US       38.2 -</span><span style='color: #BB0000;'>85.7</span><span></div><div class='input'>
-# }
+#&gt; </span><span style='color: #BCBCBC;'>1</span><span> Jefferson Kentucky US       38.2 -</span><span style='color: #BB0000;'>85.7</span><span></div><div class='input'># }
 </div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

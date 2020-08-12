@@ -48,7 +48,7 @@
 #' sample_addresses[4:5,] %>% geocode(addr, method = 'cascade',
 #'   lat = latitude, long = longitude)
 #' }
-#' @seealso \code{\link{geo}}
+#' @seealso \code{\link{geo}} \code{\link{api_parameter_reference}}
 #' @export
 geocode <- function(.tbl, address = NULL, street = NULL, city = NULL, county = NULL, 
                     state = NULL, postalcode = NULL, country = NULL,

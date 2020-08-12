@@ -1,7 +1,6 @@
-# tidygeocoder (development version)
-
-* Fixed an issue that prevented installation on R < 4.0. ([#35](https://github.com/jessecambon/tidygeocoder/issues/35))
-* Package documentation tweaks including adding examples to utility functions `query_api()` and `get_api_query()`.
+# tidygeocoder 1.0.1
+* Fixed an issue that prevented installation on R < 4.0. ([#35](https://github.com/jessecambon/tidygeocoder/issues/35)).
+* Updated package documentation. Added examples to utility functions `query_api()` and `get_api_query()`.
 
 # tidygeocoder 1.0.0
 

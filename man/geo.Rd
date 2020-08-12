@@ -52,7 +52,7 @@ Do not combine with the address component arguments below
 \item{country}{country (ie. 'Japan')}
 
 \item{method}{the geocoder service to be used. Refer to 
-`api_parameter_reference` and the API documentation for
+\code{\link{api_parameter_reference}} and the API documentation for
 each geocoder service for usage details and limitations.
 \itemize{
   \item \code{"census"}: US Census Geocoder. US street-level addresses only. 
@@ -71,7 +71,8 @@ each geocoder service for usage details and limitations.
 }}
 
 \item{cascade_order}{a vector with two character values for the method argument 
-in the order in which the geocoder services will be attempted for method = "cascade"}
+in the order in which the geocoder services will be attempted for method = "cascade"
+(ie. \code{c('census', 'geocodio')})}
 
 \item{lat}{latitude column name. Can be quoted or unquoted (ie. lat or 'lat').}
 
@@ -84,24 +85,26 @@ limit > 1 is not compatible with batch geocoding if return_addresses = TRUE.}
 Location IQ or OSM. This parameter is used to abide by API usage limits. You can
 set it to a lower value (ie. 0) if using a local Nominatim server, for instance.}
 
-\item{api_url}{Custom API URL. If specified, the default API URL will be overridden.
+\item{api_url}{custom API URL. If specified, the default API URL will be overridden.
 This can be used to specify a local Nominatim server.}
 
 \item{timeout}{query timeout (in minutes)}
 
-\item{mode}{set to 'batch' to force batch geocoding and 'single' to 
+\item{mode}{set to 'batch' to force batch geocoding or 'single' to 
 force single address geocoding (one address per query). If not 
 specified then batch geocoding will be used if available
 (given method selected) when multiple addresses are provided, otherwise
 single address geocoding will be used.}
 
-\item{full_results}{returns all data from geocoder service if TRUE}
+\item{full_results}{returns all data from the geocoder service if TRUE. 
+If FALSE then only longitude and latitude are returned from the geocoder service.}
 
 \item{unique_only}{only return results for unique addresses if TRUE}
 
 \item{return_addresses}{return input addresses with results if TRUE}
 
-\item{flatten}{if TRUE then any nested dataframes in results are flattened}
+\item{flatten}{if TRUE then any nested dataframes in results are flattened if possible.
+Note that Geocodio batch geocoding results are flattened regardless.}
 
 \item{batch_limit}{limit to the number of addresses in a batch geocoding query.
 Both geocodio and census batch geocoders have a 10,000 address limit so this
@@ -112,11 +115,14 @@ is the default.}
 \item{no_query}{if TRUE then no queries are sent to the geocoder and verbose is set to TRUE}
 
 \item{custom_query}{API-specific parameters to be used, passed as a named list 
-(ie. \code{list(vintage = 'Current_Census2010')})}
+(ie. \code{list(vintage = 'Current_Census2010')}).}
 
-\item{return_type}{only used for method = 'census'. Two possible values: 
-'locations' (default) or 'geographies' which returns additional census
-geography columns. See the Census geocoder API documentation for more details.}
+\item{return_type}{only used when method = 'census'. Two possible values: 
+\itemize{
+    \item \code{"locations"} (default)
+    \item \code{"geographies"}: returns additional geography columns. 
+    See the Census geocoder API documentation for more details.
+}}
 
 \item{iq_region}{'us' (default) or 'eu'. Used for establishing API URL for the 'iq' method}
 
@@ -142,7 +148,6 @@ API queries.
 }
 \examples{
 \donttest{
-
 geo(street = "600 Peachtree Street NE", city = "Atlanta",
  state = "Georgia", method = "census")
 
@@ -151,7 +156,6 @@ geo(address = c("Tokyo, Japan", "Lima, Peru", "Nairobi, Kenya"),
 
 geo(county = 'Jefferson', state = "Kentucky", country = "US",
      method = 'osm')
-
 }
 }
 \seealso{

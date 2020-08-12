@@ -1,14 +1,14 @@
 Package: tidygeocoder
 Type: Package
 Title: Geocoding Made Easy
-Version: 1.0.1.9000
+Version: 1.0.1
 Authors@R:
     c(person(given = "Jesse",
              family = "Cambon",
              role = c("aut", "cre"),
              email = "jesse.cambon@gmail.com"))
 Description: An intuitive interface for getting data from geocoder services. 
-URL: https://jessecambon.github.io/tidygeocoder, 
+URL: https://jessecambon.github.io/tidygeocoder/, 
     https://github.com/jessecambon/tidygeocoder
 BugReports: https://github.com/jessecambon/tidygeocoder/issues
 Depends: R (>= 3.2.0)

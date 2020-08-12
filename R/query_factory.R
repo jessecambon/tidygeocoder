@@ -77,7 +77,7 @@ create_api_parameter <- function(method_name, param_name, value) {
 #' get_api_query("census", list(street = '11 Wall St', city = "NY", state = 'NY'),
 #'   list(benchmark = "Public_AR_Census2010"))
 #'
-#' @seealso \code{\link{query_api}} \code{\link{geo}}
+#' @seealso \code{\link{query_api}} \code{\link{geo}} \code{\link{api_parameter_reference}} 
 #' @export
 get_api_query <- function(method, generic_parameters = list(), custom_parameters = list() ) {
   api_ref <- tidygeocoder::api_parameter_reference
@@ -121,14 +121,15 @@ get_api_query <- function(method, generic_parameters = list(), custom_parameters
 #' @param api_url Base URL of the API. query parameters are appended to this
 #' @param query_parameters api query parameters in the form of a named list
 #' @param mode 
-#'     "single" : geocode a single address (all methods)
-#'     "list"   : batch geocode a list of addresses (geocodio)
-#'     "file"   : batch geocode a file of addresses (census)
+#' \itemize{
+#'     \item \code{"single"} : geocode a single address (all methods)
+#'     \item \code{"list"} : batch geocode a list of addresses (geocodio)
+#'     \item \code{"file"} : batch geocode a file of addresses (census)
+#' }
 #' @param batch_file a csv file of addresses to upload (census)
 #' @param address_list a list of addresses for batch geocoding (geocodio)
 #' should be 'json' for geocodio and 'multipart' for census 
-#' @param content_encoding Encoding to be used for parsing content. "UTF-8" is 
-#'  the default, but "ISO-8859-1" is used for Census batch queries. 
+#' @param content_encoding Encoding to be used for parsing content
 #' @param timeout timeout in minutes
 #' @return raw results from the query
 #' @examples
