@@ -1,0 +1,22 @@
+# http://r-pkgs.had.co.nz/inst.html#inst-citation
+# https://zenodo.org/record/3981510#.XzS95nVKiV5
+
+doi_url <- "http://doi.org/10.5281/zenodo.3981510"
+
+citHeader("To cite tidygeocoder in publications use:")
+
+citEntry(
+  entry = "Misc",
+  title = "tidygeocoder: Geocoding Made Easy",
+  author = personList(as.person("Jesse Cambon")),
+  year = "2020",
+  month = "aug",
+  publisher = "Zenodo",
+  note = "R package version 1.0.1",
+  url = "https://CRAN.R-project.org/package=tidygeocoder",
+  doi = doi_url,
+  textVersion = paste(
+     "Jesse Cambon. (2020, August 12).",
+     "Tidygeocoder (Version v1.0.1). Zenodo.",
+     doi_url)
+)
