@@ -1,5 +1,9 @@
 url: https://jessecambon.github.io/tidygeocoder
-
+template:
+  params:
+    docsearch:
+      api_key: 2a4961d1f7b45ceee241419b8e8257d3
+      index_name: tidygeocoder
 reference:
 - title: Geocoding functions
   desc: These are the main functions to call for geocoding
