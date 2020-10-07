@@ -51,7 +51,7 @@ pause_until <- function(start_time, min_time, debug=FALSE) {
 #' @export 
 extract_results <- function(method, response, full_results = TRUE, flatten = TRUE) {
   
-  NA_result <- tibble::tibble(lat = NA, long = NA)
+  NA_result <- tibble::tibble(lat = as.numeric(NA), long = as.numeric(NA))
   
   # extract latitude and longitude as a dataframe
   lat_lng <- switch(method,
@@ -93,7 +93,7 @@ extract_results <- function(method, response, full_results = TRUE, flatten = TRU
 # Return a 2 column, 1 row NA tibble dataframe for coordinates that aren't found
 # Given the column names (as strings)
 get_na_value <- function(lat, long, rows = 1) {
-  NA_df <- tibble::tibble(a = rep(NA, rows), b = rep(NA, rows))
+  NA_df <- tibble::tibble(a = rep(as.numeric(NA), rows), b = rep(as.numeric(NA), rows))
   colnames(NA_df) <- c(lat, long)
   return(NA_df)
 }
