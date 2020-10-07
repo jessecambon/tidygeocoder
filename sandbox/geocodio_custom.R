@@ -12,5 +12,5 @@ some_addresses <- tribble(
 test <- some_addresses %>% geocode(
   addr, method = "geocodio", 
   full_results = TRUE,
-  custom_query = list(fields = 'stateleg')
+  custom_query = list(fields = 'cd,stateleg')
 )

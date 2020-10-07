@@ -79,7 +79,7 @@ function to execute." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">tidygeocoder</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.1.9000</span>
       </span>
     </div>
 
@@ -137,15 +137,15 @@ function to execute." />
 function to execute.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>query_api</span>(
-  <span class='no'>api_url</span>,
-  <span class='no'>query_parameters</span>,
-  <span class='kw'>mode</span> <span class='kw'>=</span> <span class='st'>"single"</span>,
-  <span class='kw'>batch_file</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>address_list</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>content_encoding</span> <span class='kw'>=</span> <span class='st'>"UTF-8"</span>,
-  <span class='kw'>timeout</span> <span class='kw'>=</span> <span class='fl'>20</span>
-)</pre>
+    <pre class="usage"><span class='fu'>query_api</span><span class='op'>(</span>
+  <span class='va'>api_url</span>,
+  <span class='va'>query_parameters</span>,
+  mode <span class='op'>=</span> <span class='st'>"single"</span>,
+  batch_file <span class='op'>=</span> <span class='cn'>NULL</span>,
+  address_list <span class='op'>=</span> <span class='cn'>NULL</span>,
+  content_encoding <span class='op'>=</span> <span class='st'>"UTF-8"</span>,
+  timeout <span class='op'>=</span> <span class='fl'>20</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -194,14 +194,15 @@ should be 'json' for geocodio and 'multipart' for census</p></td>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># \donttest{</span>
-<span class='no'>raw</span> <span class='kw'>&lt;-</span> <span class='fu'>query_api</span>(<span class='st'>"http://nominatim.openstreetmap.org/search"</span>,
-   <span class='fu'><a href='get_api_query.html'>get_api_query</a></span>(<span class='st'>"osm"</span>, <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>address</span> <span class='kw'>=</span> <span class='st'>'Hanoi, Vietnam'</span>)))
-
-<span class='fu'><a href='extract_results.html'>extract_results</a></span>(<span class='st'>'osm'</span>, <span class='kw pkg'>jsonlite</span><span class='kw ns'>::</span><span class='fu'><a href='https://jeroen.cran.dev/jsonlite/reference/fromJSON.html'>fromJSON</a></span>(<span class='no'>raw</span>))</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 1 x 12</span><span>
+<span class='va'>raw</span> <span class='op'>&lt;-</span> <span class='fu'>query_api</span><span class='op'>(</span><span class='st'>"http://nominatim.openstreetmap.org/search"</span>, 
+   <span class='fu'><a href='get_api_query.html'>get_api_query</a></span><span class='op'>(</span><span class='st'>"osm"</span>, <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>address <span class='op'>=</span> <span class='st'>'Hanoi, Vietnam'</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>
+   
+<span class='fu'><a href='extract_results.html'>extract_results</a></span><span class='op'>(</span><span class='st'>'osm'</span>, <span class='fu'>jsonlite</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/jsonlite/man/fromJSON.html'>fromJSON</a></span><span class='op'>(</span><span class='va'>raw</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 1 x 12</span><span>
 #&gt;     lat   lon place_id licence osm_type osm_id boundingbox display_name class
 #&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>    </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>     </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;list&gt;</span><span>      </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>        </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>
 #&gt; </span><span style='color: #BCBCBC;'>1</span><span>  21.0  106.   2.74</span><span style='color: #949494;'>e</span><span>8 Data ©… relation 1.90</span><span style='color: #949494;'>e</span><span>6 </span><span style='color: #949494;'>&lt;chr [4]&gt;</span><span>   Hà Nội, Việ… boun…
-#&gt; </span><span style='color: #949494;'># … with 3 more variables: type </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span style='color: #949494;'>, importance </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #949494;'>, icon </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span></div><div class='input'># }
+#&gt; </span><span style='color: #949494;'># … with 3 more variables: type </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span style='color: #949494;'>, importance </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #949494;'>, icon </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span></div><div class='input'><span class='co'># }</span>
 
 </div></span></pre>
   </div>
@@ -219,7 +220,7 @@ should be 'json' for geocodio and 'multipart' for census</p></td>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>
