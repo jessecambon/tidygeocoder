@@ -58,7 +58,8 @@ extract_results <- function(method, response, full_results = TRUE, flatten = TRU
     'census' = response$result$addressMatches$coordinates[c('y','x')],
     'osm' = response[c('lat', 'lon')],
     'iq' = response[c('lat', 'lon')],
-    'geocodio' = response$results$location[c('lat', 'lng')]
+    'geocodio' = response$results$location[c('lat', 'lng')],
+    'google' = response$results$geometry$location[c('lat','lng')]
   )
   
   # if null result then return NA
@@ -76,7 +77,8 @@ extract_results <- function(method, response, full_results = TRUE, flatten = TRU
       'census' = response$result$addressMatches[!names(response$result$addressMatches) %in% c('coordinates')],
       'osm' = response[!names(response) %in% c('lat', 'lon')],
       'iq' =  response[!names(response) %in% c('lat', 'lon')],
-      'geocodio' = response$results[!names(response$results) %in% c('location')]
+      'geocodio' = response$results[!names(response$results) %in% c('location')],
+      'google' = response$results[!names(response) %in% c('lat', 'lng', 'geometry.location.lat', 'geometry.location.lng')]
     )
     
     combined_results <- tibble::as_tibble(cbind(lat_lng, results))

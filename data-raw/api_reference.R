@@ -8,9 +8,11 @@
 # OSM: https://nominatim.org/release-docs/develop/api/Search/
 # Geocodio: https://www.geocod.io/docs/#single-address
 # Census: https://www.census.gov/programs-surveys/geography/technical-documentation/complete-technical-documentation/census-geocoder.html
+# Google: https://developers.google.com/maps/documentation/geocoding/overview
 
 ### Usage Policies
 # OSM: https://operations.osmfoundation.org/policies/nominatim/
+# Google: https://developers.google.com/maps/documentation/geocoding/usage-and-billing
 
 ## Note: generic_name = 'address' is for one-line addresses
 ## If generic_name == NA then that means the parameter is specific to a given API/method
@@ -76,6 +78,16 @@ api_parameter_reference <- tibble::tribble(
   'geocodio', 'state',      'state',       NA,                  FALSE,
   'geocodio', 'postalcode', 'postal_code', NA,                  FALSE,
   'geocodio', 'country',    'country',     NA,                  FALSE,
+
+  #########################  Google Geocoding ########################
+  # Google returns json by default and has no 'format' argument
+  # requires an api_key
+  # no limit argument in this implementation
+
+  'google', 'api_key',      'key',         NA,                  TRUE,
+  'google', 'address',      'address',     NA,                  TRUE,
+  'google', 'language',     'language',    NA,                  FALSE,
+  'google', 'region',       'region',      NA,                  FALSE
 )
 
 usethis::use_data(api_parameter_reference, overwrite = TRUE)
