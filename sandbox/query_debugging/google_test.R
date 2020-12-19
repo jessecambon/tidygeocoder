@@ -3,24 +3,21 @@
 # developer documentation https://developers.google.com/maps/documentation/geocoding/overview
 
 addr <- 'Tokyo, Japan'
-
 url_base  <- "https://maps.googleapis.com/maps/api/geocode/json"
 
 library(httr)
 library(jsonlite)
-
-get_key("google")
+library(dplyr)
 
 soup <- httr::GET(url = url_base, 
                   query = list(address = addr, 
-                               key = get_key('google')))
-#,format = 'json'))
+                               key = tidygeocoder:::get_key("google")))
 
 raw_results <- jsonlite::fromJSON(httr::content(soup, as = 'text', encoding = "UTF-8"))
 
-results <- extract_results('google', raw_results)
+results <- tidygeocoder:::extract_results('google', raw_results)
 
-results <- extract_results('google', raw_results, full_results = FALSE)
+full_results <- tidygeocoder:::extract_results('google', raw_results, full_results = TRUE)
 
 ########## test single values
 

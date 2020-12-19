@@ -287,12 +287,18 @@ geo <- function(address = NULL,
     message(paste0('Error: ', raw_results$error))
     results <- NA_value
   } 
+  # output error message for google if present
+  else if ((method == 'google') & (!is.data.frame(raw_results)) & ("error_message" %in% names(raw_results))) {
+    message(paste0('Error: ', raw_results$error_message))
+    results <- NA_value
+  } 
   else if (length(raw_results) == 0) {
     # If no results found, return NA
     # otherwise extract results
     results <- NA_value
     if (verbose == TRUE) message("No results found")
-  } else {
+  } 
+  else {
     # Extract results. Use the full_results and flatten parameters
     # to control the output
     results <- extract_results(method, raw_results, full_results, flatten)

@@ -6,7 +6,11 @@ Authors@R:
     c(person(given = "Jesse",
              family = "Cambon",
              role = c("aut", "cre"),
-             email = "jesse.cambon@gmail.com"))
+             email = "jesse.cambon@gmail.com"),
+      person(given = "Christopher",
+             family = "Belanger",
+             role = "aut")
+             )
 Description: An intuitive interface for getting data from geocoder services. 
 URL: https://jessecambon.github.io/tidygeocoder/, 
     https://github.com/jessecambon/tidygeocoder
