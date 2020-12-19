@@ -38,7 +38,8 @@ test_that("geocode null/empty addresses", {
   expect_identical(geo_osm(" ", return_addresses = FALSE), NA_result)
   expect_identical(names(geo_cascade(" ", return_addresses = FALSE)), 
                    c('lat', 'long', 'geo_method'))
-
+  expect_identical(geo_google(" ", return_addresses = FALSE), NA_result)
+  
   # Test with tibble
   NA_data <- tibble::tribble(~addr,
                              "   ",
@@ -50,8 +51,10 @@ test_that("geocode null/empty addresses", {
   # check column names
   expected_colnames <- c(colnames(NA_data), 'lat', 'long')
   expect_identical(colnames(result), expected_colnames)
+  expect_identical(colnames(geocode(NA_data, addr, method = 'google')), expected_colnames)
   
   # make sure geo_method is NA when address is NA
   expect_equal(nrow(result), nrow(NA_data)) # check dataframe length
+  expect_equal(nrow(geocode(NA_data, addr, method = 'google')), nrow(NA_data))
 })
 
