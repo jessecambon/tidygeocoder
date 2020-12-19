@@ -21,7 +21,8 @@ sample2 <- tibble(street = c('1600 Pennsylvania Ave NW', '11 Wall Street', ''),
 ```{r}
 louisville_check <- louisville %>% 
   geocode(street = street, city = city, state = state, postalcode = zip, verbose = TRUE, full_results = TRUE) %>%
-  mutate(lat_diff = lat - latitude, long_diff = long - longitude)
+  mutate(lat_diff = lat - latitude, long_diff = long - longitude) %>%
+  select(lat_diff, long_diff, everything())
 
 louisville_check
 ```
@@ -29,7 +30,8 @@ louisville_check
 ```{r}
 louisville_geocodio <- louisville %>% 
   geocode(street = street, city = city, state = state, postalcode = zip, verbose = TRUE, method = 'geocodio', full_results = TRUE) %>%
-   mutate(lat_diff = lat - latitude, long_diff = long - longitude)
+   mutate(lat_diff = lat - latitude, long_diff = long - longitude) %>%
+  select(lat_diff, long_diff, everything())
 
 louisville_geocodio
 ```

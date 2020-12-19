@@ -79,7 +79,7 @@
 
       
 
-      </header><script src="tidygeocoder_files/accessible-code-block-0.0.1/empty-anchor.js"></script><script src="tidygeocoder_files/htmlwidgets-1.5.1/htmlwidgets.js"></script><script src="tidygeocoder_files/jquery-1.12.4/jquery.min.js"></script><link href="tidygeocoder_files/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet">
+      </header><script src="tidygeocoder_files/header-attrs-2.4/header-attrs.js"></script><script src="tidygeocoder_files/accessible-code-block-0.0.1/empty-anchor.js"></script><script src="tidygeocoder_files/htmlwidgets-1.5.1/htmlwidgets.js"></script><script src="tidygeocoder_files/jquery-1.12.4/jquery.min.js"></script><link href="tidygeocoder_files/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet">
 <script src="tidygeocoder_files/datatables-binding-0.15/datatables.js"></script><link href="tidygeocoder_files/dt-core-1.10.20/css/jquery.dataTables.min.css" rel="stylesheet">
 <link href="tidygeocoder_files/dt-core-1.10.20/css/jquery.dataTables.extra.css" rel="stylesheet">
 <script src="tidygeocoder_files/dt-core-1.10.20/js/jquery.dataTables.min.js"></script><link href="tidygeocoder_files/nouislider-7.0.10/jquery.nouislider.min.css" rel="stylesheet">
@@ -200,16 +200,16 @@
 <span class="co">#&gt; $ address      &lt;chr&gt; "Salzburg, Austria"</span>
 <span class="co">#&gt; $ lat          &lt;dbl&gt; 47.79813</span>
 <span class="co">#&gt; $ long         &lt;dbl&gt; 13.04648</span>
-<span class="co">#&gt; $ place_id     &lt;int&gt; 206608</span>
+<span class="co">#&gt; $ place_id     &lt;int&gt; 257918086</span>
 <span class="co">#&gt; $ licence      &lt;chr&gt; "Data © OpenStreetMap contributors, ODbL 1.0. https://os…</span>
-<span class="co">#&gt; $ osm_type     &lt;chr&gt; "node"</span>
-<span class="co">#&gt; $ osm_id       &lt;int&gt; 34964314</span>
-<span class="co">#&gt; $ boundingbox  &lt;list&gt; [&lt;"47.6381346", "47.9581346", "12.8864806", "13.2064806…</span>
+<span class="co">#&gt; $ osm_type     &lt;chr&gt; "relation"</span>
+<span class="co">#&gt; $ osm_id       &lt;int&gt; 86538</span>
+<span class="co">#&gt; $ boundingbox  &lt;list&gt; [&lt;"47.7512115", "47.8543925", "12.9856478", "13.1272842…</span>
 <span class="co">#&gt; $ display_name &lt;chr&gt; "Salzburg, 5020, Österreich"</span>
-<span class="co">#&gt; $ class        &lt;chr&gt; "place"</span>
-<span class="co">#&gt; $ type         &lt;chr&gt; "city"</span>
+<span class="co">#&gt; $ class        &lt;chr&gt; "boundary"</span>
+<span class="co">#&gt; $ type         &lt;chr&gt; "administrative"</span>
 <span class="co">#&gt; $ importance   &lt;dbl&gt; 0.6854709</span>
-<span class="co">#&gt; $ icon         &lt;chr&gt; "https://nominatim.openstreetmap.org/images/mapicons/poi…</span></pre></div>
+<span class="co">#&gt; $ icon         &lt;chr&gt; "https://nominatim.openstreetmap.org/ui/mapicons//poi_bo…</span></pre></div>
 </div>
 <div id="working-with-messy-data" class="section level2">
 <h2 class="hasAnchor">
@@ -230,7 +230,7 @@
 <span class="co">#&gt; benchmark : "Public_AR_Current"</span>
 <span class="co">#&gt; vintage : "Current_Current"</span>
 <span class="co">#&gt; </span>
-<span class="co">#&gt; Query completed in: 1.9 seconds</span>
+<span class="co">#&gt; Query completed in: 2 seconds</span>
 
 <span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span><span class="op">(</span><span class="va">duplicates_geocoded</span><span class="op">)</span></pre></div>
 <table class="table">
@@ -298,18 +298,18 @@
 <span class="co">#&gt; Rows: 4</span>
 <span class="co">#&gt; Columns: 13</span>
 <span class="co">#&gt; $ address      &lt;chr&gt; "Lima, Peru", "Lima, Peru", "Lima, Peru", "Cairo, Egypt"</span>
-<span class="co">#&gt; $ lat          &lt;dbl&gt; -12.06211, -12.20011, -11.99997, 30.04882</span>
-<span class="co">#&gt; $ long         &lt;dbl&gt; -77.03653, -76.28506, -76.83322, 31.24367</span>
-<span class="co">#&gt; $ place_id     &lt;int&gt; 286976132, 235673177, 235480647, 236205997</span>
+<span class="co">#&gt; $ lat          &lt;dbl&gt; -12.06211, -12.20011, -11.99997, 30.04439</span>
+<span class="co">#&gt; $ long         &lt;dbl&gt; -77.03653, -76.28506, -76.83322, 31.23573</span>
+<span class="co">#&gt; $ place_id     &lt;int&gt; 258244064, 258655931, 258306819, 258758158</span>
 <span class="co">#&gt; $ licence      &lt;chr&gt; "Data © OpenStreetMap contributors, ODbL 1.0. https://os…</span>
 <span class="co">#&gt; $ osm_type     &lt;chr&gt; "relation", "relation", "relation", "relation"</span>
 <span class="co">#&gt; $ osm_id       &lt;int&gt; 1944756, 1944659, 1944670, 5466227</span>
 <span class="co">#&gt; $ boundingbox  &lt;list&gt; [&lt;"-12.0797663", "-12.0303496", "-77.0884555", "-77.001…</span>
-<span class="co">#&gt; $ display_name &lt;chr&gt; "Lima, Peru", "Lima, Peru", "Lima, Peru", "القاهرة, Egyp…</span>
+<span class="co">#&gt; $ display_name &lt;chr&gt; "Lima, Perú", "Lima, Perú", "Lima, Perú", "القاهرة, مصر"</span>
 <span class="co">#&gt; $ class        &lt;chr&gt; "boundary", "boundary", "boundary", "place"</span>
 <span class="co">#&gt; $ type         &lt;chr&gt; "administrative", "administrative", "administrative", "c…</span>
-<span class="co">#&gt; $ importance   &lt;dbl&gt; 0.8930015, 0.7219761, 0.7034835, 0.7960286</span>
-<span class="co">#&gt; $ icon         &lt;chr&gt; "https://nominatim.openstreetmap.org/images/mapicons/poi…</span></pre></div>
+<span class="co">#&gt; $ importance   &lt;dbl&gt; 0.7830015, 0.6119761, 0.5934835, 0.6960286</span>
+<span class="co">#&gt; $ icon         &lt;chr&gt; "https://nominatim.openstreetmap.org/ui/mapicons//poi_bo…</span></pre></div>
 <p>To directly specify specific API parameters for a given <code>method</code> you can use the <code>custom_query</code> parameter. For example, <a href="https://nominatim.org/release-docs/develop/api/Details/#parameters">the Nominatim (OSM) geocoder has a ‘polygon_geojson’ argument</a> that can be used to return GeoJSON geometry content. To pass this parameter you can insert it with a named list using the <code>custom_query</code> argument:</p>
 <div class="sourceCode" id="cb11"><pre class="downlit">
 <span class="va">cairo_geo</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/geo.html">geo</a></span><span class="op">(</span><span class="st">'Cairo, Egypt'</span>, method <span class="op">=</span> <span class="st">'osm'</span>, full_results <span class="op">=</span> <span class="cn">TRUE</span>,
@@ -322,25 +322,25 @@
 <span class="co">#&gt; polygon_geojson : "1"</span>
 <span class="co">#&gt; format : "json"</span>
 <span class="co">#&gt; </span>
-<span class="co">#&gt; Query completed in: 0.5 seconds</span>
+<span class="co">#&gt; Query completed in: 0.2 seconds</span>
 <span class="co">#&gt; Total query time (including sleep): 1 seconds</span>
 <span class="co">#&gt; </span>
 <span class="fu"><a href="https://tibble.tidyverse.org/reference/glimpse.html">glimpse</a></span><span class="op">(</span><span class="va">cairo_geo</span><span class="op">)</span>
 <span class="co">#&gt; Rows: 1</span>
 <span class="co">#&gt; Columns: 15</span>
 <span class="co">#&gt; $ address             &lt;chr&gt; "Cairo, Egypt"</span>
-<span class="co">#&gt; $ lat                 &lt;dbl&gt; 30.04882</span>
-<span class="co">#&gt; $ long                &lt;dbl&gt; 31.24367</span>
-<span class="co">#&gt; $ place_id            &lt;int&gt; 236205997</span>
+<span class="co">#&gt; $ lat                 &lt;dbl&gt; 30.04439</span>
+<span class="co">#&gt; $ long                &lt;dbl&gt; 31.23573</span>
+<span class="co">#&gt; $ place_id            &lt;int&gt; 258758158</span>
 <span class="co">#&gt; $ licence             &lt;chr&gt; "Data © OpenStreetMap contributors, ODbL 1.0. htt…</span>
 <span class="co">#&gt; $ osm_type            &lt;chr&gt; "relation"</span>
 <span class="co">#&gt; $ osm_id              &lt;int&gt; 5466227</span>
 <span class="co">#&gt; $ boundingbox         &lt;list&gt; [&lt;"29.7483062", "30.3209168", "31.2200331", "31.…</span>
-<span class="co">#&gt; $ display_name        &lt;chr&gt; "القاهرة, Egypt / مصر"</span>
+<span class="co">#&gt; $ display_name        &lt;chr&gt; "القاهرة, مصر"</span>
 <span class="co">#&gt; $ class               &lt;chr&gt; "place"</span>
 <span class="co">#&gt; $ type                &lt;chr&gt; "city"</span>
-<span class="co">#&gt; $ importance          &lt;dbl&gt; 0.7960286</span>
-<span class="co">#&gt; $ icon                &lt;chr&gt; "https://nominatim.openstreetmap.org/images/mapic…</span>
+<span class="co">#&gt; $ importance          &lt;dbl&gt; 0.6960286</span>
+<span class="co">#&gt; $ icon                &lt;chr&gt; "https://nominatim.openstreetmap.org/ui/mapicons/…</span>
 <span class="co">#&gt; $ geojson.type        &lt;chr&gt; "Polygon"</span>
 <span class="co">#&gt; $ geojson.coordinates &lt;list&gt; [&lt;array[1 x 119 x 2]&gt;]</span></pre></div>
 <p>To test a query without sending any data to a geocoder service, you can use <code>no_query = TRUE</code> (NA results are returned).</p>
@@ -365,10 +365,10 @@
 <span class="co">#&gt; format : "json"</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; # A tibble: 2 x 3</span>
-<span class="co">#&gt;   address           lat   long </span>
-<span class="co">#&gt;   &lt;chr&gt;             &lt;lgl&gt; &lt;lgl&gt;</span>
-<span class="co">#&gt; 1 Vancouver, Canada NA    NA   </span>
-<span class="co">#&gt; 2 Las Vegas, NV     NA    NA</span></pre></div>
+<span class="co">#&gt;   address             lat  long</span>
+<span class="co">#&gt;   &lt;chr&gt;             &lt;dbl&gt; &lt;dbl&gt;</span>
+<span class="co">#&gt; 1 Vancouver, Canada    NA    NA</span>
+<span class="co">#&gt; 2 Las Vegas, NV        NA    NA</span></pre></div>
 <p>Here are some additional usage notes for the <code><a href="../reference/geocode.html">geocode()</a></code> and <code><a href="../reference/geo.html">geo()</a></code> functions:</p>
 <ul>
 <li>To specify a custom geocoder API URL, use the <code>api_url</code> argument. Alternatively, the <code>iq_region</code> and <code>geocodio_v</code> arguments are helper functions for customizing the API URL.</li>
