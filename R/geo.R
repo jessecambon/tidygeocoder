@@ -141,6 +141,17 @@ geo <- function(address = NULL,
   address_pack <- package_addresses(address, street, city , county, 
            state, postalcode, country)
   
+  # which parameters are legal for the method used
+  legal_parameters <- tidygeocoder::api_parameter_reference[which(tidygeocoder::api_parameter_reference[['method']] == method), ][['generic_name']]
+  
+  # If a parameter is used that is not supported by the method then throw an error
+  for (param in colnames(address_pack$unique)) {
+    if (!(param %in% legal_parameters)) {
+      stop(paste0('The "', param, '" parameter is not supported for the "', method, 
+                  '" method.\nSee ?api_parameter_reference for more details'))
+    }
+  }
+  
   # count number of unique addresses
   num_unique_addresses <- nrow(address_pack$unique) # unique addresses
   # determine how many rows will be returned (either unique or includes duplicate address rows)

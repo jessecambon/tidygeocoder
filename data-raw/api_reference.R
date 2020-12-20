@@ -34,11 +34,9 @@ api_parameter_reference <- tibble::tribble(
   'census',   'address',    'address',     NA,                  FALSE,
   'census',   'street',     'street',      NA,                  FALSE,
   'census',   'city',       'city',        NA,                  FALSE,
-  'census',   'county',     NA,            NA,                  FALSE,
   'census',   'state',      'state',       NA,                  FALSE,
   'census',   'postalcode', 'zip',         NA,                  FALSE,
-  'census',   'country',    NA,            NA,                  FALSE,
-  
+
   ###########################  OSM ###################################
   
   'osm',      'format',     'format',      'json',              TRUE,
