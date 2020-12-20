@@ -5,7 +5,8 @@ get_key <- function(method) {
   # define environmental variable name
   env_var <- switch(method,
          'geocodio' = "GEOCODIO_API_KEY",
-         'iq' = "LOCATIONIQ_API_KEY"
+         'iq' = "LOCATIONIQ_API_KEY",
+         'google' = "GOOGLEGEOCODE_API_KEY"
          )
   # load api key from environmental variable
   key <- Sys.getenv(env_var)
@@ -34,6 +35,8 @@ get_iq_url <- function(region) {
   # region can be 'us' or 'eu'
   return(paste0("https://", region, "1.locationiq.com/v1/search.php"))
 }
+
+get_google_url <- function() return("https://maps.googleapis.com/maps/api/geocode/json")
 
 # API Parameters ----------------------------------------------------------------
 

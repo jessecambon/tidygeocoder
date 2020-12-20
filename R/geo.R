@@ -36,6 +36,8 @@
 #'      the "GEOCODIO_API_KEY" environmental variable.
 #'   \item \code{"iq"}: Commercial Nominatim geocoder service. Requires an API Key to
 #'      be stored in the "LOCATIONIQ_API_KEY" environmental variable.
+#'   \item \code{"google"}: Commercial Google geocoder service. Requires an API Key to
+#'      be stored in the "GOOGLEGEOCODE_API_KEY" environmental variable.
 #'   \item \code{"cascade"} : Attempts to use one geocoder service and then uses
 #'     a second geocoder service if the first service didn't return results.
 #'     The services and order is specified by the cascade_order argument. 
@@ -119,7 +121,7 @@ geo <- function(address = NULL,
   
   # Check inputs
   stopifnot(mode %in% c('', 'single', 'batch'), 
-    method %in% c('census', 'osm', 'iq', 'geocodio', 'cascade'),
+    method %in% c('census', 'osm', 'iq', 'geocodio', 'cascade', 'google'),
     is.logical(verbose), is.logical(no_query), is.logical(flatten), 
      is.logical(full_results), is.logical(unique_only), is.logical(return_addresses), 
      limit >= 1, batch_limit >= 1)
@@ -158,7 +160,7 @@ geo <- function(address = NULL,
   # If there are multiple addresses and we are using a method without a batch geocoder 
   # OR the user has explicitly specified single address geocoding.. call the 
   # single address geocoder in a loop (ie. recursively call this function)
-  if ((num_unique_addresses > 1) & ((method %in% c('osm', 'iq')) | (mode == 'single'))) {
+  if ((num_unique_addresses > 1) & ((method %in% c('osm', 'iq','google')) | (mode == 'single'))) {
       if (verbose == TRUE) {
         message('Executing single address geocoding...')
         message()
@@ -233,12 +235,13 @@ geo <- function(address = NULL,
   
   # Set min_time if not set
   if (method %in% c('osm','iq') & is.null(min_time))  min_time <- 1 
+  else if (method == 'google' & is.null(min_time))    min_time <- 0.02 # limit 50/second
   else if (is.null(min_time)) min_time <- 0
   
   # Start to build 'generic' query as named list -------------------------
   generic_query <- list()
   # Geocodio and IQ services require an API key
-  if (method %in% c('geocodio','iq')) {
+  if (method %in% c('geocodio','iq','google')) {
     generic_query[['api_key']] <- get_key(method)
   }
   if (!is.null(limit)) generic_query[['limit']]   <- limit
@@ -267,7 +270,8 @@ geo <- function(address = NULL,
       "census" = get_census_url(return_type, search),
       "osm" = get_osm_url(),
       "geocodio" = get_geocodio_url(geocodio_v),
-      "iq" = get_iq_url(iq_region)
+      "iq" = get_iq_url(iq_region),
+      "google" = get_google_url()
       )
   }
   
@@ -283,12 +287,18 @@ geo <- function(address = NULL,
     message(paste0('Error: ', raw_results$error))
     results <- NA_value
   } 
+  # output error message for google if present
+  else if ((method == 'google') & (!is.data.frame(raw_results)) & ("error_message" %in% names(raw_results))) {
+    message(paste0('Error: ', raw_results$error_message))
+    results <- NA_value
+  } 
   else if (length(raw_results) == 0) {
     # If no results found, return NA
     # otherwise extract results
     results <- NA_value
     if (verbose == TRUE) message("No results found")
-  } else {
+  } 
+  else {
     # Extract results. Use the full_results and flatten parameters
     # to control the output
     results <- extract_results(method, raw_results, full_results, flatten)

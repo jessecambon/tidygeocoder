@@ -1,4 +1,5 @@
 # tidygeocoder 1.0.1.9000
+* Added support for the Google geocoder service ([#34](https://github.com/jessecambon/tidygeocoder/issues/34))
 * Bug fix for `custom_query` argument with Geocodio batch geocoding ([#48](https://github.com/jessecambon/tidygeocoder/issues/48)).
 * Bug fix for vctrs datatype error with cascade method ([#49](https://github.com/jessecambon/tidygeocoder/issues/49)).
 
