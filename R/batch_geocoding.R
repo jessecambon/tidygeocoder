@@ -44,11 +44,21 @@ batch_census <- function(address_pack,
   # Query API
   raw_content <- query_api(api_url, query_parameters, mode = 'file', 
           batch_file = tmp, content_encoding = "ISO-8859-1", timeout = timeout)
-
+  
+  # force certain geographies columns to be read in as character instead of numeric
+  # to preserve leading zeros (for FIPS codes)
+  column_classes <- ifelse(return_type == 'geographies',
+       c('state_fips' = 'character',
+         'county_fips' = 'character',
+         'census_tract' = 'character',
+         'census_block' = 'character'),
+       NA)
+  
   results <- utils::read.csv(text = raw_content, header = FALSE,
-                             col.names = return_cols,
-                             fill = TRUE, stringsAsFactors = FALSE,
-                             na.strings = '')
+       col.names = return_cols,
+       colClasses = column_classes,
+       fill = TRUE, stringsAsFactors = FALSE,
+       na.strings = '')
   
   results <- results[order(results['id']), ]  # make sure results remain in proper order
 
