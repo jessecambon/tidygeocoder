@@ -23,5 +23,10 @@ Useful links:
 \author{
 \strong{Maintainer}: Jesse Cambon \email{jesse.cambon@gmail.com}
 
+Authors:
+\itemize{
+  \item Christopher Belanger \email{christopher.a.belanger@gmail.com}
+}
+
 }
 \keyword{internal}
