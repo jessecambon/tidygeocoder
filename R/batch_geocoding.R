@@ -60,7 +60,7 @@ batch_census <- function(address_pack,
        fill = TRUE, stringsAsFactors = FALSE,
        na.strings = '')
   
-  results <- results[order(results['id']), ]  # make sure results remain in proper order
+  results <- results[order(results[['id']]), ]  # make sure results remain in proper order
 
   # split out lat/lng. lapply is used with as.numeric to convert coordinates to numeric
   coord_df <- do.call(rbind, lapply(results$coords, split_coords))
