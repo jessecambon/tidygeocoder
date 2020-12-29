@@ -121,12 +121,17 @@ geo <- function(address = NULL,
   
   # Check inputs
   stopifnot(mode %in% c('', 'single', 'batch'), 
-    method %in% c('census', 'osm', 'iq', 'geocodio', 'cascade', 'google'),
-    is.logical(verbose), is.logical(no_query), is.logical(flatten), 
-     is.logical(full_results), is.logical(unique_only), is.logical(return_addresses), 
-     limit >= 1, batch_limit >= 1)
+      return_type %in% c('geographies', 'locations'),
+      method %in% c('census', 'osm', 'iq', 'geocodio', 'cascade', 'google'),
+      is.logical(verbose), is.logical(no_query), is.logical(flatten), 
+      is.logical(full_results), is.logical(unique_only), is.logical(return_addresses), 
+      is.character(cascade_order), length(cascade_order) == 2,
+      limit >= 1, batch_limit >= 1, timeout >= 0 )
   
-  if (no_query == TRUE) verbose <- TRUE
+  if (no_query == TRUE) {
+    verbose <- TRUE
+    message('no_query = TRUE! No API queries will be executed.\n')
+  }
   start_time <- Sys.time() # start timer
   
   # If method = 'cascade' is called then pass all function arguments 
@@ -138,18 +143,38 @@ geo <- function(address = NULL,
   }
   
   # check address inputs and deduplicate
-  address_pack <- package_addresses(address, street, city , county, 
+  address_pack <- package_addresses(address, street, city, county, 
            state, postalcode, country)
   
   # which parameters are legal for the method used
-  legal_parameters <- tidygeocoder::api_parameter_reference[which(tidygeocoder::api_parameter_reference[['method']] == method), ][['generic_name']]
+  if (method == 'cascade') {
+    # for cascade, we will assume a parameter is legal if it is legal
+    # for atleast one of the methods being used
+    legal_parameters <- unique(get_generic_parameters(cascade_order[1]), 
+                               get_generic_parameters(cascade_order[2]))
+  } else {
+    legal_parameters <- get_generic_parameters(method)
+  }
+  
+  # throw error if user tries to set limit command when it is not supported by the method
+  if (!('limit' %in% legal_parameters) & limit != 1) {
+    stop(paste0('The "limit" parameter is not supported for the "', method, '" method.'))
+  }
+  
+  # add illegal parameters used to this vector
+  illegal_params <- c()
   
   # If a parameter is used that is not supported by the method then throw an error
   for (param in colnames(address_pack$unique)) {
     if (!(param %in% legal_parameters)) {
-      stop(paste0('The "', param, '" parameter is not supported for the "', method, 
-                  '" method.\nSee ?api_parameter_reference for more details'))
+      illegal_params <- c(illegal_params, param)
     }
+  }
+  
+  if (length(illegal_params) > 0) {
+    stop(paste0('The following parameter(s) are not supported for the "', method, 
+                '" method:\n\n', paste0(illegal_params, collapse = ' '),
+                '\n\nSee ?api_parameter_reference for more details.'))
   }
   
   # count number of unique addresses

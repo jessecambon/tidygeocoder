@@ -182,3 +182,9 @@ display_query <- function(api_url, api_query_parameters) {
   message('Passing the following parameters to the API:')
   display_named_list(api_query_parameters)
 }
+
+# Get the legal generic parameters (ie. address, city, limit, etc.)
+# for a method (don't call with method = 'cascade')
+get_generic_parameters <- function(method) {
+  return(tidygeocoder::api_parameter_reference[which(tidygeocoder::api_parameter_reference[['method']] == method), ][['generic_name']])
+}
