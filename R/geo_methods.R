@@ -40,6 +40,7 @@ geo_cascade <- function(..., cascade_order = c('census', 'osm')) {
   if ('long' %in% names(input)) long <- input[['long']]
   else long <- 'long'
   
+  
   # if the input is an unnamed list then pass it directly, else remove certain named elements
   # this is necessary because names(input) returns NULL if input is an unnamed list
   if (is.null(names(input))) {
@@ -68,7 +69,7 @@ geo_cascade <- function(..., cascade_order = c('census', 'osm')) {
           input[!names(input) %in% c(pkg.globals$address_arg_names, 'method', 'unique_only')],
             list(method = cascade_order[2], unique_only = FALSE)))
     
-    ## combine census and retry results
+    ## combine initial and retry results
     combi <- initial_results
     combi[na_indices,] <- retry_results
     combi$geo_method <- ifelse(na_indices, cascade_order[2], cascade_order[1])

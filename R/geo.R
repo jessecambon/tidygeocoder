@@ -134,6 +134,46 @@ geo <- function(address = NULL,
   }
   start_time <- Sys.time() # start timer
   
+  
+  ### Parameter Check ------------------------------------------------------
+  # which parameters are legal for the method used
+  if (method == 'cascade') {
+    # for cascade, we will assume a parameter is legal if it is legal
+    # for atleast one of the methods being used
+    legal_parameters <- unique(get_generic_parameters(cascade_order[1]), 
+                               get_generic_parameters(cascade_order[2]))
+    
+    # string value to show the user the selected methods for cascade
+    str_cascade_meth <- paste0(' (', paste0(cascade_order, collapse = ', ', ') '))
+    
+  } else {
+    legal_parameters <- get_generic_parameters(method)
+    str_cascade_meth <- '' # 
+  }
+  
+  # the parameters that the user selects that we want to check
+  selected_parameters <- colnames(address_pack$unique)
+  
+  # if user sets limit to something other than 1 then let's check if limit is a legal parameter
+  if (limit != 1) selected_parameters <- c(selected_parameters, 'limit')
+  
+  # add illegal parameters that are selected to this vector
+  illegal_params <- c()
+  
+  # If a parameter is used that is not supported by the method then throw an error
+  for (param in selected_parameters) {
+    if (!(param %in% legal_parameters)) {
+      illegal_params <- c(illegal_params, param)
+    }
+  }
+  
+  if (length(illegal_params) > 0) {
+    stop(paste0('The following parameter(s) are not supported for the "', method, str_cascade_meth,
+                '" method:\n\n', paste0(illegal_params, collapse = ' '),
+                '\n\nSee ?api_parameter_reference for more details.'))
+  }
+  
+  ### Cascade method -------------------------------------------------------
   # If method = 'cascade' is called then pass all function arguments 
   # except for method to geo_cascade() and return the results 
   if (method == 'cascade') {
@@ -145,37 +185,6 @@ geo <- function(address = NULL,
   # check address inputs and deduplicate
   address_pack <- package_addresses(address, street, city, county, 
            state, postalcode, country)
-  
-  # which parameters are legal for the method used
-  if (method == 'cascade') {
-    # for cascade, we will assume a parameter is legal if it is legal
-    # for atleast one of the methods being used
-    legal_parameters <- unique(get_generic_parameters(cascade_order[1]), 
-                               get_generic_parameters(cascade_order[2]))
-  } else {
-    legal_parameters <- get_generic_parameters(method)
-  }
-  
-  # throw error if user tries to set limit command when it is not supported by the method
-  if (!('limit' %in% legal_parameters) & limit != 1) {
-    stop(paste0('The "limit" parameter is not supported for the "', method, '" method.'))
-  }
-  
-  # add illegal parameters used to this vector
-  illegal_params <- c()
-  
-  # If a parameter is used that is not supported by the method then throw an error
-  for (param in colnames(address_pack$unique)) {
-    if (!(param %in% legal_parameters)) {
-      illegal_params <- c(illegal_params, param)
-    }
-  }
-  
-  if (length(illegal_params) > 0) {
-    stop(paste0('The following parameter(s) are not supported for the "', method, 
-                '" method:\n\n', paste0(illegal_params, collapse = ' '),
-                '\n\nSee ?api_parameter_reference for more details.'))
-  }
   
   # count number of unique addresses
   num_unique_addresses <- nrow(address_pack$unique) # unique addresses
