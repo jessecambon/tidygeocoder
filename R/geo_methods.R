@@ -40,7 +40,6 @@ geo_cascade <- function(..., cascade_order = c('census', 'osm')) {
   if ('long' %in% names(input)) long <- input[['long']]
   else long <- 'long'
   
-  
   # if the input is an unnamed list then pass it directly, else remove certain named elements
   # this is necessary because names(input) returns NULL if input is an unnamed list
   if (is.null(names(input))) {
