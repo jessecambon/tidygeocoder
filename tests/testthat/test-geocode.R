@@ -1,11 +1,4 @@
-# Make sure there are no duplicates in our API reference files
-test_that("Check API Parameter Reference For Duplicates", {
-  
-  unique_api_param_rows <- nrow(tidygeocoder::api_parameter_reference[c('method','generic_name')])
-  api_param_rows <- nrow(tidygeocoder::api_parameter_reference)
-  
-  expect_equal(unique_api_param_rows,api_param_rows)
-})
+## Test geocoding functionality without making any API calls
 
 # Check column names with custom settings
 test_that("geocode default colnames", {
