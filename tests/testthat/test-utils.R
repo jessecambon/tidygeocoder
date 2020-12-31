@@ -48,15 +48,17 @@ test_that("Test Address Packaging Errors", {
 
 test_that("Test API Query Creation Functions", {
   
-  for (method in c('google', 'census', 'osm', 'geocodio', 'iq')) {
+  cust_arg_list <- list(cust1 = '123')
+  address_val <- '1500 Rushmore St'
+  
+  
+  # loop through all methods and produce queries
+  for (method in unique(tidygeocoder::api_parameter_reference[['method']])) {
     
     # test overlap between generic and custom parameters
     expect_error(tidygeocoder::get_api_query(method,
        generic_parameters = list(address = 'abc'),
        custom_parameters = tidygeocoder:::create_api_parameter(method, 'address', 'ghj')))
-    
-    cust_arg_list <- list(cust1 = '123')
-    address_val <- '1500 Rushmore St'
     
     default_q <- tidygeocoder::get_api_query(method)
     custom_q <- tidygeocoder::get_api_query(method, custom_parameters = cust_arg_list)
@@ -75,5 +77,20 @@ test_that("Test API Query Creation Functions", {
     expect_mapequal(custom_q, c(default_q, cust_arg_list))
     expect_mapequal(address_q, c(default_q, 
       tidygeocoder:::create_api_parameter(method, 'address', address_val)))
+    
+    expect_message(display_named_list(default_q))
+    expect_message(display_named_list(custom_q))
+    expect_message(display_named_list(address_q))
   }
+})
+
+## Miscellaneous functions
+
+test_that("Test Miscellaneous Functions", {
+  
+  na_vals <- tidygeocoder:::get_na_value('lat', 'long', rows = 3)
+  
+  expect_true(tibble::is_tibble(na_vals))
+  expect_true(nrow(na_vals) == 3)
+  
 })

@@ -166,9 +166,13 @@ query_api <- function(api_url, query_parameters, mode = 'single',
 
 # print values in a named list (used for displaying query parameters)
 display_named_list <- function(named_list) {
+  
+  # unique parameter names for all api keys
+  api_key_names <- unique(tidygeocoder::api_parameter_reference[which(tidygeocoder::api_parameter_reference[['generic_name']] == 'api_key'), ][['api_name']])
+  
   for (var in names(named_list)) {
     ## censor API Key values
-    if (var %in% c('api_key', 'key')) {
+    if (var %in% api_key_names) {
       named_list[var] <- paste(rep('x', nchar(named_list[var])), collapse ='')
     }
     message(paste0(var, ' : "', named_list[var], '"'))

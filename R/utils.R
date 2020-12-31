@@ -1,6 +1,6 @@
 ### Put common utility functions here
 
-# Declaring global variables
+## Declare global variables
 pkg.globals <- new.env()
 pkg.globals$address_arg_names <- c('address', 'street', 'city', 'county', 'state', 'postalcode', 'country')
 
