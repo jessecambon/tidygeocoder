@@ -87,6 +87,8 @@
 #' @param iq_region 'us' (default) or 'eu'. Used for establishing API URL for the 'iq' method
 #' @param geocodio_v version of geocodio api. 1.6 is default. Used for establishing API URL
 #'   for the 'geocodio' method.
+#' @param param_check 'error', 'warn', 'message', or 'silent'. Controls how invalid parameter inputs
+#'   are handled.
 #' 
 #' @return parsed geocoding results in tibble format
 #' @examples
@@ -108,7 +110,8 @@ geo <- function(address = NULL,
     min_time = NULL, api_url = NULL, timeout = 20,
     mode = '', full_results = FALSE, unique_only = FALSE, return_addresses = TRUE, 
     flatten = TRUE, batch_limit = 10000, verbose = FALSE, no_query = FALSE, 
-    custom_query = list(), return_type = 'locations', iq_region = 'us', geocodio_v = 1.6) {
+    custom_query = list(), return_type = 'locations', iq_region = 'us', geocodio_v = 1.6, 
+    param_check = 'error') {
 
   # NSE - Quote unquoted vars without double quoting quoted vars
   # end result - all of these variables become character values
@@ -122,7 +125,8 @@ geo <- function(address = NULL,
   # Check inputs
   stopifnot(mode %in% c('', 'single', 'batch'), 
       return_type %in% c('geographies', 'locations'),
-      method %in% c('census', 'osm', 'iq', 'geocodio', 'cascade', 'google'),
+      param_check %in% c('error', 'warn', 'message', 'silent'),
+      method %in% c('cascade', 'census', 'osm', 'iq', 'geocodio', 'google'),
       is.logical(verbose), is.logical(no_query), is.logical(flatten), 
       is.logical(full_results), is.logical(unique_only), is.logical(return_addresses), 
       is.character(cascade_order), length(cascade_order) == 2,
@@ -134,9 +138,32 @@ geo <- function(address = NULL,
   }
   start_time <- Sys.time() # start timer
   
+  ### Cascade method -------------------------------------------------------
+  # If method = 'cascade' is called then pass all function arguments 
+  # except for method to geo_cascade() and return the results 
+  if (method == 'cascade') {
+    if (full_results == TRUE) stop("full_results = TRUE cannot be used with the cascade method.")
+    if (limit != 1) stop("limit argument must be 1 (default) to use the cascade method.")
+    
+    # check param check argument that is passed
+    new_param_check <- switch(param_check,
+          'error' = 'warn',
+          'warn'  = 'warn',
+          'silent' = 'silent')
+    
+    return(do.call(geo_cascade, 
+      c(all_args[!names(all_args) %in% c('method', 'param_check')], list(param_check = new_param_check))))
+  }
+  
+  # check address inputs and deduplicate
+  address_pack <- package_addresses(address, street, city, county, 
+           state, postalcode, country)
+  
   
   ### Parameter Check ------------------------------------------------------
   # which parameters are legal for the method used
+  
+  ##### NOTE <-- this cascade section is now longer used
   if (method == 'cascade') {
     # for cascade, we will assume a parameter is legal if it is legal
     # for atleast one of the methods being used
@@ -148,14 +175,13 @@ geo <- function(address = NULL,
     
   } else {
     legal_parameters <- get_generic_parameters(method)
-    str_cascade_meth <- '' # 
+    str_cascade_meth <- '' # blank if method != 'cascade'
   }
   
   # the parameters that the user selects that we want to check
-  selected_parameters <- colnames(address_pack$unique)
-  
+  if (limit == 1) selected_parameters <- colnames(address_pack$unique)
   # if user sets limit to something other than 1 then let's check if limit is a legal parameter
-  if (limit != 1) selected_parameters <- c(selected_parameters, 'limit')
+  else selected_parameters <- c(colnames(address_pack$unique), 'limit')
   
   # add illegal parameters that are selected to this vector
   illegal_params <- c()
@@ -168,23 +194,17 @@ geo <- function(address = NULL,
   }
   
   if (length(illegal_params) > 0) {
-    stop(paste0('The following parameter(s) are not supported for the "', method, str_cascade_meth,
-                '" method:\n\n', paste0(illegal_params, collapse = ' '),
-                '\n\nSee ?api_parameter_reference for more details.'))
+    param_message <-paste0('The following parameter(s) are not supported for the "', 
+                           method, str_cascade_meth,
+                           '" method:\n\n', paste0(illegal_params, collapse = ' '),
+                           '\n\nSee ?api_parameter_reference for more details.')
+    
+    switch(param_check, 
+           'error' = stop(param_message),
+           'warn' = warning(param_message),
+           'message' = message(param_message)
+    )
   }
-  
-  ### Cascade method -------------------------------------------------------
-  # If method = 'cascade' is called then pass all function arguments 
-  # except for method to geo_cascade() and return the results 
-  if (method == 'cascade') {
-    if (full_results == TRUE) stop("full_results = TRUE cannot be used with the cascade method.")
-    if (limit != 1) stop("limit argument must be 1 (default) to use the cascade method.")
-    return(do.call(geo_cascade, all_args[!names(all_args) %in% c('method')]))
-  }
-  
-  # check address inputs and deduplicate
-  address_pack <- package_addresses(address, street, city, county, 
-           state, postalcode, country)
   
   # count number of unique addresses
   num_unique_addresses <- nrow(address_pack$unique) # unique addresses

@@ -21,6 +21,7 @@ Links to API documentation for each geocoder service are below.
  \item \href{https://nominatim.org/release-docs/develop/api/Search/}{Nominatim} ("osm")
  \item \href{https://www.geocod.io/docs/}{Geocodio}
  \item \href{https://locationiq.com/docs}{Location IQ} ("iq") 
+ \item \href{https://developers.google.com/maps/documentation/geocoding/overview}{Google}
 }
 }
 \usage{
