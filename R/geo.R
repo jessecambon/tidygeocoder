@@ -123,14 +123,30 @@ geo <- function(address = NULL,
   # make sure to put this before any other variables are defined
   all_args <- as.list(environment())
   
-  # Check inputs
-  stopifnot(mode %in% c('', 'single', 'batch'), 
-      return_type %in% c('geographies', 'locations'),
-      method %in% c('cascade', 'census', 'osm', 'iq', 'geocodio', 'google'),
-      is.logical(verbose), is.logical(no_query), is.logical(flatten), is.logical(param_error),
-      is.logical(full_results), is.logical(unique_only), is.logical(return_addresses), 
-      is.character(cascade_order), length(cascade_order) == 2,
-      limit >= 1, batch_limit >= 1, timeout >= 0 )
+  # note - doesn't include cascade
+  method_services <- c('census', 'osm', 'iq', 'geocodio', 'google')
+  
+  # Check argument inputs
+  
+  stopifnot(is.logical(verbose), is.logical(no_query), is.logical(flatten), is.logical(param_error),
+            is.logical(full_results), is.logical(unique_only), is.logical(return_addresses), 
+            limit >= 1, batch_limit >= 1, timeout >= 0 )
+  
+  if (!(method %in% c('cascade', method_services))) {
+    stop('Invalid method argument. See ?geo')
+  } 
+  
+  if (!(cascade_order[1] %in% method_services) | !(cascade_order[2] %in% method_services) | (length(cascade_order) != 2) |  !(is.character(cascade_order))) {
+    stop('Invalid cascade_order argument. See ?geo')
+  }
+  
+  if (!(mode %in% c('', 'single', 'batch'))) {
+    stop('Invalid mode argument. See ?geo')
+  }
+  
+  if (!(return_type %in% c('geographies', 'locations'))) {
+    stop('Invalid return_type argument. See ?geo')
+  }
   
   if (no_query == TRUE) verbose <- TRUE
   start_time <- Sys.time() # start timer
@@ -163,7 +179,7 @@ geo <- function(address = NULL,
                                get_generic_parameters(cascade_order[2])))
     
     # string value to show the user the selected methods for cascade
-    str_cascade_meth <- paste0(' (', paste0(cascade_order, collapse = ', '), ')')
+    str_cascade_meth <- paste0(' ("', paste0(cascade_order, collapse = '", "'), '")')
     
   } else {
     legal_parameters <- get_generic_parameters(method)
@@ -195,9 +211,9 @@ geo <- function(address = NULL,
     else if (verbose == TRUE) message(param_message)
   }
   
-  ### Cascade method -------------------------------------------------------
+  # Cascade method -------------------------------------------------------------
   # If method = 'cascade' is called then pass all function arguments 
-  # except for method to geo_cascade() and return the results 
+  # except for method and param_error to geo_cascade() and return the results 
   if (method == 'cascade') {
     if (full_results == TRUE) stop("full_results = TRUE cannot be used with the cascade method.")
     if (limit != 1) stop("limit argument must be 1 (default) to use the cascade method.")

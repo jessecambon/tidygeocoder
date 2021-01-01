@@ -1,10 +1,10 @@
 # Make sure there are no duplicates in our API reference files
 test_that("Check API Parameter Reference For Duplicates", {
   
-  unique_api_param_rows <- nrow(tidygeocoder::api_parameter_reference[c('method','generic_name')])
+  unique_api_param_rows <- nrow(unique(tidygeocoder::api_parameter_reference[c('method','generic_name')]))
   api_param_rows <- nrow(tidygeocoder::api_parameter_reference)
   
-  expect_equal(unique_api_param_rows,api_param_rows)
+  expect_equal(unique_api_param_rows, api_param_rows)
 })
 
 # Check column names with custom settings
@@ -15,7 +15,7 @@ test_that("geocode default colnames", {
   expected_colnames <- c('addr','lat','long')
 
   expect_identical(colnames(result),expected_colnames)
-  expect_equal(nrow(result),1) # result should have one row
+  expect_equal(nrow(result), 1) # result should have one row
 })
 
 # Check column names with custom settings
@@ -58,3 +58,9 @@ test_that("geocode null/empty addresses", {
   expect_equal(nrow(geocode(NA_data, addr, method = 'google')), nrow(NA_data))
 })
 
+# Check column names with custom settings
+test_that("Test geo() error handling", {
+  expect_error(geo(address = 'abc', no_query = TRUE, method = 'cascade', cascade_order = 1))
+  expect_error(geo(address = 'abc', no_query = TRUE, method = '123'))
+  expect_error(geo(address = 'abc', no_query = TRUE, mode = '123'))
+})
