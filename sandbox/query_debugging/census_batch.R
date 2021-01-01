@@ -8,9 +8,10 @@ library(tibble)
 library(httr)
 library(jsonlite)
 
-url_base <- "https://geocoding.geo.census.gov/geocoder/locations/addressbatch"
+# geographies or locations
+return <- 'geographies'
 
-return <- 'locations' # match to url used
+url_base <- tidygeocoder:::get_census_url(return, 'addressbatch')
 
 # column names for what the census batch geocoder returns
 # https://www.census.gov/programs-surveys/geography/technical-documentation/complete-technical-documentation/census-geocoder.html
@@ -35,10 +36,10 @@ return_cols <- switch(return,
 
 input_df <- tibble(
   id = 1:50,
-  street = louisville$street,
-  city = louisville$city,
-  state = louisville$state,
-  zip = louisville$zip,
+  street = tidygeocoder::louisville$street,
+  city = tidygeocoder::louisville$city,
+  state = tidygeocoder::louisville$state,
+  zip = tidygeocoder::louisville$zip,
 )
 
 # Write a Temporary CSV
@@ -66,10 +67,20 @@ req <-
 # without specifying the encoding here, it will return NA for the whole batch
 cnt <- httr::content(req, as = 'text', encoding = "ISO-8859-1")
 
+
+column_classes <- ifelse(return == 'geographies',
+           c('state_fips' = 'character',
+             'county_fips' = 'character',
+             'census_tract' = 'character',
+             'census_block' = 'character'),
+           NA)
+
 results <- utils::read.csv(text = cnt, header = FALSE,
-                      col.names = return_cols,
-                      fill = TRUE, stringsAsFactors = FALSE,
-                      na.strings = '')
+        col.names = return_cols,
+        # force certain columns to be read in as character instead of numeric
+        colClasses = column_classes,
+        fill = TRUE, stringsAsFactors = FALSE,
+        na.strings = '')
 
 # reorder by id column
 results <- results[order(results['id']), ] 
@@ -85,7 +96,7 @@ coord_df <- do.call('rbind', all_coordinates)
 colnames(coord_df) <- c('lat', 'long')
 
 # Combine extracted lat/longs with other return results
-combi <- cbind(subset(results, select = -coords),coord_df)
+combi <- cbind(subset(results, select = -coords), coord_df)
 
 # convert to tibble
 df_final <- as_tibble(combi)

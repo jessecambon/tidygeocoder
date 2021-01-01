@@ -229,6 +229,8 @@ each geocoder service for usage details and limitations.</p><ul>
      the "GEOCODIO_API_KEY" environmental variable.</p></li>
 <li><p><code>"iq"</code>: Commercial Nominatim geocoder service. Requires an API Key to
      be stored in the "LOCATIONIQ_API_KEY" environmental variable.</p></li>
+<li><p><code>"google"</code>: Commercial Google geocoder service. Requires an API Key to
+     be stored in the "GOOGLEGEOCODE_API_KEY" environmental variable.</p></li>
 <li><p><code>"cascade"</code> : Attempts to use one geocoder service and then uses
     a second geocoder service if the first service didn't return results.
     The services and order is specified by the cascade_order argument. 
@@ -375,7 +377,7 @@ for the 'geocodio' method.</p></td>
 
       <footer>
       <div class="copyright">
-  <p>Developed by <a href='https://jessecambon.github.io'>Jesse Cambon</a>.</p>
+  <p>Developed by <a href='https://jessecambon.github.io'>Jesse Cambon</a>, Christopher Belanger.</p>
 </div>
 
 <div class="pkgdown">
