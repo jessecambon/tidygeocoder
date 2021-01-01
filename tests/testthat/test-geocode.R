@@ -1,10 +1,12 @@
 # Make sure there are no duplicates in our API reference files
 test_that("Check API Parameter Reference For Duplicates", {
+
+  # Check that generic_name values are unique for each method
+  method_args <- tidygeocoder::api_parameter_reference[c('method', 'generic_name')]
+  # remove NA generic_names 
+  method_args <- method_args[!is.na(method_args$generic_name), ]
   
-  unique_api_param_rows <- nrow(unique(tidygeocoder::api_parameter_reference[c('method','generic_name')]))
-  api_param_rows <- nrow(tidygeocoder::api_parameter_reference)
-  
-  expect_equal(unique_api_param_rows, api_param_rows)
+  expect_equal(nrow(method_args), nrow(unique(method_args)))
 })
 
 # Check column names with custom settings
@@ -60,7 +62,18 @@ test_that("geocode null/empty addresses", {
 
 # Check column names with custom settings
 test_that("Test geo() error handling", {
+  
+  # invalid cascade_order
   expect_error(geo(address = 'abc', no_query = TRUE, method = 'cascade', cascade_order = 1))
+  # invalid method
   expect_error(geo(address = 'abc', no_query = TRUE, method = '123'))
+  # invalid mode
   expect_error(geo(address = 'abc', no_query = TRUE, mode = '123'))
+  # incompatible address arguments
+  expect_error(geo(address = 'abc', street = 'xyz', no_query = TRUE)) 
+  # invalid return_type
+  expect_error(geo(address = 'abc', return_type = 'xyz', no_query = TRUE)) 
+  # invalid limit
+  expect_error(geo(address = 'abc', limit = 0, no_query = TRUE)) 
+  
 })

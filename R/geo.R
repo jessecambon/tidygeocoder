@@ -87,9 +87,9 @@
 #' @param iq_region 'us' (default) or 'eu'. Used for establishing API URL for the 'iq' method
 #' @param geocodio_v version of geocodio api. 1.6 is default. Used for establishing API URL
 #'   for the 'geocodio' method.
-#' @param param_error if TRUE then an error will be thrown if limit or address 
-#'  parameters (address, street, city, etc.) that are invalid for the specificied geocoder
-#'  service are used. If method = 'cascade' then no errors will be thrown
+#' @param param_error if TRUE then an error will be thrown if the limit or address 
+#'  parameters (address, street, city, etc.) are invalid for the geocoder
+#'  service being used (method). If method = 'cascade' then no errors will be thrown.
 #' 
 #' @return parsed geocoding results in tibble format
 #' @examples
@@ -130,6 +130,7 @@ geo <- function(address = NULL,
   
   stopifnot(is.logical(verbose), is.logical(no_query), is.logical(flatten), is.logical(param_error),
             is.logical(full_results), is.logical(unique_only), is.logical(return_addresses), 
+            is.numeric(limit), is.numeric(batch_limit), is.numeric(timeout),
             limit >= 1, batch_limit >= 1, timeout >= 0 )
   
   if (!(method %in% c('cascade', method_services))) {
