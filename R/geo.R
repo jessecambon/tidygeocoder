@@ -87,8 +87,9 @@
 #' @param iq_region 'us' (default) or 'eu'. Used for establishing API URL for the 'iq' method
 #' @param geocodio_v version of geocodio api. 1.6 is default. Used for establishing API URL
 #'   for the 'geocodio' method.
-#' @param param_check 'error', 'warn', 'message', or 'silent'. Controls how invalid parameter inputs
-#'   are handled.
+#' @param param_error if TRUE then an error will be thrown if limit or address 
+#'  parameters (address, street, city, etc.) that are invalid for the specificied geocoder
+#'  service are used. If method = 'cascade' then no errors will be thrown
 #' 
 #' @return parsed geocoding results in tibble format
 #' @examples
@@ -111,7 +112,7 @@ geo <- function(address = NULL,
     mode = '', full_results = FALSE, unique_only = FALSE, return_addresses = TRUE, 
     flatten = TRUE, batch_limit = 10000, verbose = FALSE, no_query = FALSE, 
     custom_query = list(), return_type = 'locations', iq_region = 'us', geocodio_v = 1.6, 
-    param_check = 'error') {
+    param_error = TRUE) {
 
   # NSE - Quote unquoted vars without double quoting quoted vars
   # end result - all of these variables become character values
@@ -125,53 +126,44 @@ geo <- function(address = NULL,
   # Check inputs
   stopifnot(mode %in% c('', 'single', 'batch'), 
       return_type %in% c('geographies', 'locations'),
-      param_check %in% c('error', 'warn', 'message', 'silent'),
       method %in% c('cascade', 'census', 'osm', 'iq', 'geocodio', 'google'),
-      is.logical(verbose), is.logical(no_query), is.logical(flatten), 
+      is.logical(verbose), is.logical(no_query), is.logical(flatten), is.logical(param_error),
       is.logical(full_results), is.logical(unique_only), is.logical(return_addresses), 
       is.character(cascade_order), length(cascade_order) == 2,
       limit >= 1, batch_limit >= 1, timeout >= 0 )
   
-  if (no_query == TRUE) {
-    verbose <- TRUE
-    message('no_query = TRUE! No API queries will be executed.\n')
-  }
+  if (no_query == TRUE) verbose <- TRUE
   start_time <- Sys.time() # start timer
   
-  ### Cascade method -------------------------------------------------------
-  # If method = 'cascade' is called then pass all function arguments 
-  # except for method to geo_cascade() and return the results 
-  if (method == 'cascade') {
-    if (full_results == TRUE) stop("full_results = TRUE cannot be used with the cascade method.")
-    if (limit != 1) stop("limit argument must be 1 (default) to use the cascade method.")
-    
-    # check param check argument that is passed
-    new_param_check <- switch(param_check,
-          'error' = 'warn',
-          'warn'  = 'warn',
-          'silent' = 'silent')
-    
-    return(do.call(geo_cascade, 
-      c(all_args[!names(all_args) %in% c('method', 'param_check')], list(param_check = new_param_check))))
-  }
-  
-  # check address inputs and deduplicate
+  ## Address parsing and deduplication -------------------------------------------------------
   address_pack <- package_addresses(address, street, city, county, 
            state, postalcode, country)
   
+  # count number of unique addresses
+  num_unique_addresses <- nrow(address_pack$unique) # unique addresses
+  # determine how many rows will be returned (either unique or includes duplicate address rows)
+  num_rows_to_return <- ifelse(unique_only, num_unique_addresses, nrow(address_pack$crosswalk))
+  
+  NA_value <- get_na_value(lat, long, rows = num_rows_to_return) # filler result to return if needed
+  
+  if (verbose == TRUE) message(paste0('Number of Unique Addresses: ', num_unique_addresses))
+  
+  # If no valid/non-blank addresses are passed then return NA
+  if (num_unique_addresses == 1 & all(is.na(address_pack$unique))) {
+    if (verbose == TRUE) message(paste0('No non-blank non-NA addreses found. Returning NA results.'))
+    return(unpackage_addresses(address_pack, NA_value, unique_only, return_addresses))
+  }
   
   ### Parameter Check ------------------------------------------------------
-  # which parameters are legal for the method used
-  
-  ##### NOTE <-- this cascade section is now longer used
+  # check if limit and address parameters that are used are valid for the method
   if (method == 'cascade') {
-    # for cascade, we will assume a parameter is legal if it is legal
-    # for atleast one of the methods being used
-    legal_parameters <- unique(get_generic_parameters(cascade_order[1]), 
-                               get_generic_parameters(cascade_order[2]))
+    # for cascade, only mark a parameter as illegal if it is illegal for both
+    # methods
+    legal_parameters <- unique(c(get_generic_parameters(cascade_order[1]), 
+                               get_generic_parameters(cascade_order[2])))
     
     # string value to show the user the selected methods for cascade
-    str_cascade_meth <- paste0(' (', paste0(cascade_order, collapse = ', ', ') '))
+    str_cascade_meth <- paste0(' (', paste0(cascade_order, collapse = ', '), ')')
     
   } else {
     legal_parameters <- get_generic_parameters(method)
@@ -195,30 +187,23 @@ geo <- function(address = NULL,
   
   if (length(illegal_params) > 0) {
     param_message <-paste0('The following parameter(s) are not supported for the "', 
-                           method, str_cascade_meth,
-                           '" method:\n\n', paste0(illegal_params, collapse = ' '),
+                           method,'"', str_cascade_meth,
+                           ' method:\n\n', paste0(illegal_params, collapse = ' '),
                            '\n\nSee ?api_parameter_reference for more details.')
     
-    switch(param_check, 
-           'error' = stop(param_message),
-           'warn' = warning(param_message),
-           'message' = message(param_message)
-    )
+    if (param_error == TRUE) stop(param_message)
+    else if (verbose == TRUE) message(param_message)
   }
   
-  # count number of unique addresses
-  num_unique_addresses <- nrow(address_pack$unique) # unique addresses
-  # determine how many rows will be returned (either unique or includes duplicate address rows)
-  num_rows_to_return <- ifelse(unique_only, num_unique_addresses, nrow(address_pack$crosswalk))
-  
-  NA_value <- get_na_value(lat, long, rows = num_rows_to_return) # filler result to return if needed
-  
-  if (verbose == TRUE) message(paste0('Number of Unique Addresses: ', num_unique_addresses))
-  
-  # If no valid/nonblank addresses are passed then return NA
-  if (num_unique_addresses == 1 & all(is.na(address_pack$unique))) {
-    if (verbose == TRUE) message(paste0('No non-blank non-NA addreses found. Returning NA results.'))
-    return(unpackage_addresses(address_pack, NA_value, unique_only, return_addresses))
+  ### Cascade method -------------------------------------------------------
+  # If method = 'cascade' is called then pass all function arguments 
+  # except for method to geo_cascade() and return the results 
+  if (method == 'cascade') {
+    if (full_results == TRUE) stop("full_results = TRUE cannot be used with the cascade method.")
+    if (limit != 1) stop("limit argument must be 1 (default) to use the cascade method.")
+    
+    return(do.call(geo_cascade, 
+                   c(all_args[!names(all_args) %in% c('method', 'param_error')], list(param_error = FALSE))))
   }
   
   # Single Address geocoding -------------------------------------------------------------
