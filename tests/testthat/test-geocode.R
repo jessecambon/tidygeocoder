@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Make sure there are no duplicates in our API reference files
 test_that("Check API Parameter Reference For Duplicates", {
 
@@ -8,6 +9,9 @@ test_that("Check API Parameter Reference For Duplicates", {
   
   expect_equal(nrow(method_args), nrow(unique(method_args)))
 })
+=======
+## Test geocoding functionality without making any API calls
+>>>>>>> add-tests
 
 # Check column names with custom settings
 test_that("geocode default colnames", {

@@ -5,6 +5,7 @@
 * Added checks for parameters (address, limit, street, city, etc.) passed to geocoder services ([#53](https://github.com/jessecambon/tidygeocoder/issues/53)). By default, an error is thrown if an address parameter is used that is invalid for the given geocoder service. This behavior can be toggled with the new `param_error` parameter in `geo()`.
 * Preserve leading zeros on Census FIPs geography columns ([#47](https://github.com/jessecambon/tidygeocoder/issues/47)).
 * Per CRAN request, `order()` is no longer called on data frames ([#57](https://github.com/jessecambon/tidygeocoder/issues/57))
+* Added increased testing for internal package functions ([#58](https://github.com/jessecambon/tidygeocoder/issues/58)).
 
 # tidygeocoder 1.0.1
 * Fixed an issue that prevented installation on R < 4.0. ([#35](https://github.com/jessecambon/tidygeocoder/issues/35)).

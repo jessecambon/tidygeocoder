@@ -123,8 +123,20 @@ geo <- function(address = NULL,
   # make sure to put this before any other variables are defined
   all_args <- as.list(environment())
   
+<<<<<<< HEAD
   # note - doesn't include cascade
   method_services <- c('census', 'osm', 'iq', 'geocodio', 'google')
+=======
+  # all legal methods
+  all_methods <- c(unique(tidygeocoder::api_parameter_reference[['method']]), 'cascade')
+  
+  # Check inputs
+  stopifnot(mode %in% c('', 'single', 'batch'), 
+    method %in% all_methods,
+    is.logical(verbose), is.logical(no_query), is.logical(flatten), 
+     is.logical(full_results), is.logical(unique_only), is.logical(return_addresses), 
+     limit >= 1, batch_limit >= 1)
+>>>>>>> add-tests
   
   # Check argument inputs
   
