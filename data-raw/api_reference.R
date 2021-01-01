@@ -28,17 +28,14 @@ api_parameter_reference <- tibble::tribble(
   # there is no limit argument
   
   'census',   'format',     'format',      'json',              TRUE,
-  'census',   'limit',      NA,            NA,                  FALSE,
   'census',    NA,          'benchmark',   'Public_AR_Current', TRUE,
   'census',    NA,          'vintage',     'Current_Current',   TRUE,
   'census',   'address',    'address',     NA,                  FALSE,
   'census',   'street',     'street',      NA,                  FALSE,
   'census',   'city',       'city',        NA,                  FALSE,
-  'census',   'county',     NA,            NA,                  FALSE,
   'census',   'state',      'state',       NA,                  FALSE,
   'census',   'postalcode', 'zip',         NA,                  FALSE,
-  'census',   'country',    NA,            NA,                  FALSE,
-  
+
   ###########################  OSM ###################################
   
   'osm',      'format',     'format',      'json',              TRUE,
@@ -66,15 +63,13 @@ api_parameter_reference <- tibble::tribble(
   'iq',       'country',    'country',     NA,                  FALSE,
   
   #########################  Geocodio ################################
-  # geocodio returns json by default and has no 'format' argument
+  # geocodio returns json by default and has no 'format' or 'county' arguments
   
   'geocodio', 'api_key',    'api_key',     NA,                  TRUE,
   'geocodio', 'limit',      'limit',       '1',                 FALSE,
-  'geocodio', 'format',     NA,            NA,                  FALSE,
   'geocodio', 'address',    'q',           NA,                  FALSE,
   'geocodio', 'street',     'street',      NA,                  FALSE,
   'geocodio', 'city',       'city',        NA,                  FALSE,
-  'geocodio', 'county',     NA,            NA,                  FALSE,
   'geocodio', 'state',      'state',       NA,                  FALSE,
   'geocodio', 'postalcode', 'postal_code', NA,                  FALSE,
   'geocodio', 'country',    'country',     NA,                  FALSE,

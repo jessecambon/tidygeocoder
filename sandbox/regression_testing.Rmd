@@ -1,6 +1,5 @@
 ---
 title: "Regression Testing"
-output: github_document
 ---
 
 Regression testing. Make sure to cover geocodio and iq since those methods aren't covered in the vignettes.

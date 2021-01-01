@@ -31,7 +31,8 @@ geo(
   custom_query = list(),
   return_type = "locations",
   iq_region = "us",
-  geocodio_v = 1.6
+  geocodio_v = 1.6,
+  param_error = TRUE
 )
 }
 \arguments{
@@ -130,6 +131,10 @@ is the default.}
 
 \item{geocodio_v}{version of geocodio api. 1.6 is default. Used for establishing API URL
 for the 'geocodio' method.}
+
+\item{param_error}{if TRUE then an error will be thrown if limit or address 
+parameters (address, street, city, etc.) that are invalid for the specificied geocoder
+service are used. If method = 'cascade' then no errors will be thrown}
 }
 \value{
 parsed geocoding results in tibble format
