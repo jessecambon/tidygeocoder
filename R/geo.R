@@ -265,7 +265,7 @@ geo <- function(address = NULL,
     See the geo() function documentation for details.')
     }
   
-    # Enforce batch limit
+    # Enforce batch limit if needed
     if (num_unique_addresses > batch_limit) {
       message(paste0('Limiting batch query to ', batch_limit, ' addresses'))
       address_pack$unique <- address_pack$unique[1:batch_limit, ]
@@ -300,15 +300,14 @@ geo <- function(address = NULL,
   #### Code past this point is for geocoding a single address #####
   #################################################################
   
-  # Set min_time if not set
-  if (method %in% c('osm','iq') & is.null(min_time))  min_time <- 1 
-  else if (method == 'google' & is.null(min_time))    min_time <- 0.02 # limit 50/second
-  else if (is.null(min_time)) min_time <- 0
+  # Set min_time if not set based on usage limit of service
+  if (is.null(min_time)) min_time <- get_usage_limit(method)
   
   # Start to build 'generic' query as named list -------------------------
   generic_query <- list()
-  # Geocodio and IQ services require an API key
-  if (method %in% c('geocodio','iq','google')) {
+  # If API key is required then use get_key() method to retrieve it
+  methods_requiring_api_key <- api_parameter_reference[which(api_parameter_reference[['generic_name']] == 'api_key'), ][['method']]
+  if (method %in% methods_requiring_api_key) {
     generic_query[['api_key']] <- get_key(method)
   }
   if (!is.null(limit)) generic_query[['limit']]   <- limit
