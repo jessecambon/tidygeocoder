@@ -78,7 +78,7 @@ extract_results <- function(method, response, full_results = TRUE, flatten = TRU
       'osm' = response[!names(response) %in% c('lat', 'lon')],
       'iq' =  response[!names(response) %in% c('lat', 'lon')],
       'geocodio' = response$results[!names(response$results) %in% c('location')],
-      'google' = response$results[!names(response) %in% c('lat', 'lng', 'geometry.location.lat', 'geometry.location.lng')]
+      'google' = response$results
     )
     
     combined_results <- tibble::as_tibble(cbind(lat_lng, results))
@@ -125,16 +125,4 @@ split_coords <- function(input) {
   else split <- (list('', ''))
   
   return(as.numeric(split))
-}
-
-# returns the minimum number of seconds that must elapse for each query
-# based on the usage limit of the service (free tier if there are multiple plans available)
-get_usage_limit <- function(method) {
-  # RATE is SECONDS/QUERY
-  if      (method == 'osm')      rate <- 1        # 1 query/second
-  else if (method == 'geocodio') rate <- 60/1000  # 1000 queries per minute (free tier)
-  else if (method == 'iq')       rate <- 1/2      # 2 queries per second (free tier)
-  else if (method == 'google')   rate <- 1/50     # 50 queries per second
-  else rate <- 0   # 0 = don't limit the rate of querying 
-  return(rate)
 }

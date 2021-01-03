@@ -41,7 +41,7 @@
       <ul class="nav navbar-nav">
 <li>
   <a href="index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -58,7 +58,7 @@
 <ul class="nav navbar-nav navbar-right">
 <li>
   <a href="https://github.com/jessecambon/tidygeocoder/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -89,32 +89,90 @@
 <div id="introduction" class="section level2">
 <h2 class="hasAnchor">
 <a href="#introduction" class="anchor"></a>Introduction</h2>
-<p>Tidygeocoder makes getting data from geocoder services easy. In addition to the usage example below you can find a post on making a map of European soccer club stadiums <a href="https://jessecambon.github.io/2020/07/15/tidygeocoder-1-0-0.html">here</a>, a post on mapping landmarks in Washington, DC <a href="https://jessecambon.github.io/2019/11/11/tidygeocoder-demo.html">here</a>, and a vignette with more detailed usage examples <a href="https://jessecambon.github.io/tidygeocoder/articles/tidygeocoder.html">here</a>.</p>
-<p>All results are returned in <a href="https://tibble.tidyverse.org/">tibble format</a>. Batch geocoding (geocoding multiple addresses per query) is used by default for the US Census and Geocodio services when multiple addresses are provided. Duplicate, missing/NA, and blank address data is handled elegantly - only unique addresses are passed to geocoder services, but the rows in the original data are preserved.</p>
-</div>
-<div id="geocoder-services" class="section level2">
-<h2 class="hasAnchor">
-<a href="#geocoder-services" class="anchor"></a>Geocoder Services</h2>
-<p>The currently supported services are the <a href="https://geocoding.geo.census.gov/">US Census geocoder</a>, <a href="https://nominatim.org">Nominatim (OSM)</a>, <a href="https://www.geocod.io/">Geocodio</a>, and <a href="https://locationiq.com/">Location IQ</a>. The Census geocoder is restricted to street-level addresses in the United States, Geocodio covers the U.S. and Canada, while Location IQ and OSM have worldwide coverage. The Census and OSM services support batch geocoding (Location IQ and OSM do not).</p>
-<p>The Census and OSM services are free; Geocodio and Location IQ are commercial services that require API keys, but also offer free usage tiers. OSM and Location IQ both have usage frequency limits. Refer to the documentation of each service for more details.</p>
+<p>Tidygeocoder makes getting data from geocoder services easy. A unified interface is provided for the supported geocoder services listed below. All results are returned in <a href="https://tibble.tidyverse.org/">tibble format</a>.</p>
+<p>Batch geocoding (geocoding multiple addresses per query) is used by default if possible when multiple addresses are provided. Duplicate, missing/NA, and blank address data is handled elegantly - only unique addresses are passed to geocoder services, but the rows in the original data are preserved by default.</p>
+<p>In addition to the usage example below you can refer to the following references:</p>
+<ul>
+<li><a href="https://jessecambon.github.io/2020/07/15/tidygeocoder-1-0-0.html">Mapping European soccer club stadiums</a></li>
+<li><a href="https://jessecambon.github.io/2019/11/11/tidygeocoder-demo.html">Mapping Washington, DC landmarks</a></li>
+<li>
+<a href="https://jessecambon.github.io/tidygeocoder/articles/tidygeocoder.html">Getting Started Vignette</a> for more detailed and comprehensive usage examples. The last section of the vignette contains a <a href="https://jessecambon.github.io/tidygeocoder/articles/tidygeocoder.html#api-reference-1">helpful reference</a> on geocoder service parameters.</li>
+</ul>
 </div>
 <div id="installation" class="section level2">
 <h2 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h2>
 <p>To install the stable version from CRAN (the official R package servers):</p>
-<div class="sourceCode" id="cb1"><pre class="downlit">
-<span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">'tidygeocoder'</span><span class="op">)</span></pre></div>
-<p>Alternatively you can install the development version from GitHub:</p>
-<div class="sourceCode" id="cb2"><pre class="downlit">
-<span class="kw">if</span><span class="op">(</span><span class="op">!</span><span class="kw"><a href="https://rdrr.io/r/base/library.html">require</a></span><span class="op">(</span><span class="va"><a href="https://devtools.r-lib.org/">devtools</a></span><span class="op">)</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"devtools"</span><span class="op">)</span>
-<span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://devtools.r-lib.org//reference/remote-reexports.html">install_github</a></span><span class="op">(</span><span class="st">"jessecambon/tidygeocoder"</span><span class="op">)</span></pre></div>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">'tidygeocoder'</span><span class="op">)</span></code></pre></div>
+<p>Alternatively, you can install the latest development version from GitHub:</p>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw">if</span><span class="op">(</span><span class="op">!</span><span class="kw"><a href="https://rdrr.io/r/base/library.html">require</a></span><span class="op">(</span><span class="va"><a href="https://devtools.r-lib.org/">devtools</a></span><span class="op">)</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"devtools"</span><span class="op">)</span>
+<span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://devtools.r-lib.org//reference/remote-reexports.html">install_github</a></span><span class="op">(</span><span class="st">"jessecambon/tidygeocoder"</span><span class="op">)</span></code></pre></div>
+</div>
+<div id="geocoder-services" class="section level2">
+<h2 class="hasAnchor">
+<a href="#geocoder-services" class="anchor"></a>Geocoder Services</h2>
+<p>The geocoder services supported by the tidygeocoder package are shown in the table below along with their geographic limitations, if they support batch geocoding (geocoding multiple addresses in a single query), if they require an API key, and usage rate limitations. Refer to each geocoder service’s website for details on costs, capabilities, and usage limitations.</p>
+<table class="table">
+<thead><tr class="header">
+<th>Service</th>
+<th>Geography</th>
+<th>Batch</th>
+<th>API Key</th>
+<th>Query Rate Limit</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td><a href="https://geocoding.geo.census.gov/">US Census</a></td>
+<td>US</td>
+<td>Yes</td>
+<td>No</td>
+<td>N/A</td>
+</tr>
+<tr class="even">
+<td><a href="https://nominatim.org">Nominatim (OSM)</a></td>
+<td>Worldwide</td>
+<td>No</td>
+<td>No</td>
+<td>1/second</td>
+</tr>
+<tr class="odd">
+<td><a href="https://www.geocod.io/">Geocodio</a></td>
+<td>US and Canada</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>1000/minute (free tier)</td>
+</tr>
+<tr class="even">
+<td><a href="https://locationiq.com/">Location IQ</a></td>
+<td>Worldwide</td>
+<td>No</td>
+<td>Yes</td>
+<td>2/second (free tier)</td>
+</tr>
+<tr class="odd">
+<td><a href="https://developers.google.com/maps/documentation/geocoding/overview">Google</a></td>
+<td>Worldwide</td>
+<td>No</td>
+<td>Yes</td>
+<td>50/second</td>
+</tr>
+</tbody>
+</table>
+<p>Note that:</p>
+<ul>
+<li>The US Census service supports street-level addresses only (ie. “11 Wall St New York, NY” is OK but “New York, NY” is not).</li>
+<li>Nominatim (OSM) and Geocodio both support a maximum of 10,000 addresses per batch query.</li>
+<li>The Census and OSM services are free while Geocodio and Location IQ are commercial services that offer both free and paid usage tiers. The Google service <a href="https://developers.google.com/maps/documentation/geocoding/usage-and-billing">bills per query</a>.</li>
+</ul>
 </div>
 <div id="usage" class="section level2">
 <h2 class="hasAnchor">
 <a href="#usage" class="anchor"></a>Usage</h2>
 <p>In this example we will geocode a few addresses using the <code><a href="reference/geocode.html">geocode()</a></code> function and plot them on a map with ggplot.</p>
-<div class="sourceCode" id="cb3"><pre class="downlit">
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org">dplyr</a></span><span class="op">)</span>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org">dplyr</a></span><span class="op">)</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tibble.tidyverse.org/">tibble</a></span><span class="op">)</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://jessecambon.github.io/tidygeocoder/">tidygeocoder</a></span><span class="op">)</span>
 
@@ -128,7 +186,7 @@
 
 <span class="co"># geocode the addresses</span>
 <span class="va">lat_longs</span> <span class="op">&lt;-</span> <span class="va">some_addresses</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="reference/geocode.html">geocode</a></span><span class="op">(</span><span class="va">addr</span>, method <span class="op">=</span> <span class="st">'census'</span>, lat <span class="op">=</span> <span class="va">latitude</span> , long <span class="op">=</span> <span class="va">longitude</span><span class="op">)</span></pre></div>
+  <span class="fu"><a href="reference/geocode.html">geocode</a></span><span class="op">(</span><span class="va">addr</span>, method <span class="op">=</span> <span class="st">'census'</span>, lat <span class="op">=</span> <span class="va">latitude</span> , long <span class="op">=</span> <span class="va">longitude</span><span class="op">)</span></code></pre></div>
 <p>The <code><a href="reference/geocode.html">geocode()</a></code> function attaches latitude and longitude columns to our input dataset of addresses. The US Census geocoder is used here, but other services can be specified with the <code>method</code> argument. See the <code><a href="reference/geo.html">geo()</a></code> function documentation for details.</p>
 <table class="table">
 <colgroup>
@@ -165,19 +223,19 @@
 </tbody>
 </table>
 <p>Now that we have the longitude and latitude coordinates, we can use ggplot to plot our addresses on a map.</p>
-<div class="sourceCode" id="cb4"><pre class="downlit">
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://ggplot2.tidyverse.org">ggplot2</a></span><span class="op">)</span>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org">ggplot2</a></span><span class="op">)</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">maps</span><span class="op">)</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://github.com/slowkow/ggrepel">ggrepel</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/slowkow/ggrepel">ggrepel</a></span><span class="op">)</span>
 
 <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">lat_longs</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span><span class="va">longitude</span>, <span class="va">latitude</span><span class="op">)</span>, color<span class="op">=</span><span class="st">"grey99"</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/borders.html">borders</a></span><span class="op">(</span><span class="st">"state"</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> 
   <span class="fu"><a href="https://rdrr.io/pkg/ggrepel/man/geom_text_repel.html">geom_label_repel</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>label <span class="op">=</span> <span class="va">name</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> 
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_void</a></span><span class="op">(</span><span class="op">)</span></pre></div>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_void</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <p><img src="reference/figures/README-usamap-1.png" style="display: block; margin: auto;"></p>
 <p>To return the full results from a geocoder service (not just latitude and longitude) you can use <code>full_results = TRUE</code>. Additionally, for the Census geocoder you can use <code>return_type = 'geographies'</code> to return geography columns (state, county, Census tract, and Census block).</p>
-<div class="sourceCode" id="cb5"><pre class="downlit">
-<span class="va">full</span> <span class="op">&lt;-</span> <span class="va">some_addresses</span> <span class="op">%&gt;%</span>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">full</span> <span class="op">&lt;-</span> <span class="va">some_addresses</span> <span class="op">%&gt;%</span>
   <span class="fu"><a href="reference/geocode.html">geocode</a></span><span class="op">(</span><span class="va">addr</span>, method <span class="op">=</span> <span class="st">'census'</span>, full_results <span class="op">=</span> <span class="cn">TRUE</span>, return_type <span class="op">=</span> <span class="st">'geographies'</span><span class="op">)</span>
 
 <span class="fu"><a href="https://tibble.tidyverse.org/reference/glimpse.html">glimpse</a></span><span class="op">(</span><span class="va">full</span><span class="op">)</span>
@@ -187,18 +245,23 @@
 <span class="co">#&gt; $ addr            &lt;chr&gt; "1600 Pennsylvania Ave, Washington, DC", "600 Montgom…</span>
 <span class="co">#&gt; $ lat             &lt;dbl&gt; 38.89875, 37.79470, 41.87851</span>
 <span class="co">#&gt; $ long            &lt;dbl&gt; -77.03535, -122.40314, -87.63666</span>
-<span class="co">#&gt; $ id              &lt;int&gt; 1, 2, 3</span>
+<span class="co">#&gt; $ id              &lt;chr&gt; "1", "2", "3"</span>
 <span class="co">#&gt; $ input_address   &lt;chr&gt; "1600 Pennsylvania Ave, Washington, DC, , , ", "600 M…</span>
 <span class="co">#&gt; $ match_indicator &lt;chr&gt; "Match", "Match", "Match"</span>
 <span class="co">#&gt; $ match_type      &lt;chr&gt; "Non_Exact", "Exact", "Exact"</span>
 <span class="co">#&gt; $ matched_address &lt;chr&gt; "1600 PENNSYLVANIA AVE NW, WASHINGTON, DC, 20006", "6…</span>
-<span class="co">#&gt; $ tiger_line_id   &lt;int&gt; 76225813, 192281262, 112050003</span>
+<span class="co">#&gt; $ tiger_line_id   &lt;chr&gt; "76225813", "192281262", "112050003"</span>
 <span class="co">#&gt; $ tiger_side      &lt;chr&gt; "L", "R", "L"</span>
-<span class="co">#&gt; $ state_fips      &lt;int&gt; 11, 6, 17</span>
-<span class="co">#&gt; $ county_fips     &lt;int&gt; 1, 75, 31</span>
-<span class="co">#&gt; $ census_tract    &lt;int&gt; 6202, 61100, 839100</span>
-<span class="co">#&gt; $ census_block    &lt;int&gt; 1031, 1013, 2006</span></pre></div>
+<span class="co">#&gt; $ state_fips      &lt;chr&gt; "11", "06", "17"</span>
+<span class="co">#&gt; $ county_fips     &lt;chr&gt; "001", "075", "031"</span>
+<span class="co">#&gt; $ census_tract    &lt;chr&gt; "006202", "061100", "839100"</span>
+<span class="co">#&gt; $ census_block    &lt;chr&gt; "1031", "1013", "2006"</span></code></pre></div>
 <p>For further documentation, refer to the <a href="https://jessecambon.github.io/tidygeocoder/articles/tidygeocoder.html">Getting Started Vignette</a> and the <a href="https://jessecambon.github.io/tidygeocoder/reference/index.html">function documentation</a>.</p>
+</div>
+<div id="contributing" class="section level2">
+<h2 class="hasAnchor">
+<a href="#contributing" class="anchor"></a>Contributing</h2>
+<p>Contributions to the tidygeocoder package are welcome. File <a href="https://github.com/jessecambon/tidygeocoder/issues">an issue</a> for bug fixes or suggested features. If you would like to add support for a new geocoder service, reference <a href="https://github.com/jessecambon/tidygeocoder/issues/34#issuecomment-660204164">this post</a> for details.</p>
 </div>
 </div>
   </div>

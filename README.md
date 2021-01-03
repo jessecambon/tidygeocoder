@@ -22,13 +22,15 @@ Month](http://cranlogs.r-pkg.org/badges/tidygeocoder)](https://cran.r-project.or
 ## Introduction
 
 Tidygeocoder makes getting data from geocoder services easy. A unified
-interface is provided for the geocoder services listed below. All
-results are returned in [tibble format](https://tibble.tidyverse.org/).
+interface is provided for the supported geocoder services listed below.
+All results are returned in [tibble
+format](https://tibble.tidyverse.org/).
+
 Batch geocoding (geocoding multiple addresses per query) is used by
-default for the US Census and Geocodio services when multiple addresses
-are provided. Duplicate, missing/NA, and blank address data is handled
-elegantly - only unique addresses are passed to geocoder services, but
-the rows in the original data are preserved by default.
+default if possible when multiple addresses are provided. Duplicate,
+missing/NA, and blank address data is handled elegantly - only unique
+addresses are passed to geocoder services, but the rows in the original
+data are preserved by default.
 
 In addition to the usage example below you can refer to the following
 references:
@@ -39,7 +41,10 @@ references:
     landmarks](https://jessecambon.github.io/2019/11/11/tidygeocoder-demo.html)
   - [Getting Started
     Vignette](https://jessecambon.github.io/tidygeocoder/articles/tidygeocoder.html)
-    for more detailed and comprehensive usage examples.
+    for more detailed and comprehensive usage examples. The last section
+    of the vignette contains a [helpful
+    reference](https://jessecambon.github.io/tidygeocoder/articles/tidygeocoder.html#api-reference-1)
+    on geocoder service parameters.
 
 ## Installation
 
@@ -69,9 +74,9 @@ limitations.
 
 | Service                                                                       | Geography     | Batch | API Key | Query Rate Limit        |
 | ----------------------------------------------------------------------------- | ------------- | ----- | ------- | ----------------------- |
-| [US Census](https://geocoding.geo.census.gov/)                                | US\*          | Yes\* | No      | N/A                     |
+| [US Census](https://geocoding.geo.census.gov/)                                | US            | Yes   | No      | N/A                     |
 | [Nominatim (OSM)](https://nominatim.org)                                      | Worldwide     | No    | No      | 1/second                |
-| [Geocodio](https://www.geocod.io/)                                            | US and Canada | Yes\* | Yes     | 1000/minute (free tier) |
+| [Geocodio](https://www.geocod.io/)                                            | US and Canada | Yes   | Yes     | 1000/minute (free tier) |
 | [Location IQ](https://locationiq.com/)                                        | Worldwide     | No    | Yes     | 2/second (free tier)    |
 | [Google](https://developers.google.com/maps/documentation/geocoding/overview) | Worldwide     | No    | Yes     | 50/second               |
 

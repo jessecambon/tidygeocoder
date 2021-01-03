@@ -52,7 +52,7 @@ See example usage in vignette(&quot;tidygeocoder&quot;)
 Note that not all geocoder services support certain address component 
 parameters. For example, the Census geocoder only covers the United States 
 and does not have a &quot;country&quot; parameter. Refer to api_parameter_reference 
-for more details on geocoder services and API usage.
+for more details on geocoder service parameters and API usage.
 This function uses the get_api_query, query_api, and
 extract_results functions to create, execute, and parse the geocoder
 API queries." />
@@ -95,7 +95,7 @@ API queries." />
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -112,7 +112,7 @@ API queries." />
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/jessecambon/tidygeocoder/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -147,7 +147,7 @@ See example usage in <code><a href='../articles/tidygeocoder.html'>vignette("tid
 <p>Note that not all geocoder services support certain address component 
 parameters. For example, the Census geocoder only covers the United States 
 and does not have a "country" parameter. Refer to <code><a href='api_parameter_reference.html'>api_parameter_reference</a></code> 
-for more details on geocoder services and API usage.</p>
+for more details on geocoder service parameters and API usage.</p>
 <p>This function uses the <code><a href='get_api_query.html'>get_api_query</a></code>, <code><a href='query_api.html'>query_api</a></code>, and
 <code><a href='extract_results.html'>extract_results</a></code> functions to create, execute, and parse the geocoder
 API queries.</p>
@@ -180,7 +180,8 @@ API queries.</p>
   custom_query <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='op'>)</span>,
   return_type <span class='op'>=</span> <span class='st'>"locations"</span>,
   iq_region <span class='op'>=</span> <span class='st'>"us"</span>,
-  geocodio_v <span class='op'>=</span> <span class='fl'>1.6</span>
+  geocodio_v <span class='op'>=</span> <span class='fl'>1.6</span>,
+  param_error <span class='op'>=</span> <span class='cn'>TRUE</span>
 <span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -254,8 +255,9 @@ in the order in which the geocoder services will be attempted for method = "casc
     </tr>
     <tr>
       <th>limit</th>
-      <td><p>number of results to return per address. Note that 
-limit &gt; 1 is not compatible with batch geocoding if return_addresses = TRUE.</p></td>
+      <td><p>number of results to return per address. Note that not all methods support
+setting limit to a value other than 1. Also limit &gt; 1 is not compatible 
+with batch geocoding if return_addresses = TRUE.</p></td>
     </tr>
     <tr>
       <th>min_time</th>
@@ -266,7 +268,7 @@ set it to a lower value (ie. 0) if using a local Nominatim server, for instance.
     <tr>
       <th>api_url</th>
       <td><p>custom API URL. If specified, the default API URL will be overridden.
-This can be used to specify a local Nominatim server.</p></td>
+This parameter can be used to specify a local Nominatim server.</p></td>
     </tr>
     <tr>
       <th>timeout</th>
@@ -333,6 +335,12 @@ is the default.</p></td>
       <th>geocodio_v</th>
       <td><p>version of geocodio api. 1.6 is default. Used for establishing API URL
 for the 'geocodio' method.</p></td>
+    </tr>
+    <tr>
+      <th>param_error</th>
+      <td><p>if TRUE then an error will be thrown if the limit or address 
+parameters (address, street, city, etc.) are invalid for the geocoder
+service being used (method). If method = 'cascade' then no errors will be thrown.</p></td>
     </tr>
     </table>
 

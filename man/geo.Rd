@@ -81,15 +81,16 @@ in the order in which the geocoder services will be attempted for method = "casc
 
 \item{long}{longitude column name. Can be quoted or unquoted (ie. long or 'long').}
 
-\item{limit}{number of results to return per address. Note that 
-limit > 1 is not compatible with batch geocoding if return_addresses = TRUE.}
+\item{limit}{number of results to return per address. Note that not all methods support
+setting limit to a value other than 1. Also limit > 1 is not compatible 
+with batch geocoding if return_addresses = TRUE.}
 
 \item{min_time}{minimum amount of time for a query to take (in seconds) if using
 Location IQ or OSM. This parameter is used to abide by API usage limits. You can
 set it to a lower value (ie. 0) if using a local Nominatim server, for instance.}
 
 \item{api_url}{custom API URL. If specified, the default API URL will be overridden.
-This can be used to specify a local Nominatim server.}
+This parameter can be used to specify a local Nominatim server.}
 
 \item{timeout}{query timeout (in minutes)}
 
@@ -147,7 +148,7 @@ See example usage in \code{vignette("tidygeocoder")}
 Note that not all geocoder services support certain address component 
 parameters. For example, the Census geocoder only covers the United States 
 and does not have a "country" parameter. Refer to \code{\link{api_parameter_reference}} 
-for more details on geocoder services and API usage. 
+for more details on geocoder service parameters and API usage. 
 
 This function uses the \code{\link{get_api_query}}, \code{\link{query_api}}, and
 \code{\link{extract_results}} functions to create, execute, and parse the geocoder

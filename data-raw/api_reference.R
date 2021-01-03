@@ -81,8 +81,6 @@ api_parameter_reference <- tibble::tribble(
 
   'google', 'api_key',      'key',         NA,                  TRUE,
   'google', 'address',      'address',     NA,                  TRUE,
-  'google', 'language',     'language',    NA,                  FALSE,
-  'google', 'region',       'region',      NA,                  FALSE
 )
 
 usethis::use_data(api_parameter_reference, overwrite = TRUE)
