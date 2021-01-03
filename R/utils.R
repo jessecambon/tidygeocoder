@@ -50,8 +50,10 @@ pause_until <- function(start_time, min_time, debug=FALSE) {
 #' @seealso \code{\link{get_api_query}} \code{\link{query_api}} \code{\link{geo}}
 #' @export 
 extract_results <- function(method, response, full_results = TRUE, flatten = TRUE) {
+  # NOTE - the geo() function takes the output of this function and renames the 
+  # latitude and longitude columns
   
-  NA_result <- tibble::tibble(lat = as.numeric(NA), long = as.numeric(NA))
+  NA_result <- get_na_value('lat', 'long', 1)
   
   # extract latitude and longitude as a dataframe
   lat_lng <- switch(method,
@@ -73,6 +75,7 @@ extract_results <- function(method, response, full_results = TRUE, flatten = TRU
   
   if (full_results == TRUE) {
   # extract full results excluding latitude and longitude
+  # note that lat/long are not excluded from the google results due to dataframe nesting
     results <- switch(method,
       'census' = response$result$addressMatches[!names(response$result$addressMatches) %in% c('coordinates')],
       'osm' = response[!names(response) %in% c('lat', 'lon')],

@@ -15,9 +15,10 @@ soup <- httr::GET(url = url_base,
 
 raw_results <- jsonlite::fromJSON(httr::content(soup, as = 'text', encoding = "UTF-8"))
 
-results <- tidygeocoder:::extract_results('google', raw_results)
+results <- tidygeocoder::extract_results('google', raw_results, full_results = FALSE)
 
-full_results <- tidygeocoder:::extract_results('google', raw_results, full_results = TRUE, flatten = FALSE)
+full_results_notflat <- tidygeocoder::extract_results('google', raw_results, full_results = TRUE, flatten = FALSE)
+full_results_flat <- tidygeocoder::extract_results('google', raw_results, full_results = TRUE, flatten = TRUE)
 
 
 

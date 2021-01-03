@@ -1,6 +1,5 @@
 ### Functions for batch geocoding that are called by geo()
 
-
 # Census batch geocoding
 # @param address_pack packaged addresses object
 # Vintage must be defined if return = 'geographies'

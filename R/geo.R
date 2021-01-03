@@ -1,12 +1,11 @@
 
-## Common Reference Variables and Functions
-
-# mapping of batch geocoding functions (batch_geocoding.R)
-# for all capable methods (methods not listed here can't do batch geocoding)
+## IMPORTANT: All new batch geocoding functions must be added to batch_func_map
+# the geo() function references this list to find batch geocoding functions (batch_geocoding.R)
+# maps method names to batch functions
 batch_func_map <- list(
   geocodio = batch_geocodio, 
   census = batch_census
-  )
+)
 
 # stores the minimum number of seconds that must elapse for each query
 # based on the usage limit of the service (free tier if there are multiple plans available)

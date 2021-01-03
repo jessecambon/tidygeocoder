@@ -181,5 +181,5 @@ Contributions to the tidygeocoder package are welcome. File [an
 issue](https://github.com/jessecambon/tidygeocoder/issues) for bug fixes
 or suggested features. If you would like to add support for a new
 geocoder service, reference [this
-post](https://github.com/jessecambon/tidygeocoder/issues/34#issuecomment-660204164)
-for details.
+post](https://github.com/jessecambon/tidygeocoder/issues/62#issue-777707424)
+for instructions.
