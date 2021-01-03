@@ -57,15 +57,15 @@ devtools::install_github("jessecambon/tidygeocoder")
 
 ## Geocoder Services
 
-The geocoder services supported by the tidygeocoder package are shown in the table below along with their geographic limitations, if they support batch geocoding (geocoding multiple addresses in a single query), if they require an API key, and usage rate limitations. Refer to each geocoder service's website for details on costs, capabilities, and usage limitations.
+The supported geocoder services are shown in the table below with their geographic limitations, if have batch geocoding capabilities (geocoding multiple addresses in a single query), if an API key is required, and the usage rate limitations. Refer to each geocoder service's website for the most up-to-date details on costs, capabilities, and usage limitations.
 
-| Service                                                                       | Geography       | Batch  | API Key | Query Rate Limit        |
-| ------------------------------------------------------------------------------| ----------------|--------|---------|-------------------------|
-| [US Census](https://geocoding.geo.census.gov/)                                | US              | Yes    | No      | N/A                     |
-| [Nominatim (OSM)](https://nominatim.org)                                      | Worldwide       | No     | No      | 1/second                |
-| [Geocodio](https://www.geocod.io/)                                            | US and Canada   | Yes    | Yes     | 1000/minute (free tier) |
-| [Location IQ](https://locationiq.com/)                                        | Worldwide       | No     | Yes     | 2/second (free tier)    | 
-| [Google](https://developers.google.com/maps/documentation/geocoding/overview) | Worldwide       | No     | Yes     | 50/second               | 
+| Service                                                                       | Geography     | Batch Geocoding | API Key Required | Query Rate Limit        | 
+| ------------------------------------------------------------------------------| --------------|-----------------|------------------|-------------------------|
+| [US Census](https://geocoding.geo.census.gov/)                                | US            | Yes             | No               | N/A                     |
+| [Nominatim (OSM)](https://nominatim.org)                                      | Worldwide     | No              | No               | 1/second                |
+| [Geocodio](https://www.geocod.io/)                                            | US and Canada | Yes             | Yes              | 1000/minute (free tier) |
+| [Location IQ](https://locationiq.com/)                                        | Worldwide     | No              | Yes              | 2/second (free tier)    | 
+| [Google](https://developers.google.com/maps/documentation/geocoding/overview) | Worldwide     | No              | Yes              | 50/second               | 
 
 Note that:
 
