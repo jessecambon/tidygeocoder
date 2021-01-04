@@ -16,7 +16,6 @@
 
 ## Note: generic_name = 'address' is for one-line addresses
 ## If generic_name == NA then that means the parameter is specific to a given API/method
-## If api_name == NA then that means the parameter isn't available for the given API/method
 
 # Use this for storing essential parameters 
 # Note that the format = JSON parameter is required because our parsing code expects json content

@@ -16,9 +16,7 @@ test_that("geocode default colnames", {
   result <- tibble::tibble(addr = NA) %>%
     geocode(addr, no_query = TRUE)
 
-  expected_colnames <- c('addr','lat','long')
-
-  expect_identical(colnames(result),expected_colnames)
+  expect_identical(colnames(result) ,c('addr','lat','long'))
   expect_equal(nrow(result), 1) # result should have one row
 })
 
@@ -27,10 +25,8 @@ test_that("geocode custom colnames", {
   result <- tibble::tibble(addr = '')  %>%
     geocode(addr, lat = 'latitude', long = 'longitude', no_query = TRUE)
 
-  expected_colnames <- c('addr','latitude','longitude')
-
-  expect_identical(colnames(result), expected_colnames)
-  expect_equal(nrow(result),1) # result should have one row
+  expect_identical(colnames(result), c('addr', 'latitude', 'longitude'))
+  expect_equal(nrow(result), 1) # result should have one row
 })
 
 # Check that null/empty address values are handled properly
@@ -50,12 +46,12 @@ test_that("geocode null/empty addresses", {
                              NA,
                              "")
 
-  result <- NA_data %>% geocode(addr, method = 'osm')
+  result <- NA_data %>% geocode(addr, no_query = TRUE, method = 'osm')
   
   # check column names
   expected_colnames <- c(colnames(NA_data), 'lat', 'long')
   expect_identical(colnames(result), expected_colnames)
-  expect_identical(colnames(geocode(NA_data, addr, method = 'google')), expected_colnames)
+  expect_identical(colnames(geocode(NA_data, addr, method = 'google', no_query = TRUE)), expected_colnames)
   
   # make sure geo_method is NA when address is NA
   expect_equal(nrow(result), nrow(NA_data)) # check dataframe length
@@ -79,12 +75,18 @@ test_that("Test geo() error handling", {
   # don't allow mixed lengths for address components
   expect_error(geo(no_query = TRUE, city = c('x', 'y'), state = 'ab'))
   
+  # invalid parameter for the census service
+  expect_error(geo(no_query = TRUE, country = 'abc', method = 'census'))
 })
 
 test_that("Test geocode() error handling", {
   addr_df <- tibble::tibble(addr = 'xyz')
+  named_list <- list(addr = 'xyz')
   
   # expect error when using wrong column name
   expect_error(geocode(addr_df, no_query = TRUE, address = wrong))
   expect_error(geocode(addr_df, no_query = TRUE, address = "wrong"))
+  
+  # non-dataframe input
+  expect_error(geocode(named_list, no_query = TRUE, address = 'addr'))
 })

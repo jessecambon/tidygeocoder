@@ -1,5 +1,10 @@
-test_that("Check API Parameter Reference For Duplicates", {
+test_that("Check API Parameter Reference Dataset", {
   
+  # the api_name and method parameters should never be NA or blank
+  expect_true(!any(is.na(tidygeocoder::api_parameter_reference$api_name)))
+  expect_true(!any(is.na(tidygeocoder::api_parameter_reference$method)))
+  
+  # check for duplicates
   unique_api_param_rows <- nrow(tidygeocoder::api_parameter_reference[c('method','generic_name')])
   api_param_rows <- nrow(tidygeocoder::api_parameter_reference)
   
@@ -51,6 +56,16 @@ test_that("Test API Query Creation Functions", {
   cust_arg_list <- list(cust1 = '123')
   address_val <- '1500 Rushmore St'
   
+  # proper census parameter
+  census_addr_param <- create_api_parameter('census', 'address', 'xyz')
+  expect_true(is.list(census_addr_param))
+  expect_equal(length(census_addr_param), 1)
+  
+  # improper census parameter. expect an empty list output
+  census_bad_addr_param <- create_api_parameter('census', 'country', 'xyz')
+  expect_true(is.list(census_bad_addr_param))
+  expect_equal(length(census_bad_addr_param), 0)
+  
   
   # loop through all methods and produce queries
   for (method in unique(tidygeocoder::api_parameter_reference[['method']])) {
@@ -88,9 +103,10 @@ test_that("Test API Query Creation Functions", {
 
 test_that("Test Miscellaneous Functions", {
   
-  na_vals <- tidygeocoder:::get_na_value('lat', 'long', rows = 3)
+  num_rows <- 3
+  na_vals <- tidygeocoder:::get_na_value('lat', 'long', rows = num_rows)
   
   expect_true(tibble::is_tibble(na_vals))
-  expect_true(nrow(na_vals) == 3)
+  expect_true(nrow(na_vals) == num_rows)
   
 })
