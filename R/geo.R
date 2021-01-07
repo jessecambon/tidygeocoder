@@ -86,7 +86,9 @@ usage_limit_map <- list(
 #' @param full_results returns all data from the geocoder service if TRUE. 
 #' If FALSE then only longitude and latitude are returned from the geocoder service.
 #' @param unique_only only return results for unique addresses if TRUE
-#' @param return_addresses return input addresses with results if TRUE
+#' @param return_addresses return input addresses with results if TRUE. Note that
+#'    most services return the input addresses with full_results = TRUE and setting
+#'    return_addresses to FALSE does not prevent this.
 #' 
 #' @param flatten if TRUE then any nested dataframes in results are flattened if possible.
 #'    Note that Geocodio batch geocoding results are flattened regardless.
@@ -108,8 +110,8 @@ usage_limit_map <- list(
 #' @param geocodio_v version of geocodio api. 1.6 is default. Used for establishing API URL
 #'   for the 'geocodio' method.
 #' @param param_error if TRUE then an error will be thrown if the limit or address 
-#'  parameters (address, street, city, etc.) are invalid for the geocoder
-#'  service being used (method). If method = 'cascade' then no errors will be thrown.
+#'  parameters (address, street, city, etc.) are invalid for the selected geocoder
+#'  service (method). If method = 'cascade' then no errors will be thrown regardless.
 #' 
 #' @return parsed geocoding results in tibble format
 #' @examples
@@ -200,8 +202,7 @@ geo <- function(address = NULL,
   ### Parameter Check ------------------------------------------------------
   # check if limit and address parameters that are used are valid for the method
   if (method == 'cascade') {
-    # for cascade, only mark a parameter as illegal if it is illegal for both
-    # methods
+    # for cascade, only mark a parameter as illegal if it is illegal for both methods
     legal_parameters <- unique(c(get_generic_parameters(cascade_order[1]), 
                                get_generic_parameters(cascade_order[2])))
     
@@ -213,23 +214,18 @@ geo <- function(address = NULL,
     str_cascade_meth <- '' # blank if method != 'cascade'
   }
   
-  # the parameters that the user selects that we want to check
-  if (limit == 1) selected_parameters <- colnames(address_pack$unique)
-  # if user sets limit to something other than 1 then let's check if limit is a legal parameter
-  else selected_parameters <- c(colnames(address_pack$unique), 'limit')
-  
   # add illegal parameters that are selected to this vector
   illegal_params <- c()
   
   # If a parameter is used that is not supported by the method then throw an error
-  for (param in selected_parameters) {
+  for (param in colnames(address_pack$unique)) {
     if (!(param %in% legal_parameters)) {
       illegal_params <- c(illegal_params, param)
     }
   }
   
   if (length(illegal_params) > 0) {
-    param_message <-paste0('The following parameter(s) are not supported for the "', 
+    param_message <- paste0('The following parameter(s) are not supported for the "', 
                            method,'"', str_cascade_meth,
                            ' method:\n\n', paste0(illegal_params, collapse = ' '),
                            '\n\nSee ?api_parameter_reference for more details.')
@@ -247,6 +243,17 @@ geo <- function(address = NULL,
     
     return(do.call(geo_cascade, 
                    c(all_args[!names(all_args) %in% c('method', 'param_error')], list(param_error = FALSE))))
+  }
+  
+  # determine if an illegal limit parameter value was used (ie. if limit !=1
+  # then the method API must have a limit parameter)
+  if ((limit != 1) & (!('limit' %in% legal_parameters))) {
+    illegal_limit_message <- paste0('The limit parameter must be set to 1 (the default) because the "',  method,'" ',
+                                    'method API service does not support a limit argument.\n\n',
+                                    'See ?api_parameter_reference for more details.')
+    
+    if (param_error == TRUE) stop(illegal_limit_message)
+    else if (verbose == TRUE) message(illegal_limit_message)
   }
   
   # Single Address geocoding -------------------------------------------------------------

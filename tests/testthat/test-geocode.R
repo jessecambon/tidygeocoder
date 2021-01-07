@@ -75,8 +75,18 @@ test_that("Test geo() error handling", {
   # don't allow mixed lengths for address components
   expect_error(geo(no_query = TRUE, city = c('x', 'y'), state = 'ab'))
   
-  # invalid parameter for the census service
-  expect_error(geo(no_query = TRUE, country = 'abc', method = 'census'))
+  # invalid parameters for the census service (country and limit != 1)
+  expect_error(geo('yz', no_query = TRUE, country = 'abc', method = 'census'))
+  expect_error(geo('yz', no_query = TRUE, limit = 5, method = 'census'))
+  
+  # improper limit value for census but param_error = FALSE and verbose = TRUE so we expect a message
+  expect_message(geo('yz', no_query = TRUE, limit = 5, method = 'census', verbose = TRUE, param_error = FALSE))
+  
+  # improper parameters for cascade (limit !=1 and full_results = TRUE)
+  expect_error(geo('xy', no_query = TRUE, full_results = TRUE, method = 'cascade'))
+  expect_error(geo('ab', no_query = TRUE, limit = 5, method = 'cascade'))
+  
+  
 })
 
 test_that("Test geocode() error handling", {
