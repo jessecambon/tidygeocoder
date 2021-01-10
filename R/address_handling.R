@@ -69,6 +69,10 @@ package_addresses <- function(address = NULL,
 # @export
 unpackage_addresses <- function(package, results, unique_only = FALSE, return_addresses = FALSE) {
   
+  if (nrow(results) != nrow(package$unique)) {
+    stop('Number of results do not match number of addresses.')
+  }
+  
   # Add addresses to results if we are returning them
   if (return_addresses == TRUE) results <- cbind(package$unique, results)
   
@@ -88,8 +92,10 @@ unpackage_addresses <- function(package, results, unique_only = FALSE, return_ad
   results[['.uid']] <- 1:nrow(results)
   
   # join crosswalk and results
-  base <- merge(package$crosswalk, results, by = '.uid', all.x = TRUE, sort = FALSE)
-  base <- base[order(base[['.id']]), ]  # reorder
+  # had to use dplyr::left_join instead of merge() due to errors when the datasets
+  # contain NA values and nested dataframes 
+  base <- dplyr::left_join(package$crosswalk, results, by = '.uid')
+  base <- base[order(base[['.id']]), ]  # reorder just in case
 
   return(tibble::as_tibble(base[!names(base) %in% id_colnames]))
 }

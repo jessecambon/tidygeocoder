@@ -187,7 +187,8 @@ geo <- function(address = NULL,
   # count number of unique addresses
   num_unique_addresses <- nrow(address_pack$unique) # unique addresses
   # determine how many rows will be returned (either unique or includes duplicate address rows)
-  num_rows_to_return <- ifelse(unique_only, num_unique_addresses, nrow(address_pack$crosswalk))
+  # num_rows_to_return <- ifelse(unique_only, num_unique_addresses, nrow(address_pack$crosswalk))
+  num_rows_to_return <- num_unique_addresses # used for na values
   
   NA_value <- get_na_value(lat, long, rows = num_rows_to_return) # filler result to return if needed
   
@@ -299,7 +300,7 @@ geo <- function(address = NULL,
   
     # Enforce batch limit if needed
     if (num_unique_addresses > batch_limit) {
-      message(paste0('Limiting batch query to ', batch_limit, ' addresses'))
+      message(paste0('Limiting batch query to ', format(batch_limit, big.mark = ','), ' addresses'))
       address_pack$unique <- address_pack$unique[1:batch_limit, ]
       num_rows_to_return <- batch_limit
     }

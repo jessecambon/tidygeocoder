@@ -9,4 +9,5 @@ results[['.uid']] <- 1:nrow(results)
 #results <- as.data.frame(results)
 
 ## Works if all.x is set to FALSE (error on all.x = TRUE)
-base <- merge(package$crosswalk, results, by = '.uid', all.x = FALSE, sort = FALSE)
+#base <- merge(package$crosswalk, results, by = '.uid', all.x = TRUE, sort = FALSE)
+base <- dplyr::left_join(package$crosswalk, results, by = '.uid')
