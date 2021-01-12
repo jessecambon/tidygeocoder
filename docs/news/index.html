@@ -77,7 +77,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">tidygeocoder</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.1.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.2</span>
       </span>
     </div>
 
@@ -129,18 +129,18 @@
       <small>Source: <a href='https://github.com/jessecambon/tidygeocoder/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
     </div>
 
-    <div id="tidygeocoder-1019000" class="section level1">
-<h1 class="page-header" data-toc-text="1.0.1.9000">
-<a href="#tidygeocoder-1019000" class="anchor"></a>tidygeocoder 1.0.1.9000<small> Unreleased </small>
+    <div id="tidygeocoder-102" class="section level1">
+<h1 class="page-header" data-toc-text="1.0.2">
+<a href="#tidygeocoder-102" class="anchor"></a>tidygeocoder 1.0.2<small> Unreleased </small>
 </h1>
 <ul>
-<li>Added support for the Google geocoder service (<a href="https://github.com/jessecambon/tidygeocoder/issues/34"><a href='https://github.com/jessecambon/tidygeocoder/issues/34'>#34</a></a>).</li>
-<li>Added checks for parameters passed to geocoder services (limit, address, street, city, county, state, postalcode, and country) (<a href="https://github.com/jessecambon/tidygeocoder/issues/53"><a href='https://github.com/jessecambon/tidygeocoder/issues/53'>#53</a></a>). By default, an error is now thrown if an invalid parameter is used for the selected geocoder service. This behavior can be toggled with the new <code>param_error</code> parameter in <code><a href="../reference/geo.html">geo()</a></code> (or <code><a href="../reference/geocode.html">geocode()</a></code>).</li>
-<li>Preserve leading zeros on Census FIPs geography columns (<a href="https://github.com/jessecambon/tidygeocoder/issues/47"><a href='https://github.com/jessecambon/tidygeocoder/issues/47'>#47</a></a>).</li>
+<li>Added support for the Google geocoder service (<a href="https://github.com/jessecambon/tidygeocoder/issues/34"><a href='https://github.com/jessecambon/tidygeocoder/issues/34'>#34</a></a>) (thanks <a href='https://github.com/chris31415926535'>@chris31415926535</a>).</li>
+<li>An error is now thrown if invalid parameters are passed to geocoder services (the parameters checked are limit, address, street, city, county, state, postalcode, and country) (<a href="https://github.com/jessecambon/tidygeocoder/issues/53"><a href='https://github.com/jessecambon/tidygeocoder/issues/53'>#53</a></a>). This behavior can be toggled with the new <code>param_error</code> parameter in <code><a href="../reference/geo.html">geo()</a></code> (or <code><a href="../reference/geocode.html">geocode()</a></code>).</li>
+<li>Leading zeros on Census FIPs geography columns are now preserved (<a href="https://github.com/jessecambon/tidygeocoder/issues/47"><a href='https://github.com/jessecambon/tidygeocoder/issues/47'>#47</a></a>).</li>
 <li>Bug fix for <code>custom_query</code> argument with Geocodio batch geocoding (<a href="https://github.com/jessecambon/tidygeocoder/issues/48"><a href='https://github.com/jessecambon/tidygeocoder/issues/48'>#48</a></a>).</li>
 <li>Bug fix for vctrs datatype error with cascade method (<a href="https://github.com/jessecambon/tidygeocoder/issues/49"><a href='https://github.com/jessecambon/tidygeocoder/issues/49'>#49</a></a>).</li>
 <li>Per CRAN request, <code><a href="https://rdrr.io/r/base/order.html">order()</a></code> is no longer called on data frames (<a href="https://github.com/jessecambon/tidygeocoder/issues/57"><a href='https://github.com/jessecambon/tidygeocoder/issues/57'>#57</a></a>).</li>
-<li>Added more comprehensive testing for internal package functions (<a href="https://github.com/jessecambon/tidygeocoder/issues/58"><a href='https://github.com/jessecambon/tidygeocoder/issues/58'>#58</a></a>).</li>
+<li>Added more comprehensive testing for internal package functions such as package_addresses, unpackage_addresses, and get_api_query (<a href="https://github.com/jessecambon/tidygeocoder/issues/58"><a href='https://github.com/jessecambon/tidygeocoder/issues/58'>#58</a></a>).</li>
 </ul>
 </div>
     <div id="tidygeocoder-101" class="section level1">

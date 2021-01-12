@@ -66,11 +66,11 @@ devtools::install_github("jessecambon/tidygeocoder")
 ## Geocoder Services
 
 The supported geocoder services are shown in the table below with their
-geographic limitations, if have batch geocoding capabilities (geocoding
+geographic limitations, if they support batch geocoding (geocoding
 multiple addresses in a single query), if an API key is required, and
-the usage rate limitations. Refer to each geocoder service’s website for
-the most up-to-date details on costs, capabilities, and usage
-limitations.
+the usage rate limitations. Refer to the website for each geocoder
+service for the most up-to-date details on costs, capabilities, and
+usage limitations.
 
 | Service                                                                       | Geography     | Batch Geocoding | API Key Required | Query Rate Limit        |
 | ----------------------------------------------------------------------------- | ------------- | --------------- | ---------------- | ----------------------- |
