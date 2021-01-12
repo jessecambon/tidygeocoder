@@ -1,9 +1,9 @@
 # tidygeocoder 1.0.1.9000
-* Added support for the Google geocoder service ([#34](https://github.com/jessecambon/tidygeocoder/issues/34))
+* Added support for the Google geocoder service ([#34](https://github.com/jessecambon/tidygeocoder/issues/34)).
+* Added checks for parameters passed to geocoder services (limit, address, street, city, county, state, postalcode, and country) ([#53](https://github.com/jessecambon/tidygeocoder/issues/53)). By default, an error is now thrown if an invalid parameter is used for the selected geocoder service. This behavior can be toggled with the new `param_error` parameter in `geo()` (or `geocode()`).
+* Preserve leading zeros on Census FIPs geography columns ([#47](https://github.com/jessecambon/tidygeocoder/issues/47)).
 * Bug fix for `custom_query` argument with Geocodio batch geocoding ([#48](https://github.com/jessecambon/tidygeocoder/issues/48)).
 * Bug fix for vctrs datatype error with cascade method ([#49](https://github.com/jessecambon/tidygeocoder/issues/49)).
-* Added checks for parameters (address, limit, street, city, etc.) passed to geocoder services ([#53](https://github.com/jessecambon/tidygeocoder/issues/53)). By default, an error is now thrown if an invalid address or limit parameter is used for the selected geocoder service. This behavior can be toggled with the new `param_error` parameter in `geo()`.
-* Preserve leading zeros on Census FIPs geography columns ([#47](https://github.com/jessecambon/tidygeocoder/issues/47)).
 * Per CRAN request, `order()` is no longer called on data frames ([#57](https://github.com/jessecambon/tidygeocoder/issues/57)).
 * Added more comprehensive testing for internal package functions ([#58](https://github.com/jessecambon/tidygeocoder/issues/58)).
 

@@ -14,15 +14,14 @@ test_that("Check API Parameter Reference Dataset", {
 
 # Check the package_addresses() and unpackage_addresses() functions
 # with some duplicate addresses
-test_that("Test Duplicate Address Handling", {
+test_that("Test Duplicate and Blank/NA Address Handling", {
   
-  # duplicate addresses
-  dup_addresses <- rep(sample_addresses$addr, 2)
+  messy_addresses <- c('','', NA, sample_addresses$addr, NA, '', NA, sample_addresses$addr)
   
-  addr_pack <- tidygeocoder:::package_addresses(address = dup_addresses)
+  addr_pack <- tidygeocoder:::package_addresses(address = messy_addresses)
   
   # create NA lat lng fields
-  results <- tidygeocoder::geo(dup_addresses, no_query = TRUE)[, c('lat', 'long')]
+  results <- tidygeocoder::geo(messy_addresses, no_query = TRUE, unique_only = TRUE)[, c('lat', 'long')]
   
   unpacked <- tidygeocoder:::unpackage_addresses(addr_pack, results, return_addresses = TRUE)
   
@@ -33,9 +32,9 @@ test_that("Test Duplicate Address Handling", {
   expect_true(tibble::is_tibble(addr_pack$crosswalk))
   
   # check number of rows in datasets
-  expect_equal(nrow(addr_pack$unique), nrow(sample_addresses))
-  expect_equal(nrow(addr_pack$crosswalk), length(dup_addresses))
-  expect_equal(nrow(unpacked), length(dup_addresses))
+  expect_equal(nrow(addr_pack$unique), length(unique(messy_addresses[!(messy_addresses %in% c(NA, ''))])))
+  expect_equal(nrow(addr_pack$crosswalk), length(messy_addresses))
+  expect_equal(nrow(unpacked), length(messy_addresses))
   
   # check output column names
   expect_equal(colnames(unpacked), c('address', colnames(results)))

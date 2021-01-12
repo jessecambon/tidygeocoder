@@ -56,6 +56,14 @@ test_that("geocode null/empty addresses", {
   # make sure geo_method is NA when address is NA
   expect_equal(nrow(result), nrow(NA_data)) # check dataframe length
   expect_equal(nrow(geocode(NA_data, addr, method = 'google', no_query = TRUE)), nrow(NA_data))
+  
+  # Test batch limit
+  expect_message(batch_limit_results1 <- geo(address = as.character(seq(1, 10)), 
+                method = 'census', batch_limit = 5, no_query = TRUE))
+  expect_equal(10, nrow(batch_limit_results1))
+  
+  expect_message(geo(address = as.character(seq(1, 10)), 
+     method = 'census', batch_limit = 5, no_query = TRUE, unique_only = TRUE))
 })
 
 test_that("Test geo() error handling", {

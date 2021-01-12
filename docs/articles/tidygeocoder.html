@@ -128,7 +128,7 @@
 <span class="co">#&gt; benchmark : "Public_AR_Current"</span>
 <span class="co">#&gt; vintage : "Current_Current"</span>
 <span class="co">#&gt; </span>
-<span class="co">#&gt; Query completed in: 0.9 seconds</span>
+<span class="co">#&gt; Query completed in: 1.5 seconds</span>
 <span class="co">#&gt; # A tibble: 2 x 3</span>
 <span class="co">#&gt;   singlelineaddress                           lat  long</span>
 <span class="co">#&gt;   &lt;chr&gt;                                     &lt;dbl&gt; &lt;dbl&gt;</span>
@@ -180,7 +180,7 @@
 <span class="co">#&gt; $ singlelineaddress &lt;chr&gt; "11 Wall St, NY, NY", "600 Peachtree Street NE, Atl…</span>
 <span class="co">#&gt; $ lat               &lt;dbl&gt; 40.70747, 33.77085</span>
 <span class="co">#&gt; $ long              &lt;dbl&gt; -74.01122, -84.38505</span>
-<span class="co">#&gt; $ id                &lt;chr&gt; "1", "2"</span>
+<span class="co">#&gt; $ id                &lt;int&gt; 1, 2</span>
 <span class="co">#&gt; $ input_address     &lt;chr&gt; "11 Wall St, NY, NY, , , ", "600 Peachtree Street N…</span>
 <span class="co">#&gt; $ match_indicator   &lt;chr&gt; "Match", "Match"</span>
 <span class="co">#&gt; $ match_type        &lt;chr&gt; "Exact", "Non_Exact"</span>
@@ -189,8 +189,8 @@
 <span class="co">#&gt; $ tiger_side        &lt;chr&gt; "R", "L"</span>
 <span class="co">#&gt; $ state_fips        &lt;chr&gt; "36", "13"</span>
 <span class="co">#&gt; $ county_fips       &lt;chr&gt; "061", "121"</span>
-<span class="co">#&gt; $ census_tract      &lt;chr&gt; "000700", "001900"</span>
-<span class="co">#&gt; $ census_block      &lt;chr&gt; "1008", "2003"</span></code></pre></div>
+<span class="co">#&gt; $ census_tract      &lt;chr&gt; "000700", "001902"</span>
+<span class="co">#&gt; $ census_block      &lt;chr&gt; "1004", "2003"</span></code></pre></div>
 <p>As mentioned earlier, the <code><a href="../reference/geocode.html">geocode()</a></code> function passes addresses in dataframes to the <code><a href="../reference/geo.html">geo()</a></code> function for geocoding so we can also directly use <code><a href="../reference/geo.html">geo()</a></code> function in a similar way:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">salz</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/geo.html">geo</a></span><span class="op">(</span><span class="st">'Salzburg, Austria'</span>, method <span class="op">=</span> <span class="st">'osm'</span>, full_results <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
@@ -230,7 +230,7 @@
 <span class="co">#&gt; benchmark : "Public_AR_Current"</span>
 <span class="co">#&gt; vintage : "Current_Current"</span>
 <span class="co">#&gt; </span>
-<span class="co">#&gt; Query completed in: 0.6 seconds</span>
+<span class="co">#&gt; Query completed in: 1.2 seconds</span>
 
 <span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span><span class="op">(</span><span class="va">duplicates_geocoded</span><span class="op">)</span></code></pre></div>
 <table class="table">
@@ -322,7 +322,7 @@
 <span class="co">#&gt; polygon_geojson : "1"</span>
 <span class="co">#&gt; format : "json"</span>
 <span class="co">#&gt; </span>
-<span class="co">#&gt; Query completed in: 0.2 seconds</span>
+<span class="co">#&gt; Query completed in: 0.3 seconds</span>
 <span class="co">#&gt; Total query time (including sleep): 1 seconds</span>
 <span class="co">#&gt; </span>
 <span class="fu"><a href="https://tibble.tidyverse.org/reference/glimpse.html">glimpse</a></span><span class="op">(</span><span class="va">cairo_geo</span><span class="op">)</span>

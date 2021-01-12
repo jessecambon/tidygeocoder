@@ -293,7 +293,9 @@ If FALSE then only longitude and latitude are returned from the geocoder service
     </tr>
     <tr>
       <th>return_addresses</th>
-      <td><p>return input addresses with results if TRUE</p></td>
+      <td><p>return input addresses with results if TRUE. Note that
+most services return the input addresses with full_results = TRUE and setting
+return_addresses to FALSE does not prevent this.</p></td>
     </tr>
     <tr>
       <th>flatten</th>
@@ -339,8 +341,8 @@ for the 'geocodio' method.</p></td>
     <tr>
       <th>param_error</th>
       <td><p>if TRUE then an error will be thrown if the limit or address 
-parameters (address, street, city, etc.) are invalid for the geocoder
-service being used (method). If method = 'cascade' then no errors will be thrown.</p></td>
+parameters (address, street, city, etc.) are invalid for the selected geocoder
+service (method). If method = 'cascade' then no errors will be thrown regardless.</p></td>
     </tr>
     </table>
 

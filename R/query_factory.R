@@ -189,6 +189,15 @@ display_query <- function(api_url, api_query_parameters) {
 
 # Get the legal generic parameters (ie. address, city, limit, etc.)
 # for a method (don't call with method = 'cascade')
-get_generic_parameters <- function(method) {
-  return(tidygeocoder::api_parameter_reference[which(tidygeocoder::api_parameter_reference[['method']] == method), ][['generic_name']])
+# if address_only = TRUE then limit to address parameters (street, city, address, etc.)
+get_generic_parameters <- function(method, address_only = FALSE) {
+
+  all_params <- tidygeocoder::api_parameter_reference[which(tidygeocoder::api_parameter_reference[['method']] == method), ][['generic_name']]
+  
+  if (address_only == TRUE) {
+    return(all_params[all_params %in% pkg.globals$address_arg_names])
+  } else {
+    return(all_params)
+  }
+  
 }

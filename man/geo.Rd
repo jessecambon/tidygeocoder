@@ -105,7 +105,9 @@ If FALSE then only longitude and latitude are returned from the geocoder service
 
 \item{unique_only}{only return results for unique addresses if TRUE}
 
-\item{return_addresses}{return input addresses with results if TRUE}
+\item{return_addresses}{return input addresses with results if TRUE. Note that
+most services return the input addresses with full_results = TRUE and setting
+return_addresses to FALSE does not prevent this.}
 
 \item{flatten}{if TRUE then any nested dataframes in results are flattened if possible.
 Note that Geocodio batch geocoding results are flattened regardless.}
@@ -134,8 +136,8 @@ is the default.}
 for the 'geocodio' method.}
 
 \item{param_error}{if TRUE then an error will be thrown if the limit or address 
-parameters (address, street, city, etc.) are invalid for the geocoder
-service being used (method). If method = 'cascade' then no errors will be thrown.}
+parameters (address, street, city, etc.) are invalid for the selected geocoder
+service (method). If method = 'cascade' then no errors will be thrown regardless.}
 }
 \value{
 parsed geocoding results in tibble format
