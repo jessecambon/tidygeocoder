@@ -51,18 +51,10 @@ geocode_google1
 
 ```{r}
 geocode_google1_notflat <- sample1 %>% slice(1,2,4,5) %>%
-  geocode(address = address, method = 'google', full_results = TRUE, verbose = TRUE, flatten = FALSE)
+  geocode(address = address, method = 'google', full_results = TRUE, verbose = TRUE, flatten = FALSE, unique_only = TRUE)
 geocode_google1_notflat
 ```
 
-
-
-```{r}
-
-geocode_google2 <- sample2 %>% 
-  geocode(address = address1, method = 'google', full_results = TRUE, verbose = TRUE)
-geocode_google2
-```
 
 
 

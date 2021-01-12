@@ -108,7 +108,7 @@ library(ggplot2)
 library(maps)
 library(ggrepel)
 
-ggplot(lat_longs, aes(longitude, latitude), color="grey99") +
+ggplot(lat_longs, aes(longitude, latitude), color = "grey99") +
   borders("state") + geom_point() + 
   geom_label_repel(aes(label = name)) + 
   theme_void()

@@ -133,7 +133,7 @@ library(ggplot2)
 library(maps)
 library(ggrepel)
 
-ggplot(lat_longs, aes(longitude, latitude), color="grey99") +
+ggplot(lat_longs, aes(longitude, latitude), color = "grey99") +
   borders("state") + geom_point() + 
   geom_label_repel(aes(label = name)) + 
   theme_void()
@@ -157,7 +157,7 @@ glimpse(full)
 #> $ addr            <chr> "1600 Pennsylvania Ave, Washington, DC", "600 Montgom…
 #> $ lat             <dbl> 38.89875, 37.79470, 41.87851
 #> $ long            <dbl> -77.03535, -122.40314, -87.63666
-#> $ id              <chr> "1", "2", "3"
+#> $ id              <int> 1, 2, 3
 #> $ input_address   <chr> "1600 Pennsylvania Ave, Washington, DC, , , ", "600 M…
 #> $ match_indicator <chr> "Match", "Match", "Match"
 #> $ match_type      <chr> "Non_Exact", "Exact", "Exact"
@@ -166,8 +166,8 @@ glimpse(full)
 #> $ tiger_side      <chr> "L", "R", "L"
 #> $ state_fips      <chr> "11", "06", "17"
 #> $ county_fips     <chr> "001", "075", "031"
-#> $ census_tract    <chr> "006202", "061100", "839100"
-#> $ census_block    <chr> "1031", "1013", "2006"
+#> $ census_tract    <chr> "980000", "061101", "839100"
+#> $ census_block    <chr> "1034", "2014", "2008"
 ```
 
 For further documentation, refer to the [Getting Started

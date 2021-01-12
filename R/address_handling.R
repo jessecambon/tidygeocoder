@@ -69,10 +69,6 @@ package_addresses <- function(address = NULL,
 # @export
 unpackage_addresses <- function(package, results, unique_only = FALSE, return_addresses = FALSE) {
   
-  if (nrow(results) != nrow(package$unique)) {
-    stop('Number of results do not match number of addresses.')
-  }
-  
   # Add addresses to results if we are returning them
   if (return_addresses == TRUE) results <- cbind(package$unique, results)
   

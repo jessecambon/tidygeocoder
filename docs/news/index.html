@@ -134,11 +134,11 @@
 <a href="#tidygeocoder-1019000" class="anchor"></a>tidygeocoder 1.0.1.9000<small> Unreleased </small>
 </h1>
 <ul>
-<li>Added support for the Google geocoder service (<a href="https://github.com/jessecambon/tidygeocoder/issues/34"><a href='https://github.com/jessecambon/tidygeocoder/issues/34'>#34</a></a>)</li>
+<li>Added support for the Google geocoder service (<a href="https://github.com/jessecambon/tidygeocoder/issues/34"><a href='https://github.com/jessecambon/tidygeocoder/issues/34'>#34</a></a>).</li>
+<li>Added checks for parameters passed to geocoder services (limit, address, street, city, county, state, postalcode, and country) (<a href="https://github.com/jessecambon/tidygeocoder/issues/53"><a href='https://github.com/jessecambon/tidygeocoder/issues/53'>#53</a></a>). By default, an error is now thrown if an invalid parameter is used for the selected geocoder service. This behavior can be toggled with the new <code>param_error</code> parameter in <code><a href="../reference/geo.html">geo()</a></code> (or <code><a href="../reference/geocode.html">geocode()</a></code>).</li>
+<li>Preserve leading zeros on Census FIPs geography columns (<a href="https://github.com/jessecambon/tidygeocoder/issues/47"><a href='https://github.com/jessecambon/tidygeocoder/issues/47'>#47</a></a>).</li>
 <li>Bug fix for <code>custom_query</code> argument with Geocodio batch geocoding (<a href="https://github.com/jessecambon/tidygeocoder/issues/48"><a href='https://github.com/jessecambon/tidygeocoder/issues/48'>#48</a></a>).</li>
 <li>Bug fix for vctrs datatype error with cascade method (<a href="https://github.com/jessecambon/tidygeocoder/issues/49"><a href='https://github.com/jessecambon/tidygeocoder/issues/49'>#49</a></a>).</li>
-<li>Added checks for parameters (address, limit, street, city, etc.) passed to geocoder services (<a href="https://github.com/jessecambon/tidygeocoder/issues/53"><a href='https://github.com/jessecambon/tidygeocoder/issues/53'>#53</a></a>). By default, an error is now thrown if an invalid address or limit parameter is used for the selected geocoder service. This behavior can be toggled with the new <code>param_error</code> parameter in <code><a href="../reference/geo.html">geo()</a></code>.</li>
-<li>Preserve leading zeros on Census FIPs geography columns (<a href="https://github.com/jessecambon/tidygeocoder/issues/47"><a href='https://github.com/jessecambon/tidygeocoder/issues/47'>#47</a></a>).</li>
 <li>Per CRAN request, <code><a href="https://rdrr.io/r/base/order.html">order()</a></code> is no longer called on data frames (<a href="https://github.com/jessecambon/tidygeocoder/issues/57"><a href='https://github.com/jessecambon/tidygeocoder/issues/57'>#57</a></a>).</li>
 <li>Added more comprehensive testing for internal package functions (<a href="https://github.com/jessecambon/tidygeocoder/issues/58"><a href='https://github.com/jessecambon/tidygeocoder/issues/58'>#58</a></a>).</li>
 </ul>

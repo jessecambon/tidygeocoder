@@ -188,9 +188,9 @@ geo <- function(address = NULL,
   num_unique_addresses <- nrow(address_pack$unique) # unique addresses
   # determine how many rows will be returned (either unique or includes duplicate address rows)
   # num_rows_to_return <- ifelse(unique_only, num_unique_addresses, nrow(address_pack$crosswalk))
-  num_rows_to_return <- num_unique_addresses # used for na values
+  #num_rows_to_return <- num_unique_addresses # used for na values
   
-  NA_value <- get_na_value(lat, long, rows = num_rows_to_return) # filler result to return if needed
+  NA_value <- get_na_value(lat, long, rows = num_unique_addresses) # filler result to return if needed
   
   if (verbose == TRUE) message(paste0('Number of Unique Addresses: ', num_unique_addresses))
   
@@ -301,20 +301,30 @@ geo <- function(address = NULL,
     # Enforce batch limit if needed
     if (num_unique_addresses > batch_limit) {
       message(paste0('Limiting batch query to ', format(batch_limit, big.mark = ','), ' addresses'))
-      address_pack$unique <- address_pack$unique[1:batch_limit, ]
-      num_rows_to_return <- batch_limit
+      batch_addresses <-  address_pack$unique[1:batch_limit, ]
+    } else {
+      batch_addresses <- address_pack$unique
     }
-      
-    if (verbose == TRUE) message(paste0('Passing ', num_unique_addresses, 
+    
+    if (verbose == TRUE) message(paste0('Passing ', 
+      format(min(batch_limit, num_unique_addresses), big.mark = ','), 
                           ' addresses to the ', method, ' batch geocoder'))
+    
     # Convert our generic query parameters into parameters specific to our API (method)
     if (no_query == TRUE) return(unpackage_addresses(address_pack, 
-         get_na_value(lat, long, rows = num_rows_to_return), 
+         get_na_value(lat, long, rows = num_unique_addresses), 
          unique_only, return_addresses))
     
     # call the appropriate function for batch geocoding according the the batch_func_map named list
-    batch_results <- do.call(batch_func_map[[method]], c(list(address_pack),
-            all_args[!names(all_args) %in% pkg.globals$address_arg_names]))
+    # if batch limit was exceeded then apply that limit
+    batch_results <- do.call(batch_func_map[[method]], c(list(batch_addresses),
+          all_args[!names(all_args) %in% pkg.globals$address_arg_names]))
+    
+    # Add NA results if batch limit was reached so rows match up
+    if (num_unique_addresses > batch_limit) {
+      batch_filler <- get_na_value(lat, long, rows = num_unique_addresses - batch_limit)
+      batch_results <- dplyr::bind_rows(batch_results, batch_filler)
+    }
     
     # if verbose = TRUE, tell user how long batch query took
     if (verbose == TRUE) {

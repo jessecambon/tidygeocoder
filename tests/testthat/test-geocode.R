@@ -59,8 +59,8 @@ test_that("geocode null/empty addresses", {
   
   # Test batch limit
   expect_message(batch_limit_results1 <- geo(address = as.character(seq(1, 10)), 
-                method = 'census', batch_limit = 5, no_query = TRUE, unique_only = TRUE))
-  expect_equal(5, nrow(batch_limit_results1))
+                method = 'census', batch_limit = 5, no_query = TRUE))
+  expect_equal(10, nrow(batch_limit_results1))
   
   expect_message(geo(address = as.character(seq(1, 10)), 
      method = 'census', batch_limit = 5, no_query = TRUE, unique_only = TRUE))
