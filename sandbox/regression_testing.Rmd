@@ -56,6 +56,9 @@ geocode_google1_notflat
 ```
 
 
+```{r}
+cascade_r1 <- geo(c('', NA, sample_addresses$addr, NA, ''), method = 'cascade', cascade_order = c('census', 'geocodio'), verbose = T)
+```
 
 
 ```{r}

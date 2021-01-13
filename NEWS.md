@@ -4,8 +4,8 @@
 * Leading zeros on Census FIPs geography columns are now preserved ([#47](https://github.com/jessecambon/tidygeocoder/issues/47)).
 * Bug fix for `custom_query` argument with Geocodio batch geocoding ([#48](https://github.com/jessecambon/tidygeocoder/issues/48)).
 * Bug fix for vctrs datatype error with cascade method ([#49](https://github.com/jessecambon/tidygeocoder/issues/49)).
-* Per CRAN request, `order()` is no longer called on data frames ([#57](https://github.com/jessecambon/tidygeocoder/issues/57)).
 * Added more comprehensive testing for internal package functions such as package_addresses, unpackage_addresses, and get_api_query ([#58](https://github.com/jessecambon/tidygeocoder/issues/58)).
+* Per CRAN request, `order()` is no longer called on data frames ([#57](https://github.com/jessecambon/tidygeocoder/issues/57)).
 
 # tidygeocoder 1.0.1
 * Fixed an issue that prevented installation on R < 4.0. ([#35](https://github.com/jessecambon/tidygeocoder/issues/35)).
