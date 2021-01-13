@@ -109,9 +109,9 @@ usage_limit_map <- list(
 #' @param iq_region 'us' (default) or 'eu'. Used for establishing API URL for the 'iq' method
 #' @param geocodio_v version of geocodio api. 1.6 is default. Used for establishing API URL
 #'   for the 'geocodio' method.
-#' @param param_error if TRUE then an error will be thrown if the limit or address 
-#'  parameters (address, street, city, etc.) are invalid for the selected geocoder
-#'  service (method). If method = 'cascade' then no errors will be thrown regardless.
+#' @param param_error if TRUE then an error will be thrown if certain parameters are invalid for the selected geocoder
+#'   service (method). The parameters checked are limit, address, street, city, county, state, postalcode, and country.
+#'   If method = 'cascade' then no errors will be thrown.
 #' 
 #' @return parsed geocoding results in tibble format
 #' @examples
