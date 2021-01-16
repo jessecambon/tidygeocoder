@@ -18,6 +18,16 @@ sample2 <- tibble(street = c('1600 Pennsylvania Ave NW', '11 Wall Street', ''),
   city = c('Washington', 'New York', 'Nashville'), state = c('DC', 'NY', 'TN'))
 ```
 
+
+```{r}
+# test batch limit
+batch_lim_test <- sample1 %>%
+  geocode(address, verbose = F, batch_limit = 1)
+
+batch_lim_test
+```
+
+
 ```{r}
 louisville_check <- louisville %>% 
   geocode(street = street, city = city, state = state, postalcode = zip, verbose = TRUE, full_results = TRUE) %>%
@@ -58,6 +68,7 @@ geocode_google1_notflat
 
 ```{r}
 cascade_r1 <- geo(c('', NA, sample_addresses$addr, NA, ''), method = 'cascade', cascade_order = c('census', 'geocodio'), verbose = T)
+cascade_r1
 ```
 
 
@@ -69,7 +80,7 @@ gc1
 
 ```{r}
 iq1 <- geocode_geocodio1 <- sample1 %>% 
-  geocode(address = address, method = 'iq', full_results = TRUE, verbose = TRUE)
+  geocode(address = address, method = 'iq', full_results = TRUE, verbose = TRUE, unique_only = TRUE)
 iq1
 ```
 
