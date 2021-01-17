@@ -8,15 +8,15 @@ citHeader("To cite tidygeocoder in publications use:")
 citEntry(
   entry = "Misc",
   title = "tidygeocoder: Geocoding Made Easy",
-  author = personList(as.person("Jesse Cambon")),
-  year = "2020",
-  month = "aug",
+  author = personList(as.person("Jesse Cambon"), as.person("Christopher Belanger")),
+  year = "2021",
+  month = "jan",
   publisher = "Zenodo",
-  note = "R package version 1.0.1",
+  note = "R package version 1.0.2",
   url = "https://CRAN.R-project.org/package=tidygeocoder",
   doi = doi_url,
   textVersion = paste(
-     "Jesse Cambon. (2020, August 12).",
-     "Tidygeocoder (Version v1.0.1). Zenodo.",
+     "Jesse Cambon. (2021, January).",
+     "Tidygeocoder (Version v1.0.2). Zenodo.",
      doi_url)
 )

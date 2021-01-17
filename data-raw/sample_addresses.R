@@ -7,7 +7,7 @@ sample_addresses <- tibble::tribble(
    "Transamerica Pyramid",       "600 Montgomery St, San Francisco, CA 94111",
    "NY Stock Exchange",          "11 Wall Street, New York, New York",
    "Willis Tower",               "233 S Wacker Dr, Chicago, IL 60606",
-   "Château Frontenac",          "1 Rue des Carrières, Québec, QC G1R 4P5, Canada",  
+   "Chateau Frontenac",          "1 Rue des Carrieres, Quebec, QC G1R 4P5, Canada",  
    "Nashville",                  "Nashville, TN" ,
    "Nairobi",                    "Nairobi, Kenya",
    "Istanbul",                   "Istanbul, Turkey",
