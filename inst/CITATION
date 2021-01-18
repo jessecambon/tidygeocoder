@@ -1,7 +1,7 @@
 # http://r-pkgs.had.co.nz/inst.html#inst-citation
 # https://zenodo.org/record/3981510#.XzS95nVKiV5
 
-doi_url <- "http://doi.org/10.5281/zenodo.3981510"
+tidygeocoder_doi <- "10.5281/zenodo.3981510"
 
 citHeader("To cite tidygeocoder in publications use:")
 
@@ -14,9 +14,9 @@ citEntry(
   publisher = "Zenodo",
   note = "R package version 1.0.2",
   url = "https://CRAN.R-project.org/package=tidygeocoder",
-  doi = doi_url,
+  doi = tidygeocoder_doi,
   textVersion = paste(
      "Jesse Cambon. (2021, January).",
      "Tidygeocoder (Version v1.0.2). Zenodo.",
-     doi_url)
+     tidygeocoder_doi)
 )
