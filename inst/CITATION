@@ -1,7 +1,7 @@
 # http://r-pkgs.had.co.nz/inst.html#inst-citation
 # https://zenodo.org/record/3981510#.XzS95nVKiV5
 
-tidygeocoder_doi <- "10.5281/zenodo.3981510"
+tidygeocoder_doi <- "10.5281/zenodo.4448251"
 
 citHeader("To cite tidygeocoder in publications use:")
 
