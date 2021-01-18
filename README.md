@@ -66,11 +66,11 @@ devtools::install_github("jessecambon/tidygeocoder")
 ## Geocoder Services
 
 The supported geocoder services are shown in the table below with their
-geographic limitations, if have batch geocoding capabilities (geocoding
+geographic limitations, if they support batch geocoding (geocoding
 multiple addresses in a single query), if an API key is required, and
-the usage rate limitations. Refer to each geocoder service’s website for
-the most up-to-date details on costs, capabilities, and usage
-limitations.
+the usage rate limitations. Refer to the website for each geocoder
+service for the most up-to-date details on costs, capabilities, and
+usage limitations.
 
 | Service                                                                       | Geography     | Batch Geocoding | API Key Required | Query Rate Limit        |
 | ----------------------------------------------------------------------------- | ------------- | --------------- | ---------------- | ----------------------- |
@@ -104,7 +104,7 @@ library(tidygeocoder)
 # create a dataframe with addresses
 some_addresses <- tribble(
 ~name,                  ~addr,
-"White House",          "1600 Pennsylvania Ave, Washington, DC",
+"White House",          "1600 Pennsylvania Ave NW, Washington, DC",
 "Transamerica Pyramid", "600 Montgomery St, San Francisco, CA 94111",     
 "Willis Tower",         "233 S Wacker Dr, Chicago, IL 60606"                                  
 )
@@ -121,7 +121,7 @@ other services can be specified with the `method` argument. See the
 
 | name                 | addr                                       | latitude |   longitude |
 | :------------------- | :----------------------------------------- | -------: | ----------: |
-| White House          | 1600 Pennsylvania Ave, Washington, DC      | 38.89875 |  \-77.03535 |
+| White House          | 1600 Pennsylvania Ave NW, Washington, DC   | 38.89875 |  \-77.03535 |
 | Transamerica Pyramid | 600 Montgomery St, San Francisco, CA 94111 | 37.79470 | \-122.40314 |
 | Willis Tower         | 233 S Wacker Dr, Chicago, IL 60606         | 41.87851 |  \-87.63666 |
 
@@ -154,14 +154,14 @@ glimpse(full)
 #> Rows: 3
 #> Columns: 15
 #> $ name            <chr> "White House", "Transamerica Pyramid", "Willis Tower"
-#> $ addr            <chr> "1600 Pennsylvania Ave, Washington, DC", "600 Montgom…
+#> $ addr            <chr> "1600 Pennsylvania Ave NW, Washington, DC", "600 Mont…
 #> $ lat             <dbl> 38.89875, 37.79470, 41.87851
 #> $ long            <dbl> -77.03535, -122.40314, -87.63666
 #> $ id              <int> 1, 2, 3
-#> $ input_address   <chr> "1600 Pennsylvania Ave, Washington, DC, , , ", "600 M…
+#> $ input_address   <chr> "1600 Pennsylvania Ave NW, Washington, DC, , , ", "60…
 #> $ match_indicator <chr> "Match", "Match", "Match"
-#> $ match_type      <chr> "Non_Exact", "Exact", "Exact"
-#> $ matched_address <chr> "1600 PENNSYLVANIA AVE NW, WASHINGTON, DC, 20006", "6…
+#> $ match_type      <chr> "Exact", "Exact", "Exact"
+#> $ matched_address <chr> "1600 PENNSYLVANIA AVE NW, WASHINGTON, DC, 20500", "6…
 #> $ tiger_line_id   <chr> "76225813", "192281262", "112050003"
 #> $ tiger_side      <chr> "L", "R", "L"
 #> $ state_fips      <chr> "11", "06", "17"

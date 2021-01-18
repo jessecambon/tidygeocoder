@@ -33,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">tidygeocoder</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.1.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.2</span>
       </span>
     </div>
 
@@ -113,7 +113,7 @@
 <div id="geocoder-services" class="section level2">
 <h2 class="hasAnchor">
 <a href="#geocoder-services" class="anchor"></a>Geocoder Services</h2>
-<p>The supported geocoder services are shown in the table below with their geographic limitations, if have batch geocoding capabilities (geocoding multiple addresses in a single query), if an API key is required, and the usage rate limitations. Refer to each geocoder service’s website for the most up-to-date details on costs, capabilities, and usage limitations.</p>
+<p>The supported geocoder services are shown in the table below with their geographic limitations, if they support batch geocoding (geocoding multiple addresses in a single query), if an API key is required, and the usage rate limitations. Refer to the website for each geocoder service for the most up-to-date details on costs, capabilities, and usage limitations.</p>
 <table class="table">
 <thead><tr class="header">
 <th>Service</th>
@@ -179,7 +179,7 @@
 <span class="co"># create a dataframe with addresses</span>
 <span class="va">some_addresses</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tribble.html">tribble</a></span><span class="op">(</span>
 <span class="op">~</span><span class="va">name</span>,                  <span class="op">~</span><span class="va">addr</span>,
-<span class="st">"White House"</span>,          <span class="st">"1600 Pennsylvania Ave, Washington, DC"</span>,
+<span class="st">"White House"</span>,          <span class="st">"1600 Pennsylvania Ave NW, Washington, DC"</span>,
 <span class="st">"Transamerica Pyramid"</span>, <span class="st">"600 Montgomery St, San Francisco, CA 94111"</span>,     
 <span class="st">"Willis Tower"</span>,         <span class="st">"233 S Wacker Dr, Chicago, IL 60606"</span>                                  
 <span class="op">)</span>
@@ -204,7 +204,7 @@
 <tbody>
 <tr class="odd">
 <td align="left">White House</td>
-<td align="left">1600 Pennsylvania Ave, Washington, DC</td>
+<td align="left">1600 Pennsylvania Ave NW, Washington, DC</td>
 <td align="right">38.89875</td>
 <td align="right">-77.03535</td>
 </tr>
@@ -242,14 +242,14 @@
 <span class="co">#&gt; Rows: 3</span>
 <span class="co">#&gt; Columns: 15</span>
 <span class="co">#&gt; $ name            &lt;chr&gt; "White House", "Transamerica Pyramid", "Willis Tower"</span>
-<span class="co">#&gt; $ addr            &lt;chr&gt; "1600 Pennsylvania Ave, Washington, DC", "600 Montgom…</span>
+<span class="co">#&gt; $ addr            &lt;chr&gt; "1600 Pennsylvania Ave NW, Washington, DC", "600 Mont…</span>
 <span class="co">#&gt; $ lat             &lt;dbl&gt; 38.89875, 37.79470, 41.87851</span>
 <span class="co">#&gt; $ long            &lt;dbl&gt; -77.03535, -122.40314, -87.63666</span>
 <span class="co">#&gt; $ id              &lt;int&gt; 1, 2, 3</span>
-<span class="co">#&gt; $ input_address   &lt;chr&gt; "1600 Pennsylvania Ave, Washington, DC, , , ", "600 M…</span>
+<span class="co">#&gt; $ input_address   &lt;chr&gt; "1600 Pennsylvania Ave NW, Washington, DC, , , ", "60…</span>
 <span class="co">#&gt; $ match_indicator &lt;chr&gt; "Match", "Match", "Match"</span>
-<span class="co">#&gt; $ match_type      &lt;chr&gt; "Non_Exact", "Exact", "Exact"</span>
-<span class="co">#&gt; $ matched_address &lt;chr&gt; "1600 PENNSYLVANIA AVE NW, WASHINGTON, DC, 20006", "6…</span>
+<span class="co">#&gt; $ match_type      &lt;chr&gt; "Exact", "Exact", "Exact"</span>
+<span class="co">#&gt; $ matched_address &lt;chr&gt; "1600 PENNSYLVANIA AVE NW, WASHINGTON, DC, 20500", "6…</span>
 <span class="co">#&gt; $ tiger_line_id   &lt;chr&gt; "76225813", "192281262", "112050003"</span>
 <span class="co">#&gt; $ tiger_side      &lt;chr&gt; "L", "R", "L"</span>
 <span class="co">#&gt; $ state_fips      &lt;chr&gt; "11", "06", "17"</span>
