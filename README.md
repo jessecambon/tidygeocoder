@@ -84,11 +84,11 @@ Note that:
 
   - The US Census service supports street-level addresses only (ie. “11
     Wall St New York, NY” is OK but “New York, NY” is not).
-  - Nominatim (OSM) and Geocodio both support a maximum of 10,000
+  - The US Census and Geocodio services both support a maximum of 10,000
     addresses per batch query.
-  - The Census and OSM services are free while Geocodio and Location IQ
-    are commercial services that offer both free and paid usage tiers.
-    The Google service [bills per
+  - The US Census and OSM services are free while Geocodio and Location
+    IQ are commercial services that offer both free and paid usage
+    tiers. The Google service [bills per
     query](https://developers.google.com/maps/documentation/geocoding/usage-and-billing).
 
 ## Usage
