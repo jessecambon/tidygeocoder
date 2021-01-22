@@ -191,7 +191,7 @@
 <span class="co">#&gt; $ county_fips       &lt;chr&gt; "061", "121"</span>
 <span class="co">#&gt; $ census_tract      &lt;chr&gt; "000700", "001902"</span>
 <span class="co">#&gt; $ census_block      &lt;chr&gt; "1004", "2003"</span></code></pre></div>
-<p>As mentioned earlier, the <code><a href="../reference/geocode.html">geocode()</a></code> function passes addresses in dataframes to the <code><a href="../reference/geo.html">geo()</a></code> function for geocoding so we can also directly use <code><a href="../reference/geo.html">geo()</a></code> function in a similar way:</p>
+<p>As mentioned earlier, the <code><a href="../reference/geocode.html">geocode()</a></code> function passes addresses in dataframes to the <code><a href="../reference/geo.html">geo()</a></code> function for geocoding so we can also directly use the <code><a href="../reference/geo.html">geo()</a></code> function in a similar way:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">salz</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/geo.html">geo</a></span><span class="op">(</span><span class="st">'Salzburg, Austria'</span>, method <span class="op">=</span> <span class="st">'osm'</span>, full_results <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
 <span class="fu"><a href="https://tibble.tidyverse.org/reference/glimpse.html">glimpse</a></span><span class="op">(</span><span class="va">salz</span><span class="op">)</span>
@@ -230,7 +230,7 @@
 <span class="co">#&gt; benchmark : "Public_AR_Current"</span>
 <span class="co">#&gt; vintage : "Current_Current"</span>
 <span class="co">#&gt; </span>
-<span class="co">#&gt; Query completed in: 1.1 seconds</span>
+<span class="co">#&gt; Query completed in: 1.3 seconds</span>
 
 <span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span><span class="op">(</span><span class="va">duplicates_geocoded</span><span class="op">)</span></code></pre></div>
 <table class="table">
@@ -371,8 +371,8 @@
 <p>Here are some additional usage notes for the <code><a href="../reference/geocode.html">geocode()</a></code> and <code><a href="../reference/geo.html">geo()</a></code> functions:</p>
 <ul>
 <li>To specify a custom geocoder API URL, use the <code>api_url</code> argument. Alternatively, the <code>iq_region</code> and <code>geocodio_v</code> arguments are helper functions for customizing the API URL.</li>
-<li>The <code>min_time</code> argument defaults to 1 second for Nominatim (OSM) and Location IQ to abide by usage limits. If you are using a local Nominatim server or have commercial Location IQ plan that has less restrictive usage limits, you can manually set <code>min_time</code> to 0 or a lower value.</li>
-<li>By default batch geocoding will be used if available when more than one address is passed, otherwise single address geocoding will be used. To override this default, use the <code>mode</code> argument.</li>
+<li>If not specified manually, the <code>min_time</code> argument will default to a value based on the maximum query rate of the given geocoder service. If you are using a local Nominatim server or have a commercial geocoder plan that has less restrictive usage limits then you can manually set <code>min_time</code> to a lower valuer (such as 0).</li>
+<li>By default batch geocoding will be used if available when more than one address is provided, otherwise single address geocoding will be used. To override this default, use the <code>mode</code> argument.</li>
 </ul>
 </div>
 <div id="api-reference" class="section level2">

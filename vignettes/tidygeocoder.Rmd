@@ -77,7 +77,7 @@ census_full1 <- address_single %>% geocode(address = singlelineaddress,
 glimpse(census_full1)
 ```
 
-As mentioned earlier, the `geocode()` function passes addresses in dataframes to the `geo()` function for geocoding so we can also directly use `geo()` function in a similar way:
+As mentioned earlier, the `geocode()` function passes addresses in dataframes to the `geo()` function for geocoding so we can also directly use the `geo()` function in a similar way:
 
 ```{r}
 salz <- geo('Salzburg, Austria', method = 'osm', full_results = TRUE)
@@ -134,8 +134,8 @@ geo(c('Vancouver, Canada', 'Las Vegas, NV'), no_query = TRUE,
 Here are some additional usage notes for the `geocode()` and `geo()` functions:
 
 * To specify a custom geocoder API URL, use the `api_url` argument. Alternatively, the `iq_region` and `geocodio_v` arguments are helper functions for customizing the API URL. 
-* The `min_time` argument defaults to 1 second for Nominatim (OSM) and Location IQ to abide by usage limits. If you are using a local Nominatim server or have commercial Location IQ plan that has less restrictive usage limits, you can manually set `min_time` to 0 or a lower value. 
-* By default batch geocoding will be used if available when more than one address is passed, otherwise single address geocoding will be used. To override this default, use the `mode` argument.
+* If not specified manually, the `min_time` argument will default to a value based on the maximum query rate of the given geocoder service. If you are using a local Nominatim server or have a commercial geocoder plan that has less restrictive usage limits then you can manually set `min_time` to a lower valuer (such as 0).
+* By default batch geocoding will be used if available when more than one address is provided, otherwise single address geocoding will be used. To override this default, use the `mode` argument.
 
 ## API Reference
 
