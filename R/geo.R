@@ -14,7 +14,8 @@ usage_limit_map <- list(
   osm = 1,               # 1 query/second             
   geocodio = 60/1000,    # 1000 queries per minute (free tier)
   iq = 1/2,              # 2 queries per second (free tier)
-  google = 1/50          # 50 queries per second
+  google = 1/50,         # 50 queries per second
+  opencage = 1           # 1 query/second 
 )
 
 #' Geocode addresses
@@ -57,6 +58,9 @@ usage_limit_map <- list(
 #'      be stored in the "LOCATIONIQ_API_KEY" environmental variable.
 #'   \item \code{"google"}: Commercial Google geocoder service. Requires an API Key to
 #'      be stored in the "GOOGLEGEOCODE_API_KEY" environmental variable.
+#'   \item \code{"opencage"}: Commercial geocoder with various open data
+#'      sources, e.g. OpenStreetMap. Worldwide coverage. Requires an API Key to 
+#'      be stored in the "OPENCAGE_KEY" environmental variable.
 #'   \item \code{"cascade"} : Attempts to use one geocoder service and then uses
 #'     a second geocoder service if the first service didn't return results.
 #'     The services and order is specified by the cascade_order argument. 
@@ -365,7 +369,8 @@ geo <- function(address = NULL,
                       "osm" = get_osm_url(),
                       "geocodio" = get_geocodio_url(geocodio_v),
                       "iq" = get_iq_url(iq_region),
-                      "google" = get_google_url()
+                      "google" = get_google_url(),
+                      "opencage" = get_opencage_url()
     )
   }
   if (length(api_url) == 0) stop('API URL not found')

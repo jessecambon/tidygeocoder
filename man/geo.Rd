@@ -66,6 +66,9 @@ each geocoder service for usage details and limitations.
      be stored in the "LOCATIONIQ_API_KEY" environmental variable.
   \item \code{"google"}: Commercial Google geocoder service. Requires an API Key to
      be stored in the "GOOGLEGEOCODE_API_KEY" environmental variable.
+  \item \code{"opencage"}: Commercial geocoder with various open data
+     sources, e.g. OpenStreetMap. Worldwide coverage. Requires an API Key to 
+     be stored in the "OPENCAGE_KEY" environmental variable.
   \item \code{"cascade"} : Attempts to use one geocoder service and then uses
     a second geocoder service if the first service didn't return results.
     The services and order is specified by the cascade_order argument. 
