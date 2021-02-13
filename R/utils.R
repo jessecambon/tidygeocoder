@@ -61,7 +61,8 @@ extract_results <- function(method, response, full_results = TRUE, flatten = TRU
     'osm' = response[c('lat', 'lon')],
     'iq' = response[c('lat', 'lon')],
     'geocodio' = response$results$location[c('lat', 'lng')],
-    'google' = response$results$geometry$location[c('lat','lng')]
+    'google' = response$results$geometry$location[c('lat','lng')],
+    'opencage' = response$results$geometry[c('lat', 'lng')]
   )
   
   # if null result then return NA
@@ -81,7 +82,8 @@ extract_results <- function(method, response, full_results = TRUE, flatten = TRU
       'osm' = response[!names(response) %in% c('lat', 'lon')],
       'iq' =  response[!names(response) %in% c('lat', 'lon')],
       'geocodio' = response$results[!names(response$results) %in% c('location')],
-      'google' = response$results
+      'google' = response$results,
+      'opencage' = response$results[!names(response$results) %in% c('geometry')]
     )
     
     combined_results <- tibble::as_tibble(cbind(lat_lng, results))
