@@ -21,6 +21,10 @@ geo_iq <- function(...) geo(method = 'iq', ...)
 #' @export
 geo_google <- function(...) geo(method = 'google', ...)
 
+#'@rdname geo_census
+#' @export
+geo_opencage <- function(...) geo(method = 'opencage', ...)
+
 #' Convenience function for calling the \code{\link{geo}} function
 #' with method = 'cascade'
 #' 
