@@ -35,11 +35,11 @@ data are preserved by default.
 In addition to the usage example below you can refer to the following
 references:
 
-  - [Mapping European soccer club
+-   [Mapping European soccer club
     stadiums](https://jessecambon.github.io/2020/07/15/tidygeocoder-1-0-0.html)
-  - [Mapping Washington, DC
+-   [Mapping Washington, DC
     landmarks](https://jessecambon.github.io/2019/11/11/tidygeocoder-demo.html)
-  - [Getting Started
+-   [Getting Started
     Vignette](https://jessecambon.github.io/tidygeocoder/articles/tidygeocoder.html)
     for more detailed and comprehensive usage examples. The last section
     of the vignette contains a [helpful
@@ -73,22 +73,23 @@ service for the most up-to-date details on costs, capabilities, and
 usage limitations.
 
 | Service                                                                       | Geography     | Batch Geocoding | API Key Required | Query Rate Limit        |
-| ----------------------------------------------------------------------------- | ------------- | --------------- | ---------------- | ----------------------- |
+|-------------------------------------------------------------------------------|---------------|-----------------|------------------|-------------------------|
 | [US Census](https://geocoding.geo.census.gov/)                                | US            | Yes             | No               | N/A                     |
 | [Nominatim (OSM)](https://nominatim.org)                                      | Worldwide     | No              | No               | 1/second                |
 | [Geocodio](https://www.geocod.io/)                                            | US and Canada | Yes             | Yes              | 1000/minute (free tier) |
 | [Location IQ](https://locationiq.com/)                                        | Worldwide     | No              | Yes              | 2/second (free tier)    |
 | [Google](https://developers.google.com/maps/documentation/geocoding/overview) | Worldwide     | No              | Yes              | 50/second               |
+| [OpenCage](https://opencagedata.com)                                          | Worldwide     | No              | Yes              | 1/second (free tier)    |
 
 Note that:
 
-  - The US Census service supports street-level addresses only (ie. “11
+-   The US Census service supports street-level addresses only (ie. “11
     Wall St New York, NY” is OK but “New York, NY” is not).
-  - The US Census and Geocodio services both support a maximum of 10,000
+-   The US Census and Geocodio services both support a maximum of 10,000
     addresses per batch query.
-  - The US Census and OSM services are free while Geocodio and Location
-    IQ are commercial services that offer both free and paid usage
-    tiers. The Google service [bills per
+-   The US Census and OSM services are free while Geocodio, Location IQ
+    and OpenCage are commercial services that offer both free and paid
+    usage tiers. The Google service [bills per
     query](https://developers.google.com/maps/documentation/geocoding/usage-and-billing).
 
 ## Usage
@@ -119,11 +120,11 @@ input dataset of addresses. The US Census geocoder is used here, but
 other services can be specified with the `method` argument. See the
 `geo()` function documentation for details.
 
-| name                 | addr                                       | latitude |   longitude |
-| :------------------- | :----------------------------------------- | -------: | ----------: |
-| White House          | 1600 Pennsylvania Ave NW, Washington, DC   | 38.89875 |  \-77.03535 |
-| Transamerica Pyramid | 600 Montgomery St, San Francisco, CA 94111 | 37.79470 | \-122.40314 |
-| Willis Tower         | 233 S Wacker Dr, Chicago, IL 60606         | 41.87851 |  \-87.63666 |
+| name                 | addr                                       | latitude |  longitude |
+|:---------------------|:-------------------------------------------|---------:|-----------:|
+| White House          | 1600 Pennsylvania Ave NW, Washington, DC   | 38.89875 |  -77.03535 |
+| Transamerica Pyramid | 600 Montgomery St, San Francisco, CA 94111 | 37.79470 | -122.40314 |
+| Willis Tower         | 233 S Wacker Dr, Chicago, IL 60606         | 41.87851 |  -87.63666 |
 
 Now that we have the longitude and latitude coordinates, we can use
 ggplot to plot our addresses on a map.
@@ -154,14 +155,14 @@ glimpse(full)
 #> Rows: 3
 #> Columns: 15
 #> $ name            <chr> "White House", "Transamerica Pyramid", "Willis Tower"
-#> $ addr            <chr> "1600 Pennsylvania Ave NW, Washington, DC", "600 Mont…
+#> $ addr            <chr> "1600 Pennsylvania Ave NW, Washington, DC", "600 Mo...
 #> $ lat             <dbl> 38.89875, 37.79470, 41.87851
 #> $ long            <dbl> -77.03535, -122.40314, -87.63666
 #> $ id              <int> 1, 2, 3
-#> $ input_address   <chr> "1600 Pennsylvania Ave NW, Washington, DC, , , ", "60…
+#> $ input_address   <chr> "1600 Pennsylvania Ave NW, Washington, DC, , , ", "...
 #> $ match_indicator <chr> "Match", "Match", "Match"
 #> $ match_type      <chr> "Exact", "Exact", "Exact"
-#> $ matched_address <chr> "1600 PENNSYLVANIA AVE NW, WASHINGTON, DC, 20500", "6…
+#> $ matched_address <chr> "1600 PENNSYLVANIA AVE NW, WASHINGTON, DC, 20500", ...
 #> $ tiger_line_id   <chr> "76225813", "192281262", "112050003"
 #> $ tiger_side      <chr> "L", "R", "L"
 #> $ state_fips      <chr> "11", "06", "17"
