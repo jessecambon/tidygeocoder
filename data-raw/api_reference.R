@@ -9,10 +9,12 @@
 # Geocodio: https://www.geocod.io/docs/#single-address
 # Census: https://www.census.gov/programs-surveys/geography/technical-documentation/complete-technical-documentation/census-geocoder.html
 # Google: https://developers.google.com/maps/documentation/geocoding/overview
+# OpenCage: https://opencagedata.com/api
 
 ### Usage Policies
 # OSM: https://operations.osmfoundation.org/policies/nominatim/
 # Google: https://developers.google.com/maps/documentation/geocoding/usage-and-billing
+# OpenCage: https://opencagedata.com/pricing
 
 ## Note: generic_name = 'address' is for one-line addresses
 ## If generic_name == NA then that means the parameter is specific to a given API/method
@@ -80,6 +82,15 @@ api_parameter_reference <- tibble::tribble(
 
   'google', 'api_key',      'key',         NA,                  TRUE,
   'google', 'address',      'address',     NA,                  TRUE,
+
+  ######################### OpenCage #################################
+  # OpenCage returns json by default (defined by endpoint in URL) 
+  # OpenCage requires an api_key
+  # OpenCage does not support structured queries (street, city, state, etc.)
+  
+  'opencage', 'api_key',    'key',         NA,                  TRUE,
+  'opencage', 'address',    'q',           NA,                  TRUE,  
+  'opencage', 'limit',      'limit',       '1',                 FALSE,
 )
 
 usethis::use_data(api_parameter_reference, overwrite = TRUE)

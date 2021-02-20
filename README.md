@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file directly and reknit -->
 
-# tidygeocoder <a href='https://jessecambon.github.io/tidygeocoder/'><img src='man/figures/tidygeocoder_hex.png' align="right" height="139" /></a>
+# tidygeocoder <a href='https://jessecambon.github.io/tidygeocoder/'><img src="man/figures/tidygeocoder_hex.png" align="right" height="139"/></a>
 
 <!-- badges: start -->
 
@@ -17,6 +17,7 @@ Downloads](http://cranlogs.r-pkg.org/badges/grand-total/tidygeocoder)](https://C
 Month](http://cranlogs.r-pkg.org/badges/tidygeocoder)](https://cran.r-project.org/package=tidygeocoder)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.4448251.svg)](https://doi.org/10.5281/zenodo.4448251)
 <!--[![Github Stars](https://img.shields.io/github/stars/jessecambon/tidygeocoder?style=social&label=Github)](https://github.com/jessecambon/tidygeocoder) -->
+
 <!-- badges: end -->
 
 ## Introduction
@@ -35,11 +36,11 @@ data are preserved by default.
 In addition to the usage example below you can refer to the following
 references:
 
-  - [Mapping European soccer club
+-   [Mapping European soccer club
     stadiums](https://jessecambon.github.io/2020/07/15/tidygeocoder-1-0-0.html)
-  - [Mapping Washington, DC
+-   [Mapping Washington, DC
     landmarks](https://jessecambon.github.io/2019/11/11/tidygeocoder-demo.html)
-  - [Getting Started
+-   [Getting Started
     Vignette](https://jessecambon.github.io/tidygeocoder/articles/tidygeocoder.html)
     for more detailed and comprehensive usage examples. The last section
     of the vignette contains a [helpful
@@ -73,22 +74,23 @@ service for the most up-to-date details on costs, capabilities, and
 usage limitations.
 
 | Service                                                                       | Geography     | Batch Geocoding | API Key Required | Query Rate Limit        |
-| ----------------------------------------------------------------------------- | ------------- | --------------- | ---------------- | ----------------------- |
+|-------------------------------------------------------------------------------|---------------|-----------------|------------------|-------------------------|
 | [US Census](https://geocoding.geo.census.gov/)                                | US            | Yes             | No               | N/A                     |
 | [Nominatim (OSM)](https://nominatim.org)                                      | Worldwide     | No              | No               | 1/second                |
 | [Geocodio](https://www.geocod.io/)                                            | US and Canada | Yes             | Yes              | 1000/minute (free tier) |
 | [Location IQ](https://locationiq.com/)                                        | Worldwide     | No              | Yes              | 2/second (free tier)    |
 | [Google](https://developers.google.com/maps/documentation/geocoding/overview) | Worldwide     | No              | Yes              | 50/second               |
+| [OpenCage](https://opencagedata.com)                                          | Worldwide     | No              | Yes              | 1/second (free tier)    |
 
 Note that:
 
-  - The US Census service supports street-level addresses only (ie. “11
+-   The US Census service supports street-level addresses only (ie. “11
     Wall St New York, NY” is OK but “New York, NY” is not).
-  - The US Census and Geocodio services both support a maximum of 10,000
+-   The US Census and Geocodio services both support a maximum of 10,000
     addresses per batch query.
-  - The US Census and OSM services are free while Geocodio and Location
-    IQ are commercial services that offer both free and paid usage
-    tiers. The Google service [bills per
+-   The US Census and OSM services are free while Geocodio, Location IQ,
+    and OpenCage are commercial services that offer both free and paid
+    usage tiers. The Google service [bills per
     query](https://developers.google.com/maps/documentation/geocoding/usage-and-billing).
 
 ## Usage
@@ -119,11 +121,11 @@ input dataset of addresses. The US Census geocoder is used here, but
 other services can be specified with the `method` argument. See the
 `geo()` function documentation for details.
 
-| name                 | addr                                       | latitude |   longitude |
-| :------------------- | :----------------------------------------- | -------: | ----------: |
-| White House          | 1600 Pennsylvania Ave NW, Washington, DC   | 38.89875 |  \-77.03535 |
-| Transamerica Pyramid | 600 Montgomery St, San Francisco, CA 94111 | 37.79470 | \-122.40314 |
-| Willis Tower         | 233 S Wacker Dr, Chicago, IL 60606         | 41.87851 |  \-87.63666 |
+| name                 | addr                                       | latitude |  longitude |
+|:---------------------|:-------------------------------------------|---------:|-----------:|
+| White House          | 1600 Pennsylvania Ave NW, Washington, DC   | 38.89875 |  -77.03535 |
+| Transamerica Pyramid | 600 Montgomery St, San Francisco, CA 94111 | 37.79470 | -122.40314 |
+| Willis Tower         | 233 S Wacker Dr, Chicago, IL 60606         | 41.87851 |  -87.63666 |
 
 Now that we have the longitude and latitude coordinates, we can use
 ggplot to plot our addresses on a map.

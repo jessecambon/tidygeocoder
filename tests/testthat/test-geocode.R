@@ -39,6 +39,7 @@ test_that("geocode null/empty addresses", {
   expect_identical(names(geo_cascade(" ", return_addresses = FALSE, no_query = TRUE)), 
                    c('lat', 'long', 'geo_method'))
   expect_identical(geo_google(" ", return_addresses = FALSE, no_query = TRUE), NA_result)
+  expect_identical(geo_opencage(" ", return_addresses = FALSE, no_query = TRUE), NA_result)
   
   # Test with tibble
   NA_data <- tibble::tribble(~addr,
@@ -52,10 +53,12 @@ test_that("geocode null/empty addresses", {
   expected_colnames <- c(colnames(NA_data), 'lat', 'long')
   expect_identical(colnames(result), expected_colnames)
   expect_identical(colnames(geocode(NA_data, addr, method = 'google', no_query = TRUE)), expected_colnames)
+  expect_identical(colnames(geocode(NA_data, addr, method = 'opencage', no_query = TRUE)), expected_colnames)
   
   # make sure geo_method is NA when address is NA
   expect_equal(nrow(result), nrow(NA_data)) # check dataframe length
   expect_equal(nrow(geocode(NA_data, addr, method = 'google', no_query = TRUE)), nrow(NA_data))
+  expect_equal(nrow(geocode(NA_data, addr, method = 'opencage', no_query = TRUE)), nrow(NA_data))
   
   # Test batch limit
   expect_message(batch_limit_results1 <- geo(address = as.character(seq(1, 10)), 

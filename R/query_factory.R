@@ -6,7 +6,8 @@ get_key <- function(method) {
   env_var <- switch(method,
          'geocodio' = "GEOCODIO_API_KEY",
          'iq' = "LOCATIONIQ_API_KEY",
-         'google' = "GOOGLEGEOCODE_API_KEY"
+         'google' = "GOOGLEGEOCODE_API_KEY",
+         'opencage' = "OPENCAGE_KEY"
          )
   # load api key from environmental variable
   key <- Sys.getenv(env_var)
@@ -37,6 +38,8 @@ get_iq_url <- function(region) {
 }
 
 get_google_url <- function() return("https://maps.googleapis.com/maps/api/geocode/json")
+
+get_opencage_url <- function() return("https://api.opencagedata.com/geocode/v1/json")
 
 # API Parameters ----------------------------------------------------------------
 
