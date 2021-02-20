@@ -1,6 +1,6 @@
-# tidygeocoder 1.0.3
+# tidygeocoder 1.0.2.9000
 
--   Added support for the OpenCage geocoder service([\#67](https://github.com/jessecambon/tidygeocoder/issues/67)) (thanks [@dpprdan](https://github.com/dpprdan)).
+-   Added support for the OpenCage geocoder service ([\#67](https://github.com/jessecambon/tidygeocoder/issues/67)) (thanks [@dpprdan](https://github.com/dpprdan)).
 
 # tidygeocoder 1.0.2
 
