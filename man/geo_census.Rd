@@ -6,6 +6,7 @@
 \alias{geo_geocodio}
 \alias{geo_iq}
 \alias{geo_google}
+\alias{geo_opencage}
 \title{Convenience functions for calling the \code{\link{geo}} function
 with a specified method}
 \usage{
@@ -18,6 +19,8 @@ geo_geocodio(...)
 geo_iq(...)
 
 geo_google(...)
+
+geo_opencage(...)
 }
 \arguments{
 \item{...}{arguments to be passed to the \code{\link{geo}} function}
