@@ -26,6 +26,7 @@ Useful links:
 Authors:
 \itemize{
   \item Christopher Belanger \email{christopher.a.belanger@gmail.com}
+  \item Daniel Possenriede
 }
 
 }
