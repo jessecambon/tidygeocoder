@@ -16,29 +16,25 @@ knitr::opts_chunk$set(
 options(tibble.print_min = 5, tibble.print_max = 5)
 ```
 
-# tidygeocoder <a href='https://jessecambon.github.io/tidygeocoder/'><img src='man/figures/tidygeocoder_hex.png' align="right" height="139" /></a>
+# tidygeocoder <a href='https://jessecambon.github.io/tidygeocoder/'><img src="man/figures/tidygeocoder_hex.png" align="right" height="139"/></a>
 
 <!-- badges: start -->
-[![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/jessecambon/tidygeocoder/blob/master/LICENSE.md)
-[![CRAN](https://www.r-pkg.org/badges/version/tidygeocoder)](https://cran.r-project.org/package=tidygeocoder)
-[![CRAN Total Downloads](http://cranlogs.r-pkg.org/badges/grand-total/tidygeocoder)](https://CRAN.R-project.org/package=tidygeocoder)
-[![CRAN Downloads Per Month](http://cranlogs.r-pkg.org/badges/tidygeocoder)](https://cran.r-project.org/package=tidygeocoder)
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.4448251.svg)](https://doi.org/10.5281/zenodo.4448251)
-<!--[![Github Stars](https://img.shields.io/github/stars/jessecambon/tidygeocoder?style=social&label=Github)](https://github.com/jessecambon/tidygeocoder) -->
+
+[![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active) [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/jessecambon/tidygeocoder/blob/master/LICENSE.md) [![CRAN](https://www.r-pkg.org/badges/version/tidygeocoder)](https://cran.r-project.org/package=tidygeocoder) [![CRAN Total Downloads](http://cranlogs.r-pkg.org/badges/grand-total/tidygeocoder)](https://CRAN.R-project.org/package=tidygeocoder) [![CRAN Downloads Per Month](http://cranlogs.r-pkg.org/badges/tidygeocoder)](https://cran.r-project.org/package=tidygeocoder) [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.4448251.svg)](https://doi.org/10.5281/zenodo.4448251) <!--[![Github Stars](https://img.shields.io/github/stars/jessecambon/tidygeocoder?style=social&label=Github)](https://github.com/jessecambon/tidygeocoder) -->
+
 <!-- badges: end -->
 
 ## Introduction
 
-Tidygeocoder makes getting data from geocoder services easy. A unified interface is provided for the supported geocoder services listed below. All results are returned in [tibble format](https://tibble.tidyverse.org/). 
+Tidygeocoder makes getting data from geocoder services easy. A unified interface is provided for the supported geocoder services listed below. All results are returned in [tibble format](https://tibble.tidyverse.org/).
 
 Batch geocoding (geocoding multiple addresses per query) is used by default if possible when multiple addresses are provided. Duplicate, missing/NA, and blank address data is handled elegantly - only unique addresses are passed to geocoder services, but the rows in the original data are preserved by default.
 
 In addition to the usage example below you can refer to the following references:
 
-* [Mapping European soccer club stadiums](https://jessecambon.github.io/2020/07/15/tidygeocoder-1-0-0.html)
-* [Mapping Washington, DC landmarks](https://jessecambon.github.io/2019/11/11/tidygeocoder-demo.html)
-* [Getting Started Vignette](https://jessecambon.github.io/tidygeocoder/articles/tidygeocoder.html) for more detailed and comprehensive usage examples. The last section of the vignette contains a [helpful reference](https://jessecambon.github.io/tidygeocoder/articles/tidygeocoder.html#api-reference-1) on geocoder service parameters.
+-   [Mapping European soccer club stadiums](https://jessecambon.github.io/2020/07/15/tidygeocoder-1-0-0.html)
+-   [Mapping Washington, DC landmarks](https://jessecambon.github.io/2019/11/11/tidygeocoder-demo.html)
+-   [Getting Started Vignette](https://jessecambon.github.io/tidygeocoder/articles/tidygeocoder.html) for more detailed and comprehensive usage examples. The last section of the vignette contains a [helpful reference](https://jessecambon.github.io/tidygeocoder/articles/tidygeocoder.html#api-reference-1) on geocoder service parameters.
 
 ## Installation
 
@@ -59,24 +55,24 @@ devtools::install_github("jessecambon/tidygeocoder")
 
 The supported geocoder services are shown in the table below with their geographic limitations, if they support batch geocoding (geocoding multiple addresses in a single query), if an API key is required, and the usage rate limitations. Refer to the website for each geocoder service for the most up-to-date details on costs, capabilities, and usage limitations.
 
-| Service                                                                       | Geography     | Batch Geocoding | API Key Required | Query Rate Limit        | 
-| ------------------------------------------------------------------------------| --------------|-----------------|------------------|-------------------------|
+| Service                                                                       | Geography     | Batch Geocoding | API Key Required | Query Rate Limit        |
+|-------------------------------------------------------------------------------|---------------|-----------------|------------------|-------------------------|
 | [US Census](https://geocoding.geo.census.gov/)                                | US            | Yes             | No               | N/A                     |
 | [Nominatim (OSM)](https://nominatim.org)                                      | Worldwide     | No              | No               | 1/second                |
 | [Geocodio](https://www.geocod.io/)                                            | US and Canada | Yes             | Yes              | 1000/minute (free tier) |
-| [Location IQ](https://locationiq.com/)                                        | Worldwide     | No              | Yes              | 2/second (free tier)    | 
-| [Google](https://developers.google.com/maps/documentation/geocoding/overview) | Worldwide     | No              | Yes              | 50/second               | 
-| [OpenCage](https://opencagedata.com)                                          | Worldwide     | No              | Yes               | 1/second (free tier)   |
+| [Location IQ](https://locationiq.com/)                                        | Worldwide     | No              | Yes              | 2/second (free tier)    |
+| [Google](https://developers.google.com/maps/documentation/geocoding/overview) | Worldwide     | No              | Yes              | 50/second               |
+| [OpenCage](https://opencagedata.com)                                          | Worldwide     | No              | Yes              | 1/second (free tier)    |
 
 Note that:
 
-* The US Census service supports street-level addresses only (ie. "11 Wall St New York, NY" is OK but "New York, NY" is not).
-* The US Census and Geocodio services both support a maximum of 10,000 addresses per batch query.
-* The US Census and OSM services are free while Geocodio, Location IQ and OpenCage are commercial services that offer both free and paid usage tiers. The Google service [bills per query](https://developers.google.com/maps/documentation/geocoding/usage-and-billing).
+-   The US Census service supports street-level addresses only (ie. "11 Wall St New York, NY" is OK but "New York, NY" is not).
+-   The US Census and Geocodio services both support a maximum of 10,000 addresses per batch query.
+-   The US Census and OSM services are free while Geocodio, Location IQ, and OpenCage are commercial services that offer both free and paid usage tiers. The Google service [bills per query](https://developers.google.com/maps/documentation/geocoding/usage-and-billing).
 
 ## Usage
 
-In this example we will geocode a few addresses using the `geocode()` function and plot them on a map with ggplot. 
+In this example we will geocode a few addresses using the `geocode()` function and plot them on a map with ggplot.
 
 ```{r, warning = F, message = F}
 library(dplyr)

@@ -1,7 +1,7 @@
 Package: tidygeocoder
 Type: Package
 Title: Geocoding Made Easy
-Version: 1.0.2
+Version: 1.0.2.9000
 Authors@R:
     c(person(given = "Jesse",
              family = "Cambon",
@@ -10,7 +10,10 @@ Authors@R:
       person(given = "Christopher",
              family = "Belanger",
              role = "aut",
-             email = "christopher.a.belanger@gmail.com")
+             email = "christopher.a.belanger@gmail.com"),
+      person(given = "Daniel",
+             family = "Possenriede",
+             role = "aut")
              )
 Description: An intuitive interface for getting data from geocoder services. 
 URL: https://jessecambon.github.io/tidygeocoder/, 

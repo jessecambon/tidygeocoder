@@ -87,7 +87,7 @@ API queries." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">tidygeocoder</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.2.9000</span>
       </span>
     </div>
 
@@ -232,6 +232,10 @@ each geocoder service for usage details and limitations.</p><ul>
      be stored in the "LOCATIONIQ_API_KEY" environmental variable.</p></li>
 <li><p><code>"google"</code>: Commercial Google geocoder service. Requires an API Key to
      be stored in the "GOOGLEGEOCODE_API_KEY" environmental variable.</p></li>
+<li><p><code>"opencage"</code>: Commercial geocoder with
+     <a href='https://opencagedata.com/credits'>various open data sources</a> (e.g.
+     OpenStreetMap) and worldwide coverage. Requires an API Key to be stored
+     in the "OPENCAGE_KEY" environmental variable.</p></li>
 <li><p><code>"cascade"</code> : Attempts to use one geocoder service and then uses
     a second geocoder service if the first service didn't return results.
     The services and order is specified by the cascade_order argument. 
@@ -387,7 +391,7 @@ If method = 'cascade' then no errors will be thrown.</p></td>
 
       <footer>
       <div class="copyright">
-  <p>Developed by <a href='https://jessecambon.github.io'>Jesse Cambon</a>, Christopher Belanger.</p>
+  <p>Developed by <a href='https://jessecambon.github.io'>Jesse Cambon</a>, Christopher Belanger, Daniel Possenriede.</p>
 </div>
 
 <div class="pkgdown">

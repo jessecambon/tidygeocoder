@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file directly and reknit -->
 
-# tidygeocoder <a href='https://jessecambon.github.io/tidygeocoder/'><img src='man/figures/tidygeocoder_hex.png' align="right" height="139" /></a>
+# tidygeocoder <a href='https://jessecambon.github.io/tidygeocoder/'><img src="man/figures/tidygeocoder_hex.png" align="right" height="139"/></a>
 
 <!-- badges: start -->
 
@@ -17,6 +17,7 @@ Downloads](http://cranlogs.r-pkg.org/badges/grand-total/tidygeocoder)](https://C
 Month](http://cranlogs.r-pkg.org/badges/tidygeocoder)](https://cran.r-project.org/package=tidygeocoder)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.4448251.svg)](https://doi.org/10.5281/zenodo.4448251)
 <!--[![Github Stars](https://img.shields.io/github/stars/jessecambon/tidygeocoder?style=social&label=Github)](https://github.com/jessecambon/tidygeocoder) -->
+
 <!-- badges: end -->
 
 ## Introduction
@@ -87,7 +88,7 @@ Note that:
     Wall St New York, NY” is OK but “New York, NY” is not).
 -   The US Census and Geocodio services both support a maximum of 10,000
     addresses per batch query.
--   The US Census and OSM services are free while Geocodio, Location IQ
+-   The US Census and OSM services are free while Geocodio, Location IQ,
     and OpenCage are commercial services that offer both free and paid
     usage tiers. The Google service [bills per
     query](https://developers.google.com/maps/documentation/geocoding/usage-and-billing).
@@ -155,14 +156,14 @@ glimpse(full)
 #> Rows: 3
 #> Columns: 15
 #> $ name            <chr> "White House", "Transamerica Pyramid", "Willis Tower"
-#> $ addr            <chr> "1600 Pennsylvania Ave NW, Washington, DC", "600 Mo...
+#> $ addr            <chr> "1600 Pennsylvania Ave NW, Washington, DC", "600 Mont…
 #> $ lat             <dbl> 38.89875, 37.79470, 41.87851
 #> $ long            <dbl> -77.03535, -122.40314, -87.63666
 #> $ id              <int> 1, 2, 3
-#> $ input_address   <chr> "1600 Pennsylvania Ave NW, Washington, DC, , , ", "...
+#> $ input_address   <chr> "1600 Pennsylvania Ave NW, Washington, DC, , , ", "60…
 #> $ match_indicator <chr> "Match", "Match", "Match"
 #> $ match_type      <chr> "Exact", "Exact", "Exact"
-#> $ matched_address <chr> "1600 PENNSYLVANIA AVE NW, WASHINGTON, DC, 20500", ...
+#> $ matched_address <chr> "1600 PENNSYLVANIA AVE NW, WASHINGTON, DC, 20500", "6…
 #> $ tiger_line_id   <chr> "76225813", "192281262", "112050003"
 #> $ tiger_side      <chr> "L", "R", "L"
 #> $ state_fips      <chr> "11", "06", "17"
