@@ -18,6 +18,7 @@ get_key <- function(method) {
 }
 
 # API URL Functions ----------------------------------------------------------------
+# reverse = TRUE for reverse geocoding
 
 # return : returntype => 'locations' or 'geographies'
 # search:  searchtype => 'onelineaddress', 'addressbatch', 'address', or 'coordinates'
@@ -25,16 +26,22 @@ get_census_url <- function(return_type, search) {
   return(paste0("https://geocoding.geo.census.gov/geocoder/", return_type, "/", search))
 }
 
-get_geocodio_url <- function(api_v) {
+get_geocodio_url <- function(api_v, reverse = FALSE) {
   # return API URL based on api version (ex. 1.6)
-  return(paste0("https://api.geocod.io/v", as.character(api_v), "/geocode"))
+  
+  if (reverse == TRUE) return(paste0("https://api.geocod.io/v", as.character(api_v), "/reverse"))
+  else return(paste0("https://api.geocod.io/v", as.character(api_v), "/geocode"))
 }
 
-get_osm_url <- function() return("http://nominatim.openstreetmap.org/search")
+get_osm_url <- function(reverse = FALSE) {
+  if (reverse == TRUE) return('https://nominatim.openstreetmap.org/reverse')
+  else return("http://nominatim.openstreetmap.org/search")
+}
 
-get_iq_url <- function(region) {
+get_iq_url <- function(region, reverse = FALSE) {
   # region can be 'us' or 'eu'
-  return(paste0("https://", region, "1.locationiq.com/v1/search.php"))
+  if (reverse == TRUE) return(paste0("https://", region, "1.locationiq.com/v1/reverse.php"))
+  else return(paste0("https://", region, "1.locationiq.com/v1/search.php"))
 }
 
 get_google_url <- function() return("https://maps.googleapis.com/maps/api/geocode/json")

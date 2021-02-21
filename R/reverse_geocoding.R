@@ -9,26 +9,26 @@
 extract_reverse_results <- function(method, response, full_results = TRUE, flatten = TRUE) {
   
   # extract the single line address
-  address <- tibble::as_tibble(switch(method,
+  address <- switch(method,
                     'osm' = response['display_name'],
                     'iq' = response['display_name'],
                     'geocodio' = response$results['formatted_address'],
-                    'google' = NULL,
+                    'google' = response$results['formatted_address'][1, ],
                     'opencage' = response$results['formatted']
-  ))
+  )
   
   # extract other results (besides single line address)
   if (full_results == TRUE) {
-    results <- tibble::as_tibble(switch(method,
+    results <- switch(method,
                       # !!!!WARNING!!!! - osm, iq results currently excludes boundingbox and address components
                       'osm' = response[!(names(response) %in% c('display_name', 'boundingbox', 'address'))],
                       'iq' =  response[!(names(response) %in% c('display_name', 'boundingbox', 'address'))],
                       'geocodio' = response$results[!names(response$results) %in% c('formatted_address')],
-                      'google' = NULL,
-                      'opencage' = response['results']
-    ))
+                      'google' = response$results[1, ], # take first row of multiple results for now
+                      'opencage' = response$results[!names(response$results) %in% c('formatted')]
+    )
     
-    combined_results <- tibble::as_tibble(dplyr::bind_cols(address, results))
+    combined_results <- dplyr::bind_cols(address, results)
   } else {
     combined_results <- address
   }
@@ -44,7 +44,7 @@ extract_reverse_results <- function(method, response, full_results = TRUE, flatt
 #' address = name of address column
 reverse_geo <- function(lat, long, address = 'address', method = 'osm', limit = 1, api_url = NULL,
     full_results = FALSE, unique_only = FALSE, flatten = TRUE, verbose = FALSE, no_query = FALSE, 
-    custom_query = list(), geocodio_v = 1.6, param_error = TRUE) {
+    custom_query = list(), geocodio_v = 1.6, iq_region = 'us', param_error = TRUE) {
 
   # capture all function arguments including default values as a named list.
   # IMPORTANT: make sure to put this statement before any other variables are defined in the function
@@ -94,10 +94,11 @@ reverse_geo <- function(lat, long, address = 'address', method = 'osm', limit = 
   # Set API URL (if not already set) ---------------------------
   if (is.null(api_url)) {
     api_url <- switch(method,
-                      "osm" = 'https://nominatim.openstreetmap.org/reverse',
-                      "geocodio" = 'https://api.geocod.io/v1.6/reverse',
-                      "iq" = 'https://us1.locationiq.com/v1/reverse.php',
-                      "opencage" = get_opencage_url() # same url as forward geocoding
+                      "osm" = get_osm_url(reverse = TRUE),
+                      "geocodio" = get_geocodio_url(geocodio_v, reverse = TRUE),
+                      "iq" = get_iq_url(iq_region, reverse = TRUE),
+                      "opencage" = get_opencage_url(), # same url as forward geocoding
+                      "google" = get_google_url() # same url as forward geocoding
     )
   }
   if (length(api_url) == 0) stop('API URL not found')
@@ -129,3 +130,4 @@ reverse_geo <- function(lat, long, address = 'address', method = 'osm', limit = 
 
 
 # a <- reverse_geo(lat = 38.895865, long = -77.0307713, method = 'osm', verbose = TRUE)
+# b <- reverse_geo(lat = 38.895865, long = -77.0307713, method = 'google', full_results = TRUE, verbose = TRUE)
