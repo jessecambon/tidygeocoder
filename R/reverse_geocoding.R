@@ -1,8 +1,48 @@
-# list of methods supporting reverse geocoding
-reverse_methods <- c('osm', 'geocodio', 'opencage', 'iq')
+## References
+# google: https://developers.google.com/maps/documentation/geocoding/start
+# geocodio: https://www.geocod.io/docs/#reverse-geocoding
+# osm: https://nominatim.org/release-docs/latest/api/Reverse/
+# opencage: https://opencagedata.com/api
+
+## NOTE: geocodio supports BATCH reverse geocoding
+
+extract_reverse_results <- function(method, response, full_results = TRUE, flatten = TRUE) {
+  
+  # extract the single line address
+  address <- tibble::as_tibble(switch(method,
+                    'osm' = response['display_name'],
+                    'iq' = response['display_name'],
+                    'geocodio' = response$results['formatted_address'],
+                    'google' = NULL,
+                    'opencage' = response$results['formatted']
+  ))
+  
+  # extract other results (besides single line address)
+  if (full_results == TRUE) {
+    results <- tibble::as_tibble(switch(method,
+                      # !!!!WARNING!!!! - osm, iq results currently excludes boundingbox and address components
+                      'osm' = response[!(names(response) %in% c('display_name', 'boundingbox', 'address'))],
+                      'iq' =  response[!(names(response) %in% c('display_name', 'boundingbox', 'address'))],
+                      'geocodio' = response$results[!names(response$results) %in% c('formatted_address')],
+                      'google' = NULL,
+                      'opencage' = response['results']
+    ))
+    
+    combined_results <- tibble::as_tibble(dplyr::bind_cols(address, results))
+  } else {
+    combined_results <- address
+  }
+  
+  combined_results <- tibble::as_tibble(combined_results)
+  
+  if (flatten == TRUE) return(jsonlite::flatten(combined_results))
+  else return(combined_results)
+}
 
 #' @export
-reverse_geo <- function(lat, long, method = 'osm', limit = 1, api_url = NULL,
+#' lat, long = inputs
+#' address = name of address column
+reverse_geo <- function(lat, long, address = 'address', method = 'osm', limit = 1, api_url = NULL,
     full_results = FALSE, unique_only = FALSE, flatten = TRUE, verbose = FALSE, no_query = FALSE, 
     custom_query = list(), geocodio_v = 1.6, param_error = TRUE) {
 
@@ -31,18 +71,24 @@ reverse_geo <- function(lat, long, method = 'osm', limit = 1, api_url = NULL,
   # Start to build 'generic' query as named list -------------------------
   generic_query <- list()
   
-  # Make Lat long args ------------------------------------------
+  # Create Lat/Long argument(s)
   
   # METHOD 1: lat = 123, lon = 123
     # osm, iq
   # METHOD 2:  q = lat,lon
     # geocodio, opencage
+  # METHOD 3: latlng = lat,lon
+    # google
   
   if (method %in% c('osm', 'iq')) {
     custom_query[['lat']] <- lat
     custom_query[['lon']] <- long
   } else if (method %in% c('geocodio', 'opencage')) {
     custom_query[['q']] <-  paste0(as.character(lat), ',', as.character(long))
+  } else if (method == 'google') {
+    custom_query[['latlng']] <-  paste0(as.character(lat), ',', as.character(long))
+  } else {
+    stop('Invalid method.')
   }
   
   # Set API URL (if not already set) ---------------------------
@@ -68,9 +114,18 @@ reverse_geo <- function(lat, long, method = 'osm', limit = 1, api_url = NULL,
   
   # Execute Single Address Query -----------------------------------------
   if (verbose == TRUE) display_query(api_url, api_query_parameters)
+  raw_results <- jsonlite::fromJSON(query_api(api_url, api_query_parameters))
   
-  display_query(api_url, api_query_parameters)
-
+  
   ## Extract results -----------------------------------------------------------------------------------
+  results <- extract_reverse_results(method, raw_results, full_results, flatten)
+  # rename address column
+  names(results)[1] <- address
 
+  combi_results <- dplyr::bind_cols(tibble(lat = lat, long = long), results)
+  
+  return(combi_results)
 }
+
+
+# a <- reverse_geo(lat = 38.895865, long = -77.0307713, method = 'osm', verbose = TRUE)
