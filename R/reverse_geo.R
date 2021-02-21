@@ -39,16 +39,17 @@ extract_reverse_results <- function(method, response, full_results = TRUE, flatt
   else return(combined_results)
 }
 
-#' @export
 #' lat, long = inputs
 #' address = name of address column
-reverse_geo <- function(lat, long, address = 'address', method = 'osm', limit = 1, api_url = NULL,
+#' @export
+reverse_geo <- function(lat, long, address = 'address', method = 'osm', limit = 1, api_url = NULL, return_coords = TRUE,
     full_results = FALSE, unique_only = FALSE, flatten = TRUE, verbose = FALSE, no_query = FALSE, 
     custom_query = list(), geocodio_v = 1.6, iq_region = 'us', param_error = TRUE) {
 
   # capture all function arguments including default values as a named list.
   # IMPORTANT: make sure to put this statement before any other variables are defined in the function
   all_args <- as.list(environment())
+  
   
   # Reference Variables ------------------------------------------------------------
 
@@ -57,8 +58,34 @@ reverse_geo <- function(lat, long, address = 'address', method = 'osm', limit = 
       is.logical(full_results), is.logical(unique_only), is.logical(param_error),
       is.numeric(limit), limit >= 1,  is.list(custom_query))
   
+  if (length(lat) != length(long)) stop('Lengths of lat and long must be equal.')
+  num_coords <- length(lat)
+  
   if (no_query == TRUE) verbose <- TRUE
   start_time <- Sys.time() # start timer
+  
+  
+  # If multiple coordinates are given, recursively call this function in a loop
+  if (num_coords > 1) {
+    # construct arguments for a single address query
+    # note that non-address related fields go to the MoreArgs argument of mapply
+    # since we aren't iterating through them
+    single_coord_args <- c(
+      list(FUN = reverse_geo, lat = lat, long = long),
+      list(MoreArgs = all_args[!names(all_args) %in% c('lat', 'long')],
+           USE.NAMES = FALSE, SIMPLIFY = FALSE)
+    )
+    
+    print(single_coord_args)
+    
+    # Reverse geocode each coordinate individually by recalling this function with mapply
+    list_coords <- do.call(mapply, single_coord_args)
+    # rbind the list of tibble dataframes together
+    stacked_results <- dplyr::bind_rows(list_coords)
+    
+    return(stacked_results)
+  }
+  
 
   ################################################################################
   #### Code past this point is for reverse geocoding a single coordinate set #####
@@ -68,7 +95,7 @@ reverse_geo <- function(lat, long, address = 'address', method = 'osm', limit = 
   methods_requiring_api_key <- unique(tidygeocoder::api_parameter_reference[which(tidygeocoder::api_parameter_reference[['generic_name']] == 'api_key'), ][['method']])
   
   
-  # Start to build 'generic' query as named list -------------------------
+  # Start to build 'generic' query as named list -----------------------------
   generic_query <- list()
   
   # Create Lat/Long argument(s)
@@ -91,7 +118,7 @@ reverse_geo <- function(lat, long, address = 'address', method = 'osm', limit = 
     stop('Invalid method.')
   }
   
-  # Set API URL (if not already set) ---------------------------
+  # Set API URL (if not already set) ----------------------------------------
   if (is.null(api_url)) {
     api_url <- switch(method,
                       "osm" = get_osm_url(reverse = TRUE),
@@ -102,6 +129,8 @@ reverse_geo <- function(lat, long, address = 'address', method = 'osm', limit = 
     )
   }
   if (length(api_url) == 0) stop('API URL not found')
+  
+  if (!is.null(limit)) generic_query[['limit']] <- limit
   
   # If API key is required then use the get_key() function to retrieve it
   if (method %in% methods_requiring_api_key) {
@@ -131,3 +160,5 @@ reverse_geo <- function(lat, long, address = 'address', method = 'osm', limit = 
 
 # a <- reverse_geo(lat = 38.895865, long = -77.0307713, method = 'osm', verbose = TRUE)
 # b <- reverse_geo(lat = 38.895865, long = -77.0307713, method = 'google', full_results = TRUE, verbose = TRUE)
+
+#c <- reverse_geo(lat = c(38.895865, 43.6534817), long = c(-77.0307713, -79.3839347), method = 'osm', full_results = TRUE, verbose = TRUE)

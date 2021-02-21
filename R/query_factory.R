@@ -28,20 +28,22 @@ get_census_url <- function(return_type, search) {
 
 get_geocodio_url <- function(api_v, reverse = FALSE) {
   # return API URL based on api version (ex. 1.6)
+  url_keyword <- if (reverse == TRUE) 'reverse' else 'geocode'
   
-  if (reverse == TRUE) return(paste0("https://api.geocod.io/v", as.character(api_v), "/reverse"))
-  else return(paste0("https://api.geocod.io/v", as.character(api_v), "/geocode"))
+  return(paste0("https://api.geocod.io/v", as.character(api_v), "/", url_keyword))
 }
 
 get_osm_url <- function(reverse = FALSE) {
-  if (reverse == TRUE) return('https://nominatim.openstreetmap.org/reverse')
-  else return("http://nominatim.openstreetmap.org/search")
+  url_keyword <- if (reverse == TRUE) 'reverse' else 'search'
+  
+  return(paste0('https://nominatim.openstreetmap.org/', url_keyword))
 }
 
 get_iq_url <- function(region, reverse = FALSE) {
   # region can be 'us' or 'eu'
-  if (reverse == TRUE) return(paste0("https://", region, "1.locationiq.com/v1/reverse.php"))
-  else return(paste0("https://", region, "1.locationiq.com/v1/search.php"))
+  url_keyword <- if (reverse == TRUE) 'reverse' else 'search'
+  
+  return(paste0("https://", region, "1.locationiq.com/v1/", url_keyword,  ".php"))
 }
 
 get_google_url <- function() return("https://maps.googleapis.com/maps/api/geocode/json")
