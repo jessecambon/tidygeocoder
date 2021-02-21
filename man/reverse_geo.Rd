@@ -8,19 +8,22 @@ address = name of address column}
 reverse_geo(
   lat,
   long,
-  address = "address",
+  address = address,
   method = "osm",
   limit = 1,
   api_url = NULL,
+  return_coords = TRUE,
   full_results = FALSE,
   unique_only = FALSE,
   flatten = TRUE,
   verbose = FALSE,
   no_query = FALSE,
+  mode = "",
   custom_query = list(),
   geocodio_v = 1.6,
   iq_region = "us",
-  param_error = TRUE
+  param_error = TRUE,
+  batch_limit = 10000
 )
 }
 \description{

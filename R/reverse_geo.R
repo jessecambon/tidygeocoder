@@ -6,8 +6,14 @@
 
 ## NOTE: geocodio supports BATCH reverse geocoding
 
+## IMPORTANT: All new REVERSE batch geocoding functions must be added to reverse_batch_func_map
+# the reverse_geo() function references this list to find reverse batch geocoding functions (reverse_batch_geocoding.R)
+# maps method names to batch functions
+reverse_batch_func_map <- list(
+  geocodio = reverse_batch_geocodio
+)
+
 extract_reverse_results <- function(method, response, full_results = TRUE, flatten = TRUE) {
-  
   # extract the single line address
   address <- switch(method,
                     'osm' = response['display_name'],
@@ -42,14 +48,16 @@ extract_reverse_results <- function(method, response, full_results = TRUE, flatt
 #' lat, long = inputs
 #' address = name of address column
 #' @export
-reverse_geo <- function(lat, long, address = 'address', method = 'osm', limit = 1, api_url = NULL, return_coords = TRUE,
-    full_results = FALSE, unique_only = FALSE, flatten = TRUE, verbose = FALSE, no_query = FALSE, 
-    custom_query = list(), geocodio_v = 1.6, iq_region = 'us', param_error = TRUE) {
+reverse_geo <- function(lat, long, address = address, method = 'osm', limit = 1, api_url = NULL, return_coords = TRUE,
+    full_results = FALSE, unique_only = FALSE, flatten = TRUE, verbose = FALSE, no_query = FALSE, mode = '',
+    custom_query = list(), geocodio_v = 1.6, iq_region = 'us', param_error = TRUE, batch_limit = 10000) {
 
+  # NSE eval
+  address <- rm_quote(deparse(substitute(address)))
+  
   # capture all function arguments including default values as a named list.
   # IMPORTANT: make sure to put this statement before any other variables are defined in the function
   all_args <- as.list(environment())
-  
   
   # Reference Variables ------------------------------------------------------------
 
@@ -66,7 +74,7 @@ reverse_geo <- function(lat, long, address = 'address', method = 'osm', limit = 
   
   
   # If multiple coordinates are given, recursively call this function in a loop
-  if (num_coords > 1) {
+  if ((num_coords > 1) & ((!(method %in% names(reverse_batch_func_map))) | (mode == 'single'))) {
     # construct arguments for a single address query
     # note that non-address related fields go to the MoreArgs argument of mapply
     # since we aren't iterating through them
@@ -76,7 +84,7 @@ reverse_geo <- function(lat, long, address = 'address', method = 'osm', limit = 
            USE.NAMES = FALSE, SIMPLIFY = FALSE)
     )
     
-    print(single_coord_args)
+    #print(single_coord_args)
     
     # Reverse geocode each coordinate individually by recalling this function with mapply
     list_coords <- do.call(mapply, single_coord_args)
@@ -86,20 +94,31 @@ reverse_geo <- function(lat, long, address = 'address', method = 'osm', limit = 
     return(stacked_results)
   }
   
+  # Batch geocoding --------------------------------------------------------------------------
+  if ((num_coords > 1) | (mode == 'batch')) {
+    
+    if (verbose == TRUE) message(paste0('Passing ', 
+            format(min(batch_limit, num_coords), big.mark = ','), 
+            ' addresses to the ', method, ' batch geocoder'))
+    
+    # call the appropriate function for batch geocoding according the the batch_func_map named list
+    # if batch limit was exceeded then apply that limit
+    batch_results <- do.call(reverse_batch_func_map[[method]], c(list(lat = lat, long = long),
+        all_args[!names(all_args) %in% c('lat', 'long')]))
+    
+    if (return_coords == TRUE) return(dplyr::bind_cols(tibble::tibble(lat = lat, long = long), batch_results))
+    else return(batch_results)
+  }
+  
 
   ################################################################################
   #### Code past this point is for reverse geocoding a single coordinate set #####
   ################################################################################
   
-  # which methods require an api key (copied from geo() function)
-  methods_requiring_api_key <- unique(tidygeocoder::api_parameter_reference[which(tidygeocoder::api_parameter_reference[['generic_name']] == 'api_key'), ][['method']])
-  
-  
   # Start to build 'generic' query as named list -----------------------------
   generic_query <- list()
   
   # Create Lat/Long argument(s)
-  
   # METHOD 1: lat = 123, lon = 123
     # osm, iq
   # METHOD 2:  q = lat,lon
@@ -133,7 +152,7 @@ reverse_geo <- function(lat, long, address = 'address', method = 'osm', limit = 
   if (!is.null(limit)) generic_query[['limit']] <- limit
   
   # If API key is required then use the get_key() function to retrieve it
-  if (method %in% methods_requiring_api_key) {
+  if (method %in% get_services_requiring_key()) {
     generic_query[['api_key']] <- get_key(method)
   }
   
@@ -152,13 +171,14 @@ reverse_geo <- function(lat, long, address = 'address', method = 'osm', limit = 
   # rename address column
   names(results)[1] <- address
 
-  combi_results <- dplyr::bind_cols(tibble(lat = lat, long = long), results)
+  if (return_coords == TRUE) return(dplyr::bind_cols(tibble::tibble(lat = lat, long = long), results))
+  else return(results)
   
-  return(combi_results)
 }
+  
 
 
 # a <- reverse_geo(lat = 38.895865, long = -77.0307713, method = 'osm', verbose = TRUE)
 # b <- reverse_geo(lat = 38.895865, long = -77.0307713, method = 'google', full_results = TRUE, verbose = TRUE)
 
-#c <- reverse_geo(lat = c(38.895865, 43.6534817), long = c(-77.0307713, -79.3839347), method = 'osm', full_results = TRUE, verbose = TRUE)
+# c <- reverse_geo(lat = c(38.895865, 43.6534817, 300), long = c(-77.0307713, -79.3839347, 600), method = 'geocodio', full_results = TRUE, verbose = TRUE)

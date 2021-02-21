@@ -178,7 +178,6 @@ query_api <- function(api_url, query_parameters, mode = 'single',
 
 # print values in a named list (used for displaying query parameters)
 display_named_list <- function(named_list) {
-  
   # unique parameter names for all api keys
   api_key_names <- unique(tidygeocoder::api_parameter_reference[which(tidygeocoder::api_parameter_reference[['generic_name']] == 'api_key'), ][['api_name']])
   
@@ -211,5 +210,9 @@ get_generic_parameters <- function(method, address_only = FALSE) {
   } else {
     return(all_params)
   }
-  
+}
+
+# get list of services that require an api key
+get_services_requiring_key <- function() {
+  return(unique(tidygeocoder::api_parameter_reference[which(tidygeocoder::api_parameter_reference[['generic_name']] == 'api_key'), ][['method']]))
 }

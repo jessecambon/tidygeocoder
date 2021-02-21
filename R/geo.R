@@ -154,9 +154,7 @@ geo <- function(address = NULL,
   
   # All legal methods (besides 'cascade')
   method_services <- unique(tidygeocoder::api_parameter_reference[['method']])
-  # which methods require an api key
-  methods_requiring_api_key <- unique(tidygeocoder::api_parameter_reference[which(tidygeocoder::api_parameter_reference[['generic_name']] == 'api_key'), ][['method']])
-  
+
   # Check parameter arguments --------------------------------------------------------
   # all legal method argument excluding 'cascade'
 
@@ -383,7 +381,7 @@ geo <- function(address = NULL,
   }
 
   # If API key is required then use the get_key() function to retrieve it
-  if (method %in% methods_requiring_api_key) {
+  if (method %in% get_services_requiring_key()) {
     generic_query[['api_key']] <- get_key(method)
   }
   

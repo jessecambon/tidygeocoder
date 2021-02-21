@@ -1,13 +1,14 @@
 # .tbl = dataframe
 # lat, long = names of lat an long columns in .tbl 
 #' @export
-reverse_geocode <- function(.tbl, lat, long, return_coords = FALSE, unique_only = FALSE, ...) {
+reverse_geocode <- function(.tbl, lat, long, address = address, return_coords = FALSE, unique_only = FALSE, ...) {
   
   # Non-standard evaluation --------------------------------------------------------------
   # Quote unquoted vars without double quoting quoted vars
   # end result - all of these variables become character values
   lat <- rm_quote(deparse(substitute(lat)))
   long <- rm_quote(deparse(substitute(long)))
+  address <- rm_quote(deparse(substitute(address)))
   
   if (unique_only == TRUE) return_coords <- TRUE
   
