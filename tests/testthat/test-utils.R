@@ -12,7 +12,7 @@ test_that("Check API Parameter Reference Dataset", {
 })
 
 
-# Check the package_addresses() and unpackage_addresses() functions
+# Check the package_addresses() and unpackage_inputs() functions
 # with some duplicate addresses
 test_that("Test Duplicate and Blank/NA Address Handling", {
   
@@ -20,10 +20,10 @@ test_that("Test Duplicate and Blank/NA Address Handling", {
   
   addr_pack <- tidygeocoder:::package_addresses(address = messy_addresses)
   
-  # create NA lat lng fields
+  # create NA lat long fields
   results <- tidygeocoder::geo(messy_addresses, no_query = TRUE, unique_only = TRUE)[, c('lat', 'long')]
   
-  unpacked <- tidygeocoder:::unpackage_addresses(addr_pack, results, return_addresses = TRUE)
+  unpacked <- tidygeocoder:::unpackage_inputs(addr_pack, results, return_inputs = TRUE)
   
   # check data types and lengths
   expect_true(is.list(addr_pack))

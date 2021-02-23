@@ -17,6 +17,26 @@ get_key <- function(method) {
   else return(key)
 }
 
+# return minimum number of seconds each query should take based on usage rate limits
+get_min_query_time <- function(method) {
+  
+  # stores the minimum number of seconds that must elapse for each query
+  # based on the usage limit of the service (free tier if there are multiple plans available)
+  # Stored value is SECONDS PER QUERY
+  seconds_per_query <- list(
+    osm = 1,               # 1 query/second             
+    geocodio = 60/1000,    # 1000 queries per minute (free tier)
+    iq = 1/2,              # 2 queries per second (free tier)
+    google = 1/50,         # 50 queries per second
+    opencage = 1           # 1 query/second 
+  )
+  
+  # default min_time to 0
+  min_time <- ifelse(method %in% names(seconds_per_query), seconds_per_query[[method]], 0)
+  
+  return(min_time)
+}
+
 # API URL Functions ----------------------------------------------------------------
 # reverse = TRUE for reverse geocoding
 
@@ -142,7 +162,7 @@ get_api_query <- function(method, generic_parameters = list(), custom_parameters
 #'     \item \code{"file"} : batch geocode a file of addresses (census)
 #' }
 #' @param batch_file a csv file of addresses to upload (census)
-#' @param address_list a list of addresses for batch geocoding (geocodio)
+#' @param input_list a list of addresses or latitude, longitude coordinates for batch geocoding (geocodio)
 #' should be 'json' for geocodio and 'multipart' for census 
 #' @param content_encoding Encoding to be used for parsing content
 #' @param timeout timeout in minutes
@@ -158,15 +178,15 @@ get_api_query <- function(method, generic_parameters = list(), custom_parameters
 #' @seealso \code{\link{get_api_query}} \code{\link{extract_results}} \code{\link{geo}}
 #' @export 
 query_api <- function(api_url, query_parameters, mode = 'single', 
-          batch_file = NULL, address_list = NULL, content_encoding = 'UTF-8', timeout = 20) {
+          batch_file = NULL, input_list = NULL, content_encoding = 'UTF-8', timeout = 20) {
    response <- switch(mode,
     'single' = httr::GET(api_url, query = query_parameters),
     'list' = httr::POST(api_url, query = query_parameters, 
-          body = as.list(address_list), encode = 'json', httr::timeout(60 * timeout)),
+          body = as.list(input_list), encode = 'json', httr::timeout(60 * timeout)),
     'file' = httr::POST(api_url,  
           body = c(list(addressFile = httr::upload_file(batch_file)), query_parameters),
           encode = 'multipart',
-          httr::timeout(60*timeout))
+          httr::timeout(60 * timeout))
    )
   
   httr::warn_for_status(response)

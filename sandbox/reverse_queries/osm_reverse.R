@@ -1,5 +1,3 @@
-selected_method <- 'osm'
-
 url_base  <- 'https://nominatim.openstreetmap.org/reverse'
 
 
@@ -10,9 +8,14 @@ soup <- httr::GET(url = url_base,
                                format = 'json'
                                  ))
 
-raw_results <- jsonlite::fromJSON(httr::content(soup, as = 'text', encoding = "UTF-8"))
+response <- jsonlite::fromJSON(httr::content(soup, as = 'text', encoding = "UTF-8"))
 
-results <- tidygeocoder:::extract_reverse_results(selected_method, raw_results)
+
+# results_full <- cbind(response[!(names(response) %in% c('display_name', 'boundingbox', 'address'))], 
+#       tibble::as_tibble(response[['address']]), tibble::tibble(boundingbox = list(response$boundingbox))) 
+
+
+results_full <- tidygeocoder:::extract_reverse_results('osm', response)
 
 
 #f_address <- raw_results$display_name

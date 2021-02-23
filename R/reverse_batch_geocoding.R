@@ -16,7 +16,7 @@ verbose = FALSE, api_url = NULL, geocodio_v = 1.6, limit = 1, ...) {
   
   # Query API
   raw_content <- query_api(api_url, query_parameters, mode = 'list', 
-                  address_list = paste0(as.character(lat), ',', as.character(long)), 
+                  input_list = paste0(as.character(lat), ',', as.character(long)), 
                   timeout = timeout)
   
   # Note that flatten here is necessary in order to get rid of the

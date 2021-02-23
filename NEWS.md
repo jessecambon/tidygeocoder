@@ -1,6 +1,8 @@
 # tidygeocoder 1.0.2.9000
 
 -   Added support for the OpenCage geocoder service ([\#67](https://github.com/jessecambon/tidygeocoder/issues/67)) (thanks [@dpprdan](https://github.com/dpprdan)).
+-   Added support for reverse geocoding through the `reverse_geo()` and `reverse_geocode()` functions.
+-   The `address_list` argument of `query_api()` has been renamed to `input_list` and is now used for both forward and reverse geocoding with the Geocodio batch geocoding.
 
 # tidygeocoder 1.0.2
 

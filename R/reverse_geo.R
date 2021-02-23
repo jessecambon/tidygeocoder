@@ -26,11 +26,13 @@ extract_reverse_results <- function(method, response, full_results = TRUE, flatt
   # extract other results (besides single line address)
   if (full_results == TRUE) {
     results <- switch(method,
-                      # !!!!WARNING!!!! - osm, iq results currently excludes boundingbox and address components
-                      'osm' = response[!(names(response) %in% c('display_name', 'boundingbox', 'address'))],
-                      'iq' =  response[!(names(response) %in% c('display_name', 'boundingbox', 'address'))],
+                      'osm' = cbind(response[!(names(response) %in% c('display_name', 'boundingbox', 'address'))], 
+                        tibble::as_tibble(response[['address']]), tibble::tibble(boundingbox = list(response$boundingbox))),
+                      'iq' =  cbind(response[!(names(response) %in% c('display_name', 'boundingbox', 'address'))], 
+                        tibble::as_tibble(response[['address']]), tibble::tibble(boundingbox = list(response$boundingbox))),
                       'geocodio' = response$results[!names(response$results) %in% c('formatted_address')],
-                      'google' = response$results[1, ], # take first row of multiple results for now
+                      # take first row of multiple results for now
+                      'google' = response$results[!names(response$results) %in% c('formatted_address')][1, ], 
                       'opencage' = response$results[!names(response$results) %in% c('formatted')]
     )
     
@@ -49,6 +51,7 @@ extract_reverse_results <- function(method, response, full_results = TRUE, flatt
 #' address = name of address column
 #' @export
 reverse_geo <- function(lat, long, address = address, method = 'osm', limit = 1, api_url = NULL, return_coords = TRUE,
+    min_time = NULL,
     full_results = FALSE, unique_only = FALSE, flatten = TRUE, verbose = FALSE, no_query = FALSE, mode = '',
     custom_query = list(), geocodio_v = 1.6, iq_region = 'us', param_error = TRUE, batch_limit = 10000) {
 
@@ -62,36 +65,37 @@ reverse_geo <- function(lat, long, address = address, method = 'osm', limit = 1,
   # Reference Variables ------------------------------------------------------------
 
   # Check argument inputs
-  stopifnot(is.numeric(lat), is.numeric(long), is.logical(verbose), is.logical(no_query), is.logical(flatten),
+  stopifnot(is.logical(verbose), is.logical(no_query), is.logical(flatten),
       is.logical(full_results), is.logical(unique_only), is.logical(param_error),
       is.numeric(limit), limit >= 1,  is.list(custom_query))
   
   if (length(lat) != length(long)) stop('Lengths of lat and long must be equal.')
-  num_coords <- length(lat)
+  
+  coord_pack <- package_inputs(tibble(lat = as.numeric(lat), long = as.numeric(long)))
+  num_coords <- nrow(coord_pack$unique)
   
   if (no_query == TRUE) verbose <- TRUE
   start_time <- Sys.time() # start timer
   
-  
-  # If multiple coordinates are given, recursively call this function in a loop
+  # Geocode coordinates one at a time in a loop -------------------------------------------------------
   if ((num_coords > 1) & ((!(method %in% names(reverse_batch_func_map))) | (mode == 'single'))) {
     # construct arguments for a single address query
-    # note that non-address related fields go to the MoreArgs argument of mapply
+    # note that non-lat/long related fields go to the MoreArgs argument of mapply
     # since we aren't iterating through them
     single_coord_args <- c(
-      list(FUN = reverse_geo, lat = lat, long = long),
+      list(FUN = reverse_geo, lat = coord_pack$unique$lat, long = coord_pack$unique$long),
       list(MoreArgs = all_args[!names(all_args) %in% c('lat', 'long')],
            USE.NAMES = FALSE, SIMPLIFY = FALSE)
     )
-    
-    #print(single_coord_args)
     
     # Reverse geocode each coordinate individually by recalling this function with mapply
     list_coords <- do.call(mapply, single_coord_args)
     # rbind the list of tibble dataframes together
     stacked_results <- dplyr::bind_rows(list_coords)
     
-    return(stacked_results)
+    # note that return_inputs has been set to FALSE here since lat/long coordinates will already
+    # be returned in the first geo function call (if asked for)
+    return(unpackage_inputs(coord_pack, stacked_results, unique_only, FALSE))
   }
   
   # Batch geocoding --------------------------------------------------------------------------
@@ -99,15 +103,16 @@ reverse_geo <- function(lat, long, address = address, method = 'osm', limit = 1,
     
     if (verbose == TRUE) message(paste0('Passing ', 
             format(min(batch_limit, num_coords), big.mark = ','), 
-            ' addresses to the ', method, ' batch geocoder'))
+            ' coordinates to the ', method, ' batch geocoder'))
     
     # call the appropriate function for batch geocoding according the the batch_func_map named list
     # if batch limit was exceeded then apply that limit
-    batch_results <- do.call(reverse_batch_func_map[[method]], c(list(lat = lat, long = long),
+    batch_results <- do.call(reverse_batch_func_map[[method]], 
+        c(list(lat = coord_pack$unique$lat, long = coord_pack$unique$long),
         all_args[!names(all_args) %in% c('lat', 'long')]))
     
-    if (return_coords == TRUE) return(dplyr::bind_cols(tibble::tibble(lat = lat, long = long), batch_results))
-    else return(batch_results)
+    # map the raw results back to the original lat,long inputs that were passed if there are duplicates
+    return(unpackage_inputs(coord_pack, batch_results, unique_only, return_coords))
   }
   
 
@@ -149,6 +154,9 @@ reverse_geo <- function(lat, long, address = address, method = 'osm', limit = 1,
   }
   if (length(api_url) == 0) stop('API URL not found')
   
+  # Set min_time if not set based on usage limit of service
+  if (is.null(min_time)) min_time <- get_min_query_time(method)
+  
   if (!is.null(limit)) generic_query[['limit']] <- limit
   
   # If API key is required then use the get_key() function to retrieve it
@@ -161,24 +169,38 @@ reverse_geo <- function(lat, long, address = address, method = 'osm', limit = 1,
   # Convert our generic query parameters into parameters specific to our API (method)
   api_query_parameters <- get_api_query(method, generic_query, custom_query)
   
-  # Execute Single Address Query -----------------------------------------
+  # Execute Single Coordinate Query -----------------------------------------
   if (verbose == TRUE) display_query(api_url, api_query_parameters)
   raw_results <- jsonlite::fromJSON(query_api(api_url, api_query_parameters))
   
   
-  ## Extract results -----------------------------------------------------------------------------------
-  results <- extract_reverse_results(method, raw_results, full_results, flatten)
+  
+  ## Extract results ------------------------------------------------------------------------------
+  if (length(raw_results) == 0) {
+    # If no results found, return NA
+    # otherwise extract results
+    results <- tibble::tibble(address = as.character(NA))
+    if (verbose == TRUE) message("No results found")
+  } 
+  else {
+    results <- extract_reverse_results(method, raw_results, full_results, flatten)
+  }
+  
   # rename address column
   names(results)[1] <- address
 
-  if (return_coords == TRUE) return(dplyr::bind_cols(tibble::tibble(lat = lat, long = long), results))
-  else return(results)
-  
+  # Make sure the proper amount of time has elapsed for the query per min_time
+  pause_until(start_time, min_time, debug = verbose) 
+  if (verbose == TRUE) message() # insert ending line break if verbose
+
+  return(unpackage_inputs(coord_pack, results, unique_only, return_coords))
 }
   
-
 
 # a <- reverse_geo(lat = 38.895865, long = -77.0307713, method = 'osm', verbose = TRUE)
 # b <- reverse_geo(lat = 38.895865, long = -77.0307713, method = 'google', full_results = TRUE, verbose = TRUE)
 
 # c <- reverse_geo(lat = c(38.895865, 43.6534817, 300), long = c(-77.0307713, -79.3839347, 600), method = 'geocodio', full_results = TRUE, verbose = TRUE)
+
+# bq1 <- reverse_geocode(tibble(latitude = c(38.895865, 43.6534817, 700), longitude = c(-77.0307713, -79.3839347, 300)), 
+# lat = latitude, long = longitude, method = 'osm', full_results = TRUE, verbose = TRUE)

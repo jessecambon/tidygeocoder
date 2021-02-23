@@ -7,17 +7,6 @@ batch_func_map <- list(
   census = batch_census
 )
 
-# stores the minimum number of seconds that must elapse for each query
-# based on the usage limit of the service (free tier if there are multiple plans available)
-# Stored value is SECONDS PER QUERY
-usage_limit_map <- list(
-  osm = 1,               # 1 query/second             
-  geocodio = 60/1000,    # 1000 queries per minute (free tier)
-  iq = 1/2,              # 2 queries per second (free tier)
-  google = 1/50,         # 50 queries per second
-  opencage = 1           # 1 query/second 
-)
-
 #' Geocode addresses
 #' 
 #' @description
@@ -200,7 +189,7 @@ geo <- function(address = NULL,
   # If no valid/non-blank addresses are passed then return NA
   if (num_unique_addresses == 1 & all(is.na(address_pack$unique))) {
     if (verbose == TRUE) message(paste0('No non-blank non-NA addreses found. Returning NA results.'))
-    return(unpackage_addresses(address_pack, NA_value, unique_only, return_addresses))
+    return(unpackage_inputs(address_pack, NA_value, unique_only, return_addresses))
   }
   
   ### Parameter Check ------------------------------------------------------
@@ -284,9 +273,9 @@ geo <- function(address = NULL,
       # rbind the list of tibble dataframes together
       stacked_results <- dplyr::bind_rows(list_coords)
       
-      # note that return_addresses has been set to FALSE here since addresses will already
+      # note that return_inputs has been set to FALSE here since addresses will already
       # be returned in the first geo function call (if asked for)
-      return(unpackage_addresses(address_pack, stacked_results, unique_only, return_addresses = FALSE))
+      return(unpackage_inputs(address_pack, stacked_results, unique_only, FALSE))
       }
       
   # Batch geocoding --------------------------------------------------------------------------
@@ -314,7 +303,7 @@ geo <- function(address = NULL,
                           ' addresses to the ', method, ' batch geocoder'))
     
     # Convert our generic query parameters into parameters specific to our API (method)
-    if (no_query == TRUE) return(unpackage_addresses(address_pack, 
+    if (no_query == TRUE) return(unpackage_inputs(address_pack, 
          get_na_value(lat, long, rows = num_unique_addresses), 
          unique_only, return_addresses))
     
@@ -336,7 +325,7 @@ geo <- function(address = NULL,
     }
     
     # map the raw results back to the original addresses that were passed if there are duplicates
-    return(unpackage_addresses(address_pack, batch_results, unique_only, return_addresses))
+    return(unpackage_inputs(address_pack, batch_results, unique_only, return_addresses))
   }
 
   #################################################################
@@ -375,10 +364,7 @@ geo <- function(address = NULL,
   if (length(api_url) == 0) stop('API URL not found')
   
   # Set min_time if not set based on usage limit of service
-  if (is.null(min_time)) {
-    if (method %in% names(usage_limit_map)) min_time <- usage_limit_map[[method]]
-    else min_time <- 0 # default to 0
-  }
+  if (is.null(min_time)) min_time <- get_min_query_time(method)
 
   # If API key is required then use the get_key() function to retrieve it
   if (method %in% get_services_requiring_key()) {
@@ -392,7 +378,7 @@ geo <- function(address = NULL,
   
   # Execute Single Address Query -----------------------------------------
   if (verbose == TRUE) display_query(api_url, api_query_parameters)
-  if (no_query == TRUE) return(unpackage_addresses(address_pack, NA_value, unique_only, return_addresses))
+  if (no_query == TRUE) return(unpackage_inputs(address_pack, NA_value, unique_only, return_addresses))
   raw_results <- jsonlite::fromJSON(query_api(api_url, api_query_parameters))
   
   
@@ -427,5 +413,5 @@ geo <- function(address = NULL,
   pause_until(start_time, min_time, debug = verbose) 
   if (verbose == TRUE) message() # insert ending line break if verbose
   
-  return(unpackage_addresses(address_pack, results, unique_only, return_addresses))
+  return(unpackage_inputs(address_pack, results, unique_only, return_addresses))
 }

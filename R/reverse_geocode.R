@@ -34,7 +34,7 @@ reverse_geocode <- function(.tbl, lat, long, address = address, return_coords = 
   reverse_geo_args <- c(coord_parameters, 
                 all_args[!names(all_args) %in% c('.tbl', 'lat', 'long')], list(...))
   
-  # Pass addresses to the geo function
+  # Pass addresses to the reverse_geo function
   results <- do.call(reverse_geo, reverse_geo_args)
   
   if (unique_only == TRUE) {
@@ -47,4 +47,4 @@ reverse_geocode <- function(.tbl, lat, long, address = address, return_coords = 
 }
 
 # d <- reverse_geocode(tibble(latitude = c(38.895865, 43.6534817), longitude = c(-77.0307713, -79.3839347)), 
-# lat = latitude, long = longtitude, method = 'osm', full_results = TRUE, verbose = TRUE)
+# lat = latitude, long = longitude, method = 'osm', full_results = TRUE, verbose = TRUE)
