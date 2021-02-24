@@ -71,7 +71,7 @@ reverse_geo <- function(lat, long, address = address, method = 'osm', limit = 1,
   
   if (length(lat) != length(long)) stop('Lengths of lat and long must be equal.')
   
-  coord_pack <- package_inputs(tibble(lat = as.numeric(lat), long = as.numeric(long)))
+  coord_pack <- package_inputs(tibble::tibble(lat = as.numeric(lat), long = as.numeric(long)))
   num_coords <- nrow(coord_pack$unique)
   
   if (no_query == TRUE) verbose <- TRUE

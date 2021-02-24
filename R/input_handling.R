@@ -1,6 +1,6 @@
 
 
-# package either lat longs or address data
+# utility function for packaging either lat longs or address data
 # takes a dataframe input 
 package_inputs <- function(input_orig) {
   
@@ -38,6 +38,23 @@ package_inputs <- function(input_orig) {
   return(list(unique = tibble::as_tibble(input_unique[!names(input_unique) %in% c('.uid')]), 
                         crosswalk = tibble::as_tibble(crosswalk[!names(crosswalk) %in% input_colnames])))
 }
+
+
+
+# Function for packaging and deduping addresses that are passed to the geo function
+# package addresses
+# package_coords <- function(lat, long) {
+#   
+#   
+#   # Turn address inputs into a dataframe
+#   addr_orig <- tibble::tibble(lat = lat, long = long)
+#   
+#   # package and return
+#   return(package_inputs(tibble::as_tibble(combined_coords)))
+# }
+
+
+
 
 
 # Function for packaging and deduping addresses that are passed to the geo function
