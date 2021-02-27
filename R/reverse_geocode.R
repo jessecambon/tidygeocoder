@@ -1,5 +1,33 @@
-# .tbl = dataframe
-# lat, long = names of lat an long columns in .tbl 
+#' Reverse geocode coordinates in a dataframe
+#'
+#' @description
+#' Takes a dataframe containing coordinates as an input and returns 
+#' the dataframe results from a specified geocoder service by using the
+#' \code{\link{reverse_geo}} function. See example usage in \code{vignette("tidygeocoder")}.
+#' 
+#' This function passes all additional parameters (\code{...}) to the 
+#' \code{\link{reverse_geo}} function, so you can refer to its documentation for more details
+#' on possible arguments.
+#' 
+#'
+#' @param .tbl dataframe containing coordinates
+#' @param lat latitude column name. Can be quoted or unquoted (ie. lat or 'lat').
+#' @param long longitude column name. Can be quoted or unquoted (ie. long or 'long').
+#' @param address address column name.
+#' @param return_coords if TRUE then coordinates with standard names will be returned
+#'   This is defaulted to FALSE because the coordinates are already in the input dataset
+#' @param unique_only if TRUE then only unique coordinates and results will be returned. 
+#'   The input dataframe's format is not preserved. Coordinates will also be returned if 
+#'   TRUE (overrides return_coords argument).
+#' @param ... arguments passed to the \code{\link{reverse_geo}} function
+#' @return input dataframe (.tbl) with geocoder results appended as columns
+#'
+#' @examples
+#' \donttest{
+#' reverse_geocode(tibble(latitude = c(38.895865, 43.6534817), longitude = c(-77.0307713, -79.3839347)), 
+# lat = latitude, long = longitude, method = 'osm', full_results = TRUE, verbose = TRUE)
+#' }
+#' @seealso \code{\link{reverse_geo}} \code{\link{api_parameter_reference}}
 #' @export
 reverse_geocode <- function(.tbl, lat, long, address = address, return_coords = FALSE, unique_only = FALSE, ...) {
   

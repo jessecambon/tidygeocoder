@@ -2,7 +2,7 @@
 % Please edit documentation in R/utils.R
 \name{extract_results}
 \alias{extract_results}
-\title{Extract geocoder results}
+\title{Extract forward geocoding results}
 \usage{
 extract_results(method, response, full_results = TRUE, flatten = TRUE)
 }

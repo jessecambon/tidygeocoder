@@ -2,10 +2,30 @@
 % Please edit documentation in R/utils.R
 \name{extract_reverse_results}
 \alias{extract_reverse_results}
-\title{Extract reverse geocoding results}
+\title{Extract reverse geocoder results}
 \usage{
 extract_reverse_results(method, response, full_results = TRUE, flatten = TRUE)
 }
+\arguments{
+\item{method}{method name}
+
+\item{response}{content from the geocoder service (returned by the \code{\link{query_api}} function)}
+
+\item{full_results}{if TRUE then the full results (not just latitude and longitude)
+will be returned.}
+
+\item{flatten}{if TRUE then flatten any nested dataframe content}
+}
+\value{
+geocoder results in tibble format
+}
 \description{
-Extract reverse geocoding results
+Parses the output of the \code{\link{query_api}} function for reverse geoocding.
+The address is extracted into the first column
+of the returned dataframe. This function is not used for batch 
+geocoded results. Refer to \code{\link{query_api}} for example
+usage.
+}
+\seealso{
+\code{\link{get_api_query}} \code{\link{query_api}} \code{\link{reverse_geo}}
 }

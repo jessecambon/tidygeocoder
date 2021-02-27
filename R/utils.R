@@ -32,7 +32,7 @@ pause_until <- function(start_time, min_time, debug=FALSE) {
   }
 }
 
-#' Extract geocoder results 
+#' Extract forward geocoding results 
 #' 
 #' @description
 #' Parses the output of the \code{\link{query_api}} function.
@@ -97,7 +97,22 @@ extract_results <- function(method, response, full_results = TRUE, flatten = TRU
   else return(combined_results)
 }
 
-#' Extract reverse geocoding results
+#' Extract reverse geocoder results 
+#' 
+#' @description
+#' Parses the output of the \code{\link{query_api}} function for reverse geoocding.
+#' The address is extracted into the first column
+#' of the returned dataframe. This function is not used for batch 
+#' geocoded results. Refer to \code{\link{query_api}} for example
+#' usage.
+#' 
+#' @param method method name
+#' @param response  content from the geocoder service (returned by the \code{\link{query_api}} function)
+#' @param full_results if TRUE then the full results (not just latitude and longitude)
+#'   will be returned.
+#' @param flatten if TRUE then flatten any nested dataframe content
+#' @return geocoder results in tibble format 
+#' @seealso \code{\link{get_api_query}} \code{\link{query_api}} \code{\link{reverse_geo}}
 #' @export 
 extract_reverse_results <- function(method, response, full_results = TRUE, flatten = TRUE) {
   # extract the single line address

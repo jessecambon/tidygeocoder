@@ -4,8 +4,6 @@
 # osm: https://nominatim.org/release-docs/latest/api/Reverse/
 # opencage: https://opencagedata.com/api
 
-## NOTE: geocodio supports BATCH reverse geocoding
-
 ## IMPORTANT: All new REVERSE batch geocoding functions must be added to reverse_batch_func_map
 # the reverse_geo() function references this list to find reverse batch geocoding functions (reverse_batch_geocoding.R)
 # maps method names to batch functions
@@ -32,12 +30,6 @@ get_coord_parameters <- function(custom_query, method, lat, long) {
 }
 
 
-
-
-
-
-
-
 #' Reverse geocode latitude, longitude coordinates
 #' 
 #' @description
@@ -46,12 +38,11 @@ get_coord_parameters <- function(custom_query, method, lat, long) {
 #' See example usage in \code{vignette("tidygeocoder")} 
 #'
 #' This function uses the \code{\link{get_api_query}}, \code{\link{query_api}}, and
-#' \code{\link{reverse_extract_results}} functions to create, execute, and parse the geocoder
+#' \code{\link{extract_reverse_results}} functions to create, execute, and parse the geocoder
 #' API queries.
 #' 
-#' @param lat latitude
-#' @param long longitude
-#' 
+#' @param lat latitude values
+#' @param long longitude values
 #' @param method the geocoder service to be used. Refer to 
 #' \code{\link{api_parameter_reference}} and the API documentation for
 #' each geocoder service for usage details and limitations.
@@ -69,7 +60,8 @@ get_coord_parameters <- function(custom_query, method, lat, long) {
 #'      OpenStreetMap) and worldwide coverage. Requires an API Key to be stored
 #'      in the "OPENCAGE_KEY" environmental variable.
 #' }
-#' @param limit number of results to return per address. Note that not all methods support
+#' @param address name of address column
+#' @param limit number of results to return per coordinate. Note that not all methods support
 #'  setting limit to a value other than 1. Also limit > 1 is not compatible 
 #'  with batch geocoding if return_addresses = TRUE.
 #' @param min_time minimum amount of time for a query to take (in seconds) if using
@@ -165,15 +157,53 @@ reverse_geo <- function(lat, long, method = 'osm', address = address, limit = 1,
   # Batch geocoding --------------------------------------------------------------------------
   if ((num_coords > 1) | (mode == 'batch')) {
     
+    if (limit != 1 & return_coords == TRUE) {
+      stop('For batch geocoding (more than one address per query) the limit argument must 
+    be 1 (the default) OR the return_coords argument must be FALSE. Possible solutions:
+    1) Set the mode argument to "single" to force single (not batch) geocoding 
+    2) Set limit argument to 1 (ie. 1 result is returned per address)
+    3) Set return_coords to FALSE
+    See the geo() function documentation for details.')
+    }
+    
+    # Enforce batch limit if needed
+    if (num_coords > batch_limit) {
+      message(paste0('Limiting batch query to ', format(batch_limit, big.mark = ','), ' coordinates'))
+      batch_coords <-  coord_pack$unique[1:batch_limit, ]
+    } else {
+      batch_coords <- coord_pack$unique
+    }
+    
+    if (verbose == TRUE) message(paste0('Passing ', 
+                                        format(min(batch_limit, num_coords), big.mark = ','), 
+                                        ' coordinates to the ', method, ' batch geocoder'))
+    
+    # Convert our generic query parameters into parameters specific to our API (method)
+    if (no_query == TRUE) return(unpackage_inputs(coord_pack, 
+                                                  tibble::tibble(address = rep(as.character(NA), num_coords)), 
+                                                  unique_only, return_coords))
+    
     if (verbose == TRUE) message(paste0('Passing ', 
             format(min(batch_limit, num_coords), big.mark = ','), 
             ' coordinates to the ', method, ' batch geocoder'))
     
-    # call the appropriate function for batch geocoding according the the batch_func_map named list
+    # call the appropriate function for batch geocoding according the the reverse_batch_func_map named list
     # if batch limit was exceeded then apply that limit
     batch_results <- do.call(reverse_batch_func_map[[method]], 
         c(list(lat = coord_pack$unique$lat, long = coord_pack$unique$long),
         all_args[!names(all_args) %in% c('lat', 'long')]))
+    
+    # Add NA results if batch limit was reached so rows match up
+    if (num_coords > batch_limit) {
+      batch_filler <- tibble::tibble(address = rep(as.character(NA), num_coords - batch_limit))
+      batch_results <- dplyr::bind_rows(batch_results, batch_filler)
+    }
+    
+    # if verbose = TRUE, tell user how long batch query took
+    if (verbose == TRUE) {
+      batch_time_elapsed <- get_seconds_elapsed(start_time)
+      print_time("Query completed in", batch_time_elapsed)
+    }
     
     # map the raw results back to the original lat,long inputs that were passed if there are duplicates
     return(unpackage_inputs(coord_pack, batch_results, unique_only, return_coords))

@@ -27,9 +27,9 @@ reverse_geo(
 )
 }
 \arguments{
-\item{lat}{latitude}
+\item{lat}{latitude values}
 
-\item{long}{longitude}
+\item{long}{longitude values}
 
 \item{method}{the geocoder service to be used. Refer to 
 \code{\link{api_parameter_reference}} and the API documentation for
@@ -49,7 +49,9 @@ each geocoder service for usage details and limitations.
      in the "OPENCAGE_KEY" environmental variable.
 }}
 
-\item{limit}{number of results to return per address. Note that not all methods support
+\item{address}{name of address column}
+
+\item{limit}{number of results to return per coordinate. Note that not all methods support
 setting limit to a value other than 1. Also limit > 1 is not compatible 
 with batch geocoding if return_addresses = TRUE.}
 
@@ -105,7 +107,7 @@ function utilizes this function on coordinates contained in dataframes.
 See example usage in \code{vignette("tidygeocoder")} 
 
 This function uses the \code{\link{get_api_query}}, \code{\link{query_api}}, and
-\code{\link{reverse_extract_results}} functions to create, execute, and parse the geocoder
+\code{\link{extract_reverse_results}} functions to create, execute, and parse the geocoder
 API queries.
 }
 \examples{
