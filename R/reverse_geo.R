@@ -190,7 +190,7 @@ reverse_geo <- function(lat, long, method = 'osm', address = address, limit = 1,
     # call the appropriate function for batch geocoding according the the reverse_batch_func_map named list
     # if batch limit was exceeded then apply that limit
     batch_results <- do.call(reverse_batch_func_map[[method]], 
-        c(list(lat = coord_pack$unique$lat, long = coord_pack$unique$long),
+        c(list(lat = batch_coords$lat, long = batch_coords$long),
         all_args[!names(all_args) %in% c('lat', 'long')]))
     
     # Add NA results if batch limit was reached so rows match up
@@ -273,3 +273,6 @@ reverse_geo <- function(lat, long, method = 'osm', address = address, limit = 1,
 
 # bq1 <- reverse_geocode(tibble::tibble(latitude = c(38.895865, 43.6534817, 700), longitude = c(-77.0307713, -79.3839347, 300)), 
 # lat = latitude, long = longitude, method = 'osm', full_results = TRUE, verbose = TRUE)
+
+# bl1 <- reverse_geocode(tibble::tibble(latitude = c(38.895865, 43.6534817, 35.0844), longitude = c(-77.0307713, -79.3839347, 106.6504)), 
+# lat = latitude, long = longitude, method = 'geocodio', full_results = TRUE, verbose = TRUE, batch_limit = 1)
