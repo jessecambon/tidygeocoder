@@ -352,14 +352,8 @@ geo <- function(address = NULL,
   
   # Set API URL (if not already set) ---------------------------
   if (is.null(api_url)) {
-    api_url <- switch(method,
-                      "census" = get_census_url(return_type, search),
-                      "osm" = get_osm_url(),
-                      "geocodio" = get_geocodio_url(geocodio_v),
-                      "iq" = get_iq_url(iq_region),
-                      "google" = get_google_url(),
-                      "opencage" = get_opencage_url()
-    )
+    api_url <- get_api_url(method, reverse = FALSE, return_type = return_type,
+                search = search, geocodio_v = geocodio_v, iq_region = iq_region)
   }
   if (length(api_url) == 0) stop('API URL not found')
   

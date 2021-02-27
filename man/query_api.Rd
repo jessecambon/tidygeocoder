@@ -9,7 +9,7 @@ query_api(
   query_parameters,
   mode = "single",
   batch_file = NULL,
-  address_list = NULL,
+  input_list = NULL,
   content_encoding = "UTF-8",
   timeout = 20
 )
@@ -27,7 +27,7 @@ query_api(
 
 \item{batch_file}{a csv file of addresses to upload (census)}
 
-\item{address_list}{a list of addresses for batch geocoding (geocodio)
+\item{input_list}{a list of addresses or latitude, longitude coordinates for batch geocoding (geocodio)
 should be 'json' for geocodio and 'multipart' for census}
 
 \item{content_encoding}{Encoding to be used for parsing content}

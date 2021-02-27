@@ -2,31 +2,121 @@
 % Please edit documentation in R/reverse_geo.R
 \name{reverse_geo}
 \alias{reverse_geo}
-\title{lat, long = inputs
-address = name of address column}
+\title{Reverse geocode latitude, longitude coordinates}
 \usage{
 reverse_geo(
   lat,
   long,
-  address = address,
   method = "osm",
+  address = address,
   limit = 1,
+  min_time = NULL,
   api_url = NULL,
-  return_coords = TRUE,
+  timeout = 20,
+  mode = "",
   full_results = FALSE,
   unique_only = FALSE,
+  return_coords = TRUE,
   flatten = TRUE,
+  batch_limit = 10000,
   verbose = FALSE,
   no_query = FALSE,
-  mode = "",
   custom_query = list(),
-  geocodio_v = 1.6,
   iq_region = "us",
-  param_error = TRUE,
-  batch_limit = 10000
+  geocodio_v = 1.6
 )
 }
+\arguments{
+\item{lat}{latitude}
+
+\item{long}{longitude}
+
+\item{method}{the geocoder service to be used. Refer to 
+\code{\link{api_parameter_reference}} and the API documentation for
+each geocoder service for usage details and limitations.
+\itemize{
+  \item \code{"osm"}: Nominatim (OSM). Worldwide coverage.
+  \item \code{"geocodio"}: Commercial geocoder. Covers US and Canada and has
+     batch geocoding capabilities. Requires an API Key to be stored in
+     the "GEOCODIO_API_KEY" environmental variable.
+  \item \code{"iq"}: Commercial Nominatim geocoder service. Requires an API Key to
+     be stored in the "LOCATIONIQ_API_KEY" environmental variable.
+  \item \code{"google"}: Commercial Google geocoder service. Requires an API Key to
+     be stored in the "GOOGLEGEOCODE_API_KEY" environmental variable.
+  \item \code{"opencage"}: Commercial geocoder with
+     \href{https://opencagedata.com/credits}{various open data sources} (e.g.
+     OpenStreetMap) and worldwide coverage. Requires an API Key to be stored
+     in the "OPENCAGE_KEY" environmental variable.
+}}
+
+\item{limit}{number of results to return per address. Note that not all methods support
+setting limit to a value other than 1. Also limit > 1 is not compatible 
+with batch geocoding if return_addresses = TRUE.}
+
+\item{min_time}{minimum amount of time for a query to take (in seconds) if using
+Location IQ or OSM. This parameter is used to abide by API usage limits. You can
+set it to a lower value (ie. 0) if using a local Nominatim server, for instance.}
+
+\item{api_url}{custom API URL. If specified, the default API URL will be overridden.
+This parameter can be used to specify a local Nominatim server.}
+
+\item{timeout}{query timeout (in minutes)}
+
+\item{mode}{set to 'batch' to force batch geocoding or 'single' to 
+force single address geocoding (one address per query). If not 
+specified then batch geocoding will be used if available
+(given method selected) when multiple addresses are provided, otherwise
+single address geocoding will be used.}
+
+\item{full_results}{returns all data from the geocoder service if TRUE. 
+If FALSE then only longitude and latitude are returned from the geocoder service.}
+
+\item{unique_only}{only return results for unique addresses if TRUE}
+
+\item{return_coords}{return input coordinates with results if TRUE. Note that
+most services return the input coordinates with full_results = TRUE and setting
+return_addresses to FALSE does not prevent this.}
+
+\item{flatten}{if TRUE then any nested dataframes in results are flattened if possible.
+Note that Geocodio batch geocoding results are flattened regardless.}
+
+\item{batch_limit}{limit to the number of addresses in a batch geocoding query.
+Both geocodio and census batch geocoders have a 10,000 address limit so this
+is the default.}
+
+\item{verbose}{if TRUE then detailed logs are output to the console}
+
+\item{no_query}{if TRUE then no queries are sent to the geocoder and verbose is set to TRUE}
+
+\item{custom_query}{API-specific parameters to be used, passed as a named list 
+(ie. \code{list(vintage = 'Current_Census2010')}).}
+
+\item{iq_region}{'us' (default) or 'eu'. Used for establishing API URL for the 'iq' method}
+
+\item{geocodio_v}{version of geocodio api. 1.6 is default. Used for establishing API URL
+for the 'geocodio' method.}
+}
+\value{
+parsed geocoding results in tibble format
+}
 \description{
-lat, long = inputs
-address = name of address column
+Reverse geocodes coordinates given as numeric values. The \code{\link{reverse_geocode}}
+function utilizes this function on coordinates contained in dataframes.
+See example usage in \code{vignette("tidygeocoder")} 
+
+This function uses the \code{\link{get_api_query}}, \code{\link{query_api}}, and
+\code{\link{reverse_extract_results}} functions to create, execute, and parse the geocoder
+API queries.
+}
+\examples{
+\donttest{
+ reverse_geo(lat = 38.895865, long = -77.0307713, method = 'osm', verbose = TRUE)
+ 
+ reverse_geo(lat = c(38.895865, 43.6534817, 300), 
+ long = c(-77.0307713, -79.3839347, 600), method = 'osm', full_results = TRUE, verbose = TRUE)
+ 
+}
+}
+\seealso{
+\code{\link{geocode}} \code{\link{api_parameter_reference}}
 }

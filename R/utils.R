@@ -97,6 +97,42 @@ extract_results <- function(method, response, full_results = TRUE, flatten = TRU
   else return(combined_results)
 }
 
+#' Extract reverse geocoding results
+#' @export 
+extract_reverse_results <- function(method, response, full_results = TRUE, flatten = TRUE) {
+  # extract the single line address
+  address <- switch(method,
+                    'osm' = response['display_name'],
+                    'iq' = response['display_name'],
+                    'geocodio' = response$results['formatted_address'],
+                    'google' = response$results['formatted_address'][1, ],
+                    'opencage' = response$results['formatted']
+  )
+  
+  # extract other results (besides single line address)
+  if (full_results == TRUE) {
+    results <- switch(method,
+                      'osm' = cbind(response[!(names(response) %in% c('display_name', 'boundingbox', 'address'))], 
+                                    tibble::as_tibble(response[['address']]), tibble::tibble(boundingbox = list(response$boundingbox))),
+                      'iq' =  cbind(response[!(names(response) %in% c('display_name', 'boundingbox', 'address'))], 
+                                    tibble::as_tibble(response[['address']]), tibble::tibble(boundingbox = list(response$boundingbox))),
+                      'geocodio' = response$results[!names(response$results) %in% c('formatted_address')],
+                      # take first row of multiple results for now
+                      'google' = response$results[!names(response$results) %in% c('formatted_address')][1, ], 
+                      'opencage' = response$results[!names(response$results) %in% c('formatted')]
+    )
+    
+    combined_results <- dplyr::bind_cols(address, results)
+  } else {
+    combined_results <- address
+  }
+  
+  combined_results <- tibble::as_tibble(combined_results)
+  
+  if (flatten == TRUE) return(jsonlite::flatten(combined_results))
+  else return(combined_results)
+}
+
 # Return a 2 column, 1 row NA tibble dataframe for coordinates that aren't found
 # Given the column names (as strings)
 get_na_value <- function(lat, long, rows = 1) {

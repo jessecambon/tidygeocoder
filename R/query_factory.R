@@ -33,12 +33,12 @@ get_min_query_time <- function(method) {
   
   # default min_time to 0
   min_time <- ifelse(method %in% names(seconds_per_query), seconds_per_query[[method]], 0)
-  
   return(min_time)
 }
 
 # API URL Functions ----------------------------------------------------------------
 # reverse = TRUE for reverse geocoding
+
 
 # return : returntype => 'locations' or 'geographies'
 # search:  searchtype => 'onelineaddress', 'addressbatch', 'address', or 'coordinates'
@@ -69,6 +69,21 @@ get_iq_url <- function(region, reverse = FALSE) {
 get_google_url <- function() return("https://maps.googleapis.com/maps/api/geocode/json")
 
 get_opencage_url <- function() return("https://api.opencagedata.com/geocode/v1/json")
+
+## wrapper function for above functions
+get_api_url <- function(method, reverse = FALSE, return_type = 'locations',
+            search = 'onelineaddress', geocodio_v = 1.6, iq_region = 'us') {
+  return(switch(method,
+         "osm" = get_osm_url(reverse = reverse),
+         "census" = get_census_url(return_type, search),
+         "geocodio" = get_geocodio_url(geocodio_v, reverse = reverse),
+         "iq" = get_iq_url(iq_region, reverse = reverse),
+         "opencage" = get_opencage_url(), # same url as forward geocoding
+         "google" = get_google_url() # same url as forward geocoding
+  ))
+}
+
+
 
 # API Parameters ----------------------------------------------------------------
 

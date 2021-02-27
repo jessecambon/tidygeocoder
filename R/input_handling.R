@@ -2,14 +2,23 @@
 
 # utility function for packaging either lat longs or address data
 # takes a dataframe input 
-package_inputs <- function(input_orig) {
+# cords = TRUE if processing coordinates
+package_inputs <- function(input_orig, coords = FALSE) {
   
   input_colnames <- names(input_orig) # store column names
   
   # Clean and inputs addresses. Remove all NA/missing addresses 
   input_unique <- input_orig
+  
+  # limit lat/longs in unique dataset to possible values. assuming lat, long
+  if (coords == TRUE) {
+    input_unique$lat[(input_unique$lat > 90 | input_unique$lat < -90)] <- NA
+    input_unique$long[(input_unique$long > 180 | input_unique$long < -180)] <- NA
+  }
+  
   # remove rows that are entirely blank or NA
   input_unique <- input_unique[!apply(is.na(input_unique) | input_unique == "", 1, all), ]
+  
   # only keep unique columns and then create a unique identifier column
   input_unique <- unique(input_unique)
   
@@ -97,7 +106,7 @@ package_addresses <- function(address = NULL,
 unpackage_inputs <- function(package, results, unique_only = FALSE, return_inputs = FALSE) {
   
   # Add addresses to results if we are returning them
-  if (return_inputs == TRUE) results <- cbind(package$unique, results)
+  if (return_inputs == TRUE) results <- dplyr::bind_cols(package$unique, results)
   
   # if there are no duplicates then just return the raw results
   if ((nrow(package$unique) == nrow(package$crosswalk)) | unique_only) {

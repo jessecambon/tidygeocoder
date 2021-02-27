@@ -13,47 +13,111 @@ reverse_batch_func_map <- list(
   geocodio = reverse_batch_geocodio
 )
 
-extract_reverse_results <- function(method, response, full_results = TRUE, flatten = TRUE) {
-  # extract the single line address
-  address <- switch(method,
-                    'osm' = response['display_name'],
-                    'iq' = response['display_name'],
-                    'geocodio' = response$results['formatted_address'],
-                    'google' = response$results['formatted_address'][1, ],
-                    'opencage' = response$results['formatted']
-  )
-  
-  # extract other results (besides single line address)
-  if (full_results == TRUE) {
-    results <- switch(method,
-                      'osm' = cbind(response[!(names(response) %in% c('display_name', 'boundingbox', 'address'))], 
-                        tibble::as_tibble(response[['address']]), tibble::tibble(boundingbox = list(response$boundingbox))),
-                      'iq' =  cbind(response[!(names(response) %in% c('display_name', 'boundingbox', 'address'))], 
-                        tibble::as_tibble(response[['address']]), tibble::tibble(boundingbox = list(response$boundingbox))),
-                      'geocodio' = response$results[!names(response$results) %in% c('formatted_address')],
-                      # take first row of multiple results for now
-                      'google' = response$results[!names(response$results) %in% c('formatted_address')][1, ], 
-                      'opencage' = response$results[!names(response$results) %in% c('formatted')]
-    )
-    
-    combined_results <- dplyr::bind_cols(address, results)
+
+# Create API parameters for a single set of coordinates (lat, long) based on the 
+# method. Parameters are placed into the 'custom_query' variable which is a named list
+# that is passed directly to the API service.
+get_coord_parameters <- function(custom_query, method, lat, long) {
+  if (method %in% c('osm', 'iq')) {
+    custom_query[['lat']] <- lat
+    custom_query[['lon']] <- long
+  } else if (method %in% c('geocodio', 'opencage')) {
+    custom_query[['q']] <-  paste0(as.character(lat), ',', as.character(long))
+  } else if (method == 'google') {
+    custom_query[['latlng']] <-  paste0(as.character(lat), ',', as.character(long))
   } else {
-    combined_results <- address
+    stop('Invalid method.')
   }
-  
-  combined_results <- tibble::as_tibble(combined_results)
-  
-  if (flatten == TRUE) return(jsonlite::flatten(combined_results))
-  else return(combined_results)
+  return(custom_query)
 }
 
-#' lat, long = inputs
-#' address = name of address column
+
+
+
+
+
+
+
+#' Reverse geocode latitude, longitude coordinates
+#' 
+#' @description
+#' Reverse geocodes coordinates given as numeric values. The \code{\link{reverse_geocode}}
+#' function utilizes this function on coordinates contained in dataframes.
+#' See example usage in \code{vignette("tidygeocoder")} 
+#'
+#' This function uses the \code{\link{get_api_query}}, \code{\link{query_api}}, and
+#' \code{\link{reverse_extract_results}} functions to create, execute, and parse the geocoder
+#' API queries.
+#' 
+#' @param lat latitude
+#' @param long longitude
+#' 
+#' @param method the geocoder service to be used. Refer to 
+#' \code{\link{api_parameter_reference}} and the API documentation for
+#' each geocoder service for usage details and limitations.
+#' \itemize{
+#'   \item \code{"osm"}: Nominatim (OSM). Worldwide coverage.
+#'   \item \code{"geocodio"}: Commercial geocoder. Covers US and Canada and has
+#'      batch geocoding capabilities. Requires an API Key to be stored in
+#'      the "GEOCODIO_API_KEY" environmental variable.
+#'   \item \code{"iq"}: Commercial Nominatim geocoder service. Requires an API Key to
+#'      be stored in the "LOCATIONIQ_API_KEY" environmental variable.
+#'   \item \code{"google"}: Commercial Google geocoder service. Requires an API Key to
+#'      be stored in the "GOOGLEGEOCODE_API_KEY" environmental variable.
+#'   \item \code{"opencage"}: Commercial geocoder with
+#'      \href{https://opencagedata.com/credits}{various open data sources} (e.g.
+#'      OpenStreetMap) and worldwide coverage. Requires an API Key to be stored
+#'      in the "OPENCAGE_KEY" environmental variable.
+#' }
+#' @param limit number of results to return per address. Note that not all methods support
+#'  setting limit to a value other than 1. Also limit > 1 is not compatible 
+#'  with batch geocoding if return_addresses = TRUE.
+#' @param min_time minimum amount of time for a query to take (in seconds) if using
+#'  Location IQ or OSM. This parameter is used to abide by API usage limits. You can
+#'  set it to a lower value (ie. 0) if using a local Nominatim server, for instance.
+#' @param api_url custom API URL. If specified, the default API URL will be overridden.
+#'  This parameter can be used to specify a local Nominatim server.
+#' @param timeout query timeout (in minutes)
+#' 
+#' @param mode set to 'batch' to force batch geocoding or 'single' to 
+#'  force single address geocoding (one address per query). If not 
+#'  specified then batch geocoding will be used if available
+#'  (given method selected) when multiple addresses are provided, otherwise
+#'  single address geocoding will be used.
+#' @param full_results returns all data from the geocoder service if TRUE. 
+#' If FALSE then only longitude and latitude are returned from the geocoder service.
+#' @param unique_only only return results for unique addresses if TRUE
+#' @param return_coords return input coordinates with results if TRUE. Note that
+#'    most services return the input coordinates with full_results = TRUE and setting
+#'    return_addresses to FALSE does not prevent this.
+#' 
+#' @param flatten if TRUE then any nested dataframes in results are flattened if possible.
+#'    Note that Geocodio batch geocoding results are flattened regardless.
+#' @param batch_limit limit to the number of addresses in a batch geocoding query.
+#'  Both geocodio and census batch geocoders have a 10,000 address limit so this
+#'  is the default.
+#' @param verbose if TRUE then detailed logs are output to the console
+#' @param no_query if TRUE then no queries are sent to the geocoder and verbose is set to TRUE
+#' @param custom_query API-specific parameters to be used, passed as a named list 
+#'  (ie. \code{list(vintage = 'Current_Census2010')}).
+#' @param iq_region 'us' (default) or 'eu'. Used for establishing API URL for the 'iq' method
+#' @param geocodio_v version of geocodio api. 1.6 is default. Used for establishing API URL
+#'   for the 'geocodio' method.
+#' 
+#' @return parsed geocoding results in tibble format
+#' @examples
+#' \donttest{
+#'  reverse_geo(lat = 38.895865, long = -77.0307713, method = 'osm', verbose = TRUE)
+#'  
+#'  reverse_geo(lat = c(38.895865, 43.6534817, 300), 
+#'  long = c(-77.0307713, -79.3839347, 600), method = 'osm', full_results = TRUE, verbose = TRUE)
+#'  
+#' }
+#' @seealso \code{\link{geocode}} \code{\link{api_parameter_reference}}
 #' @export
-reverse_geo <- function(lat, long, address = address, method = 'osm', limit = 1, api_url = NULL, return_coords = TRUE,
-    min_time = NULL,
-    full_results = FALSE, unique_only = FALSE, flatten = TRUE, verbose = FALSE, no_query = FALSE, mode = '',
-    custom_query = list(), geocodio_v = 1.6, iq_region = 'us', param_error = TRUE, batch_limit = 10000) {
+reverse_geo <- function(lat, long, method = 'osm', address = address, limit = 1, min_time = NULL, api_url = NULL,  
+    timeout = 20, mode = '',  full_results = FALSE, unique_only = FALSE, return_coords = TRUE, flatten = TRUE, 
+    batch_limit = 10000, verbose = FALSE, no_query = FALSE, custom_query = list(), iq_region = 'us', geocodio_v = 1.6) {
 
   # NSE eval
   address <- rm_quote(deparse(substitute(address)))
@@ -66,12 +130,12 @@ reverse_geo <- function(lat, long, address = address, method = 'osm', limit = 1,
 
   # Check argument inputs
   stopifnot(is.logical(verbose), is.logical(no_query), is.logical(flatten),
-      is.logical(full_results), is.logical(unique_only), is.logical(param_error),
+      is.logical(full_results), is.logical(unique_only),
       is.numeric(limit), limit >= 1,  is.list(custom_query))
   
   if (length(lat) != length(long)) stop('Lengths of lat and long must be equal.')
   
-  coord_pack <- package_inputs(tibble::tibble(lat = as.numeric(lat), long = as.numeric(long)))
+  coord_pack <- package_inputs(tibble::tibble(lat = as.numeric(lat), long = as.numeric(long)), coords = TRUE)
   num_coords <- nrow(coord_pack$unique)
   
   if (no_query == TRUE) verbose <- TRUE
@@ -123,34 +187,12 @@ reverse_geo <- function(lat, long, address = address, method = 'osm', limit = 1,
   # Start to build 'generic' query as named list -----------------------------
   generic_query <- list()
   
-  # Create Lat/Long argument(s)
-  # METHOD 1: lat = 123, lon = 123
-    # osm, iq
-  # METHOD 2:  q = lat,lon
-    # geocodio, opencage
-  # METHOD 3: latlng = lat,lon
-    # google
-  
-  if (method %in% c('osm', 'iq')) {
-    custom_query[['lat']] <- lat
-    custom_query[['lon']] <- long
-  } else if (method %in% c('geocodio', 'opencage')) {
-    custom_query[['q']] <-  paste0(as.character(lat), ',', as.character(long))
-  } else if (method == 'google') {
-    custom_query[['latlng']] <-  paste0(as.character(lat), ',', as.character(long))
-  } else {
-    stop('Invalid method.')
-  }
+  # Create parameters for lat, long coordinates
+  custom_query <- get_coord_parameters(custom_query, method, lat, long)
   
   # Set API URL (if not already set) ----------------------------------------
   if (is.null(api_url)) {
-    api_url <- switch(method,
-                      "osm" = get_osm_url(reverse = TRUE),
-                      "geocodio" = get_geocodio_url(geocodio_v, reverse = TRUE),
-                      "iq" = get_iq_url(iq_region, reverse = TRUE),
-                      "opencage" = get_opencage_url(), # same url as forward geocoding
-                      "google" = get_google_url() # same url as forward geocoding
-    )
+    api_url <- get_api_url(method, reverse = TRUE, geocodio_v = geocodio_v, iq_region = iq_region)
   }
   if (length(api_url) == 0) stop('API URL not found')
   
@@ -164,15 +206,12 @@ reverse_geo <- function(lat, long, address = address, method = 'osm', limit = 1,
     generic_query[['api_key']] <- get_key(method)
   }
   
-  if (!is.null(limit)) generic_query[['limit']] <- limit
-  
   # Convert our generic query parameters into parameters specific to our API (method)
   api_query_parameters <- get_api_query(method, generic_query, custom_query)
   
   # Execute Single Coordinate Query -----------------------------------------
   if (verbose == TRUE) display_query(api_url, api_query_parameters)
   raw_results <- jsonlite::fromJSON(query_api(api_url, api_query_parameters))
-  
   
   
   ## Extract results ------------------------------------------------------------------------------
@@ -196,11 +235,11 @@ reverse_geo <- function(lat, long, address = address, method = 'osm', limit = 1,
   return(unpackage_inputs(coord_pack, results, unique_only, return_coords))
 }
   
-
+### Test queries
 # a <- reverse_geo(lat = 38.895865, long = -77.0307713, method = 'osm', verbose = TRUE)
 # b <- reverse_geo(lat = 38.895865, long = -77.0307713, method = 'google', full_results = TRUE, verbose = TRUE)
 
 # c <- reverse_geo(lat = c(38.895865, 43.6534817, 300), long = c(-77.0307713, -79.3839347, 600), method = 'geocodio', full_results = TRUE, verbose = TRUE)
 
-# bq1 <- reverse_geocode(tibble(latitude = c(38.895865, 43.6534817, 700), longitude = c(-77.0307713, -79.3839347, 300)), 
+# bq1 <- reverse_geocode(tibble::tibble(latitude = c(38.895865, 43.6534817, 700), longitude = c(-77.0307713, -79.3839347, 300)), 
 # lat = latitude, long = longitude, method = 'osm', full_results = TRUE, verbose = TRUE)
