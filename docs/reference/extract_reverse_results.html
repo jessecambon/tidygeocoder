@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Function reference • tidygeocoder</title>
+<title>Extract reverse geocoder results — extract_reverse_results • tidygeocoder</title>
 
 
 <!-- jquery -->
@@ -45,7 +45,12 @@
 
 
 
-<meta property="og:title" content="Function reference" />
+<meta property="og:title" content="Extract reverse geocoder results — extract_reverse_results" />
+<meta property="og:description" content="Parses the output of the query_api function for reverse geoocding.
+The address is extracted into the first column
+of the returned dataframe. This function is not used for batch 
+geocoded results. Refer to query_api for example
+usage." />
 
 
 
@@ -64,7 +69,7 @@
   </head>
 
   <body data-spy="scroll" data-target="#toc">
-    <div class="container template-reference-index">
+    <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -123,155 +128,53 @@
       </header>
 
 <div class="row">
-  <div class="contents col-md-9">
+  <div class="col-md-9 contents">
     <div class="page-header">
-      <h1>Reference</h1>
+    <h1>Extract reverse geocoder results</h1>
+    <small class="dont-index">Source: <a href='https://github.com/jessecambon/tidygeocoder/blob/master/R/utils.R'><code>R/utils.R</code></a></small>
+    <div class="hidden name"><code>extract_reverse_results.Rd</code></div>
     </div>
 
-    <table class="ref-index">
+    <div class="ref-description">
+    <p>Parses the output of the <code><a href='query_api.html'>query_api</a></code> function for reverse geoocding.
+The address is extracted into the first column
+of the returned dataframe. This function is not used for batch 
+geocoded results. Refer to <code><a href='query_api.html'>query_api</a></code> for example
+usage.</p>
+    </div>
 
-    <colgroup>
-      
-      <col class="alias" />
-      <col class="title" />
-    </colgroup>
+    <pre class="usage"><span class='fu'>extract_reverse_results</span><span class='op'>(</span><span class='va'>method</span>, <span class='va'>response</span>, full_results <span class='op'>=</span> <span class='cn'>TRUE</span>, flatten <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></pre>
 
-    <tbody>
-      <tr>
-        <th colspan="2">
-          <h2 id="section-geocoding-functions" class="hasAnchor"><a href="#section-geocoding-functions" class="anchor"></a>Geocoding functions</h2>
-          <p class="section-desc"><p>These are the main functions to call for geocoding</p></p>
-        </th>
-      </tr>
-      
-      
-    </tbody><tbody>
-      
-      
-      <tr>
-        
-        <td>
-          <p><code><a href="geocode.html">geocode()</a></code> </p>
-        </td>
-        <td><p>Geocode addresses in a dataframe</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="geo.html">geo()</a></code> </p>
-        </td>
-        <td><p>Geocode addresses</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="reverse_geocode.html">reverse_geocode()</a></code> </p>
-        </td>
-        <td><p>Reverse geocode coordinates in a dataframe</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="reverse_geo.html">reverse_geo()</a></code> </p>
-        </td>
-        <td><p>Reverse geocode latitude, longitude coordinates</p></td>
-      </tr>
-    </tbody><tbody>
-      <tr>
-        <th colspan="2">
-          <h2 id="section-convenience-functions" class="hasAnchor"><a href="#section-convenience-functions" class="anchor"></a>Convenience functions</h2>
-          <p class="section-desc"></p>
-        </th>
-      </tr>
-      
-      
-    </tbody><tbody>
-      
-      
-      <tr>
-        
-        <td>
-          <p><code><a href="geo_cascade.html">geo_cascade()</a></code> </p>
-        </td>
-        <td><p>Convenience function for calling the <code>geo</code> function
-with method = 'cascade'</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="geo_census.html">geo_census()</a></code> <code><a href="geo_census.html">geo_osm()</a></code> <code><a href="geo_census.html">geo_geocodio()</a></code> <code><a href="geo_census.html">geo_iq()</a></code> <code><a href="geo_census.html">geo_google()</a></code> <code><a href="geo_census.html">geo_opencage()</a></code> </p>
-        </td>
-        <td><p>Convenience functions for calling the <code>geo</code> function
-with a specified method</p></td>
-      </tr>
-    </tbody><tbody>
-      <tr>
-        <th colspan="2">
-          <h2 id="section-data" class="hasAnchor"><a href="#section-data" class="anchor"></a>Data</h2>
-          <p class="section-desc"></p>
-        </th>
-      </tr>
-      
-      
-    </tbody><tbody>
-      
-      
-      <tr>
-        
-        <td>
-          <p><code><a href="louisville.html">louisville</a></code> </p>
-        </td>
-        <td><p>Louisville, Kentucky street addresses</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="sample_addresses.html">sample_addresses</a></code> </p>
-        </td>
-        <td><p>Some sample addresses for testing</p></td>
-      </tr>
-    </tbody><tbody>
-      <tr>
-        <th colspan="2">
-          <h2 id="section-other" class="hasAnchor"><a href="#section-other" class="anchor"></a>Other</h2>
-          <p class="section-desc"></p>
-        </th>
-      </tr>
-      
-      
-    </tbody><tbody>
-      
-      
-      <tr>
-        
-        <td>
-          <p><code><a href="api_parameter_reference.html">api_parameter_reference</a></code> </p>
-        </td>
-        <td><p>Geocoder service API parameter reference</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="get_api_query.html">get_api_query()</a></code> </p>
-        </td>
-        <td><p>Construct a geocoder API query</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="query_api.html">query_api()</a></code> </p>
-        </td>
-        <td><p>Execute a geocoder API query</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="extract_results.html">extract_results()</a></code> </p>
-        </td>
-        <td><p>Extract forward geocoding results</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="extract_reverse_results.html">extract_reverse_results()</a></code> </p>
-        </td>
-        <td><p>Extract reverse geocoder results</p></td>
-      </tr>
-    </tbody>
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>method</th>
+      <td><p>method name</p></td>
+    </tr>
+    <tr>
+      <th>response</th>
+      <td><p>content from the geocoder service (returned by the <code><a href='query_api.html'>query_api</a></code> function)</p></td>
+    </tr>
+    <tr>
+      <th>full_results</th>
+      <td><p>if TRUE then the full results (not just latitude and longitude)
+will be returned.</p></td>
+    </tr>
+    <tr>
+      <th>flatten</th>
+      <td><p>if TRUE then flatten any nested dataframe content</p></td>
+    </tr>
     </table>
-  </div>
 
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>geocoder results in tibble format</p>
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <div class='dont-index'><p><code><a href='get_api_query.html'>get_api_query</a></code> <code><a href='query_api.html'>query_api</a></code> <code><a href='reverse_geo.html'>reverse_geo</a></code></p></div>
+
+  </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
       <h2 data-toc-skip>Contents</h2>

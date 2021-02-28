@@ -10,6 +10,9 @@
     <loc>https://jessecambon.github.io/tidygeocoder/reference/extract_results.html</loc>
   </url>
   <url>
+    <loc>https://jessecambon.github.io/tidygeocoder/reference/extract_reverse_results.html</loc>
+  </url>
+  <url>
     <loc>https://jessecambon.github.io/tidygeocoder/reference/geo.html</loc>
   </url>
   <url>
@@ -29,6 +32,12 @@
   </url>
   <url>
     <loc>https://jessecambon.github.io/tidygeocoder/reference/query_api.html</loc>
+  </url>
+  <url>
+    <loc>https://jessecambon.github.io/tidygeocoder/reference/reverse_geo.html</loc>
+  </url>
+  <url>
+    <loc>https://jessecambon.github.io/tidygeocoder/reference/reverse_geocode.html</loc>
   </url>
   <url>
     <loc>https://jessecambon.github.io/tidygeocoder/reference/sample_addresses.html</loc>

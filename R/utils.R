@@ -120,7 +120,7 @@ extract_reverse_results <- function(method, response, full_results = TRUE, flatt
                     'osm' = response['display_name'],
                     'iq' = response['display_name'],
                     'geocodio' = response$results['formatted_address'],
-                    'google' = response$results['formatted_address'][1, ],
+                    'google' = response$results[1, ]['formatted_address'],
                     'opencage' = response$results['formatted']
   )
   
@@ -133,7 +133,7 @@ extract_reverse_results <- function(method, response, full_results = TRUE, flatt
                                     tibble::as_tibble(response[['address']]), tibble::tibble(boundingbox = list(response$boundingbox))),
                       'geocodio' = response$results[!names(response$results) %in% c('formatted_address')],
                       # take first row of multiple results for now
-                      'google' = response$results[!names(response$results) %in% c('formatted_address')][1, ], 
+                      'google' = response$results[1, ][!names(response$results) %in% c('formatted_address')], 
                       'opencage' = response$results[!names(response$results) %in% c('formatted')]
     )
     

@@ -15,9 +15,10 @@ soup <- httr::GET(url = url_base,
 raw_results <- jsonlite::fromJSON(httr::content(soup, as = 'text', encoding = "UTF-8"))
 
 
-address <-  raw_results$results['formatted_address'][[1]][[1]]
+
+
+address <-  raw_results$results[1,][c('formatted_address')]
 
 results  <- raw_results$results[1,]
-
 
 combi_results <- dplyr::bind_cols(address, results)

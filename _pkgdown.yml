@@ -10,6 +10,8 @@ reference:
   contents:
   - geocode
   - geo 
+  - reverse_geocode
+  - reverse_geo
 - title: Convenience functions
   contents:
   - starts_with("geo_")
@@ -23,6 +25,7 @@ reference:
   - get_api_query
   - query_api
   - extract_results
+  - extract_reverse_results
 authors:
   Jesse Cambon:
     href: https://jessecambon.github.io

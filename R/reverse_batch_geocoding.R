@@ -22,13 +22,10 @@ verbose = FALSE, api_url = NULL, geocodio_v = 1.6, limit = 1, ...) {
   # Note that flatten here is necessary in order to get rid of the
   # nested dataframes that would cause dplyr::bind_rows (or rbind) to fail
   content <- jsonlite::fromJSON(raw_content, flatten = TRUE)
-  
-  
   response <- jsonlite::fromJSON(raw_content, flatten = TRUE)
-  
   result_list <- response$results$response.results
   
-  # if no results are returned for a given address then there is a 0 row dataframe in this
+  # if no results are returned for a given coordinate then there is a 0 row dataframe in this
   # list and we need to replace it with a 1 row NA dataframe to preserve the number of rows
   result_list_filled <- lapply(result_list, filler_df, c('formatted_address'))
   
