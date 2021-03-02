@@ -46,7 +46,18 @@ on possible arguments.
 }
 \examples{
 \donttest{
-reverse_geocode(tibble(latitude = c(38.895865, 43.6534817), longitude = c(-77.0307713, -79.3839347)), 
+library(tibble)
+reverse_geocode(
+  tibble(
+    latitude = c(38.895865, 43.6534817),
+    longitude = c(-77.0307713,-79.3839347)
+  ),
+  lat = latitude,
+  long = longitude,
+  method = 'osm',
+  full_results = TRUE,
+  verbose = TRUE
+)
 }
 }
 \seealso{
