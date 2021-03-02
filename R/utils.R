@@ -62,7 +62,11 @@ extract_results <- function(method, response, full_results = TRUE, flatten = TRU
     'iq' = response[c('lat', 'lon')],
     'geocodio' = response$results$location[c('lat', 'lng')],
     'google' = response$results$geometry$location[c('lat','lng')],
-    'opencage' = response$results$geometry[c('lat', 'lng')]
+    'opencage' = response$results$geometry[c('lat', 'lng')],
+    'mapbox' <- data.frame(
+      'lat' = raw_results$features$center[[1]][2],
+      'long' = raw_results$features$center[[1]][1]
+    ) # mapbox results are nested unnames lists
   )
   
   # if null result then return NA
@@ -83,7 +87,8 @@ extract_results <- function(method, response, full_results = TRUE, flatten = TRU
       'iq' =  response[!names(response) %in% c('lat', 'lon')],
       'geocodio' = response$results[!names(response$results) %in% c('location')],
       'google' = response$results,
-      'opencage' = response$results[!names(response$results) %in% c('geometry')]
+      'opencage' = response$results[!names(response$results) %in% c('geometry')],
+      'mapbox' = response$features
     )
     
     combined_results <- tibble::as_tibble(cbind(lat_lng, results))

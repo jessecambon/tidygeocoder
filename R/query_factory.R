@@ -7,7 +7,8 @@ get_key <- function(method) {
          'geocodio' = "GEOCODIO_API_KEY",
          'iq' = "LOCATIONIQ_API_KEY",
          'google' = "GOOGLEGEOCODE_API_KEY",
-         'opencage' = "OPENCAGE_KEY"
+         'opencage' = "OPENCAGE_KEY",
+         'mapbox' = "MAPBOX_KEY"
          )
   # load api key from environmental variable
   key <- Sys.getenv(env_var)
@@ -28,7 +29,8 @@ get_min_query_time <- function(method) {
     geocodio = 60/1000,    # 1000 queries per minute (free tier)
     iq = 1/2,              # 2 queries per second (free tier)
     google = 1/50,         # 50 queries per second
-    opencage = 1           # 1 query/second 
+    opencage = 1,          # 1 query/second 
+    mapbox = 60/600        # 600 queries per minute (free tier)
   )
   
   # default min_time to 0
@@ -70,16 +72,23 @@ get_google_url <- function() return("https://maps.googleapis.com/maps/api/geocod
 
 get_opencage_url <- function() return("https://api.opencagedata.com/geocode/v1/json")
 
+get_mapbox_url <- function(mapbox_permanent = FALSE) {
+  endpoint <- if (mapbox_permanent == TRUE) "mapbox.places-permanent" else "mapbox.places"
+  return(paste0("https://api.mapbox.com/geocoding/v5/", endpoint, "/"))
+}
+
 ## wrapper function for above functions
 get_api_url <- function(method, reverse = FALSE, return_type = 'locations',
-            search = 'onelineaddress', geocodio_v = 1.6, iq_region = 'us') {
+            search = 'onelineaddress', geocodio_v = 1.6, iq_region = 'us', 
+            mapbox_permanent = FALSE) {
   return(switch(method,
          "osm" = get_osm_url(reverse = reverse),
          "census" = get_census_url(return_type, search),
          "geocodio" = get_geocodio_url(geocodio_v, reverse = reverse),
          "iq" = get_iq_url(iq_region, reverse = reverse),
          "opencage" = get_opencage_url(), # same url as forward geocoding
-         "google" = get_google_url() # same url as forward geocoding
+         "google" = get_google_url(), # same url as forward geocoding
+         "mapbox" = get_mapbox_url(mapbox_permanent) # same url as fwd geocoding
   ))
 }
 
