@@ -126,7 +126,8 @@ extract_reverse_results <- function(method, response, full_results = TRUE, flatt
                     'iq' = response['display_name'],
                     'geocodio' = response$results['formatted_address'],
                     'google' = response$results[1, ]['formatted_address'],
-                    'opencage' = response$results['formatted']
+                    'opencage' = response$results['formatted'],
+                    'mapbox' = response$features['place_name']
   )
   
   # extract other results (besides single line address)
@@ -139,7 +140,8 @@ extract_reverse_results <- function(method, response, full_results = TRUE, flatt
                       'geocodio' = response$results[!names(response$results) %in% c('formatted_address')],
                       # take first row of multiple results for now
                       'google' = response$results[1, ][!names(response$results) %in% c('formatted_address')], 
-                      'opencage' = response$results[!names(response$results) %in% c('formatted')]
+                      'opencage' = response$results[!names(response$results) %in% c('formatted')],
+                      'mapbox' = response$features[!names(response$features) %in% c('place_name')]
     )
     
     combined_results <- dplyr::bind_cols(address, results)
