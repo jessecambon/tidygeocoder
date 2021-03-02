@@ -5,7 +5,7 @@ test_that("Check API Parameter Reference Dataset", {
   expect_true(!any(is.na(tidygeocoder::api_parameter_reference$method)))
   
   # check for duplicates
-  unique_api_param_rows <- nrow(tidygeocoder::api_parameter_reference[c('method','generic_name')])
+  unique_api_param_rows <- nrow(tidygeocoder::api_parameter_reference[c('method', 'generic_name')])
   api_param_rows <- nrow(tidygeocoder::api_parameter_reference)
   
   expect_equal(unique_api_param_rows,api_param_rows)
@@ -102,10 +102,16 @@ test_that("Test API Query Creation Functions", {
 
 test_that("Test Miscellaneous Functions", {
   
+  # na value function for return NA data
   num_rows <- 3
   na_vals <- tidygeocoder:::get_na_value('lat', 'long', rows = num_rows)
-  
   expect_true(tibble::is_tibble(na_vals))
   expect_true(nrow(na_vals) == num_rows)
+  
+  # check that rename_and_bind_cols function can handle data frames with duplicate
+  # column names
+  a <- data.frame(x=1)
+  b <- data.frame(x=1, x=2, check.names = FALSE)
+  expect_true(is.data.frame(tidygeocoder:::rename_and_bind_cols(a, b)))
   
 })

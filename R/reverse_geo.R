@@ -82,7 +82,6 @@ get_coord_parameters <- function(custom_query, method, lat, long) {
 #' @param return_coords return input coordinates with results if TRUE. Note that
 #'    most services return the input coordinates with full_results = TRUE and setting
 #'    return_addresses to FALSE does not prevent this.
-#' 
 #' @param flatten if TRUE then any nested dataframes in results are flattened if possible.
 #'    Note that Geocodio batch geocoding results are flattened regardless.
 #' @param batch_limit limit to the number of addresses in a batch geocoding query.

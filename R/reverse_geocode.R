@@ -1,7 +1,7 @@
 #' Reverse geocode coordinates in a dataframe
 #'
 #' @description
-#' Takes a dataframe containing coordinates as an input and returns 
+#' Takes a dataframe containing latitude, longitude coordinates as inputs and returns 
 #' the dataframe results from a specified geocoder service by using the
 #' \code{\link{reverse_geo}} function. See example usage in \code{vignette("tidygeocoder")}.
 #' 

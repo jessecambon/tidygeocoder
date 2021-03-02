@@ -1,4 +1,22 @@
 
+# if there is a column conflict then rename the columns in the 
+# second dataset. Then merge both datasets with dplyr::bind_cols
+# this avoids columns in the first dataset from being renamed
+# .suffix is appending to columns in the case of conflict
+# df2 is returned
+rename_and_bind_cols <- function(df1, df2, suffix = 'results') {
+  
+  # what column names are in common between the two datasets
+  names_in_common <- intersect(names(df1), names(df2))
+  
+  # iterate through column names in common (if any) and rename
+  if (length(names_in_common) != 0) {
+    for (name in names_in_common) {
+      names(df2)[which(names(df2) == name)] <- paste0(name, '.', suffix)
+    }
+  }
+  return(dplyr::bind_cols(df1, df2))
+}
 
 # utility function for packaging either lat longs or address data
 # takes a dataframe input 
@@ -106,7 +124,7 @@ package_addresses <- function(address = NULL,
 unpackage_inputs <- function(package, results, unique_only = FALSE, return_inputs = FALSE) {
   
   # Add addresses to results if we are returning them
-  if (return_inputs == TRUE) results <- dplyr::bind_cols(package$unique, results)
+  if (return_inputs == TRUE) results <- rename_and_bind_cols(package$unique, results)
   
   # if there are no duplicates then just return the raw results
   if ((nrow(package$unique) == nrow(package$crosswalk)) | unique_only) {
