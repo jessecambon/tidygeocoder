@@ -8,7 +8,7 @@ get_key <- function(method) {
          'iq' = "LOCATIONIQ_API_KEY",
          'google' = "GOOGLEGEOCODE_API_KEY",
          'opencage' = "OPENCAGE_KEY",
-         'mapbox' = "MAPBOX_KEY"
+         'mapbox' = "MAPBOX_API_KEY"
          )
   # load api key from environmental variable
   key <- Sys.getenv(env_var)

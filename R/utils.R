@@ -64,8 +64,8 @@ extract_results <- function(method, response, full_results = TRUE, flatten = TRU
     'google' = response$results$geometry$location[c('lat','lng')],
     'opencage' = response$results$geometry[c('lat', 'lng')],
     'mapbox' <- data.frame(
-      'lat' = raw_results$features$center[[1]][2],
-      'long' = raw_results$features$center[[1]][1]
+      'lat' = response$features$center[[1]][2],
+      'long' = response$features$center[[1]][1]
     ) # mapbox results are nested unnames lists
   )
   
