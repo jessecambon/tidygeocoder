@@ -367,6 +367,8 @@ geo <- function(address = NULL,
   # Ugly hack for Mapbox - The search_text should be in the url
   if (method == "mapbox") {
     api_url <- gsub(" ", "%20", paste0(api_url, generic_query[['address']], ".json"))
+    # Remove semicolons (Reserved for batch
+    api_url <- gsub(";", ",", api_url)
   }
 
   # Set min_time if not set based on usage limit of service
