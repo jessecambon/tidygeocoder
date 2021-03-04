@@ -268,7 +268,11 @@ reverse_geo <- function(lat, long, method = 'osm', address = address, limit = 1,
   
   
   ## Extract results ------------------------------------------------------------------------------
-  if (length(raw_results) == 0) {
+  if ((method == 'mapbox') & (!is.data.frame(raw_results$features))) {
+    message(paste0('Error: ', raw_results$message))
+    results <- tibble::tibble(address = as.character(NA))
+  }
+  else if (length(raw_results) == 0) {
     # If no results found, return NA
     # otherwise extract results
     results <- tibble::tibble(address = as.character(NA))

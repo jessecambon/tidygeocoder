@@ -7,6 +7,8 @@ url_base <- tidygeocoder:::get_mapbox_url()
 lat <- 40.4055517
 lon <- -3.6802152
 
+# Test Sandbox on dev ----
+
 soup <-
   httr::GET(
     url = gsub(" ", "%20", paste0(url_base, lon, ",", lat, ".json")),
@@ -40,7 +42,18 @@ full_results_flat <-
     flatten = TRUE
   )
 
-## Test reverse_geo
+# Test reverse_geo ----
+
+# Error
+tidygeocoder::reverse_geo(
+  lat = lat,
+  long = lon,
+  verbose = TRUE,
+  method = "mapbox",
+  custom_query = list(
+    country="papa"
+  )
+)
 
 livetest <-
   tidygeocoder::reverse_geo(

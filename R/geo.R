@@ -407,6 +407,11 @@ geo <- function(address = NULL,
     message(paste0('Error: ', raw_results$error_message))
     results <- NA_value
   } 
+  # output error message for mapbox if present
+  else if ((method == 'mapbox') & (!is.data.frame(raw_results$features))) {
+    message(paste0('Error: ', raw_results$message))
+    results <- NA_value
+  }
   else if (length(raw_results) == 0) {
     # If no results found, return NA
     # otherwise extract results

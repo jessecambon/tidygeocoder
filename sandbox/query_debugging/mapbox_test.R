@@ -7,7 +7,7 @@ library(httr)
 library(jsonlite)
 library(dplyr)
 
-
+# Test sandbox on dev ----
 soup <-
   httr::GET(
     url = gsub(" ", "%20", paste0(url_base, addr, ".json")),
@@ -39,7 +39,17 @@ full_results_flat <-
     flatten = TRUE
   )
 
-## Test geo
+# Test geo ----
+
+## Error
+tidygeocoder::geo(
+  address = addr,
+  verbose = TRUE,
+  method = "mapbox",
+  custom_query = list(
+    country = "error"
+  )
+)
 
 livetest <-
   tidygeocoder::geo(
