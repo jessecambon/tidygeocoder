@@ -4,11 +4,13 @@ on:
   push:
     branches:
       - master
+      - main
   pull_request:
     branches:
       - master
+      - main
   schedule:
-      - cron:  '0 6 * * 3,6'
+      - cron:  '0 12 * * 6'
 
 
 name: R-CMD-check
