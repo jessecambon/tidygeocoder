@@ -23,6 +23,9 @@ get_coord_parameters <- function(custom_query, method, lat, long) {
     custom_query[['q']] <-  paste0(as.character(lat), ',', as.character(long))
   } else if (method == 'google') {
     custom_query[['latlng']] <-  paste0(as.character(lat), ',', as.character(long))
+  } else if (method == 'mapbox') {
+    custom_query[['to_url']] <-
+      paste0(as.character(long), ',', as.character(lat))
   } else {
     stop('Invalid method.')
   }
@@ -59,6 +62,8 @@ get_coord_parameters <- function(custom_query, method, lat, long) {
 #'      \href{https://opencagedata.com/credits}{various open data sources} (e.g.
 #'      OpenStreetMap) and worldwide coverage. Requires an API Key to be stored
 #'      in the "OPENCAGE_KEY" environmental variable.
+#'   \item \code{"mapbox"}: Commercial Mapbox geocoder service. Requires an API Key to
+#'      be stored in the "MAPBOX_API_KEY" environmental variable.
 #' }
 #' @param address name of address column
 #' @param limit number of results to return per coordinate. Note that not all methods support
@@ -95,6 +100,10 @@ get_coord_parameters <- function(custom_query, method, lat, long) {
 #' @param iq_region 'us' (default) or 'eu'. Used for establishing API URL for the 'iq' method
 #' @param geocodio_v version of geocodio api. 1.6 is default. Used for establishing API URL
 #'   for the 'geocodio' method.
+#' @param mapbox_permanent if TRUE then the \code{mapbox.places-permanent} 
+#'   endpoint would be used. Note that this option should be used only if you 
+#'   have applied for a permanent account. Unsuccessful requests made by an 
+#'   account that does not have access to the endpoint may be billable.
 #' 
 #' @return parsed geocoding results in tibble format
 #' @examples
@@ -109,7 +118,8 @@ get_coord_parameters <- function(custom_query, method, lat, long) {
 #' @export
 reverse_geo <- function(lat, long, method = 'osm', address = address, limit = 1, min_time = NULL, api_url = NULL,  
     timeout = 20, mode = '',  full_results = FALSE, unique_only = FALSE, return_coords = TRUE, flatten = TRUE, 
-    batch_limit = 10000, verbose = FALSE, no_query = FALSE, custom_query = list(), iq_region = 'us', geocodio_v = 1.6) {
+    batch_limit = 10000, verbose = FALSE, no_query = FALSE, custom_query = list(), iq_region = 'us', geocodio_v = 1.6,
+    mapbox_permanent = FALSE) {
 
   # NSE eval
   address <- rm_quote(deparse(substitute(address)))
@@ -226,6 +236,13 @@ reverse_geo <- function(lat, long, method = 'osm', address = address, limit = 1,
   }
   if (length(api_url) == 0) stop('API URL not found')
   
+  # Ugly hack for Mapbox - The search_text should be in the url
+  if (method == "mapbox") {
+    api_url <- paste0(api_url, custom_query[["to_url"]], ".json")
+    # Remove semicolons (Reserved for batch)
+    api_url <- gsub(";", ",", api_url)
+  }
+  
   # Set min_time if not set based on usage limit of service
   if (is.null(min_time)) min_time <- get_min_query_time(method)
   
@@ -238,6 +255,12 @@ reverse_geo <- function(lat, long, method = 'osm', address = address, limit = 1,
   
   # Convert our generic query parameters into parameters specific to our API (method)
   api_query_parameters <- get_api_query(method, generic_query, custom_query)
+  
+  # Mapbox: Hack to remove address from parameters
+  if (method == "mapbox") {
+    api_query_parameters <-
+      api_query_parameters[names(api_query_parameters) != "search_text"]
+  }
   
   # Execute Single Coordinate Query -----------------------------------------
   if (verbose == TRUE) display_query(api_url, api_query_parameters)
