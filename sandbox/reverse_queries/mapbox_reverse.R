@@ -55,6 +55,24 @@ tidygeocoder::reverse_geo(
   )
 )
 
+tidygeocoder::reverse_geo(
+  lat = lat,
+  long = lon,
+  verbose = TRUE,
+  method = "mapbox",
+  mapbox_permanent = "TRUE"
+)
+
+tidygeocoder::reverse_geo(
+  lat = lat,
+  long = lon,
+  verbose = TRUE,
+  method = "mapbox",
+  custom_query = list(
+    country="papa"
+  )
+)
+
 livetest <-
   tidygeocoder::reverse_geo(
     lat = lat,

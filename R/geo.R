@@ -157,7 +157,8 @@ geo <- function(address = NULL,
   stopifnot(is.logical(verbose), is.logical(no_query), is.logical(flatten), is.logical(param_error),
             is.logical(full_results), is.logical(unique_only), is.logical(return_addresses),
             is.numeric(limit), is.numeric(batch_limit), is.numeric(timeout),
-            limit >= 1, batch_limit >= 1, timeout >= 0, is.list(custom_query))
+            limit >= 1, batch_limit >= 1, timeout >= 0, is.list(custom_query),
+            is.logical(mapbox_permanent))
   
   if (!(method %in% c('cascade', method_services))) {
     stop('Invalid method argument. See ?geo')

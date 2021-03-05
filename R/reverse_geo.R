@@ -133,7 +133,8 @@ reverse_geo <- function(lat, long, method = 'osm', address = address, limit = 1,
   # Check argument inputs
   stopifnot(is.logical(verbose), is.logical(no_query), is.logical(flatten),
       is.logical(full_results), is.logical(unique_only),
-      is.numeric(limit), limit >= 1,  is.list(custom_query))
+      is.numeric(limit), limit >= 1,  is.list(custom_query), 
+      is.logical(mapbox_permanent))
   
   if (length(lat) != length(long)) stop('Lengths of lat and long must be equal.')
   

@@ -51,6 +51,14 @@ tidygeocoder::geo(
   )
 )
 
+tidygeocoder::geo(
+  address = addr,
+  verbose = TRUE,
+  method = "mapbox",
+  mapbox_permanent = "TRUE"
+)
+
+
 livetest <-
   tidygeocoder::geo(
     address = addr,
