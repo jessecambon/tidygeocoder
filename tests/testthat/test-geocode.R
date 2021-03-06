@@ -40,6 +40,8 @@ test_that("geocode null/empty addresses", {
                    c('lat', 'long', 'geo_method'))
   expect_identical(geo_google(" ", return_addresses = FALSE, no_query = TRUE), NA_result)
   expect_identical(geo_opencage(" ", return_addresses = FALSE, no_query = TRUE), NA_result)
+  expect_identical(geo_mapbox(" ", return_addresses = FALSE, no_query = TRUE), NA_result)
+  
   
   # Test with tibble
   NA_data <- tibble::tribble(~addr,

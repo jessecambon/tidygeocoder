@@ -23,7 +23,8 @@ reverse_geo(
   no_query = FALSE,
   custom_query = list(),
   iq_region = "us",
-  geocodio_v = 1.6
+  geocodio_v = 1.6,
+  mapbox_permanent = FALSE
 )
 }
 \arguments{
@@ -47,6 +48,8 @@ each geocoder service for usage details and limitations.
      \href{https://opencagedata.com/credits}{various open data sources} (e.g.
      OpenStreetMap) and worldwide coverage. Requires an API Key to be stored
      in the "OPENCAGE_KEY" environmental variable.
+  \item \code{"mapbox"}: Commercial Mapbox geocoder service. Requires an API Key to
+     be stored in the "MAPBOX_API_KEY" environmental variable.
 }}
 
 \item{address}{name of address column}
@@ -97,6 +100,11 @@ is the default.}
 
 \item{geocodio_v}{version of geocodio api. 1.6 is default. Used for establishing API URL
 for the 'geocodio' method.}
+
+\item{mapbox_permanent}{if TRUE then the \code{mapbox.places-permanent} 
+endpoint would be used. Note that this option should be used only if you 
+have applied for a permanent account. Unsuccessful requests made by an 
+account that does not have access to the endpoint may be billable.}
 }
 \value{
 parsed geocoding results in tibble format

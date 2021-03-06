@@ -62,7 +62,11 @@ extract_results <- function(method, response, full_results = TRUE, flatten = TRU
     'iq' = response[c('lat', 'lon')],
     'geocodio' = response$results$location[c('lat', 'lng')],
     'google' = response$results$geometry$location[c('lat','lng')],
-    'opencage' = response$results$geometry[c('lat', 'lng')]
+    'opencage' = response$results$geometry[c('lat', 'lng')],
+    'mapbox' <- data.frame(
+      'lat' = response$features$center[[1]][2],
+      'long' = response$features$center[[1]][1]
+    ) # mapbox results are nested unnames lists
   )
   
   # if null result then return NA
@@ -83,7 +87,8 @@ extract_results <- function(method, response, full_results = TRUE, flatten = TRU
       'iq' =  response[!names(response) %in% c('lat', 'lon')],
       'geocodio' = response$results[!names(response$results) %in% c('location')],
       'google' = response$results,
-      'opencage' = response$results[!names(response$results) %in% c('geometry')]
+      'opencage' = response$results[!names(response$results) %in% c('geometry')],
+      'mapbox' = response$features
     )
     
     combined_results <- tibble::as_tibble(cbind(lat_lng, results))
@@ -121,7 +126,8 @@ extract_reverse_results <- function(method, response, full_results = TRUE, flatt
                     'iq' = response['display_name'],
                     'geocodio' = response$results['formatted_address'],
                     'google' = response$results[1, ]['formatted_address'],
-                    'opencage' = response$results['formatted']
+                    'opencage' = response$results['formatted'],
+                    'mapbox' = response$features['place_name']
   )
   
   # extract other results (besides single line address)
@@ -134,7 +140,8 @@ extract_reverse_results <- function(method, response, full_results = TRUE, flatt
                       'geocodio' = response$results[!names(response$results) %in% c('formatted_address')],
                       # take first row of multiple results for now
                       'google' = response$results[1, ][!names(response$results) %in% c('formatted_address')], 
-                      'opencage' = response$results[!names(response$results) %in% c('formatted')]
+                      'opencage' = response$results[!names(response$results) %in% c('formatted')],
+                      'mapbox' = response$features[!names(response$features) %in% c('place_name')]
     )
     
     combined_results <- dplyr::bind_cols(address, results)

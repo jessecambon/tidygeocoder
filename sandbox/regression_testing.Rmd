@@ -109,3 +109,58 @@ Check geocodio error catching
 ```{r}
 geo(' -----', method ='geocodio')
 ```
+
+# Check mapbox
+
+```{r}
+
+louisville_mapbox <- louisville %>%
+  slice(1:10) %>%
+  geocode(
+    address = street,
+    method = 'mapbox',
+    full_results = TRUE,
+    custom_query = list(
+      proximity = paste0(louisville[1, c("longitude", "latitude")], 
+                         collapse = ","))) %>%
+  mutate(lat_diff = lat - latitude,
+         long_diff = long - longitude) %>%
+  select(lat_diff, long_diff, everything())
+
+louisville_mapbox
+```
+
+
+```{r}
+geocode_mapbox1 <- sample1 %>%
+  mutate(addr = address) %>%
+  select(-address) %>%
+  geocode(
+    address = addr,
+    method = 'mapbox',
+    full_results = TRUE,
+    verbose = TRUE
+  )
+geocode_mapbox1
+```
+
+
+```{r}
+
+geocode_mapbox2 <- sample1 %>%
+  geocode(
+    address = address,
+    method = 'mapbox',
+    full_results = FALSE,
+    verbose = TRUE
+  )
+geocode_mapbox2
+```
+
+## Check mapbox error catching
+
+```{r}
+geo('Testing',
+    method = 'mapbox',
+    custom_query = list(country = "ERROR"))
+```

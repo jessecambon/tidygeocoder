@@ -32,7 +32,8 @@ geo(
   return_type = "locations",
   iq_region = "us",
   geocodio_v = 1.6,
-  param_error = TRUE
+  param_error = TRUE,
+  mapbox_permanent = FALSE
 )
 }
 \arguments{
@@ -70,6 +71,8 @@ each geocoder service for usage details and limitations.
      \href{https://opencagedata.com/credits}{various open data sources} (e.g.
      OpenStreetMap) and worldwide coverage. Requires an API Key to be stored
      in the "OPENCAGE_KEY" environmental variable.
+  \item \code{"mapbox"}: Commercial Mapbox geocoder service. Requires an API Key to
+     be stored in the "MAPBOX_API_KEY" environmental variable.
   \item \code{"cascade"} : Attempts to use one geocoder service and then uses
     a second geocoder service if the first service didn't return results.
     The services and order is specified by the cascade_order argument. 
@@ -142,6 +145,11 @@ for the 'geocodio' method.}
 \item{param_error}{if TRUE then an error will be thrown if certain parameters are invalid for the selected geocoder
 service (method). The parameters checked are limit, address, street, city, county, state, postalcode, and country.
 If method = 'cascade' then no errors will be thrown.}
+
+\item{mapbox_permanent}{if TRUE then the \code{mapbox.places-permanent} 
+endpoint would be used. Note that this option should be used only if you 
+have applied for a permanent account. Unsuccessful requests made by an 
+account that does not have access to the endpoint may be billable.}
 }
 \value{
 parsed geocoding results in tibble format

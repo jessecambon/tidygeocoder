@@ -82,6 +82,7 @@ and usage limitations.
 | [Location IQ](https://locationiq.com/)                                        | Worldwide     | No              | Yes              | 2/second (free tier)    |
 | [Google](https://developers.google.com/maps/documentation/geocoding/overview) | Worldwide     | No              | Yes              | 50/second               |
 | [OpenCage](https://opencagedata.com)                                          | Worldwide     | No              | Yes              | 1/second (free tier)    |
+| [Mapbox](https://www.mapbox.com/)                                             | Worldwide     | Yes             | Yes              | 10/second (free tier)   |
 
 Note that:
 
@@ -172,7 +173,8 @@ reverse geocoding.
 coordinates <- tibble(latitude = c(38.895865, 43.6534817, 35.0844),
                 longitude = c(-77.0307713, -79.3839347, -106.6504))
 
-rev1 <- reverse_geocode(coordinates, lat = latitude, long = longitude, method = 'osm', full_results = TRUE)
+rev1 <- coordinates %>%
+  reverse_geocode(lat = latitude, long = longitude, method = 'osm', full_results = TRUE)
 ```
 
 | latitude |  longitude | address                                                                                                                                            | place\_id | licence                                                                  | osm\_type |   osm\_id | lat                | lon                 | tourism         | road                     | city        | state                | postcode   | country       | country\_code | boundingbox                                        | amenity           | house\_number | neighbourhood      | quarter           | state\_district  | building        | suburb               | county            |

@@ -51,6 +51,8 @@ batch_func_map <- list(
 #'      \href{https://opencagedata.com/credits}{various open data sources} (e.g.
 #'      OpenStreetMap) and worldwide coverage. Requires an API Key to be stored
 #'      in the "OPENCAGE_KEY" environmental variable.
+#'   \item \code{"mapbox"}: Commercial Mapbox geocoder service. Requires an API Key to
+#'      be stored in the "MAPBOX_API_KEY" environmental variable.
 #'   \item \code{"cascade"} : Attempts to use one geocoder service and then uses
 #'     a second geocoder service if the first service didn't return results.
 #'     The services and order is specified by the cascade_order argument. 
@@ -106,7 +108,11 @@ batch_func_map <- list(
 #' @param param_error if TRUE then an error will be thrown if certain parameters are invalid for the selected geocoder
 #'   service (method). The parameters checked are limit, address, street, city, county, state, postalcode, and country.
 #'   If method = 'cascade' then no errors will be thrown.
-#' 
+#' @param mapbox_permanent if TRUE then the \code{mapbox.places-permanent} 
+#'   endpoint would be used. Note that this option should be used only if you 
+#'   have applied for a permanent account. Unsuccessful requests made by an 
+#'   account that does not have access to the endpoint may be billable.
+#'    
 #' @return parsed geocoding results in tibble format
 #' @examples
 #' \donttest{
@@ -128,7 +134,7 @@ geo <- function(address = NULL,
     mode = '', full_results = FALSE, unique_only = FALSE, return_addresses = TRUE, 
     flatten = TRUE, batch_limit = 10000, verbose = FALSE, no_query = FALSE, 
     custom_query = list(), return_type = 'locations', iq_region = 'us', geocodio_v = 1.6, 
-    param_error = TRUE) {
+    param_error = TRUE, mapbox_permanent = FALSE) {
 
   # NSE - Quote unquoted vars without double quoting quoted vars
   # end result - all of these variables become character values
@@ -151,7 +157,8 @@ geo <- function(address = NULL,
   stopifnot(is.logical(verbose), is.logical(no_query), is.logical(flatten), is.logical(param_error),
             is.logical(full_results), is.logical(unique_only), is.logical(return_addresses),
             is.numeric(limit), is.numeric(batch_limit), is.numeric(timeout),
-            limit >= 1, batch_limit >= 1, timeout >= 0, is.list(custom_query))
+            limit >= 1, batch_limit >= 1, timeout >= 0, is.list(custom_query),
+            is.logical(mapbox_permanent))
   
   if (!(method %in% c('cascade', method_services))) {
     stop('Invalid method argument. See ?geo')
@@ -353,10 +360,18 @@ geo <- function(address = NULL,
   # Set API URL (if not already set) ---------------------------
   if (is.null(api_url)) {
     api_url <- get_api_url(method, reverse = FALSE, return_type = return_type,
-                search = search, geocodio_v = geocodio_v, iq_region = iq_region)
+                search = search, geocodio_v = geocodio_v, iq_region = iq_region, 
+                mapbox_permanent = mapbox_permanent)
   }
   if (length(api_url) == 0) stop('API URL not found')
   
+  # Ugly hack for Mapbox - The search_text should be in the url
+  if (method == "mapbox") {
+    api_url <- gsub(" ", "%20", paste0(api_url, generic_query[['address']], ".json"))
+    # Remove semicolons (Reserved for batch
+    api_url <- gsub(";", ",", api_url)
+  }
+
   # Set min_time if not set based on usage limit of service
   if (is.null(min_time)) min_time <- get_min_query_time(method)
 
@@ -369,6 +384,12 @@ geo <- function(address = NULL,
   
   # Convert our generic query parameters into parameters specific to our API (method)
   api_query_parameters <- get_api_query(method, generic_query, custom_query)
+  
+  # Mapbox: Hack to remove address from parameters
+  if (method == "mapbox") {
+    api_query_parameters <-
+      api_query_parameters[names(api_query_parameters) != "search_text"]
+  }
   
   # Execute Single Address Query -----------------------------------------
   if (verbose == TRUE) display_query(api_url, api_query_parameters)
@@ -387,6 +408,11 @@ geo <- function(address = NULL,
     message(paste0('Error: ', raw_results$error_message))
     results <- NA_value
   } 
+  # output error message for mapbox if present
+  else if ((method == 'mapbox') & (!is.data.frame(raw_results$features))) {
+    message(paste0('Error: ', raw_results$message))
+    results <- NA_value
+  }
   else if (length(raw_results) == 0) {
     # If no results found, return NA
     # otherwise extract results
