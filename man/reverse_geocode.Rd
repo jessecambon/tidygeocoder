@@ -36,7 +36,7 @@ TRUE (overrides return_coords argument).}
 input dataframe (.tbl) with geocoder results appended as columns
 }
 \description{
-Takes a dataframe containing coordinates as an input and returns 
+Takes a dataframe containing latitude, longitude coordinates as inputs and returns 
 the dataframe results from a specified geocoder service by using the
 \code{\link{reverse_geo}} function. See example usage in \code{vignette("tidygeocoder")}.
 

@@ -15,11 +15,13 @@ options(tibble.print_min = 4L, tibble.print_max = 4L)
 set.seed(42)
 ```
 
-Geocoding services are used to provide data about locations such as longitude and latitude coordinates. The goal of tidygeocoder is to make getting data from these services easy. The two main functions to use are `geocode()` which takes a dataframe as an input and `geo()` which takes character values as inputs.
+Geocoder services are used to provide data (such as latitude and longitude coordinates) about locations (**forward geocoding**) or to provide data about the location of specific latitude and longitude coordinates (**reverse geocoding**). The goal of tidygeocoder is to make getting data from these services easy. For working with dataframes, you can use the `geocode()` and `reverse_geocode()` functions. To pass input values (addresses or latitude and longitude coordinates, you can alternatively use the `geo()` and `reverse_geo()` functions. 
 
-The `geocode()` function extracts specified address columns from the input dataframe and passes them to `geo()` to perform geocoding. All extra arguments (`...`) given to `geocode()` are passed to `geo()` so refer to the documentation in `geo()` for all the possible arguments you can give to the `geocode()` function.
+**For forward geocoding**, the `geocode()` function extracts specified address columns from the input dataframe and passes them to `geo()`. All extra arguments (`...`) given to `geocode()` are passed to `geo()` so refer to the documentation in `geo()` for all the possible arguments you can give to the `geocode()` function.
 
-## Basic Queries
+**For reverse geocoding**, the `reverse_geocode()` function extracts latitude and longitude values and passes them to `reverse_geo()`. All extra arguments (`...`) given to `reverse_geocode()` are passed to `reverse_geo()` so refer to the documentation in `reverse_geo()` for all the possible arguments you can give to the `reverse_geocode()` function.
+
+## Forward Geocoding
 
 ```{r setup, warning = FALSE, message = FALSE}
 library(tibble)
@@ -67,26 +69,54 @@ addr_comp1 %>% geocode(street = street, state = st, city = cty,
                        country = country, method = 'cascade')
 ```
 
-## Beyond Latitude and Longitude
+## Returning the Full Results
 
-To return more data than just the latitude and longitude coordinates, specify `full_results = TRUE`. Additionally, for the Census geocoder you can get fields for geographies such as Census tracts by specifying `return_type = 'geographies'`. Be sure to use `full_results = TRUE` with `return_type = 'geographies'` in order to allow the Census geography columns to be returned.
+For forward geocoding, to return more data than just the latitude and longitude coordinates, specify `full_results = TRUE`. Additionally, for the Census geocoder you can get fields for geographies such as Census tracts by specifying `return_type = 'geographies'`. Be sure to use `full_results = TRUE` with `return_type = 'geographies'` in order to allow the Census geography columns to be returned.
 
 ```{r}
 census_full1 <- address_single %>% geocode(address = singlelineaddress, 
       method = 'census', full_results = TRUE, return_type = 'geographies')
-glimpse(census_full1)
+```
+
+```{r, echo = FALSE}
+knitr::kable(census_full1)
 ```
 
 As mentioned earlier, the `geocode()` function passes addresses in dataframes to the `geo()` function for geocoding so we can also directly use the `geo()` function in a similar way:
 
 ```{r}
 salz <- geo('Salzburg, Austria', method = 'osm', full_results = TRUE)
-glimpse(salz)
 ```
+
+```{r, echo = FALSE}
+knitr::kable(salz)
+```
+
+## Reverse Geocoding
+
+Reverse geocoding is structured in a very similar fashion to forward geocoding and many of the parameters that are used are the same. However, instead of `geocode()` you'll use `reverse_geocode()` and instead of `geo()` you'll use `reverse_geo()`. Latitude and longitudes are provided as inputs and the address is returned. 
+
+We can use `reverse_geocode()` to geocode latitude and longitude coordinates contained in a data frame. The `lat` and `long` arguments specify the columns that contain the latitude and longitude data. The `address` argument can be used to specify the single line address column name that is returned from the geocoder. The `
+
+Just as with forward geocoding, the `method` argument is used to specify the geocoder and 
+
+```{r}
+lat_lngs1 <- tibble(latitude = c(38.895865, 43.6534817), 
+                longitude = c(-77.0307713, -79.3839347))
+
+rev1 <- lat_lngs1 %>%
+  reverse_geocode(lat = latitude, long = longitude, address = addr,
+                  method = 'osm', verbose = TRUE)
+```
+
+```{r, echo = FALSE}
+knitr::kable(rev1)
+```
+
 
 ## Working With Messy Data
 
-Only unique addresses are passed to geocoder services even if your data contains duplicates. Missing/NA and blank addresses are excluded from queries. 
+Only unique data (either addresses or latitudes and longitudes) is passed to geocoder services even if your data contains duplicates. Missing/NA and blank inputs are excluded from queries. Also latitudes and longitudes are limited to possible values.
 
 ```{r}
 duplicate_addrs <- address_single %>%
@@ -94,8 +124,10 @@ duplicate_addrs <- address_single %>%
   bind_rows(tibble(singlelineaddress = rep(NA, 3)))
 
 duplicates_geocoded <- duplicate_addrs %>%
-  geocode(singlelineaddress, verbose = T)
+  geocode(singlelineaddress, verbose = TRUE)
+```
 
+```{r, echo = FALSE}
 knitr::kable(duplicates_geocoded)
 ```
 
@@ -113,7 +145,10 @@ The `limit` argument can be specified to return multiple matches per address if 
 ```{r}
 geo_limit <- geo(c('Lima, Peru', 'Cairo, Egypt'), method = 'osm', 
     limit = 3, full_results = TRUE)
-glimpse(geo_limit)
+```
+
+```{r, echo = FALSE}
+knitr::kable(geo_limit)
 ```
 
 To directly specify specific API parameters for a given `method` you can use the `custom_query` parameter. For example, [the Nominatim (OSM) geocoder has a 'polygon_geojson' argument](https://nominatim.org/release-docs/develop/api/Details/#parameters) that can be used to return GeoJSON geometry content. To pass this parameter you can insert it with a named list using the `custom_query` argument:
@@ -121,6 +156,7 @@ To directly specify specific API parameters for a given `method` you can use the
 ```{r}
 cairo_geo <- geo('Cairo, Egypt', method = 'osm', full_results = TRUE,
     custom_query = list(polygon_geojson = 1), verbose = TRUE)
+
 glimpse(cairo_geo)
 ```
 

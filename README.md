@@ -82,7 +82,7 @@ and usage limitations.
 | [Location IQ](https://locationiq.com/)                                        | Worldwide     | No              | Yes              | 2/second (free tier)    |
 | [Google](https://developers.google.com/maps/documentation/geocoding/overview) | Worldwide     | No              | Yes              | 50/second               |
 | [OpenCage](https://opencagedata.com)                                          | Worldwide     | No              | Yes              | 1/second (free tier)    |
-| [Mapbox](https://www.mapbox.com/)                                             | Worldwide     | Yes             | Yes              | 10/second (free tier)   |
+| [Mapbox](https://www.mapbox.com/)                                             | Worldwide     | Yes\*           | Yes              | 10/second (free tier)   |
 
 Note that:
 
@@ -95,6 +95,9 @@ Note that:
     usage tiers. The Google service [bills per
     query](https://developers.google.com/maps/documentation/geocoding/usage-and-billing).
 -   The Census geocoder does not support reverse geocoding.
+-   The Mapbox batch geocoding is only available for the [permanent
+    endpoint](https://docs.mapbox.com/api/search/geocoding/#batch-geocoding)
+    is not currently implemented in tidygeocoder.
 
 ## Usage
 

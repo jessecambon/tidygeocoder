@@ -91,6 +91,14 @@ extract_results <- function(method, response, full_results = TRUE, flatten = TRU
       'mapbox' = response$features
     )
     
+    # add prefix to variable names that likely could be in our input dataset
+    # to avoid variable name overlap
+    for (var in c('address')) {
+      if (var %in% names(results)) {
+        names(results)[names(results) == var] <- paste0(method, '_', var)
+      }
+    }
+    
     combined_results <- tibble::as_tibble(cbind(lat_lng, results))
   } else {
     combined_results <- lat_lng
@@ -113,7 +121,7 @@ extract_results <- function(method, response, full_results = TRUE, flatten = TRU
 #' 
 #' @param method method name
 #' @param response  content from the geocoder service (returned by the \code{\link{query_api}} function)
-#' @param full_results if TRUE then the full results (not just latitude and longitude)
+#' @param full_results if TRUE then the full results (not just an address column)
 #'   will be returned.
 #' @param flatten if TRUE then flatten any nested dataframe content
 #' @return geocoder results in tibble format 
@@ -125,6 +133,7 @@ extract_reverse_results <- function(method, response, full_results = TRUE, flatt
                     'osm' = response['display_name'],
                     'iq' = response['display_name'],
                     'geocodio' = response$results['formatted_address'],
+                    # take first row of multiple results with google for now
                     'google' = response$results[1, ]['formatted_address'],
                     'opencage' = response$results['formatted'],
                     'mapbox' = response$features['place_name']
@@ -138,14 +147,21 @@ extract_reverse_results <- function(method, response, full_results = TRUE, flatt
                       'iq' =  cbind(response[!(names(response) %in% c('display_name', 'boundingbox', 'address'))], 
                                     tibble::as_tibble(response[['address']]), tibble::tibble(boundingbox = list(response$boundingbox))),
                       'geocodio' = response$results[!names(response$results) %in% c('formatted_address')],
-                      # take first row of multiple results for now
+                      # take first row of multiple results with google for now
                       'google' = response$results[1, ][!names(response$results) %in% c('formatted_address')], 
                       'opencage' = response$results[!names(response$results) %in% c('formatted')],
                       'mapbox' = response$features[!names(response$features) %in% c('place_name')]
     )
     
+    # add prefix to variable names that likely could be in our input dataset
+    # to avoid variable name overlap
+    for (var in c('lat', 'lon', 'long', 'latitude', 'longitude')) {
+      if (var %in% names(results)) {
+      names(results)[names(results) == var] <- paste0(method, '_', var)
+      }
+    }
     combined_results <- dplyr::bind_cols(address, results)
-  } else {
+    } else {
     combined_results <- address
   }
   

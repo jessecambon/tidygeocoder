@@ -110,8 +110,8 @@ test_that("Test Miscellaneous Functions", {
   
   # check that rename_and_bind_cols function can handle data frames with duplicate
   # column names
-  a <- data.frame(x=1)
-  b <- data.frame(x=1, x=2, check.names = FALSE)
-  expect_true(is.data.frame(tidygeocoder:::rename_and_bind_cols(a, b)))
+  # a <- data.frame(x=1)
+  # b <- data.frame(x=1, x=2, check.names = FALSE)
+  # expect_true(is.data.frame(tidygeocoder:::rename_and_bind_cols(a, b)))
   
 })

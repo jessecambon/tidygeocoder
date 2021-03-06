@@ -28,9 +28,9 @@ reverse_geo(
 )
 }
 \arguments{
-\item{lat}{latitude values}
+\item{lat}{latitude values (input data)}
 
-\item{long}{longitude values}
+\item{long}{longitude values (input data)}
 
 \item{method}{the geocoder service to be used. Refer to 
 \code{\link{api_parameter_reference}} and the API documentation for
@@ -46,13 +46,13 @@ each geocoder service for usage details and limitations.
      be stored in the "GOOGLEGEOCODE_API_KEY" environmental variable.
   \item \code{"opencage"}: Commercial geocoder with
      \href{https://opencagedata.com/credits}{various open data sources} (e.g.
-     OpenStreetMap) and worldwide coverage. Requires an API Key to be stored
+     OpenStreetMap). Requires an API Key to be stored
      in the "OPENCAGE_KEY" environmental variable.
   \item \code{"mapbox"}: Commercial Mapbox geocoder service. Requires an API Key to
      be stored in the "MAPBOX_API_KEY" environmental variable.
 }}
 
-\item{address}{name of address column}
+\item{address}{name of address column (output data)}
 
 \item{limit}{number of results to return per coordinate. Note that not all methods support
 setting limit to a value other than 1. Also limit > 1 is not compatible 
@@ -111,7 +111,9 @@ parsed geocoding results in tibble format
 }
 \description{
 Reverse geocodes coordinates given as numeric values. The \code{\link{reverse_geocode}}
-function utilizes this function on coordinates contained in dataframes.
+function utilizes this function on coordinates contained in dataframes. Latitude and
+longitude inputs are limited to possible values. Latitudes are limited from -90 to 90 and
+longitudes are limited from -180 to 180.
 See example usage in \code{vignette("tidygeocoder")} 
 
 This function uses the \code{\link{get_api_query}}, \code{\link{query_api}}, and

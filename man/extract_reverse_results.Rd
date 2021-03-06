@@ -11,7 +11,7 @@ extract_reverse_results(method, response, full_results = TRUE, flatten = TRUE)
 
 \item{response}{content from the geocoder service (returned by the \code{\link{query_api}} function)}
 
-\item{full_results}{if TRUE then the full results (not just latitude and longitude)
+\item{full_results}{if TRUE then the full results (not just an address column)
 will be returned.}
 
 \item{flatten}{if TRUE then flatten any nested dataframe content}

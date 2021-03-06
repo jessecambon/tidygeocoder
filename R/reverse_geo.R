@@ -27,7 +27,7 @@ get_coord_parameters <- function(custom_query, method, lat, long) {
     custom_query[['to_url']] <-
       paste0(as.character(long), ',', as.character(lat))
   } else {
-    stop('Invalid method.')
+    stop('Invalid method. See ?reverse_geo')
   }
   return(custom_query)
 }
@@ -37,15 +37,17 @@ get_coord_parameters <- function(custom_query, method, lat, long) {
 #' 
 #' @description
 #' Reverse geocodes coordinates given as numeric values. The \code{\link{reverse_geocode}}
-#' function utilizes this function on coordinates contained in dataframes.
+#' function utilizes this function on coordinates contained in dataframes. Latitude and
+#' longitude inputs are limited to possible values. Latitudes are limited from -90 to 90 and
+#' longitudes are limited from -180 to 180.
 #' See example usage in \code{vignette("tidygeocoder")} 
 #'
 #' This function uses the \code{\link{get_api_query}}, \code{\link{query_api}}, and
 #' \code{\link{extract_reverse_results}} functions to create, execute, and parse the geocoder
 #' API queries.
 #' 
-#' @param lat latitude values
-#' @param long longitude values
+#' @param lat latitude values (input data)
+#' @param long longitude values (input data)
 #' @param method the geocoder service to be used. Refer to 
 #' \code{\link{api_parameter_reference}} and the API documentation for
 #' each geocoder service for usage details and limitations.
@@ -60,12 +62,12 @@ get_coord_parameters <- function(custom_query, method, lat, long) {
 #'      be stored in the "GOOGLEGEOCODE_API_KEY" environmental variable.
 #'   \item \code{"opencage"}: Commercial geocoder with
 #'      \href{https://opencagedata.com/credits}{various open data sources} (e.g.
-#'      OpenStreetMap) and worldwide coverage. Requires an API Key to be stored
+#'      OpenStreetMap). Requires an API Key to be stored
 #'      in the "OPENCAGE_KEY" environmental variable.
 #'   \item \code{"mapbox"}: Commercial Mapbox geocoder service. Requires an API Key to
 #'      be stored in the "MAPBOX_API_KEY" environmental variable.
 #' }
-#' @param address name of address column
+#' @param address name of address column (output data)
 #' @param limit number of results to return per coordinate. Note that not all methods support
 #'  setting limit to a value other than 1. Also limit > 1 is not compatible 
 #'  with batch geocoding if return_addresses = TRUE.
@@ -140,6 +142,10 @@ reverse_geo <- function(lat, long, method = 'osm', address = address, limit = 1,
   coord_pack <- package_inputs(tibble::tibble(lat = as.numeric(lat), long = as.numeric(long)), coords = TRUE)
   num_coords <- nrow(coord_pack$unique)
   
+  NA_value <- tibble::tibble(address = rep(as.character(NA), num_coords)) # filler result to return if needed
+  names(NA_value)[1] <- address # rename column
+  
+  
   if (no_query == TRUE) verbose <- TRUE
   start_time <- Sys.time() # start timer
   
@@ -189,13 +195,9 @@ reverse_geo <- function(lat, long, method = 'osm', address = address, limit = 1,
                                         ' coordinates to the ', method, ' batch geocoder'))
     
     # Convert our generic query parameters into parameters specific to our API (method)
-    if (no_query == TRUE) return(unpackage_inputs(coord_pack, 
-                                                  tibble::tibble(address = rep(as.character(NA), num_coords)), 
+    if (no_query == TRUE) return(unpackage_inputs(coord_pack, NA_value, 
                                                   unique_only, return_coords))
     
-    if (verbose == TRUE) message(paste0('Passing ', 
-            format(min(batch_limit, num_coords), big.mark = ','), 
-            ' coordinates to the ', method, ' batch geocoder'))
     
     # call the appropriate function for batch geocoding according the the reverse_batch_func_map named list
     # if batch limit was exceeded then apply that limit
@@ -219,7 +221,6 @@ reverse_geo <- function(lat, long, method = 'osm', address = address, limit = 1,
     return(unpackage_inputs(coord_pack, batch_results, unique_only, return_coords))
   }
   
-
   ################################################################################
   #### Code past this point is for reverse geocoding a single coordinate set #####
   ################################################################################
@@ -232,7 +233,8 @@ reverse_geo <- function(lat, long, method = 'osm', address = address, limit = 1,
   
   # Set API URL (if not already set) ----------------------------------------
   if (is.null(api_url)) {
-    api_url <- get_api_url(method, reverse = TRUE, geocodio_v = geocodio_v, iq_region = iq_region)
+    api_url <- get_api_url(method, reverse = TRUE, geocodio_v = geocodio_v, iq_region = iq_region,
+                           mapbox_permanent = mapbox_permanent)
   }
   if (length(api_url) == 0) stop('API URL not found')
   
@@ -264,6 +266,12 @@ reverse_geo <- function(lat, long, method = 'osm', address = address, limit = 1,
   
   # Execute Single Coordinate Query -----------------------------------------
   if (verbose == TRUE) display_query(api_url, api_query_parameters)
+  
+  # if no_query = TRUE then return NA results
+  if (no_query == TRUE) return(unpackage_inputs(coord_pack, 
+                                                NA_value, 
+                                                unique_only, return_coords))
+  
   raw_results <- jsonlite::fromJSON(query_api(api_url, api_query_parameters))
   
   

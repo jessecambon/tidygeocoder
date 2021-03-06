@@ -43,10 +43,15 @@ function to execute.
 }
 \examples{
 \donttest{
-raw <- query_api("http://nominatim.openstreetmap.org/search", 
+raw1 <- query_api("http://nominatim.openstreetmap.org/search", 
    get_api_query("osm", list(address = 'Hanoi, Vietnam')))
    
-extract_results('osm', jsonlite::fromJSON(raw))
+extract_results('osm', jsonlite::fromJSON(raw1))
+
+raw2 <-  query_api("http://nominatim.openstreetmap.org/reverse", 
+   get_api_query("osm", custom_parameters = list(lat = 38.895865, lon = -77.0307713)))
+   
+extract_reverse_results('osm', jsonlite::fromJSON(raw2))
 }
 
 }

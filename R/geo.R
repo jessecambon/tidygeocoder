@@ -393,6 +393,8 @@ geo <- function(address = NULL,
   
   # Execute Single Address Query -----------------------------------------
   if (verbose == TRUE) display_query(api_url, api_query_parameters)
+  
+  # return NA results if no_query = TRUE
   if (no_query == TRUE) return(unpackage_inputs(address_pack, NA_value, unique_only, return_addresses))
   raw_results <- jsonlite::fromJSON(query_api(api_url, api_query_parameters))
   

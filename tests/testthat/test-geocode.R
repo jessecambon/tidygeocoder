@@ -1,22 +1,11 @@
 ## Test geocoding functionality without making any API calls
 
-# Make sure there are no duplicates in our API reference files
-test_that("Check API Parameter Reference For Duplicates", {
-
-  # Check that generic_name values are unique for each method
-  method_args <- tidygeocoder::api_parameter_reference[c('method', 'generic_name')]
-  # remove NA generic_names 
-  method_args <- method_args[!is.na(method_args$generic_name), ]
-  
-  expect_equal(nrow(method_args), nrow(unique(method_args)))
-})
-
 # Check column names with custom settings
 test_that("geocode default colnames", {
   result <- tibble::tibble(addr = NA) %>%
     geocode(addr, no_query = TRUE)
 
-  expect_identical(colnames(result) ,c('addr','lat','long'))
+  expect_identical(colnames(result), c('addr','lat','long'))
   expect_equal(nrow(result), 1) # result should have one row
 })
 
@@ -112,4 +101,61 @@ test_that("Test geocode() error handling", {
   
   # non-dataframe input
   expect_error(geocode(named_list, no_query = TRUE, address = 'addr'))
+})
+
+#### Reverse geocoding
+
+
+# Check that null/empty address values are handled properly
+test_that("reverse geocode null/empty addresses", {
+  NA_result <- tibble::tibble(address = as.character(NA))
+  
+  # make sure blank addresses are not being sent to the geocoder
+  expect_identical(reverse_geo(lat = " ", long = " ", method = 'osm', return_coords = FALSE, no_query = TRUE), NA_result)
+  expect_identical(reverse_geo(lat =" ", long = " ", method = 'google', return_coords = FALSE, no_query = TRUE), NA_result)
+  expect_identical(reverse_geo(lat = " ", long = " ", method = 'opencage', return_coords = FALSE, no_query = TRUE), NA_result)
+  expect_identical(reverse_geo(lat = " ", long = " ", method = 'mapbox', return_coords = FALSE, no_query = TRUE), NA_result)
+  
+  
+  # Test with tibble
+  NA_data <- tibble::tribble(~lat,~lon,
+                             as.numeric(NA), as.numeric(NA),
+                             5000, 5000)
+  
+  result <- NA_data %>% reverse_geocode(lat = lat, long = lon, no_query = TRUE, method = 'osm')
+  
+  # check column names
+  expected_colnames <- c(colnames(NA_data), 'address')
+  expect_identical(colnames(result), expected_colnames)
+  expect_identical(colnames(reverse_geocode(NA_data, lat = lat, long = lon, method = 'google', no_query = TRUE)), expected_colnames)
+  expect_identical(colnames(reverse_geocode(NA_data, lat = lat, long = lon, method = 'opencage', no_query = TRUE)), expected_colnames)
+  
+  # make sure geo_method is NA when address is NA
+  expect_equal(nrow(result), nrow(NA_data)) # check dataframe length
+  expect_equal(nrow(reverse_geocode(NA_data, lat = lat, long = lon, method = 'google', no_query = TRUE)), nrow(NA_data))
+  expect_equal(nrow(reverse_geocode(NA_data, lat = lat, long = lon, method = 'opencage', no_query = TRUE)), nrow(NA_data))
+  
+  # Test batch limit
+  
+  # expect_message(batch_limit_results1 <- geo(address = as.character(seq(1, 10)), 
+  #                                            method = 'census', batch_limit = 5, no_query = TRUE))
+  # expect_equal(10, nrow(batch_limit_results1))
+  # 
+  # expect_message(geo(address = as.character(seq(1, 10)), 
+  #                    method = 'census', batch_limit = 5, no_query = TRUE, unique_only = TRUE))
+})
+
+
+
+test_that("Test reverse_geocode() error handling", {
+  addr_df <- tibble::tibble(lat = 1, long = 2)
+  named_list <- list(lat = 1, long = 2)
+  
+  # expect error when using wrong column name
+  expect_error(reverse_geocode(addr_df, no_query = TRUE, lat = lat, long = wrong))
+  expect_error(reverse_geocode(addr_df, no_query = TRUE, lat = wrong, long = long))
+  expect_error(reverse_geocode(addr_df, no_query = TRUE, lat = wrong1, long = wrong2))
+  
+  # non-dataframe input
+  expect_error(reverse_geocode(named_list, no_query = TRUE, address = 'addr'))
 })

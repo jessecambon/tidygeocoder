@@ -78,6 +78,8 @@ get_mapbox_url <- function(mapbox_permanent = FALSE) {
 }
 
 ## wrapper function for above functions
+### IMPORTANT: if arguments are changed in this definition then make sure to 
+### update reverse_geo.R and geo.R where this function is called.
 get_api_url <- function(method, reverse = FALSE, return_type = 'locations',
             search = 'onelineaddress', geocodio_v = 1.6, iq_region = 'us', 
             mapbox_permanent = FALSE) {
@@ -91,8 +93,6 @@ get_api_url <- function(method, reverse = FALSE, return_type = 'locations',
          "mapbox" = get_mapbox_url(mapbox_permanent) # same url as fwd geocoding
   ))
 }
-
-
 
 # API Parameters ----------------------------------------------------------------
 
@@ -193,10 +193,15 @@ get_api_query <- function(method, generic_parameters = list(), custom_parameters
 #' @return raw results from the query
 #' @examples
 #' \donttest{
-#' raw <- query_api("http://nominatim.openstreetmap.org/search", 
+#' raw1 <- query_api("http://nominatim.openstreetmap.org/search", 
 #'    get_api_query("osm", list(address = 'Hanoi, Vietnam')))
 #'    
-#' extract_results('osm', jsonlite::fromJSON(raw))
+#' extract_results('osm', jsonlite::fromJSON(raw1))
+#' 
+#' raw2 <-  query_api("http://nominatim.openstreetmap.org/reverse", 
+#'    get_api_query("osm", custom_parameters = list(lat = 38.895865, lon = -77.0307713)))
+#'    
+#' extract_reverse_results('osm', jsonlite::fromJSON(raw2))
 #' }
 #' 
 #' @seealso \code{\link{get_api_query}} \code{\link{extract_results}} \code{\link{geo}}
@@ -246,7 +251,6 @@ display_query <- function(api_url, api_query_parameters) {
 # for a method (don't call with method = 'cascade')
 # if address_only = TRUE then limit to address parameters (street, city, address, etc.)
 get_generic_parameters <- function(method, address_only = FALSE) {
-
   all_params <- tidygeocoder::api_parameter_reference[which(tidygeocoder::api_parameter_reference[['method']] == method), ][['generic_name']]
   
   if (address_only == TRUE) {
