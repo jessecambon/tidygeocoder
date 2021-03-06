@@ -82,9 +82,9 @@ and usage limitations.
 | [Location IQ](https://locationiq.com/)                                        | Worldwide     | No              | Yes              | 2/second (free tier)    |
 | [Google](https://developers.google.com/maps/documentation/geocoding/overview) | Worldwide     | No              | Yes              | 50/second               |
 | [OpenCage](https://opencagedata.com)                                          | Worldwide     | No              | Yes              | 1/second (free tier)    |
-| [Mapbox](https://www.mapbox.com/)                                             | Worldwide     | Yes\*           | Yes              | 10/second (free tier)   |
+| [Mapbox](https://www.mapbox.com/)                                             | Worldwide     | See Note        | Yes              | 10/second (free tier)   |
 
-Note that:
+Notes:
 
 -   The US Census service supports street-level addresses only (ie. “11
     Wall St New York, NY” is OK but “New York, NY” is not).
@@ -95,9 +95,12 @@ Note that:
     usage tiers. The Google service [bills per
     query](https://developers.google.com/maps/documentation/geocoding/usage-and-billing).
 -   The Census geocoder does not support reverse geocoding.
--   The Mapbox batch geocoding is only available for the [permanent
-    endpoint](https://docs.mapbox.com/api/search/geocoding/#batch-geocoding)
-    is not currently implemented in tidygeocoder.
+-   The Mapbox service is capable of performing batch geocoding when
+    using the [permanent
+    endpoint](https://docs.mapbox.com/api/search/geocoding/#batch-geocoding),
+    but this capability is not currently implemented in tidygeocoder. If
+    you’d like to add this capability to the package see [issue
+    \#73](https://github.com/jessecambon/tidygeocoder/issues/73).
 
 ## Usage
 
@@ -180,7 +183,7 @@ rev1 <- coordinates %>%
   reverse_geocode(lat = latitude, long = longitude, method = 'osm', full_results = TRUE)
 ```
 
-| latitude |  longitude | address                                                                                                                                            | place\_id | licence                                                                  | osm\_type |   osm\_id | lat                | lon                 | tourism         | road                     | city        | state                | postcode   | country       | country\_code | boundingbox                                        | amenity           | house\_number | neighbourhood      | quarter           | state\_district  | building        | suburb               | county            |
+| latitude |  longitude | address                                                                                                                                            | place\_id | licence                                                                  | osm\_type |   osm\_id | osm\_lat           | osm\_lon            | tourism         | road                     | city        | state                | postcode   | country       | country\_code | boundingbox                                        | amenity           | house\_number | neighbourhood      | quarter           | state\_district  | building        | suburb               | county            |
 |---------:|-----------:|:---------------------------------------------------------------------------------------------------------------------------------------------------|----------:|:-------------------------------------------------------------------------|:----------|----------:|:-------------------|:--------------------|:----------------|:-------------------------|:------------|:---------------------|:-----------|:--------------|:--------------|:---------------------------------------------------|:------------------|:--------------|:-------------------|:------------------|:-----------------|:----------------|:---------------------|:------------------|
 | 38.89587 |  -77.03077 | L’Enfant’s plan, Pennsylvania Avenue, Washington, District of Columbia, 20045, United States                                                       | 301711857 | Data © OpenStreetMap contributors, ODbL 1.0. <https://osm.org/copyright> | way       | 899927546 | 38.895859599999994 | -77.0306779870984   | L’Enfant’s plan | Pennsylvania Avenue      | Washington  | District of Columbia | 20045      | United States | us            | 38.8957273 , 38.8959688 , -77.0311667, -77.0301895 | NA                | NA            | NA                 | NA                | NA               | NA              | NA                   | NA                |
 | 43.65348 |  -79.38393 | Toronto City Hall, 100, Queen Street West, Financial District, Spadina—Fort York, Old Toronto, Toronto, Golden Horseshoe, Ontario, M5H 2N2, Canada | 137497520 | Data © OpenStreetMap contributors, ODbL 1.0. <https://osm.org/copyright> | way       | 198500761 | 43.6536032         | -79.38400547469666  | NA              | Queen Street West        | Old Toronto | Ontario              | M5H 2N2    | Canada        | ca            | 43.6529946 , 43.6541458 , -79.3848438, -79.3830415 | Toronto City Hall | 100           | Financial District | Spadina—Fort York | Golden Horseshoe | NA              | NA                   | NA                |

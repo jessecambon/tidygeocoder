@@ -166,14 +166,22 @@
 <td>Yes</td>
 <td>1/second (free tier)</td>
 </tr>
+<tr class="odd">
+<td><a href="https://www.mapbox.com/">Mapbox</a></td>
+<td>Worldwide</td>
+<td>See Note</td>
+<td>Yes</td>
+<td>10/second (free tier)</td>
+</tr>
 </tbody>
 </table>
-<p>Note that:</p>
+<p>Notes:</p>
 <ul>
 <li>The US Census service supports street-level addresses only (ie. “11 Wall St New York, NY” is OK but “New York, NY” is not).</li>
 <li>The US Census and Geocodio services both support a maximum of 10,000 addresses per batch query.</li>
 <li>The US Census and OSM services are free while Geocodio, Location IQ, and OpenCage are commercial services that offer both free and paid usage tiers. The Google service <a href="https://developers.google.com/maps/documentation/geocoding/usage-and-billing">bills per query</a>.</li>
 <li>The Census geocoder does not support reverse geocoding.</li>
+<li>The Mapbox service is capable of performing batch geocoding when using the <a href="https://docs.mapbox.com/api/search/geocoding/#batch-geocoding">permanent endpoint</a>, but this capability is not currently implemented in tidygeocoder. If you’d like to add this capability to the package see <a href="https://github.com/jessecambon/tidygeocoder/issues/73">issue #73</a>.</li>
 </ul>
 </div>
 <div id="usage" class="section level2">
@@ -340,7 +348,8 @@
 <code class="sourceCode R"><span class="va">coordinates</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span><span class="op">(</span>latitude <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">38.895865</span>, <span class="fl">43.6534817</span>, <span class="fl">35.0844</span><span class="op">)</span>,
                 longitude <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">77.0307713</span>, <span class="op">-</span><span class="fl">79.3839347</span>, <span class="op">-</span><span class="fl">106.6504</span><span class="op">)</span><span class="op">)</span>
 
-<span class="va">rev1</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/reverse_geocode.html">reverse_geocode</a></span><span class="op">(</span><span class="va">coordinates</span>, lat <span class="op">=</span> <span class="va">latitude</span>, long <span class="op">=</span> <span class="va">longitude</span>, method <span class="op">=</span> <span class="st">'osm'</span>, full_results <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
+<span class="va">rev1</span> <span class="op">&lt;-</span> <span class="va">coordinates</span> <span class="op">%&gt;%</span>
+  <span class="fu"><a href="reference/reverse_geocode.html">reverse_geocode</a></span><span class="op">(</span>lat <span class="op">=</span> <span class="va">latitude</span>, long <span class="op">=</span> <span class="va">longitude</span>, method <span class="op">=</span> <span class="st">'osm'</span>, full_results <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
 <table class="table">
 <colgroup>
 <col width="1%">
@@ -377,8 +386,8 @@
 <th align="left">licence</th>
 <th align="left">osm_type</th>
 <th align="right">osm_id</th>
-<th align="left">lat</th>
-<th align="left">lon</th>
+<th align="left">osm_lat</th>
+<th align="left">osm_lon</th>
 <th align="left">tourism</th>
 <th align="left">road</th>
 <th align="left">city</th>
@@ -522,9 +531,10 @@
 <h2>Developers</h2>
 <ul class="list-unstyled">
 <li>
-<a href="https://jessecambon.github.io">Jesse Cambon</a> <br><small class="roles"> Author, maintainer </small>  </li>
+<a href="https://jessecambon.github.io">Jesse Cambon</a> <br><small class="roles"> Author, maintainer </small> <a href="https://orcid.org/0000-0001-6854-1514" target="orcid.widget" aria-label="ORCID"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
 <li>Christopher Belanger <br><small class="roles"> Author </small>  </li>
-<li>Daniel Possenriede <br><small class="roles"> Author </small>  </li>
+<li>Daniel Possenriede <br><small class="roles"> Author </small> <a href="https://orcid.org/0000-0002-6738-9845" target="orcid.widget" aria-label="ORCID"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
+<li>Diego Hernangómez <br><small class="roles"> Author </small> <a href="https://orcid.org/0000-0001-8457-4658" target="orcid.widget" aria-label="ORCID"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
 </ul>
 </div>
 
@@ -544,7 +554,7 @@
 
 
       <footer><div class="copyright">
-  <p>Developed by <a href="https://jessecambon.github.io">Jesse Cambon</a>, Christopher Belanger, Daniel Possenriede.</p>
+  <p>Developed by <a href="https://jessecambon.github.io">Jesse Cambon</a>, Christopher Belanger, Daniel Possenriede, Diego Hernangómez.</p>
 </div>
 
 <div class="pkgdown">

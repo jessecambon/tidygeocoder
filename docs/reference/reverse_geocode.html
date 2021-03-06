@@ -46,7 +46,7 @@
 
 
 <meta property="og:title" content="Reverse geocode coordinates in a dataframe — reverse_geocode" />
-<meta property="og:description" content="Takes a dataframe containing coordinates as an input and returns 
+<meta property="og:description" content="Takes a dataframe containing latitude, longitude coordinates as inputs and returns 
 the dataframe results from a specified geocoder service by using the
 reverse_geo function. See example usage in vignette(&quot;tidygeocoder&quot;).
 This function passes all additional parameters (...) to the 
@@ -137,7 +137,7 @@ on possible arguments." />
     </div>
 
     <div class="ref-description">
-    <p>Takes a dataframe containing coordinates as an input and returns 
+    <p>Takes a dataframe containing latitude, longitude coordinates as inputs and returns 
 the dataframe results from a specified geocoder service by using the
 <code><a href='reverse_geo.html'>reverse_geo</a></code> function. See example usage in <code><a href='../articles/tidygeocoder.html'>vignette("tidygeocoder")</a></code>.</p>
 <p>This function passes all additional parameters (<code>...</code>) to the 
@@ -199,7 +199,29 @@ TRUE (overrides return_coords argument).</p></td>
     <div class='dont-index'><p><code><a href='reverse_geo.html'>reverse_geo</a></code> <code><a href='api_parameter_reference.html'>api_parameter_reference</a></code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"></pre>
+    <pre class="examples"><div class='input'><span class='co'># \donttest{</span>
+<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://tibble.tidyverse.org/'>tibble</a></span><span class='op'>)</span>
+<span class='fu'>reverse_geocode</span><span class='op'>(</span>
+  <span class='fu'><a href='https://tibble.tidyverse.org/reference/tibble.html'>tibble</a></span><span class='op'>(</span>
+    latitude <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>38.895865</span>, <span class='fl'>43.6534817</span><span class='op'>)</span>,
+    longitude <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='op'>-</span><span class='fl'>77.0307713</span>,<span class='op'>-</span><span class='fl'>79.3839347</span><span class='op'>)</span>
+  <span class='op'>)</span>,
+  lat <span class='op'>=</span> <span class='va'>latitude</span>,
+  long <span class='op'>=</span> <span class='va'>longitude</span>,
+  method <span class='op'>=</span> <span class='st'>'osm'</span>,
+  full_results <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  verbose <span class='op'>=</span> <span class='cn'>TRUE</span>
+<span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='message'>Querying API URL: https://nominatim.openstreetmap.org/reverse</span></div><div class='output co'>#&gt; <span class='message'>Passing the following parameters to the API:</span></div><div class='output co'>#&gt; <span class='message'>limit : "1"</span></div><div class='output co'>#&gt; <span class='message'>lat : "38.895865"</span></div><div class='output co'>#&gt; <span class='message'>lon : "-77.0307713"</span></div><div class='output co'>#&gt; <span class='message'>format : "json"</span></div><div class='output co'>#&gt; </div><div class='output co'>#&gt; <span class='message'>Query completed in: 0.1 seconds</span></div><div class='output co'>#&gt; <span class='message'>Total query time (including sleep): 1 seconds</span></div><div class='output co'>#&gt; </div><div class='output co'>#&gt; <span class='message'>Querying API URL: https://nominatim.openstreetmap.org/reverse</span></div><div class='output co'>#&gt; <span class='message'>Passing the following parameters to the API:</span></div><div class='output co'>#&gt; <span class='message'>limit : "1"</span></div><div class='output co'>#&gt; <span class='message'>lat : "43.6534817"</span></div><div class='output co'>#&gt; <span class='message'>lon : "-79.3839347"</span></div><div class='output co'>#&gt; <span class='message'>format : "json"</span></div><div class='output co'>#&gt; </div><div class='output co'>#&gt; <span class='message'>Query completed in: 0.2 seconds</span></div><div class='output co'>#&gt; <span class='message'>Total query time (including sleep): 1 seconds</span></div><div class='output co'>#&gt; </div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 2 x 22</span><span>
+#&gt;   latitude longitude address place_id licence osm_type osm_id osm_lat osm_lon
+#&gt;      </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>     </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>     </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>  
+#&gt; </span><span style='color: #BCBCBC;'>1</span><span>     38.9     -</span><span style='color: #BB0000;'>77.0</span><span> L’Enfa…   3.02</span><span style='color: #949494;'>e</span><span>8 Data ©… way      9.00</span><span style='color: #949494;'>e</span><span>8 38.895… -77.03…
+#&gt; </span><span style='color: #BCBCBC;'>2</span><span>     43.7     -</span><span style='color: #BB0000;'>79.4</span><span> Toront…   1.37</span><span style='color: #949494;'>e</span><span>8 Data ©… way      1.99</span><span style='color: #949494;'>e</span><span>8 43.653… -79.38…
+#&gt; </span><span style='color: #949494;'># … with 13 more variables: tourism </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span style='color: #949494;'>, road </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span style='color: #949494;'>, city </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span style='color: #949494;'>, state </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span style='color: #949494;'>,</span><span>
+#&gt; </span><span style='color: #949494;'>#   postcode </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span style='color: #949494;'>, country </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span style='color: #949494;'>, country_code </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span style='color: #949494;'>, boundingbox </span><span style='color: #949494;font-style: italic;'>&lt;list&gt;</span><span style='color: #949494;'>,</span><span>
+#&gt; </span><span style='color: #949494;'>#   amenity </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span style='color: #949494;'>, house_number </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span style='color: #949494;'>, neighbourhood </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span style='color: #949494;'>, quarter </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span style='color: #949494;'>,</span><span>
+#&gt; </span><span style='color: #949494;'>#   state_district </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span></div><div class='input'><span class='co'># }</span>
+</div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -211,7 +233,7 @@ TRUE (overrides return_coords argument).</p></td>
 
       <footer>
       <div class="copyright">
-  <p>Developed by <a href='https://jessecambon.github.io'>Jesse Cambon</a>, Christopher Belanger, Daniel Possenriede.</p>
+  <p>Developed by <a href='https://jessecambon.github.io'>Jesse Cambon</a>, Christopher Belanger, Daniel Possenriede, Diego Hernangómez.</p>
 </div>
 
 <div class="pkgdown">

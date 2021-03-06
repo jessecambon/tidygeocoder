@@ -47,7 +47,9 @@
 
 <meta property="og:title" content="Reverse geocode latitude, longitude coordinates — reverse_geo" />
 <meta property="og:description" content="Reverse geocodes coordinates given as numeric values. The reverse_geocode
-function utilizes this function on coordinates contained in dataframes.
+function utilizes this function on coordinates contained in dataframes. Latitude and
+longitude inputs are limited to possible values. Latitudes are limited from -90 to 90 and
+longitudes are limited from -180 to 180.
 See example usage in vignette(&quot;tidygeocoder&quot;)
 This function uses the get_api_query, query_api, and
 extract_reverse_results functions to create, execute, and parse the geocoder
@@ -138,7 +140,9 @@ API queries." />
 
     <div class="ref-description">
     <p>Reverse geocodes coordinates given as numeric values. The <code><a href='reverse_geocode.html'>reverse_geocode</a></code>
-function utilizes this function on coordinates contained in dataframes.
+function utilizes this function on coordinates contained in dataframes. Latitude and
+longitude inputs are limited to possible values. Latitudes are limited from -90 to 90 and
+longitudes are limited from -180 to 180.
 See example usage in <code><a href='../articles/tidygeocoder.html'>vignette("tidygeocoder")</a></code></p>
 <p>This function uses the <code><a href='get_api_query.html'>get_api_query</a></code>, <code><a href='query_api.html'>query_api</a></code>, and
 <code><a href='extract_reverse_results.html'>extract_reverse_results</a></code> functions to create, execute, and parse the geocoder
@@ -164,7 +168,8 @@ API queries.</p>
   no_query <span class='op'>=</span> <span class='cn'>FALSE</span>,
   custom_query <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='op'>)</span>,
   iq_region <span class='op'>=</span> <span class='st'>"us"</span>,
-  geocodio_v <span class='op'>=</span> <span class='fl'>1.6</span>
+  geocodio_v <span class='op'>=</span> <span class='fl'>1.6</span>,
+  mapbox_permanent <span class='op'>=</span> <span class='cn'>FALSE</span>
 <span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -172,11 +177,11 @@ API queries.</p>
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>lat</th>
-      <td><p>latitude values</p></td>
+      <td><p>latitude values (input data)</p></td>
     </tr>
     <tr>
       <th>long</th>
-      <td><p>longitude values</p></td>
+      <td><p>longitude values (input data)</p></td>
     </tr>
     <tr>
       <th>method</th>
@@ -193,13 +198,15 @@ each geocoder service for usage details and limitations.</p><ul>
      be stored in the "GOOGLEGEOCODE_API_KEY" environmental variable.</p></li>
 <li><p><code>"opencage"</code>: Commercial geocoder with
      <a href='https://opencagedata.com/credits'>various open data sources</a> (e.g.
-     OpenStreetMap) and worldwide coverage. Requires an API Key to be stored
+     OpenStreetMap). Requires an API Key to be stored
      in the "OPENCAGE_KEY" environmental variable.</p></li>
+<li><p><code>"mapbox"</code>: Commercial Mapbox geocoder service. Requires an API Key to
+     be stored in the "MAPBOX_API_KEY" environmental variable.</p></li>
 </ul></td>
     </tr>
     <tr>
       <th>address</th>
-      <td><p>name of address column</p></td>
+      <td><p>name of address column (output data)</p></td>
     </tr>
     <tr>
       <th>limit</th>
@@ -278,6 +285,13 @@ is the default.</p></td>
       <td><p>version of geocodio api. 1.6 is default. Used for establishing API URL
 for the 'geocodio' method.</p></td>
     </tr>
+    <tr>
+      <th>mapbox_permanent</th>
+      <td><p>if TRUE then the <code>mapbox.places-permanent</code> 
+endpoint would be used. Note that this option should be used only if you 
+have applied for a permanent account. Unsuccessful requests made by an 
+account that does not have access to the endpoint may be billable.</p></td>
+    </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
@@ -290,22 +304,18 @@ for the 'geocodio' method.</p></td>
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># \donttest{</span>
  <span class='fu'>reverse_geo</span><span class='op'>(</span>lat <span class='op'>=</span> <span class='fl'>38.895865</span>, long <span class='op'>=</span> <span class='op'>-</span><span class='fl'>77.0307713</span>, method <span class='op'>=</span> <span class='st'>'osm'</span>, verbose <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'>Querying API URL: https://nominatim.openstreetmap.org/reverse</span></div><div class='output co'>#&gt; <span class='message'>Passing the following parameters to the API:</span></div><div class='output co'>#&gt; <span class='message'>limit : "1"</span></div><div class='output co'>#&gt; <span class='message'>lat : "38.895865"</span></div><div class='output co'>#&gt; <span class='message'>lon : "-77.0307713"</span></div><div class='output co'>#&gt; <span class='message'>format : "json"</span></div><div class='output co'>#&gt; </div><div class='output co'>#&gt; <span class='message'>Query completed in: 0.2 seconds</span></div><div class='output co'>#&gt; <span class='message'>Total query time (including sleep): 1 seconds</span></div><div class='output co'>#&gt; </div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 1 x 3</span><span>
+</div><div class='output co'>#&gt; <span class='message'>Querying API URL: https://nominatim.openstreetmap.org/reverse</span></div><div class='output co'>#&gt; <span class='message'>Passing the following parameters to the API:</span></div><div class='output co'>#&gt; <span class='message'>limit : "1"</span></div><div class='output co'>#&gt; <span class='message'>lat : "38.895865"</span></div><div class='output co'>#&gt; <span class='message'>lon : "-77.0307713"</span></div><div class='output co'>#&gt; <span class='message'>format : "json"</span></div><div class='output co'>#&gt; </div><div class='output co'>#&gt; <span class='message'>Query completed in: 0.1 seconds</span></div><div class='output co'>#&gt; <span class='message'>Total query time (including sleep): 1 seconds</span></div><div class='output co'>#&gt; </div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 1 x 3</span><span>
 #&gt;     lat  long address                                                           
 #&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>                                                             
 #&gt; </span><span style='color: #BCBCBC;'>1</span><span>  38.9 -</span><span style='color: #BB0000;'>77.0</span><span> L’Enfant's plan, Pennsylvania Avenue, Washington, District of Col…</div><div class='input'> 
  <span class='fu'>reverse_geo</span><span class='op'>(</span>lat <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>38.895865</span>, <span class='fl'>43.6534817</span>, <span class='fl'>300</span><span class='op'>)</span>, 
  long <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='op'>-</span><span class='fl'>77.0307713</span>, <span class='op'>-</span><span class='fl'>79.3839347</span>, <span class='fl'>600</span><span class='op'>)</span>, method <span class='op'>=</span> <span class='st'>'osm'</span>, full_results <span class='op'>=</span> <span class='cn'>TRUE</span>, verbose <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'>Querying API URL: https://nominatim.openstreetmap.org/reverse</span></div><div class='output co'>#&gt; <span class='message'>Passing the following parameters to the API:</span></div><div class='output co'>#&gt; <span class='message'>limit : "1"</span></div><div class='output co'>#&gt; <span class='message'>lat : "38.895865"</span></div><div class='output co'>#&gt; <span class='message'>lon : "-77.0307713"</span></div><div class='output co'>#&gt; <span class='message'>format : "json"</span></div><div class='output co'>#&gt; </div><div class='output co'>#&gt; <span class='message'>Query completed in: 0.1 seconds</span></div><div class='output co'>#&gt; <span class='message'>Total query time (including sleep): 1 seconds</span></div><div class='output co'>#&gt; </div><div class='output co'>#&gt; <span class='message'>New names:</span>
-#&gt; <span class='message'>* lat -&gt; lat...1</span>
-#&gt; <span class='message'>* lat -&gt; lat...8</span></div><div class='output co'>#&gt; <span class='message'>Querying API URL: https://nominatim.openstreetmap.org/reverse</span></div><div class='output co'>#&gt; <span class='message'>Passing the following parameters to the API:</span></div><div class='output co'>#&gt; <span class='message'>limit : "1"</span></div><div class='output co'>#&gt; <span class='message'>lat : "43.6534817"</span></div><div class='output co'>#&gt; <span class='message'>lon : "-79.3839347"</span></div><div class='output co'>#&gt; <span class='message'>format : "json"</span></div><div class='output co'>#&gt; </div><div class='output co'>#&gt; <span class='message'>Query completed in: 0.2 seconds</span></div><div class='output co'>#&gt; <span class='message'>Total query time (including sleep): 1 seconds</span></div><div class='output co'>#&gt; </div><div class='output co'>#&gt; <span class='message'>New names:</span>
-#&gt; <span class='message'>* lat -&gt; lat...1</span>
-#&gt; <span class='message'>* lat -&gt; lat...8</span></div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 3 x 22</span><span>
-#&gt;   lat...1  long address place_id licence osm_type  osm_id lat...8 lon   tourism
-#&gt;     </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>  
-#&gt; </span><span style='color: #BCBCBC;'>1</span><span>    38.9 -</span><span style='color: #BB0000;'>77.0</span><span> L’Enfa…   3.02</span><span style='color: #949494;'>e</span><span>8 Data ©… way       9.00</span><span style='color: #949494;'>e</span><span>8 38.895… -77.… L’Enfa…
-#&gt; </span><span style='color: #BCBCBC;'>2</span><span>    43.7 -</span><span style='color: #BB0000;'>79.4</span><span> Toront…   1.37</span><span style='color: #949494;'>e</span><span>8 Data ©… way       1.99</span><span style='color: #949494;'>e</span><span>8 43.653… -79.… </span><span style='color: #BB0000;'>NA</span><span>     
-#&gt; </span><span style='color: #BCBCBC;'>3</span><span>    </span><span style='color: #BB0000;'>NA</span><span>    </span><span style='color: #BB0000;'>NA</span><span>   </span><span style='color: #BB0000;'>NA</span><span>       </span><span style='color: #BB0000;'>NA</span><span>   </span><span style='color: #949494;'> </span><span>  </span><span style='color: #BB0000;'>NA</span><span>      </span><span style='color: #BB0000;'>NA</span><span>       </span><span style='color: #BB0000;'>NA</span><span>   </span><span style='color: #949494;'> </span><span>  </span><span style='color: #BB0000;'>NA</span><span>      </span><span style='color: #BB0000;'>NA</span><span>    </span><span style='color: #BB0000;'>NA</span><span>     
+</div><div class='output co'>#&gt; <span class='message'>Querying API URL: https://nominatim.openstreetmap.org/reverse</span></div><div class='output co'>#&gt; <span class='message'>Passing the following parameters to the API:</span></div><div class='output co'>#&gt; <span class='message'>limit : "1"</span></div><div class='output co'>#&gt; <span class='message'>lat : "38.895865"</span></div><div class='output co'>#&gt; <span class='message'>lon : "-77.0307713"</span></div><div class='output co'>#&gt; <span class='message'>format : "json"</span></div><div class='output co'>#&gt; </div><div class='output co'>#&gt; <span class='message'>Query completed in: 0.1 seconds</span></div><div class='output co'>#&gt; <span class='message'>Total query time (including sleep): 1 seconds</span></div><div class='output co'>#&gt; </div><div class='output co'>#&gt; <span class='message'>Querying API URL: https://nominatim.openstreetmap.org/reverse</span></div><div class='output co'>#&gt; <span class='message'>Passing the following parameters to the API:</span></div><div class='output co'>#&gt; <span class='message'>limit : "1"</span></div><div class='output co'>#&gt; <span class='message'>lat : "43.6534817"</span></div><div class='output co'>#&gt; <span class='message'>lon : "-79.3839347"</span></div><div class='output co'>#&gt; <span class='message'>format : "json"</span></div><div class='output co'>#&gt; </div><div class='output co'>#&gt; <span class='message'>Query completed in: 0.2 seconds</span></div><div class='output co'>#&gt; <span class='message'>Total query time (including sleep): 1 seconds</span></div><div class='output co'>#&gt; </div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 3 x 22</span><span>
+#&gt;     lat  long address place_id licence osm_type  osm_id osm_lat osm_lon tourism
+#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>  
+#&gt; </span><span style='color: #BCBCBC;'>1</span><span>  38.9 -</span><span style='color: #BB0000;'>77.0</span><span> L’Enfa…   3.02</span><span style='color: #949494;'>e</span><span>8 Data ©… way       9.00</span><span style='color: #949494;'>e</span><span>8 38.895… -77.03… L’Enfa…
+#&gt; </span><span style='color: #BCBCBC;'>2</span><span>  43.7 -</span><span style='color: #BB0000;'>79.4</span><span> Toront…   1.37</span><span style='color: #949494;'>e</span><span>8 Data ©… way       1.99</span><span style='color: #949494;'>e</span><span>8 43.653… -79.38… </span><span style='color: #BB0000;'>NA</span><span>     
+#&gt; </span><span style='color: #BCBCBC;'>3</span><span>  </span><span style='color: #BB0000;'>NA</span><span>    </span><span style='color: #BB0000;'>NA</span><span>   </span><span style='color: #BB0000;'>NA</span><span>       </span><span style='color: #BB0000;'>NA</span><span>   </span><span style='color: #949494;'> </span><span>  </span><span style='color: #BB0000;'>NA</span><span>      </span><span style='color: #BB0000;'>NA</span><span>       </span><span style='color: #BB0000;'>NA</span><span>   </span><span style='color: #949494;'> </span><span>  </span><span style='color: #BB0000;'>NA</span><span>      </span><span style='color: #BB0000;'>NA</span><span>      </span><span style='color: #BB0000;'>NA</span><span>     
 #&gt; </span><span style='color: #949494;'># … with 12 more variables: road </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span style='color: #949494;'>, city </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span style='color: #949494;'>, state </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span style='color: #949494;'>,</span><span>
 #&gt; </span><span style='color: #949494;'>#   postcode </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span style='color: #949494;'>, country </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span style='color: #949494;'>, country_code </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span style='color: #949494;'>, boundingbox </span><span style='color: #949494;font-style: italic;'>&lt;list&gt;</span><span style='color: #949494;'>,</span><span>
 #&gt; </span><span style='color: #949494;'>#   amenity </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span style='color: #949494;'>, house_number </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span style='color: #949494;'>, neighbourhood </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span style='color: #949494;'>, quarter </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span style='color: #949494;'>,</span><span>
@@ -323,7 +333,7 @@ for the 'geocodio' method.</p></td>
 
       <footer>
       <div class="copyright">
-  <p>Developed by <a href='https://jessecambon.github.io'>Jesse Cambon</a>, Christopher Belanger, Daniel Possenriede.</p>
+  <p>Developed by <a href='https://jessecambon.github.io'>Jesse Cambon</a>, Christopher Belanger, Daniel Possenriede, Diego Hernangómez.</p>
 </div>
 
 <div class="pkgdown">

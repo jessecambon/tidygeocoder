@@ -92,7 +92,7 @@ get_coord_parameters <- function(custom_query, method, lat, long) {
 #' @param flatten if TRUE then any nested dataframes in results are flattened if possible.
 #'    Note that Geocodio batch geocoding results are flattened regardless.
 #' @param batch_limit limit to the number of addresses in a batch geocoding query.
-#'  Both geocodio and census batch geocoders have a 10,000 address limit so this
+#'  Both geocodio and census batch geocoders have a 10,000 limit so this
 #'  is the default.
 #' @param verbose if TRUE then detailed logs are output to the console
 #' @param no_query if TRUE then no queries are sent to the geocoder and verbose is set to TRUE
@@ -144,7 +144,6 @@ reverse_geo <- function(lat, long, method = 'osm', address = address, limit = 1,
   
   NA_value <- tibble::tibble(address = rep(as.character(NA), num_coords)) # filler result to return if needed
   names(NA_value)[1] <- address # rename column
-  
   
   if (no_query == TRUE) verbose <- TRUE
   start_time <- Sys.time() # start timer
@@ -278,20 +277,19 @@ reverse_geo <- function(lat, long, method = 'osm', address = address, limit = 1,
   ## Extract results ------------------------------------------------------------------------------
   if ((method == 'mapbox') & (!is.data.frame(raw_results$features))) {
     message(paste0('Error: ', raw_results$message))
-    results <- tibble::tibble(address = as.character(NA))
+    results <- NA_value
   }
   else if (length(raw_results) == 0) {
     # If no results found, return NA
     # otherwise extract results
-    results <- tibble::tibble(address = as.character(NA))
+    results <- NA_value
     if (verbose == TRUE) message("No results found")
   } 
   else {
     results <- extract_reverse_results(method, raw_results, full_results, flatten)
+    # rename address column
+    names(results)[1] <- address
   }
-  
-  # rename address column
-  names(results)[1] <- address
 
   # Make sure the proper amount of time has elapsed for the query per min_time
   pause_until(start_time, min_time, debug = verbose) 
