@@ -4,6 +4,7 @@
 -   Added support for the Mapbox geocoder service ([#71](https://github.com/jessecambon/tidygeocoder/issues/71)) (thanks [@dieghernan](https://github.com/dieghernan)). Note that currently the batch geocoding capability of this service is not implemented.
 -   Added support for reverse geocoding through the `reverse_geo()` and `reverse_geocode()` functions.
 -   The `address_list` argument of `query_api()` has been renamed to `input_list` and is now used for both forward and reverse geocoding with the Geocodio batch geocoding.
+-   If the number of unique addresses or coordinates exceeds the batch query limit then an error is thrown. In the past, a batch query would have been performed that was limited in size by the batch query limit.
 
 # tidygeocoder 1.0.2
 

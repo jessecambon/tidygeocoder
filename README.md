@@ -22,16 +22,19 @@ Month](http://cranlogs.r-pkg.org/badges/tidygeocoder)](https://cran.r-project.or
 
 ## Introduction
 
-Tidygeocoder makes getting data from geocoder services easy. A unified
-interface is provided for the supported geocoder services listed below.
-All results are returned in [tibble
-format](https://tibble.tidyverse.org/).
+Tidygeocoder makes getting data from geocoder services easy. Both
+forward geocoding (providing addresses to obtain latitude and longitude)
+and reverse geocoding (providing latitude and longitude to obtain the
+address) are supported. All results are returned in [tibble
+format](https://tibble.tidyverse.org/) and the supported geocoder
+services are listed below.
 
-Batch geocoding (geocoding multiple addresses per query) is used by
-default if possible when multiple addresses are provided. Duplicate,
-missing/NA, and blank input data is handled elegantly - only unique
-inputs are passed to geocoder services, but the rows in the original
-data are preserved by default.
+Batch geocoding (geocoding multiple addresses or coordinates per query)
+is used by default if supported by the geocoder service when multiple
+addresses or coordinates are provided. Duplicate, missing/NA, and blank
+input data is handled elegantly - only unique inputs are passed to
+geocoder services, but the rows in the original data are preserved by
+default.
 
 In addition to the usage example below you can refer to the following
 references:
@@ -68,8 +71,7 @@ devtools::install_github("jessecambon/tidygeocoder")
 
 The supported geocoder services are shown in the table below with their
 geographic limitations, if they support batch geocoding (geocoding
-multiple addresses in a single query), reverse geocoding (obtaining
-addresses from latitude and longitude coordinates), if an API key is
+multiple addresses or coordinates in a single query), if an API key is
 required, and the usage rate limitations. Refer to the website for each
 geocoder service for the most up-to-date details on costs, capabilities,
 and usage limitations.
@@ -82,7 +84,7 @@ and usage limitations.
 | [Location IQ](https://locationiq.com/)                                        | Worldwide     | No              | Yes              | 2/second (free tier)    |
 | [Google](https://developers.google.com/maps/documentation/geocoding/overview) | Worldwide     | No              | Yes              | 50/second               |
 | [OpenCage](https://opencagedata.com)                                          | Worldwide     | No              | Yes              | 1/second (free tier)    |
-| [Mapbox](https://www.mapbox.com/)                                             | Worldwide     | See Note        | Yes              | 10/second (free tier)   |
+| [Mapbox](https://www.mapbox.com/)                                             | Worldwide     | See note below  | Yes              | 10/second (free tier)   |
 
 Notes:
 
@@ -171,9 +173,9 @@ full <- some_addresses %>%
 To perform **reverse geocoding** (obtaining addresses from latitude and
 longitude coordinates), we can use the `reverse_geocode()` function. The
 arguments are similar to the `geocode()` function, but we now are
-specifying the latitude and longitude columns in our dataset as inputs.
-See the `reverse_geo()` function documentation for more details on
-reverse geocoding.
+specifying the latitude and longitude columns in our dataset with the
+`lat` and `long` arguments. See the `reverse_geo()` function
+documentation for more details on reverse geocoding.
 
 ``` r
 coordinates <- tibble(latitude = c(38.895865, 43.6534817, 35.0844),
