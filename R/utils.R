@@ -66,7 +66,8 @@ extract_results <- function(method, response, full_results = TRUE, flatten = TRU
     'mapbox' <- data.frame(
       'lat' = response$features$center[[1]][2],
       'long' = response$features$center[[1]][1]
-    ) # mapbox results are nested unnames lists
+    ), # mapbox results are nested unnames lists
+    'here' = response$items$position[c('lat','lng')]
   )
   
   # if null result then return NA
@@ -88,7 +89,8 @@ extract_results <- function(method, response, full_results = TRUE, flatten = TRU
       'geocodio' = response$results[!names(response$results) %in% c('location')],
       'google' = response$results,
       'opencage' = response$results[!names(response$results) %in% c('geometry')],
-      'mapbox' = response$features
+      'mapbox' = response$features,
+      'here' = response$items
     )
     
     # add prefix to variable names that likely could be in our input dataset

@@ -30,6 +30,8 @@ test_that("geocode null/empty addresses", {
   expect_identical(geo_google(" ", return_addresses = FALSE, no_query = TRUE), NA_result)
   expect_identical(geo_opencage(" ", return_addresses = FALSE, no_query = TRUE), NA_result)
   expect_identical(geo_mapbox(" ", return_addresses = FALSE, no_query = TRUE), NA_result)
+  expect_identical(geo_here(" ", return_addresses = FALSE, no_query = TRUE), NA_result)
+  
   
   
   # Test with tibble

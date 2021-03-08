@@ -162,3 +162,32 @@ geo('Testing',
     method = 'mapbox',
     custom_query = list(country = "ERROR"))
 ```
+# Check here
+
+```{r}
+
+louisville_here <- louisville %>%
+  geocode(
+    address = street,
+    method = 'here',
+    full_results = TRUE,
+    custom_query = list(at = paste0(louisville[1, c("latitude", "longitude")],
+                                    collapse = ","))
+  ) %>%
+  mutate(lat_diff = lat - latitude,
+         long_diff = long - longitude) %>%
+  select(lat_diff, long_diff, everything())
+
+louisville_here
+```
+
+
+```{r}
+geocode_here1 <- sample1 %>%
+  geocode(
+    address = address,
+    method = 'here',
+    full_results = TRUE
+  )
+geocode_here1
+```

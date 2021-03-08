@@ -53,6 +53,8 @@ batch_func_map <- list(
 #'      in the "OPENCAGE_KEY" environmental variable.
 #'   \item \code{"mapbox"}: Commercial Mapbox geocoder service. Requires an API Key to
 #'      be stored in the "MAPBOX_API_KEY" environmental variable.
+#'   \item \code{"here"}: Commercial HERE geocoder service. Requires an API Key 
+#'      to be stored in the "HERE_API_KEY" environmental variable.
 #'   \item \code{"cascade"} : Attempts to use one geocoder service and then uses
 #'     a second geocoder service if the first service didn't return results.
 #'     The services and order is specified by the cascade_order argument. 
