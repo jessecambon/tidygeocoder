@@ -1,9 +1,17 @@
-api_url <- "https://batch.geocoder.ls.hereapi.com/6.2/jobs"
+api_url <- NULL
 timeout <- 20
-limit <- 2
-addresses <- c("Calle Mayor", "Calle de Toledo", "zzzzz", "Barcelona", "Toledo")
+limit <- 1
+addresses <- c("Calle Mayor", "zzzzz", "Toledo")
 lat <- "latttt"
 long <- "longgg"
+verbose = TRUE
+
+
+
+if (is.null(api_url)) api_url <- "https://batch.geocoder.ls.hereapi.com/6.2/jobs"
+
+NA_batch <- get_na_value(lat, long, rows = nrow(addresses_tbl)) # filler result to return if needed
+
 
 # https://developer.here.com/documentation/batch-geocoder/dev_guide/topics/quick-start-batch-geocode.html
 
@@ -28,7 +36,7 @@ outcols <- c(
   "mapViewTopLeftLongitude"
 )
 
-# Create custom query with specific params
+# Create custom query with specific params ----
 # https://developer.here.com/documentation/batch-geocoder/dev_guide/topics/request-parameters.html
 custom_query <- list(
   maxresults = limit,
@@ -63,7 +71,7 @@ body <- paste(
 # 2. Wait - Status of the job can be checked
 # 3. Results
 
-# Step 1: Run job and retrieve id
+# Step 1: Run job and retrieve id ----
 job <- httr::POST(api_url,
   query = query_parameters,
   body = body, encode = "raw", httr::timeout(60 * timeout)
@@ -71,25 +79,24 @@ job <- httr::POST(api_url,
 # Timer (optional)
 init_process <- Sys.time()
 job_result <- httr::content(job)
-# Message here if unsuccessful - TODO
+
+# Message here if unsuccessful
 if ( is.null(job_result$Response$MetaInfo$RequestId)){
   message(paste0('Error: ', job_result$Details))
-  NA_value <- get_na_value(lat, long, rows = nrow(addresses_tbl)) # filler result to return if needed
-  return(NA_value)
+  return(NA_batch)
 }
-
-# End message
 
 # Retrieve request_id
 request_id <- job_result$Response$MetaInfo$RequestId
+if (verbose) message("HERE RequestID: ",request_id)
 
-# Step 2: Check job until is done
-
+# Step 2: Check job until is done ----
+# https://developer.here.com/documentation/batch-geocoder/dev_guide/topics/job-status.html
 current_status <- ""
-message("HERE: Batch job accepted. Processing...")
+if (verbose) message("HERE: Batch job accepted. Processing...")
 
-while (current_status != "completed") {
-  Sys.sleep(nrow(addresses_tbl)) # Arbitrary, 1sec per status request
+while (!current_status %in% c("cancelled", "failed", "completed")) {
+  Sys.sleep(3) # Arbitrary, 3sec
   status <- httr::GET(
     url = paste0(api_url, "/", request_id),
     query = list(
@@ -97,15 +104,38 @@ while (current_status != "completed") {
       apiKey = get_key("here")
     )
   )
-  current_status <- httr::content(status)$Response$Status
-  if (current_status == "completed") {
-    update_time_elapsed <- get_seconds_elapsed(init_process)
-    print_time("HERE: Batch job processed in", update_time_elapsed)
+  status_get <- httr::content(status)
+  prev_status <- current_status
+  current_status <- as.character(status_get$Response$Status)
+  if (prev_status != current_status && verbose){
+    message("Status: ",current_status)
+    message("Processed: ",status_get$Response$ProcessedCount,",",
+          "Pending: ", status_get$Response$PendingCount)
   }
 }
 
+# Message here
+update_time_elapsed <- get_seconds_elapsed(init_process)
+if (verbose) print_time("HERE: Batch job processed in", update_time_elapsed)
 
-# Step 3: Download and parse
+# Delete non-complete jobs
+
+if (current_status != "completed"){
+  delete <- httr::DELETE(
+    url = paste0(api_url, "/", request_id),
+    query = list(
+      apiKey = get_key("here")
+    )
+  )
+  
+  if(verbose) message("HERE: Batch job failure")
+  return(NA_batch)
+  
+}
+
+
+
+# Step 3: Download and parse ----
 batch_results <- httr::GET(
   url = paste0(api_url, "/", request_id, "/result"),
   query = list(
@@ -115,7 +145,7 @@ batch_results <- httr::GET(
 )
 result_content <- httr::content(batch_results)
 
-# Parse to tibble
+# Parse results----
 result_parsed <- tibble::as_tibble(
   read.table(
     text = result_content,
