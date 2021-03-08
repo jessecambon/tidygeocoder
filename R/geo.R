@@ -4,7 +4,8 @@
 # maps method names to batch functions
 batch_func_map <- list(
   geocodio = batch_geocodio, 
-  census = batch_census
+  census = batch_census,
+  here = batch_here
 )
 
 #' Geocode addresses
@@ -54,7 +55,8 @@ batch_func_map <- list(
 #'   \item \code{"mapbox"}: Commercial Mapbox geocoder service. Requires an API Key to
 #'      be stored in the "MAPBOX_API_KEY" environmental variable.
 #'   \item \code{"here"}: Commercial HERE geocoder service. Requires an API Key 
-#'      to be stored in the "HERE_API_KEY" environmental variable.
+#'      to be stored in the "HERE_API_KEY" environmental variable. Can perform 
+#'      batch geocoding.
 #'   \item \code{"cascade"} : Attempts to use one geocoder service and then uses
 #'     a second geocoder service if the first service didn't return results.
 #'     The services and order is specified by the cascade_order argument. 
@@ -92,7 +94,7 @@ batch_func_map <- list(
 #'    Note that Geocodio batch geocoding results are flattened regardless.
 #' @param batch_limit limit to the number of addresses in a batch geocoding query.
 #'  Both geocodio and census batch geocoders have a 10,000 address limit so this
-#'  is the default.
+#'  is the default. HERE has a 1,000,000 address limit.
 #' @param verbose if TRUE then detailed logs are output to the console
 #' @param no_query if TRUE then no queries are sent to the geocoder and verbose is set to TRUE
 

@@ -114,6 +114,8 @@ test_that("reverse geocode null/empty addresses", {
   expect_identical(reverse_geo(lat =" ", long = " ", method = 'google', return_coords = FALSE, no_query = TRUE), NA_result)
   expect_identical(reverse_geo(lat = " ", long = " ", method = 'opencage', return_coords = FALSE, no_query = TRUE), NA_result)
   expect_identical(reverse_geo(lat = " ", long = " ", method = 'mapbox', return_coords = FALSE, no_query = TRUE), NA_result)
+  expect_identical(reverse_geo(lat = " ", long = " ", method = 'here', return_coords = FALSE, no_query = TRUE), NA_result)
+  
   
   
   # Test with tibble
