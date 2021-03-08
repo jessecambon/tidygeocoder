@@ -182,7 +182,8 @@ batch_here <- function(unique_addresses, lat = 'lat', long = 'long', timeout = 2
                             indelim = '|',
                             outdelim = '|', # Required
                             outputcombined = TRUE,  # Required
-                            outcols = paste0(outcols, collapse = ',')
+                            outcols = paste0(outcols, collapse = ','),
+                            includeInputFields = TRUE
                             )
   
   # Clean parameters of default HERE query and combine
@@ -302,9 +303,6 @@ batch_here <- function(unique_addresses, lat = 'lat', long = 'long', timeout = 2
   
   # Merge to original addresses and output
   results <- merge(address_df, result_parsed, by = 'recId', all.x = TRUE)
-  
-  # Clean from created names
-  results <- results[,!names(results) %in% c('recId', 'searchText')]
   
   names(results)[names(results) == 'displayLatitude'] <- lat
   names(results)[names(results) == 'displayLongitude'] <- long
