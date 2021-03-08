@@ -85,7 +85,8 @@ and usage limitations.
 | [Google](https://developers.google.com/maps/documentation/geocoding/overview) | Worldwide     | No              | Yes              | 50/second               |
 | [OpenCage](https://opencagedata.com)                                          | Worldwide     | No              | Yes              | 1/second (free tier)    |
 | [Mapbox](https://www.mapbox.com/)                                             | Worldwide     | See Note        | Yes              | 10/second (free tier)   |
-| [HERE](https://www.here.com/)                                                 | Worldwide     | Yes             | Yes              | None  |
+| [HERE](https://www.here.com/)                                                 | Worldwide     | Yes             | Yes              | None                    |
+
 Notes:
 
 -   The US Census service supports street-level addresses only (ie. “11
