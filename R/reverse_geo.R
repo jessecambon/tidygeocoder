@@ -129,24 +129,26 @@ reverse_geo <- function(lat, long, method = 'osm', address = address, limit = 1,
   # IMPORTANT: make sure to put this statement before any other variables are defined in the function
   all_args <- as.list(environment())
   
-  # Reference Variables ------------------------------------------------------------
-
   # Check argument inputs
   stopifnot(is.logical(verbose), is.logical(no_query), is.logical(flatten),
       is.logical(full_results), is.logical(unique_only),
       is.numeric(limit), limit >= 1,  is.list(custom_query), 
       is.logical(mapbox_permanent))
-  
   if (length(lat) != length(long)) stop('Lengths of lat and long must be equal.')
-  
-  coord_pack <- package_inputs(tibble::tibble(lat = as.numeric(lat), long = as.numeric(long)), coords = TRUE)
-  num_unique_coords <- nrow(coord_pack$unique)
-  
-  NA_value <- tibble::tibble(address = rep(as.character(NA), num_unique_coords)) # filler result to return if needed
-  names(NA_value)[1] <- address # rename column
+  if (!(mode %in% c('', 'single', 'batch'))) {
+    stop('Invalid mode argument. See ?geo')
+  }
   
   if (no_query == TRUE) verbose <- TRUE
   start_time <- Sys.time() # start timer
+  
+  # Package inputs
+  coord_pack <- package_inputs(tibble::tibble(lat = as.numeric(lat), long = as.numeric(long)), coords = TRUE)
+  num_unique_coords <- nrow(coord_pack$unique)
+  if (verbose == TRUE) message(paste0('Number of Unique Coordinates: ', num_unique_coords))
+  
+  NA_value <- tibble::tibble(address = rep(as.character(NA), num_unique_coords)) # filler NA result to return if needed
+  names(NA_value)[1] <- address # rename column
   
   # Geocode coordinates one at a time in a loop -------------------------------------------------------
   if ((num_unique_coords > 1) & ((!(method %in% names(reverse_batch_func_map))) | (mode == 'single'))) {
@@ -269,16 +271,10 @@ reverse_geo <- function(lat, long, method = 'osm', address = address, limit = 1,
   
   
   ## Extract results ------------------------------------------------------------------------------
-  if ((method == 'mapbox') & (!is.data.frame(raw_results$features))) {
-    message(paste0('Error: ', raw_results$message))
+  # if there were problems with the results then return NA
+  if (check_results_for_problems(method, raw_results, verbose)) {
     results <- NA_value
   }
-  else if (length(raw_results) == 0) {
-    # If no results found, return NA
-    # otherwise extract results
-    results <- NA_value
-    if (verbose == TRUE) message("No results found")
-  } 
   else {
     results <- extract_reverse_results(method, raw_results, full_results, flatten)
     # rename address column

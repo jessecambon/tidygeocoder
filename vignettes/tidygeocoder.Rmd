@@ -110,7 +110,7 @@ knitr::kable(rev1)
 The same query can also be performed by passing the latitude and longitudes directly to the `reverse_geo()` function. Here we will use `full_results = TRUE` so that the full results are returned (not just the single line address column).
 
 ```{r}
- rev2 <- reverse_geo(lat = lat_longs1$latitude, long = lat_longs1$longitude,
+rev2 <- reverse_geo(lat = lat_longs1$latitude, long = lat_longs1$longitude,
                   method = 'osm', full_results = TRUE)
 glimpse(rev2)
 ```

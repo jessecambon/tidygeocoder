@@ -19,12 +19,10 @@ sample2 <- tibble(street = c('1600 Pennsylvania Ave NW', '11 Wall Street', ''),
 ```
 
 
-```{r}
+```{r, error = TRUE}
 # test batch limit
-batch_lim_test <- sample1 %>%
+sample1 %>%
   geocode(address, verbose = F, batch_limit = 1)
-
-batch_lim_test
 ```
 
 
@@ -99,14 +97,14 @@ iq_c1
 ```
 
 
-```{r}
+```{r, error = TRUE}
 geo('blank address', method = 'makeanerror')
 ```
 
 
 Check geocodio error catching
 
-```{r}
+```{r, error = TRUE}
 geo(' -----', method ='geocodio')
 ```
 

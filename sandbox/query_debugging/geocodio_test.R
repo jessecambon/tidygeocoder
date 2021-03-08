@@ -8,6 +8,7 @@ library(httr)
 library(jsonlite)
 
 addr <- 'Tokyo' # address to geocode
+addr <- '------'
 
 url_base <- "https://api.geocod.io/v1.6/geocode"
 
@@ -22,7 +23,7 @@ resp <- httr::GET(url = url_base,
         ))
 
 # Parse response to get named list with components 'input' and 'results'
-response <- jsonlite::fromJSON(httr::content(resp, as = 'text', encoding = "UTF-8"))
+raw_results <- jsonlite::fromJSON(httr::content(resp, as = 'text', encoding = "UTF-8"))
 
 product <- response$results[!names(response$results) %in% c('location')]
 

@@ -6,6 +6,7 @@ url_base  <- 'https://maps.googleapis.com/maps/api/geocode/json'
 
 # white house
 lat <- 38.895865
+#lat <- NA
 lon <- -77.0307713
 
 soup <- httr::GET(url = url_base, 

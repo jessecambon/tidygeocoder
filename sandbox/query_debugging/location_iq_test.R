@@ -24,7 +24,7 @@ resp <- httr::GET(url = url_base,
         ))
 
 # dataframe is returned
-dat <- jsonlite::fromJSON(httr::content(resp, as = 'text', encoding = "UTF-8"))
+raw_results <- jsonlite::fromJSON(httr::content(resp, as = 'text', encoding = "UTF-8"))
 
 # Obtain latitude and longitude
 lat_lng <- as.numeric(c(dat$lat, dat$lon))
