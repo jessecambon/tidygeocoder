@@ -26,6 +26,9 @@ get_coord_parameters <- function(custom_query, method, lat, long) {
   } else if (method == 'mapbox') {
     custom_query[['to_url']] <-
       paste0(as.character(long), ',', as.character(lat))
+  } else if (method == 'here') {
+    custom_query[['at']] <-
+      paste0(as.character(lat), ',', as.character(long))
   } else {
     stop('Invalid method. See ?reverse_geo')
   }
@@ -66,6 +69,8 @@ get_coord_parameters <- function(custom_query, method, lat, long) {
 #'      in the "OPENCAGE_KEY" environmental variable.
 #'   \item \code{"mapbox"}: Commercial Mapbox geocoder service. Requires an API Key to
 #'      be stored in the "MAPBOX_API_KEY" environmental variable.
+#'   \item \code{"here"}: Commercial HERE geocoder service. Requires an API Key 
+#'      to be stored in the "HERE_API_KEY" environmental variable.
 #' }
 #' @param address name of address column (output data)
 #' @param limit number of results to return per coordinate. Note that not all methods support

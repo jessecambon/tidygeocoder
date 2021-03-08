@@ -50,6 +50,8 @@ each geocoder service for usage details and limitations.
      in the "OPENCAGE_KEY" environmental variable.
   \item \code{"mapbox"}: Commercial Mapbox geocoder service. Requires an API Key to
      be stored in the "MAPBOX_API_KEY" environmental variable.
+  \item \code{"here"}: Commercial HERE geocoder service. Requires an API Key 
+     to be stored in the "HERE_API_KEY" environmental variable.
 }}
 
 \item{address}{name of address column (output data)}
@@ -86,7 +88,7 @@ return_addresses to FALSE does not prevent this.}
 Note that Geocodio batch geocoding results are flattened regardless.}
 
 \item{batch_limit}{limit to the number of addresses in a batch geocoding query.
-Both geocodio and census batch geocoders have a 10,000 address limit so this
+Both geocodio and census batch geocoders have a 10,000 limit so this
 is the default.}
 
 \item{verbose}{if TRUE then detailed logs are output to the console}
