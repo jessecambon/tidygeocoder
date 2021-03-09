@@ -109,7 +109,8 @@ This parameter can be used to specify a local Nominatim server.}
 force single address geocoding (one address per query). If not 
 specified then batch geocoding will be used if available
 (given method selected) when multiple addresses are provided, otherwise
-single address geocoding will be used.}
+single address geocoding will be used. For 'here' the batch mode
+should be explicitly enforced.}
 
 \item{full_results}{returns all data from the geocoder service if TRUE. 
 If FALSE then only longitude and latitude are returned from the geocoder service.}

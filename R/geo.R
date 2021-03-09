@@ -82,7 +82,8 @@ batch_func_map <- list(
 #'  force single address geocoding (one address per query). If not 
 #'  specified then batch geocoding will be used if available
 #'  (given method selected) when multiple addresses are provided, otherwise
-#'  single address geocoding will be used.
+#'  single address geocoding will be used. For 'here' the batch mode
+#'  should be explicitly enforced.
 #' @param full_results returns all data from the geocoder service if TRUE. 
 #' If FALSE then only longitude and latitude are returned from the geocoder service.
 #' @param unique_only only return results for unique addresses if TRUE
@@ -266,6 +267,14 @@ geo <- function(address = NULL,
   # If there are multiple addresses and we are using a method without a batch geocoder function 
   # OR the user has explicitly specified single address geocoding then call the 
   # single address geocoder in a loop (ie. recursively call this function)
+  
+  # HERE Exception
+  # Batch mode is quite slow. If batch mode is not called explicitly
+  # use single method
+  if (method == "here" && mode != 'batch' ){
+    mode <- 'single'
+  }
+  
   if ((num_unique_addresses > 1) & ((!(method %in% names(batch_func_map))) | (mode == 'single'))) {
       if (verbose == TRUE) {
         message('Executing single address geocoding...\n')
