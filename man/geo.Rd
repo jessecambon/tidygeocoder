@@ -33,7 +33,8 @@ geo(
   iq_region = "us",
   geocodio_v = 1.6,
   param_error = TRUE,
-  mapbox_permanent = FALSE
+  mapbox_permanent = FALSE,
+  here_request_id = NULL
 )
 }
 \arguments{
@@ -153,6 +154,12 @@ If method = 'cascade' then no errors will be thrown.}
 endpoint would be used. Note that this option should be used only if you 
 have applied for a permanent account. Unsuccessful requests made by an 
 account that does not have access to the endpoint may be billable.}
+
+\item{here_request_id}{This parameter would return a previous HERE batch job,
+identified by its RequestID. The RequestID of a batch job is displayed 
+when \code{verbose} is TRUE.Note that this option would ignore the 
+current \code{address} parameter on the request, so \code{return_addresses} 
+needs to be FALSE.}
 }
 \value{
 parsed geocoding results in tibble format

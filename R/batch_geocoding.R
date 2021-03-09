@@ -145,7 +145,8 @@ verbose = FALSE, api_url = NULL, geocodio_v = 1.6, limit = 1, ...) {
 # ... are arguments passed from the geo() function
 # https://developer.here.com/documentation/batch-geocoder/dev_guide/topics/introduction.html
 batch_here <- function(unique_addresses, lat = 'lat', long = 'long', timeout = 20, full_results = FALSE, custom_query = list(),
-                           verbose = FALSE, api_url = NULL, geocodio_v = 1.6, limit = 1, ...) {
+                       verbose = FALSE, api_url = NULL, geocodio_v = 1.6, limit = 1, 
+                       here_request_id = NULL, ...) {
 
   # https://developer.here.com/documentation/batch-geocoder/dev_guide/topics/quick-start-batch-geocode.html
   # Specific endpoint
@@ -217,29 +218,38 @@ batch_here <- function(unique_addresses, lat = 'lat', long = 'long', timeout = 2
   # 1. Send the request and get a job id
   # 2. Wait - Status of the job can be checked
   # 3. Results
-  
-  # Step 1: Run job and retrieve id ----
-  # Modification from query_api function
-  job <- httr::POST(api_url,
-                    query = c(query_parameters, action = 'run'),
-                    body = body,
-                    encode = 'raw',
-                    httr::timeout(60 * timeout)
-                    )
+  # Exception if a previous job is requested go to Step 2
   
   # Batch timer
   init_process <- Sys.time()
-  job_result <- httr::content(job)
   
-  # On error
-  if (is.null(job_result$Response$MetaInfo$RequestId)) {
-    message(paste0('Error: ', job_result$Details))
-    return(NA_batch)
+  if (!is.null(here_request_id)){
+    if (verbose) message("HERE: Requesting a previous job")
+    
+  } else {
+    
+    # Step 1: Run job and retrieve id ----
+    # Modification from query_api function
+    job <- httr::POST(api_url,
+                      query = c(query_parameters, action = 'run'),
+                      body = body,
+                      encode = 'raw',
+                      httr::timeout(60 * timeout)
+                      )
+    
+    job_result <- httr::content(job)
+    
+    # On error
+    if (is.null(job_result$Response$MetaInfo$RequestId)) {
+      message(paste0('Error: ', job_result$Details))
+      return(NA_batch)
+    }
+    
+    # Retrieve here_request_id
+    here_request_id <- job_result$Response$MetaInfo$RequestId
   }
   
-  # Retrieve request_id
-  request_id <- job_result$Response$MetaInfo$RequestId
-  if (verbose) message('HERE RequestID: ', request_id)
+  if (verbose) message('HERE: RequestID -> ', here_request_id)
   
   # Step 2: Check job until is done ----
   # https://developer.here.com/documentation/batch-geocoder/dev_guide/topics/job-status.html
@@ -250,7 +260,7 @@ batch_here <- function(unique_addresses, lat = 'lat', long = 'long', timeout = 2
   # HERE Batching takes a while!
   while (!current_status %in% c('cancelled', 'failed', 'completed')) {
     Sys.sleep(3) # Arbitrary, 3sec
-    status <- httr::GET(url = paste0(api_url, '/', request_id),
+    status <- httr::GET(url = paste0(api_url, '/', here_request_id),
                         query = list(action = 'status',
                                      apiKey = get_key('here'))
     )
@@ -277,7 +287,7 @@ batch_here <- function(unique_addresses, lat = 'lat', long = 'long', timeout = 2
   
   # Delete non-completed jobs and return empty
   if (current_status != 'completed') {
-    delete <- httr::DELETE(url = paste0(api_url, '/', request_id),
+    delete <- httr::DELETE(url = paste0(api_url, '/', here_request_id),
                            query = list(apiKey = get_key('here')))
     
     if (verbose) message('\nHERE: Batch job failure\n')
@@ -286,7 +296,7 @@ batch_here <- function(unique_addresses, lat = 'lat', long = 'long', timeout = 2
   
   # Step 3: GET results and parse ----
   batch_results <-
-    httr::GET(url = paste0(api_url, '/', request_id, '/result'),
+    httr::GET(url = paste0(api_url, '/', here_request_id, '/result'),
               query = list(apiKey = get_key('here'),
                            outputcompressed = FALSE)
     )
@@ -302,7 +312,10 @@ batch_here <- function(unique_addresses, lat = 'lat', long = 'long', timeout = 2
   )
   
   # Merge to original addresses and output
-  results <- merge(address_df, result_parsed, by = 'recId', all.x = TRUE)
+  results <- merge(address_df[ ,'recId'], 
+                   result_parsed, 
+                   by = 'recId', 
+                   all.x = TRUE)
   
   names(results)[names(results) == 'displayLatitude'] <- lat
   names(results)[names(results) == 'displayLongitude'] <- long

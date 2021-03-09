@@ -93,6 +93,7 @@ if (is.null(job_result$Response$MetaInfo$RequestId)) {
 
 # Retrieve request_id
 request_id <- job_result$Response$MetaInfo$RequestId
+request_id <- "E2bc948zBsMCG4QclFKCq3tddWYCsE9g"
 if (verbose)
   message("HERE RequestID: ", request_id)
 
@@ -125,7 +126,7 @@ while (!current_status %in% c("cancelled", "failed", "completed")) {
     )
   }
 }
-
+status_get
 # Message here
 update_time_elapsed <- get_seconds_elapsed(init_process)
 if (verbose)
@@ -190,14 +191,37 @@ custom_query[['outdelim']]
 
 
 custom_query
+
 # Live tests----
 
 test1 <- tidygeocoder::geo(address = c("Calle Mayor","Springfield","xx"),
                   method = "here",
                   verbose = TRUE,
-                  mode="batch",
                   limit = 1)
+
+
 test1
+
+# retrieve previous JOB a43TItKAmS75XUdN3co24Ok9DxUinkF4
+# It may fail if another apiKey is in use
+
+
+tidygeocoder::geo(address = c("Calle Mayor","Springfield","xx"),
+                  method = "here",
+                  verbose = TRUE,
+                  return_addresses = FALSE,
+                  full_results = TRUE,
+                  here_request_id = "a43TItKAmS75XUdN3co24Ok9DxUinkF4",
+                  limit = 1)
+
+# Batch non existing
+tidygeocoder::geo(address = c("Calle Mayor","Springfield","xx"),
+                  method = "here",
+                  verbose = TRUE,
+                  return_addresses = FALSE,
+                  full_results = TRUE,
+                  here_request_id = "abcdefghei1",
+                  limit = 1)
 
 test2 <- tidygeocoder::geo(address = c("Calle Mayor","Springfield","------"),
                   method = "here",

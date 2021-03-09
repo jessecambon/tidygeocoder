@@ -42,7 +42,8 @@ tidygeocoder::extract_results(selected_method,
 )
 
 # Test geo ----
-
+library(tibble)
+addr <- "Acueducto de Segovia, Spain"
 ## Error
 tidygeocoder::geo(
   address = "zzzzzz",
@@ -58,6 +59,7 @@ livetest <-
     method = "here"
   )
 glimpse(livetest)
+
 livetest_full <-
   tidygeocoder::geo(
     address = addr,
@@ -84,6 +86,7 @@ livetest_params <-
     verbose = TRUE,
     full_results = TRUE,
     limit = 2,
+    mode = 'single',
     custom_query = list(
       lang = "fr"
     ),
@@ -106,6 +109,6 @@ some_addresses <- tribble(
 
 # geocode the addresses
 lat_longs <- some_addresses %>%
-  geocode(addr, method = "here", lat = latitude, long = longitude, full_results = TRUE)
+  geocode(addr, method = "here", mode = 'single', lat = latitude, long = longitude, full_results = TRUE)
 
 lat_longs

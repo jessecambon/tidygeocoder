@@ -162,14 +162,16 @@ geo('Testing',
     method = 'mapbox',
     custom_query = list(country = "ERROR"))
 ```
-# Check here
+# Check HERE
 
 ```{r}
+# Force single geocoding
 
 louisville_here <- louisville %>%
   geocode(
     address = street,
     method = 'here',
+    mode = 'single',
     full_results = TRUE,
     custom_query = list(at = paste0(louisville[1, c("latitude", "longitude")],
                                     collapse = ","))
@@ -181,12 +183,29 @@ louisville_here <- louisville %>%
 louisville_here
 ```
 
+```{r}
+# Default - batch geocoding
+
+louisville_here2 <- louisville %>%
+  select(addr = street, longitude, latitude) %>%
+  geocode(
+    address = addr,
+    method = 'here',
+    full_results = TRUE) %>%
+  mutate(lat_diff = lat - latitude,
+         long_diff = long - longitude) %>%
+  select(lat_diff, long_diff, everything())
+
+louisville_here2
+```
+
 
 ```{r}
 geocode_here1 <- sample1 %>%
   geocode(
     address = address,
     method = 'here',
+    mode = 'single', # Force
     full_results = TRUE
   )
 geocode_here1

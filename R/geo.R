@@ -116,6 +116,11 @@ batch_func_map <- list(
 #'   endpoint would be used. Note that this option should be used only if you 
 #'   have applied for a permanent account. Unsuccessful requests made by an 
 #'   account that does not have access to the endpoint may be billable.
+#' @param here_request_id This parameter would return a previous HERE batch job,
+#'   identified by its RequestID. The RequestID of a batch job is displayed 
+#'   when \code{verbose} is TRUE.Note that this option would ignore the 
+#'   current \code{address} parameter on the request, so \code{return_addresses} 
+#'   needs to be FALSE.
 #'    
 #' @return parsed geocoding results in tibble format
 #' @examples
@@ -138,7 +143,7 @@ geo <- function(address = NULL,
     mode = '', full_results = FALSE, unique_only = FALSE, return_addresses = TRUE, 
     flatten = TRUE, batch_limit = 10000, verbose = FALSE, no_query = FALSE, 
     custom_query = list(), return_type = 'locations', iq_region = 'us', geocodio_v = 1.6, 
-    param_error = TRUE, mapbox_permanent = FALSE) {
+    param_error = TRUE, mapbox_permanent = FALSE, here_request_id = NULL) {
 
   # NSE - Quote unquoted vars without double quoting quoted vars
   # end result - all of these variables become character values
@@ -162,7 +167,8 @@ geo <- function(address = NULL,
             is.logical(full_results), is.logical(unique_only), is.logical(return_addresses),
             is.numeric(limit), is.numeric(batch_limit), is.numeric(timeout),
             limit >= 1, batch_limit >= 1, timeout >= 0, is.list(custom_query),
-            is.logical(mapbox_permanent))
+            is.logical(mapbox_permanent), 
+            is.null(here_request_id) || is.character(here_request_id))
   
   if (!(method %in% c('cascade', method_services))) {
     stop('Invalid method argument. See ?geo')
@@ -303,6 +309,14 @@ geo <- function(address = NULL,
                      format(batch_limit, big.mark = ',')), '.')
     }
     
+    # HERE: If a previous job is requested return_addresses should be FALSE
+    # This is because the job won't send the addresses, but would recover the
+    # results of a previous request
+    if (method == 'here' && is.character(here_request_id) && return_addresses == TRUE) {
+      stop('HERE: When requesting a previous job via here_request_id, set return_addresses to FALSE.
+      See the geo() function documentation for details.')
+      }
+
     if (verbose == TRUE) message(paste0('Passing ', 
       format(min(batch_limit, num_unique_addresses), big.mark = ','), 
                           ' addresses to the ', method, ' batch geocoder'))
