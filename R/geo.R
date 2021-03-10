@@ -119,7 +119,7 @@ batch_func_map <- list(
 #'   account that does not have access to the endpoint may be billable.
 #' @param here_request_id This parameter would return a previous HERE batch job,
 #'   identified by its RequestID. The RequestID of a batch job is displayed 
-#'   when \code{verbose} is TRUE.Note that this option would ignore the 
+#'   when \code{verbose} is TRUE. Note that this option would ignore the 
 #'   current \code{address} parameter on the request, so \code{return_addresses} 
 #'   needs to be FALSE.
 #'    

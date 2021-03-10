@@ -8,7 +8,8 @@
 # the reverse_geo() function references this list to find reverse batch geocoding functions (reverse_batch_geocoding.R)
 # maps method names to batch functions
 reverse_batch_func_map <- list(
-  geocodio = reverse_batch_geocodio
+  geocodio = reverse_batch_geocodio,
+  here = reverse_batch_here
 )
 
 
@@ -70,7 +71,8 @@ get_coord_parameters <- function(custom_query, method, lat, long) {
 #'   \item \code{"mapbox"}: Commercial Mapbox geocoder service. Requires an API Key to
 #'      be stored in the "MAPBOX_API_KEY" environmental variable.
 #'   \item \code{"here"}: Commercial HERE geocoder service. Requires an API Key 
-#'      to be stored in the "HERE_API_KEY" environmental variable.
+#'      to be stored in the "HERE_API_KEY" environmental variable. Can perform 
+#'      batch geocoding.
 #' }
 #' @param address name of address column (output data)
 #' @param limit number of results to return per coordinate. Note that not all methods support
@@ -87,7 +89,8 @@ get_coord_parameters <- function(custom_query, method, lat, long) {
 #'  force single address geocoding (one address per query). If not 
 #'  specified then batch geocoding will be used if available
 #'  (given method selected) when multiple addresses are provided, otherwise
-#'  single address geocoding will be used.
+#'  single address geocoding will be used. For 'here' the batch mode
+#'  should be explicitly enforced.
 #' @param full_results returns all data from the geocoder service if TRUE. 
 #' If FALSE then only longitude and latitude are returned from the geocoder service.
 #' @param unique_only only return results for unique addresses if TRUE
@@ -98,7 +101,7 @@ get_coord_parameters <- function(custom_query, method, lat, long) {
 #'    Note that Geocodio batch geocoding results are flattened regardless.
 #' @param batch_limit limit to the number of addresses in a batch geocoding query.
 #'  Both geocodio and census batch geocoders have a 10,000 limit so this
-#'  is the default.
+#'  is the default. HERE has a 1,000,000 address limit.
 #' @param verbose if TRUE then detailed logs are output to the console
 #' @param no_query if TRUE then no queries are sent to the geocoder and verbose is set to TRUE
 #' @param custom_query API-specific parameters to be used, passed as a named list 
@@ -110,7 +113,12 @@ get_coord_parameters <- function(custom_query, method, lat, long) {
 #'   endpoint would be used. Note that this option should be used only if you 
 #'   have applied for a permanent account. Unsuccessful requests made by an 
 #'   account that does not have access to the endpoint may be billable.
-#' 
+#' @param here_request_id This parameter would return a previous HERE batch job,
+#'   identified by its RequestID. The RequestID of a batch job is displayed 
+#'   when \code{verbose} is TRUE. Note that this option would ignore the 
+#'   current \code{lat, long} parameters on the request, so \code{return_coords} 
+#'   needs to be FALSE.
+#'   
 #' @return parsed geocoding results in tibble format
 #' @examples
 #' \donttest{
@@ -125,7 +133,7 @@ get_coord_parameters <- function(custom_query, method, lat, long) {
 reverse_geo <- function(lat, long, method = 'osm', address = address, limit = 1, min_time = NULL, api_url = NULL,  
     timeout = 20, mode = '',  full_results = FALSE, unique_only = FALSE, return_coords = TRUE, flatten = TRUE, 
     batch_limit = 10000, verbose = FALSE, no_query = FALSE, custom_query = list(), iq_region = 'us', geocodio_v = 1.6,
-    mapbox_permanent = FALSE) {
+    mapbox_permanent = FALSE, here_request_id = NULL) {
 
   # NSE eval
   address <- rm_quote(deparse(substitute(address)))
@@ -138,7 +146,9 @@ reverse_geo <- function(lat, long, method = 'osm', address = address, limit = 1,
   stopifnot(is.logical(verbose), is.logical(no_query), is.logical(flatten),
       is.logical(full_results), is.logical(unique_only),
       is.numeric(limit), limit >= 1,  is.list(custom_query), 
-      is.logical(mapbox_permanent))
+      is.logical(mapbox_permanent),
+      is.null(here_request_id) || is.character(here_request_id)
+  )
   if (length(lat) != length(long)) stop('Lengths of lat and long must be equal.')
   if (!(mode %in% c('', 'single', 'batch'))) {
     stop('Invalid mode argument. See ?geo')
@@ -154,6 +164,13 @@ reverse_geo <- function(lat, long, method = 'osm', address = address, limit = 1,
   
   NA_value <- tibble::tibble(address = rep(as.character(NA), num_unique_coords)) # filler NA result to return if needed
   names(NA_value)[1] <- address # rename column
+  
+  # HERE Exception
+  # Batch mode is quite slow. If batch mode is not called explicitly
+  # use single method
+  if (method == "here" && mode != 'batch' ){
+    mode <- 'single'
+  }
   
   # Geocode coordinates one at a time in a loop -------------------------------------------------------
   if ((num_unique_coords > 1) & ((!(method %in% names(reverse_batch_func_map))) | (mode == 'single'))) {
@@ -187,6 +204,15 @@ reverse_geo <- function(lat, long, method = 'osm', address = address, limit = 1,
     3) Set return_coords to FALSE
     See the reverse_geo() function documentation for details.')
     }
+    
+    # HERE: If a previous job is requested return_coords should be FALSE
+    # This is because the job won't send the coords, but would recover the
+    # results of a previous request
+    if (method == 'here' && is.character(here_request_id) && return_coords == TRUE) {
+      stop('HERE: When requesting a previous job via here_request_id, set return_coords to FALSE.
+      See the geo() function documentation for details.')
+    }
+    
     
     # Enforce batch limit if needed
     if (num_unique_coords > batch_limit) {
