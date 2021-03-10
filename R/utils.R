@@ -138,7 +138,8 @@ extract_reverse_results <- function(method, response, full_results = TRUE, flatt
                     # take first row of multiple results with google for now
                     'google' = response$results[1, ]['formatted_address'],
                     'opencage' = response$results['formatted'],
-                    'mapbox' = response$features['place_name']
+                    'mapbox' = response$features['place_name'],
+                    'tomtom' = response$addresses$address['freeformAddress']
   )
   
   # extract other results (besides single line address)
@@ -152,7 +153,8 @@ extract_reverse_results <- function(method, response, full_results = TRUE, flatt
                       # take first row of multiple results with google for now
                       'google' = response$results[1, ][!names(response$results) %in% c('formatted_address')], 
                       'opencage' = response$results[!names(response$results) %in% c('formatted')],
-                      'mapbox' = response$features[!names(response$features) %in% c('place_name')]
+                      'mapbox' = response$features[!names(response$features) %in% c('place_name')],
+                      'tomtom' = response$addresses
     )
     
     # add prefix to variable names that likely could be in our input dataset

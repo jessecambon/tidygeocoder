@@ -26,6 +26,9 @@ get_coord_parameters <- function(custom_query, method, lat, long) {
   } else if (method == 'mapbox') {
     custom_query[['to_url']] <-
       paste0(as.character(long), ',', as.character(lat))
+  } else if (method == 'tomtom') {
+    custom_query[['to_url']] <-
+      paste0(as.character(lat), ',', as.character(long))
   } else {
     stop('Invalid method. See ?reverse_geo')
   }
@@ -66,6 +69,8 @@ get_coord_parameters <- function(custom_query, method, lat, long) {
 #'      in the "OPENCAGE_KEY" environmental variable.
 #'   \item \code{"mapbox"}: Commercial Mapbox geocoder service. Requires an API Key to
 #'      be stored in the "MAPBOX_API_KEY" environmental variable.
+#'   \item \code{"tomtom"}: Commercial TomTom geocoder service. Requires an API Key to
+#'      be stored in the "TOMTOM_API_KEY" environmental variable.
 #' }
 #' @param address name of address column (output data)
 #' @param limit number of results to return per coordinate. Note that not all methods support
@@ -237,8 +242,8 @@ reverse_geo <- function(lat, long, method = 'osm', address = address, limit = 1,
   }
   if (length(api_url) == 0) stop('API URL not found')
   
-  # Ugly hack for Mapbox - The search_text should be in the url
-  if (method == "mapbox") {
+  # Ugly hack for Mapbox/TomTom - The coordinates should be in the url
+  if (method %in%  c('mapbox', 'tomtom')) {
     api_url <- paste0(api_url, custom_query[["to_url"]], ".json")
     # Remove semicolons (Reserved for batch)
     api_url <- gsub(";", ",", api_url)
@@ -257,10 +262,9 @@ reverse_geo <- function(lat, long, method = 'osm', address = address, limit = 1,
   # Convert our generic query parameters into parameters specific to our API (method)
   api_query_parameters <- get_api_query(method, generic_query, custom_query)
   
-  # Mapbox: Hack to remove address from parameters
-  if (method == "mapbox") {
-    api_query_parameters <-
-      api_query_parameters[names(api_query_parameters) != "search_text"]
+  # Mapbox/TomTom: Hack to remove address from parameters
+  if (method %in% c('mapbox', 'tomtom')) {
+    api_query_parameters <- api_query_parameters[names(api_query_parameters) != 'to_url']
   }
   
   # Execute Single Coordinate Query -----------------------------------------

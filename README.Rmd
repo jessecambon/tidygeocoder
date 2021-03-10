@@ -64,6 +64,7 @@ The supported geocoder services are shown in the table below with their geograph
 | [Google](https://developers.google.com/maps/documentation/geocoding/overview) | Worldwide     | No              | Yes              | 50/second               |
 | [OpenCage](https://opencagedata.com)                                          | Worldwide     | No              | Yes              | 1/second (free tier)    |
 | [Mapbox](https://www.mapbox.com/)                                             | Worldwide     | See Note        | Yes              | 10/second (free tier)   |
+| [TomTom](https://www.tomtom.com/en_us/)                                             | Worldwide     | Yes             | Yes              | 5/second (free tier)   |
 
 Notes:
 
