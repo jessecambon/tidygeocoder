@@ -74,7 +74,8 @@ each geocoder service for usage details and limitations.
   \item \code{"mapbox"}: Commercial Mapbox geocoder service. Requires an API Key to
      be stored in the "MAPBOX_API_KEY" environmental variable.
   \item \code{"tomtom"}: Commercial TomTom geocoder service. Requires an API Key to
-     be stored in the "TOMTOM_API_KEY" environmental variable.
+     be stored in the "TOMTOM_API_KEY" environmental variable. Can perform 
+     batch geocoding.
   \item \code{"cascade"} : Attempts to use one geocoder service and then uses
     a second geocoder service if the first service didn't return results.
     The services and order is specified by the cascade_order argument. 
@@ -122,7 +123,7 @@ return_addresses to FALSE does not prevent this.}
 Note that Geocodio batch geocoding results are flattened regardless.}
 
 \item{batch_limit}{limit to the number of addresses in a batch geocoding query.
-Both geocodio and census batch geocoders have a 10,000 address limit so this
+geocodio, census and tomtom batch geocoders have a 10,000 address limit so this
 is the default.}
 
 \item{verbose}{if TRUE then detailed logs are output to the console}

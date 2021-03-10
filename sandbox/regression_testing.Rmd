@@ -194,6 +194,7 @@ geocode_tomtom1 <- sample1 %>%
   geocode(
     address = addr,
     method = 'tomtom',
+    mode = 'single',
     full_results = TRUE,
     verbose = TRUE,
     limit = 3

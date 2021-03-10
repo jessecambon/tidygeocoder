@@ -87,6 +87,7 @@ livetest_params <-
     address = c("Santiago de Compostela; Spain", "Nieva"),
     verbose = TRUE,
     full_results = TRUE,
+    mode = 'single',
     limit = 2,
     custom_query = list(
       language = "fr-FR"
