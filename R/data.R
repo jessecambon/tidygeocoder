@@ -54,6 +54,6 @@
 #'  \item \href{https://developers.google.com/maps/documentation/geocoding/overview}{Google}
 #'  \item \href{https://opencagedata.com/api}{OpenCage}
 #'  \item \href{https://docs.mapbox.com/api/search/geocoding/}{Mapbox}
-#'  \item \href{https://developer.here.com/documentation/geocoding-search-api/dev_guide/index.ht}{HERE}
+#'  \item \href{https://developer.here.com/documentation/geocoding-search-api/dev_guide/index.html}{HERE}
 #' }     
 "api_parameter_reference"
