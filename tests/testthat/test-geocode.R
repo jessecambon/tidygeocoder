@@ -1,5 +1,17 @@
 ## Test geocoding functionality without making any API calls
 
+## For checking - create mock env vars
+google_api_key <- Sys.getenv("GOOGLEGEOCODE_API_KEY")
+opencage_api_key <- Sys.getenv("OPENCAGE_KEY")
+mapbox_api_key <- Sys.getenv("MAPBOX_API_KEY")
+here_api_key <- Sys.getenv("HERE_API_KEY")
+
+Sys.setenv(GOOGLEGEOCODE_API_KEY = "xxxxxx")
+Sys.setenv(OPENCAGE_KEY = "xxxxxx")
+Sys.setenv(MAPBOX_API_KEY = "xxxxxx")
+Sys.setenv(HERE_API_KEY = "xxxxxx")
+
+
 # Check column names with custom settings
 test_that("geocode default colnames", {
   result <- tibble::tibble(addr = NA) %>%
@@ -107,8 +119,7 @@ test_that("Test geocode() error handling", {
 # Check that null/empty address values are handled properly
 test_that("reverse geocode null/empty addresses", {
   NA_result <- tibble::tibble(address = as.character(NA))
-  skip_on_cran()
-  skip_on_ci()
+
   # make sure blank addresses are not being sent to the geocoder
   expect_identical(reverse_geo(lat = " ", long = " ", method = 'osm', return_coords = FALSE, no_query = TRUE), NA_result)
   expect_identical(reverse_geo(lat =" ", long = " ", method = 'google', return_coords = FALSE, no_query = TRUE), NA_result)
@@ -130,11 +141,15 @@ test_that("reverse geocode null/empty addresses", {
   expect_identical(colnames(result), expected_colnames)
   expect_identical(colnames(reverse_geocode(NA_data, lat = lat, long = lon, method = 'google', no_query = TRUE)), expected_colnames)
   expect_identical(colnames(reverse_geocode(NA_data, lat = lat, long = lon, method = 'opencage', no_query = TRUE)), expected_colnames)
+  expect_identical(colnames(reverse_geocode(NA_data, lat = lat, long = lon, method = 'mapbox', no_query = TRUE)), expected_colnames)
+  expect_identical(colnames(reverse_geocode(NA_data, lat = lat, long = lon, method = 'here', no_query = TRUE)), expected_colnames)
   
   # make sure geo_method is NA when address is NA
   expect_equal(nrow(result), nrow(NA_data)) # check dataframe length
   expect_equal(nrow(reverse_geocode(NA_data, lat = lat, long = lon, method = 'google', no_query = TRUE)), nrow(NA_data))
   expect_equal(nrow(reverse_geocode(NA_data, lat = lat, long = lon, method = 'opencage', no_query = TRUE)), nrow(NA_data))
+  expect_equal(nrow(reverse_geocode(NA_data, lat = lat, long = lon, method = 'mapbox', no_query = TRUE)), nrow(NA_data))
+  expect_equal(nrow(reverse_geocode(NA_data, lat = lat, long = lon, method = 'here', no_query = TRUE)), nrow(NA_data))
   
   # Test batch limit
   
@@ -160,3 +175,9 @@ test_that("Test reverse_geocode() error handling", {
   # non-dataframe input
   expect_error(reverse_geocode(named_list, no_query = TRUE, address = 'addr'))
 })
+
+# Restore api keys
+Sys.setenv(GOOGLEGEOCODE_API_KEY = google_api_key)
+Sys.setenv(OPENCAGE_KEY = opencage_api_key)
+Sys.setenv(MAPBOX_API_KEY = mapbox_api_key)
+Sys.setenv(HERE_API_KEY = here_api_key)
