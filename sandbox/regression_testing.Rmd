@@ -164,3 +164,52 @@ geo('Testing',
     method = 'mapbox',
     custom_query = list(country = "ERROR"))
 ```
+
+
+# Check tomtom
+
+```{r}
+
+louisville_tomtom <- louisville %>%
+  geocode(
+    address = street,
+    method = 'tomtom',
+    full_results = TRUE,
+    custom_query = list(
+      lat = louisville[1, c("latitude")],
+      lon = louisville[1, c("longitude")]
+      )) %>%
+  mutate(lat_diff = lat - latitude,
+         long_diff = long - longitude) %>%
+  select(lat_diff, long_diff, everything())
+
+louisville_tomtom
+```
+
+
+```{r}
+geocode_tomtom1 <- sample1 %>%
+  mutate(addr = address) %>%
+  select(-address) %>%
+  geocode(
+    address = addr,
+    method = 'tomtom',
+    full_results = TRUE,
+    verbose = TRUE,
+    limit = 3
+  )
+geocode_tomtom1
+```
+
+
+```{r}
+
+geocode_tomtom2 <- sample1 %>%
+  geocode(
+    address = address,
+    method = 'tomtom',
+    full_results = FALSE,
+    verbose = TRUE
+  )
+geocode_tomtom2
+```

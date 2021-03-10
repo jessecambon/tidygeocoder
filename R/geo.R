@@ -53,6 +53,8 @@ batch_func_map <- list(
 #'      in the "OPENCAGE_KEY" environmental variable.
 #'   \item \code{"mapbox"}: Commercial Mapbox geocoder service. Requires an API Key to
 #'      be stored in the "MAPBOX_API_KEY" environmental variable.
+#'   \item \code{"tomtom"}: Commercial TomTom geocoder service. Requires an API Key to
+#'      be stored in the "TOMTOM_API_KEY" environmental variable.
 #'   \item \code{"cascade"} : Attempts to use one geocoder service and then uses
 #'     a second geocoder service if the first service didn't return results.
 #'     The services and order is specified by the cascade_order argument. 
@@ -365,8 +367,8 @@ geo <- function(address = NULL,
   }
   if (length(api_url) == 0) stop('API URL not found')
   
-  # Ugly hack for Mapbox - The search_text should be in the url
-  if (method == "mapbox") {
+  # Ugly hack for Mapbox and TomTom - The search_text should be in the url
+  if (method %in% c('mapbox', 'tomtom')) {
     api_url <- gsub(" ", "%20", paste0(api_url, generic_query[['address']], ".json"))
     # Remove semicolons (Reserved for batch
     api_url <- gsub(";", ",", api_url)
@@ -389,6 +391,12 @@ geo <- function(address = NULL,
   if (method == "mapbox") {
     api_query_parameters <-
       api_query_parameters[names(api_query_parameters) != "search_text"]
+  }
+  
+  # TomTom: Hack to remove address from parameters
+  if (method == "tomtom") {
+    api_query_parameters <-
+      api_query_parameters[names(api_query_parameters) != "query"]
   }
   
   # Execute Single Address Query -----------------------------------------
