@@ -8,7 +8,8 @@
 # the reverse_geo() function references this list to find reverse batch geocoding functions (reverse_batch_geocoding.R)
 # maps method names to batch functions
 reverse_batch_func_map <- list(
-  geocodio = reverse_batch_geocodio
+  geocodio = reverse_batch_geocodio,
+  tomtom = reverse_batch_tomtom
 )
 
 
@@ -70,7 +71,8 @@ get_coord_parameters <- function(custom_query, method, lat, long) {
 #'   \item \code{"mapbox"}: Commercial Mapbox geocoder service. Requires an API Key to
 #'      be stored in the "MAPBOX_API_KEY" environmental variable.
 #'   \item \code{"tomtom"}: Commercial TomTom geocoder service. Requires an API Key to
-#'      be stored in the "TOMTOM_API_KEY" environmental variable.
+#'      be stored in the "TOMTOM_API_KEY" environmental variable. Can perform
+#'      batch geocoding.
 #' }
 #' @param address name of address column (output data)
 #' @param limit number of results to return per coordinate. Note that not all methods support

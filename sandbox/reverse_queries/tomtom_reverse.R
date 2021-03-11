@@ -17,7 +17,7 @@ soup <-
 
 response <-
   jsonlite::fromJSON(httr::content(soup, as = "text", encoding = "UTF-8"))
-response$addresses$address['freeformAddress']
+response$addresses$address["freeformAddress"]
 results_min <-
   tidygeocoder:::extract_reverse_results(selected_method, response,
     full_results = FALSE
@@ -53,7 +53,7 @@ tidygeocoder::reverse_geo(
   verbose = TRUE,
   method = "tomtom",
   custom_query = list(
-    country="papa"
+    country = "papa"
   )
 )
 
@@ -106,6 +106,7 @@ livetest_params <-
     full_results = TRUE,
     limit = 3,
     method = "tomtom",
+    mode = "single",
     custom_query = list(
       language = "pl"
     ),

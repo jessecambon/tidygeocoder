@@ -51,7 +51,8 @@ each geocoder service for usage details and limitations.
   \item \code{"mapbox"}: Commercial Mapbox geocoder service. Requires an API Key to
      be stored in the "MAPBOX_API_KEY" environmental variable.
   \item \code{"tomtom"}: Commercial TomTom geocoder service. Requires an API Key to
-     be stored in the "TOMTOM_API_KEY" environmental variable.
+     be stored in the "TOMTOM_API_KEY" environmental variable. Can perform
+     batch geocoding.
 }}
 
 \item{address}{name of address column (output data)}
