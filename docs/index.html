@@ -90,9 +90,9 @@
 <div id="introduction" class="section level2">
 <h2 class="hasAnchor">
 <a href="#introduction" class="anchor"></a>Introduction</h2>
-<p>Tidygeocoder makes getting data from geocoder services easy. Both forward geocoding (providing addresses to obtain latitude and longitude) and reverse geocoding (providing latitude and longitude to obtain the address) are supported. All results are returned in <a href="https://tibble.tidyverse.org/">tibble format</a> and the supported geocoder services are listed below.</p>
-<p>Batch geocoding (geocoding multiple addresses or coordinates per query) is used by default if supported by the geocoder service when multiple addresses or coordinates are provided. Duplicate, missing/NA, and blank input data is handled elegantly - only unique inputs are passed to geocoder services, but the rows in the original data are preserved by default.</p>
-<p>In addition to the usage example below you can refer to the following references:</p>
+<p>Tidygeocoder makes getting data from geocoder services easy. Both forward geocoding (providing addresses to obtain latitude and longitude) and reverse geocoding (providing latitude and longitude to obtain addresses) are supported. All results are returned in <a href="https://tibble.tidyverse.org/">tibble format</a> and the supported geocoder services are listed below.</p>
+<p>Batch geocoding (geocoding multiple addresses or coordinates per query) is used by default if supported by the geocoder service when multiple inputs (addresses or coordinates) are provided. Duplicate, missing/NA, and blank input data is handled elegantly - only unique inputs are passed to geocoder services, but the rows in the original data are preserved by default.</p>
+<p>In addition to the usage examples below you can refer to the following references:</p>
 <ul>
 <li><a href="https://jessecambon.github.io/2020/07/15/tidygeocoder-1-0-0.html">Mapping European soccer club stadiums</a></li>
 <li><a href="https://jessecambon.github.io/2019/11/11/tidygeocoder-demo.html">Mapping Washington, DC landmarks</a></li>
@@ -343,13 +343,14 @@
 </tr>
 </tbody>
 </table>
-<p>To perform <strong>reverse geocoding</strong> (obtaining addresses from latitude and longitude coordinates), we can use the <code><a href="reference/reverse_geocode.html">reverse_geocode()</a></code> function. The arguments are similar to the <code><a href="reference/geocode.html">geocode()</a></code> function, but we now are specifying the latitude and longitude columns in our dataset with the <code>lat</code> and <code>long</code> arguments. See the <code><a href="reference/reverse_geo.html">reverse_geo()</a></code> function documentation for more details on reverse geocoding.</p>
+<p>To perform <strong>reverse geocoding</strong> (obtaining addresses from latitude and longitude coordinates), we can use the <code><a href="reference/reverse_geocode.html">reverse_geocode()</a></code> function. The arguments are similar to the <code><a href="reference/geocode.html">geocode()</a></code> function, but we now are specifying the latitude and longitude columns in our dataset with the <code>lat</code> and <code>long</code> arguments. The single line address is returned in a column named by the <code>address</code> argument. See the <code><a href="reference/reverse_geo.html">reverse_geo()</a></code> function documentation for more details on reverse geocoding.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">coordinates</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span><span class="op">(</span>latitude <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">38.895865</span>, <span class="fl">43.6534817</span>, <span class="fl">35.0844</span><span class="op">)</span>,
                 longitude <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">77.0307713</span>, <span class="op">-</span><span class="fl">79.3839347</span>, <span class="op">-</span><span class="fl">106.6504</span><span class="op">)</span><span class="op">)</span>
 
 <span class="va">rev1</span> <span class="op">&lt;-</span> <span class="va">coordinates</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="reference/reverse_geocode.html">reverse_geocode</a></span><span class="op">(</span>lat <span class="op">=</span> <span class="va">latitude</span>, long <span class="op">=</span> <span class="va">longitude</span>, method <span class="op">=</span> <span class="st">'osm'</span>, full_results <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
+  <span class="fu"><a href="reference/reverse_geocode.html">reverse_geocode</a></span><span class="op">(</span>lat <span class="op">=</span> <span class="va">latitude</span>, long <span class="op">=</span> <span class="va">longitude</span>, method <span class="op">=</span> <span class="st">'osm'</span>,
+                  address <span class="op">=</span> <span class="va">address_found</span>, full_results <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
 <table class="table">
 <colgroup>
 <col width="1%">
@@ -381,7 +382,7 @@
 <thead><tr class="header">
 <th align="right">latitude</th>
 <th align="right">longitude</th>
-<th align="left">address</th>
+<th align="left">address_found</th>
 <th align="right">place_id</th>
 <th align="left">licence</th>
 <th align="left">osm_type</th>

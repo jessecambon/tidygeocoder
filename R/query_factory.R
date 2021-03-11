@@ -63,6 +63,7 @@ get_osm_url <- function(reverse = FALSE) {
 
 get_iq_url <- function(region = 'us', reverse = FALSE) {
   # region can be 'us' or 'eu'
+  
   url_keyword <- if (reverse == TRUE) 'reverse' else 'search'
   
   return(paste0("https://", region, "1.locationiq.com/v1/", url_keyword,  ".php"))

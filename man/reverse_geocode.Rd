@@ -17,11 +17,11 @@ reverse_geocode(
 \arguments{
 \item{.tbl}{dataframe containing coordinates}
 
-\item{lat}{latitude column name. Can be quoted or unquoted (ie. lat or 'lat').}
+\item{lat}{latitude column name (input data). Can be quoted or unquoted (ie. lat or 'lat').}
 
-\item{long}{longitude column name. Can be quoted or unquoted (ie. long or 'long').}
+\item{long}{longitude column name (input data). Can be quoted or unquoted (ie. long or 'long').}
 
-\item{address}{address column name.}
+\item{address}{address column name (output data). Can be quoted or unquoted (ie. addr or 'addr').}
 
 \item{return_coords}{if TRUE then coordinates with standard names will be returned
 This is defaulted to FALSE because the coordinates are already in the input dataset}
@@ -36,8 +36,8 @@ TRUE (overrides return_coords argument).}
 input dataframe (.tbl) with geocoder results appended as columns
 }
 \description{
-Takes a dataframe containing latitude, longitude coordinates as inputs and returns 
-the dataframe results from a specified geocoder service by using the
+Takes a dataframe containing coordinates (latitude and longitude) and returns 
+the reverse geocoding query results from a specified service by using the
 \code{\link{reverse_geo}} function. See example usage in \code{vignette("tidygeocoder")}.
 
 This function passes all additional parameters (\code{...}) to the 

@@ -16,7 +16,8 @@ test_that("Check API Parameter Reference Dataset", {
 # with some duplicate addresses
 test_that("Test Duplicate and Blank/NA Address Handling", {
   
-  messy_addresses <- c('','', NA, sample_addresses$addr, NA, '', NA, sample_addresses$addr)
+  messy_addresses <- c('','', NA, tidygeocoder::sample_addresses$addr, 
+      NA, '', NA, tidygeocoder::sample_addresses$addr)
   
   addr_pack <- tidygeocoder:::package_addresses(address = messy_addresses)
   

@@ -46,8 +46,8 @@
 
 
 <meta property="og:title" content="Reverse geocode coordinates in a dataframe — reverse_geocode" />
-<meta property="og:description" content="Takes a dataframe containing latitude, longitude coordinates as inputs and returns 
-the dataframe results from a specified geocoder service by using the
+<meta property="og:description" content="Takes a dataframe containing coordinates (latitude and longitude) and returns 
+the reverse geocoding query results from a specified service by using the
 reverse_geo function. See example usage in vignette(&quot;tidygeocoder&quot;).
 This function passes all additional parameters (...) to the 
 reverse_geo function, so you can refer to its documentation for more details
@@ -137,8 +137,8 @@ on possible arguments." />
     </div>
 
     <div class="ref-description">
-    <p>Takes a dataframe containing latitude, longitude coordinates as inputs and returns 
-the dataframe results from a specified geocoder service by using the
+    <p>Takes a dataframe containing coordinates (latitude and longitude) and returns 
+the reverse geocoding query results from a specified service by using the
 <code><a href='reverse_geo.html'>reverse_geo</a></code> function. See example usage in <code><a href='../articles/tidygeocoder.html'>vignette("tidygeocoder")</a></code>.</p>
 <p>This function passes all additional parameters (<code>...</code>) to the 
 <code><a href='reverse_geo.html'>reverse_geo</a></code> function, so you can refer to its documentation for more details
@@ -164,15 +164,15 @@ on possible arguments.</p>
     </tr>
     <tr>
       <th>lat</th>
-      <td><p>latitude column name. Can be quoted or unquoted (ie. lat or 'lat').</p></td>
+      <td><p>latitude column name (input data). Can be quoted or unquoted (ie. lat or 'lat').</p></td>
     </tr>
     <tr>
       <th>long</th>
-      <td><p>longitude column name. Can be quoted or unquoted (ie. long or 'long').</p></td>
+      <td><p>longitude column name (input data). Can be quoted or unquoted (ie. long or 'long').</p></td>
     </tr>
     <tr>
       <th>address</th>
-      <td><p>address column name.</p></td>
+      <td><p>address column name (output data). Can be quoted or unquoted (ie. addr or 'addr').</p></td>
     </tr>
     <tr>
       <th>return_coords</th>
@@ -212,7 +212,7 @@ TRUE (overrides return_coords argument).</p></td>
   full_results <span class='op'>=</span> <span class='cn'>TRUE</span>,
   verbose <span class='op'>=</span> <span class='cn'>TRUE</span>
 <span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'>Querying API URL: https://nominatim.openstreetmap.org/reverse</span></div><div class='output co'>#&gt; <span class='message'>Passing the following parameters to the API:</span></div><div class='output co'>#&gt; <span class='message'>limit : "1"</span></div><div class='output co'>#&gt; <span class='message'>lat : "38.895865"</span></div><div class='output co'>#&gt; <span class='message'>lon : "-77.0307713"</span></div><div class='output co'>#&gt; <span class='message'>format : "json"</span></div><div class='output co'>#&gt; </div><div class='output co'>#&gt; <span class='message'>Query completed in: 0.2 seconds</span></div><div class='output co'>#&gt; <span class='message'>Total query time (including sleep): 1 seconds</span></div><div class='output co'>#&gt; </div><div class='output co'>#&gt; <span class='message'>Querying API URL: https://nominatim.openstreetmap.org/reverse</span></div><div class='output co'>#&gt; <span class='message'>Passing the following parameters to the API:</span></div><div class='output co'>#&gt; <span class='message'>limit : "1"</span></div><div class='output co'>#&gt; <span class='message'>lat : "43.6534817"</span></div><div class='output co'>#&gt; <span class='message'>lon : "-79.3839347"</span></div><div class='output co'>#&gt; <span class='message'>format : "json"</span></div><div class='output co'>#&gt; </div><div class='output co'>#&gt; <span class='message'>Query completed in: 0.3 seconds</span></div><div class='output co'>#&gt; <span class='message'>Total query time (including sleep): 1 seconds</span></div><div class='output co'>#&gt; </div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 2 x 22</span><span>
+</div><div class='output co'>#&gt; <span class='message'>Number of Unique Coordinates: 2</span></div><div class='output co'>#&gt; <span class='message'>Number of Unique Coordinates: 1</span></div><div class='output co'>#&gt; <span class='message'>Querying API URL: https://nominatim.openstreetmap.org/reverse</span></div><div class='output co'>#&gt; <span class='message'>Passing the following parameters to the API:</span></div><div class='output co'>#&gt; <span class='message'>limit : "1"</span></div><div class='output co'>#&gt; <span class='message'>lat : "38.895865"</span></div><div class='output co'>#&gt; <span class='message'>lon : "-77.0307713"</span></div><div class='output co'>#&gt; <span class='message'>format : "json"</span></div><div class='output co'>#&gt; </div><div class='output co'>#&gt; <span class='message'>Query completed in: 0.3 seconds</span></div><div class='output co'>#&gt; <span class='message'>Total query time (including sleep): 1 seconds</span></div><div class='output co'>#&gt; </div><div class='output co'>#&gt; <span class='message'>Number of Unique Coordinates: 1</span></div><div class='output co'>#&gt; <span class='message'>Querying API URL: https://nominatim.openstreetmap.org/reverse</span></div><div class='output co'>#&gt; <span class='message'>Passing the following parameters to the API:</span></div><div class='output co'>#&gt; <span class='message'>limit : "1"</span></div><div class='output co'>#&gt; <span class='message'>lat : "43.6534817"</span></div><div class='output co'>#&gt; <span class='message'>lon : "-79.3839347"</span></div><div class='output co'>#&gt; <span class='message'>format : "json"</span></div><div class='output co'>#&gt; </div><div class='output co'>#&gt; <span class='message'>Query completed in: 0.3 seconds</span></div><div class='output co'>#&gt; <span class='message'>Total query time (including sleep): 1 seconds</span></div><div class='output co'>#&gt; </div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 2 x 22</span><span>
 #&gt;   latitude longitude address place_id licence osm_type osm_id osm_lat osm_lon
 #&gt;      </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>     </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>     </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>  
 #&gt; </span><span style='color: #BCBCBC;'>1</span><span>     38.9     -</span><span style='color: #BB0000;'>77.0</span><span> L’Enfa…   3.02</span><span style='color: #949494;'>e</span><span>8 Data ©… way      9.00</span><span style='color: #949494;'>e</span><span>8 38.895… -77.03…

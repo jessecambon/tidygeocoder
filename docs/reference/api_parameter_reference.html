@@ -47,12 +47,13 @@
 
 <meta property="og:title" content="Geocoder service API parameter reference — api_parameter_reference" />
 <meta property="og:description" content="This dataset contains the mapping that allows this package to use a 
-universal syntax to specify parameters for different geocoder services.
-The generic_name field is a universal field name while the api_name
-field shows the specific parameter name for the given geocoder service (method).
-When the api_name is missing this means that the parameter is not 
-supported by the given geocoder service. When generic_name is missing 
-this means the parameter is specific to that geocoding service. 
+universal syntax to specify parameters for different geocoder services. 
+Note that latitude nad longitude input parameters for reverse geocoding
+are not in this dataset and are instead handled directly by the reverse_geo function.
+The generic_name column is a universal parameter name that is shared between services.
+The api_name column is the parameter name for the given geocoder service specified by the
+method column. When generic_name is missing 
+this means the parameter is specific to that geocoder service. 
 Reference the documentation for geo for more information. 
 Also reference vignette(&quot;tidygeocoder&quot;) for more details on constructing API queries." />
 
@@ -141,12 +142,13 @@ Also reference vignette(&quot;tidygeocoder&quot;) for more details on constructi
 
     <div class="ref-description">
     <p>This dataset contains the mapping that allows this package to use a 
-universal syntax to specify parameters for different geocoder services.</p>
-<p>The <code>generic_name</code> field is a universal field name while the <code>api_name</code>
-field shows the specific parameter name for the given geocoder service (<code>method</code>).
-When the <code>api_name</code> is missing this means that the parameter is not 
-supported by the given geocoder service. When <code>generic_name</code> is missing 
-this means the parameter is specific to that geocoding service.</p> 
+universal syntax to specify parameters for different geocoder services. 
+Note that latitude nad longitude input parameters for reverse geocoding
+are not in this dataset and are instead handled directly by the <code>reverse_geo</code> function.</p>
+<p>The <code>generic_name</code> column is a universal parameter name that is shared between services.
+The <code>api_name</code> column is the parameter name for the given geocoder service specified by the
+<code>method</code> column. When <code>generic_name</code> is missing 
+this means the parameter is specific to that geocoder service.</p> 
 <p>Reference the documentation for <code><a href='geo.html'>geo</a></code> for more information. 
 Also reference <code><a href='../articles/tidygeocoder.html'>vignette("tidygeocoder")</a></code> for more details on constructing API queries.</p>
     </div>

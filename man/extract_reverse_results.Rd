@@ -2,7 +2,7 @@
 % Please edit documentation in R/utils.R
 \name{extract_reverse_results}
 \alias{extract_reverse_results}
-\title{Extract reverse geocoder results}
+\title{Extract reverse geocoding results}
 \usage{
 extract_reverse_results(method, response, full_results = TRUE, flatten = TRUE)
 }
