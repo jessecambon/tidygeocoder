@@ -257,7 +257,7 @@ reverse_geo <- function(lat, long, method = 'osm', address = address, limit = 1,
   if (!is.null(limit)) generic_query[['limit']] <- limit
   
   # If API key is required then use the get_key() function to retrieve it
-  if (method %in% get_services_requiring_key()) {
+  if (method %in% get_services_requiring_key() && !isTRUE(no_query)) {
     generic_query[['api_key']] <- get_key(method)
   }
   
