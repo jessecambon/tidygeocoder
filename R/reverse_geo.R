@@ -136,27 +136,29 @@ reverse_geo <- function(lat, long, method = 'osm', address = address, limit = 1,
   # IMPORTANT: make sure to put this statement before any other variables are defined in the function
   all_args <- as.list(environment())
   
-  # Reference Variables ------------------------------------------------------------
-
   # Check argument inputs
   stopifnot(is.logical(verbose), is.logical(no_query), is.logical(flatten),
       is.logical(full_results), is.logical(unique_only),
       is.numeric(limit), limit >= 1,  is.list(custom_query), 
       is.logical(mapbox_permanent))
-  
   if (length(lat) != length(long)) stop('Lengths of lat and long must be equal.')
-  
-  coord_pack <- package_inputs(tibble::tibble(lat = as.numeric(lat), long = as.numeric(long)), coords = TRUE)
-  num_coords <- nrow(coord_pack$unique)
-  
-  NA_value <- tibble::tibble(address = rep(as.character(NA), num_coords)) # filler result to return if needed
-  names(NA_value)[1] <- address # rename column
+  if (!(mode %in% c('', 'single', 'batch'))) {
+    stop('Invalid mode argument. See ?geo')
+  }
   
   if (no_query == TRUE) verbose <- TRUE
   start_time <- Sys.time() # start timer
   
+  # Package inputs
+  coord_pack <- package_inputs(tibble::tibble(lat = as.numeric(lat), long = as.numeric(long)), coords = TRUE)
+  num_unique_coords <- nrow(coord_pack$unique)
+  if (verbose == TRUE) message(paste0('Number of Unique Coordinates: ', num_unique_coords))
+  
+  NA_value <- tibble::tibble(address = rep(as.character(NA), num_unique_coords)) # filler NA result to return if needed
+  names(NA_value)[1] <- address # rename column
+  
   # Geocode coordinates one at a time in a loop -------------------------------------------------------
-  if ((num_coords > 1) & ((!(method %in% names(reverse_batch_func_map))) | (mode == 'single'))) {
+  if ((num_unique_coords > 1) & ((!(method %in% names(reverse_batch_func_map))) | (mode == 'single'))) {
     # construct arguments for a single address query
     # note that non-lat/long related fields go to the MoreArgs argument of mapply
     # since we aren't iterating through them
@@ -177,27 +179,25 @@ reverse_geo <- function(lat, long, method = 'osm', address = address, limit = 1,
   }
   
   # Batch geocoding --------------------------------------------------------------------------
-  if ((num_coords > 1) | (mode == 'batch')) {
+  if ((num_unique_coords > 1) | (mode == 'batch')) {
     
     if (limit != 1 & return_coords == TRUE) {
-      stop('For batch geocoding (more than one address per query) the limit argument must 
+      stop('For batch geocoding (more than one coordinate per query) the limit argument must 
     be 1 (the default) OR the return_coords argument must be FALSE. Possible solutions:
     1) Set the mode argument to "single" to force single (not batch) geocoding 
-    2) Set limit argument to 1 (ie. 1 result is returned per address)
+    2) Set limit argument to 1 (ie. 1 result is returned per coordinate)
     3) Set return_coords to FALSE
-    See the geo() function documentation for details.')
+    See the reverse_geo() function documentation for details.')
     }
     
     # Enforce batch limit if needed
-    if (num_coords > batch_limit) {
-      message(paste0('Limiting batch query to ', format(batch_limit, big.mark = ','), ' coordinates'))
-      batch_coords <-  coord_pack$unique[1:batch_limit, ]
-    } else {
-      batch_coords <- coord_pack$unique
+    if (num_unique_coords > batch_limit) {
+      stop(paste0(format(num_unique_coords, big.mark = ','), ' unique coordinates found which exceeds the batch limit of',
+            format(batch_limit, big.mark = ','), '.'))
     }
     
     if (verbose == TRUE) message(paste0('Passing ', 
-                                        format(min(batch_limit, num_coords), big.mark = ','), 
+                                        format(num_unique_coords, big.mark = ','), 
                                         ' coordinates to the ', method, ' batch geocoder'))
     
     # Convert our generic query parameters into parameters specific to our API (method)
@@ -208,14 +208,10 @@ reverse_geo <- function(lat, long, method = 'osm', address = address, limit = 1,
     # call the appropriate function for batch geocoding according the the reverse_batch_func_map named list
     # if batch limit was exceeded then apply that limit
     batch_results <- do.call(reverse_batch_func_map[[method]], 
-        c(list(lat = batch_coords$lat, long = batch_coords$long),
+        c(list(lat = coord_pack$unique$lat, long = coord_pack$unique$long),
         all_args[!names(all_args) %in% c('lat', 'long')]))
     
-    # Add NA results if batch limit was reached so rows match up
-    if (num_coords > batch_limit) {
-      batch_filler <- tibble::tibble(address = rep(as.character(NA), num_coords - batch_limit))
-      batch_results <- dplyr::bind_rows(batch_results, batch_filler)
-    }
+ 
     
     # if verbose = TRUE, tell user how long batch query took
     if (verbose == TRUE) {
@@ -228,7 +224,7 @@ reverse_geo <- function(lat, long, method = 'osm', address = address, limit = 1,
   }
   
   ################################################################################
-  #### Code past this point is for reverse geocoding a single coordinate set #####
+  #### Code past this point is for reverse geocoding a single coordinate     #####
   ################################################################################
   
   # Start to build 'generic' query as named list -----------------------------
@@ -281,16 +277,10 @@ reverse_geo <- function(lat, long, method = 'osm', address = address, limit = 1,
   
   
   ## Extract results ------------------------------------------------------------------------------
-  if ((method == 'mapbox') & (!is.data.frame(raw_results$features))) {
-    message(paste0('Error: ', raw_results$message))
+  # if there were problems with the results then return NA
+  if (check_results_for_problems(method, raw_results, verbose)) {
     results <- NA_value
   }
-  else if (length(raw_results) == 0) {
-    # If no results found, return NA
-    # otherwise extract results
-    results <- NA_value
-    if (verbose == TRUE) message("No results found")
-  } 
   else {
     results <- extract_reverse_results(method, raw_results, full_results, flatten)
     # rename address column

@@ -13,7 +13,8 @@ soup <-
     url = gsub(" ", "%20", paste0(url_base, addr, ".json")),
     query = list(
       limit = 1,
-      access_token = tidygeocoder:::get_key(selected_method)
+      access_token = 1
+      #access_token = tidygeocoder:::get_key(selected_method)
     )
   )
 

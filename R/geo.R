@@ -189,10 +189,6 @@ geo <- function(address = NULL,
   
   # count number of unique addresses
   num_unique_addresses <- nrow(address_pack$unique) # unique addresses
-  # determine how many rows will be returned (either unique or includes duplicate address rows)
-  # num_rows_to_return <- ifelse(unique_only, num_unique_addresses, nrow(address_pack$crosswalk))
-  #num_rows_to_return <- num_unique_addresses # used for na values
-  
   NA_value <- get_na_value(lat, long, rows = num_unique_addresses) # filler result to return if needed
   
   if (verbose == TRUE) message(paste0('Number of Unique Addresses: ', num_unique_addresses))
@@ -303,10 +299,8 @@ geo <- function(address = NULL,
   
     # Enforce batch limit if needed
     if (num_unique_addresses > batch_limit) {
-      message(paste0('Limiting batch query to ', format(batch_limit, big.mark = ','), ' addresses'))
-      batch_addresses <-  address_pack$unique[1:batch_limit, ]
-    } else {
-      batch_addresses <- address_pack$unique
+      stop(paste0(format(num_unique_addresses, big.mark = ','), ' unique addresses found which exceeds the batch limit of', 
+                     format(batch_limit, big.mark = ',')), '.')
     }
     
     if (verbose == TRUE) message(paste0('Passing ', 
@@ -314,20 +308,12 @@ geo <- function(address = NULL,
                           ' addresses to the ', method, ' batch geocoder'))
     
     # Convert our generic query parameters into parameters specific to our API (method)
-    if (no_query == TRUE) return(unpackage_inputs(address_pack, 
-         get_na_value(lat, long, rows = num_unique_addresses), 
-         unique_only, return_addresses))
+    if (no_query == TRUE) return(unpackage_inputs(address_pack, NA_value, unique_only, return_addresses))
     
     # call the appropriate function for batch geocoding according the the batch_func_map named list
     # if batch limit was exceeded then apply that limit
-    batch_results <- do.call(batch_func_map[[method]], c(list(batch_addresses),
+    batch_results <- do.call(batch_func_map[[method]], c(list(address_pack$unique),
           all_args[!names(all_args) %in% pkg.globals$address_arg_names]))
-    
-    # Add NA results if batch limit was reached so rows match up
-    if (num_unique_addresses > batch_limit) {
-      batch_filler <- get_na_value(lat, long, rows = num_unique_addresses - batch_limit)
-      batch_results <- dplyr::bind_rows(batch_results, batch_filler)
-    }
     
     # if verbose = TRUE, tell user how long batch query took
     if (verbose == TRUE) {
@@ -410,26 +396,9 @@ geo <- function(address = NULL,
   
   
   ## Extract results -----------------------------------------------------------------------------------
-  # output error message for geocodio if present
-  if ((method == 'geocodio') & (!is.data.frame(raw_results)) & ("error" %in% names(raw_results))) {
-    message(paste0('Error: ', raw_results$error))
+  # if there were problems with the results then return NA
+  if (check_results_for_problems(method, raw_results, verbose)) {
     results <- NA_value
-  } 
-  # output error message for google if present
-  else if ((method == 'google') & (!is.data.frame(raw_results)) & ("error_message" %in% names(raw_results))) {
-    message(paste0('Error: ', raw_results$error_message))
-    results <- NA_value
-  } 
-  # output error message for mapbox if present
-  else if ((method == 'mapbox') & (!is.data.frame(raw_results$features))) {
-    message(paste0('Error: ', raw_results$message))
-    results <- NA_value
-  }
-  else if (length(raw_results) == 0) {
-    # If no results found, return NA
-    # otherwise extract results
-    results <- NA_value
-    if (verbose == TRUE) message("No results found")
   } 
   else {
     # Extract results. Use the full_results and flatten parameters

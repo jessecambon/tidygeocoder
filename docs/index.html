@@ -90,8 +90,8 @@
 <div id="introduction" class="section level2">
 <h2 class="hasAnchor">
 <a href="#introduction" class="anchor"></a>Introduction</h2>
-<p>Tidygeocoder makes getting data from geocoder services easy. A unified interface is provided for the supported geocoder services listed below. All results are returned in <a href="https://tibble.tidyverse.org/">tibble format</a>.</p>
-<p>Batch geocoding (geocoding multiple addresses per query) is used by default if possible when multiple addresses are provided. Duplicate, missing/NA, and blank input data is handled elegantly - only unique inputs are passed to geocoder services, but the rows in the original data are preserved by default.</p>
+<p>Tidygeocoder makes getting data from geocoder services easy. Both forward geocoding (providing addresses to obtain latitude and longitude) and reverse geocoding (providing latitude and longitude to obtain the address) are supported. All results are returned in <a href="https://tibble.tidyverse.org/">tibble format</a> and the supported geocoder services are listed below.</p>
+<p>Batch geocoding (geocoding multiple addresses or coordinates per query) is used by default if supported by the geocoder service when multiple addresses or coordinates are provided. Duplicate, missing/NA, and blank input data is handled elegantly - only unique inputs are passed to geocoder services, but the rows in the original data are preserved by default.</p>
 <p>In addition to the usage example below you can refer to the following references:</p>
 <ul>
 <li><a href="https://jessecambon.github.io/2020/07/15/tidygeocoder-1-0-0.html">Mapping European soccer club stadiums</a></li>
@@ -114,7 +114,7 @@
 <div id="geocoder-services" class="section level2">
 <h2 class="hasAnchor">
 <a href="#geocoder-services" class="anchor"></a>Geocoder Services</h2>
-<p>The supported geocoder services are shown in the table below with their geographic limitations, if they support batch geocoding (geocoding multiple addresses in a single query), reverse geocoding (obtaining addresses from latitude and longitude coordinates), if an API key is required, and the usage rate limitations. Refer to the website for each geocoder service for the most up-to-date details on costs, capabilities, and usage limitations.</p>
+<p>The supported geocoder services are shown in the table below with their geographic limitations, if they support batch geocoding (geocoding multiple addresses or coordinates in a single query), if an API key is required, and the usage rate limitations. Refer to the website for each geocoder service for the most up-to-date details on costs, capabilities, and usage limitations.</p>
 <table class="table">
 <thead><tr class="header">
 <th>Service</th>
@@ -169,7 +169,7 @@
 <tr class="odd">
 <td><a href="https://www.mapbox.com/">Mapbox</a></td>
 <td>Worldwide</td>
-<td>See Note</td>
+<td>See note below</td>
 <td>Yes</td>
 <td>10/second (free tier)</td>
 </tr>
@@ -343,7 +343,7 @@
 </tr>
 </tbody>
 </table>
-<p>To perform <strong>reverse geocoding</strong> (obtaining addresses from latitude and longitude coordinates), we can use the <code><a href="reference/reverse_geocode.html">reverse_geocode()</a></code> function. The arguments are similar to the <code><a href="reference/geocode.html">geocode()</a></code> function, but we now are specifying the latitude and longitude columns in our dataset as inputs. See the <code><a href="reference/reverse_geo.html">reverse_geo()</a></code> function documentation for more details on reverse geocoding.</p>
+<p>To perform <strong>reverse geocoding</strong> (obtaining addresses from latitude and longitude coordinates), we can use the <code><a href="reference/reverse_geocode.html">reverse_geocode()</a></code> function. The arguments are similar to the <code><a href="reference/geocode.html">geocode()</a></code> function, but we now are specifying the latitude and longitude columns in our dataset with the <code>lat</code> and <code>long</code> arguments. See the <code><a href="reference/reverse_geo.html">reverse_geo()</a></code> function documentation for more details on reverse geocoding.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">coordinates</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span><span class="op">(</span>latitude <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">38.895865</span>, <span class="fl">43.6534817</span>, <span class="fl">35.0844</span><span class="op">)</span>,
                 longitude <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">77.0307713</span>, <span class="op">-</span><span class="fl">79.3839347</span>, <span class="op">-</span><span class="fl">106.6504</span><span class="op">)</span><span class="op">)</span>

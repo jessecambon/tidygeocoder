@@ -5,6 +5,8 @@ selected_method <- "mapbox"
 url_base <- tidygeocoder:::get_mapbox_url()
 
 lat <- 40.4055517
+#lat <- NA
+#lon <- NA
 lon <- -3.6802152
 
 # Test Sandbox on dev ----

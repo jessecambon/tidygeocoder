@@ -63,7 +63,7 @@ get_osm_url <- function(reverse = FALSE) {
   return(paste0('https://nominatim.openstreetmap.org/', url_keyword))
 }
 
-get_iq_url <- function(region, reverse = FALSE) {
+get_iq_url <- function(region = 'us', reverse = FALSE) {
   # region can be 'us' or 'eu'
   url_keyword <- if (reverse == TRUE) 'reverse' else 'search'
   

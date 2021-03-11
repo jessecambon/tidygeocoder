@@ -1,10 +1,10 @@
-url_base  <- 'https://nominatim.openstreetmap.org/reverse'
+url_base  <- tidygeocoder:::get_iq_url(region = 'us', reverse = TRUE)
 
 
 soup <- httr::GET(url = url_base, 
                   query = list(lat = 6.455027, 
-                               lon = 3.384082,
-                         #      lon = NA,
+                         #      lon = 3.384082,
+                               lon = NA,
                                limit = 1,
                                format = 'json'
                                  ))
@@ -16,7 +16,7 @@ response <- jsonlite::fromJSON(httr::content(soup, as = 'text', encoding = "UTF-
 #       tibble::as_tibble(response[['address']]), tibble::tibble(boundingbox = list(response$boundingbox))) 
 
 
-results_full <- tidygeocoder:::extract_reverse_results('osm', response)
+results_full <- tidygeocoder:::extract_reverse_results('iq', response)
 
 
 #f_address <- raw_results$display_name

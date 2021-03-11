@@ -12,7 +12,7 @@ reference:
   - geo 
   - reverse_geocode
   - reverse_geo
-- title: Convenience functions
+- title: Convenience functions for forward geocoding
   contents:
   - starts_with("geo_")
 - title: Data

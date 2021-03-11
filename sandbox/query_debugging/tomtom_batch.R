@@ -72,7 +72,7 @@ names(results)[names(results) == 'long'] <- long
 dat <- jsonlite::fromJSON(httr::content(res, as = 'text', encoding = "UTF-8"), flatten = TRUE)
 
 # Live test -----
-
+library(tibble)
 tidygeocoder::geo(
   address = c("Plaza Mayor", "George Street"),
   method = "tomtom",

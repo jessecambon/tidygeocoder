@@ -12,11 +12,15 @@ url_base <- "https://geocoding.geo.census.gov/geocoder/locations/onelineaddress"
 
 # limit=1 limits the query to one result
 
+# benchmark = 'Public_AR_Current'
+
 resp <- httr::GET(url = url_base, 
       query = list(address = addr, format = 'json', benchmark = 'Public_AR_Current', vintage = 'Current_Current'))
 
 # dataframe is returned
-dat <- jsonlite::fromJSON(httr::content(resp, as = 'text', encoding = "UTF-8"))
+raw_results <- jsonlite::fromJSON(httr::content(resp, as = 'text', encoding = "UTF-8"))
+
+
 
 # Obtain latitude and longitude, take first one if there are multiple
 coord_xy <- dat$result$addressMatches$coordinates
