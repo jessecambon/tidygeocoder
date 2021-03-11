@@ -148,3 +148,10 @@ test5 <- tidygeocoder::reverse_geo(
   )
 )
 test5
+
+tidygeocoder::reverse_geo(
+  lat = c(48.8582, 40.45305),
+  long = c(2.2944, -3.68834),
+  method = "tomtom",
+  no_query = TRUE
+)

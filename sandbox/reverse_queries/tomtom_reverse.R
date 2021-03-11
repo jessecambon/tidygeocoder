@@ -133,6 +133,8 @@ address <- some_lonlat %>%
   reverse_geocode(
     long = longitud, lat = latitud, method = "tomtom", address = "dir",
     full_results = TRUE,
+    verbose = TRUE,
+    mode = "single",
     custom_query = list(
       language = "pl"
     ),
