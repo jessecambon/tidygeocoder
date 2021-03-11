@@ -2,9 +2,13 @@ on:
   push:
     branches:
       - master
+      - main
+      - tomtom
   pull_request:
     branches:
       - master
+      - main
+      - tomtom
 
 name: test-coverage
 
