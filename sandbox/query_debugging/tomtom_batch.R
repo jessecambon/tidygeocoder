@@ -96,3 +96,17 @@ ss <- tidygeocoder::geo(
   custom_query = list(language = "de-DE"))
 glimpse(ss)
 
+# Final test - huge batch - not run, daily limit is 2500
+library(mapSpain)
+library(tibble)
+library(dplyr)
+
+address <- tibble(direcciones = mapSpain::esp_munic.sf$name) %>%
+  slice(1:500)
+
+address_geo <- address %>%
+  geocode(address = "direcciones", method = "tomtom", full_results = TRUE, 
+          verbose = TRUE)
+
+
+address_geo
