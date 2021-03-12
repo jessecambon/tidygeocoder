@@ -1,8 +1,13 @@
 # tidygeocoder 1.0.2.9000
 
+### New Features
 -   Added support for reverse geocoding with the new `reverse_geo()` and `reverse_geocode()` functions. 
 -   Added support for the [OpenCage](https://opencagedata.com/) geocoder service ([\#67](https://github.com/jessecambon/tidygeocoder/issues/67)) (thanks [@dpprdan](https://github.com/dpprdan)).
--   Added support for the [Mapbox](https://docs.mapbox.com/api/search/) geocoder service ([#71](https://github.com/jessecambon/tidygeocoder/issues/71)) (thanks [@dieghernan](https://github.com/dieghernan)). Note that currently the batch geocoding capability of this service is not implemented.
+-   Added support for the [Mapbox](https://docs.mapbox.com/api/search/) geocoder service
+([#71](https://github.com/jessecambon/tidygeocoder/issues/71)) (thanks [@dieghernan](https://github.com/dieghernan)). Note that currently the batch geocoding capability of this service is not implemented.
+-   Added support for the [HERE](https://developer.here.com/products/geocoding-and-search) service (thanks [@dieghernan](https://github.com/dieghernan)).
+
+### Tweaks
 -   If the number of unique addresses or coordinates exceeds the batch query limit then an error is thrown by default. For forward geocoding, this behaviour can be toggled with the new `batch_limit_query` argument in the `geo()` function and `batch_limit_query` is set to FALSE if using the "cascade" method. When `batch_limit_query` is FALSE then the batch query is limited to the batch limit and executed. In the past, all batch queries that exceeded the batch query limit would be limited to the batch limit and no error was thrown.
 -   The `address_list` argument of `query_api()` has been renamed to `input_list` to reflect that it is used for both forward and reverse queries when using the Geocodio service for batch geocoding.
 

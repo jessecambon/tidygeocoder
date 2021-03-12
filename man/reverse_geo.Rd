@@ -54,7 +54,7 @@ Census service does not support reverse geocoding.
      be stored in the "MAPBOX_API_KEY" environmental variable.
   \item \code{"here"}: Commercial HERE geocoder service. Requires an API Key 
      to be stored in the "HERE_API_KEY" environmental variable. Can perform 
-     batch geocoding.
+     batch geocoding, but this must be specified with \code{mode = 'batch'}.
 }}
 
 \item{address}{name of the address column (output data)}

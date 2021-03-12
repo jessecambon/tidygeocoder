@@ -12,7 +12,6 @@ reverse_batch_func_map <- list(
   here = reverse_batch_here
 )
 
-
 # Create API parameters for a single set of coordinates (lat, long) based on the 
 # method. Parameters are placed into the 'custom_query' variable which is a named list
 # that is passed directly to the API service.
@@ -73,7 +72,7 @@ get_coord_parameters <- function(custom_query, method, lat, long) {
 #'      be stored in the "MAPBOX_API_KEY" environmental variable.
 #'   \item \code{"here"}: Commercial HERE geocoder service. Requires an API Key 
 #'      to be stored in the "HERE_API_KEY" environmental variable. Can perform 
-#'      batch geocoding.
+#'      batch geocoding, but this must be specified with \code{mode = 'batch'}.
 #' }
 #' @param address name of the address column (output data)
 #' @param limit number of results to return per coordinate. Note that not all methods support

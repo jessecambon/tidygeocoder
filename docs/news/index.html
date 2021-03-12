@@ -133,13 +133,24 @@
 <h1 class="page-header" data-toc-text="1.0.2.9000">
 <a href="#tidygeocoder-1029000" class="anchor"></a>tidygeocoder 1.0.2.9000<small> Unreleased </small>
 </h1>
+<div id="new-features" class="section level3">
+<h3 class="hasAnchor">
+<a href="#new-features" class="anchor"></a>New Features</h3>
 <ul>
 <li>Added support for reverse geocoding with the new <code><a href="../reference/reverse_geo.html">reverse_geo()</a></code> and <code><a href="../reference/reverse_geocode.html">reverse_geocode()</a></code> functions.</li>
 <li>Added support for the <a href="https://opencagedata.com/">OpenCage</a> geocoder service (<a href="https://github.com/jessecambon/tidygeocoder/issues/67"><a href='https://github.com/jessecambon/tidygeocoder/issues/67'>#67</a></a>) (thanks <a href="https://github.com/dpprdan">@dpprdan</a>).</li>
 <li>Added support for the <a href="https://docs.mapbox.com/api/search/">Mapbox</a> geocoder service (<a href="https://github.com/jessecambon/tidygeocoder/issues/71"><a href='https://github.com/jessecambon/tidygeocoder/issues/71'>#71</a></a>) (thanks <a href="https://github.com/dieghernan">@dieghernan</a>). Note that currently the batch geocoding capability of this service is not implemented.</li>
+<li>Added support for the <a href="https://developer.here.com/products/geocoding-and-search">HERE</a> service (thanks <a href="https://github.com/dieghernan">@dieghernan</a>).</li>
+</ul>
+</div>
+<div id="tweaks" class="section level3">
+<h3 class="hasAnchor">
+<a href="#tweaks" class="anchor"></a>Tweaks</h3>
+<ul>
 <li>If the number of unique addresses or coordinates exceeds the batch query limit then an error is thrown by default. For forward geocoding, this behaviour can be toggled with the new <code>batch_limit_query</code> argument in the <code><a href="../reference/geo.html">geo()</a></code> function and <code>batch_limit_query</code> is set to FALSE if using the “cascade” method. When <code>batch_limit_query</code> is FALSE then the batch query is limited to the batch limit and executed. In the past, all batch queries that exceeded the batch query limit would be limited to the batch limit and no error was thrown.</li>
 <li>The <code>address_list</code> argument of <code><a href="../reference/query_api.html">query_api()</a></code> has been renamed to <code>input_list</code> to reflect that it is used for both forward and reverse queries when using the Geocodio service for batch geocoding.</li>
 </ul>
+</div>
 </div>
     <div id="tidygeocoder-102" class="section level1">
 <h1 class="page-header" data-toc-text="1.0.2">
