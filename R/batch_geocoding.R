@@ -140,6 +140,7 @@ verbose = FALSE, api_url = NULL, geocodio_v = 1.6, limit = 1, ...) {
   else return(cbind(results[c(lat,long)], results[!names(results) %in% c(lat, long)]))
 }
 
+
 # Batch geocoding with HERE
 # ... are arguments passed from the geo() function
 # https://developer.here.com/documentation/batch-geocoder/dev_guide/topics/introduction.html
@@ -221,7 +222,6 @@ batch_here <- function(unique_addresses, lat = 'lat', long = 'long', timeout = 2
   
   # Batch timer
   init_process <- Sys.time()
-  
   if (!is.null(here_request_id)){
     if (verbose) message("HERE: Requesting a previous job")
     

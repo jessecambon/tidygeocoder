@@ -410,7 +410,7 @@ geo <- function(address = NULL,
                 mapbox_permanent = mapbox_permanent)
   }
   
-  # Workaround for Mapbox - The search_text should be in the API URL
+  # Workaround for Mapbox/TomTom - The search_text should be in the API URL
   if (method %in% c('mapbox', 'tomtom')) {
     api_url <- gsub(" ", "%20", paste0(api_url, generic_query[['address']], ".json"))
     # Remove semicolons (Reserved for batch)
@@ -426,7 +426,6 @@ geo <- function(address = NULL,
   # Convert our generic query parameters into parameters specific to our API (method)
   api_query_parameters <- get_api_query(method, generic_query, custom_query)
   
-
   # Execute Single Address Query -----------------------------------------
   if (verbose == TRUE) display_query(api_url, api_query_parameters)
   
