@@ -45,7 +45,6 @@ verbose = FALSE, api_url = NULL, geocodio_v = 1.6, limit = 1, ...) {
 reverse_batch_here <- function(lat, long, address = 'address', timeout = 20, full_results = FALSE, custom_query = list(),
                                verbose = FALSE, api_url = NULL, geocodio_v = 1.6, limit = 1,
                                here_request_id = NULL, ...) {
-  
   # https://developer.here.com/documentation/batch-geocoder/dev_guide/topics/quick-start-batch-geocode.html
   # Specific endpoint
   if (is.null(api_url)) api_url <- 'https://batch.geocoder.ls.hereapi.com/6.2/jobs'
@@ -111,7 +110,6 @@ reverse_batch_here <- function(lat, long, address = 'address', timeout = 20, ful
   
   # Create body of the POST request----
   # Needs to have recID and prox  
-  
   # Plain text, \n new line using indelim
   body <- paste(paste0('recID', query_parameters[['indelim']],'prox\n'),
                 paste(latlon_df$recId, query_parameters[['indelim']],
@@ -222,7 +220,6 @@ reverse_batch_here <- function(lat, long, address = 'address', timeout = 20, ful
                    all.x = TRUE)
   
   names(results)[names(results) == 'locationLabel'] <- address
-  
   if (full_results == FALSE)  return(results[address])
   else return(cbind(results[address], results[!names(results) %in% c(address)]))
 }

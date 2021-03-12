@@ -29,9 +29,11 @@ get_coord_parameters <- function(custom_query, method, lat, long) {
     custom_query[['to_url']] <-
       paste0(as.character(long), ',', as.character(lat))
   } else if (method == 'here') {
-    custom_query[['at']] <- paste0(as.character(lat), ',', as.character(long))
+    custom_query[['at']] <- 
+      paste0(as.character(lat), ',', as.character(long))
   } else if (method == 'tomtom') {
-    custom_query[['to_url']] <- paste0(as.character(lat), ',', as.character(long))
+    custom_query[['to_url']] <- 
+      paste0(as.character(lat), ',', as.character(long))
   } else {
     stop('Invalid method. See ?reverse_geo')
   }

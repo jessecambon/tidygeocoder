@@ -3,12 +3,12 @@ library(tibble)
 library(mapSpain)
 
 addresses <- c("tower bridge","-------","santiago")
-addresses <- mapSpain::esp_munic.sf[1:101,]$name
+addresses <- mapSpain::esp_munic.sf[780:800,]$name
 
 api_url = NULL
 verbose = TRUE
 custom_query = list(language = "fr-FR")
-limit = 3
+limit = 1
 timeout = 20
 
 # Synchronous ----
@@ -96,13 +96,13 @@ ss <- tidygeocoder::geo(
   custom_query = list(language = "de-DE"))
 glimpse(ss)
 
-# Final test - huge batch - not run, daily limit is 2500
+# Final test - huge batch - not run, daily limit is 2500 ----
 library(mapSpain)
 library(tibble)
 library(dplyr)
 
 address <- tibble(direcciones = mapSpain::esp_munic.sf$name) %>%
-  slice(1:500)
+  slice(1:1000)
 
 address_geo <- address %>%
   geocode(address = "direcciones", method = "tomtom", full_results = TRUE, 

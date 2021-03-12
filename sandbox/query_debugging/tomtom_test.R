@@ -20,7 +20,7 @@ soup <-
 raw_results <-
   jsonlite::fromJSON(httr::content(soup, as = "text", encoding = "UTF-8"))
 
-
+httr::content(soup, as = "text", encoding = "UTF-8")
 
 results_minimal <-
   tidygeocoder::extract_results(selected_method, raw_results, full_results = FALSE)

@@ -1,9 +1,13 @@
 api_url <- NULL
 timeout <- 20
-limit <- 4
+limit <- 1
+
+lat <- runif(800,38,42)
+long <- runif(800,-6,1)
+
 # white house, toronto, junk lat/lng
-lat <- c(38.89586, 300, 43.6534817)
-long <- c(-77.0307713, 500, -79.3839347)
+# lat <- c(38.89586, 300, 43.6534817)
+# long <- c(-77.0307713, 500, -79.3839347)
 address <- "addr"
 verbose <- TRUE
 custom_query <- list(language = "fr-FR")
@@ -154,4 +158,16 @@ tidygeocoder::reverse_geo(
   long = c(2.2944, -3.68834),
   method = "tomtom",
   no_query = TRUE
+)
+
+# Bulk query - not test ----
+
+lat <- runif(800,38,42)
+long <- runif(800,-6,1)
+
+bulk <- tidygeocoder::reverse_geo(
+  lat = lat,
+  long = long,
+  method = "tomtom",
+  verbose = TRUE
 )
