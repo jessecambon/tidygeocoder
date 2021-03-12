@@ -128,7 +128,7 @@
 <span class="co">#&gt; benchmark : "Public_AR_Current"</span>
 <span class="co">#&gt; vintage : "Current_Current"</span>
 <span class="co">#&gt; </span>
-<span class="co">#&gt; Query completed in: 2.3 seconds</span></code></pre></div>
+<span class="co">#&gt; Query completed in: 1.5 seconds</span></code></pre></div>
 <table class="table">
 <thead><tr class="header">
 <th align="left">singlelineaddress</th>
@@ -390,31 +390,7 @@
                 longitude <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">77.0307713</span>, <span class="op">-</span><span class="fl">79.3839347</span><span class="op">)</span><span class="op">)</span>
 
 <span class="va">rev1</span> <span class="op">&lt;-</span> <span class="va">lat_longs1</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="../reference/reverse_geocode.html">reverse_geocode</a></span><span class="op">(</span>lat <span class="op">=</span> <span class="va">latitude</span>, long <span class="op">=</span> <span class="va">longitude</span>, address <span class="op">=</span> <span class="va">addr</span>,
-                  method <span class="op">=</span> <span class="st">'osm'</span>, verbose <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
-<span class="co">#&gt; Number of Unique Coordinates: 2</span>
-<span class="co">#&gt; Number of Unique Coordinates: 1</span>
-<span class="co">#&gt; Querying API URL: https://nominatim.openstreetmap.org/reverse</span>
-<span class="co">#&gt; Passing the following parameters to the API:</span>
-<span class="co">#&gt; limit : "1"</span>
-<span class="co">#&gt; lat : "38.895865"</span>
-<span class="co">#&gt; lon : "-77.0307713"</span>
-<span class="co">#&gt; format : "json"</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Query completed in: 0.2 seconds</span>
-<span class="co">#&gt; Total query time (including sleep): 1 seconds</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Number of Unique Coordinates: 1</span>
-<span class="co">#&gt; Querying API URL: https://nominatim.openstreetmap.org/reverse</span>
-<span class="co">#&gt; Passing the following parameters to the API:</span>
-<span class="co">#&gt; limit : "1"</span>
-<span class="co">#&gt; lat : "43.6534817"</span>
-<span class="co">#&gt; lon : "-79.3839347"</span>
-<span class="co">#&gt; format : "json"</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Query completed in: 0.3 seconds</span>
-<span class="co">#&gt; Total query time (including sleep): 1 seconds</span>
-<span class="co">#&gt; </span></code></pre></div>
+  <span class="fu"><a href="../reference/reverse_geocode.html">reverse_geocode</a></span><span class="op">(</span>lat <span class="op">=</span> <span class="va">latitude</span>, long <span class="op">=</span> <span class="va">longitude</span>, address <span class="op">=</span> <span class="va">addr</span>, method <span class="op">=</span> <span class="st">'osm'</span><span class="op">)</span></code></pre></div>
 <table class="table">
 <colgroup>
 <col width="5%">
@@ -488,7 +464,7 @@
 <span class="co">#&gt; benchmark : "Public_AR_Current"</span>
 <span class="co">#&gt; vintage : "Current_Current"</span>
 <span class="co">#&gt; </span>
-<span class="co">#&gt; Query completed in: 1 seconds</span></code></pre></div>
+<span class="co">#&gt; Query completed in: 1.3 seconds</span></code></pre></div>
 <table class="table">
 <thead><tr class="header">
 <th align="left">singlelineaddress</th>

@@ -115,8 +115,7 @@ lat_longs1 <- tibble(latitude = c(38.895865, 43.6534817),
                 longitude = c(-77.0307713, -79.3839347))
 
 rev1 <- lat_longs1 %>%
-  reverse_geocode(lat = latitude, long = longitude, address = addr,
-                  method = 'osm', verbose = TRUE)
+  reverse_geocode(lat = latitude, long = longitude, address = addr, method = 'osm')
 ```
 
 ```{r, echo = FALSE}
