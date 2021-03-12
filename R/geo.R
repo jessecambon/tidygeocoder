@@ -377,9 +377,8 @@ geo <- function(address = NULL,
                 search = search, geocodio_v = geocodio_v, iq_region = iq_region, 
                 mapbox_permanent = mapbox_permanent)
   }
-  if (length(api_url) == 0) stop('API URL not found')
   
-  # Ugly hack for Mapbox - The search_text should be in the url
+  # Workaround for Mapbox - The search_text should be in the API URL
   if (method == "mapbox") {
     api_url <- gsub(" ", "%20", paste0(api_url, generic_query[['address']], ".json"))
     # Remove semicolons (Reserved for batch
@@ -389,21 +388,11 @@ geo <- function(address = NULL,
   # Set min_time if not set based on usage limit of service
   if (is.null(min_time)) min_time <- get_min_query_time(method)
 
-  # If API key is required then use the get_key() function to retrieve it
-  if (method %in% get_services_requiring_key()) {
-    generic_query[['api_key']] <- get_key(method)
-  }
-  
-  if (!is.null(limit)) generic_query[['limit']] <- limit
+  # add limit and api_key to generic query
+  generic_query <- add_common_generic_parameters(generic_query, method, no_query, limit)
   
   # Convert our generic query parameters into parameters specific to our API (method)
   api_query_parameters <- get_api_query(method, generic_query, custom_query)
-  
-  # Mapbox: Hack to remove address from parameters
-  if (method == "mapbox") {
-    api_query_parameters <-
-      api_query_parameters[names(api_query_parameters) != "search_text"]
-  }
   
   # Execute Single Address Query -----------------------------------------
   if (verbose == TRUE) display_query(api_url, api_query_parameters)
@@ -411,7 +400,6 @@ geo <- function(address = NULL,
   # return NA results if no_query = TRUE
   if (no_query == TRUE) return(unpackage_inputs(address_pack, NA_value, unique_only, return_addresses))
   raw_results <- jsonlite::fromJSON(query_api(api_url, api_query_parameters))
-  
   
   ## Extract results -----------------------------------------------------------------------------------
   # if there were problems with the results then return NA
