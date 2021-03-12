@@ -20,6 +20,7 @@ soup <-
 raw_results <-
   jsonlite::fromJSON(httr::content(soup, as = "text", encoding = "UTF-8"))
 
+is.data.frame(raw_results$results)
 httr::content(soup, as = "text", encoding = "UTF-8")
 
 results_minimal <-
@@ -43,6 +44,24 @@ full_results_flat <-
     flatten = TRUE
   )
 full_results_flat
+
+# Error
+
+
+
+soup2 <-
+  httr::GET(
+    url = gsub(" ", "%20", paste0(url_base, addr, ".json")),
+    query = list(
+      limit = 1,
+      key = tidygeocoder:::get_key(selected_method),
+      language = "aaaa"
+    )
+  )
+content <- jsonlite::fromJSON(httr::content(soup2, as = "text"))
+
+
+tidygeocoder::check_results_for_problems("tomtom", soup2, TRUE)
 
 # Test geo ----
 library(tibble)
@@ -95,6 +114,19 @@ livetest_params <-
     ),
     method = "tomtom"
   )
+
+# Error
+tidygeocoder::geo(
+  address = c("Nieva"),
+  verbose = TRUE,
+  full_results = TRUE,
+  mode = "single",
+  limit = 2,
+  custom_query = list(
+    language = "aaaaaa"
+  ),
+  method = "tomtom"
+)
 
 glimpse(livetest_params)
 
