@@ -4,7 +4,8 @@
 # maps method names to batch functions
 batch_func_map <- list(
   geocodio = batch_geocodio, 
-  census = batch_census
+  census = batch_census,
+  here = batch_here
 )
 
 #' Geocode addresses
@@ -53,6 +54,9 @@ batch_func_map <- list(
 #'      in the "OPENCAGE_KEY" environmental variable.
 #'   \item \code{"mapbox"}: Commercial Mapbox geocoder service. Requires an API Key to
 #'      be stored in the "MAPBOX_API_KEY" environmental variable.
+#'   \item \code{"here"}: Commercial HERE geocoder service. Requires an API Key 
+#'      to be stored in the "HERE_API_KEY" environmental variable. Can perform 
+#'      batch geocoding.
 #'   \item \code{"cascade"} : Attempts to use one geocoder service and then uses
 #'     a second geocoder service if the first service didn't return results.
 #'     The services and order is specified by the cascade_order argument. 
@@ -78,7 +82,9 @@ batch_func_map <- list(
 #'  force single address geocoding (one address per query). If not 
 #'  specified then batch geocoding will be used if available
 #'  (given method selected) when multiple addresses are provided; otherwise
-#'  single address geocoding will be used.
+#'  single address geocoding will be used. For 'here' the batch mode
+#'  should be explicitly enforced.
+
 #' @param full_results returns all data from the geocoder service if TRUE. 
 #' If FALSE then only longitude and latitude are returned from the geocoder service.
 #' @param unique_only only return results for unique addresses if TRUE
@@ -90,7 +96,7 @@ batch_func_map <- list(
 #'    Note that Geocodio batch geocoding results are flattened regardless.
 #' @param batch_limit limit to the number of addresses in a batch geocoding query.
 #'  Both geocodio and census batch geocoders have a 10,000 address limit so this
-#'  is the default.
+#'  is the default. HERE has a 1,000,000 address limit.
 #' @param batch_limit_error if TRUE then an error is thrown if the number of unique addresses
 #'  exceeds the batch limit (if executing a batch query). This is reverted to FALSE when using the
 #'  cascade method.
@@ -115,6 +121,11 @@ batch_func_map <- list(
 #'   endpoint would be used. Note that this option should be used only if you 
 #'   have applied for a permanent account. Unsuccessful requests made by an 
 #'   account that does not have access to the endpoint may be billable.
+#' @param here_request_id This parameter would return a previous HERE batch job,
+#'   identified by its RequestID. The RequestID of a batch job is displayed 
+#'   when \code{verbose} is TRUE. Note that this option would ignore the 
+#'   current \code{address} parameter on the request, so \code{return_addresses} 
+#'   needs to be FALSE.
 #'    
 #' @return parsed geocoding results in tibble format
 #' @examples
@@ -137,7 +148,7 @@ geo <- function(address = NULL,
     mode = '', full_results = FALSE, unique_only = FALSE, return_addresses = TRUE, 
     flatten = TRUE, batch_limit = 10000, batch_limit_error = TRUE, verbose = FALSE, no_query = FALSE, 
     custom_query = list(), return_type = 'locations', iq_region = 'us', geocodio_v = 1.6, 
-    param_error = TRUE, mapbox_permanent = FALSE) {
+    param_error = TRUE, mapbox_permanent = FALSE, here_request_id = NULL) {
 
   # NSE - Quote unquoted vars without double quoting quoted vars
   # end result - all of these variables become character values
@@ -160,7 +171,8 @@ geo <- function(address = NULL,
             is.logical(full_results), is.logical(unique_only), is.logical(return_addresses),
             is.numeric(limit), is.numeric(batch_limit), is.logical(batch_limit_error), is.numeric(timeout),
             limit >= 1, batch_limit >= 1, timeout >= 0, is.list(custom_query),
-            is.logical(mapbox_permanent))
+            is.logical(mapbox_permanent), 
+            is.null(here_request_id) || is.character(here_request_id))
   
   if (!(method %in% c('cascade', method_services))) {
     stop('Invalid method argument. See ?geo')
@@ -260,6 +272,14 @@ geo <- function(address = NULL,
   # If there are multiple addresses and we are using a method without a batch geocoder function 
   # OR the user has explicitly specified single address geocoding then call the 
   # single address geocoder in a loop (ie. recursively call this function)
+  
+  # HERE Exception
+  # Batch mode is quite slow. If batch mode is not called explicitly
+  # use single method
+  if (method == "here" && mode != 'batch' ){
+    mode <- 'single'
+  }
+  
   if ((num_unique_addresses > 1) & ((!(method %in% names(batch_func_map))) | (mode == 'single'))) {
       if (verbose == TRUE) {
         message('Executing single address geocoding...\n')
@@ -320,6 +340,14 @@ geo <- function(address = NULL,
       batch_unique_addresses <- address_pack$unique
     }
     
+    # HERE: If a previous job is requested return_addresses should be FALSE
+    # This is because the job won't send the addresses, but would recover the
+    # results of a previous request
+    if (method == 'here' && is.character(here_request_id) && return_addresses == TRUE) {
+      stop('HERE: When requesting a previous job via here_request_id, set return_addresses to FALSE.
+      See the geo() function documentation for details.')
+      }
+
     if (verbose == TRUE) message(paste0('Passing ', 
       format(min(batch_limit, num_unique_addresses), big.mark = ','), 
                           ' addresses to the ', method, ' batch geocoder'))

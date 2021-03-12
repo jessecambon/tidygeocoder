@@ -24,7 +24,8 @@ reverse_geo(
   custom_query = list(),
   iq_region = "us",
   geocodio_v = 1.6,
-  mapbox_permanent = FALSE
+  mapbox_permanent = FALSE,
+  here_request_id = NULL
 )
 }
 \arguments{
@@ -51,6 +52,9 @@ Census service does not support reverse geocoding.
      in the "OPENCAGE_KEY" environmental variable.
   \item \code{"mapbox"}: Commercial Mapbox geocoder service. Requires an API Key to
      be stored in the "MAPBOX_API_KEY" environmental variable.
+  \item \code{"here"}: Commercial HERE geocoder service. Requires an API Key 
+     to be stored in the "HERE_API_KEY" environmental variable. Can perform 
+     batch geocoding.
 }}
 
 \item{address}{name of the address column (output data)}
@@ -71,8 +75,6 @@ This parameter can be used to specify a local Nominatim server.}
 \item{mode}{set to 'batch' to force batch geocoding or 'single' to 
 force single address geocoding (one coordinate per query). If not 
 specified then batch geocoding will be used if available
-(given method selected) when multiple coordinates are provided; otherwise
-single coordinate geocoding will be used.}
 
 \item{full_results}{returns all data from the geocoder service if TRUE. 
 If FALSE then only a single address column will be returned from the geocoder service.}
@@ -88,7 +90,6 @@ Note that Geocodio batch geocoding results are flattened regardless.}
 
 \item{batch_limit}{limit to the number of addresses in a batch geocoding query.
 Both geocodio and census batch geocoders have a 10,000 limit so this
-is the default.}
 
 \item{verbose}{if TRUE then detailed logs are output to the console}
 
@@ -106,6 +107,12 @@ for the 'geocodio' method.}
 endpoint would be used. Note that this option should be used only if you 
 have applied for a permanent account. Unsuccessful requests made by an 
 account that does not have access to the endpoint may be billable.}
+
+\item{here_request_id}{This parameter would return a previous HERE batch job,
+identified by its RequestID. The RequestID of a batch job is displayed 
+when \code{verbose} is TRUE. Note that this option would ignore the 
+current \code{lat, long} parameters on the request, so \code{return_coords} 
+needs to be FALSE.}
 }
 \value{
 parsed geocoding results in tibble format

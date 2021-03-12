@@ -4,7 +4,7 @@
 test_that("geocode default colnames", {
   result <- tibble::tibble(addr = NA) %>%
     geocode(addr, no_query = TRUE)
-
+  
   expect_identical(colnames(result), c('addr','lat','long'))
   expect_equal(nrow(result), 1) # result should have one row
 })
@@ -13,7 +13,7 @@ test_that("geocode default colnames", {
 test_that("geocode custom colnames", {
   result <- tibble::tibble(addr = '')  %>%
     geocode(addr, lat = 'latitude', long = 'longitude', no_query = TRUE)
-
+  
   expect_identical(colnames(result), c('addr', 'latitude', 'longitude'))
   expect_equal(nrow(result), 1) # result should have one row
 })
@@ -30,14 +30,14 @@ test_that("geocode null/empty addresses", {
   expect_identical(geo_google(" ", return_addresses = FALSE, no_query = TRUE), NA_result)
   expect_identical(geo_opencage(" ", return_addresses = FALSE, no_query = TRUE), NA_result)
   expect_identical(geo_mapbox(" ", return_addresses = FALSE, no_query = TRUE), NA_result)
-  
+  expect_identical(geo_here(" ", return_addresses = FALSE, no_query = TRUE), NA_result)
   
   # Test with tibble
   NA_data <- tibble::tribble(~addr,
                              "   ",
                              NA,
                              "")
-
+  
   result <- NA_data %>% geocode(addr, no_query = TRUE, method = 'osm')
   
   # check column names
@@ -53,12 +53,6 @@ test_that("geocode null/empty addresses", {
   
   # Test batch limit detection and error/warning toggling
   expect_error(geo(address = as.character(seq(1, 10)), 
-                method = 'census', batch_limit = 5, no_query = TRUE, batch_limit_error = TRUE))
-  expect_warning(geo(address = as.character(seq(1, 10)), 
-                   method = 'census', batch_limit = 5, no_query = TRUE, batch_limit_error = FALSE))
-  # batch_limit_error should revert to FALSE with method = 'cascade'
-  expect_warning(geo(address = as.character(seq(1, 10)), 
-                     method = 'cascade', batch_limit = 5, no_query = TRUE, batch_limit_error = TRUE))
 })
 
 test_that("Test geo() error handling", {
@@ -116,6 +110,7 @@ test_that("reverse geocode null/empty addresses", {
   expect_identical(reverse_geo(lat =" ", long = " ", method = 'google', return_coords = FALSE, no_query = TRUE), NA_result)
   expect_identical(reverse_geo(lat = " ", long = " ", method = 'opencage', return_coords = FALSE, no_query = TRUE), NA_result)
   expect_identical(reverse_geo(lat = " ", long = " ", method = 'mapbox', return_coords = FALSE, no_query = TRUE), NA_result)
+  expect_identical(reverse_geo(lat = " ", long = " ", method = 'here', return_coords = FALSE, no_query = TRUE), NA_result)
   
   
   # Test with tibble
