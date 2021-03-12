@@ -71,7 +71,7 @@ test_that("Test API Query Creation Functions", {
   for (method in unique(tidygeocoder::api_parameter_reference[['method']])) {
     
     # test overlap between generic and custom parameters
-    expect_error(tidygeocoder::get_api_query(method,
+    expect_warning(tidygeocoder::get_api_query(method,
        generic_parameters = list(address = 'abc'),
        custom_parameters = tidygeocoder:::create_api_parameter(method, 'address', 'ghj')))
     

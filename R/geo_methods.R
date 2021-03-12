@@ -29,6 +29,10 @@ geo_opencage <- function(...) geo(method = 'opencage', ...)
 #' @export
 geo_mapbox <- function(...) geo(method = 'mapbox', ...)
 
+#'@rdname geo_census
+#' @export
+geo_here <- function(...) geo(method = 'here', ...)
+
 #' Convenience function for calling the \code{\link{geo}} function
 #' with method = 'cascade'
 #' 

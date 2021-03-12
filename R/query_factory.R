@@ -8,7 +8,8 @@ get_key <- function(method) {
          'iq' = "LOCATIONIQ_API_KEY",
          'google' = "GOOGLEGEOCODE_API_KEY",
          'opencage' = "OPENCAGE_KEY",
-         'mapbox' = "MAPBOX_API_KEY"
+         'mapbox' = "MAPBOX_API_KEY",
+         'here' = "HERE_API_KEY"
          )
   # load api key from environmental variable
   key <- Sys.getenv(env_var)
@@ -78,6 +79,11 @@ get_mapbox_url <- function(mapbox_permanent = FALSE) {
   return(paste0("https://api.mapbox.com/geocoding/v5/", endpoint, "/"))
 }
 
+get_here_url <- function(reverse = FALSE) {
+  if (reverse == TRUE) return("https://revgeocode.search.hereapi.com/v1/revgeocode")
+  return("https://geocode.search.hereapi.com/v1/geocode")
+}
+
 ## wrapper function for above functions
 ### IMPORTANT: if arguments are changed in this definition then make sure to 
 ### update reverse_geo.R and geo.R where this function is called.
@@ -91,9 +97,10 @@ get_api_url <- function(method, reverse = FALSE, return_type = 'locations',
          "iq" = get_iq_url(iq_region, reverse = reverse),
          "opencage" = get_opencage_url(), # same url as forward geocoding
          "google" = get_google_url(), # same url as forward geocoding
-         "mapbox" = get_mapbox_url(mapbox_permanent) # same url as fwd geocoding
+         "mapbox" = get_mapbox_url(mapbox_permanent), # same url as fwd geocoding
+         "here" = get_here_url(reverse = reverse),
   )
-  
+
   if (length(api_url) == 0) stop('API URL not found')
   return(api_url)
 }
@@ -154,11 +161,11 @@ get_api_query <- function(method, generic_parameters = list(), custom_parameters
       )
   }
   
-  # Throw error if user passes the same parameter via a custom api-specific list 
-  # as they already did through the 'generic' parameters (address, street, etc.)
+  # Allow custom API parameters to overwrite the generic parameters but throw a warning
   for (custom_name in names(custom_parameters)) {
     if (custom_name %in% names(main_api_parameters)) {
-      stop(paste0("Custom API Parameter '", custom_name, "' was already specified"))
+      warning(paste0("Custom API Parameter '", custom_name, "' was already specified"))
+      main_api_parameters[[custom_name]] <- NULL # remove the parameter from main parameters
     }
   }
   
