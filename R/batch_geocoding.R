@@ -324,3 +324,75 @@ batch_here <- function(unique_addresses, lat = 'lat', long = 'long', timeout = 2
   else return(cbind(results[c(lat, long)], results[!names(results) %in% c(lat, long)]))
   
 }
+
+# Batch geocoding with TomTom
+# ... are arguments passed from the geo() function
+# https://developer.tomtom.com/search-api/search-api-documentation-batch-search/asynchronous-batch-submission
+batch_tomtom <- function(unique_addresses, lat = 'lat', long = 'long', 
+                         timeout = 20, full_results = FALSE,
+                         custom_query = list(), verbose = FALSE,
+                         api_url = NULL, limit = 1, ...) {
+  # limit the dataframe to legitimate arguments
+  address_df <- unique_addresses[names(unique_addresses) %in% get_generic_parameters('tomtom', address_only = TRUE)]
+  
+  if (is.null(api_url)) api_url <- 'https://api.tomtom.com/search/2/batch.json'
+  
+  # Construct query
+  query_parameters <- get_api_query('tomtom',
+                                    list(limit = limit, api_key = get_key('tomtom')),
+                                    custom_parameters = custom_query)
+  
+  if (verbose == TRUE) display_query(api_url, query_parameters)
+  
+  # Parameters needs to be included on each element
+  q_elements <- query_parameters[names(query_parameters) != 'key']
+  
+  q_string <- ''
+  
+  for (par in seq_len(length(q_elements))) {
+    dlm <- if (par == 1) '?' else '&'
+    q_string <- paste0(q_string, dlm, names(q_elements[par]), '=',  q_elements[[par]])
+  }
+  
+  # Construct body
+  address_list <- list(batchItems = list())
+  
+  for (index in 1:nrow(address_df)) {
+    address_list$batchItems[[index]] <- list(query = paste0('/geocode/', as.list(address_df[index, ]), '.json', q_string))
+  }
+  
+  
+  # Query API
+  raw_content <- query_api(api_url, query_parameters, mode = 'list',
+                           input_list = address_list, timeout = timeout)
+  
+  # Note that flatten here is necessary in order to get rid of the
+  # nested dataframes that would cause dplyr::bind_rows (or rbind) to fail
+  content <- jsonlite::fromJSON(raw_content)
+  
+  # result_list is a list of dataframes
+  result_list <- content$batchItems$response$results
+  
+  # if no results are returned for a given address then there is a 0 row dataframe in this
+  # list and we need to replace it with a 1 row NA dataframe to preserve the number of rows
+  result_list_filled <- lapply(result_list, filler_df, c('lat', 'long'))
+  
+  # combine list of dataframes into a single tibble. Column names may differ between the dataframes
+  results <- dplyr::bind_rows(result_list_filled)
+  
+  # rename lat/long columns
+  results$lat <- results$position$lat
+  results$long <- results$position$lon
+  
+  # extract address column dataframe
+  tomtom_address <- results$address
+  names(tomtom_address) <- paste0('tomtom_address.', names(tomtom_address))
+  results <- results[!names(results) %in% c('address')]
+  results <- tibble::as_tibble(cbind(results, tomtom_address))
+  
+  names(results)[names(results) == 'lat'] <- lat
+  names(results)[names(results) == 'long'] <- long
+  
+  if (full_results == FALSE) return(results[c(lat, long)])
+  else return(cbind(results[c(lat, long)], results[!names(results) %in% c(lat, long)]))
+}

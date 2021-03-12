@@ -9,7 +9,8 @@
 # maps method names to batch functions
 reverse_batch_func_map <- list(
   geocodio = reverse_batch_geocodio,
-  here = reverse_batch_here
+  here = reverse_batch_here,
+  tomtom = reverse_batch_tomtom
 )
 
 # Create API parameters for a single set of coordinates (lat, long) based on the 
@@ -27,7 +28,10 @@ get_coord_parameters <- function(custom_query, method, lat, long) {
     custom_query[['to_url']] <-
       paste0(as.character(long), ',', as.character(lat))
   } else if (method == 'here') {
-    custom_query[['at']] <-
+    custom_query[['at']] <- 
+      paste0(as.character(lat), ',', as.character(long))
+  } else if (method == 'tomtom') {
+    custom_query[['to_url']] <- 
       paste0(as.character(lat), ',', as.character(long))
   } else {
     stop('Invalid method. See ?reverse_geo')
@@ -73,6 +77,9 @@ get_coord_parameters <- function(custom_query, method, lat, long) {
 #'   \item \code{"here"}: Commercial HERE geocoder service. Requires an API Key 
 #'      to be stored in the "HERE_API_KEY" environmental variable. Can perform 
 #'      batch geocoding, but this must be specified with \code{mode = 'batch'}.
+#'   \item \code{"tomtom"}: Commercial TomTom geocoder service. Requires an API Key to
+#'      be stored in the "TOMTOM_API_KEY" environmental variable. Can perform
+#'      batch geocoding.
 #' }
 #' @param address name of the address column (output data)
 #' @param limit number of results to return per coordinate. Note that not all methods support
@@ -264,8 +271,8 @@ reverse_geo <- function(lat, long, method = 'osm', address = address, limit = 1,
   }
   if (length(api_url) == 0) stop('API URL not found')
   
-  # Workaround for Mapbox - The search_text should be in the url
-  if (method == "mapbox") {
+  # Workaround for Mapbox/TomTom - The search_text should be in the url
+  if (method %in%  c('mapbox', 'tomtom')) {
     api_url <- paste0(api_url, custom_query[["to_url"]], ".json")
     # Remove semicolons (Reserved for batch)
     api_url <- gsub(";", ",", api_url)
@@ -276,7 +283,7 @@ reverse_geo <- function(lat, long, method = 'osm', address = address, limit = 1,
   
   # add limit and api_key to generic query
   generic_query <- add_common_generic_parameters(generic_query, method, no_query, limit)
-  
+
   # Convert our generic query parameters into parameters specific to our API (method)
   api_query_parameters <- get_api_query(method, generic_query, custom_query)
   

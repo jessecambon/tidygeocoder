@@ -1,35 +1,32 @@
-selected_method <- "mapbox"
+selected_method <- "tomtom"
 
-# https://docs.mapbox.com/api/search/geocoding/#reverse-geocoding
 
-url_base <- tidygeocoder:::get_mapbox_url()
+url_base <- tidygeocoder:::get_tomtom_url(reverse = TRUE)
 
 lat <- 40.4055517
-#lat <- NA
-#lon <- NA
 lon <- -3.6802152
-
-# Test Sandbox on dev ----
 
 soup <-
   httr::GET(
-    url = gsub(" ", "%20", paste0(url_base, lon, ",", lat, ".json")),
+    url = gsub(" ", "%20", paste0(url_base, lat, ",", lon, ".json")),
     query = list(
       limit = 1,
-      access_token = tidygeocoder:::get_key(selected_method)
+      key = tidygeocoder:::get_key(selected_method)
     )
   )
 
 response <-
   jsonlite::fromJSON(httr::content(soup, as = "text", encoding = "UTF-8"))
-
+response$addresses$address["freeformAddress"]
 results_min <-
   tidygeocoder:::extract_reverse_results(selected_method, response,
     full_results = FALSE
   )
 
+response
 results_full <-
   tidygeocoder:::extract_reverse_results(selected_method, response)
+results_full
 
 full_results_notflat <-
   tidygeocoder::extract_reverse_results(selected_method,
@@ -45,19 +42,18 @@ full_results_flat <-
   )
 
 # Test reverse_geo ----
-lat <- 40.4055517
-#lat <- NA
-#lon <- NA
-lon <- -3.6802152
+library(tibble)
 
+lat <- 40.4055517
+lon <- -3.6802152
 # Error
 tidygeocoder::reverse_geo(
   lat = lat,
   long = lon,
   verbose = TRUE,
-  method = "mapbox",
+  method = "tomtom",
   custom_query = list(
-    country="papa"
+    country = "papa"
   )
 )
 
@@ -65,26 +61,19 @@ tidygeocoder::reverse_geo(
   lat = lat,
   long = lon,
   verbose = TRUE,
-  method = "mapbox",
-  mapbox_permanent = "TRUE"
+  method = "tomtom",
+  address = "direct",
+  limit = 7
 )
 
-tidygeocoder::reverse_geo(
-  lat = lat,
-  long = lon,
-  verbose = TRUE,
-  method = "mapbox",
-  custom_query = list(
-    country="papa"
-  )
-)
+
 
 livetest <-
   tidygeocoder::reverse_geo(
     lat = lat,
     long = lon,
     verbose = TRUE,
-    method = "mapbox"
+    method = "tomtom"
   )
 glimpse(livetest)
 livetest_full <-
@@ -93,7 +82,7 @@ livetest_full <-
     long = lon,
     verbose = TRUE,
     full_results = TRUE,
-    method = "mapbox"
+    method = "tomtom"
   )
 glimpse(livetest_full)
 
@@ -104,22 +93,22 @@ livetest_fullflat <-
     verbose = TRUE,
     full_results = TRUE,
     flatten = TRUE,
-    method = "mapbox"
+    method = "tomtom"
   )
 glimpse(livetest_fullflat)
 
 
 livetest_params <-
   tidygeocoder::reverse_geo(
-    lat = c(48.858296, 40.4530541),
-    long = c(2.294479, -3.6883445),
+    lat = c(48.85, 40.45),
+    long = c(2.29, -3.68),
     verbose = TRUE,
     full_results = TRUE,
     limit = 3,
-    method = "mapbox",
+    method = "tomtom",
+    mode = "single",
     custom_query = list(
-      language = "pl",
-      types = "address"
+      language = "pl"
     ),
   )
 
@@ -142,11 +131,12 @@ some_lonlat <- tribble(
 
 address <- some_lonlat %>%
   reverse_geocode(
-    long = longitud, lat = latitud, method = "mapbox", address = "dir",
+    long = longitud, lat = latitud, method = "tomtom", address = "dir",
     full_results = TRUE,
+    verbose = TRUE,
+    mode = "single",
     custom_query = list(
-      language = "pl",
-      types = "postcode"
+      language = "pl"
     ),
   )
 glimpse(address)

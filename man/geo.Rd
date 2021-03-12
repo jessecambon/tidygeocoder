@@ -78,6 +78,9 @@ each geocoder service for usage details and limitations.
   \item \code{"here"}: Commercial HERE geocoder service. Requires an API Key 
      to be stored in the "HERE_API_KEY" environmental variable. Can perform 
      batch geocoding, but this must be specified with \code{mode = 'batch'}.
+  \item \code{"tomtom"}: Commercial TomTom geocoder service. Requires an API Key to
+     be stored in the "TOMTOM_API_KEY" environmental variable. Can perform 
+     batch geocoding.
   \item \code{"cascade"} : Attempts to use one geocoder service and then uses
     a second geocoder service if the first service didn't return results.
     The services and order is specified by the cascade_order argument. 
@@ -126,8 +129,8 @@ return_addresses to FALSE does not prevent this.}
 Note that Geocodio batch geocoding results are flattened regardless.}
 
 \item{batch_limit}{limit to the number of addresses in a batch geocoding query.
-Both geocodio and census batch geocoders have a 10,000 address limit so this
-is the default. HERE has a 1,000,000 address limit.}
+'geocodio', 'census' and 'tomtom' batch geocoders have a 10,000 address limit so this
+is the default. 'here' has a 1,000,000 address limit.}
 
 \item{batch_limit_error}{if TRUE then an error is thrown if the number of unique addresses
 exceeds the batch limit (if executing a batch query). This is reverted to FALSE when using the

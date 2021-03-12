@@ -41,7 +41,7 @@ full_results_flat <-
   )
 
 # Test geo ----
-
+addr <- "Acueducto de Segovia, Spain"
 ## Error
 tidygeocoder::geo(
   address = addr,

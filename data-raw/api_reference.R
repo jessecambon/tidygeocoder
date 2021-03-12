@@ -12,6 +12,8 @@
 # OpenCage: https://opencagedata.com/api
 # Mapbox: https://docs.mapbox.com/api/search/geocoding/
 # HERE: https://developer.here.com/documentation/geocoding-search-api/dev_guide/index.html
+# TomTom: https://developer.tomtom.com/search-api/search-api-documentation-geocoding/geocode
+
 
 ### Usage Policies
 # OSM: https://operations.osmfoundation.org/policies/nominatim/
@@ -19,6 +21,8 @@
 # OpenCage: https://opencagedata.com/pricing
 # Mapbox: https://www.mapbox.com/pricing/#search
 # HERE: https://developer.here.com/pricing
+# TomTom: https://developer.tomtom.com/store/maps-api
+
 
 ## Note: generic_name = 'address' is for one-line addresses
 ## If generic_name == NA then that means the parameter is specific to a given API/method
@@ -99,7 +103,6 @@ api_parameter_reference <- tibble::tribble(
   ########################### Mapbox #################################
   # Mapbox returns json by default (defined by endpoint in URL) 
   # Mapbox requires an api_key
-  # Implementation of mapbox.places endpoint
   
   'mapbox', 'api_key',    'access_token',  NA,                  TRUE,
   'mapbox', 'address',    'search_text',   NA,                  TRUE,  
@@ -113,6 +116,14 @@ api_parameter_reference <- tibble::tribble(
   'here', 'address',    'q',               NA,                  TRUE,  
   'here', 'limit',      'limit',           '1',                 FALSE,
   
+
+  ########################### TomTom #################################
+  # TomTom returns json (defined by endpoint in URL) 
+  # TomTom requires an api_key
+  
+  'tomtom', 'api_key',    'key',          NA,                  TRUE,
+  'tomtom', 'address',    'query',        NA,                  TRUE,  
+  'tomtom', 'limit',      'limit',        '1',                 FALSE,
 )
 
 usethis::use_data(api_parameter_reference, overwrite = TRUE)

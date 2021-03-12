@@ -33,6 +33,10 @@ geo_mapbox <- function(...) geo(method = 'mapbox', ...)
 #' @export
 geo_here <- function(...) geo(method = 'here', ...)
 
+#'@rdname geo_census
+#' @export
+geo_tomtom <- function(...) geo(method = 'tomtom', ...)
+
 #' Convenience function for calling the \code{\link{geo}} function
 #' with method = 'cascade'
 #' 

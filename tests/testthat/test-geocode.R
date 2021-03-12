@@ -31,6 +31,7 @@ test_that("geocode null/empty addresses", {
   expect_identical(geo_opencage(" ", return_addresses = FALSE, no_query = TRUE), NA_result)
   expect_identical(geo_mapbox(" ", return_addresses = FALSE, no_query = TRUE), NA_result)
   expect_identical(geo_here(" ", return_addresses = FALSE, no_query = TRUE), NA_result)
+  expect_identical(geo_tomtom(" ", return_addresses = FALSE, no_query = TRUE), NA_result)
   
   # Test with tibble
   NA_data <- tibble::tribble(~addr,
@@ -117,6 +118,7 @@ test_that("reverse geocode null/empty addresses", {
   expect_identical(reverse_geo(lat = " ", long = " ", method = 'opencage', return_coords = FALSE, no_query = TRUE), NA_result)
   expect_identical(reverse_geo(lat = " ", long = " ", method = 'mapbox', return_coords = FALSE, no_query = TRUE), NA_result)
   expect_identical(reverse_geo(lat = " ", long = " ", method = 'here', return_coords = FALSE, no_query = TRUE), NA_result)
+  expect_identical(reverse_geo(lat = " ", long = " ", method = 'tomtom', return_coords = FALSE, no_query = TRUE), NA_result)
   
   
   # Test with tibble
