@@ -51,9 +51,8 @@ test_that("geocode null/empty addresses", {
   expect_equal(nrow(geocode(NA_data, addr, method = 'google', no_query = TRUE)), nrow(NA_data))
   expect_equal(nrow(geocode(NA_data, addr, method = 'opencage', no_query = TRUE)), nrow(NA_data))
   
-  # Test batch limit
+  # Test batch limit detection and error/warning toggling
   expect_error(geo(address = as.character(seq(1, 10)), 
-                   method = 'census', batch_limit = 5, no_query = TRUE))
 })
 
 test_that("Test geo() error handling", {
@@ -78,7 +77,7 @@ test_that("Test geo() error handling", {
   expect_error(geo('yz', no_query = TRUE, limit = 5, method = 'census'))
   
   # improper limit value for census but param_error = FALSE and verbose = TRUE so we expect a message
-  expect_message(geo('yz', no_query = TRUE, limit = 5, method = 'census', verbose = TRUE, param_error = FALSE))
+  expect_warning(geo('yz', no_query = TRUE, limit = 5, method = 'census', verbose = TRUE, param_error = FALSE))
   
   # improper parameters for cascade (limit !=1 and full_results = TRUE)
   expect_error(geo('xy', no_query = TRUE, full_results = TRUE, method = 'cascade'))

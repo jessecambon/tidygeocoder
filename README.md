@@ -24,19 +24,19 @@ Month](http://cranlogs.r-pkg.org/badges/tidygeocoder)](https://cran.r-project.or
 
 Tidygeocoder makes getting data from geocoder services easy. Both
 forward geocoding (providing addresses to obtain latitude and longitude)
-and reverse geocoding (providing latitude and longitude to obtain the
-address) are supported. All results are returned in [tibble
+and reverse geocoding (providing latitude and longitude to obtain
+addresses) are supported. All results are returned in [tibble
 format](https://tibble.tidyverse.org/) and the supported geocoder
 services are listed below.
 
 Batch geocoding (geocoding multiple addresses or coordinates per query)
 is used by default if supported by the geocoder service when multiple
-addresses or coordinates are provided. Duplicate, missing/NA, and blank
-input data is handled elegantly - only unique inputs are passed to
-geocoder services, but the rows in the original data are preserved by
-default.
+inputs (addresses or coordinates) are provided. Duplicate, missing/NA,
+and blank input data is handled elegantly - only unique inputs are
+passed to geocoder services, but the rows in the original data are
+preserved by default.
 
-In addition to the usage example below you can refer to the following
+In addition to the usage examples below you can refer to the following
 references:
 
 -   [Mapping European soccer club
@@ -175,7 +175,8 @@ To perform **reverse geocoding** (obtaining addresses from latitude and
 longitude coordinates), we can use the `reverse_geocode()` function. The
 arguments are similar to the `geocode()` function, but we now are
 specifying the latitude and longitude columns in our dataset with the
-`lat` and `long` arguments. See the `reverse_geo()` function
+`lat` and `long` arguments. The single line address is returned in a
+column named by the `address` argument. See the `reverse_geo()` function
 documentation for more details on reverse geocoding.
 
 ``` r
@@ -183,10 +184,11 @@ coordinates <- tibble(latitude = c(38.895865, 43.6534817, 35.0844),
                 longitude = c(-77.0307713, -79.3839347, -106.6504))
 
 rev1 <- coordinates %>%
-  reverse_geocode(lat = latitude, long = longitude, method = 'osm', full_results = TRUE)
+  reverse_geocode(lat = latitude, long = longitude, method = 'osm',
+                  address = address_found, full_results = TRUE)
 ```
 
-| latitude |  longitude | address                                                                                                                                            | place\_id | licence                                                                  | osm\_type |   osm\_id | osm\_lat           | osm\_lon            | tourism         | road                     | city        | state                | postcode   | country       | country\_code | boundingbox                                        | amenity           | house\_number | neighbourhood      | quarter           | state\_district  | building        | suburb               | county            |
+| latitude |  longitude | address\_found                                                                                                                                     | place\_id | licence                                                                  | osm\_type |   osm\_id | osm\_lat           | osm\_lon            | tourism         | road                     | city        | state                | postcode   | country       | country\_code | boundingbox                                        | amenity           | house\_number | neighbourhood      | quarter           | state\_district  | building        | suburb               | county            |
 |---------:|-----------:|:---------------------------------------------------------------------------------------------------------------------------------------------------|----------:|:-------------------------------------------------------------------------|:----------|----------:|:-------------------|:--------------------|:----------------|:-------------------------|:------------|:---------------------|:-----------|:--------------|:--------------|:---------------------------------------------------|:------------------|:--------------|:-------------------|:------------------|:-----------------|:----------------|:---------------------|:------------------|
 | 38.89587 |  -77.03077 | L’Enfant’s plan, Pennsylvania Avenue, Washington, District of Columbia, 20045, United States                                                       | 301711857 | Data © OpenStreetMap contributors, ODbL 1.0. <https://osm.org/copyright> | way       | 899927546 | 38.895859599999994 | -77.0306779870984   | L’Enfant’s plan | Pennsylvania Avenue      | Washington  | District of Columbia | 20045      | United States | us            | 38.8957273 , 38.8959688 , -77.0311667, -77.0301895 | NA                | NA            | NA                 | NA                | NA               | NA              | NA                   | NA                |
 | 43.65348 |  -79.38393 | Toronto City Hall, 100, Queen Street West, Financial District, Spadina—Fort York, Old Toronto, Toronto, Golden Horseshoe, Ontario, M5H 2N2, Canada | 137497520 | Data © OpenStreetMap contributors, ODbL 1.0. <https://osm.org/copyright> | way       | 198500761 | 43.6536032         | -79.38400547469666  | NA              | Queen Street West        | Old Toronto | Ontario              | M5H 2N2    | Canada        | ca            | 43.6529946 , 43.6541458 , -79.3848438, -79.3830415 | Toronto City Hall | 100           | Financial District | Spadina—Fort York | Golden Horseshoe | NA              | NA                   | NA                |

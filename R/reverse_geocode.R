@@ -1,19 +1,18 @@
 #' Reverse geocode coordinates in a dataframe
 #'
 #' @description
-#' Takes a dataframe containing latitude, longitude coordinates as inputs and returns 
-#' the dataframe results from a specified geocoder service by using the
+#' Takes a dataframe containing coordinates (latitude and longitude) and returns 
+#' the reverse geocoding query results from a specified service by using the
 #' \code{\link{reverse_geo}} function. See example usage in \code{vignette("tidygeocoder")}.
 #' 
 #' This function passes all additional parameters (\code{...}) to the 
 #' \code{\link{reverse_geo}} function, so you can refer to its documentation for more details
 #' on possible arguments.
-#' 
 #'
 #' @param .tbl dataframe containing coordinates
-#' @param lat latitude column name. Can be quoted or unquoted (ie. lat or 'lat').
-#' @param long longitude column name. Can be quoted or unquoted (ie. long or 'long').
-#' @param address address column name.
+#' @param lat latitude column name (input data). Can be quoted or unquoted (ie. lat or 'lat').
+#' @param long longitude column name (input data). Can be quoted or unquoted (ie. long or 'long').
+#' @param address address column name (output data). Can be quoted or unquoted (ie. addr or 'addr').
 #' @param return_coords if TRUE then coordinates with standard names will be returned
 #'   This is defaulted to FALSE because the coordinates are already in the input dataset
 #' @param unique_only if TRUE then only unique coordinates and results will be returned. 

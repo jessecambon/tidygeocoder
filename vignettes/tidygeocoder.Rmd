@@ -15,9 +15,9 @@ options(tibble.print_min = 4L, tibble.print_max = 4L)
 set.seed(42)
 ```
 
-Tidygeocoder provides a unified interface for performing both forward and reverse geocoding queries with a variety of geocoder services. In **forward geocoding** you provide an address to the geocoder service and it will give you the latitude and longitude. In **reverse geocoding** you provide the latitude and longitude and the geocoder service will return that location's address. In both cases, other data about the location can be provided. 
+Tidygeocoder provides a unified interface for performing both forward and reverse geocoding queries with a variety of geocoder services. In **forward geocoding** you provide an address to the geocoder service and you get latitude and longitude coordinates in return. In **reverse geocoding** you provide the latitude and longitude and the geocoder service will return that location's address. In both cases, other data about the location can be provided by the geocoder service.
 
-The `geocode()` and `geo()` functions are for forward geocoding while the `reverse_geocode()` and `reverse_geo()` functions perform reverse geocoding. The `geocode()` and `reverse_geocode()` functions extract either addresses (forward geocoding) or coordinates (reverse geocoding) from the input dataframe and pass this data to the `geo()` and `reverse_geo()` functions respectively which execute the geocoding queries. All extra arguments (`...`) given to the `geocode()` or `reverse_geocode()` are passed along to `geo()` and `reverse_geo()` respectively.
+The `geocode()` and `geo()` functions are for forward geocoding while the `reverse_geocode()` and `reverse_geo()` functions perform reverse geocoding. The `geocode()` and `reverse_geocode()` functions extract either addresses (forward geocoding) or coordinates (reverse geocoding) from the input dataframe and pass this data to the `geo()` and `reverse_geo()` functions respectively which execute the geocoding queries. All extra arguments (`...`) given to the `geocode()` and passed to `geo()` and extra arguments given to `reverse_geocode()` are passed to `reverse_geo()`.
 
 ## Forward Geocoding
 
@@ -39,23 +39,34 @@ address_components <- tribble(
 You can use the `address` argument to specify single-line addresses. Note that when multiple addresses are provided, the batch geocoding functionality of the Census geocoder service is used. Additionally, `verbose = TRUE` displays logs to the console.
 
 ```{r}
-address_single %>% geocode(address = singlelineaddress, method = 'census',
-                           verbose = TRUE)
+census_s1 <- address_single %>% 
+  geocode(address = singlelineaddress, method = 'census', verbose = TRUE)
+```
+
+```{r, echo = FALSE}
+knitr::kable(census_s1)
 ```
 
 Alternatively you can run the same query with the `geo()` function by passing the address values from the dataframe directly. In either `geo()` or `geocode()`, the `lat` and `long` arguments are used to name the resulting latitude and longitude fields. Here the `method` argument is used to specify the "osm" (Nominatim) geocoder service. Refer to the `geo()` function documentation for the possible values of the `method` argument.
 
 ```{r}
-geo(address = address_single$singlelineaddress, method = 'osm', 
+census_s2 <- geo(address = address_single$singlelineaddress, method = 'osm', 
     lat = latitude, long = longitude)
+```
+```{r, echo = FALSE}
+knitr::kable(census_s2)
 ```
 
 Instead of single-line addresses, you can use any combination of the following arguments to specify your addresses: `street`, `city`, `state`, `county`, `postalcode`, and `country`. 
 
 ```{r}
-address_components %>% geocode(street = street, city = cty, state = st,
-                               method = 'census')
+census_c1 <- address_components %>% 
+  geocode(street = street, city = cty, state = st, method = 'census')
 ```
+```{r, echo = FALSE}
+knitr::kable(census_c1)
+```
+
 
 The `cascade` method first tries to use one geocoder service and then again attempts to geocode addresses that were not found using a second geocoder service. By default it first uses the Census Geocoder and then OSM, but you can specify any two methods you want (in order) with the `cascade_order` argument.
 
@@ -63,9 +74,14 @@ The `cascade` method first tries to use one geocoder service and then again atte
 addr_comp1 <- address_components %>% 
   bind_rows(tibble(cty = c('Toronto', 'Tokyo'), country = c('Canada', 'Japan')))
 
-addr_comp1 %>% geocode(street = street, state = st, city = cty,
+cascade1 <- addr_comp1 %>% geocode(street = street, state = st, city = cty,
                        country = country, method = 'cascade')
 ```
+
+```{r, echo = FALSE}
+knitr::kable(cascade1)
+```
+
 
 To return the full geocoder service results (not just latitude and longitude), specify `full_results = TRUE`. Additionally, for the Census geocoder you can get fields for geographies such as Census tracts by specifying `return_type = 'geographies'`. Be sure to use `full_results = TRUE` with `return_type = 'geographies'` in order to allow the Census geography columns to be returned.
 
@@ -117,7 +133,7 @@ glimpse(rev2)
 
 ## Working With Messy Data
 
-Only unique input data (either addresses or coordinates) is passed to geocoder services even if your data contains duplicates. Missing/NA and blank inputs are excluded from queries. Also latitudes and longitudes are limited to the range of possible values. Here is an example of how duplicate and missing data is handled by tidygeocoder:
+Only unique input data (either addresses or coordinates) is passed to geocoder services even if your data contains duplicates. Missing/NA and blank inputs are excluded from queries. Also latitudes and longitudes are limited to the range of possible values. Below is an example of how duplicate and missing data is handled by tidygeocoder. As the console messages shows, only the two unique addresses are passed to the geocoder service.
 
 ```{r}
 duplicate_addrs <- address_single %>%
@@ -135,9 +151,13 @@ knitr::kable(duplicates_geocoded)
 As shown above, duplicates will not be removed from your results by default. However, you can return only unique results by using `unique_only = TRUE`. Note that passing `unique_only = TRUE` to `geocode()` or `reverse_geocode()` will result in the original dataframe format (including column names) to be discarded in favor of the standard field names (ie. "address", "city", "state", 'lat, 'long', etc.).
 
 ```{r}
-duplicate_addrs %>%
+uniqueonly1 <- duplicate_addrs %>%
   geocode(singlelineaddress, unique_only = TRUE)
 ```
+```{r, echo = FALSE}
+knitr::kable(uniqueonly1)
+```
+
 
 ## Customizing Queries
 
@@ -162,8 +182,11 @@ glimpse(cairo_geo)
 To test a query without sending any data to a geocoder service, you can use `no_query = TRUE` (NA results are returned).
 
 ```{r}
-geo(c('Vancouver, Canada', 'Las Vegas, NV'), no_query = TRUE, 
+noquery1 <- geo(c('Vancouver, Canada', 'Las Vegas, NV'), no_query = TRUE, 
     method = 'osm')
+```
+```{r, echo = FALSE}
+knitr::kable(noquery1)
 ```
 
 Here are some additional usage notes for the `geocode()`, `geo()`, `reverse_geocode()`, and `reverse_geo()` functions:
@@ -174,13 +197,12 @@ Here are some additional usage notes for the `geocode()`, `geo()`, `reverse_geoc
 
 ## API Reference
 
-You can refer to the `api_parameter_reference` dataset to see which which parameters are supported with each geocoder service. This dataset is displayed below. Note that the input parameters (latitude and longitude) for reverse geocoding are not contained in this dataset and are instead handled directly by the `reverse_geo()` function.
+You can refer to the `api_parameter_reference` dataset to see which which parameters are supported with each geocoder service. This dataset is displayed below. The `generic_name` is the universal parameter named shared between services while `api_name` is the name of the parameter for the specified service (`method`). 
 
-Refer to `?api_parameter_reference` for more details and links to the API documentation for each geocoder service.
+Note that the input parameters (latitude and longitude) for reverse geocoding are not contained in this dataset and are instead handled directly by the `reverse_geo()` function. Refer to `?api_parameter_reference` for more details and links to the API documentation for each geocoder service.
 
 ```{r, echo = FALSE}
 api_parameter_reference %>% 
-#  select(-required) %>%
   mutate(across(c(method, generic_name, api_name), as.factor)) %>%
   datatable(filter = 'top', rownames = FALSE, 
   options = list(lengthMenu = c(5, 8, 12, nrow(.)), pageLength = 12, autoWidth = TRUE))

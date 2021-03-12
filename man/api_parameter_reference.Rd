@@ -33,12 +33,13 @@ api_parameter_reference
 \description{
 This dataset contains the mapping that allows this package to use a 
 universal syntax to specify parameters for different geocoder services. 
+Note that latitude nad longitude input parameters for reverse geocoding
+are not in this dataset and are instead handled directly by the \code{reverse_geo} function.
 
-The \code{generic_name} field is a universal field name while the \code{api_name}
-field shows the specific parameter name for the given geocoder service (\code{method}).
-When the \code{api_name} is missing this means that the parameter is not 
-supported by the given geocoder service. When \code{generic_name} is missing 
-this means the parameter is specific to that geocoding service.
+The \code{generic_name} column is a universal parameter name that is shared between services.
+The \code{api_name} column is the parameter name for the given geocoder service specified by the
+\code{method} column. When \code{generic_name} is missing 
+this means the parameter is specific to that geocoder service.
  
 Reference the documentation for \code{\link{geo}} for more information. 
 Also reference \code{vignette("tidygeocoder")} for more details on constructing API queries.

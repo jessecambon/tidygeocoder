@@ -112,7 +112,7 @@ extract_results <- function(method, response, full_results = TRUE, flatten = TRU
   else return(combined_results)
 }
 
-#' Extract reverse geocoder results 
+#' Extract reverse geocoding results 
 #' 
 #' @description
 #' Parses the output of the \code{\link{query_api}} function for reverse geoocding.
@@ -159,7 +159,7 @@ extract_reverse_results <- function(method, response, full_results = TRUE, flatt
     
     # add prefix to variable names that likely could be in our input dataset
     # to avoid variable name overlap
-    for (var in c('lat', 'lon', 'long', 'latitude', 'longitude')) {
+    for (var in c('lat', 'lon', 'long', 'latitude', 'longitude', 'address')) {
       if (var %in% names(results)) {
       names(results)[names(results) == var] <- paste0(method, '_', var)
       }
@@ -208,8 +208,9 @@ check_results_for_problems <- function(method, raw_results, verbose) {
     message(paste0('Error: ', raw_results$errors))
   }
   else if ((method == 'opencage') & (!is.data.frame(raw_results$results))) {
-    if ("message" %in% names(raw_results))
+    if (!is.null(raw_results$status$message)) {
     message(paste0('Error: ', raw_results$status$message))
+    }
   }
   else if ((method == 'geocodio') & (!is.data.frame(raw_results$results))) {
     if ("error" %in% names(raw_results)) {

@@ -26,6 +26,7 @@ geo(
   return_addresses = TRUE,
   flatten = TRUE,
   batch_limit = 10000,
+  batch_limit_error = TRUE,
   verbose = FALSE,
   no_query = FALSE,
   custom_query = list(),
@@ -96,9 +97,9 @@ in the order in which the geocoder services will be attempted for method = "casc
 setting limit to a value other than 1. Also limit > 1 is not compatible 
 with batch geocoding if return_addresses = TRUE.}
 
-\item{min_time}{minimum amount of time for a query to take (in seconds) if using
-Location IQ or OSM. This parameter is used to abide by API usage limits. You can
-set it to a lower value (ie. 0) if using a local Nominatim server, for instance.}
+\item{min_time}{minimum amount of time for a query to take (in seconds). If NULL
+then min_time will be set to the lowest value that complies with the usage requirements of 
+the free tier of the selected geocoder service.}
 
 \item{api_url}{custom API URL. If specified, the default API URL will be overridden.
 This parameter can be used to specify a local Nominatim server.}
@@ -108,9 +109,6 @@ This parameter can be used to specify a local Nominatim server.}
 \item{mode}{set to 'batch' to force batch geocoding or 'single' to 
 force single address geocoding (one address per query). If not 
 specified then batch geocoding will be used if available
-(given method selected) when multiple addresses are provided, otherwise
-single address geocoding will be used. For 'here' the batch mode
-should be explicitly enforced.}
 
 \item{full_results}{returns all data from the geocoder service if TRUE. 
 If FALSE then only longitude and latitude are returned from the geocoder service.}
@@ -128,6 +126,10 @@ Note that Geocodio batch geocoding results are flattened regardless.}
 Both geocodio and census batch geocoders have a 10,000 address limit so this
 is the default. HERE has a 1,000,000 address limit.}
 
+\item{batch_limit_error}{if TRUE then an error is thrown if the number of unique addresses
+exceeds the batch limit (if executing a batch query). This is reverted to FALSE when using the
+cascade method.}
+
 \item{verbose}{if TRUE then detailed logs are output to the console}
 
 \item{no_query}{if TRUE then no queries are sent to the geocoder and verbose is set to TRUE}
@@ -144,7 +146,7 @@ is the default. HERE has a 1,000,000 address limit.}
 
 \item{iq_region}{'us' (default) or 'eu'. Used for establishing API URL for the 'iq' method}
 
-\item{geocodio_v}{version of geocodio api. 1.6 is default. Used for establishing API URL
+\item{geocodio_v}{version of geocodio api. Used for establishing API URL
 for the 'geocodio' method.}
 
 \item{param_error}{if TRUE then an error will be thrown if certain parameters are invalid for the selected geocoder

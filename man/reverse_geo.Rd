@@ -2,7 +2,7 @@
 % Please edit documentation in R/reverse_geo.R
 \name{reverse_geo}
 \alias{reverse_geo}
-\title{Reverse geocode latitude, longitude coordinates}
+\title{Reverse geocode coordinates}
 \usage{
 reverse_geo(
   lat,
@@ -35,7 +35,8 @@ reverse_geo(
 
 \item{method}{the geocoder service to be used. Refer to 
 \code{\link{api_parameter_reference}} and the API documentation for
-each geocoder service for usage details and limitations.
+each geocoder service for usage details and limitations. Note that the 
+Census service does not support reverse geocoding.
 \itemize{
   \item \code{"osm"}: Nominatim (OSM). Worldwide coverage.
   \item \code{"geocodio"}: Commercial geocoder. Covers US and Canada and has
@@ -56,15 +57,15 @@ each geocoder service for usage details and limitations.
      batch geocoding.
 }}
 
-\item{address}{name of address column (output data)}
+\item{address}{name of the address column (output data)}
 
 \item{limit}{number of results to return per coordinate. Note that not all methods support
 setting limit to a value other than 1. Also limit > 1 is not compatible 
-with batch geocoding if return_addresses = TRUE.}
+with batch geocoding if return_coords = TRUE.}
 
-\item{min_time}{minimum amount of time for a query to take (in seconds) if using
-Location IQ or OSM. This parameter is used to abide by API usage limits. You can
-set it to a lower value (ie. 0) if using a local Nominatim server, for instance.}
+\item{min_time}{minimum amount of time for a query to take (in seconds). If NULL
+then min_time will be set to the lowest value that complies with the usage requirements of 
+the free tier of the selected geocoder service.}
 
 \item{api_url}{custom API URL. If specified, the default API URL will be overridden.
 This parameter can be used to specify a local Nominatim server.}
@@ -72,14 +73,11 @@ This parameter can be used to specify a local Nominatim server.}
 \item{timeout}{query timeout (in minutes)}
 
 \item{mode}{set to 'batch' to force batch geocoding or 'single' to 
-force single address geocoding (one address per query). If not 
+force single address geocoding (one coordinate per query). If not 
 specified then batch geocoding will be used if available
-(given method selected) when multiple addresses are provided, otherwise
-single address geocoding will be used. For 'here' the batch mode
-should be explicitly enforced.}
 
 \item{full_results}{returns all data from the geocoder service if TRUE. 
-If FALSE then only longitude and latitude are returned from the geocoder service.}
+If FALSE then only a single address column will be returned from the geocoder service.}
 
 \item{unique_only}{only return results for unique addresses if TRUE}
 
@@ -92,18 +90,17 @@ Note that Geocodio batch geocoding results are flattened regardless.}
 
 \item{batch_limit}{limit to the number of addresses in a batch geocoding query.
 Both geocodio and census batch geocoders have a 10,000 limit so this
-is the default. HERE has a 1,000,000 address limit.}
 
 \item{verbose}{if TRUE then detailed logs are output to the console}
 
 \item{no_query}{if TRUE then no queries are sent to the geocoder and verbose is set to TRUE}
 
 \item{custom_query}{API-specific parameters to be used, passed as a named list 
-(ie. \code{list(vintage = 'Current_Census2010')}).}
+(ie. \code{list(extratags = 1)}).}
 
 \item{iq_region}{'us' (default) or 'eu'. Used for establishing API URL for the 'iq' method}
 
-\item{geocodio_v}{version of geocodio api. 1.6 is default. Used for establishing API URL
+\item{geocodio_v}{version of geocodio api. Used for establishing API URL
 for the 'geocodio' method.}
 
 \item{mapbox_permanent}{if TRUE then the \code{mapbox.places-permanent} 
@@ -121,11 +118,11 @@ needs to be FALSE.}
 parsed geocoding results in tibble format
 }
 \description{
-Reverse geocodes coordinates given as numeric values. The \code{\link{reverse_geocode}}
-function utilizes this function on coordinates contained in dataframes. Latitude and
-longitude inputs are limited to possible values. Latitudes are limited from -90 to 90 and
-longitudes are limited from -180 to 180.
-See example usage in \code{vignette("tidygeocoder")} 
+Reverse geocodes geographic coordinates (latitude and longitude) given as numeric values. 
+Latitude and longitude inputs are limited to possible values. Latitudes must be between -90 and 90 and
+longitudes must be between -180 and 180. Invalid values will not be sent to the geocoder service. 
+The \code{\link{reverse_geocode}} function utilizes this function on coordinates contained in dataframes.
+See example usage in \code{vignette("tidygeocoder")}.
 
 This function uses the \code{\link{get_api_query}}, \code{\link{query_api}}, and
 \code{\link{extract_reverse_results}} functions to create, execute, and parse the geocoder
