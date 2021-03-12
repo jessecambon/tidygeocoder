@@ -13,3 +13,5 @@
 ^sandbox$
 ^cran-comments\.md$
 ^CRAN-RELEASE$
+^.github$
+^external_tests$

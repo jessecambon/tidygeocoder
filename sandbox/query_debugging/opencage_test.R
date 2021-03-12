@@ -1,6 +1,6 @@
 selected_method <- 'opencage'
 
-addr <- '------'
+addr <- '1600 Pennsylvania Ave NW Washington, DC'
 url_base  <- tidygeocoder:::get_opencage_url()
 
 library(httr)
@@ -10,7 +10,10 @@ library(dplyr)
 soup <- httr::GET(url = url_base, 
                   query = list(q = addr, 
                                limit = 1,
-                               key = tidygeocoder:::get_key(selected_method)))
+                          #     key = 1
+                              key = tidygeocoder:::get_key(selected_method)
+                  )
+                )
 
 raw_results <- jsonlite::fromJSON(httr::content(soup, as = 'text', encoding = "UTF-8"))
 

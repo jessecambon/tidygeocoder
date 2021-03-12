@@ -134,7 +134,11 @@
 <a href="#tidygeocoder-1029000" class="anchor"></a>tidygeocoder 1.0.2.9000<small> Unreleased </small>
 </h1>
 <ul>
-<li>Added support for the OpenCage geocoder service (<a href="https://github.com/jessecambon/tidygeocoder/issues/67"><a href='https://github.com/jessecambon/tidygeocoder/issues/67'>#67</a></a>) (thanks <a href="https://github.com/dpprdan">@dpprdan</a>).</li>
+<li>Added support for reverse geocoding with the new <code><a href="../reference/reverse_geo.html">reverse_geo()</a></code> and <code><a href="../reference/reverse_geocode.html">reverse_geocode()</a></code> functions.</li>
+<li>Added support for the <a href="https://opencagedata.com/">OpenCage</a> geocoder service (<a href="https://github.com/jessecambon/tidygeocoder/issues/67"><a href='https://github.com/jessecambon/tidygeocoder/issues/67'>#67</a></a>) (thanks <a href="https://github.com/dpprdan">@dpprdan</a>).</li>
+<li>Added support for the <a href="https://docs.mapbox.com/api/search/">Mapbox</a> geocoder service (<a href="https://github.com/jessecambon/tidygeocoder/issues/71"><a href='https://github.com/jessecambon/tidygeocoder/issues/71'>#71</a></a>) (thanks <a href="https://github.com/dieghernan">@dieghernan</a>). Note that currently the batch geocoding capability of this service is not implemented.</li>
+<li>If the number of unique addresses or coordinates exceeds the batch query limit then an error is thrown by default. For forward geocoding, this behaviour can be toggled with the new <code>batch_limit_query</code> argument in the <code><a href="../reference/geo.html">geo()</a></code> function and <code>batch_limit_query</code> is set to FALSE if using the “cascade” method. When <code>batch_limit_query</code> is FALSE then the batch query is limited to the batch limit and executed. In the past, all batch queries that exceeded the batch query limit would be limited to the batch limit and no error was thrown.</li>
+<li>The <code>address_list</code> argument of <code><a href="../reference/query_api.html">query_api()</a></code> has been renamed to <code>input_list</code> to reflect that it is used for both forward and reverse queries when using the Geocodio service for batch geocoding.</li>
 </ul>
 </div>
     <div id="tidygeocoder-102" class="section level1">
@@ -142,7 +146,7 @@
 <a href="#tidygeocoder-102" class="anchor"></a>tidygeocoder 1.0.2<small> 2021-01-18 </small>
 </h1>
 <ul>
-<li>Added support for the Google geocoder service (<a href="https://github.com/jessecambon/tidygeocoder/issues/34"><a href='https://github.com/jessecambon/tidygeocoder/issues/34'>#34</a></a>) (thanks <a href="https://github.com/chris31415926535">@chris31415926535</a>).</li>
+<li>Added support for the <a href="https://developers.google.com/maps/documentation/geocoding/overview">Google</a> geocoder service (<a href="https://github.com/jessecambon/tidygeocoder/issues/34"><a href='https://github.com/jessecambon/tidygeocoder/issues/34'>#34</a></a>) (thanks <a href="https://github.com/chris31415926535">@chris31415926535</a>).</li>
 <li>An error is now thrown if invalid parameters are passed to geocoder services (the parameters checked are limit, address, street, city, county, state, postalcode, and country) (<a href="https://github.com/jessecambon/tidygeocoder/issues/53"><a href='https://github.com/jessecambon/tidygeocoder/issues/53'>#53</a></a>). This behavior can be toggled with the new <code>param_error</code> parameter in <code><a href="../reference/geo.html">geo()</a></code> (or <code><a href="../reference/geocode.html">geocode()</a></code>).</li>
 <li>Leading zeros on Census FIPs geography columns are now preserved (<a href="https://github.com/jessecambon/tidygeocoder/issues/47"><a href='https://github.com/jessecambon/tidygeocoder/issues/47'>#47</a></a>).</li>
 <li>Bug fix for <code>custom_query</code> argument with Geocodio batch geocoding (<a href="https://github.com/jessecambon/tidygeocoder/issues/48"><a href='https://github.com/jessecambon/tidygeocoder/issues/48'>#48</a></a>).</li>
@@ -169,7 +173,7 @@
 <a href="#new-functionality" class="anchor"></a>New Functionality</h3>
 <ul>
 <li>
-<strong>New geocoder services</strong>: Support for the Geocodio and Location IQ services has been added.</li>
+<strong>New geocoder services</strong>: Support for the <a href="https://www.geocod.io/">Geocodio</a> and <a href="https://locationiq.com/">Location IQ</a> services has been added.</li>
 <li>
 <strong>Batch geocoding</strong> (geocoding multiple addresses per query) is now available for both the Census and Geocodio services.</li>
 <li>
@@ -225,7 +229,7 @@
 
       <footer>
       <div class="copyright">
-  <p>Developed by <a href='https://jessecambon.github.io'>Jesse Cambon</a>, Christopher Belanger, Daniel Possenriede.</p>
+  <p>Developed by <a href='https://jessecambon.github.io'>Jesse Cambon</a>, Christopher Belanger, Daniel Possenriede, Diego Hernangómez.</p>
 </div>
 
 <div class="pkgdown">

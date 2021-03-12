@@ -142,7 +142,7 @@ function to execute.</p>
   <span class='va'>query_parameters</span>,
   mode <span class='op'>=</span> <span class='st'>"single"</span>,
   batch_file <span class='op'>=</span> <span class='cn'>NULL</span>,
-  address_list <span class='op'>=</span> <span class='cn'>NULL</span>,
+  input_list <span class='op'>=</span> <span class='cn'>NULL</span>,
   content_encoding <span class='op'>=</span> <span class='st'>"UTF-8"</span>,
   timeout <span class='op'>=</span> <span class='fl'>20</span>
 <span class='op'>)</span></pre>
@@ -171,8 +171,8 @@ function to execute.</p>
       <td><p>a csv file of addresses to upload (census)</p></td>
     </tr>
     <tr>
-      <th>address_list</th>
-      <td><p>a list of addresses for batch geocoding (geocodio)
+      <th>input_list</th>
+      <td><p>a list of addresses or latitude, longitude coordinates for batch geocoding (geocodio)
 should be 'json' for geocodio and 'multipart' for census</p></td>
     </tr>
     <tr>
@@ -194,15 +194,25 @@ should be 'json' for geocodio and 'multipart' for census</p></td>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># \donttest{</span>
-<span class='va'>raw</span> <span class='op'>&lt;-</span> <span class='fu'>query_api</span><span class='op'>(</span><span class='st'>"http://nominatim.openstreetmap.org/search"</span>, 
+<span class='va'>raw1</span> <span class='op'>&lt;-</span> <span class='fu'>query_api</span><span class='op'>(</span><span class='st'>"http://nominatim.openstreetmap.org/search"</span>, 
    <span class='fu'><a href='get_api_query.html'>get_api_query</a></span><span class='op'>(</span><span class='st'>"osm"</span>, <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>address <span class='op'>=</span> <span class='st'>'Hanoi, Vietnam'</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>
    
-<span class='fu'><a href='extract_results.html'>extract_results</a></span><span class='op'>(</span><span class='st'>'osm'</span>, <span class='fu'>jsonlite</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/jsonlite/man/fromJSON.html'>fromJSON</a></span><span class='op'>(</span><span class='va'>raw</span><span class='op'>)</span><span class='op'>)</span>
+<span class='fu'><a href='extract_results.html'>extract_results</a></span><span class='op'>(</span><span class='st'>'osm'</span>, <span class='fu'>jsonlite</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/jsonlite/man/fromJSON.html'>fromJSON</a></span><span class='op'>(</span><span class='va'>raw1</span><span class='op'>)</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 1 x 12</span><span>
 #&gt;     lat   lon place_id licence osm_type osm_id boundingbox display_name class
 #&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>    </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>     </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;list&gt;</span><span>      </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>        </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>
-#&gt; </span><span style='color: #BCBCBC;'>1</span><span>  21.0  106.   2.59</span><span style='color: #949494;'>e</span><span>8 Data ©… relation 1.90</span><span style='color: #949494;'>e</span><span>6 </span><span style='color: #949494;'>&lt;chr [4]&gt;</span><span>   Hà Nội, Việ… boun…
-#&gt; </span><span style='color: #949494;'># … with 3 more variables: type </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span style='color: #949494;'>, importance </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #949494;'>, icon </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span></div><div class='input'><span class='co'># }</span>
+#&gt; </span><span style='color: #BCBCBC;'>1</span><span>  21.0  106.   </span><span style='text-decoration: underline;'>260</span><span>570 Data ©… node     7.41</span><span style='color: #949494;'>e</span><span>7 </span><span style='color: #949494;'>&lt;chr [4]&gt;</span><span>   Hà Nội, Quậ… place
+#&gt; </span><span style='color: #949494;'># … with 3 more variables: type </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span style='color: #949494;'>, importance </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #949494;'>, icon </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span></div><div class='input'>
+<span class='va'>raw2</span> <span class='op'>&lt;-</span>  <span class='fu'>query_api</span><span class='op'>(</span><span class='st'>"http://nominatim.openstreetmap.org/reverse"</span>, 
+   <span class='fu'><a href='get_api_query.html'>get_api_query</a></span><span class='op'>(</span><span class='st'>"osm"</span>, custom_parameters <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>lat <span class='op'>=</span> <span class='fl'>38.895865</span>, lon <span class='op'>=</span> <span class='op'>-</span><span class='fl'>77.0307713</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>
+   
+<span class='fu'><a href='extract_reverse_results.html'>extract_reverse_results</a></span><span class='op'>(</span><span class='st'>'osm'</span>, <span class='fu'>jsonlite</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/jsonlite/man/fromJSON.html'>fromJSON</a></span><span class='op'>(</span><span class='va'>raw2</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 1 x 15</span><span>
+#&gt;   display_name place_id licence osm_type osm_id osm_lat osm_lon tourism road 
+#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>           </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>     </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>
+#&gt; </span><span style='color: #BCBCBC;'>1</span><span> L’Enfant's …   3.02</span><span style='color: #949494;'>e</span><span>8 Data ©… way      9.00</span><span style='color: #949494;'>e</span><span>8 38.895… -77.03… L’Enfa… Penn…
+#&gt; </span><span style='color: #949494;'># … with 6 more variables: city </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span style='color: #949494;'>, state </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span style='color: #949494;'>, postcode </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span style='color: #949494;'>,</span><span>
+#&gt; </span><span style='color: #949494;'>#   country </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span style='color: #949494;'>, country_code </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span style='color: #949494;'>, boundingbox </span><span style='color: #949494;font-style: italic;'>&lt;list&gt;</span><span></div><div class='input'><span class='co'># }</span>
 
 </div></span></pre>
   </div>
@@ -216,7 +226,7 @@ should be 'json' for geocodio and 'multipart' for census</p></td>
 
       <footer>
       <div class="copyright">
-  <p>Developed by <a href='https://jessecambon.github.io'>Jesse Cambon</a>, Christopher Belanger, Daniel Possenriede.</p>
+  <p>Developed by <a href='https://jessecambon.github.io'>Jesse Cambon</a>, Christopher Belanger, Daniel Possenriede, Diego Hernangómez.</p>
 </div>
 
 <div class="pkgdown">

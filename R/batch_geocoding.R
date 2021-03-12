@@ -110,7 +110,7 @@ verbose = FALSE, api_url = NULL, geocodio_v = 1.6, limit = 1, ...) {
   if (verbose == TRUE) display_query(api_url, query_parameters)
   
   # Query API
-  raw_content <- query_api(api_url, query_parameters, mode = 'list', address_list = address_list, timeout = timeout)
+  raw_content <- query_api(api_url, query_parameters, mode = 'list', input_list = address_list, timeout = timeout)
   
   # Note that flatten here is necessary in order to get rid of the
   # nested dataframes that would cause dplyr::bind_rows (or rbind) to fail

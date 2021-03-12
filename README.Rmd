@@ -26,11 +26,11 @@ options(tibble.print_min = 5, tibble.print_max = 5)
 
 ## Introduction
 
-Tidygeocoder makes getting data from geocoder services easy. A unified interface is provided for the supported geocoder services listed below. All results are returned in [tibble format](https://tibble.tidyverse.org/).
+Tidygeocoder makes getting data from geocoder services easy. Both forward geocoding (providing addresses to obtain latitude and longitude) and reverse geocoding (providing latitude and longitude to obtain addresses) are supported. All results are returned in [tibble format](https://tibble.tidyverse.org/) and the supported geocoder services are listed below.
 
-Batch geocoding (geocoding multiple addresses per query) is used by default if possible when multiple addresses are provided. Duplicate, missing/NA, and blank address data is handled elegantly - only unique addresses are passed to geocoder services, but the rows in the original data are preserved by default.
+Batch geocoding (geocoding multiple addresses or coordinates per query) is used by default if supported by the geocoder service when multiple inputs (addresses or coordinates) are provided. Duplicate, missing/NA, and blank input data is handled elegantly - only unique inputs are passed to geocoder services, but the rows in the original data are preserved by default.
 
-In addition to the usage example below you can refer to the following references:
+In addition to the usage examples below you can refer to the following references:
 
 -   [Mapping European soccer club stadiums](https://jessecambon.github.io/2020/07/15/tidygeocoder-1-0-0.html)
 -   [Mapping Washington, DC landmarks](https://jessecambon.github.io/2019/11/11/tidygeocoder-demo.html)
@@ -53,22 +53,25 @@ devtools::install_github("jessecambon/tidygeocoder")
 
 ## Geocoder Services
 
-The supported geocoder services are shown in the table below with their geographic limitations, if they support batch geocoding (geocoding multiple addresses in a single query), if an API key is required, and the usage rate limitations. Refer to the website for each geocoder service for the most up-to-date details on costs, capabilities, and usage limitations.
+The supported geocoder services are shown in the table below with their geographic limitations, if they support batch geocoding (geocoding multiple addresses or coordinates in a single query), if an API key is required, and the usage rate limitations. Refer to the website for each geocoder service for the most up-to-date details on costs, capabilities, and usage limitations.
 
 | Service                                                                       | Geography     | Batch Geocoding | API Key Required | Query Rate Limit        |
 |-------------------------------------------------------------------------------|---------------|-----------------|------------------|-------------------------|
-| [US Census](https://geocoding.geo.census.gov/)                                | US            | Yes             | No               | N/A                     |
+| [US Census](https://geocoding.geo.census.gov/)                                | US            | Yes             | No               | None                    |
 | [Nominatim (OSM)](https://nominatim.org)                                      | Worldwide     | No              | No               | 1/second                |
 | [Geocodio](https://www.geocod.io/)                                            | US and Canada | Yes             | Yes              | 1000/minute (free tier) |
 | [Location IQ](https://locationiq.com/)                                        | Worldwide     | No              | Yes              | 2/second (free tier)    |
 | [Google](https://developers.google.com/maps/documentation/geocoding/overview) | Worldwide     | No              | Yes              | 50/second               |
 | [OpenCage](https://opencagedata.com)                                          | Worldwide     | No              | Yes              | 1/second (free tier)    |
+| [Mapbox](https://www.mapbox.com/)                                             | Worldwide     | See note below  | Yes              | 10/second (free tier)   |
 
-Note that:
+Notes:
 
 -   The US Census service supports street-level addresses only (ie. "11 Wall St New York, NY" is OK but "New York, NY" is not).
 -   The US Census and Geocodio services both support a maximum of 10,000 addresses per batch query.
 -   The US Census and OSM services are free while Geocodio, Location IQ, and OpenCage are commercial services that offer both free and paid usage tiers. The Google service [bills per query](https://developers.google.com/maps/documentation/geocoding/usage-and-billing).
+-   The Census geocoder does not support reverse geocoding.
+-   The Mapbox service is capable of performing batch geocoding when using the [permanent endpoint](https://docs.mapbox.com/api/search/geocoding/#batch-geocoding), but this capability is not currently implemented in tidygeocoder. If you'd like to add this capability to the package see [issue \#73](https://github.com/jessecambon/tidygeocoder/issues/73).
 
 ## Usage
 
@@ -116,8 +119,25 @@ To return the full results from a geocoder service (not just latitude and longit
 ```{r}
 full <- some_addresses %>%
   geocode(addr, method = 'census', full_results = TRUE, return_type = 'geographies')
+```
 
-glimpse(full)
+```{r, echo = FALSE}
+knitr::kable(full)
+```
+
+To perform **reverse geocoding** (obtaining addresses from latitude and longitude coordinates), we can use the `reverse_geocode()` function. The arguments are similar to the `geocode()` function, but we now are specifying the latitude and longitude columns in our dataset with the `lat` and `long` arguments. The single line address is returned in a column named by the `address` argument. See the `reverse_geo()` function documentation for more details on reverse geocoding.
+
+```{r}
+coordinates <- tibble(latitude = c(38.895865, 43.6534817, 35.0844),
+                longitude = c(-77.0307713, -79.3839347, -106.6504))
+
+rev1 <- coordinates %>%
+  reverse_geocode(lat = latitude, long = longitude, method = 'osm',
+                  address = address_found, full_results = TRUE)
+```
+
+```{r, echo = FALSE}
+knitr::kable(rev1)
 ```
 
 For further documentation, refer to the [Getting Started Vignette](https://jessecambon.github.io/tidygeocoder/articles/tidygeocoder.html) and the [function documentation](https://jessecambon.github.io/tidygeocoder/reference/index.html).

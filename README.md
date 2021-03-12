@@ -22,18 +22,21 @@ Month](http://cranlogs.r-pkg.org/badges/tidygeocoder)](https://cran.r-project.or
 
 ## Introduction
 
-Tidygeocoder makes getting data from geocoder services easy. A unified
-interface is provided for the supported geocoder services listed below.
-All results are returned in [tibble
-format](https://tibble.tidyverse.org/).
+Tidygeocoder makes getting data from geocoder services easy. Both
+forward geocoding (providing addresses to obtain latitude and longitude)
+and reverse geocoding (providing latitude and longitude to obtain
+addresses) are supported. All results are returned in [tibble
+format](https://tibble.tidyverse.org/) and the supported geocoder
+services are listed below.
 
-Batch geocoding (geocoding multiple addresses per query) is used by
-default if possible when multiple addresses are provided. Duplicate,
-missing/NA, and blank address data is handled elegantly - only unique
-addresses are passed to geocoder services, but the rows in the original
-data are preserved by default.
+Batch geocoding (geocoding multiple addresses or coordinates per query)
+is used by default if supported by the geocoder service when multiple
+inputs (addresses or coordinates) are provided. Duplicate, missing/NA,
+and blank input data is handled elegantly - only unique inputs are
+passed to geocoder services, but the rows in the original data are
+preserved by default.
 
-In addition to the usage example below you can refer to the following
+In addition to the usage examples below you can refer to the following
 references:
 
 -   [Mapping European soccer club
@@ -68,21 +71,22 @@ devtools::install_github("jessecambon/tidygeocoder")
 
 The supported geocoder services are shown in the table below with their
 geographic limitations, if they support batch geocoding (geocoding
-multiple addresses in a single query), if an API key is required, and
-the usage rate limitations. Refer to the website for each geocoder
-service for the most up-to-date details on costs, capabilities, and
-usage limitations.
+multiple addresses or coordinates in a single query), if an API key is
+required, and the usage rate limitations. Refer to the website for each
+geocoder service for the most up-to-date details on costs, capabilities,
+and usage limitations.
 
 | Service                                                                       | Geography     | Batch Geocoding | API Key Required | Query Rate Limit        |
 |-------------------------------------------------------------------------------|---------------|-----------------|------------------|-------------------------|
-| [US Census](https://geocoding.geo.census.gov/)                                | US            | Yes             | No               | N/A                     |
+| [US Census](https://geocoding.geo.census.gov/)                                | US            | Yes             | No               | None                    |
 | [Nominatim (OSM)](https://nominatim.org)                                      | Worldwide     | No              | No               | 1/second                |
 | [Geocodio](https://www.geocod.io/)                                            | US and Canada | Yes             | Yes              | 1000/minute (free tier) |
 | [Location IQ](https://locationiq.com/)                                        | Worldwide     | No              | Yes              | 2/second (free tier)    |
 | [Google](https://developers.google.com/maps/documentation/geocoding/overview) | Worldwide     | No              | Yes              | 50/second               |
 | [OpenCage](https://opencagedata.com)                                          | Worldwide     | No              | Yes              | 1/second (free tier)    |
+| [Mapbox](https://www.mapbox.com/)                                             | Worldwide     | See note below  | Yes              | 10/second (free tier)   |
 
-Note that:
+Notes:
 
 -   The US Census service supports street-level addresses only (ie. “11
     Wall St New York, NY” is OK but “New York, NY” is not).
@@ -92,6 +96,13 @@ Note that:
     and OpenCage are commercial services that offer both free and paid
     usage tiers. The Google service [bills per
     query](https://developers.google.com/maps/documentation/geocoding/usage-and-billing).
+-   The Census geocoder does not support reverse geocoding.
+-   The Mapbox service is capable of performing batch geocoding when
+    using the [permanent
+    endpoint](https://docs.mapbox.com/api/search/geocoding/#batch-geocoding),
+    but this capability is not currently implemented in tidygeocoder. If
+    you’d like to add this capability to the package see [issue
+    \#73](https://github.com/jessecambon/tidygeocoder/issues/73).
 
 ## Usage
 
@@ -151,26 +162,36 @@ geography columns (state, county, Census tract, and Census block).
 ``` r
 full <- some_addresses %>%
   geocode(addr, method = 'census', full_results = TRUE, return_type = 'geographies')
-
-glimpse(full)
-#> Rows: 3
-#> Columns: 15
-#> $ name            <chr> "White House", "Transamerica Pyramid", "Willis Tower"
-#> $ addr            <chr> "1600 Pennsylvania Ave NW, Washington, DC", "600 Mont…
-#> $ lat             <dbl> 38.89875, 37.79470, 41.87851
-#> $ long            <dbl> -77.03535, -122.40314, -87.63666
-#> $ id              <int> 1, 2, 3
-#> $ input_address   <chr> "1600 Pennsylvania Ave NW, Washington, DC, , , ", "60…
-#> $ match_indicator <chr> "Match", "Match", "Match"
-#> $ match_type      <chr> "Exact", "Exact", "Exact"
-#> $ matched_address <chr> "1600 PENNSYLVANIA AVE NW, WASHINGTON, DC, 20500", "6…
-#> $ tiger_line_id   <chr> "76225813", "192281262", "112050003"
-#> $ tiger_side      <chr> "L", "R", "L"
-#> $ state_fips      <chr> "11", "06", "17"
-#> $ county_fips     <chr> "001", "075", "031"
-#> $ census_tract    <chr> "980000", "061101", "839100"
-#> $ census_block    <chr> "1034", "2014", "2008"
 ```
+
+| name                 | addr                                       |      lat |       long |  id | input\_address                                  | match\_indicator | match\_type | matched\_address                                | tiger\_line\_id | tiger\_side | state\_fips | county\_fips | census\_tract | census\_block |
+|:---------------------|:-------------------------------------------|---------:|-----------:|----:|:------------------------------------------------|:-----------------|:------------|:------------------------------------------------|:----------------|:------------|:------------|:-------------|:--------------|:--------------|
+| White House          | 1600 Pennsylvania Ave NW, Washington, DC   | 38.89875 |  -77.03535 |   1 | 1600 Pennsylvania Ave NW, Washington, DC, , ,   | Match            | Exact       | 1600 PENNSYLVANIA AVE NW, WASHINGTON, DC, 20500 | 76225813        | L           | 11          | 001          | 980000        | 1034          |
+| Transamerica Pyramid | 600 Montgomery St, San Francisco, CA 94111 | 37.79470 | -122.40314 |   2 | 600 Montgomery St, San Francisco, CA 94111, , , | Match            | Exact       | 600 MONTGOMERY ST, SAN FRANCISCO, CA, 94111     | 192281262       | R           | 06          | 075          | 061101        | 2014          |
+| Willis Tower         | 233 S Wacker Dr, Chicago, IL 60606         | 41.87851 |  -87.63666 |   3 | 233 S Wacker Dr, Chicago, IL 60606, , ,         | Match            | Exact       | 233 S WACKER DR, CHICAGO, IL, 60606             | 112050003       | L           | 17          | 031          | 839100        | 2008          |
+
+To perform **reverse geocoding** (obtaining addresses from latitude and
+longitude coordinates), we can use the `reverse_geocode()` function. The
+arguments are similar to the `geocode()` function, but we now are
+specifying the latitude and longitude columns in our dataset with the
+`lat` and `long` arguments. The single line address is returned in a
+column named by the `address` argument. See the `reverse_geo()` function
+documentation for more details on reverse geocoding.
+
+``` r
+coordinates <- tibble(latitude = c(38.895865, 43.6534817, 35.0844),
+                longitude = c(-77.0307713, -79.3839347, -106.6504))
+
+rev1 <- coordinates %>%
+  reverse_geocode(lat = latitude, long = longitude, method = 'osm',
+                  address = address_found, full_results = TRUE)
+```
+
+| latitude |  longitude | address\_found                                                                                                                                     | place\_id | licence                                                                  | osm\_type |   osm\_id | osm\_lat           | osm\_lon            | tourism         | road                     | city        | state                | postcode   | country       | country\_code | boundingbox                                        | amenity           | house\_number | neighbourhood      | quarter           | state\_district  | building        | suburb               | county            |
+|---------:|-----------:|:---------------------------------------------------------------------------------------------------------------------------------------------------|----------:|:-------------------------------------------------------------------------|:----------|----------:|:-------------------|:--------------------|:----------------|:-------------------------|:------------|:---------------------|:-----------|:--------------|:--------------|:---------------------------------------------------|:------------------|:--------------|:-------------------|:------------------|:-----------------|:----------------|:---------------------|:------------------|
+| 38.89587 |  -77.03077 | L’Enfant’s plan, Pennsylvania Avenue, Washington, District of Columbia, 20045, United States                                                       | 301711857 | Data © OpenStreetMap contributors, ODbL 1.0. <https://osm.org/copyright> | way       | 899927546 | 38.895859599999994 | -77.0306779870984   | L’Enfant’s plan | Pennsylvania Avenue      | Washington  | District of Columbia | 20045      | United States | us            | 38.8957273 , 38.8959688 , -77.0311667, -77.0301895 | NA                | NA            | NA                 | NA                | NA               | NA              | NA                   | NA                |
+| 43.65348 |  -79.38393 | Toronto City Hall, 100, Queen Street West, Financial District, Spadina—Fort York, Old Toronto, Toronto, Golden Horseshoe, Ontario, M5H 2N2, Canada | 137497520 | Data © OpenStreetMap contributors, ODbL 1.0. <https://osm.org/copyright> | way       | 198500761 | 43.6536032         | -79.38400547469666  | NA              | Queen Street West        | Old Toronto | Ontario              | M5H 2N2    | Canada        | ca            | 43.6529946 , 43.6541458 , -79.3848438, -79.3830415 | Toronto City Hall | 100           | Financial District | Spadina—Fort York | Golden Horseshoe | NA              | NA                   | NA                |
+| 35.08440 | -106.65040 | Market Building, 301, Central Avenue Northwest, Downtown Albuquerque, Albuquerque, Bernalillo County, New Mexico, 87102-3116, United States        | 190582070 | Data © OpenStreetMap contributors, ODbL 1.0. <https://osm.org/copyright> | way       | 437189749 | 35.0846948         | -106.65064483238235 | NA              | Central Avenue Northwest | Albuquerque | New Mexico           | 87102-3116 | United States | us            | 35.08451 , 35.084941 , -106.6508398, -106.6504144  | NA                | 301           | NA                 | NA                | NA               | Market Building | Downtown Albuquerque | Bernalillo County |
 
 For further documentation, refer to the [Getting Started
 Vignette](https://jessecambon.github.io/tidygeocoder/articles/tidygeocoder.html)

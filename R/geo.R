@@ -7,17 +7,6 @@ batch_func_map <- list(
   census = batch_census
 )
 
-# stores the minimum number of seconds that must elapse for each query
-# based on the usage limit of the service (free tier if there are multiple plans available)
-# Stored value is SECONDS PER QUERY
-usage_limit_map <- list(
-  osm = 1,               # 1 query/second             
-  geocodio = 60/1000,    # 1000 queries per minute (free tier)
-  iq = 1/2,              # 2 queries per second (free tier)
-  google = 1/50,         # 50 queries per second
-  opencage = 1           # 1 query/second 
-)
-
 #' Geocode addresses
 #' 
 #' @description
@@ -62,6 +51,8 @@ usage_limit_map <- list(
 #'      \href{https://opencagedata.com/credits}{various open data sources} (e.g.
 #'      OpenStreetMap) and worldwide coverage. Requires an API Key to be stored
 #'      in the "OPENCAGE_KEY" environmental variable.
+#'   \item \code{"mapbox"}: Commercial Mapbox geocoder service. Requires an API Key to
+#'      be stored in the "MAPBOX_API_KEY" environmental variable.
 #'   \item \code{"cascade"} : Attempts to use one geocoder service and then uses
 #'     a second geocoder service if the first service didn't return results.
 #'     The services and order is specified by the cascade_order argument. 
@@ -76,9 +67,9 @@ usage_limit_map <- list(
 #' @param limit number of results to return per address. Note that not all methods support
 #'  setting limit to a value other than 1. Also limit > 1 is not compatible 
 #'  with batch geocoding if return_addresses = TRUE.
-#' @param min_time minimum amount of time for a query to take (in seconds) if using
-#'  Location IQ or OSM. This parameter is used to abide by API usage limits. You can
-#'  set it to a lower value (ie. 0) if using a local Nominatim server, for instance.
+#' @param min_time minimum amount of time for a query to take (in seconds). If NULL
+#' then min_time will be set to the lowest value that complies with the usage requirements of 
+#' the free tier of the selected geocoder service.
 #' @param api_url custom API URL. If specified, the default API URL will be overridden.
 #'  This parameter can be used to specify a local Nominatim server.
 #' @param timeout query timeout (in minutes)
@@ -86,7 +77,7 @@ usage_limit_map <- list(
 #' @param mode set to 'batch' to force batch geocoding or 'single' to 
 #'  force single address geocoding (one address per query). If not 
 #'  specified then batch geocoding will be used if available
-#'  (given method selected) when multiple addresses are provided, otherwise
+#'  (given method selected) when multiple addresses are provided; otherwise
 #'  single address geocoding will be used.
 #' @param full_results returns all data from the geocoder service if TRUE. 
 #' If FALSE then only longitude and latitude are returned from the geocoder service.
@@ -100,6 +91,9 @@ usage_limit_map <- list(
 #' @param batch_limit limit to the number of addresses in a batch geocoding query.
 #'  Both geocodio and census batch geocoders have a 10,000 address limit so this
 #'  is the default.
+#' @param batch_limit_error if TRUE then an error is thrown if the number of unique addresses
+#'  exceeds the batch limit (if executing a batch query). This is reverted to FALSE when using the
+#'  cascade method.
 #' @param verbose if TRUE then detailed logs are output to the console
 #' @param no_query if TRUE then no queries are sent to the geocoder and verbose is set to TRUE
 
@@ -112,12 +106,16 @@ usage_limit_map <- list(
 #'     See the Census geocoder API documentation for more details.
 #' }
 #' @param iq_region 'us' (default) or 'eu'. Used for establishing API URL for the 'iq' method
-#' @param geocodio_v version of geocodio api. 1.6 is default. Used for establishing API URL
+#' @param geocodio_v version of geocodio api. Used for establishing API URL
 #'   for the 'geocodio' method.
 #' @param param_error if TRUE then an error will be thrown if certain parameters are invalid for the selected geocoder
 #'   service (method). The parameters checked are limit, address, street, city, county, state, postalcode, and country.
 #'   If method = 'cascade' then no errors will be thrown.
-#' 
+#' @param mapbox_permanent if TRUE then the \code{mapbox.places-permanent} 
+#'   endpoint would be used. Note that this option should be used only if you 
+#'   have applied for a permanent account. Unsuccessful requests made by an 
+#'   account that does not have access to the endpoint may be billable.
+#'    
 #' @return parsed geocoding results in tibble format
 #' @examples
 #' \donttest{
@@ -137,9 +135,9 @@ geo <- function(address = NULL,
     method = 'census', cascade_order = c('census', 'osm'), lat = lat, long = long, limit = 1, 
     min_time = NULL, api_url = NULL, timeout = 20,
     mode = '', full_results = FALSE, unique_only = FALSE, return_addresses = TRUE, 
-    flatten = TRUE, batch_limit = 10000, verbose = FALSE, no_query = FALSE, 
+    flatten = TRUE, batch_limit = 10000, batch_limit_error = TRUE, verbose = FALSE, no_query = FALSE, 
     custom_query = list(), return_type = 'locations', iq_region = 'us', geocodio_v = 1.6, 
-    param_error = TRUE) {
+    param_error = TRUE, mapbox_permanent = FALSE) {
 
   # NSE - Quote unquoted vars without double quoting quoted vars
   # end result - all of these variables become character values
@@ -154,17 +152,15 @@ geo <- function(address = NULL,
   
   # All legal methods (besides 'cascade')
   method_services <- unique(tidygeocoder::api_parameter_reference[['method']])
-  # which methods require an api key
-  methods_requiring_api_key <- unique(tidygeocoder::api_parameter_reference[which(tidygeocoder::api_parameter_reference[['generic_name']] == 'api_key'), ][['method']])
-  
+
   # Check parameter arguments --------------------------------------------------------
-  # all legal method argument excluding 'cascade'
 
   # Check argument inputs
   stopifnot(is.logical(verbose), is.logical(no_query), is.logical(flatten), is.logical(param_error),
             is.logical(full_results), is.logical(unique_only), is.logical(return_addresses),
-            is.numeric(limit), is.numeric(batch_limit), is.numeric(timeout),
-            limit >= 1, batch_limit >= 1, timeout >= 0, is.list(custom_query))
+            is.numeric(limit), is.numeric(batch_limit), is.logical(batch_limit_error), is.numeric(timeout),
+            limit >= 1, batch_limit >= 1, timeout >= 0, is.list(custom_query),
+            is.logical(mapbox_permanent))
   
   if (!(method %in% c('cascade', method_services))) {
     stop('Invalid method argument. See ?geo')
@@ -191,10 +187,6 @@ geo <- function(address = NULL,
   
   # count number of unique addresses
   num_unique_addresses <- nrow(address_pack$unique) # unique addresses
-  # determine how many rows will be returned (either unique or includes duplicate address rows)
-  # num_rows_to_return <- ifelse(unique_only, num_unique_addresses, nrow(address_pack$crosswalk))
-  #num_rows_to_return <- num_unique_addresses # used for na values
-  
   NA_value <- get_na_value(lat, long, rows = num_unique_addresses) # filler result to return if needed
   
   if (verbose == TRUE) message(paste0('Number of Unique Addresses: ', num_unique_addresses))
@@ -202,7 +194,7 @@ geo <- function(address = NULL,
   # If no valid/non-blank addresses are passed then return NA
   if (num_unique_addresses == 1 & all(is.na(address_pack$unique))) {
     if (verbose == TRUE) message(paste0('No non-blank non-NA addreses found. Returning NA results.'))
-    return(unpackage_addresses(address_pack, NA_value, unique_only, return_addresses))
+    return(unpackage_inputs(address_pack, NA_value, unique_only, return_addresses))
   }
   
   ### Parameter Check ------------------------------------------------------
@@ -242,13 +234,15 @@ geo <- function(address = NULL,
   
   # Cascade method -------------------------------------------------------------
   # If method = 'cascade' is called then pass all function arguments 
-  # except for method and param_error to geo_cascade() and return the results 
+  # except for method, param_error, and batch_limit_error
+  # param_error and batch_limit_error are reverted to FALSE
   if (method == 'cascade') {
     if (full_results == TRUE) stop("full_results = TRUE cannot be used with the cascade method.")
     if (limit != 1) stop("limit argument must be 1 (default) to use the cascade method.")
     
     return(do.call(geo_cascade, 
-                   c(all_args[!names(all_args) %in% c('method', 'param_error')], list(param_error = FALSE))))
+                c(all_args[!names(all_args) %in% c('method', 'param_error', 'batch_limit_error')],
+                list(batch_limit_error = FALSE, param_error = FALSE))))
   }
   
   # determine if an illegal limit parameter value was used (ie. if limit !=1
@@ -259,7 +253,7 @@ geo <- function(address = NULL,
                                     'See ?api_parameter_reference for more details.')
     
     if (param_error == TRUE) stop(illegal_limit_message)
-    else if (verbose == TRUE) message(illegal_limit_message)
+    else if (verbose == TRUE) warning(illegal_limit_message)
   }
   
   # Single Address geocoding -------------------------------------------------------------
@@ -286,9 +280,9 @@ geo <- function(address = NULL,
       # rbind the list of tibble dataframes together
       stacked_results <- dplyr::bind_rows(list_coords)
       
-      # note that return_addresses has been set to FALSE here since addresses will already
+      # note that return_inputs has been set to FALSE here since addresses will already
       # be returned in the first geo function call (if asked for)
-      return(unpackage_addresses(address_pack, stacked_results, unique_only, return_addresses = FALSE))
+      return(unpackage_inputs(address_pack, stacked_results, unique_only, FALSE))
       }
       
   # Batch geocoding --------------------------------------------------------------------------
@@ -302,31 +296,45 @@ geo <- function(address = NULL,
     3) Set return_addresses to FALSE
     See the geo() function documentation for details.')
     }
-  
+    
+    
     # Enforce batch limit if needed
     if (num_unique_addresses > batch_limit) {
-      message(paste0('Limiting batch query to ', format(batch_limit, big.mark = ','), ' addresses'))
-      batch_addresses <-  address_pack$unique[1:batch_limit, ]
+      batch_limit_exceeded <- TRUE
+      batch_limit_exceeded_message <- paste0(format(num_unique_addresses, big.mark = ','),
+          ' unique addresses found which exceeds the batch limit of ', 
+                                             format(batch_limit, big.mark = ','), '.')
+      
+      if (batch_limit_error == TRUE) stop(batch_limit_exceeded_message, call. = FALSE)
+      else {
+        warning(paste0(batch_limit_exceeded_message, '\n', 
+        'Only geocoding the first ', format(batch_limit, big.mark = ','), ' unique addresses. ',
+                       'All other addresses will have NA results.'))
+        
+        # apply batch limit to query
+        batch_unique_addresses <- address_pack$unique[1 : batch_limit, ]
+      }
     } else {
-      batch_addresses <- address_pack$unique
+      # if batch limit wasn't exceeded we just will use the unique addresses in address_pack
+      batch_limit_exceeded <- FALSE
+      batch_unique_addresses <- address_pack$unique
     }
     
     if (verbose == TRUE) message(paste0('Passing ', 
       format(min(batch_limit, num_unique_addresses), big.mark = ','), 
                           ' addresses to the ', method, ' batch geocoder'))
     
-    # Convert our generic query parameters into parameters specific to our API (method)
-    if (no_query == TRUE) return(unpackage_addresses(address_pack, 
-         get_na_value(lat, long, rows = num_unique_addresses), 
-         unique_only, return_addresses))
+    # return NA results if no_query == TRUE
+    if (no_query == TRUE) return(unpackage_inputs(address_pack, NA_value, unique_only, return_addresses))
     
     # call the appropriate function for batch geocoding according the the batch_func_map named list
     # if batch limit was exceeded then apply that limit
-    batch_results <- do.call(batch_func_map[[method]], c(list(batch_addresses),
+    batch_results <- do.call(batch_func_map[[method]], c(list(batch_unique_addresses),
           all_args[!names(all_args) %in% pkg.globals$address_arg_names]))
     
-    # Add NA results if batch limit was reached so rows match up
-    if (num_unique_addresses > batch_limit) {
+    # If batch limit was exceeded we need to add some NA results to make our results
+    # line up with the input addresses
+    if (batch_limit_exceeded == TRUE) {
       batch_filler <- get_na_value(lat, long, rows = num_unique_addresses - batch_limit)
       batch_results <- dplyr::bind_rows(batch_results, batch_filler)
     }
@@ -338,7 +346,7 @@ geo <- function(address = NULL,
     }
     
     # map the raw results back to the original addresses that were passed if there are duplicates
-    return(unpackage_addresses(address_pack, batch_results, unique_only, return_addresses))
+    return(unpackage_inputs(address_pack, batch_results, unique_only, return_addresses))
   }
 
   #################################################################
@@ -365,55 +373,38 @@ geo <- function(address = NULL,
   
   # Set API URL (if not already set) ---------------------------
   if (is.null(api_url)) {
-    api_url <- switch(method,
-                      "census" = get_census_url(return_type, search),
-                      "osm" = get_osm_url(),
-                      "geocodio" = get_geocodio_url(geocodio_v),
-                      "iq" = get_iq_url(iq_region),
-                      "google" = get_google_url(),
-                      "opencage" = get_opencage_url()
-    )
+    api_url <- get_api_url(method, reverse = FALSE, return_type = return_type,
+                search = search, geocodio_v = geocodio_v, iq_region = iq_region, 
+                mapbox_permanent = mapbox_permanent)
   }
-  if (length(api_url) == 0) stop('API URL not found')
   
-  # Set min_time if not set based on usage limit of service
-  if (is.null(min_time)) {
-    if (method %in% names(usage_limit_map)) min_time <- usage_limit_map[[method]]
-    else min_time <- 0 # default to 0
+  # Workaround for Mapbox - The search_text should be in the API URL
+  if (method == "mapbox") {
+    api_url <- gsub(" ", "%20", paste0(api_url, generic_query[['address']], ".json"))
+    # Remove semicolons (Reserved for batch
+    api_url <- gsub(";", ",", api_url)
   }
 
-  # If API key is required then use the get_key() function to retrieve it
-  if (method %in% methods_requiring_api_key) {
-    generic_query[['api_key']] <- get_key(method)
-  }
-  
-  if (!is.null(limit)) generic_query[['limit']] <- limit
+  # Set min_time if not set based on usage limit of service
+  if (is.null(min_time)) min_time <- get_min_query_time(method)
+
+  # add limit and api_key to generic query
+  generic_query <- add_common_generic_parameters(generic_query, method, no_query, limit)
   
   # Convert our generic query parameters into parameters specific to our API (method)
   api_query_parameters <- get_api_query(method, generic_query, custom_query)
   
   # Execute Single Address Query -----------------------------------------
   if (verbose == TRUE) display_query(api_url, api_query_parameters)
-  if (no_query == TRUE) return(unpackage_addresses(address_pack, NA_value, unique_only, return_addresses))
+  
+  # return NA results if no_query = TRUE
+  if (no_query == TRUE) return(unpackage_inputs(address_pack, NA_value, unique_only, return_addresses))
   raw_results <- jsonlite::fromJSON(query_api(api_url, api_query_parameters))
   
-  
   ## Extract results -----------------------------------------------------------------------------------
-  # output error message for geocodio if present
-  if ((method == 'geocodio') & (!is.data.frame(raw_results)) & ("error" %in% names(raw_results))) {
-    message(paste0('Error: ', raw_results$error))
+  # if there were problems with the results then return NA
+  if (check_results_for_problems(method, raw_results, verbose)) {
     results <- NA_value
-  } 
-  # output error message for google if present
-  else if ((method == 'google') & (!is.data.frame(raw_results)) & ("error_message" %in% names(raw_results))) {
-    message(paste0('Error: ', raw_results$error_message))
-    results <- NA_value
-  } 
-  else if (length(raw_results) == 0) {
-    # If no results found, return NA
-    # otherwise extract results
-    results <- NA_value
-    if (verbose == TRUE) message("No results found")
   } 
   else {
     # Extract results. Use the full_results and flatten parameters
@@ -429,5 +420,5 @@ geo <- function(address = NULL,
   pause_until(start_time, min_time, debug = verbose) 
   if (verbose == TRUE) message() # insert ending line break if verbose
   
-  return(unpackage_addresses(address_pack, results, unique_only, return_addresses))
+  return(unpackage_inputs(address_pack, results, unique_only, return_addresses))
 }

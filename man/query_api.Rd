@@ -9,7 +9,7 @@ query_api(
   query_parameters,
   mode = "single",
   batch_file = NULL,
-  address_list = NULL,
+  input_list = NULL,
   content_encoding = "UTF-8",
   timeout = 20
 )
@@ -27,7 +27,7 @@ query_api(
 
 \item{batch_file}{a csv file of addresses to upload (census)}
 
-\item{address_list}{a list of addresses for batch geocoding (geocodio)
+\item{input_list}{a list of addresses or latitude, longitude coordinates for batch geocoding (geocodio)
 should be 'json' for geocodio and 'multipart' for census}
 
 \item{content_encoding}{Encoding to be used for parsing content}
@@ -43,10 +43,15 @@ function to execute.
 }
 \examples{
 \donttest{
-raw <- query_api("http://nominatim.openstreetmap.org/search", 
+raw1 <- query_api("http://nominatim.openstreetmap.org/search", 
    get_api_query("osm", list(address = 'Hanoi, Vietnam')))
    
-extract_results('osm', jsonlite::fromJSON(raw))
+extract_results('osm', jsonlite::fromJSON(raw1))
+
+raw2 <-  query_api("http://nominatim.openstreetmap.org/reverse", 
+   get_api_query("osm", custom_parameters = list(lat = 38.895865, lon = -77.0307713)))
+   
+extract_reverse_results('osm', jsonlite::fromJSON(raw2))
 }
 
 }

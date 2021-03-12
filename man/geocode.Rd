@@ -56,7 +56,7 @@ input dataframe (.tbl) with geocoder results appended as columns
 }
 \description{
 Takes a dataframe containing addresses as an input and returns 
-the dataframe results from a specified geocoder service by using the
+the results from a specified geocoder service in a dataframe format using the
 \code{\link{geo}} function. See example usage in \code{vignette("tidygeocoder")}.
 
 This function passes all additional parameters (\code{...}) to the 

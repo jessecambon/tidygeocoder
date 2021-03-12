@@ -32,7 +32,7 @@ pause_until <- function(start_time, min_time, debug=FALSE) {
   }
 }
 
-#' Extract geocoder results 
+#' Extract forward geocoding results 
 #' 
 #' @description
 #' Parses the output of the \code{\link{query_api}} function.
@@ -62,7 +62,11 @@ extract_results <- function(method, response, full_results = TRUE, flatten = TRU
     'iq' = response[c('lat', 'lon')],
     'geocodio' = response$results$location[c('lat', 'lng')],
     'google' = response$results$geometry$location[c('lat','lng')],
-    'opencage' = response$results$geometry[c('lat', 'lng')]
+    'opencage' = response$results$geometry[c('lat', 'lng')],
+    'mapbox' <- data.frame(
+      'lat' = response$features$center[[1]][2],
+      'long' = response$features$center[[1]][1]
+    ) # mapbox results are nested unnames lists
   )
   
   # if null result then return NA
@@ -83,8 +87,17 @@ extract_results <- function(method, response, full_results = TRUE, flatten = TRU
       'iq' =  response[!names(response) %in% c('lat', 'lon')],
       'geocodio' = response$results[!names(response$results) %in% c('location')],
       'google' = response$results,
-      'opencage' = response$results[!names(response$results) %in% c('geometry')]
+      'opencage' = response$results[!names(response$results) %in% c('geometry')],
+      'mapbox' = response$features
     )
+    
+    # add prefix to variable names that likely could be in our input dataset
+    # to avoid variable name overlap
+    for (var in c('address')) {
+      if (var %in% names(results)) {
+        names(results)[names(results) == var] <- paste0(method, '_', var)
+      }
+    }
     
     combined_results <- tibble::as_tibble(cbind(lat_lng, results))
   } else {
@@ -97,6 +110,67 @@ extract_results <- function(method, response, full_results = TRUE, flatten = TRU
   else return(combined_results)
 }
 
+#' Extract reverse geocoding results 
+#' 
+#' @description
+#' Parses the output of the \code{\link{query_api}} function for reverse geoocding.
+#' The address is extracted into the first column
+#' of the returned dataframe. This function is not used for batch 
+#' geocoded results. Refer to \code{\link{query_api}} for example
+#' usage.
+#' 
+#' @param method method name
+#' @param response  content from the geocoder service (returned by the \code{\link{query_api}} function)
+#' @param full_results if TRUE then the full results (not just an address column)
+#'   will be returned.
+#' @param flatten if TRUE then flatten any nested dataframe content
+#' @return geocoder results in tibble format 
+#' @seealso \code{\link{get_api_query}} \code{\link{query_api}} \code{\link{reverse_geo}}
+#' @export 
+extract_reverse_results <- function(method, response, full_results = TRUE, flatten = TRUE) {
+  # extract the single line address
+  address <- switch(method,
+                    'osm' = response['display_name'],
+                    'iq' = response['display_name'],
+                    'geocodio' = response$results['formatted_address'],
+                    # take first row of multiple results with google for now
+                    'google' = response$results[1, ]['formatted_address'],
+                    'opencage' = response$results['formatted'],
+                    'mapbox' = response$features['place_name']
+  )
+  
+  # extract other results (besides single line address)
+  if (full_results == TRUE) {
+    results <- switch(method,
+                      'osm' = cbind(response[!(names(response) %in% c('display_name', 'boundingbox', 'address'))], 
+                                    tibble::as_tibble(response[['address']]), tibble::tibble(boundingbox = list(response$boundingbox))),
+                      'iq' =  cbind(response[!(names(response) %in% c('display_name', 'boundingbox', 'address'))], 
+                                    tibble::as_tibble(response[['address']]), tibble::tibble(boundingbox = list(response$boundingbox))),
+                      'geocodio' = response$results[!names(response$results) %in% c('formatted_address')],
+                      # take first row of multiple results with google for now
+                      'google' = response$results[1, ][!names(response$results) %in% c('formatted_address')], 
+                      'opencage' = response$results[!names(response$results) %in% c('formatted')],
+                      'mapbox' = response$features[!names(response$features) %in% c('place_name')]
+    )
+    
+    # add prefix to variable names that likely could be in our input dataset
+    # to avoid variable name overlap
+    for (var in c('lat', 'lon', 'long', 'latitude', 'longitude', 'address')) {
+      if (var %in% names(results)) {
+      names(results)[names(results) == var] <- paste0(method, '_', var)
+      }
+    }
+    combined_results <- dplyr::bind_cols(address, results)
+    } else {
+    combined_results <- address
+  }
+  
+  combined_results <- tibble::as_tibble(combined_results)
+  
+  if (flatten == TRUE) return(jsonlite::flatten(combined_results))
+  else return(combined_results)
+}
+
 # Return a 2 column, 1 row NA tibble dataframe for coordinates that aren't found
 # Given the column names (as strings)
 get_na_value <- function(lat, long, rows = 1) {
@@ -104,6 +178,53 @@ get_na_value <- function(lat, long, rows = 1) {
   colnames(NA_df) <- c(lat, long)
   return(NA_df)
 }
+
+
+# Check the results of the geocoder service. Display an error message if there is one
+# returns TRUE if there are problems (errors or blank results) and
+# FALSE if there are no problems
+check_results_for_problems <- function(method, raw_results, verbose) {
+
+  # if results are blank
+  if (length(raw_results) == 0) {
+    if (verbose == TRUE) message("No results found")
+  }
+  else if ((method == 'osm') & ("error" %in% names(raw_results))) {
+    message(paste0('Error: ', raw_results$error$message))
+  }
+  else if ((method == 'iq') & ("error" %in% names(raw_results))) {
+    message(paste0('Error: ', raw_results$error))
+  }
+  else if ((method == 'mapbox') & (!is.data.frame(raw_results$features))) {
+    if ("message" %in% names(raw_results)) {
+      message(paste0('Error: ', raw_results$message))
+    }
+  }
+  else if ((method == 'census') & ('errors' %in% names(raw_results))) {
+    message(paste0('Error: ', raw_results$errors))
+  }
+  else if ((method == 'opencage') & (!is.data.frame(raw_results$results))) {
+    if (!is.null(raw_results$status$message)) {
+    message(paste0('Error: ', raw_results$status$message))
+    }
+  }
+  else if ((method == 'geocodio') & (!is.data.frame(raw_results$results))) {
+    if ("error" %in% names(raw_results)) {
+     message(paste0('Error: ', raw_results$error))
+    }
+  }
+  else if ((method == 'google') & (!is.data.frame(raw_results$results))) {
+    if ("error_message" %in% names(raw_results)) {
+      message(paste0('Error: ', raw_results$error_message))
+    }
+  }
+  else {
+    return(FALSE) # no problems
+  }
+  
+  return(TRUE) # there was an error or results were blank
+}
+
 
 # For a list of dataframes, creates an NA df with 1 row with the column name supplied
 # this is used in parsing the response of the geocodio batch geocoder

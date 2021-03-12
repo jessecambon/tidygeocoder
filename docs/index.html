@@ -90,9 +90,9 @@
 <div id="introduction" class="section level2">
 <h2 class="hasAnchor">
 <a href="#introduction" class="anchor"></a>Introduction</h2>
-<p>Tidygeocoder makes getting data from geocoder services easy. A unified interface is provided for the supported geocoder services listed below. All results are returned in <a href="https://tibble.tidyverse.org/">tibble format</a>.</p>
-<p>Batch geocoding (geocoding multiple addresses per query) is used by default if possible when multiple addresses are provided. Duplicate, missing/NA, and blank address data is handled elegantly - only unique addresses are passed to geocoder services, but the rows in the original data are preserved by default.</p>
-<p>In addition to the usage example below you can refer to the following references:</p>
+<p>Tidygeocoder makes getting data from geocoder services easy. Both forward geocoding (providing addresses to obtain latitude and longitude) and reverse geocoding (providing latitude and longitude to obtain addresses) are supported. All results are returned in <a href="https://tibble.tidyverse.org/">tibble format</a> and the supported geocoder services are listed below.</p>
+<p>Batch geocoding (geocoding multiple addresses or coordinates per query) is used by default if supported by the geocoder service when multiple inputs (addresses or coordinates) are provided. Duplicate, missing/NA, and blank input data is handled elegantly - only unique inputs are passed to geocoder services, but the rows in the original data are preserved by default.</p>
+<p>In addition to the usage examples below you can refer to the following references:</p>
 <ul>
 <li><a href="https://jessecambon.github.io/2020/07/15/tidygeocoder-1-0-0.html">Mapping European soccer club stadiums</a></li>
 <li><a href="https://jessecambon.github.io/2019/11/11/tidygeocoder-demo.html">Mapping Washington, DC landmarks</a></li>
@@ -114,7 +114,7 @@
 <div id="geocoder-services" class="section level2">
 <h2 class="hasAnchor">
 <a href="#geocoder-services" class="anchor"></a>Geocoder Services</h2>
-<p>The supported geocoder services are shown in the table below with their geographic limitations, if they support batch geocoding (geocoding multiple addresses in a single query), if an API key is required, and the usage rate limitations. Refer to the website for each geocoder service for the most up-to-date details on costs, capabilities, and usage limitations.</p>
+<p>The supported geocoder services are shown in the table below with their geographic limitations, if they support batch geocoding (geocoding multiple addresses or coordinates in a single query), if an API key is required, and the usage rate limitations. Refer to the website for each geocoder service for the most up-to-date details on costs, capabilities, and usage limitations.</p>
 <table class="table">
 <thead><tr class="header">
 <th>Service</th>
@@ -129,7 +129,7 @@
 <td>US</td>
 <td>Yes</td>
 <td>No</td>
-<td>N/A</td>
+<td>None</td>
 </tr>
 <tr class="even">
 <td><a href="https://nominatim.org">Nominatim (OSM)</a></td>
@@ -166,13 +166,22 @@
 <td>Yes</td>
 <td>1/second (free tier)</td>
 </tr>
+<tr class="odd">
+<td><a href="https://www.mapbox.com/">Mapbox</a></td>
+<td>Worldwide</td>
+<td>See note below</td>
+<td>Yes</td>
+<td>10/second (free tier)</td>
+</tr>
 </tbody>
 </table>
-<p>Note that:</p>
+<p>Notes:</p>
 <ul>
 <li>The US Census service supports street-level addresses only (ie. “11 Wall St New York, NY” is OK but “New York, NY” is not).</li>
 <li>The US Census and Geocodio services both support a maximum of 10,000 addresses per batch query.</li>
 <li>The US Census and OSM services are free while Geocodio, Location IQ, and OpenCage are commercial services that offer both free and paid usage tiers. The Google service <a href="https://developers.google.com/maps/documentation/geocoding/usage-and-billing">bills per query</a>.</li>
+<li>The Census geocoder does not support reverse geocoding.</li>
+<li>The Mapbox service is capable of performing batch geocoding when using the <a href="https://docs.mapbox.com/api/search/geocoding/#batch-geocoding">permanent endpoint</a>, but this capability is not currently implemented in tidygeocoder. If you’d like to add this capability to the package see <a href="https://github.com/jessecambon/tidygeocoder/issues/73">issue #73</a>.</li>
 </ul>
 </div>
 <div id="usage" class="section level2">
@@ -244,26 +253,246 @@
 <p>To return the full results from a geocoder service (not just latitude and longitude) you can use <code>full_results = TRUE</code>. Additionally, for the Census geocoder you can use <code>return_type = 'geographies'</code> to return geography columns (state, county, Census tract, and Census block).</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">full</span> <span class="op">&lt;-</span> <span class="va">some_addresses</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="reference/geocode.html">geocode</a></span><span class="op">(</span><span class="va">addr</span>, method <span class="op">=</span> <span class="st">'census'</span>, full_results <span class="op">=</span> <span class="cn">TRUE</span>, return_type <span class="op">=</span> <span class="st">'geographies'</span><span class="op">)</span>
+  <span class="fu"><a href="reference/geocode.html">geocode</a></span><span class="op">(</span><span class="va">addr</span>, method <span class="op">=</span> <span class="st">'census'</span>, full_results <span class="op">=</span> <span class="cn">TRUE</span>, return_type <span class="op">=</span> <span class="st">'geographies'</span><span class="op">)</span></code></pre></div>
+<table class="table">
+<colgroup>
+<col width="7%">
+<col width="14%">
+<col width="3%">
+<col width="3%">
+<col width="1%">
+<col width="15%">
+<col width="5%">
+<col width="4%">
+<col width="15%">
+<col width="5%">
+<col width="4%">
+<col width="4%">
+<col width="4%">
+<col width="4%">
+<col width="4%">
+</colgroup>
+<thead><tr class="header">
+<th align="left">name</th>
+<th align="left">addr</th>
+<th align="right">lat</th>
+<th align="right">long</th>
+<th align="right">id</th>
+<th align="left">input_address</th>
+<th align="left">match_indicator</th>
+<th align="left">match_type</th>
+<th align="left">matched_address</th>
+<th align="left">tiger_line_id</th>
+<th align="left">tiger_side</th>
+<th align="left">state_fips</th>
+<th align="left">county_fips</th>
+<th align="left">census_tract</th>
+<th align="left">census_block</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td align="left">White House</td>
+<td align="left">1600 Pennsylvania Ave NW, Washington, DC</td>
+<td align="right">38.89875</td>
+<td align="right">-77.03535</td>
+<td align="right">1</td>
+<td align="left">1600 Pennsylvania Ave NW, Washington, DC, , ,</td>
+<td align="left">Match</td>
+<td align="left">Exact</td>
+<td align="left">1600 PENNSYLVANIA AVE NW, WASHINGTON, DC, 20500</td>
+<td align="left">76225813</td>
+<td align="left">L</td>
+<td align="left">11</td>
+<td align="left">001</td>
+<td align="left">980000</td>
+<td align="left">1034</td>
+</tr>
+<tr class="even">
+<td align="left">Transamerica Pyramid</td>
+<td align="left">600 Montgomery St, San Francisco, CA 94111</td>
+<td align="right">37.79470</td>
+<td align="right">-122.40314</td>
+<td align="right">2</td>
+<td align="left">600 Montgomery St, San Francisco, CA 94111, , ,</td>
+<td align="left">Match</td>
+<td align="left">Exact</td>
+<td align="left">600 MONTGOMERY ST, SAN FRANCISCO, CA, 94111</td>
+<td align="left">192281262</td>
+<td align="left">R</td>
+<td align="left">06</td>
+<td align="left">075</td>
+<td align="left">061101</td>
+<td align="left">2014</td>
+</tr>
+<tr class="odd">
+<td align="left">Willis Tower</td>
+<td align="left">233 S Wacker Dr, Chicago, IL 60606</td>
+<td align="right">41.87851</td>
+<td align="right">-87.63666</td>
+<td align="right">3</td>
+<td align="left">233 S Wacker Dr, Chicago, IL 60606, , ,</td>
+<td align="left">Match</td>
+<td align="left">Exact</td>
+<td align="left">233 S WACKER DR, CHICAGO, IL, 60606</td>
+<td align="left">112050003</td>
+<td align="left">L</td>
+<td align="left">17</td>
+<td align="left">031</td>
+<td align="left">839100</td>
+<td align="left">2008</td>
+</tr>
+</tbody>
+</table>
+<p>To perform <strong>reverse geocoding</strong> (obtaining addresses from latitude and longitude coordinates), we can use the <code><a href="reference/reverse_geocode.html">reverse_geocode()</a></code> function. The arguments are similar to the <code><a href="reference/geocode.html">geocode()</a></code> function, but we now are specifying the latitude and longitude columns in our dataset with the <code>lat</code> and <code>long</code> arguments. The single line address is returned in a column named by the <code>address</code> argument. See the <code><a href="reference/reverse_geo.html">reverse_geo()</a></code> function documentation for more details on reverse geocoding.</p>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">coordinates</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span><span class="op">(</span>latitude <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">38.895865</span>, <span class="fl">43.6534817</span>, <span class="fl">35.0844</span><span class="op">)</span>,
+                longitude <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">77.0307713</span>, <span class="op">-</span><span class="fl">79.3839347</span>, <span class="op">-</span><span class="fl">106.6504</span><span class="op">)</span><span class="op">)</span>
 
-<span class="fu"><a href="https://tibble.tidyverse.org/reference/glimpse.html">glimpse</a></span><span class="op">(</span><span class="va">full</span><span class="op">)</span>
-<span class="co">#&gt; Rows: 3</span>
-<span class="co">#&gt; Columns: 15</span>
-<span class="co">#&gt; $ name            &lt;chr&gt; "White House", "Transamerica Pyramid", "Willis Tower"</span>
-<span class="co">#&gt; $ addr            &lt;chr&gt; "1600 Pennsylvania Ave NW, Washington, DC", "600 Mont…</span>
-<span class="co">#&gt; $ lat             &lt;dbl&gt; 38.89875, 37.79470, 41.87851</span>
-<span class="co">#&gt; $ long            &lt;dbl&gt; -77.03535, -122.40314, -87.63666</span>
-<span class="co">#&gt; $ id              &lt;int&gt; 1, 2, 3</span>
-<span class="co">#&gt; $ input_address   &lt;chr&gt; "1600 Pennsylvania Ave NW, Washington, DC, , , ", "60…</span>
-<span class="co">#&gt; $ match_indicator &lt;chr&gt; "Match", "Match", "Match"</span>
-<span class="co">#&gt; $ match_type      &lt;chr&gt; "Exact", "Exact", "Exact"</span>
-<span class="co">#&gt; $ matched_address &lt;chr&gt; "1600 PENNSYLVANIA AVE NW, WASHINGTON, DC, 20500", "6…</span>
-<span class="co">#&gt; $ tiger_line_id   &lt;chr&gt; "76225813", "192281262", "112050003"</span>
-<span class="co">#&gt; $ tiger_side      &lt;chr&gt; "L", "R", "L"</span>
-<span class="co">#&gt; $ state_fips      &lt;chr&gt; "11", "06", "17"</span>
-<span class="co">#&gt; $ county_fips     &lt;chr&gt; "001", "075", "031"</span>
-<span class="co">#&gt; $ census_tract    &lt;chr&gt; "980000", "061101", "839100"</span>
-<span class="co">#&gt; $ census_block    &lt;chr&gt; "1034", "2014", "2008"</span></code></pre></div>
+<span class="va">rev1</span> <span class="op">&lt;-</span> <span class="va">coordinates</span> <span class="op">%&gt;%</span>
+  <span class="fu"><a href="reference/reverse_geocode.html">reverse_geocode</a></span><span class="op">(</span>lat <span class="op">=</span> <span class="va">latitude</span>, long <span class="op">=</span> <span class="va">longitude</span>, method <span class="op">=</span> <span class="st">'osm'</span>,
+                  address <span class="op">=</span> <span class="va">address_found</span>, full_results <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
+<table class="table">
+<colgroup>
+<col width="1%">
+<col width="1%">
+<col width="23%">
+<col width="1%">
+<col width="11%">
+<col width="1%">
+<col width="1%">
+<col width="3%">
+<col width="3%">
+<col width="2%">
+<col width="4%">
+<col width="2%">
+<col width="3%">
+<col width="1%">
+<col width="2%">
+<col width="2%">
+<col width="8%">
+<col width="2%">
+<col width="2%">
+<col width="3%">
+<col width="2%">
+<col width="2%">
+<col width="2%">
+<col width="3%">
+<col width="2%">
+</colgroup>
+<thead><tr class="header">
+<th align="right">latitude</th>
+<th align="right">longitude</th>
+<th align="left">address_found</th>
+<th align="right">place_id</th>
+<th align="left">licence</th>
+<th align="left">osm_type</th>
+<th align="right">osm_id</th>
+<th align="left">osm_lat</th>
+<th align="left">osm_lon</th>
+<th align="left">tourism</th>
+<th align="left">road</th>
+<th align="left">city</th>
+<th align="left">state</th>
+<th align="left">postcode</th>
+<th align="left">country</th>
+<th align="left">country_code</th>
+<th align="left">boundingbox</th>
+<th align="left">amenity</th>
+<th align="left">house_number</th>
+<th align="left">neighbourhood</th>
+<th align="left">quarter</th>
+<th align="left">state_district</th>
+<th align="left">building</th>
+<th align="left">suburb</th>
+<th align="left">county</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td align="right">38.89587</td>
+<td align="right">-77.03077</td>
+<td align="left">L’Enfant’s plan, Pennsylvania Avenue, Washington, District of Columbia, 20045, United States</td>
+<td align="right">301711857</td>
+<td align="left">Data © OpenStreetMap contributors, ODbL 1.0. <a href="https://osm.org/copyright" class="uri">https://osm.org/copyright</a>
+</td>
+<td align="left">way</td>
+<td align="right">899927546</td>
+<td align="left">38.895859599999994</td>
+<td align="left">-77.0306779870984</td>
+<td align="left">L’Enfant’s plan</td>
+<td align="left">Pennsylvania Avenue</td>
+<td align="left">Washington</td>
+<td align="left">District of Columbia</td>
+<td align="left">20045</td>
+<td align="left">United States</td>
+<td align="left">us</td>
+<td align="left">38.8957273 , 38.8959688 , -77.0311667, -77.0301895</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+</tr>
+<tr class="even">
+<td align="right">43.65348</td>
+<td align="right">-79.38393</td>
+<td align="left">Toronto City Hall, 100, Queen Street West, Financial District, Spadina—Fort York, Old Toronto, Toronto, Golden Horseshoe, Ontario, M5H 2N2, Canada</td>
+<td align="right">137497520</td>
+<td align="left">Data © OpenStreetMap contributors, ODbL 1.0. <a href="https://osm.org/copyright" class="uri">https://osm.org/copyright</a>
+</td>
+<td align="left">way</td>
+<td align="right">198500761</td>
+<td align="left">43.6536032</td>
+<td align="left">-79.38400547469666</td>
+<td align="left">NA</td>
+<td align="left">Queen Street West</td>
+<td align="left">Old Toronto</td>
+<td align="left">Ontario</td>
+<td align="left">M5H 2N2</td>
+<td align="left">Canada</td>
+<td align="left">ca</td>
+<td align="left">43.6529946 , 43.6541458 , -79.3848438, -79.3830415</td>
+<td align="left">Toronto City Hall</td>
+<td align="left">100</td>
+<td align="left">Financial District</td>
+<td align="left">Spadina—Fort York</td>
+<td align="left">Golden Horseshoe</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+</tr>
+<tr class="odd">
+<td align="right">35.08440</td>
+<td align="right">-106.65040</td>
+<td align="left">Market Building, 301, Central Avenue Northwest, Downtown Albuquerque, Albuquerque, Bernalillo County, New Mexico, 87102-3116, United States</td>
+<td align="right">190582070</td>
+<td align="left">Data © OpenStreetMap contributors, ODbL 1.0. <a href="https://osm.org/copyright" class="uri">https://osm.org/copyright</a>
+</td>
+<td align="left">way</td>
+<td align="right">437189749</td>
+<td align="left">35.0846948</td>
+<td align="left">-106.65064483238235</td>
+<td align="left">NA</td>
+<td align="left">Central Avenue Northwest</td>
+<td align="left">Albuquerque</td>
+<td align="left">New Mexico</td>
+<td align="left">87102-3116</td>
+<td align="left">United States</td>
+<td align="left">us</td>
+<td align="left">35.08451 , 35.084941 , -106.6508398, -106.6504144</td>
+<td align="left">NA</td>
+<td align="left">301</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">Market Building</td>
+<td align="left">Downtown Albuquerque</td>
+<td align="left">Bernalillo County</td>
+</tr>
+</tbody>
+</table>
 <p>For further documentation, refer to the <a href="https://jessecambon.github.io/tidygeocoder/articles/tidygeocoder.html">Getting Started Vignette</a> and the <a href="https://jessecambon.github.io/tidygeocoder/reference/index.html">function documentation</a>.</p>
 </div>
 <div id="contributing" class="section level2">
@@ -303,9 +532,10 @@
 <h2>Developers</h2>
 <ul class="list-unstyled">
 <li>
-<a href="https://jessecambon.github.io">Jesse Cambon</a> <br><small class="roles"> Author, maintainer </small>  </li>
+<a href="https://jessecambon.github.io">Jesse Cambon</a> <br><small class="roles"> Author, maintainer </small> <a href="https://orcid.org/0000-0001-6854-1514" target="orcid.widget" aria-label="ORCID"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
 <li>Christopher Belanger <br><small class="roles"> Author </small>  </li>
-<li>Daniel Possenriede <br><small class="roles"> Author </small>  </li>
+<li>Daniel Possenriede <br><small class="roles"> Author </small> <a href="https://orcid.org/0000-0002-6738-9845" target="orcid.widget" aria-label="ORCID"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
+<li>Diego Hernangómez <br><small class="roles"> Author </small> <a href="https://orcid.org/0000-0001-8457-4658" target="orcid.widget" aria-label="ORCID"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
 </ul>
 </div>
 
@@ -325,7 +555,7 @@
 
 
       <footer><div class="copyright">
-  <p>Developed by <a href="https://jessecambon.github.io">Jesse Cambon</a>, Christopher Belanger, Daniel Possenriede.</p>
+  <p>Developed by <a href="https://jessecambon.github.io">Jesse Cambon</a>, Christopher Belanger, Daniel Possenriede, Diego Hernangómez.</p>
 </div>
 
 <div class="pkgdown">

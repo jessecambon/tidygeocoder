@@ -7,7 +7,8 @@ get_key <- function(method) {
          'geocodio' = "GEOCODIO_API_KEY",
          'iq' = "LOCATIONIQ_API_KEY",
          'google' = "GOOGLEGEOCODE_API_KEY",
-         'opencage' = "OPENCAGE_KEY"
+         'opencage' = "OPENCAGE_KEY",
+         'mapbox' = "MAPBOX_API_KEY"
          )
   # load api key from environmental variable
   key <- Sys.getenv(env_var)
@@ -17,7 +18,29 @@ get_key <- function(method) {
   else return(key)
 }
 
+# return minimum number of seconds each query should take based on usage rate limits
+get_min_query_time <- function(method) {
+  
+  # stores the minimum number of seconds that must elapse for each query
+  # based on the usage limit of the service (free tier if there are multiple plans available)
+  # Stored value is SECONDS PER QUERY
+  seconds_per_query <- list(
+    osm = 1,               # 1 query/second             
+    geocodio = 60/1000,    # 1000 queries per minute (free tier)
+    iq = 1/2,              # 2 queries per second (free tier)
+    google = 1/50,         # 50 queries per second
+    opencage = 1,          # 1 query/second 
+    mapbox = 60/600        # 600 queries per minute (free tier)
+  )
+  
+  # default min_time to 0
+  min_time <- ifelse(method %in% names(seconds_per_query), seconds_per_query[[method]], 0)
+  return(min_time)
+}
+
 # API URL Functions ----------------------------------------------------------------
+# reverse = TRUE for reverse geocoding
+
 
 # return : returntype => 'locations' or 'geographies'
 # search:  searchtype => 'onelineaddress', 'addressbatch', 'address', or 'coordinates'
@@ -25,21 +48,55 @@ get_census_url <- function(return_type, search) {
   return(paste0("https://geocoding.geo.census.gov/geocoder/", return_type, "/", search))
 }
 
-get_geocodio_url <- function(api_v) {
+get_geocodio_url <- function(api_v, reverse = FALSE) {
   # return API URL based on api version (ex. 1.6)
-  return(paste0("https://api.geocod.io/v", as.character(api_v), "/geocode"))
+  url_keyword <- if (reverse == TRUE) 'reverse' else 'geocode'
+  
+  return(paste0("https://api.geocod.io/v", as.character(api_v), "/", url_keyword))
 }
 
-get_osm_url <- function() return("http://nominatim.openstreetmap.org/search")
+get_osm_url <- function(reverse = FALSE) {
+  url_keyword <- if (reverse == TRUE) 'reverse' else 'search'
+  
+  return(paste0('https://nominatim.openstreetmap.org/', url_keyword))
+}
 
-get_iq_url <- function(region) {
+get_iq_url <- function(region = 'us', reverse = FALSE) {
   # region can be 'us' or 'eu'
-  return(paste0("https://", region, "1.locationiq.com/v1/search.php"))
+  
+  url_keyword <- if (reverse == TRUE) 'reverse' else 'search'
+  
+  return(paste0("https://", region, "1.locationiq.com/v1/", url_keyword,  ".php"))
 }
 
 get_google_url <- function() return("https://maps.googleapis.com/maps/api/geocode/json")
 
 get_opencage_url <- function() return("https://api.opencagedata.com/geocode/v1/json")
+
+get_mapbox_url <- function(mapbox_permanent = FALSE) {
+  endpoint <- if (mapbox_permanent == TRUE) "mapbox.places-permanent" else "mapbox.places"
+  return(paste0("https://api.mapbox.com/geocoding/v5/", endpoint, "/"))
+}
+
+## wrapper function for above functions
+### IMPORTANT: if arguments are changed in this definition then make sure to 
+### update reverse_geo.R and geo.R where this function is called.
+get_api_url <- function(method, reverse = FALSE, return_type = 'locations',
+            search = 'onelineaddress', geocodio_v = 1.6, iq_region = 'us', 
+            mapbox_permanent = FALSE) {
+  api_url <- switch(method,
+         "osm" = get_osm_url(reverse = reverse),
+         "census" = get_census_url(return_type, search),
+         "geocodio" = get_geocodio_url(geocodio_v, reverse = reverse),
+         "iq" = get_iq_url(iq_region, reverse = reverse),
+         "opencage" = get_opencage_url(), # same url as forward geocoding
+         "google" = get_google_url(), # same url as forward geocoding
+         "mapbox" = get_mapbox_url(mapbox_permanent) # same url as fwd geocoding
+  )
+  
+  if (length(api_url) == 0) stop('API URL not found')
+  return(api_url)
+}
 
 # API Parameters ----------------------------------------------------------------
 
@@ -115,7 +172,15 @@ get_api_query <- function(method, generic_parameters = list(), custom_parameters
     )
   
   # Combine address, api_key, and default parameters for full query
-  return( c(main_api_parameters, custom_parameters, default_api_parameters) )
+  api_query_parameters <- c(main_api_parameters, custom_parameters, default_api_parameters)
+  
+  # Mapbox: Workaround to remove inputs from parameters (since it is added to the API url instead)
+  if (method == "mapbox") {
+    api_query_parameters <-
+      api_query_parameters[names(api_query_parameters) != "search_text"]
+  }
+
+  return(api_query_parameters)
 }
 
 #' Execute a geocoder API query
@@ -133,31 +198,36 @@ get_api_query <- function(method, generic_parameters = list(), custom_parameters
 #'     \item \code{"file"} : batch geocode a file of addresses (census)
 #' }
 #' @param batch_file a csv file of addresses to upload (census)
-#' @param address_list a list of addresses for batch geocoding (geocodio)
+#' @param input_list a list of addresses or latitude, longitude coordinates for batch geocoding (geocodio)
 #' should be 'json' for geocodio and 'multipart' for census 
 #' @param content_encoding Encoding to be used for parsing content
 #' @param timeout timeout in minutes
 #' @return raw results from the query
 #' @examples
 #' \donttest{
-#' raw <- query_api("http://nominatim.openstreetmap.org/search", 
+#' raw1 <- query_api("http://nominatim.openstreetmap.org/search", 
 #'    get_api_query("osm", list(address = 'Hanoi, Vietnam')))
 #'    
-#' extract_results('osm', jsonlite::fromJSON(raw))
+#' extract_results('osm', jsonlite::fromJSON(raw1))
+#' 
+#' raw2 <-  query_api("http://nominatim.openstreetmap.org/reverse", 
+#'    get_api_query("osm", custom_parameters = list(lat = 38.895865, lon = -77.0307713)))
+#'    
+#' extract_reverse_results('osm', jsonlite::fromJSON(raw2))
 #' }
 #' 
 #' @seealso \code{\link{get_api_query}} \code{\link{extract_results}} \code{\link{geo}}
 #' @export 
 query_api <- function(api_url, query_parameters, mode = 'single', 
-          batch_file = NULL, address_list = NULL, content_encoding = 'UTF-8', timeout = 20) {
+          batch_file = NULL, input_list = NULL, content_encoding = 'UTF-8', timeout = 20) {
    response <- switch(mode,
     'single' = httr::GET(api_url, query = query_parameters),
     'list' = httr::POST(api_url, query = query_parameters, 
-          body = as.list(address_list), encode = 'json', httr::timeout(60 * timeout)),
+          body = as.list(input_list), encode = 'json', httr::timeout(60 * timeout)),
     'file' = httr::POST(api_url,  
           body = c(list(addressFile = httr::upload_file(batch_file)), query_parameters),
           encode = 'multipart',
-          httr::timeout(60*timeout))
+          httr::timeout(60 * timeout))
    )
   
   httr::warn_for_status(response)
@@ -169,7 +239,6 @@ query_api <- function(api_url, query_parameters, mode = 'single',
 
 # print values in a named list (used for displaying query parameters)
 display_named_list <- function(named_list) {
-  
   # unique parameter names for all api keys
   api_key_names <- unique(tidygeocoder::api_parameter_reference[which(tidygeocoder::api_parameter_reference[['generic_name']] == 'api_key'), ][['api_name']])
   
@@ -194,7 +263,6 @@ display_query <- function(api_url, api_query_parameters) {
 # for a method (don't call with method = 'cascade')
 # if address_only = TRUE then limit to address parameters (street, city, address, etc.)
 get_generic_parameters <- function(method, address_only = FALSE) {
-
   all_params <- tidygeocoder::api_parameter_reference[which(tidygeocoder::api_parameter_reference[['method']] == method), ][['generic_name']]
   
   if (address_only == TRUE) {
@@ -202,5 +270,26 @@ get_generic_parameters <- function(method, address_only = FALSE) {
   } else {
     return(all_params)
   }
+}
+
+# get list of services that require an api key
+get_services_requiring_key <- function() {
+  return(unique(tidygeocoder::api_parameter_reference[which(tidygeocoder::api_parameter_reference[['generic_name']] == 'api_key'), ][['method']]))
+}
+
+# this function adds common generic
+add_common_generic_parameters <- function(generic_query, method, no_query, limit) {
+  # If API key is required then use the get_key() function to retrieve it
+  if (method %in% get_services_requiring_key()) {
+    
+    # don't attempt to load API key if no_query = TRUE. This allows you to
+    # run no_query = TRUE without having the API key loaded.
+    if (no_query == TRUE) generic_query[['api_key']] <- 'xxxxxxxxxxxxx'
+    else generic_query[['api_key']] <- get_key(method)
+  }
   
+  # add limit parameter
+  if (!is.null(limit)) generic_query[['limit']] <- limit
+  
+  return(generic_query)
 }
