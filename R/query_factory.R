@@ -99,7 +99,7 @@ get_api_url <- function(method, reverse = FALSE, return_type = 'locations',
          "google" = get_google_url(), # same url as forward geocoding
          "mapbox" = get_mapbox_url(mapbox_permanent), # same url as fwd geocoding
          "here" = get_here_url(reverse = reverse),
-  ))
+  )
 
   if (length(api_url) == 0) stop('API URL not found')
   return(api_url)

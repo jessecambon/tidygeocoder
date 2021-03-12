@@ -75,6 +75,9 @@ This parameter can be used to specify a local Nominatim server.}
 \item{mode}{set to 'batch' to force batch geocoding or 'single' to 
 force single address geocoding (one coordinate per query). If not 
 specified then batch geocoding will be used if available
+(given method selected) when multiple addresses are provided; otherwise
+single address geocoding will be used. For 'here' the batch mode
+should be explicitly enforced.}
 
 \item{full_results}{returns all data from the geocoder service if TRUE. 
 If FALSE then only a single address column will be returned from the geocoder service.}
@@ -90,6 +93,7 @@ Note that Geocodio batch geocoding results are flattened regardless.}
 
 \item{batch_limit}{limit to the number of addresses in a batch geocoding query.
 Both geocodio and census batch geocoders have a 10,000 limit so this
+is the default. HERE has a 1,000,000 address limit.}
 
 \item{verbose}{if TRUE then detailed logs are output to the console}
 
