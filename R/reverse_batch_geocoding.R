@@ -38,12 +38,202 @@ verbose = FALSE, api_url = NULL, geocodio_v = 1.6, limit = 1, ...) {
   else return(cbind(results[address], results[!names(results) %in% c(address)]))
 }
 
+
+# Reverse batch geocoding with HERE
+# ... are arguments passed from the reverse_geo() function
+# https://developer.here.com/documentation/batch-geocoder/dev_guide/topics/introduction.html
+reverse_batch_here <- function(lat, long, address = 'address', timeout = 20, full_results = FALSE, custom_query = list(),
+                               verbose = FALSE, api_url = NULL, geocodio_v = 1.6, limit = 1,
+                               here_request_id = NULL, ...) {
+  
+  # https://developer.here.com/documentation/batch-geocoder/dev_guide/topics/quick-start-batch-geocode.html
+  # Specific endpoint
+  if (is.null(api_url)) api_url <- 'https://batch.geocoder.ls.hereapi.com/6.2/jobs'
+  
+  # Create tibble to be passed to the body
+  # Radius of the search (m), required param on reverse
+  # https://developer.here.com/documentation/batch-geocoder/dev_guide/topics/data-input.html
+  radius <- '250' # Discretional, as per the example on API docs
+  
+  latlon_df <- tibble::tibble(prox = paste0(as.character(lat), ',', as.character(long), ',', radius))
+  latlon_df <- tibble::add_column(latlon_df, recId = seq_len(nrow(latlon_df)), .before = 'prox')  
+  
+  # filler result to return if needed
+  NA_batch <- tibble::tibble(address = rep(as.character(NA), nrow(latlon_df))) # filler NA result to return if needed
+  names(NA_batch)[1] <- address # rename column
+  
+  # Construct query ----
+  # HERE needs a special list of params - create with no override
+  # https://developer.here.com/documentation/batch-geocoder/dev_guide/topics/request-parameters.html
+  
+  # Output structure differs from single geocoding
+  # https://developer.here.com/documentation/batch-geocoder/dev_guide/topics/read-batch-request-output.html
+  # These output cols has been selected under own criteria - can be modified
+  
+  # Minimum parameters: locationLabel
+  
+  if (full_results) {
+    outcols <- c('locationLabel,displayLatitude,displayLongitude',
+                 'street', 'district', 'city', 'postalCode',
+                 'county', 'state', 'country', 'relevance', 
+                 'mapViewBottomRightLatitude', 'mapViewBottomRightLongitude',
+                 'mapViewTopLeftLatitude', 'mapViewTopLeftLongitude'
+    )
+  } else {
+    # Minimum params
+    outcols <- c('locationLabel')
+  }
+  
+  custom_here_query <- list(maxresults = limit,
+                            indelim = '|',
+                            outdelim = '|', # Required
+                            outputcombined = TRUE,  # Required
+                            mode = 'retrieveAddresses', #Required
+                            outcols = paste0(outcols, collapse = ','),
+                            includeInputFields = TRUE
+  )
+  
+  # Clean parameters of default HERE query and combine
+  custom_here_query <- custom_here_query[!names(custom_here_query) %in% names(custom_query)]
+  
+  # Manage minimum pars if passed via custom_query
+  if ('outcols' %in% names(custom_query)) {
+    custom_query['outcols'] <- paste0('locationLabel,', custom_query['outcols'][[1]])
+  }
+  
+  # Merge custom and HERE query
+  custom_query <- c(custom_query, custom_here_query)
+  query_parameters <- get_api_query('here',
+                                    list(limit = limit, api_key = get_key('here')),
+                                    custom_parameters = custom_query)
+  
+  if (verbose == TRUE) display_query(api_url, query_parameters)
+  
+  # Create body of the POST request----
+  # Needs to have recID and prox  
+  
+  # Plain text, \n new line using indelim
+  body <- paste(paste0('recID', query_parameters[['indelim']],'prox\n'),
+                paste(latlon_df$recId, query_parameters[['indelim']],
+                      latlon_df$prox, collapse = '\n')
+  )
+  
+  # HERE Batch Geocoder is a 3 step process:
+  # 1. Send the request and get a job id
+  # 2. Wait - Status of the job can be checked
+  # 3. Results
+  # Exception if a previous job is requested go to Step 2
+  
+  # Batch timer
+  init_process <- Sys.time()
+  
+  if (!is.null(here_request_id)){
+    if (verbose) message("HERE: Requesting a previous job")
+    
+  } else {
+    
+    # Step 1: Run job and retrieve id ----
+    # Modification from query_api function
+    job <- httr::POST(api_url,
+                      query = c(query_parameters, action = 'run'),
+                      body = body,
+                      encode = 'raw',
+                      httr::timeout(60 * timeout)
+    )
+    
+    job_result <- httr::content(job)
+    
+    # On error
+    if (is.null(job_result$Response$MetaInfo$RequestId)) {
+      message(paste0('Error: ', job_result$Details))
+      return(NA_batch)
+    }
+    
+    # Retrieve here_request_id
+    here_request_id <- job_result$Response$MetaInfo$RequestId
+  }
+  
+  if (verbose) message('HERE: RequestID -> ', here_request_id)
+  
+  # Step 2: Check job until is done ----
+  # https://developer.here.com/documentation/batch-geocoder/dev_guide/topics/job-status.html
+  current_status <- ''
+  
+  if (verbose) message('\nHERE: Batch job:')
+  
+  # HERE Batching takes a while!
+  while (!current_status %in% c('cancelled', 'failed', 'completed')) {
+    Sys.sleep(3) # Arbitrary, 3sec
+    status <- httr::GET(url = paste0(api_url, '/', here_request_id),
+                        query = list(action = 'status',
+                                     apiKey = get_key('here'))
+    )
+    
+    status_get <- httr::content(status)
+    prev_status <- current_status
+    current_status <- as.character(status_get$Response$Status)
+    
+    if (verbose) {
+      if (prev_status != current_status) message('Status: ', current_status)
+      if (current_status == 'running') {
+        message('Total ', status_get$Response$TotalCount, ' | ',
+                'Processed: ', status_get$Response$ProcessedCount, ' | ',
+                'Pending: ', status_get$Response$PendingCount, ' | ',
+                'Errors: ', status_get$Response$ErrorCount
+        )
+      }
+    }
+  }
+  
+  update_time_elapsed <- get_seconds_elapsed(init_process)
+  
+  if (verbose) print_time('HERE: Batch job processed in', update_time_elapsed)
+  
+  # Delete non-completed jobs and return empty
+  if (current_status != 'completed') {
+    delete <- httr::DELETE(url = paste0(api_url, '/', here_request_id),
+                           query = list(apiKey = get_key('here')))
+    
+    if (verbose) message('\nHERE: Batch job failure\n')
+    return(NA_batch)
+  }
+  
+  # Step 3: GET results and parse ----
+  batch_results <-
+    httr::GET(url = paste0(api_url, '/', here_request_id, '/result'),
+              query = list(apiKey = get_key('here'),
+                           outputcompressed = FALSE)
+    )
+  
+  result_content <- httr::content(batch_results)
+  
+  # Parse results----
+  # dlm was requested on custom_here_query - 
+  result_parsed <- tibble::as_tibble(utils::read.table(text = result_content,
+                                                       header = TRUE, 
+                                                       sep = query_parameters[['outdelim']]
+  )
+  )
+  
+  # Merge to original addresses and output
+  results <- merge(latlon_df[ ,'recId'], 
+                   result_parsed, 
+                   by = 'recId', 
+                   all.x = TRUE)
+  
+  names(results)[names(results) == 'locationLabel'] <- address
+  
+  if (full_results == FALSE)  return(results[address])
+  else return(cbind(results[address], results[!names(results) %in% c(address)]))
+}
+
+
 # Reverse Batch geocoding with tomtom
 # ... are arguments passed from the geo() function
 # https://developer.tomtom.com/search-api/search-api-documentation-batch-search/asynchronous-batch-submission
 reverse_batch_tomtom <- function(lat, long, address = 'address', timeout = 20, full_results = FALSE, custom_query = list(),
-                                   verbose = FALSE, api_url = NULL, limit = 1, ...) {
-
+                                 verbose = FALSE, api_url = NULL, limit = 1, ...) {
+  
   if (is.null(api_url)) api_url <- 'https://api.tomtom.com/search/2/batch.json'
   
   # Construct query

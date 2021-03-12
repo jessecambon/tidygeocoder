@@ -1,14 +1,14 @@
 # tidygeocoder 1.0.2.9000
 
--   Added support for the OpenCage geocoder service ([\#67](https://github.com/jessecambon/tidygeocoder/issues/67)) (thanks [@dpprdan](https://github.com/dpprdan)).
--   Added support for the Mapbox geocoder service ([#71](https://github.com/jessecambon/tidygeocoder/issues/71)) (thanks [@dieghernan](https://github.com/dieghernan)). Note that currently the batch geocoding capability of this service is not implemented.
--   Added support for reverse geocoding through the `reverse_geo()` and `reverse_geocode()` functions.
--   The `address_list` argument of `query_api()` has been renamed to `input_list` and is now used for both forward and reverse geocoding with the Geocodio batch geocoding.
--   If the number of unique addresses or coordinates exceeds the batch query limit then an error is thrown. In the past, a batch query would have been performed that was limited in size by the batch query limit.
+-   Added support for reverse geocoding with the new `reverse_geo()` and `reverse_geocode()` functions. 
+-   Added support for the [OpenCage](https://opencagedata.com/) geocoder service ([\#67](https://github.com/jessecambon/tidygeocoder/issues/67)) (thanks [@dpprdan](https://github.com/dpprdan)).
+-   Added support for the [Mapbox](https://docs.mapbox.com/api/search/) geocoder service ([#71](https://github.com/jessecambon/tidygeocoder/issues/71)) (thanks [@dieghernan](https://github.com/dieghernan)). Note that currently the batch geocoding capability of this service is not implemented.
+-   If the number of unique addresses or coordinates exceeds the batch query limit then an error is thrown by default. For forward geocoding, this behaviour can be toggled with the new `batch_limit_query` argument in the `geo()` function and `batch_limit_query` is set to FALSE if using the "cascade" method. When `batch_limit_query` is FALSE then the batch query is limited to the batch limit and executed. In the past, all batch queries that exceeded the batch query limit would be limited to the batch limit and no error was thrown.
+-   The `address_list` argument of `query_api()` has been renamed to `input_list` to reflect that it is used for both forward and reverse queries when using the Geocodio service for batch geocoding.
 
 # tidygeocoder 1.0.2
 
--   Added support for the Google geocoder service ([\#34](https://github.com/jessecambon/tidygeocoder/issues/34)) (thanks [@chris31415926535](https://github.com/chris31415926535)).
+-   Added support for the [Google](https://developers.google.com/maps/documentation/geocoding/overview) geocoder service ([\#34](https://github.com/jessecambon/tidygeocoder/issues/34)) (thanks [@chris31415926535](https://github.com/chris31415926535)).
 -   An error is now thrown if invalid parameters are passed to geocoder services (the parameters checked are limit, address, street, city, county, state, postalcode, and country) ([\#53](https://github.com/jessecambon/tidygeocoder/issues/53)). This behavior can be toggled with the new `param_error` parameter in `geo()` (or `geocode()`).
 -   Leading zeros on Census FIPs geography columns are now preserved ([\#47](https://github.com/jessecambon/tidygeocoder/issues/47)).
 -   Bug fix for `custom_query` argument with Geocodio batch geocoding ([\#48](https://github.com/jessecambon/tidygeocoder/issues/48)).
@@ -25,7 +25,7 @@
 
 ### New Functionality
 
--   **New geocoder services**: Support for the Geocodio and Location IQ services has been added.
+-   **New geocoder services**: Support for the [Geocodio](https://www.geocod.io/) and [Location IQ](https://locationiq.com/) services has been added.
 -   **Batch geocoding** (geocoding multiple addresses per query) is now available for both the Census and Geocodio services.
 -   **Full results** from the geocoder services can now be returned by using `full_results = TRUE`. This will return all data provided by the geocoder service instead of just latitude and longitude coordinates. Additionally, the `return_type = 'geographies'` argument for the Census geocoder will return geography columns.
 -   **Address component arguments**: As an alternative to specifying a single-line address, address component arguments are now supported (`street`, `city`, `county`, `postalcode`, `country`).

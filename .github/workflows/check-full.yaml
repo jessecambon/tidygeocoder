@@ -5,6 +5,7 @@ on:
     branches:
       - master
       - main
+      - tomtom
   pull_request:
     branches:
       - master

@@ -26,11 +26,11 @@ options(tibble.print_min = 5, tibble.print_max = 5)
 
 ## Introduction
 
-Tidygeocoder makes getting data from geocoder services easy. Both forward geocoding (providing addresses to obtain latitude and longitude) and reverse geocoding (providing latitude and longitude to obtain the address) are supported. All results are returned in [tibble format](https://tibble.tidyverse.org/) and the supported geocoder services are listed below.
+Tidygeocoder makes getting data from geocoder services easy. Both forward geocoding (providing addresses to obtain latitude and longitude) and reverse geocoding (providing latitude and longitude to obtain addresses) are supported. All results are returned in [tibble format](https://tibble.tidyverse.org/) and the supported geocoder services are listed below.
 
-Batch geocoding (geocoding multiple addresses or coordinates per query) is used by default if supported by the geocoder service when multiple addresses or coordinates are provided. Duplicate, missing/NA, and blank input data is handled elegantly - only unique inputs are passed to geocoder services, but the rows in the original data are preserved by default.
+Batch geocoding (geocoding multiple addresses or coordinates per query) is used by default if supported by the geocoder service when multiple inputs (addresses or coordinates) are provided. Duplicate, missing/NA, and blank input data is handled elegantly - only unique inputs are passed to geocoder services, but the rows in the original data are preserved by default.
 
-In addition to the usage example below you can refer to the following references:
+In addition to the usage examples below you can refer to the following references:
 
 -   [Mapping European soccer club stadiums](https://jessecambon.github.io/2020/07/15/tidygeocoder-1-0-0.html)
 -   [Mapping Washington, DC landmarks](https://jessecambon.github.io/2019/11/11/tidygeocoder-demo.html)
@@ -64,6 +64,7 @@ The supported geocoder services are shown in the table below with their geograph
 | [Google](https://developers.google.com/maps/documentation/geocoding/overview) | Worldwide     | No              | Yes              | 50/second               |
 | [OpenCage](https://opencagedata.com)                                          | Worldwide     | No              | Yes              | 1/second (free tier)    |
 | [Mapbox](https://www.mapbox.com/)                                             | Worldwide     | See note below  | Yes              | 10/second (free tier)   |
+| [HERE](https://www.here.com/)                                                 | Worldwide     | Yes             | Yes              | None  |
 | [TomTom](https://www.tomtom.com/en_us/)                                       | Worldwide     | Yes             | Yes              | 5/second (free tier)   |
 
 Notes:
@@ -126,14 +127,15 @@ full <- some_addresses %>%
 knitr::kable(full)
 ```
 
-To perform **reverse geocoding** (obtaining addresses from latitude and longitude coordinates), we can use the `reverse_geocode()` function. The arguments are similar to the `geocode()` function, but we now are specifying the latitude and longitude columns in our dataset with the `lat` and `long` arguments. See the `reverse_geo()` function documentation for more details on reverse geocoding.
+To perform **reverse geocoding** (obtaining addresses from latitude and longitude coordinates), we can use the `reverse_geocode()` function. The arguments are similar to the `geocode()` function, but we now are specifying the latitude and longitude columns in our dataset with the `lat` and `long` arguments. The single line address is returned in a column named by the `address` argument. See the `reverse_geo()` function documentation for more details on reverse geocoding.
 
 ```{r}
 coordinates <- tibble(latitude = c(38.895865, 43.6534817, 35.0844),
                 longitude = c(-77.0307713, -79.3839347, -106.6504))
 
 rev1 <- coordinates %>%
-  reverse_geocode(lat = latitude, long = longitude, method = 'osm', full_results = TRUE)
+  reverse_geocode(lat = latitude, long = longitude, method = 'osm',
+                  address = address_found, full_results = TRUE)
 ```
 
 ```{r, echo = FALSE}

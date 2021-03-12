@@ -1,7 +1,7 @@
-selected_method <- "mapbox"
+selected_method <- "here"
 
 addr <- "Acueducto de Segovia, Spain"
-url_base <- tidygeocoder:::get_mapbox_url()
+url_base <- tidygeocoder:::get_here_url()
 
 library(httr)
 library(jsonlite)
@@ -10,53 +10,45 @@ library(dplyr)
 # Test sandbox on dev ----
 soup <-
   httr::GET(
-    url = gsub(" ", "%20", paste0(url_base, addr, ".json")),
+    url = url_base,
     query = list(
       limit = 1,
-      access_token = 1
-      #access_token = tidygeocoder:::get_key(selected_method)
+      q = addr,
+      apiKey = tidygeocoder:::get_key(selected_method)
     )
   )
 
-raw_results <-
+response <-
   jsonlite::fromJSON(httr::content(soup, as = "text", encoding = "UTF-8"))
 
-results_minimal <-
-  tidygeocoder::extract_results(selected_method, raw_results, full_results = FALSE)
 
-results <-
-  tidygeocoder::extract_results(selected_method, raw_results)
+tidygeocoder::extract_results(selected_method, response, full_results = FALSE)
 
-full_results_notflat <-
-  tidygeocoder::extract_results(selected_method,
-    raw_results,
-    full_results = TRUE,
-    flatten = FALSE
-  )
-full_results_flat <-
-  tidygeocoder::extract_results(selected_method,
-    raw_results,
-    full_results = TRUE,
-    flatten = TRUE
-  )
+
+
+tidygeocoder::extract_results(selected_method, response)
+
+tidygeocoder::extract_results(selected_method,
+  response,
+  full_results = TRUE,
+  flatten = FALSE
+)
+
+
+tidygeocoder::extract_results(selected_method,
+  response,
+  full_results = TRUE,
+  flatten = TRUE
+)
 
 # Test geo ----
+library(tibble)
 addr <- "Acueducto de Segovia, Spain"
 ## Error
 tidygeocoder::geo(
-  address = addr,
+  address = "zzzzzz",
   verbose = TRUE,
-  method = "mapbox",
-  custom_query = list(
-    country = "error"
-  )
-)
-
-tidygeocoder::geo(
-  address = addr,
-  verbose = TRUE,
-  method = "mapbox",
-  mapbox_permanent = "TRUE"
+  method = "here",
 )
 
 
@@ -64,15 +56,16 @@ livetest <-
   tidygeocoder::geo(
     address = addr,
     verbose = TRUE,
-    method = "mapbox"
+    method = "here"
   )
 glimpse(livetest)
+
 livetest_full <-
   tidygeocoder::geo(
     address = addr,
     verbose = TRUE,
     full_results = TRUE,
-    method = "mapbox"
+    method = "here"
   )
 glimpse(livetest_full)
 
@@ -82,7 +75,7 @@ livetest_fullflat <-
     verbose = TRUE,
     full_results = TRUE,
     flatten = TRUE,
-    method = "mapbox"
+    method = "here"
   )
 glimpse(livetest_fullflat)
 
@@ -92,13 +85,12 @@ livetest_params <-
     address = c("Santiago de Compostela; Spain", "Nieva"),
     verbose = TRUE,
     full_results = TRUE,
+    mode = 'single',
     limit = 2,
     custom_query = list(
-      country = "ES",
-      language = "fr",
-      types = "poi,district"
+      lang = "fr"
     ),
-    method = "mapbox"
+    method = "here"
   )
 
 glimpse(livetest_params)
@@ -117,6 +109,6 @@ some_addresses <- tribble(
 
 # geocode the addresses
 lat_longs <- some_addresses %>%
-  geocode(addr, method = "mapbox", lat = latitude, long = longitude)
+  geocode(addr, method = "here", mode = 'single', lat = latitude, long = longitude, full_results = TRUE)
 
 lat_longs

@@ -67,6 +67,7 @@ extract_results <- function(method, response, full_results = TRUE, flatten = TRU
       'lat' = response$features$center[[1]][2],
       'long' = response$features$center[[1]][1]
     ), # mapbox results are nested unnames lists
+    'here' = response$items$position[c('lat','lng')],
     'tomtom' = response$results$position[c('lat', 'lon')]
   )
   
@@ -90,9 +91,10 @@ extract_results <- function(method, response, full_results = TRUE, flatten = TRU
       'google' = response$results,
       'opencage' = response$results[!names(response$results) %in% c('geometry')],
       'mapbox' = response$features,
+      'here' = response$items,
       'tomtom' = response$results
     )
-    
+
     # add prefix to variable names that likely could be in our input dataset
     # to avoid variable name overlap
     for (var in c('address')) {
@@ -112,7 +114,7 @@ extract_results <- function(method, response, full_results = TRUE, flatten = TRU
   else return(combined_results)
 }
 
-#' Extract reverse geocoder results 
+#' Extract reverse geocoding results 
 #' 
 #' @description
 #' Parses the output of the \code{\link{query_api}} function for reverse geoocding.
@@ -139,6 +141,7 @@ extract_reverse_results <- function(method, response, full_results = TRUE, flatt
                     'google' = response$results[1, ]['formatted_address'],
                     'opencage' = response$results['formatted'],
                     'mapbox' = response$features['place_name'],
+                    'here' = response$items['title'],
                     'tomtom' = response$addresses$address['freeformAddress']
   )
   
@@ -154,12 +157,13 @@ extract_reverse_results <- function(method, response, full_results = TRUE, flatt
                       'google' = response$results[1, ][!names(response$results) %in% c('formatted_address')], 
                       'opencage' = response$results[!names(response$results) %in% c('formatted')],
                       'mapbox' = response$features[!names(response$features) %in% c('place_name')],
+                      'here' = response$items[!names(response$items) %in% c('title')],
                       'tomtom' = response$addresses
     )
     
     # add prefix to variable names that likely could be in our input dataset
     # to avoid variable name overlap
-    for (var in c('lat', 'lon', 'long', 'latitude', 'longitude')) {
+    for (var in c('lat', 'lon', 'long', 'latitude', 'longitude', 'address')) {
       if (var %in% names(results)) {
       names(results)[names(results) == var] <- paste0(method, '_', var)
       }
@@ -208,8 +212,9 @@ check_results_for_problems <- function(method, raw_results, verbose) {
     message(paste0('Error: ', raw_results$errors))
   }
   else if ((method == 'opencage') & (!is.data.frame(raw_results$results))) {
-    if ("message" %in% names(raw_results))
+    if (!is.null(raw_results$status$message)) {
     message(paste0('Error: ', raw_results$status$message))
+    }
   }
   else if ((method == 'geocodio') & (!is.data.frame(raw_results$results))) {
     if ("error" %in% names(raw_results)) {

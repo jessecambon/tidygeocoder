@@ -16,7 +16,8 @@ test_that("Check API Parameter Reference Dataset", {
 # with some duplicate addresses
 test_that("Test Duplicate and Blank/NA Address Handling", {
   
-  messy_addresses <- c('','', NA, sample_addresses$addr, NA, '', NA, sample_addresses$addr)
+  messy_addresses <- c('','', NA, tidygeocoder::sample_addresses$addr, 
+      NA, '', NA, tidygeocoder::sample_addresses$addr)
   
   addr_pack <- tidygeocoder:::package_addresses(address = messy_addresses)
   
@@ -74,6 +75,7 @@ test_that("Test API Query Creation Functions", {
        generic_parameters = list(address = 'abc'),
        custom_parameters = tidygeocoder:::create_api_parameter(method, 'address', 'ghj')))
     
+    
     default_q <- tidygeocoder::get_api_query(method)
     custom_q <- tidygeocoder::get_api_query(method, custom_parameters = cust_arg_list)
     address_q <- tidygeocoder::get_api_query(method, generic_parameters = list(address = address_val))
@@ -89,8 +91,12 @@ test_that("Test API Query Creation Functions", {
     # custom_parameters and generic_parameters arguments should just be 
     # adding to the default_q list
     expect_mapequal(custom_q, c(default_q, cust_arg_list))
-    expect_mapequal(address_q, c(default_q, 
-      tidygeocoder:::create_api_parameter(method, 'address', address_val)))
+    
+    # mapbox address is removed from parameters and put into API URL so this test doesn't apply
+    if (method != 'mapbox') {
+      expect_mapequal(address_q, c(default_q, 
+        tidygeocoder:::create_api_parameter(method, 'address', address_val)))
+    }
     
     expect_message(display_named_list(default_q))
     expect_message(display_named_list(custom_q))

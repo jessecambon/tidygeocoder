@@ -24,19 +24,19 @@ Month](http://cranlogs.r-pkg.org/badges/tidygeocoder)](https://cran.r-project.or
 
 Tidygeocoder makes getting data from geocoder services easy. Both
 forward geocoding (providing addresses to obtain latitude and longitude)
-and reverse geocoding (providing latitude and longitude to obtain the
-address) are supported. All results are returned in [tibble
+and reverse geocoding (providing latitude and longitude to obtain
+addresses) are supported. All results are returned in [tibble
 format](https://tibble.tidyverse.org/) and the supported geocoder
 services are listed below.
 
 Batch geocoding (geocoding multiple addresses or coordinates per query)
 is used by default if supported by the geocoder service when multiple
-addresses or coordinates are provided. Duplicate, missing/NA, and blank
-input data is handled elegantly - only unique inputs are passed to
-geocoder services, but the rows in the original data are preserved by
-default.
+inputs (addresses or coordinates) are provided. Duplicate, missing/NA,
+and blank input data is handled elegantly - only unique inputs are
+passed to geocoder services, but the rows in the original data are
+preserved by default.
 
-In addition to the usage example below you can refer to the following
+In addition to the usage examples below you can refer to the following
 references:
 
 -   [Mapping European soccer club
@@ -85,6 +85,7 @@ and usage limitations.
 | [Google](https://developers.google.com/maps/documentation/geocoding/overview) | Worldwide     | No              | Yes              | 50/second               |
 | [OpenCage](https://opencagedata.com)                                          | Worldwide     | No              | Yes              | 1/second (free tier)    |
 | [Mapbox](https://www.mapbox.com/)                                             | Worldwide     | See note below  | Yes              | 10/second (free tier)   |
+| [HERE](https://www.here.com/)                                                 | Worldwide     | Yes             | Yes              | None                    |
 | [TomTom](https://www.tomtom.com/en_us/)                                       | Worldwide     | Yes             | Yes              | 5/second (free tier)    |
 
 Notes:
@@ -175,7 +176,8 @@ To perform **reverse geocoding** (obtaining addresses from latitude and
 longitude coordinates), we can use the `reverse_geocode()` function. The
 arguments are similar to the `geocode()` function, but we now are
 specifying the latitude and longitude columns in our dataset with the
-`lat` and `long` arguments. See the `reverse_geo()` function
+`lat` and `long` arguments. The single line address is returned in a
+column named by the `address` argument. See the `reverse_geo()` function
 documentation for more details on reverse geocoding.
 
 ``` r
@@ -183,14 +185,15 @@ coordinates <- tibble(latitude = c(38.895865, 43.6534817, 35.0844),
                 longitude = c(-77.0307713, -79.3839347, -106.6504))
 
 rev1 <- coordinates %>%
-  reverse_geocode(lat = latitude, long = longitude, method = 'osm', full_results = TRUE)
+  reverse_geocode(lat = latitude, long = longitude, method = 'osm',
+                  address = address_found, full_results = TRUE)
 ```
 
-| latitude |  longitude | address                                                                                                                                            | place\_id | licence                                                                  | osm\_type |   osm\_id | osm\_lat           | osm\_lon            | tourism       | house\_number | road                          | quarter           | city        | state                | postcode   | country       | country\_code | boundingbox                                        | amenity           | neighbourhood      | state\_district  | building        | suburb               | county            |
-|---------:|-----------:|:---------------------------------------------------------------------------------------------------------------------------------------------------|----------:|:-------------------------------------------------------------------------|:----------|----------:|:-------------------|:--------------------|:--------------|:--------------|:------------------------------|:------------------|:------------|:---------------------|:-----------|:--------------|:--------------|:---------------------------------------------------|:------------------|:-------------------|:-----------------|:----------------|:---------------------|:------------------|
-| 38.89587 |  -77.03077 | Freedom Plaza, 1455, Pennsylvania Avenue Northwest, Penn Quarter, Washington, District of Columbia, 20004, United States                           | 259354576 | Data © OpenStreetMap contributors, ODbL 1.0. <https://osm.org/copyright> | relation  |   8060882 | 38.895849999999996 | -77.03077367444483  | Freedom Plaza | 1455          | Pennsylvania Avenue Northwest | Penn Quarter      | Washington  | District of Columbia | 20004      | United States | us            | 38.8956276 , 38.896068 , -77.03182 , -77.0297273   | NA                | NA                 | NA               | NA              | NA                   | NA                |
-| 43.65348 |  -79.38393 | Toronto City Hall, 100, Queen Street West, Financial District, Spadina—Fort York, Old Toronto, Toronto, Golden Horseshoe, Ontario, M5H 2N2, Canada | 138175329 | Data © OpenStreetMap contributors, ODbL 1.0. <https://osm.org/copyright> | way       | 198500761 | 43.6536032         | -79.38400547469666  | NA            | 100           | Queen Street West             | Spadina—Fort York | Old Toronto | Ontario              | M5H 2N2    | Canada        | ca            | 43.6529946 , 43.6541458 , -79.3848438, -79.3830415 | Toronto City Hall | Financial District | Golden Horseshoe | NA              | NA                   | NA                |
-| 35.08440 | -106.65040 | Market Building, 301, Central Avenue Northwest, Downtown Albuquerque, Albuquerque, Bernalillo County, New Mexico, 87102-3116, United States        | 190554064 | Data © OpenStreetMap contributors, ODbL 1.0. <https://osm.org/copyright> | way       | 437189749 | 35.0846948         | -106.65064483238235 | NA            | 301           | Central Avenue Northwest      | NA                | Albuquerque | New Mexico           | 87102-3116 | United States | us            | 35.08451 , 35.084941 , -106.6508398, -106.6504144  | NA                | NA                 | NA               | Market Building | Downtown Albuquerque | Bernalillo County |
+| latitude |  longitude | address\_found                                                                                                                                     | place\_id | licence                                                                  | osm\_type |   osm\_id | osm\_lat           | osm\_lon            | tourism         | road                     | city        | state                | postcode   | country       | country\_code | boundingbox                                        | amenity           | house\_number | neighbourhood      | quarter           | state\_district  | building        | suburb               | county            |
+|---------:|-----------:|:---------------------------------------------------------------------------------------------------------------------------------------------------|----------:|:-------------------------------------------------------------------------|:----------|----------:|:-------------------|:--------------------|:----------------|:-------------------------|:------------|:---------------------|:-----------|:--------------|:--------------|:---------------------------------------------------|:------------------|:--------------|:-------------------|:------------------|:-----------------|:----------------|:---------------------|:------------------|
+| 38.89587 |  -77.03077 | L’Enfant’s plan, Pennsylvania Avenue, Washington, District of Columbia, 20045, United States                                                       | 301711857 | Data © OpenStreetMap contributors, ODbL 1.0. <https://osm.org/copyright> | way       | 899927546 | 38.895859599999994 | -77.0306779870984   | L’Enfant’s plan | Pennsylvania Avenue      | Washington  | District of Columbia | 20045      | United States | us            | 38.8957273 , 38.8959688 , -77.0311667, -77.0301895 | NA                | NA            | NA                 | NA                | NA               | NA              | NA                   | NA                |
+| 43.65348 |  -79.38393 | Toronto City Hall, 100, Queen Street West, Financial District, Spadina—Fort York, Old Toronto, Toronto, Golden Horseshoe, Ontario, M5H 2N2, Canada | 137497520 | Data © OpenStreetMap contributors, ODbL 1.0. <https://osm.org/copyright> | way       | 198500761 | 43.6536032         | -79.38400547469666  | NA              | Queen Street West        | Old Toronto | Ontario              | M5H 2N2    | Canada        | ca            | 43.6529946 , 43.6541458 , -79.3848438, -79.3830415 | Toronto City Hall | 100           | Financial District | Spadina—Fort York | Golden Horseshoe | NA              | NA                   | NA                |
+| 35.08440 | -106.65040 | Market Building, 301, Central Avenue Northwest, Downtown Albuquerque, Albuquerque, Bernalillo County, New Mexico, 87102-3116, United States        | 190582070 | Data © OpenStreetMap contributors, ODbL 1.0. <https://osm.org/copyright> | way       | 437189749 | 35.0846948         | -106.65064483238235 | NA              | Central Avenue Northwest | Albuquerque | New Mexico           | 87102-3116 | United States | us            | 35.08451 , 35.084941 , -106.6508398, -106.6504144  | NA                | 301           | NA                 | NA                | NA               | Market Building | Downtown Albuquerque | Bernalillo County |
 
 For further documentation, refer to the [Getting Started
 Vignette](https://jessecambon.github.io/tidygeocoder/articles/tidygeocoder.html)

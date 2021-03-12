@@ -9,6 +9,7 @@ get_key <- function(method) {
          'google' = "GOOGLEGEOCODE_API_KEY",
          'opencage' = "OPENCAGE_KEY",
          'mapbox' = "MAPBOX_API_KEY",
+         'here' = "HERE_API_KEY",
          'tomtom' = "TOMTOM_API_KEY"
          )
   # load api key from environmental variable
@@ -65,6 +66,7 @@ get_osm_url <- function(reverse = FALSE) {
 
 get_iq_url <- function(region = 'us', reverse = FALSE) {
   # region can be 'us' or 'eu'
+  
   url_keyword <- if (reverse == TRUE) 'reverse' else 'search'
   
   return(paste0("https://", region, "1.locationiq.com/v1/", url_keyword,  ".php"))
@@ -79,9 +81,14 @@ get_mapbox_url <- function(mapbox_permanent = FALSE) {
   return(paste0("https://api.mapbox.com/geocoding/v5/", endpoint, "/"))
 }
 
+get_here_url <- function(reverse = FALSE) {
+  if (reverse == TRUE) return("https://revgeocode.search.hereapi.com/v1/revgeocode")
+  return("https://geocode.search.hereapi.com/v1/geocode")
+}
+
 get_tomtom_url <- function(reverse = FALSE) {
-  url_keyword <- if (reverse == TRUE) 'reverseGeocode/' else 'geocode/'
-  return(paste0('https://api.tomtom.com/search/2/', url_keyword))
+    url_keyword <- if (reverse == TRUE) 'reverseGeocode/' else 'geocode/'
+    return(paste0('https://api.tomtom.com/search/2/', url_keyword))
 }
 
 ## wrapper function for above functions
@@ -90,7 +97,7 @@ get_tomtom_url <- function(reverse = FALSE) {
 get_api_url <- function(method, reverse = FALSE, return_type = 'locations',
             search = 'onelineaddress', geocodio_v = 1.6, iq_region = 'us', 
             mapbox_permanent = FALSE) {
-  return(switch(method,
+  api_url <- switch(method,
          "osm" = get_osm_url(reverse = reverse),
          "census" = get_census_url(return_type, search),
          "geocodio" = get_geocodio_url(geocodio_v, reverse = reverse),
@@ -98,8 +105,12 @@ get_api_url <- function(method, reverse = FALSE, return_type = 'locations',
          "opencage" = get_opencage_url(), # same url as forward geocoding
          "google" = get_google_url(), # same url as forward geocoding
          "mapbox" = get_mapbox_url(mapbox_permanent), # same url as fwd geocoding
+         "here" = get_here_url(reverse = reverse),
          "tomtom" = get_tomtom_url(reverse = reverse),
-  ))
+         )
+
+  if (length(api_url) == 0) stop('API URL not found')
+  return(api_url)
 }
 
 # API Parameters ----------------------------------------------------------------
@@ -176,7 +187,15 @@ get_api_query <- function(method, generic_parameters = list(), custom_parameters
     )
   
   # Combine address, api_key, and default parameters for full query
-  return( c(main_api_parameters, custom_parameters, default_api_parameters) )
+  api_query_parameters <- c(main_api_parameters, custom_parameters, default_api_parameters)
+  
+  # Mapbox: Workaround to remove inputs from parameters (since it is added to the API url instead)
+  if (method == "mapbox") {
+    api_query_parameters <-
+      api_query_parameters[names(api_query_parameters) != "search_text"]
+  }
+
+  return(api_query_parameters)
 }
 
 #' Execute a geocoder API query
@@ -271,4 +290,21 @@ get_generic_parameters <- function(method, address_only = FALSE) {
 # get list of services that require an api key
 get_services_requiring_key <- function() {
   return(unique(tidygeocoder::api_parameter_reference[which(tidygeocoder::api_parameter_reference[['generic_name']] == 'api_key'), ][['method']]))
+}
+
+# this function adds common generic
+add_common_generic_parameters <- function(generic_query, method, no_query, limit) {
+  # If API key is required then use the get_key() function to retrieve it
+  if (method %in% get_services_requiring_key()) {
+    
+    # don't attempt to load API key if no_query = TRUE. This allows you to
+    # run no_query = TRUE without having the API key loaded.
+    if (no_query == TRUE) generic_query[['api_key']] <- 'xxxxxxxxxxxxx'
+    else generic_query[['api_key']] <- get_key(method)
+  }
+  
+  # add limit parameter
+  if (!is.null(limit)) generic_query[['limit']] <- limit
+  
+  return(generic_query)
 }

@@ -9,6 +9,7 @@
 # maps method names to batch functions
 reverse_batch_func_map <- list(
   geocodio = reverse_batch_geocodio,
+  here = reverse_batch_here,
   tomtom = reverse_batch_tomtom
 )
 
@@ -27,9 +28,10 @@ get_coord_parameters <- function(custom_query, method, lat, long) {
   } else if (method == 'mapbox') {
     custom_query[['to_url']] <-
       paste0(as.character(long), ',', as.character(lat))
+  } else if (method == 'here') {
+    custom_query[['at']] <- paste0(as.character(lat), ',', as.character(long))
   } else if (method == 'tomtom') {
-    custom_query[['to_url']] <-
-      paste0(as.character(lat), ',', as.character(long))
+    custom_query[['to_url']] <- paste0(as.character(lat), ',', as.character(long))
   } else {
     stop('Invalid method. See ?reverse_geo')
   }
@@ -37,14 +39,14 @@ get_coord_parameters <- function(custom_query, method, lat, long) {
 }
 
 
-#' Reverse geocode latitude, longitude coordinates
+#' Reverse geocode coordinates
 #' 
 #' @description
-#' Reverse geocodes coordinates given as numeric values. The \code{\link{reverse_geocode}}
-#' function utilizes this function on coordinates contained in dataframes. Latitude and
-#' longitude inputs are limited to possible values. Latitudes are limited from -90 to 90 and
-#' longitudes are limited from -180 to 180.
-#' See example usage in \code{vignette("tidygeocoder")} 
+#' Reverse geocodes geographic coordinates (latitude and longitude) given as numeric values. 
+#' Latitude and longitude inputs are limited to possible values. Latitudes must be between -90 and 90 and
+#' longitudes must be between -180 and 180. Invalid values will not be sent to the geocoder service. 
+#' The \code{\link{reverse_geocode}} function utilizes this function on coordinates contained in dataframes.
+#' See example usage in \code{vignette("tidygeocoder")}.
 #'
 #' This function uses the \code{\link{get_api_query}}, \code{\link{query_api}}, and
 #' \code{\link{extract_reverse_results}} functions to create, execute, and parse the geocoder
@@ -54,7 +56,8 @@ get_coord_parameters <- function(custom_query, method, lat, long) {
 #' @param long longitude values (input data)
 #' @param method the geocoder service to be used. Refer to 
 #' \code{\link{api_parameter_reference}} and the API documentation for
-#' each geocoder service for usage details and limitations.
+#' each geocoder service for usage details and limitations. Note that the 
+#' Census service does not support reverse geocoding.
 #' \itemize{
 #'   \item \code{"osm"}: Nominatim (OSM). Worldwide coverage.
 #'   \item \code{"geocodio"}: Commercial geocoder. Covers US and Canada and has
@@ -70,28 +73,32 @@ get_coord_parameters <- function(custom_query, method, lat, long) {
 #'      in the "OPENCAGE_KEY" environmental variable.
 #'   \item \code{"mapbox"}: Commercial Mapbox geocoder service. Requires an API Key to
 #'      be stored in the "MAPBOX_API_KEY" environmental variable.
+#'   \item \code{"here"}: Commercial HERE geocoder service. Requires an API Key 
+#'      to be stored in the "HERE_API_KEY" environmental variable. Can perform 
+#'      batch geocoding.
 #'   \item \code{"tomtom"}: Commercial TomTom geocoder service. Requires an API Key to
 #'      be stored in the "TOMTOM_API_KEY" environmental variable. Can perform
 #'      batch geocoding.
 #' }
-#' @param address name of address column (output data)
+#' @param address name of the address column (output data)
 #' @param limit number of results to return per coordinate. Note that not all methods support
 #'  setting limit to a value other than 1. Also limit > 1 is not compatible 
-#'  with batch geocoding if return_addresses = TRUE.
-#' @param min_time minimum amount of time for a query to take (in seconds) if using
-#'  Location IQ or OSM. This parameter is used to abide by API usage limits. You can
-#'  set it to a lower value (ie. 0) if using a local Nominatim server, for instance.
+#'  with batch geocoding if return_coords = TRUE.
+#' @param min_time minimum amount of time for a query to take (in seconds). If NULL
+#' then min_time will be set to the lowest value that complies with the usage requirements of 
+#' the free tier of the selected geocoder service.
 #' @param api_url custom API URL. If specified, the default API URL will be overridden.
 #'  This parameter can be used to specify a local Nominatim server.
 #' @param timeout query timeout (in minutes)
 #' 
 #' @param mode set to 'batch' to force batch geocoding or 'single' to 
-#'  force single address geocoding (one address per query). If not 
+#'  force single address geocoding (one coordinate per query). If not 
 #'  specified then batch geocoding will be used if available
-#'  (given method selected) when multiple addresses are provided, otherwise
-#'  single address geocoding will be used.
+#'  (given method selected) when multiple addresses are provided; otherwise
+#'  single address geocoding will be used. For 'here' the batch mode
+#'  should be explicitly enforced.
 #' @param full_results returns all data from the geocoder service if TRUE. 
-#' If FALSE then only longitude and latitude are returned from the geocoder service.
+#' If FALSE then only a single address column will be returned from the geocoder service.
 #' @param unique_only only return results for unique addresses if TRUE
 #' @param return_coords return input coordinates with results if TRUE. Note that
 #'    most services return the input coordinates with full_results = TRUE and setting
@@ -100,19 +107,24 @@ get_coord_parameters <- function(custom_query, method, lat, long) {
 #'    Note that Geocodio batch geocoding results are flattened regardless.
 #' @param batch_limit limit to the number of addresses in a batch geocoding query.
 #'  Both geocodio and census batch geocoders have a 10,000 limit so this
-#'  is the default.
+#'  is the default. HERE has a 1,000,000 address limit.
 #' @param verbose if TRUE then detailed logs are output to the console
 #' @param no_query if TRUE then no queries are sent to the geocoder and verbose is set to TRUE
 #' @param custom_query API-specific parameters to be used, passed as a named list 
-#'  (ie. \code{list(vintage = 'Current_Census2010')}).
+#'  (ie. \code{list(extratags = 1)}).
 #' @param iq_region 'us' (default) or 'eu'. Used for establishing API URL for the 'iq' method
-#' @param geocodio_v version of geocodio api. 1.6 is default. Used for establishing API URL
+#' @param geocodio_v version of geocodio api. Used for establishing API URL
 #'   for the 'geocodio' method.
 #' @param mapbox_permanent if TRUE then the \code{mapbox.places-permanent} 
 #'   endpoint would be used. Note that this option should be used only if you 
 #'   have applied for a permanent account. Unsuccessful requests made by an 
 #'   account that does not have access to the endpoint may be billable.
-#' 
+#' @param here_request_id This parameter would return a previous HERE batch job,
+#'   identified by its RequestID. The RequestID of a batch job is displayed 
+#'   when \code{verbose} is TRUE. Note that this option would ignore the 
+#'   current \code{lat, long} parameters on the request, so \code{return_coords} 
+#'   needs to be FALSE.
+#'   
 #' @return parsed geocoding results in tibble format
 #' @examples
 #' \donttest{
@@ -127,7 +139,7 @@ get_coord_parameters <- function(custom_query, method, lat, long) {
 reverse_geo <- function(lat, long, method = 'osm', address = address, limit = 1, min_time = NULL, api_url = NULL,  
     timeout = 20, mode = '',  full_results = FALSE, unique_only = FALSE, return_coords = TRUE, flatten = TRUE, 
     batch_limit = 10000, verbose = FALSE, no_query = FALSE, custom_query = list(), iq_region = 'us', geocodio_v = 1.6,
-    mapbox_permanent = FALSE) {
+    mapbox_permanent = FALSE, here_request_id = NULL) {
 
   # NSE eval
   address <- rm_quote(deparse(substitute(address)))
@@ -140,7 +152,9 @@ reverse_geo <- function(lat, long, method = 'osm', address = address, limit = 1,
   stopifnot(is.logical(verbose), is.logical(no_query), is.logical(flatten),
       is.logical(full_results), is.logical(unique_only),
       is.numeric(limit), limit >= 1,  is.list(custom_query), 
-      is.logical(mapbox_permanent))
+      is.logical(mapbox_permanent),
+      is.null(here_request_id) || is.character(here_request_id)
+  )
   if (length(lat) != length(long)) stop('Lengths of lat and long must be equal.')
   if (!(mode %in% c('', 'single', 'batch'))) {
     stop('Invalid mode argument. See ?geo')
@@ -156,6 +170,13 @@ reverse_geo <- function(lat, long, method = 'osm', address = address, limit = 1,
   
   NA_value <- tibble::tibble(address = rep(as.character(NA), num_unique_coords)) # filler NA result to return if needed
   names(NA_value)[1] <- address # rename column
+  
+  # HERE Exception
+  # Batch mode is quite slow. If batch mode is not called explicitly
+  # use single method
+  if (method == "here" && mode != 'batch' ){
+    mode <- 'single'
+  }
   
   # Geocode coordinates one at a time in a loop -------------------------------------------------------
   if ((num_unique_coords > 1) & ((!(method %in% names(reverse_batch_func_map))) | (mode == 'single'))) {
@@ -189,6 +210,15 @@ reverse_geo <- function(lat, long, method = 'osm', address = address, limit = 1,
     3) Set return_coords to FALSE
     See the reverse_geo() function documentation for details.')
     }
+    
+    # HERE: If a previous job is requested return_coords should be FALSE
+    # This is because the job won't send the coords, but would recover the
+    # results of a previous request
+    if (method == 'here' && is.character(here_request_id) && return_coords == TRUE) {
+      stop('HERE: When requesting a previous job via here_request_id, set return_coords to FALSE.
+      See the geo() function documentation for details.')
+    }
+    
     
     # Enforce batch limit if needed
     if (num_unique_coords > batch_limit) {
@@ -240,30 +270,23 @@ reverse_geo <- function(lat, long, method = 'osm', address = address, limit = 1,
   }
   if (length(api_url) == 0) stop('API URL not found')
   
-  # Ugly hack for Mapbox/TomTom - The coordinates should be in the url
+  # Workaround for Mapbox/TomTom - The search_text should be in the url
   if (method %in%  c('mapbox', 'tomtom')) {
     api_url <- paste0(api_url, custom_query[["to_url"]], ".json")
     # Remove semicolons (Reserved for batch)
     api_url <- gsub(";", ",", api_url)
+    # Delete helper from query -- could be confusing and not replicable
+    custom_query <- custom_query[!names(custom_query) %in% c('to_url')]
   }
   
   # Set min_time if not set based on usage limit of service
   if (is.null(min_time)) min_time <- get_min_query_time(method)
   
-  if (!is.null(limit)) generic_query[['limit']] <- limit
-  
-  # If API key is required then use the get_key() function to retrieve it
-  if (method %in% get_services_requiring_key() && !isTRUE(no_query)) {
-    generic_query[['api_key']] <- get_key(method)
-  }
-  
+  # add limit and api_key to generic query
+  generic_query <- add_common_generic_parameters(generic_query, method, no_query, limit)
+
   # Convert our generic query parameters into parameters specific to our API (method)
   api_query_parameters <- get_api_query(method, generic_query, custom_query)
-  
-  # Mapbox/TomTom: Hack to remove address from parameters
-  if (method %in% c('mapbox', 'tomtom')) {
-    api_query_parameters <- api_query_parameters[names(api_query_parameters) != 'to_url']
-  }
   
   # Execute Single Coordinate Query -----------------------------------------
   if (verbose == TRUE) display_query(api_url, api_query_parameters)
@@ -274,7 +297,6 @@ reverse_geo <- function(lat, long, method = 'osm', address = address, limit = 1,
                                                 unique_only, return_coords))
   
   raw_results <- jsonlite::fromJSON(query_api(api_url, api_query_parameters))
-  
   
   ## Extract results ------------------------------------------------------------------------------
   # if there were problems with the results then return NA

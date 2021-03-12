@@ -26,6 +26,7 @@ geo(
   return_addresses = TRUE,
   flatten = TRUE,
   batch_limit = 10000,
+  batch_limit_error = TRUE,
   verbose = FALSE,
   no_query = FALSE,
   custom_query = list(),
@@ -33,7 +34,8 @@ geo(
   iq_region = "us",
   geocodio_v = 1.6,
   param_error = TRUE,
-  mapbox_permanent = FALSE
+  mapbox_permanent = FALSE,
+  here_request_id = NULL
 )
 }
 \arguments{
@@ -73,6 +75,9 @@ each geocoder service for usage details and limitations.
      in the "OPENCAGE_KEY" environmental variable.
   \item \code{"mapbox"}: Commercial Mapbox geocoder service. Requires an API Key to
      be stored in the "MAPBOX_API_KEY" environmental variable.
+  \item \code{"here"}: Commercial HERE geocoder service. Requires an API Key 
+     to be stored in the "HERE_API_KEY" environmental variable. Can perform 
+     batch geocoding.
   \item \code{"tomtom"}: Commercial TomTom geocoder service. Requires an API Key to
      be stored in the "TOMTOM_API_KEY" environmental variable. Can perform 
      batch geocoding.
@@ -95,9 +100,9 @@ in the order in which the geocoder services will be attempted for method = "casc
 setting limit to a value other than 1. Also limit > 1 is not compatible 
 with batch geocoding if return_addresses = TRUE.}
 
-\item{min_time}{minimum amount of time for a query to take (in seconds) if using
-Location IQ or OSM. This parameter is used to abide by API usage limits. You can
-set it to a lower value (ie. 0) if using a local Nominatim server, for instance.}
+\item{min_time}{minimum amount of time for a query to take (in seconds). If NULL
+then min_time will be set to the lowest value that complies with the usage requirements of 
+the free tier of the selected geocoder service.}
 
 \item{api_url}{custom API URL. If specified, the default API URL will be overridden.
 This parameter can be used to specify a local Nominatim server.}
@@ -107,8 +112,9 @@ This parameter can be used to specify a local Nominatim server.}
 \item{mode}{set to 'batch' to force batch geocoding or 'single' to 
 force single address geocoding (one address per query). If not 
 specified then batch geocoding will be used if available
-(given method selected) when multiple addresses are provided, otherwise
-single address geocoding will be used.}
+(given method selected) when multiple addresses are provided; otherwise
+single address geocoding will be used. For 'here' the batch mode
+should be explicitly enforced.}
 
 \item{full_results}{returns all data from the geocoder service if TRUE. 
 If FALSE then only longitude and latitude are returned from the geocoder service.}
@@ -123,8 +129,12 @@ return_addresses to FALSE does not prevent this.}
 Note that Geocodio batch geocoding results are flattened regardless.}
 
 \item{batch_limit}{limit to the number of addresses in a batch geocoding query.
-geocodio, census and tomtom batch geocoders have a 10,000 address limit so this
-is the default.}
+'geocodio', 'census' and 'tomtom' batch geocoders have a 10,000 address limit so this
+is the default. 'here' has a 1,000,000 address limit.}
+
+\item{batch_limit_error}{if TRUE then an error is thrown if the number of unique addresses
+exceeds the batch limit (if executing a batch query). This is reverted to FALSE when using the
+cascade method.}
 
 \item{verbose}{if TRUE then detailed logs are output to the console}
 
@@ -142,7 +152,7 @@ is the default.}
 
 \item{iq_region}{'us' (default) or 'eu'. Used for establishing API URL for the 'iq' method}
 
-\item{geocodio_v}{version of geocodio api. 1.6 is default. Used for establishing API URL
+\item{geocodio_v}{version of geocodio api. Used for establishing API URL
 for the 'geocodio' method.}
 
 \item{param_error}{if TRUE then an error will be thrown if certain parameters are invalid for the selected geocoder
@@ -153,6 +163,12 @@ If method = 'cascade' then no errors will be thrown.}
 endpoint would be used. Note that this option should be used only if you 
 have applied for a permanent account. Unsuccessful requests made by an 
 account that does not have access to the endpoint may be billable.}
+
+\item{here_request_id}{This parameter would return a previous HERE batch job,
+identified by its RequestID. The RequestID of a batch job is displayed 
+when \code{verbose} is TRUE. Note that this option would ignore the 
+current \code{address} parameter on the request, so \code{return_addresses} 
+needs to be FALSE.}
 }
 \value{
 parsed geocoding results in tibble format
