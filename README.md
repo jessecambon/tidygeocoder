@@ -76,16 +76,17 @@ required, and the usage rate limitations. Refer to the website for each
 geocoder service for the most up-to-date details on costs, capabilities,
 and usage limitations.
 
-| Service                                                                       | Geography     | Batch Geocoding | API Key Required | Query Rate Limit        |
-|-------------------------------------------------------------------------------|---------------|-----------------|------------------|-------------------------|
-| [US Census](https://geocoding.geo.census.gov/)                                | US            | Yes             | No               | None                    |
-| [Nominatim (OSM)](https://nominatim.org)                                      | Worldwide     | No              | No               | 1/second                |
-| [Geocodio](https://www.geocod.io/)                                            | US and Canada | Yes             | Yes              | 1000/minute (free tier) |
-| [Location IQ](https://locationiq.com/)                                        | Worldwide     | No              | Yes              | 2/second (free tier)    |
-| [Google](https://developers.google.com/maps/documentation/geocoding/overview) | Worldwide     | No              | Yes              | 50/second               |
-| [OpenCage](https://opencagedata.com)                                          | Worldwide     | No              | Yes              | 1/second (free tier)    |
-| [Mapbox](https://www.mapbox.com/)                                             | Worldwide     | See Note        | Yes              | 10/second (free tier)   |
-| [HERE](https://developer.here.com/products/geocoding-and-search)              | Worldwide     | Yes             | Yes              | None                    |
+| Service                                                                              | Geography     | Batch Geocoding | API Key Required | Query Rate Limit        |
+|--------------------------------------------------------------------------------------|---------------|-----------------|------------------|-------------------------|
+| [US Census](https://geocoding.geo.census.gov/)                                       | US            | Yes             | No               | None                    |
+| [Nominatim (OSM)](https://nominatim.org)                                             | Worldwide     | No              | No               | 1/second                |
+| [Geocodio](https://www.geocod.io/)                                                   | US and Canada | Yes             | Yes              | 1000/minute (free tier) |
+| [Location IQ](https://locationiq.com/)                                               | Worldwide     | No              | Yes              | 2/second (free tier)    |
+| [Google](https://developers.google.com/maps/documentation/geocoding/overview)        | Worldwide     | No              | Yes              | 50/second               |
+| [OpenCage](https://opencagedata.com)                                                 | Worldwide     | No              | Yes              | 1/second (free tier)    |
+| [Mapbox](https://docs.mapbox.com/api/search/)                                        | Worldwide     | See Note        | Yes              | 10/second (free tier)   |
+| [HERE](https://developer.here.com/products/geocoding-and-search)                     | Worldwide     | Yes             | Yes              | None                    |
+| [TomTom](https://developer.tomtom.com/search-api/search-api-documentation/geocoding) | Worldwide     | Yes             | Yes              | 5/second (free tier)    |
 
 Notes:
 
@@ -94,8 +95,8 @@ Notes:
 -   The US Census and Geocodio services both support a maximum of 10,000
     addresses per batch query.
 -   The US Census and OSM services are free while Geocodio, Location IQ,
-    and OpenCage are commercial services that offer both free and paid
-    usage tiers. The Google service [bills per
+    OpenCage, Mapbox, HERE and TomTom are commercial services that offer
+    both free and paid usage tiers. The Google service [bills per
     query](https://developers.google.com/maps/documentation/geocoding/usage-and-billing).
 -   The Census geocoder does not support reverse geocoding.
 -   The Mapbox service is capable of performing batch geocoding when
@@ -162,7 +163,8 @@ geography columns (state, county, Census tract, and Census block).
 
 ``` r
 full <- some_addresses %>%
-  geocode(addr, method = 'census', full_results = TRUE, return_type = 'geographies')
+  geocode(addr, method = 'census', full_results = TRUE, 
+          return_type = 'geographies')
 ```
 
 | name                 | addr                                       |      lat |       long |  id | input\_address                                  | match\_indicator | match\_type | matched\_address                                | tiger\_line\_id | tiger\_side | state\_fips | county\_fips | census\_tract | census\_block |

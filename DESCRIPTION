@@ -8,6 +8,11 @@ Authors@R:
              role = c("aut", "cre"),
              email = "jesse.cambon@gmail.com",
              comment = c(ORCID = "0000-0001-6854-1514")),
+      person(given = "Diego",
+             family = "Hernangómez",
+             role = "aut",
+             email = "diego.hernangomezherrero@gmail.com",
+             comment = c(ORCID = "0000-0001-8457-4658")),
       person(given = "Christopher",
              family = "Belanger",
              role = "aut",
@@ -16,12 +21,7 @@ Authors@R:
              family = "Possenriede", 
              email = "possenriede+r@gmail.com", 
              role = "aut", 
-             comment = c(ORCID = "0000-0002-6738-9845")),
-      person(given = "Diego",
-             family = "Hernangómez",
-             role = "aut",
-             email = "diego.hernangomezherrero@gmail.com",
-             comment = c(ORCID = "0000-0001-8457-4658"))
+             comment = c(ORCID = "0000-0002-6738-9845"))
              )
 Description: An intuitive interface for getting data from geocoder services. 
 URL: https://jessecambon.github.io/tidygeocoder/, 

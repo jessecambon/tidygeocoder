@@ -9,7 +9,8 @@ get_key <- function(method) {
          'google' = "GOOGLEGEOCODE_API_KEY",
          'opencage' = "OPENCAGE_KEY",
          'mapbox' = "MAPBOX_API_KEY",
-         'here' = "HERE_API_KEY"
+         'here' = "HERE_API_KEY",
+         'tomtom' = "TOMTOM_API_KEY"
          )
   # load api key from environmental variable
   key <- Sys.getenv(env_var)
@@ -31,7 +32,8 @@ get_min_query_time <- function(method) {
     iq = 1/2,              # 2 queries per second (free tier)
     google = 1/50,         # 50 queries per second
     opencage = 1,          # 1 query/second 
-    mapbox = 60/600        # 600 queries per minute (free tier)
+    mapbox = 60/600,       # 600 queries per minute (free tier)
+    tomtom = 1/5           # 5 queries per second (free tier)
   )
   
   # default min_time to 0
@@ -84,6 +86,11 @@ get_here_url <- function(reverse = FALSE) {
   return("https://geocode.search.hereapi.com/v1/geocode")
 }
 
+get_tomtom_url <- function(reverse = FALSE) {
+    url_keyword <- if (reverse == TRUE) 'reverseGeocode/' else 'geocode/'
+    return(paste0('https://api.tomtom.com/search/2/', url_keyword))
+}
+
 ## wrapper function for above functions
 ### IMPORTANT: if arguments are changed in this definition then make sure to 
 ### update reverse_geo.R and geo.R where this function is called.
@@ -99,7 +106,9 @@ get_api_url <- function(method, reverse = FALSE, return_type = 'locations',
          "google" = get_google_url(), # same url as forward geocoding
          "mapbox" = get_mapbox_url(mapbox_permanent), # same url as fwd geocoding
          "here" = get_here_url(reverse = reverse),
-  )
+         "tomtom" = get_tomtom_url(reverse = reverse),
+         )
+
 
   if (length(api_url) == 0) stop('API URL not found')
   return(api_url)
@@ -184,9 +193,13 @@ get_api_query <- function(method, generic_parameters = list(), custom_parameters
   # Mapbox: Workaround to remove inputs from parameters (since it is added to the API url instead)
   if (method == "mapbox") {
     api_query_parameters <-
-      api_query_parameters[names(api_query_parameters) != "search_text"]
+      api_query_parameters[!names(api_query_parameters) %in% c("search_text", "to_url")]
   }
-
+  # TomTom: Workaround to remove inputs from parameters (since it is added to the API url instead)
+    if (method == "tomtom") {
+    api_query_parameters <-
+      api_query_parameters[!names(api_query_parameters) %in% c("query", "to_url")]
+  }
   return(api_query_parameters)
 }
 
@@ -209,18 +222,20 @@ get_api_query <- function(method, generic_parameters = list(), custom_parameters
 #' should be 'json' for geocodio and 'multipart' for census 
 #' @param content_encoding Encoding to be used for parsing content
 #' @param timeout timeout in minutes
-#' @return raw results from the query
+#' @return a named list containing the response content (\code{content}) and the HTTP request status (\code{status})
 #' @examples
 #' \donttest{
 #' raw1 <- query_api("http://nominatim.openstreetmap.org/search", 
 #'    get_api_query("osm", list(address = 'Hanoi, Vietnam')))
 #'    
-#' extract_results('osm', jsonlite::fromJSON(raw1))
+#' raw1$status
+#'    
+#' extract_results('osm', jsonlite::fromJSON(raw1$content))
 #' 
-#' raw2 <-  query_api("http://nominatim.openstreetmap.org/reverse", 
+#' raw2 <- query_api("http://nominatim.openstreetmap.org/reverse", 
 #'    get_api_query("osm", custom_parameters = list(lat = 38.895865, lon = -77.0307713)))
 #'    
-#' extract_reverse_results('osm', jsonlite::fromJSON(raw2))
+#' extract_reverse_results('osm', jsonlite::fromJSON(raw2$content))
 #' }
 #' 
 #' @seealso \code{\link{get_api_query}} \code{\link{extract_results}} \code{\link{geo}}
@@ -238,8 +253,9 @@ query_api <- function(api_url, query_parameters, mode = 'single',
    )
   
   httr::warn_for_status(response)
+  
   content <- httr::content(response, as = 'text', encoding = content_encoding)
-  return(content)
+  return(list(content = content, status = httr::status_code(response)))
 }
 
 # Functions for displaying API queries (when verbose = TRUE) ----------------------

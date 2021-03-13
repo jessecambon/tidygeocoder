@@ -9,6 +9,7 @@
 \alias{geo_opencage}
 \alias{geo_mapbox}
 \alias{geo_here}
+\alias{geo_tomtom}
 \title{Convenience functions for calling the \code{\link{geo}} function
 with a specified method}
 \usage{
@@ -27,6 +28,8 @@ geo_opencage(...)
 geo_mapbox(...)
 
 geo_here(...)
+
+geo_tomtom(...)
 }
 \arguments{
 \item{...}{arguments to be passed to the \code{\link{geo}} function}

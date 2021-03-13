@@ -5,7 +5,8 @@
 batch_func_map <- list(
   geocodio = batch_geocodio, 
   census = batch_census,
-  here = batch_here
+  here = batch_here,
+  tomtom = batch_tomtom
 )
 
 #' Geocode addresses
@@ -57,6 +58,9 @@ batch_func_map <- list(
 #'   \item \code{"here"}: Commercial HERE geocoder service. Requires an API Key 
 #'      to be stored in the "HERE_API_KEY" environmental variable. Can perform 
 #'      batch geocoding, but this must be specified with \code{mode = 'batch'}.
+#'   \item \code{"tomtom"}: Commercial TomTom geocoder service. Requires an API Key to
+#'      be stored in the "TOMTOM_API_KEY" environmental variable. Can perform 
+#'      batch geocoding.
 #'   \item \code{"cascade"} : Attempts to use one geocoder service and then uses
 #'     a second geocoder service if the first service didn't return results.
 #'     The services and order is specified by the cascade_order argument. 
@@ -95,8 +99,8 @@ batch_func_map <- list(
 #' @param flatten if TRUE then any nested dataframes in results are flattened if possible.
 #'    Note that Geocodio batch geocoding results are flattened regardless.
 #' @param batch_limit limit to the number of addresses in a batch geocoding query.
-#'  Both geocodio and census batch geocoders have a 10,000 address limit so this
-#'  is the default. HERE has a 1,000,000 address limit.
+#'  'geocodio', 'census' and 'tomtom' batch geocoders have a 10,000 address limit so this
+#'  is the default. 'here' has a 1,000,000 address limit.
 #' @param batch_limit_error if TRUE then an error is thrown if the number of unique addresses
 #'  exceeds the batch limit (if executing a batch query). This is reverted to FALSE when using the
 #'  cascade method.
@@ -406,10 +410,10 @@ geo <- function(address = NULL,
                 mapbox_permanent = mapbox_permanent)
   }
   
-  # Workaround for Mapbox - The search_text should be in the API URL
-  if (method == "mapbox") {
+  # Workaround for Mapbox/TomTom - The search_text should be in the API URL
+  if (method %in% c('mapbox', 'tomtom')) {
     api_url <- gsub(" ", "%20", paste0(api_url, generic_query[['address']], ".json"))
-    # Remove semicolons (Reserved for batch
+    # Remove semicolons (Reserved for batch)
     api_url <- gsub(";", ",", api_url)
   }
 
@@ -427,17 +431,20 @@ geo <- function(address = NULL,
   
   # return NA results if no_query = TRUE
   if (no_query == TRUE) return(unpackage_inputs(address_pack, NA_value, unique_only, return_addresses))
-  raw_results <- jsonlite::fromJSON(query_api(api_url, api_query_parameters))
+  query_results <- query_api(api_url, api_query_parameters)
+  
+  if (verbose == TRUE) message(paste0('HTTP Status Code: ', as.character(query_results$status)))
   
   ## Extract results -----------------------------------------------------------------------------------
   # if there were problems with the results then return NA
-  if (check_results_for_problems(method, raw_results, verbose)) {
+  if (query_results$status != 200) {
+    extract_errors_from_results(method, query_results$content, verbose)
     results <- NA_value
-  } 
+  }
   else {
     # Extract results. Use the full_results and flatten parameters
     # to control the output
-    results <- extract_results(method, raw_results, full_results, flatten)
+    results <- extract_results(method, jsonlite::fromJSON(query_results$content), full_results, flatten)
     
     # Name the latitude and longitude columns in accordance with lat/long arguments
     names(results)[1] <- lat

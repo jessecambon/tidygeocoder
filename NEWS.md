@@ -10,6 +10,7 @@
 ### Tweaks
 -   If the number of unique addresses or coordinates exceeds the batch query limit then an error is thrown by default. For forward geocoding, this behaviour can be toggled with the new `batch_limit_query` argument in the `geo()` function and `batch_limit_query` is set to FALSE if using the "cascade" method. When `batch_limit_query` is FALSE then the batch query is limited to the batch limit and executed. In the past, all batch queries that exceeded the batch query limit would be limited to the batch limit and no error was thrown.
 -   The `address_list` argument of `query_api()` has been renamed to `input_list` to reflect that it is used for both forward and reverse queries when using the Geocodio service for batch geocoding.
+-   The `query_api()` function now returns a named list which contains the response content (`content`) and the HTTP status code (`status`). The `geo()` and `reverse_geo()` functions now use the HTTP status code directly to determine if a response is valid.
 
 # tidygeocoder 1.0.2
 

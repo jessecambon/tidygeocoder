@@ -1,5 +1,8 @@
 ## Test geocoding functionality without making any API calls
 
+# get all method names
+all_methods <- unique(tidygeocoder::api_parameter_reference[['method']])
+
 # Check column names with custom settings
 test_that("geocode default colnames", {
   result <- tibble::tibble(addr = NA) %>%
@@ -31,6 +34,7 @@ test_that("geocode null/empty addresses", {
   expect_identical(geo_opencage(" ", return_addresses = FALSE, no_query = TRUE), NA_result)
   expect_identical(geo_mapbox(" ", return_addresses = FALSE, no_query = TRUE), NA_result)
   expect_identical(geo_here(" ", return_addresses = FALSE, no_query = TRUE), NA_result)
+  expect_identical(geo_tomtom(" ", return_addresses = FALSE, no_query = TRUE), NA_result)
   
   # Test with tibble
   NA_data <- tibble::tribble(~addr,
@@ -45,17 +49,31 @@ test_that("geocode null/empty addresses", {
   expect_identical(colnames(result), expected_colnames)
   expect_identical(colnames(geocode(NA_data, addr, method = 'google', no_query = TRUE)), expected_colnames)
   expect_identical(colnames(geocode(NA_data, addr, method = 'opencage', no_query = TRUE)), expected_colnames)
+  expect_identical(colnames(geocode(NA_data, addr, method = 'mapbox', no_query = TRUE)), expected_colnames)
+  expect_identical(colnames(geocode(NA_data, addr, method = 'here', no_query = TRUE)), expected_colnames)
+  expect_identical(colnames(geocode(NA_data, addr, method = 'tomtom', no_query = TRUE)), expected_colnames)
   
   # make sure geo_method is NA when address is NA
   expect_equal(nrow(result), nrow(NA_data)) # check dataframe length
   expect_equal(nrow(geocode(NA_data, addr, method = 'google', no_query = TRUE)), nrow(NA_data))
   expect_equal(nrow(geocode(NA_data, addr, method = 'opencage', no_query = TRUE)), nrow(NA_data))
+  expect_equal(nrow(geocode(NA_data, addr, method = 'mapbox', no_query = TRUE)), nrow(NA_data))
+  expect_equal(nrow(geocode(NA_data, addr, method = 'here', no_query = TRUE)), nrow(NA_data))
+  expect_equal(nrow(geocode(NA_data, addr, method = 'tomtom', no_query = TRUE)), nrow(NA_data))
   
   # Test batch limit detection and error/warning toggling
   expect_error(geo(address = as.character(seq(1, 10)), 
                    method = 'census', batch_limit = 5, no_query = TRUE, batch_limit_error = TRUE))
+  expect_error(geo(address = as.character(seq(1, 10)), mode = 'batch',
+                   method = 'here', batch_limit = 5, no_query = TRUE, batch_limit_error = TRUE))
+  expect_error(geo(address = as.character(seq(1, 10)), 
+                   method = 'tomtom', batch_limit = 5, no_query = TRUE, batch_limit_error = TRUE))
   expect_warning(geo(address = as.character(seq(1, 10)), 
                      method = 'census', batch_limit = 5, no_query = TRUE, batch_limit_error = FALSE))
+  expect_warning(geo(address = as.character(seq(1, 10)), mode = 'batch',
+                     method = 'here', batch_limit = 5, no_query = TRUE, batch_limit_error = FALSE))
+  expect_warning(geo(address = as.character(seq(1, 10)),
+                     method = 'tomtom', batch_limit = 5, no_query = TRUE, batch_limit_error = FALSE))
   # batch_limit_error should revert to FALSE with method = 'cascade'
   expect_warning(geo(address = as.character(seq(1, 10)), 
                      method = 'cascade', batch_limit = 5, no_query = TRUE, batch_limit_error = TRUE))
@@ -89,7 +107,11 @@ test_that("Test geo() error handling", {
   expect_error(geo('xy', no_query = TRUE, full_results = TRUE, method = 'cascade'))
   expect_error(geo('ab', no_query = TRUE, limit = 5, method = 'cascade'))
   
+  # invalid mapbox_permanent parameter
+  expect_error(geo(no_query = TRUE, address = 'abc', mapbox_permanent = "AA"))
   
+  # invalid here_request_id  parameter
+  expect_error(geo(no_query = TRUE, address = 'abc', here_request_id  = 12345))
 })
 
 test_that("Test geocode() error handling", {
@@ -109,33 +131,36 @@ test_that("Test geocode() error handling", {
 
 # Check that null/empty address values are handled properly
 test_that("reverse geocode null/empty addresses", {
+  # Currently census is the only method that doesn't support reverse geocoding
+  reverse_methods <- all_methods[!all_methods %in% c('census')]
+  
   NA_result <- tibble::tibble(address = as.character(NA))
-  
-  # make sure blank addresses are not being sent to the geocoder
-  expect_identical(reverse_geo(lat = " ", long = " ", method = 'osm', return_coords = FALSE, no_query = TRUE), NA_result)
-  expect_identical(reverse_geo(lat =" ", long = " ", method = 'google', return_coords = FALSE, no_query = TRUE), NA_result)
-  expect_identical(reverse_geo(lat = " ", long = " ", method = 'opencage', return_coords = FALSE, no_query = TRUE), NA_result)
-  expect_identical(reverse_geo(lat = " ", long = " ", method = 'mapbox', return_coords = FALSE, no_query = TRUE), NA_result)
-  expect_identical(reverse_geo(lat = " ", long = " ", method = 'here', return_coords = FALSE, no_query = TRUE), NA_result)
-  
-  
-  # Test with tibble
   NA_data <- tibble::tribble(~lat,~lon,
                              as.numeric(NA), as.numeric(NA),
                              5000, 5000)
-  
   result <- NA_data %>% reverse_geocode(lat = lat, long = lon, no_query = TRUE, method = 'osm')
   
   # check column names
   expected_colnames <- c(colnames(NA_data), 'address')
   expect_identical(colnames(result), expected_colnames)
-  expect_identical(colnames(reverse_geocode(NA_data, lat = lat, long = lon, method = 'google', no_query = TRUE)), expected_colnames)
-  expect_identical(colnames(reverse_geocode(NA_data, lat = lat, long = lon, method = 'opencage', no_query = TRUE)), expected_colnames)
+  # check dataframe length
+  expect_equal(nrow(result), nrow(NA_data)) 
+
   
-  # make sure geo_method is NA when address is NA
-  expect_equal(nrow(result), nrow(NA_data)) # check dataframe length
-  expect_equal(nrow(reverse_geocode(NA_data, lat = lat, long = lon, method = 'google', no_query = TRUE)), nrow(NA_data))
-  expect_equal(nrow(reverse_geocode(NA_data, lat = lat, long = lon, method = 'opencage', no_query = TRUE)), nrow(NA_data))
+  for (method in reverse_methods) {
+    # label to include in error message so we know which method failed
+    method_label = paste0('method = "', method, '"', ' ')
+    
+    # check colnames
+    expect_identical(colnames(reverse_geocode(NA_data, lat = lat, long = lon,
+                              method = method, no_query = TRUE)), expected_colnames, label = method_label)
+    # check dataframe length
+    expect_equal(nrow(reverse_geocode(NA_data, lat = lat, long = lon, 
+                          method = method, no_query = TRUE)), nrow(NA_data), label = method_label)
+    # check NA results on blank
+    expect_identical(reverse_geo(lat = " ", long = " ", method = method, 
+                                 return_coords = FALSE, no_query = TRUE), NA_result, label = method_label)
+  }
   
   # Test batch limit
   

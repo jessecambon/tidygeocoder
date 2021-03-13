@@ -1,8 +1,8 @@
-selected_method <- "mapbox"
+selected_method <- "tomtom"
 
 addr <- "Acueducto de Segovia, Spain"
-url_base <- tidygeocoder:::get_mapbox_url()
-
+url_base <- tidygeocoder:::get_tomtom_url()
+grep('tomtom',"url_base")
 library(httr)
 library(jsonlite)
 library(dplyr)
@@ -13,13 +13,15 @@ soup <-
     url = gsub(" ", "%20", paste0(url_base, addr, ".json")),
     query = list(
       limit = 1,
-      access_token = 1
-      #access_token = tidygeocoder:::get_key(selected_method)
+      key = tidygeocoder:::get_key(selected_method)
     )
   )
 
 raw_results <-
   jsonlite::fromJSON(httr::content(soup, as = "text", encoding = "UTF-8"))
+
+is.data.frame(raw_results$results)
+httr::content(soup, as = "text", encoding = "UTF-8")
 
 results_minimal <-
   tidygeocoder::extract_results(selected_method, raw_results, full_results = FALSE)
@@ -33,46 +35,73 @@ full_results_notflat <-
     full_results = TRUE,
     flatten = FALSE
   )
+full_results_notflat
+
 full_results_flat <-
   tidygeocoder::extract_results(selected_method,
     raw_results,
     full_results = TRUE,
     flatten = TRUE
   )
+full_results_flat
+
+# Error on bad user
+response <-
+  httr::GET(
+    url = gsub(" ", "%20", paste0(url_base, addr, ".json")),
+    query = list(
+      limit = 1,
+      #key = tidygeocoder:::get_key(selected_method),
+      key = "aa",
+      language = "FFFFF"
+    )
+  )
+httr::status_code(response)
+httr::warn_for_status(response)
+httr::content(response, as = 'text', encoding = "UTF-8")
+content <- jsonlite::fromJSON(httr::content(response, as = 'text', encoding = "UTF-8"))
+
+httr::content(response, as = 'text', encoding = "UTF-8")
+
+tidygeocoder::check_results_for_problems("tomtom", soup2, TRUE)
+# Error on bad key
+
 
 # Test geo ----
-addr <- "Acueducto de Segovia, Spain"
-## Error
-tidygeocoder::geo(
-  address = addr,
-  verbose = TRUE,
-  method = "mapbox",
-  custom_query = list(
-    country = "error"
-  )
-)
+library(tibble)
+addr <- "Plaza Mayor"
 
 tidygeocoder::geo(
   address = addr,
   verbose = TRUE,
-  method = "mapbox",
-  mapbox_permanent = "TRUE"
+  lat = "latitude",
+  long = "longitude",
+  method = "tomtom",
+  limit = 5,
 )
-
+tidygeocoder::geo(
+  address = addr,
+  verbose = TRUE,
+  lat = "latitude",
+  long = "longitude",
+  method = "tomtom",
+  limit = 5,
+  custom_query =  list(key="aa")
+)
 
 livetest <-
   tidygeocoder::geo(
     address = addr,
     verbose = TRUE,
-    method = "mapbox"
+    method = "tomtom"
   )
 glimpse(livetest)
 livetest_full <-
   tidygeocoder::geo(
-    address = addr,
+    address = "Antonio de Leyva, Madrid",
     verbose = TRUE,
     full_results = TRUE,
-    method = "mapbox"
+    method = "tomtom"
   )
 glimpse(livetest_full)
 
@@ -82,7 +111,7 @@ livetest_fullflat <-
     verbose = TRUE,
     full_results = TRUE,
     flatten = TRUE,
-    method = "mapbox"
+    method = "tomtom"
   )
 glimpse(livetest_fullflat)
 
@@ -92,14 +121,26 @@ livetest_params <-
     address = c("Santiago de Compostela; Spain", "Nieva"),
     verbose = TRUE,
     full_results = TRUE,
+    mode = "single",
     limit = 2,
     custom_query = list(
-      country = "ES",
-      language = "fr",
-      types = "poi,district"
+      language = "fr-FR"
     ),
-    method = "mapbox"
+    method = "tomtom"
   )
+
+# Error
+tidygeocoder::geo(
+  address = c("Nieva"),
+  verbose = TRUE,
+  full_results = TRUE,
+  mode = "single",
+  limit = 2,
+  custom_query = list(
+    language = "aaaaaa"
+  ),
+  method = "tomtom"
+)
 
 glimpse(livetest_params)
 
@@ -117,6 +158,9 @@ some_addresses <- tribble(
 
 # geocode the addresses
 lat_longs <- some_addresses %>%
-  geocode(addr, method = "mapbox", lat = latitude, long = longitude)
+  geocode(addr,
+    method = "tomtom", lat = latitude, long = longitude,
+    full_results = TRUE, mode = "single", verbose = TRUE
+  )
 
 lat_longs

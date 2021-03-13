@@ -177,12 +177,18 @@ test_error_catching <- function(method, generic_args = list(), custom_args = lis
   method_label = paste0('method = "', method, '"', ' ')
   
   print(paste0('Invalid query handling: ', method))
-  expect_warning(result_w_error <- jsonlite::fromJSON(query_api(tidygeocoder:::get_api_url(method), 
-                query_parameters = tidygeocoder::get_api_query(method, generic_args, custom_args))),
-                label = method_label)
-  expect_message(check_results <- tidygeocoder:::check_results_for_problems(method, result_w_error, FALSE),
+  
+  # We expect a warning because the query is invalid
+  expect_warning(query_response <- query_api(tidygeocoder:::get_api_url(method), 
+      query_parameters = tidygeocoder::get_api_query(method, generic_args, custom_args)),
+        label = method_label)
+  
+  # HTTP query should not be valid
+  expect_true(200 != query_response$status, label = method_label)
+
+  # Check to make sure an error message is extracted
+  expect_message(tidygeocoder:::extract_errors_from_results(method, query_response$content, FALSE),
                  label = method_label)
-  expect_true(check_results, label = method_label)
 }
 
 # Pass an invalid query to each service and make sure
