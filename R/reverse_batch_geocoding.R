@@ -38,7 +38,7 @@ reverse_batch_geocodio <- function(lat, long, address = 'address', timeout = 20,
   else return(cbind(results[address], results[!names(results) %in% c(address)]))
 }
 
-# Reverse HERE geocoding with geocodio
+# Reverse batch geocoding with HERE
 # ... are arguments passed from the reverse_geo() function
 # https://developer.here.com/documentation/batch-geocoder/dev_guide/topics/introduction.html
 reverse_batch_here <- function(lat, long, address = 'address', timeout = 20, full_results = FALSE, custom_query = list(),
