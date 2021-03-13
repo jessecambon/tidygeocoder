@@ -55,6 +55,9 @@ Census service does not support reverse geocoding.
   \item \code{"here"}: Commercial HERE geocoder service. Requires an API Key 
      to be stored in the "HERE_API_KEY" environmental variable. Can perform 
      batch geocoding, but this must be specified with \code{mode = 'batch'}.
+  \item \code{"tomtom"}: Commercial TomTom geocoder service. Requires an API Key to
+     be stored in the "TOMTOM_API_KEY" environmental variable. Can perform
+     batch geocoding.
 }}
 
 \item{address}{name of the address column (output data)}

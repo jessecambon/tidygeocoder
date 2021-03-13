@@ -5,7 +5,8 @@
 batch_func_map <- list(
   geocodio = batch_geocodio, 
   census = batch_census,
-  here = batch_here
+  here = batch_here,
+  tomtom = batch_tomtom
 )
 
 #' Geocode addresses
@@ -57,6 +58,9 @@ batch_func_map <- list(
 #'   \item \code{"here"}: Commercial HERE geocoder service. Requires an API Key 
 #'      to be stored in the "HERE_API_KEY" environmental variable. Can perform 
 #'      batch geocoding, but this must be specified with \code{mode = 'batch'}.
+#'   \item \code{"tomtom"}: Commercial TomTom geocoder service. Requires an API Key to
+#'      be stored in the "TOMTOM_API_KEY" environmental variable. Can perform 
+#'      batch geocoding.
 #'   \item \code{"cascade"} : Attempts to use one geocoder service and then uses
 #'     a second geocoder service if the first service didn't return results.
 #'     The services and order is specified by the cascade_order argument. 
@@ -95,8 +99,8 @@ batch_func_map <- list(
 #' @param flatten if TRUE then any nested dataframes in results are flattened if possible.
 #'    Note that Geocodio batch geocoding results are flattened regardless.
 #' @param batch_limit limit to the number of addresses in a batch geocoding query.
-#'  Both geocodio and census batch geocoders have a 10,000 address limit so this
-#'  is the default. HERE has a 1,000,000 address limit.
+#'  'geocodio', 'census' and 'tomtom' batch geocoders have a 10,000 address limit so this
+#'  is the default. 'here' has a 1,000,000 address limit.
 #' @param batch_limit_error if TRUE then an error is thrown if the number of unique addresses
 #'  exceeds the batch limit (if executing a batch query). This is reverted to FALSE when using the
 #'  cascade method.
@@ -406,10 +410,10 @@ geo <- function(address = NULL,
                 mapbox_permanent = mapbox_permanent)
   }
   
-  # Workaround for Mapbox - The search_text should be in the API URL
-  if (method == "mapbox") {
+  # Workaround for Mapbox/TomTom - The search_text should be in the API URL
+  if (method %in% c('mapbox', 'tomtom')) {
     api_url <- gsub(" ", "%20", paste0(api_url, generic_query[['address']], ".json"))
-    # Remove semicolons (Reserved for batch
+    # Remove semicolons (Reserved for batch)
     api_url <- gsub(";", ",", api_url)
   }
 

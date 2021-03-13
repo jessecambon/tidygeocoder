@@ -39,7 +39,8 @@ extract_results <- function(method, response, full_results = TRUE, flatten = TRU
       'lat' = response$features$center[[1]][2],
       'long' = response$features$center[[1]][1]
     ), # mapbox results are nested unnames lists
-    'here' = response$items$position[c('lat','lng')]
+    'here' = response$items$position[c('lat','lng')],
+    'tomtom' = response$results$position[c('lat', 'lon')]
   )
   
   # if null result then return NA
@@ -62,9 +63,10 @@ extract_results <- function(method, response, full_results = TRUE, flatten = TRU
       'google' = response$results,
       'opencage' = response$results[!names(response$results) %in% c('geometry')],
       'mapbox' = response$features,
-      'here' = response$items
+      'here' = response$items,
+      'tomtom' = response$results
     )
-    
+
     # add prefix to variable names that likely could be in our input dataset
     # to avoid variable name overlap
     for (var in c('address')) {
@@ -111,7 +113,8 @@ extract_reverse_results <- function(method, response, full_results = TRUE, flatt
                     'google' = response$results[1, ]['formatted_address'],
                     'opencage' = response$results['formatted'],
                     'mapbox' = response$features['place_name'],
-                    'here' = response$items['title']
+                    'here' = response$items['title'],
+                    'tomtom' = response$addresses$address['freeformAddress']
   )
   
   # extract other results (besides single line address)
@@ -126,7 +129,8 @@ extract_reverse_results <- function(method, response, full_results = TRUE, flatt
                       'google' = response$results[1, ][!names(response$results) %in% c('formatted_address')], 
                       'opencage' = response$results[!names(response$results) %in% c('formatted')],
                       'mapbox' = response$features[!names(response$features) %in% c('place_name')],
-                      'here' = response$items[!names(response$items) %in% c('title')]
+                      'here' = response$items[!names(response$items) %in% c('title')],
+                      'tomtom' = response$addresses
     )
     
     # add prefix to variable names that likely could be in our input dataset
@@ -188,6 +192,11 @@ check_results_for_problems <- function(method, raw_results, verbose) {
   else if ((method == 'here') & (!is.data.frame(raw_results$items))) {
     if ("error_description" %in% names(raw_results)) message(paste0('Error: ', raw_results$error_description))
     else if ("title" %in% names(raw_results)) message(paste0('Error: ', raw_results$title))
+  } 
+  else if ((method == 'tomtom') & (!is.data.frame(raw_results$addresses)) & (!is.data.frame(raw_results$results))){
+    if ('errorText' %in% names(raw_results)) {
+      message(paste0('Error: ', raw_results$errorText))
+    }
   }
   else {
     return(FALSE) # no problems

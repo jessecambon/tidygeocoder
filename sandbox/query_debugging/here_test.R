@@ -85,6 +85,7 @@ livetest_params <-
     address = c("Santiago de Compostela; Spain", "Nieva"),
     verbose = TRUE,
     full_results = TRUE,
+    mode = 'single',
     limit = 2,
     custom_query = list(
       lang = "fr"
@@ -108,6 +109,6 @@ some_addresses <- tribble(
 
 # geocode the addresses
 lat_longs <- some_addresses %>%
-  geocode(addr, method = "here", lat = latitude, long = longitude, full_results = TRUE)
+  geocode(addr, method = "here", mode = 'single', lat = latitude, long = longitude, full_results = TRUE)
 
 lat_longs
