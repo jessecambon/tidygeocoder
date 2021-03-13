@@ -222,18 +222,20 @@ get_api_query <- function(method, generic_parameters = list(), custom_parameters
 #' should be 'json' for geocodio and 'multipart' for census 
 #' @param content_encoding Encoding to be used for parsing content
 #' @param timeout timeout in minutes
-#' @return raw results from the query
+#' @return a named list containing the response content (\code{content}) and the HTTP request status (\code{status})
 #' @examples
 #' \donttest{
 #' raw1 <- query_api("http://nominatim.openstreetmap.org/search", 
 #'    get_api_query("osm", list(address = 'Hanoi, Vietnam')))
 #'    
-#' extract_results('osm', jsonlite::fromJSON(raw1))
+#' raw1$status
+#'    
+#' extract_results('osm', jsonlite::fromJSON(raw1$content))
 #' 
-#' raw2 <-  query_api("http://nominatim.openstreetmap.org/reverse", 
+#' raw2 <- query_api("http://nominatim.openstreetmap.org/reverse", 
 #'    get_api_query("osm", custom_parameters = list(lat = 38.895865, lon = -77.0307713)))
 #'    
-#' extract_reverse_results('osm', jsonlite::fromJSON(raw2))
+#' extract_reverse_results('osm', jsonlite::fromJSON(raw2$content))
 #' }
 #' 
 #' @seealso \code{\link{get_api_query}} \code{\link{extract_results}} \code{\link{geo}}
@@ -252,16 +254,8 @@ query_api <- function(api_url, query_parameters, mode = 'single',
   
   httr::warn_for_status(response)
   
-  # TomTom does not return a json-parseable response if a bad user
-  # is provided.
-  # Workaround: Create own object
-  if((grep('tomtom',api_url)) > 0  && httr::status_code(response) == '403') {
-    content <- jsonlite::toJSON(list(errorText = 'Developer Inactive'))
-    return(content)
-  }
-  
   content <- httr::content(response, as = 'text', encoding = content_encoding)
-  return(content)
+  return(list(content = content, status = httr::status_code(response)))
 }
 
 # Functions for displaying API queries (when verbose = TRUE) ----------------------

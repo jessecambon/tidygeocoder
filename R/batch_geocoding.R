@@ -41,7 +41,7 @@ batch_census <- function(unique_addresses,
   if (verbose == TRUE) display_query(api_url, query_parameters)
   
   # Query API
-  raw_content <- query_api(api_url, query_parameters, mode = 'file', 
+  response <- query_api(api_url, query_parameters, mode = 'file', 
           batch_file = tmp, content_encoding = "ISO-8859-1", timeout = timeout)
   
   # force certain geographies columns to be read in as character instead of numeric
@@ -53,7 +53,7 @@ batch_census <- function(unique_addresses,
          'census_block' = 'character'),
           NA)
   
-  results <- utils::read.csv(text = raw_content, header = FALSE,
+  results <- utils::read.csv(text = response$content, header = FALSE,
        col.names = return_cols,
        colClasses = column_classes,
        fill = TRUE, stringsAsFactors = FALSE,
@@ -110,11 +110,11 @@ verbose = FALSE, api_url = NULL, geocodio_v = 1.6, limit = 1, ...) {
   if (verbose == TRUE) display_query(api_url, query_parameters)
   
   # Query API
-  raw_content <- query_api(api_url, query_parameters, mode = 'list', input_list = address_list, timeout = timeout)
+  response <- query_api(api_url, query_parameters, mode = 'list', input_list = address_list, timeout = timeout)
   
   # Note that flatten here is necessary in order to get rid of the
   # nested dataframes that would cause dplyr::bind_rows (or rbind) to fail
-  content <- jsonlite::fromJSON(raw_content, flatten = TRUE)
+  content <- jsonlite::fromJSON(response$content, flatten = TRUE)
   
   # How results are parsed depends on whether single line addresses or address
   # components were passed

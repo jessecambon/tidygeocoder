@@ -15,15 +15,14 @@ reverse_batch_geocodio <- function(lat, long, address = 'address', timeout = 20,
   if (verbose == TRUE) display_query(api_url, query_parameters)
   
   # Query API
-  raw_content <- query_api(api_url, query_parameters, mode = 'list', 
+  response <- query_api(api_url, query_parameters, mode = 'list', 
                            input_list = paste0(as.character(lat), ',', as.character(long)), 
                            timeout = timeout)
   
   # Note that flatten here is necessary in order to get rid of the
   # nested dataframes that would cause dplyr::bind_rows (or rbind) to fail
-  content <- jsonlite::fromJSON(raw_content, flatten = TRUE)
-  response <- jsonlite::fromJSON(raw_content, flatten = TRUE)
-  result_list <- response$results$response.results
+  response_parsed <- jsonlite::fromJSON(response$content, flatten = TRUE)
+  result_list <- response_parsed$results$response.results
   
   # if no results are returned for a given coordinate then there is a 0 row dataframe in this
   # list and we need to replace it with a 1 row NA dataframe to preserve the number of rows

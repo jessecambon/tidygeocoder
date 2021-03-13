@@ -431,17 +431,20 @@ geo <- function(address = NULL,
   
   # return NA results if no_query = TRUE
   if (no_query == TRUE) return(unpackage_inputs(address_pack, NA_value, unique_only, return_addresses))
-  raw_results <- jsonlite::fromJSON(query_api(api_url, api_query_parameters))
+  query_results <- query_api(api_url, api_query_parameters)
+  
+  if (verbose == TRUE) message(paste0('HTTP Status Code: ', as.character(query_results$status)))
   
   ## Extract results -----------------------------------------------------------------------------------
   # if there were problems with the results then return NA
-  if (check_results_for_problems(method, raw_results, verbose)) {
+  if (query_results$status != 200) {
+    extract_errors_from_results(method, query_results$content, verbose)
     results <- NA_value
-  } 
+  }
   else {
     # Extract results. Use the full_results and flatten parameters
     # to control the output
-    results <- extract_results(method, raw_results, full_results, flatten)
+    results <- extract_results(method, jsonlite::fromJSON(query_results$content), full_results, flatten)
     
     # Name the latitude and longitude columns in accordance with lat/long arguments
     names(results)[1] <- lat

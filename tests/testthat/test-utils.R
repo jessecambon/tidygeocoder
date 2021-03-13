@@ -69,6 +69,8 @@ test_that("Test API Query Creation Functions", {
   
   # loop through all methods and produce queries
   for (method in unique(tidygeocoder::api_parameter_reference[['method']])) {
+    # label to include in error message so we know which method failed
+    method_label = paste0('method = "', method, '"', ' ')
     
     # test overlap between generic and custom parameters
     expect_warning(tidygeocoder::get_api_query(method,
@@ -97,8 +99,6 @@ test_that("Test API Query Creation Functions", {
       expect_mapequal(address_q, c(default_q, 
         tidygeocoder:::create_api_parameter(method, 'address', address_val)))
     }
-    
-    
     
     expect_message(display_named_list(default_q))
     expect_message(display_named_list(custom_q))

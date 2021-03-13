@@ -295,15 +295,18 @@ reverse_geo <- function(lat, long, method = 'osm', address = address, limit = 1,
                                                 NA_value, 
                                                 unique_only, return_coords))
   
-  raw_results <- jsonlite::fromJSON(query_api(api_url, api_query_parameters))
+  query_results <- query_api(api_url, api_query_parameters)
   
-  ## Extract results ------------------------------------------------------------------------------
+  if (verbose == TRUE) message(paste0('HTTP Status Code: ', as.character(query_results$status)))
+  
+  ## Extract results -----------------------------------------------------------------------------------
   # if there were problems with the results then return NA
-  if (check_results_for_problems(method, raw_results, verbose)) {
+  if (query_results$status != 200) {
+    extract_errors_from_results(method, query_results$content, verbose)
     results <- NA_value
   }
   else {
-    results <- extract_reverse_results(method, raw_results, full_results, flatten)
+    results <- extract_reverse_results(method, jsonlite::fromJSON(query_results$content), full_results, flatten)
     # rename address column
     names(results)[1] <- address
   }

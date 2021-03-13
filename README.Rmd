@@ -63,9 +63,9 @@ The supported geocoder services are shown in the table below with their geograph
 | [Location IQ](https://locationiq.com/)                                        | Worldwide     | No              | Yes              | 2/second (free tier)    |
 | [Google](https://developers.google.com/maps/documentation/geocoding/overview) | Worldwide     | No              | Yes              | 50/second               |
 | [OpenCage](https://opencagedata.com)                                          | Worldwide     | No              | Yes              | 1/second (free tier)    |
-| [Mapbox](https://www.mapbox.com/)                                             | Worldwide     | See Note        | Yes              | 10/second (free tier)   |
+| [Mapbox](https://docs.mapbox.com/api/search/)                                             | Worldwide     | See Note        | Yes              | 10/second (free tier)   |
 | [HERE](https://developer.here.com/products/geocoding-and-search)              | Worldwide     | Yes             | Yes              | None                    |
-| [TomTom](https://www.tomtom.com/en_us/)                                       | Worldwide     | Yes             | Yes              | 5/second (free tier)   |
+| [TomTom](https://developer.tomtom.com/search-api/search-api-documentation/geocoding)                                       | Worldwide     | Yes             | Yes              | 5/second (free tier)    |
 
 Notes:
 
@@ -120,7 +120,8 @@ To return the full results from a geocoder service (not just latitude and longit
 
 ```{r}
 full <- some_addresses %>%
-  geocode(addr, method = 'census', full_results = TRUE, return_type = 'geographies')
+  geocode(addr, method = 'census', full_results = TRUE, 
+          return_type = 'geographies')
 ```
 
 ```{r, echo = FALSE}

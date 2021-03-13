@@ -151,57 +151,57 @@ extract_reverse_results <- function(method, response, full_results = TRUE, flatt
   else return(combined_results)
 }
 
-# Check the results of the geocoder service. Display an error message if there is one.
-# returns TRUE if there are problems (errors or blank results) and
-# FALSE if there are no problems detected
-check_results_for_problems <- function(method, raw_results, verbose) {
-
-  # if results are blank
-  if (length(raw_results) == 0) {
-    if (verbose == TRUE) message("No results found")
-  }
-  else if ((method == 'osm') & ("error" %in% names(raw_results))) {
-    message(paste0('Error: ', raw_results$error$message))
-  }
-  else if ((method == 'iq') & ("error" %in% names(raw_results))) {
-    message(paste0('Error: ', raw_results$error))
-  }
-  else if ((method == 'mapbox') & (!is.data.frame(raw_results$features))) {
-    if ("message" %in% names(raw_results)) {
-      message(paste0('Error: ', raw_results$message))
-    }
-  }
-  else if ((method == 'census') & ('errors' %in% names(raw_results))) {
-    message(paste0('Error: ', raw_results$errors))
-  }
-  else if ((method == 'opencage') & (!is.data.frame(raw_results$results))) {
-    if (!is.null(raw_results$status$message)) {
-    message(paste0('Error: ', raw_results$status$message))
-    }
-  }
-  else if ((method == 'geocodio') & (!is.data.frame(raw_results$results))) {
-    if ("error" %in% names(raw_results)) {
-     message(paste0('Error: ', raw_results$error))
-    }
-  }
-  else if ((method == 'google') & (!is.data.frame(raw_results$results))) {
-    if ("error_message" %in% names(raw_results)) {
-      message(paste0('Error: ', raw_results$error_message))
-    }
-  }
-  else if ((method == 'here') & (!is.data.frame(raw_results$items))) {
-    if ("error_description" %in% names(raw_results)) message(paste0('Error: ', raw_results$error_description))
-    else if ("title" %in% names(raw_results)) message(paste0('Error: ', raw_results$title))
-  } 
-  else if ((method == 'tomtom') & (!is.data.frame(raw_results$addresses)) & (!is.data.frame(raw_results$results))){
-    if ('errorText' %in% names(raw_results)) {
-      message(paste0('Error: ', raw_results$errorText))
-    }
+# Extracts errors from a raw response and displays them
+extract_errors_from_results <- function(method, response, verbose) {
+  # test if response contains JSON content
+  if (!jsonlite::validate(response)) {
+    # tomtom does not return JSON content on errors 
+    # in cases like this, display the raw content but limit the length
+    # in case it is really long.
+    message(paste0('Error: ', strtrim(as.character(response), 100)))
   }
   else {
-    return(FALSE) # no problems
+    # parse JSON content
+    raw_results <- jsonlite::fromJSON(response)
+    
+    # if results are blank
+    if (length(raw_results) == 0) {
+      if (verbose == TRUE) message("No results found")
+    }
+    else if ((method == 'osm') & ("error" %in% names(raw_results))) {
+      message(paste0('Error: ', raw_results$error$message))
+    }
+    else if ((method == 'iq') & ("error" %in% names(raw_results))) {
+      message(paste0('Error: ', raw_results$error))
+    }
+    else if ((method == 'mapbox') & (!is.data.frame(raw_results$features))) {
+      if ("message" %in% names(raw_results)) {
+        message(paste0('Error: ', raw_results$message))
+      }
+    }
+    else if ((method == 'census') & ('errors' %in% names(raw_results))) {
+      message(paste0('Error: ', raw_results$errors))
+    }
+    else if ((method == 'opencage') & (!is.data.frame(raw_results$results))) {
+      if (!is.null(raw_results$status$message)) {
+      message(paste0('Error: ', raw_results$status$message))
+      }
+    }
+    else if ((method == 'geocodio') & (!is.data.frame(raw_results$results))) {
+      if ("error" %in% names(raw_results)) {
+       message(paste0('Error: ', raw_results$error))
+      }
+    }
+    else if ((method == 'google') & (!is.data.frame(raw_results$results))) {
+      if ("error_message" %in% names(raw_results)) {
+        message(paste0('Error: ', raw_results$error_message))
+      }
+    }
+    else if ((method == 'here') & (!is.data.frame(raw_results$items))) {
+      if ("error_description" %in% names(raw_results)) message(paste0('Error: ', raw_results$error_description))
+      else if ("title" %in% names(raw_results)) message(paste0('Error: ', raw_results$title))
+    } 
   }
-  return(TRUE) # there was an error or results were blank
 }
 
 # For a list of dataframes, creates an NA df with 1 row with the column name supplied
