@@ -95,8 +95,8 @@ Notes:
 -   The US Census and Geocodio services both support a maximum of 10,000
     addresses per batch query.
 -   The US Census and OSM services are free while Geocodio, Location IQ,
-    and OpenCage are commercial services that offer both free and paid
-    usage tiers. The Google service [bills per
+    OpenCage, Mapbox, HERE and TomTom are commercial services that offer
+    both free and paid usage tiers. The Google service [bills per
     query](https://developers.google.com/maps/documentation/geocoding/usage-and-billing).
 -   The Census geocoder does not support reverse geocoding.
 -   The Mapbox service is capable of performing batch geocoding when

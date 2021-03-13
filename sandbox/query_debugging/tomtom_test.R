@@ -2,7 +2,7 @@ selected_method <- "tomtom"
 
 addr <- "Acueducto de Segovia, Spain"
 url_base <- tidygeocoder:::get_tomtom_url()
-
+grep('tomtom',"url_base")
 library(httr)
 library(jsonlite)
 library(dplyr)
@@ -45,23 +45,27 @@ full_results_flat <-
   )
 full_results_flat
 
-# Error
-
-
-
-soup2 <-
+# Error on bad user
+response <-
   httr::GET(
     url = gsub(" ", "%20", paste0(url_base, addr, ".json")),
     query = list(
       limit = 1,
-      key = tidygeocoder:::get_key(selected_method),
-      language = "aaaa"
+      #key = tidygeocoder:::get_key(selected_method),
+      key = "aa",
+      language = "FFFFF"
     )
   )
-content <- jsonlite::fromJSON(httr::content(soup2, as = "text"))
+httr::status_code(response)
+httr::warn_for_status(response)
+httr::content(response, as = 'text', encoding = "UTF-8")
+content <- jsonlite::fromJSON(httr::content(response, as = 'text', encoding = "UTF-8"))
 
+httr::content(response, as = 'text', encoding = "UTF-8")
 
 tidygeocoder::check_results_for_problems("tomtom", soup2, TRUE)
+# Error on bad key
+
 
 # Test geo ----
 library(tibble)
@@ -73,9 +77,17 @@ tidygeocoder::geo(
   lat = "latitude",
   long = "longitude",
   method = "tomtom",
-  limit = 5
+  limit = 5,
 )
-
+tidygeocoder::geo(
+  address = addr,
+  verbose = TRUE,
+  lat = "latitude",
+  long = "longitude",
+  method = "tomtom",
+  limit = 5,
+  custom_query =  list(key="aa")
+)
 
 livetest <-
   tidygeocoder::geo(

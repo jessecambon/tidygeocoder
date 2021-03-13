@@ -251,6 +251,15 @@ query_api <- function(api_url, query_parameters, mode = 'single',
    )
   
   httr::warn_for_status(response)
+  
+  # TomTom does not return a json-parseable response if a bad user
+  # is provided.
+  # Workaround: Create own object
+  if((grep('tomtom',api_url)) > 0  && httr::status_code(response) == '403') {
+    content <- jsonlite::toJSON(list(errorText = 'Developer Inactive'))
+    return(content)
+  }
+  
   content <- httr::content(response, as = 'text', encoding = content_encoding)
   return(content)
 }
