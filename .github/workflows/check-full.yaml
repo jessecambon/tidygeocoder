@@ -5,6 +5,7 @@ on:
     branches:
       - master
       - main
+      - bing
   pull_request:
     branches:
       - master
