@@ -235,18 +235,19 @@ reverse_batch_tomtom <- function(lat, long, address = 'address', timeout = 20, f
   
   if (is.null(api_url)) api_url <- 'https://api.tomtom.com/search/2/batch.json'
   
-  # Construct query
+  # Construct query - for display only
   query_parameters <- get_api_query('tomtom',
                                     list(limit = limit, api_key = get_key('tomtom')),
                                     custom_parameters = custom_query)
   
   if (verbose == TRUE) display_query(api_url, query_parameters)
   
-  # Parameters needs to be included on each element
-  q_elements <- query_parameters[names(query_parameters) != 'key']
+  # Some parameters needs to be included on each element
+  # Others (key, etc) should be in the query
+  api_query_params <- query_parameters[names(query_parameters) %in% c('key', 'redirectMode', 'waitTimeSeconds')]
+  q_elements <- query_parameters[!names(query_parameters) %in% c('key', 'redirectMode', 'waitTimeSeconds')]
   
   q_string <- ''
-  
   for (par in seq_len(length(q_elements))) {
     dlm <- if (par == 1) '?' else '&'
     q_string <- paste0(q_string, dlm, 
@@ -263,8 +264,39 @@ reverse_batch_tomtom <- function(lat, long, address = 'address', timeout = 20, f
   }
   
   # Query API
-  raw_content <- query_api(api_url, query_parameters, mode = 'list',
-                           input_list = address_list, timeout = timeout)
+  response <- httr::POST(api_url, query = api_query_params, 
+                         body = as.list(address_list), 
+                         encode = 'json', httr::timeout(60 * timeout))
+  
+  httr::warn_for_status(response)
+  
+  # https://developer.tomtom.com/search-api/search-api-documentation-batch-search/asynchronous-batch-submission#response-data
+  # if status code is not 200 we have to perform a GET and download the batch asynchronously
+  # On 200 the batch is provided in the response object
+  if (httr::status_code(response) != '200') {
+    if (verbose) message('Asynchronous Batch Download')
+    
+    # A HTTP Response with a Location header that points where the batch results can be obtained.
+    location <- httr::headers(response)$location
+    
+    status <- httr::status_code(response)
+    while (status %in% c('202', '303')) {
+      Sys.sleep(2) # Arbitrary
+      batch_response <- httr::GET(paste0('https://api.tomtom.com', location))
+      status <- httr::status_code(batch_response)
+      if (verbose) httr::message_for_status(batch_response)
+    }
+    
+    if (status == '200') {
+      if (verbose) message("Batch downloaded")
+      raw_content <- httr::content(batch_response, as = 'text', encoding = 'UTF-8')
+    } else {
+      stop(paste0('Batch failed. Status code: ', status), call. = TRUE)
+    }
+    
+  } else {
+    raw_content <- httr::content(response, as = 'text', encoding = 'UTF-8')
+  }
   
   # Note that flatten here is necessary in order to get rid of the
   # nested dataframes that would cause dplyr::bind_rows (or rbind) to fail

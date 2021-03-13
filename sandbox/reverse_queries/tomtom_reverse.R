@@ -17,11 +17,14 @@ soup <-
 
 response <-
   jsonlite::fromJSON(httr::content(soup, as = "text", encoding = "UTF-8"))
+response
 response$addresses$address["freeformAddress"]
 results_min <-
   tidygeocoder:::extract_reverse_results(selected_method, response,
     full_results = FALSE
   )
+
+results_min
 
 response
 results_full <-
@@ -53,7 +56,7 @@ tidygeocoder::reverse_geo(
   verbose = TRUE,
   method = "tomtom",
   custom_query = list(
-    country = "papa"
+    language = "papa"
   )
 )
 
@@ -61,8 +64,9 @@ tidygeocoder::reverse_geo(
   lat = lat,
   long = lon,
   verbose = TRUE,
+  address = "dirdir",
   method = "tomtom",
-  address = "direct",
+  full_results = TRUE,
   limit = 7
 )
 

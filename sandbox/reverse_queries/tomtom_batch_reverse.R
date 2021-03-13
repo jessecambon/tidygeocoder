@@ -2,19 +2,22 @@ api_url <- NULL
 timeout <- 20
 limit <- 1
 
-lat <- runif(10,38,42)
-long <- runif(10,-6,1)
+lat <- runif(100, 38, 42)
+long <- runif(100, -6, 1)
 
 # white house, toronto, junk lat/lng
 # lat <- c(38.89586, 300, 43.6534817)
 # long <- c(-77.0307713, 500, -79.3839347)
 address <- "addr"
 verbose <- TRUE
-custom_query <- list(language = "fr-FR")
+custom_query <- list(
+  language = "fr-FR",
+  waitTimeSeconds = 5
+)
 
 if (is.null(api_url)) api_url <- "https://api.tomtom.com/search/2/batch.json"
 
-# Construct query
+# Construct query - for display only
 query_parameters <- get_api_query("tomtom",
   list(limit = limit, api_key = get_key("tomtom")),
   custom_parameters = custom_query
@@ -22,46 +25,69 @@ query_parameters <- get_api_query("tomtom",
 
 if (verbose == TRUE) display_query(api_url, query_parameters)
 
-# Parameters needs to be included on each element
-q_elements <- query_parameters[names(query_parameters) != "key"]
+# Some parameters needs to be included on each element
+api_query_params <- query_parameters[names(query_parameters) %in% c("key", "redirectMode", "waitTimeSeconds")]
+q_elements <- query_parameters[!names(query_parameters) %in% c("key", "redirectMode", "waitTimeSeconds")]
 
 q_string <- ""
 
 for (par in seq_len(length(q_elements))) {
   dlm <- if (par == 1) "?" else "&"
-  q_string <- paste0(q_string, dlm, names(q_elements[par]), "=", q_elements[[par]])
+  q_string <- paste0(
+    q_string, dlm,
+    names(q_elements[par]), "=", q_elements[[par]]
+  )
 }
 
 # Construct body
 address_list <- list(batchItems = list())
 
 for (index in seq_len(length(lat))) {
-  address_list$batchItems[[index]] <- list(query = paste0(
-    "/reverseGeocode/", lat[index], ",",
-    long[index], ".json", q_string
-  ))
+  address_list$batchItems[[index]] <-
+    list(query = paste0(
+      "/reverseGeocode/", lat[index], ",",
+      long[index], ".json", q_string
+    ))
 }
 
 # Query API
-raw_content <- httr::POST(api_url, query = query_parameters, 
-           body = as.list(address_list), encode = 'json', httr::timeout(60 * timeout))
+response <- httr::POST(api_url,
+  query = api_query_params,
+  body = as.list(address_list),
+  encode = "json", httr::timeout(60 * timeout)
+)
 
-raw_content$status_code
-httr::headers(raw_content)$location
-tracking_id <- httr::headers(raw_content)[['tracking-id']]
-query_parameters['key']
-a <- query_api(paste0('https://api.tomtom.com/search/2/batch/',tracking_id),
-               query_parameters = query_parameters['key'])
-batch_q <- c(query_parameters['key'],
-                waitTimeSeconds = 120)
-  
-  
-nn <- httr::GET(paste0('https://api.tomtom.com/',httr::headers(raw_content)$location))
-nn2 <- httr::content(nn)
+httr::warn_for_status(response)
+
+# https://developer.tomtom.com/search-api/search-api-documentation-batch-search/asynchronous-batch-submission#response-data
+# if status code is not 200 we have to perform a GET and download the batch asynchronously
+# On 200 the batch is provided in the response object
+if (httr::status_code(response) != "200") {
+  if (verbose) message("Asynchronous Batch Download")
+
+  # A HTTP Response with a Location header that points where the batch results can be obtained.
+  location <- httr::headers(response)$location
+
+  status <- httr::status_code(response)
+  while (status %in% c("202", "303")) {
+    if (verbose) message("Processing batch...\n")
+    Sys.sleep(2) # Arbitrary
+    batch_response <- httr::GET(paste0("https://api.tomtom.com", location))
+    status <- httr::status_code(batch_response)
+  }
+
+  if (status == "200") {
+    raw_content <- httr::content(batch_response, as = "text", encoding = "UTF-8")
+  } else {
+    stop("Batch unsuccesful", call. = TRUE)
+  }
+} else {
+  raw_content <- httr::content(response, as = "text", encoding = "UTF-8")
+}
+
 # Note that flatten here is necessary in order to get rid of the
 # nested dataframes that would cause dplyr::bind_rows (or rbind) to fail
-content_txt <- httr::content(raw_content, as = 'text', encoding = 'UTF-8')
-content <- jsonlite::fromJSON(content_txt, flatten = TRUE)
+content <- jsonlite::fromJSON(raw_content)
 
 # result_list is a list of dataframes
 result_list <- content$batchItems$response$addresses
@@ -85,7 +111,7 @@ names(results)[names(results) == "freeformAddress"] <- address
 
 # Live tests----
 
-test1 <- tidygeocoder::reverse_geo(
+tidygeocoder::reverse_geo(
   lat = c(48.858296, 40.4530541),
   long = c(2.294479, -3.6883445),
   method = "tomtom",
@@ -94,13 +120,13 @@ test1 <- tidygeocoder::reverse_geo(
 )
 
 
-test1
 
 
 tidygeocoder::reverse_geo(
   lat = c(38.89586, 300, 43.6534817),
   long = c(-77.0307713, 500, -79.3839347),
   method = "tomtom",
+  address = "aaa",
   verbose = TRUE,
   mode = "batch",
   return_coords = FALSE,
@@ -110,16 +136,17 @@ tidygeocoder::reverse_geo(
 
 # Single on batch
 tidygeocoder::reverse_geo(
-  lat = c(48.858296),
-  long = c(2.294479),
+  lat = c(38.89586),
+  long = c(-77.0307713),
   method = "tomtom",
+  mode = "batch",
+  address = "abcde",
   verbose = TRUE,
-  address = "direct",
   full_results = TRUE,
   limit = 1
 )
 
-test2 <- tidygeocoder::reverse_geo(
+tidygeocoder::reverse_geo(
   lat = c(48.858296, 40.4530541),
   long = c(2.294479, -3.6883445),
   method = "tomtom",
@@ -129,7 +156,6 @@ test2 <- tidygeocoder::reverse_geo(
   return_coords = FALSE,
   limit = 4
 )
-test2
 
 
 
@@ -173,12 +199,16 @@ tidygeocoder::reverse_geo(
 
 # Bulk query - not test ----
 
-lat <- runif(800,38,42)
-long <- runif(800,-6,1)
 
 bulk <- tidygeocoder::reverse_geo(
-  lat = lat,
-  long = long,
+  lat = runif(50, 38, 42),
+  long = runif(50, -6, 1),
   method = "tomtom",
-  verbose = TRUE
+  verbose = TRUE,
+  custom_query = list(
+    language = "fr-FR",
+    waitTimeSeconds = 5
+  ) # This is the thresold to determine if async should be done
 )
+
+bulk

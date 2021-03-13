@@ -193,7 +193,7 @@ check_results_for_problems <- function(method, raw_results, verbose) {
     if ("error_description" %in% names(raw_results)) message(paste0('Error: ', raw_results$error_description))
     else if ("title" %in% names(raw_results)) message(paste0('Error: ', raw_results$title))
   } 
-  else if ((method == 'tomtom') & (!is.data.frame(raw_results$results))){
+  else if ((method == 'tomtom') & (!is.data.frame(raw_results$addresses)) & (!is.data.frame(raw_results$results))){
     if ('errorText' %in% names(raw_results)) {
       message(paste0('Error: ', raw_results$errorText))
     }

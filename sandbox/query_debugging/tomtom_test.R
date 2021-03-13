@@ -70,6 +70,8 @@ addr <- "Plaza Mayor"
 tidygeocoder::geo(
   address = addr,
   verbose = TRUE,
+  lat = "latitude",
+  long = "longitude",
   method = "tomtom",
   limit = 5
 )
