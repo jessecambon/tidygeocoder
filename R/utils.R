@@ -151,7 +151,9 @@ extract_reverse_results <- function(method, response, full_results = TRUE, flatt
   else return(combined_results)
 }
 
-# Extracts errors from a raw response and displays them
+# Extracts errors from a raw response object and display them
+# expected response is query_api(...)$content (ie. the raw content from the HTTP request)
+# This function is called in reverse_geo() and geo()
 extract_errors_from_results <- function(method, response, verbose) {
   # test if response contains JSON content
   if (!jsonlite::validate(response)) {
