@@ -205,6 +205,9 @@ extract_errors_from_results <- function(method, response, verbose) {
       if ('errorText' %in% names(raw_results)) {
         message(paste0('Error: ', raw_results$errorText))
       }
+      else if ('error' %in% names(raw_results)) {
+        message(paste0('Error: ', raw_results$error))
+      }
     }
     
   }

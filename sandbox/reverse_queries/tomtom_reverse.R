@@ -44,21 +44,51 @@ full_results_flat <-
     flatten = TRUE
   )
 
+# Error
+
+errorres <- tidygeocoder::query_api(
+  gsub(" ", "%20", paste0(url_base, lat, ",", lon, ".json")),
+       query = list(
+         limit = 1,
+         key = tidygeocoder:::get_key("tomtom")
+       )
+)
+
+jsonlite::fromJSON(errorres$content)
+
 # Test reverse_geo ----
 library(tibble)
 
 lat <- 40.4055517
 lon <- -3.6802152
 # Error
+tidygeocoder::geo("Nieva",
+                  method = "tomtom",
+                  custom_query = list(language = "xxx"))
+
+tidygeocoder::geo("Nieva",
+                  method = "tomtom",
+                  custom_query = list(key = "xxx"))
+
 tidygeocoder::reverse_geo(
   lat = lat,
   long = lon,
-  verbose = TRUE,
   method = "tomtom",
   custom_query = list(
-    language = "papa"
+    key = "xxx"
   )
 )
+
+tidygeocoder::reverse_geo(
+  lat = lat,
+  long = lon,
+  method = "tomtom",
+  custom_query = list(
+    language = "xxx"
+  )
+)
+
+# End errors
 
 tidygeocoder::reverse_geo(
   lat = lat,
