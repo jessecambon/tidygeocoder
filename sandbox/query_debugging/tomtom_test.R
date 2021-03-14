@@ -46,16 +46,17 @@ full_results_flat <-
 full_results_flat
 
 # Error on bad user
-response <-
-  httr::GET(
-    url = gsub(" ", "%20", paste0(url_base, addr, ".json")),
-    query = list(
+
+response <- tidygeocoder:::query_api(
+  api_url = gsub(" ", "%20", paste0(url_base, addr, ".json")),
+    query_parameters =  list(
       limit = 1,
-      #key = tidygeocoder:::get_key(selected_method),
-      key = "aa",
+      key = tidygeocoder:::get_key(selected_method),
       language = "FFFFF"
     )
   )
+raw_results <- jsonlite::fromJSON(response$content)
+
 httr::status_code(response)
 httr::warn_for_status(response)
 httr::content(response, as = 'text', encoding = "UTF-8")
