@@ -5,6 +5,7 @@ on:
     branches:
       - master
       - main
+      - mapquest
   pull_request:
     branches:
       - master

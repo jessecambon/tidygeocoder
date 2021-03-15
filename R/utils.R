@@ -40,7 +40,8 @@ extract_results <- function(method, response, full_results = TRUE, flatten = TRU
       'long' = response$features$center[[1]][1]
     ), # mapbox results are nested unnames lists
     'here' = response$items$position[c('lat','lng')],
-    'tomtom' = response$results$position[c('lat', 'lon')]
+    'tomtom' = response$results$position[c('lat', 'lon')],
+    'mapquest' = response$results$locations[[1]]$latLng[c('lat','lng')]
   )
   
   # if null result then return NA
@@ -64,7 +65,8 @@ extract_results <- function(method, response, full_results = TRUE, flatten = TRU
       'opencage' = response$results[!names(response$results) %in% c('geometry')],
       'mapbox' = response$features,
       'here' = response$items,
-      'tomtom' = response$results
+      'tomtom' = response$results,
+      'mapquest' = response$results$locations[[1]]
     )
 
     # add prefix to variable names that likely could be in our input dataset
@@ -210,6 +212,9 @@ extract_errors_from_results <- function(method, response, verbose) {
       else if ('error' %in% names(raw_results)) {
         message(paste0('Error: ', raw_results$error))
       }
+    }
+    else if (method == 'mapquest'){
+      if (!is.null(raw_results$info$messages)) message(paste0('Error: ', raw_results$info$messages))
     }
     
   }
