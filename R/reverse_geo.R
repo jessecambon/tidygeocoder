@@ -114,7 +114,8 @@ get_coord_parameters <- function(custom_query, method, lat, long) {
 #'    Note that Geocodio batch geocoding results are flattened regardless.
 #' @param batch_limit limit to the number of addresses in a batch geocoding query.
 #'  Both geocodio and census batch geocoders have a 10,000 limit so this
-#'  is the default. HERE has a 1,000,000 address limit.
+#'  is the default. 'here' has a 1,000,000 address limit. 'mapquest' has a 100 address
+#'  limit.
 #' @param verbose if TRUE then detailed logs are output to the console
 #' @param no_query if TRUE then no queries are sent to the geocoder and verbose is set to TRUE
 #' @param custom_query API-specific parameters to be used, passed as a named list 

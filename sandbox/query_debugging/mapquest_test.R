@@ -68,10 +68,11 @@ addr <- "Plaza Mayor"
 
 tidygeocoder::geo(
   address = addr,
-  verbose = TRUE,
+  verbose = FALSE,
   lat = "latitude",
   long = "longitude",
   method = "mapquest",
+  full_results = TRUE,
   limit = 5,
 )
 # Errors
@@ -110,6 +111,7 @@ livetest <-
     method = "mapquest"
   )
 
+livetest
 tidygeocoder::geo(
   address = addr,
   verbose = TRUE,
@@ -150,7 +152,7 @@ livetest_params <-
     ),
     method = "mapquest"
   )
-
+livetest_params
 
 library(dplyr)
 library(tibble)

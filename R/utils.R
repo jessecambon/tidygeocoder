@@ -77,6 +77,13 @@ extract_results <- function(method, response, full_results = TRUE, flatten = TRU
       }
     }
     
+    # Formatted address for mapquest
+    if (method == 'mapquest'){
+      frmt_address <- format_address(results,
+                     c('street', paste0('adminArea', seq(6, 1))))
+      results <- tibble::as_tibble(cbind(frmt_address, results))
+    }
+    
     combined_results <- tibble::as_tibble(cbind(lat_lng, results))
   } else {
     combined_results <- lat_lng
