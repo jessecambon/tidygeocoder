@@ -17,11 +17,17 @@ library(dplyr)
 
 query_results <- query_api(api_url, api_query_parameters)
 raw_results <- jsonlite::fromJSON(query_results$content)
+cols <- c('street', paste0('adminArea', seq(1, 6)))
 
 tidygeocoder:::format_address(raw_results$results$locations[[1]],
-                             c('street', paste0('adminArea', seq(6, 1))))
+                             c(paste0('adminArea', seq(1, 6)), "street"))
 
 
+df <- tibble::as_tibble(raw_results$results$locations[[1]])
+
+
+df <- dplyr::relocate(df,intersect(cols, names(df)))
+df
 results_minimal <-
   tidygeocoder::extract_reverse_results(selected_method, raw_results, full_results = FALSE)
 
@@ -90,7 +96,12 @@ tidygeocoder::reverse_geo(
     thumbMaps  = "xxx"
   )
 )
-
+tidygeocoder::reverse_geo(
+  lat = lat,
+  long = lon,
+  method = "mapquest",
+  mapquest_open = "TRUE"
+)
 # End errors
 
 tidygeocoder::reverse_geo(
@@ -108,7 +119,8 @@ tidygeocoder::reverse_geo(
   verbose = TRUE,
   method = "mapquest",
   full_results = FALSE,
-  limit = 7
+  limit = 7,
+  mapquest_open = TRUE
 )
 
 
@@ -184,3 +196,8 @@ address <- some_lonlat %>%
     ),
   )
 glimpse(address)
+
+# Check format_address function
+add <- address[c("street","adminArea1")]
+add
+tidygeocoder:::format_address(add,c("adminArea1","sss","street"))

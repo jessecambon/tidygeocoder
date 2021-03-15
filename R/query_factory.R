@@ -268,9 +268,10 @@ query_api <- function(api_url, query_parameters, mode = 'single',
   # When a valid key is passed, errors on query are in the response
   # Succesful code is 0
   # https://developer.mapquest.com/documentation/geocoding-api/status-codes/
-  if (grep('mapquest', api_url) > 0 && httr::status_code(response) == 200 ) {
+  if (isTRUE(grep('mapquest', api_url) > 0) && isTRUE(httr::status_code(response) == 200)) {
     status_code <- jsonlite::fromJSON(content)$info$statuscode
     if (status_code == 0) status_code <- 200
+    
     httr::warn_for_status(status_code)
     return(list(content = content, status = status_code))
   }

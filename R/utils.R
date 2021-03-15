@@ -288,11 +288,22 @@ pause_until <- function(start_time, min_time, debug=FALSE) {
 }
 
 # Used for mapquest - provide formatted address based on fields
-# input is a data.frame/tibble and the list of fields to format
+# Could be extended to other providers if no frmt.address is provided - non specific
+# input is a data.frame/tibble and the list of fields used for creating 
+# a formatted address
 # output is a tibble with the formatted address
+# formatted address follow the order of fields vector
+# Result sample:
+# # A tibble: 1 x 1
+# formatted_address          
+# <chr>                      
+# 1 ES, 2 Calle de Espoz y Mina
 format_address <- function(df, fields) {
   frmt_df <- tibble::as_tibble(df)
-  frmt_df <- frmt_df[names(frmt_df) %in% fields]
+  
+  col_order <- intersect(fields, names(frmt_df))
+  
+  frmt_df <- dplyr::relocate(frmt_df[col_order], col_order)
   
   frmt_char <- as.character(apply(frmt_df, 1, function(x) {
     y <- unique(as.character(x))
@@ -304,4 +315,3 @@ format_address <- function(df, fields) {
   frmt_out <- tibble::tibble(formatted_address = frmt_char)
   return(frmt_out)
 }
-
