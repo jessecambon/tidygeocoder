@@ -116,7 +116,9 @@ extract_reverse_results <- function(method, response, full_results = TRUE, flatt
                     'opencage' = response$results['formatted'],
                     'mapbox' = response$features['place_name'],
                     'here' = response$items['title'],
-                    'tomtom' = response$addresses$address['freeformAddress']
+                    'tomtom' = response$addresses$address['freeformAddress'],
+                    'mapquest' = format_address(response$results$locations[[1]],
+                                                c('street', paste0('adminArea', seq(6, 1))))
   )
   
   # extract other results (besides single line address)
@@ -132,7 +134,8 @@ extract_reverse_results <- function(method, response, full_results = TRUE, flatt
                       'opencage' = response$results[!names(response$results) %in% c('formatted')],
                       'mapbox' = response$features[!names(response$features) %in% c('place_name')],
                       'here' = response$items[!names(response$items) %in% c('title')],
-                      'tomtom' = response$addresses
+                      'tomtom' = response$addresses,
+                      'mapquest' = response$results$locations[[1]]
     )
     
     # add prefix to variable names that likely could be in our input dataset
@@ -282,5 +285,23 @@ pause_until <- function(start_time, min_time, debug=FALSE) {
     total_time_elapsed <- get_seconds_elapsed(start_time)
     if (debug == TRUE) print_time("Total query time (including sleep)", total_time_elapsed)
   }
+}
+
+# Used for mapquest - provide formatted address based on fields
+# input is a data.frame/tibble and the list of fields to format
+# output is a tibble with the formatted address
+format_address <- function(df, fields) {
+  frmt_df <- tibble::as_tibble(df)
+  frmt_df <- frmt_df[names(frmt_df) %in% fields]
+  
+  frmt_char <- as.character(apply(frmt_df, 1, function(x) {
+    y <- unique(as.character(x))
+    y <- y[!y %in% c('', 'NA')]
+    paste0(y, collapse = ', ')
+  }))
+  
+  frmt_char[frmt_char == 'NA'] <- NA
+  frmt_out <- tibble::tibble(formatted_address = frmt_char)
+  return(frmt_out)
 }
 

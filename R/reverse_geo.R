@@ -33,6 +33,8 @@ get_coord_parameters <- function(custom_query, method, lat, long) {
   } else if (method == 'tomtom') {
     custom_query[['to_url']] <- 
       paste0(as.character(lat), ',', as.character(long))
+  } else if (method == 'mapquest') {
+    custom_query[['location']] <-  paste0(as.character(lat), ',', as.character(long)) 
   } else {
     stop('Invalid method. See ?reverse_geo')
   }
@@ -80,7 +82,11 @@ get_coord_parameters <- function(custom_query, method, lat, long) {
 #'   \item \code{"tomtom"}: Commercial TomTom geocoder service. Requires an API Key to
 #'      be stored in the "TOMTOM_API_KEY" environmental variable. Can perform
 #'      batch geocoding.
+#'   \item \code{"mapquest"}: Commercial MapQuest geocoder service. Requires an 
+#'      API Key to be stored in the "MAPQUEST_API_KEY" environmental variable. 
+#'      Can perform batch geocoding.
 #' }
+#' 
 #' @param address name of the address column (output data)
 #' @param limit number of results to return per coordinate. Note that not all methods support
 #'  setting limit to a value other than 1. Also limit > 1 is not compatible 
@@ -125,7 +131,9 @@ get_coord_parameters <- function(custom_query, method, lat, long) {
 #'   when \code{verbose} is TRUE. Note that this option would ignore the 
 #'   current \code{lat, long} parameters on the request, so \code{return_coords} 
 #'   needs to be FALSE.
-#'   
+#' @param mapquest_open if TRUE then MapQuest would use the Open Geocoding 
+#'   endpoint, that relies solely on data contributed to OpenStreetMap.
+#'     
 #' @return parsed geocoding results in tibble format
 #' @examples
 #' \donttest{
@@ -140,7 +148,7 @@ get_coord_parameters <- function(custom_query, method, lat, long) {
 reverse_geo <- function(lat, long, method = 'osm', address = address, limit = 1, min_time = NULL, api_url = NULL,  
     timeout = 20, mode = '',  full_results = FALSE, unique_only = FALSE, return_coords = TRUE, flatten = TRUE, 
     batch_limit = 10000, verbose = FALSE, no_query = FALSE, custom_query = list(), iq_region = 'us', geocodio_v = 1.6,
-    mapbox_permanent = FALSE, here_request_id = NULL) {
+    mapbox_permanent = FALSE, here_request_id = NULL, mapquest_open = FALSE) {
 
   # NSE eval
   address <- rm_quote(deparse(substitute(address)))
@@ -154,7 +162,8 @@ reverse_geo <- function(lat, long, method = 'osm', address = address, limit = 1,
       is.logical(full_results), is.logical(unique_only),
       is.numeric(limit), limit >= 1,  is.list(custom_query), 
       is.logical(mapbox_permanent),
-      is.null(here_request_id) || is.character(here_request_id)
+      is.null(here_request_id) || is.character(here_request_id),
+      is.logical(mapquest_open)
   )
   if (length(lat) != length(long)) stop('Lengths of lat and long must be equal.')
   if (!(mode %in% c('', 'single', 'batch'))) {
@@ -267,7 +276,7 @@ reverse_geo <- function(lat, long, method = 'osm', address = address, limit = 1,
   # Set API URL (if not already set) ----------------------------------------
   if (is.null(api_url)) {
     api_url <- get_api_url(method, reverse = TRUE, geocodio_v = geocodio_v, iq_region = iq_region,
-                           mapbox_permanent = mapbox_permanent)
+                           mapbox_permanent = mapbox_permanent, mapquest_open = mapquest_open)
   }
   if (length(api_url) == 0) stop('API URL not found')
   
