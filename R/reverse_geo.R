@@ -10,7 +10,8 @@
 reverse_batch_func_map <- list(
   geocodio = reverse_batch_geocodio,
   here = reverse_batch_here,
-  tomtom = reverse_batch_tomtom
+  tomtom = reverse_batch_tomtom,
+  mapquest = reverse_batch_mapquest
 )
 
 # Create API parameters for a single set of coordinates (lat, long) based on the 
