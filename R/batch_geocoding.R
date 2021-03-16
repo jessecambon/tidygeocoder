@@ -335,6 +335,9 @@ batch_tomtom <- function(unique_addresses, lat = 'lat', long = 'long',
   # limit the dataframe to legitimate arguments
   address_df <- unique_addresses[names(unique_addresses) %in% get_generic_parameters('tomtom', address_only = TRUE)]
   
+  NA_value <- get_na_value(lat, long, rows = nrow(address_df)) # filler result to return if needed
+  
+  
   if (is.null(api_url)) api_url <- 'https://api.tomtom.com/search/2/batch.json'
   
   # Construct query - for display only
@@ -369,7 +372,15 @@ batch_tomtom <- function(unique_addresses, lat = 'lat', long = 'long',
                          body = as.list(address_list), 
                          encode = 'json', httr::timeout(60 * timeout))
   
-  httr::warn_for_status(response)
+  if (verbose == TRUE) message(paste0('HTTP Status Code: ', as.character(httr::status_code(response))))
+  
+  ## Extract results -----------------------------------------------------------------------------------
+  # if there were problems with the results then return NA
+  if (!httr::status_code(response) %in% c(200, 202, 303)) {
+    content <- httr::content(response, as = 'text', encoding = 'UTF-8')
+    extract_errors_from_results('tomtom', content, verbose)
+    return(NA_value)
+  }
   
   # https://developer.tomtom.com/search-api/search-api-documentation-batch-search/asynchronous-batch-submission#response-data
   # if status code is not 200 we have to perform a GET and download the batch asynchronously
@@ -388,11 +399,16 @@ batch_tomtom <- function(unique_addresses, lat = 'lat', long = 'long',
       if (verbose) httr::message_for_status(batch_response)
     }
     
+    if (verbose == TRUE) message(paste0('\nHTTP Status Code: ', status))
+    
     if (status == '200') {
-      if (verbose) message("Batch downloaded")
+      if (verbose) message('Batch downloaded')
       raw_content <- httr::content(batch_response, as = 'text', encoding = 'UTF-8')
     } else {
-      stop(paste0('Batch failed. Status code: ', status), call. = TRUE)
+      # if there were problems with the results then return NA
+      raw_content <- httr::content(batch_response, as = 'text', encoding = 'UTF-8')
+      extract_errors_from_results('tomtom', raw_content, verbose)
+      return(NA_value)    
     }
     
   } else {
@@ -402,6 +418,19 @@ batch_tomtom <- function(unique_addresses, lat = 'lat', long = 'long',
   # Note that flatten here is necessary in order to get rid of the
   # nested dataframes that would cause dplyr::bind_rows (or rbind) to fail
   content <- jsonlite::fromJSON(raw_content)
+  
+  # if there were problems with the results then return NA
+  if (all(content$batchItems$statusCode != 200)){
+    # Loop through errors
+    for (j in seq_len(length(content$batchItems$statusCode))){
+      error_code <- content$batchItems$statusCode[j]
+      if (verbose == TRUE) message(paste0('HTTP Status Code: ', as.character(error_code)))
+      if ('errorText' %in% names(content$batchItems$response)) {
+        message(paste0('Error: ', content$batchItems$response$errorText[j]))
+      }
+    }
+    return(NA_value)
+  }
   
   # result_list is a list of dataframes
   result_list <- content$batchItems$response$results
