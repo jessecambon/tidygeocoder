@@ -130,7 +130,8 @@ extract_reverse_results <- function(method, response, full_results = TRUE, flatt
                     'here' = response$items['title'],
                     'tomtom' = response$addresses$address['freeformAddress'],
                     'mapquest' = format_address(response$results$locations[[1]],
-                                                c('street', paste0('adminArea', seq(6, 1))))
+                                                c('street', paste0('adminArea', seq(6, 1)))),
+                    'bing' = response$resourceSets$resources[[1]]['name']
   )
   
   # extract other results (besides single line address)
@@ -147,7 +148,8 @@ extract_reverse_results <- function(method, response, full_results = TRUE, flatt
                       'mapbox' = response$features[!names(response$features) %in% c('place_name')],
                       'here' = response$items[!names(response$items) %in% c('title')],
                       'tomtom' = response$addresses,
-                      'mapquest' = response$results$locations[[1]]
+                      'mapquest' = response$results$locations[[1]],
+                      'bing' = response$resourceSets$resources[[1]][names(response$resourceSets$resources[[1]]) != 'name']
     )
     
     # add prefix to variable names that likely could be in our input dataset

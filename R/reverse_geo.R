@@ -36,6 +36,8 @@ get_coord_parameters <- function(custom_query, method, lat, long) {
       paste0(as.character(lat), ',', as.character(long))
   } else if (method == 'mapquest') {
     custom_query[['location']] <-  paste0(as.character(lat), ',', as.character(long)) 
+  } else if (method == 'bing') {
+    custom_query[['to_url']] <-  paste0('/', as.character(lat), ',', as.character(long)) 
   } else {
     stop('Invalid method. See ?reverse_geo')
   }
@@ -85,6 +87,9 @@ get_coord_parameters <- function(custom_query, method, lat, long) {
 #'      batch geocoding.
 #'   \item \code{"mapquest"}: Commercial MapQuest geocoder service. Requires an 
 #'      API Key to be stored in the "MAPQUEST_API_KEY" environmental variable. 
+#'      Can perform batch geocoding.
+#'   \item \code{"bing"}: Commercial Bing geocoder service. Requires an 
+#'      API Key to be stored in the "BINGMAPS_API_KEY" environmental variable. 
 #'      Can perform batch geocoding.
 #' }
 #' 
@@ -288,7 +293,10 @@ reverse_geo <- function(lat, long, method = 'osm', address = address, limit = 1,
     # Remove semicolons (Reserved for batch)
     api_url <- gsub(";", ",", api_url)
   }
-  
+  # Workaround for Bing - The search_text should be in the url
+  if (method %in%  c('bing')) {
+    api_url <- paste0(api_url, custom_query[["to_url"]])
+  }
   # Set min_time if not set based on usage limit of service
   if (is.null(min_time)) min_time <- get_min_query_time(method)
   

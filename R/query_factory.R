@@ -214,6 +214,11 @@ get_api_query <- function(method, generic_parameters = list(), custom_parameters
     api_query_parameters <-
       api_query_parameters[!names(api_query_parameters) %in% c("query", "to_url")]
   }
+  # Bing: Workaround to remove inputs from parameters (since it is added to the API url instead)
+  if (method == "bing") {
+    api_query_parameters <-
+      api_query_parameters[!names(api_query_parameters) %in% c("to_url")]
+  }
   return(api_query_parameters)
 }
 

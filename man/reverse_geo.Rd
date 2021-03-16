@@ -62,6 +62,9 @@ Census service does not support reverse geocoding.
   \item \code{"mapquest"}: Commercial MapQuest geocoder service. Requires an 
      API Key to be stored in the "MAPQUEST_API_KEY" environmental variable. 
      Can perform batch geocoding.
+  \item \code{"bing"}: Commercial Bing geocoder service. Requires an 
+     API Key to be stored in the "BINGMAPS_API_KEY" environmental variable. 
+     Can perform batch geocoding.
 }}
 
 \item{address}{name of the address column (output data)}
