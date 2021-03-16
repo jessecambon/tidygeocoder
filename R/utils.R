@@ -7,10 +7,10 @@ pkg.globals$address_arg_names <- c('address', 'street', 'city', 'county', 'state
 #' Extract forward geocoding results 
 #' 
 #' @description
-#' Parses the output of the \code{\link{query_api}} function.
+#' Parses the output of the \code{\link{query_api}} function for single
+#' address geocoding (ie. not batch geocoding).
 #' Latitude and longitude are extracted into the first two columns
-#' of the returned dataframe. This function is not used for batch 
-#' geocoded results. Refer to \code{\link{query_api}} for example
+#' of the returned dataframe.  Refer to \code{\link{query_api}} for example
 #' usage.
 #' 
 #' @param method method name
@@ -18,12 +18,17 @@ pkg.globals$address_arg_names <- c('address', 'street', 'city', 'county', 'state
 #' @param full_results if TRUE then the full results (not just latitude and longitude)
 #'   will be returned.
 #' @param flatten if TRUE then flatten any nested dataframe content
+#' @param limit only used for method = 'google'. Limits number of results per address.
 #' @return geocoder results in tibble format 
 #' @seealso \code{\link{get_api_query}} \code{\link{query_api}} \code{\link{geo}}
 #' @export 
-extract_results <- function(method, response, full_results = TRUE, flatten = TRUE) {
+extract_results <- function(method, response, full_results = TRUE, flatten = TRUE, limit = 1) {
   # NOTE - the geo() function takes the output of this function and renames the 
   # latitude and longitude columns
+  
+  if (method == 'google') {
+    rows_to_return <- min(nrow(response$results), limit)
+  }
   
   NA_result <- get_na_value('lat', 'long', 1)
   
@@ -33,12 +38,13 @@ extract_results <- function(method, response, full_results = TRUE, flatten = TRU
     'osm' = response[c('lat', 'lon')],
     'iq' = response[c('lat', 'lon')],
     'geocodio' = response$results$location[c('lat', 'lng')],
-    'google' = response$results$geometry$location[c('lat','lng')],
+    # provide limit passthrough for google to limit number of results
+    'google' = response$results$geometry$location[c('lat','lng')][1:rows_to_return, ],
     'opencage' = response$results$geometry[c('lat', 'lng')],
     'mapbox' <- data.frame(
       'lat' = response$features$center[[1]][2],
       'long' = response$features$center[[1]][1]
-    ), # mapbox results are nested unnames lists
+    ), # mapbox results are nested unnamed lists
     'here' = response$items$position[c('lat','lng')],
     'tomtom' = response$results$position[c('lat', 'lon')]
   )
@@ -60,7 +66,7 @@ extract_results <- function(method, response, full_results = TRUE, flatten = TRU
       'osm' = response[!names(response) %in% c('lat', 'lon')],
       'iq' =  response[!names(response) %in% c('lat', 'lon')],
       'geocodio' = response$results[!names(response$results) %in% c('location')],
-      'google' = response$results,
+      'google' = response$results[1:rows_to_return, ],
       'opencage' = response$results[!names(response$results) %in% c('geometry')],
       'mapbox' = response$features,
       'here' = response$items,
@@ -75,7 +81,7 @@ extract_results <- function(method, response, full_results = TRUE, flatten = TRU
       }
     }
     
-    combined_results <- tibble::as_tibble(cbind(lat_lng, results))
+    combined_results <- dplyr::bind_cols(lat_lng, results)
   } else {
     combined_results <- lat_lng
   }
@@ -100,10 +106,11 @@ extract_results <- function(method, response, full_results = TRUE, flatten = TRU
 #' @param full_results if TRUE then the full results (not just an address column)
 #'   will be returned.
 #' @param flatten if TRUE then flatten any nested dataframe content
+#' @param limit only used for method = 'google'. Limits number of results per coordinate.
 #' @return geocoder results in tibble format 
 #' @seealso \code{\link{get_api_query}} \code{\link{query_api}} \code{\link{reverse_geo}}
 #' @export 
-extract_reverse_results <- function(method, response, full_results = TRUE, flatten = TRUE) {
+extract_reverse_results <- function(method, response, full_results = TRUE, flatten = TRUE, limit = 1) {
   # extract the single line address
   address <- switch(method,
                     'osm' = response['display_name'],
