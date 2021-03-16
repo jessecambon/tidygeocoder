@@ -574,4 +574,172 @@ batch_mapquest <-  function(unique_addresses, lat = "lat", long = "long",
     ## Prepare output----
     if (full_results == FALSE) return(results[c(lat, long)])
     else return(cbind(results[c(lat, long)], results[!names(results) %in% c(lat, long)]))
+}
+
+
+# Batch geocoding with Bing
+# ... are arguments passed from the geo() function
+# https://docs.microsoft.com/es-es/bingmaps/spatial-data-services/geocode-dataflow-api/
+batch_bing <- function(unique_addresses, lat = 'lat', long = 'long', timeout = 20, full_results = FALSE, custom_query = list(),
+                       verbose = FALSE, api_url = NULL, ...) {
+  # Specific endpoint
+  if (is.null(api_url)) api_url <- 'http://spatial.virtualearth.net/REST/v1/Dataflows/Geocode'
+  
+  address_df <- unique_addresses[names(unique_addresses) %in% get_generic_parameters('bing', address_only = TRUE)]
+  
+  # filler result to return if needed
+  NA_batch <- get_na_value(lat, long, rows = nrow(address_df))
+  
+  # Construct query ----
+  # Bing needs a special list of params
+  # https://docs.microsoft.com/es-es/bingmaps/spatial-data-services/geocode-dataflow-api/
+  query_parameters <- get_api_query('bing',
+                                    list(api_key = get_key('bing')),
+                                    custom_parameters = list(input = 'pipe')
+  )
+  if (verbose == TRUE) display_query(api_url, query_parameters)
+  
+  # Create body of the POST request----
+  # Needs to have Id and GeocodeRequest/Query  
+  # Also needs to add response fields
+  response_fields <- c('GeocodeResponse/Address/AddressLine',
+                       'GeocodeResponse/Address/AdminDistrict',
+                       'GeocodeResponse/Address/CountryRegion',
+                       'GeocodeResponse/Address/AdminDistrict2',
+                       'GeocodeResponse/Address/FormattedAddress',  
+                       'GeocodeResponse/Address/Locality',
+                       'GeocodeResponse/Address/PostalCode',
+                       'GeocodeResponse/Address/PostalTown',
+                       'GeocodeResponse/Address/Neighborhood',
+                       'GeocodeResponse/Address/Landmark',
+                       'GeocodeResponse/Confidence',
+                       'GeocodeResponse/Name',
+                       'GeocodeResponse/EntityType',
+                       'GeocodeResponse/MatchCodes',
+                       'GeocodeResponse/Point/Latitude',
+                       'GeocodeResponse/Point/Longitude',
+                       'GeocodeResponse/BoundingBox/SouthLatitude',
+                       'GeocodeResponse/BoundingBox/WestLongitude',
+                       'GeocodeResponse/BoundingBox/NorthLatitude',
+                       'GeocodeResponse/BoundingBox/EastLongitude')  
+  
+  names(address_df) <- 'query'
+  address_df <- tibble::add_column(address_df, Id = seq_len(nrow(address_df)), .before = 'query')
+  
+  # Create mock cols
+  mock <- as.data.frame(matrix(ncol=length(response_fields), nrow = nrow(address_df))
+  )
+  address_body <- cbind(address_df, mock)
+  
+  # Plain text, \n new line using indelim
+  
+  headers <- paste0("Id|GeocodeRequest/Query|", paste0(response_fields, collapse = "|"))
+  
+  body <- paste0('Bing Spatial Data Services, 2.0\n',
+                 paste0(headers, '\n')
+  )
+  
+  for (j in (seq_len(nrow(address_body)))){
+    body <- paste0(body,paste0(paste0(address_body[j, ], collapse = "|"), "\n"))
   }
+  body <- gsub('NA','',body)
+  
+  body_file <- tempfile()
+  writeLines(body, body_file)
+  # Body created on body_file
+  
+  # Step 1: Run job and retrieve id ----
+  # Modification from query_api function
+  if (verbose) message('\nBing: Batch job:')
+  
+  # Batch timer
+  init_process <- Sys.time()
+  job <- httr::POST(api_url,
+                    query = query_parameters,
+                    body = httr::upload_file(body_file),
+                    httr::timeout(60 * timeout)
+  )
+  httr::warn_for_status(job)
+  status_code <- httr::status_code(job)
+  job_result <- httr::content(job)
+  
+  # On error return NA
+  if (status_code != '201'){
+    if (verbose) message(paste0("Error: ", job_result$errorDetails))  
+    return(NA_batch)
+  }
+  
+  jobID <- job_result$resourceSets[[1]]$resources[[1]]$id
+  
+  # Step 2: Check job until is done ----
+  if (verbose) {
+    httr::message_for_status(job)
+    # Force new line
+    message()
+  }
+  
+  current_status <- ''
+  
+  while (current_status %in%  c('Pending', '')) {
+    Sys.sleep(3) # Arbitrary, 3sec
+    status <- httr::GET(url = paste0(api_url, '/', jobID),
+                        query = list(key = get_key('bing'))
+    )
+    status_get <- httr::content(status)
+    
+    prev_status <- current_status
+    current_status <- status_get$resourceSets[[1]]$resources[[1]]$status
+    
+    if (verbose && prev_status != current_status){
+      message(paste0("Bing: ",current_status))
+    }
+  }
+  
+  if (verbose) {
+    status_results <- status_get$resourceSets[[1]]$resources[[1]]
+    message(paste0('Bing: Processed: ', status_results$processedEntityCount,
+                   " | Failed: ", status_results$failedEntityCount))
+  }
+  
+  update_time_elapsed <- get_seconds_elapsed(init_process)
+  
+  if (verbose) print_time('Bing: Batch job processed in', update_time_elapsed)
+  
+  
+  # Step 3: GET results and parse ----
+  links <- status_get$resourceSets[[1]]$resources[[1]]$links
+  
+  # If not succeeded return NA
+  if (links[[2]]$name != 'succeeded'){
+    if (verbose) message("Bing: All failed")
+    return(NA_batch)
+  }
+  
+  # Download and parse succeeded results
+  
+  batch_results <-
+    httr::GET(url = links[[2]]$url,
+              query = list(key = get_key('bing'))
+    )
+  
+  result_content <- httr::content(batch_results, as = 'text', encoding = 'UTF-8')
+  
+  result_content
+  # Remove first line
+  result_content <- gsub("^([^Id]+)Id", "Id", result_content)
+  result_parsed <- tibble::as_tibble(utils::read.table(text = result_content,
+                                                       header = TRUE, 
+                                                       sep = "|"))
+  # Merge to original addresses and output
+  result_parsed$Id
+  base <- tibble::as_tibble(address_body)
+  results <- merge(base[c("Id","query")], 
+                   result_parsed, 
+                   all.x = TRUE)
+  
+  names(results)[names(results) == 'GeocodeResponse.Point.Latitude'] <- lat
+  names(results)[names(results) == 'GeocodeResponse.Point.Longitude'] <- long
+  
+  if (full_results == FALSE) return(results[c(lat, long)])
+  else return(cbind(results[c(lat, long)], results[!names(results) %in% c(lat, long)]))
+}

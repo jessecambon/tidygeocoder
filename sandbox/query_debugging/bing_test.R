@@ -162,7 +162,7 @@ library(tidygeocoder)
 
 # create a dataframe with addresses
 some_addresses <- tribble(
-  ~name, ~addr,
+  ~name1, ~addr,
   "White House", "1600 Pennsylvania Ave NW, Washington, DC",
   "Transamerica Pyramid", "600 Montgomery St, San Francisco, CA 94111",
   "Willis Tower", "233 S Wacker Dr, Chicago, IL 60606"
@@ -171,7 +171,7 @@ some_addresses <- tribble(
 # geocode the addresses
 lat_longs <- some_addresses %>%
   geocode(addr,
-    method = "bing", lat = latitude, long = longitude,
+    method = "bing",
     full_results = TRUE, mode = "single", verbose = TRUE
   )
 
