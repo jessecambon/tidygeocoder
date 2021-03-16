@@ -41,7 +41,11 @@ extract_results <- function(method, response, full_results = TRUE, flatten = TRU
     ), # mapbox results are nested unnames lists
     'here' = response$items$position[c('lat','lng')],
     'tomtom' = response$results$position[c('lat', 'lon')],
-    'mapquest' = response$results$locations[[1]]$latLng[c('lat','lng')]
+    'mapquest' = response$results$locations[[1]]$latLng[c('lat','lng')],
+    'bing' = as.data.frame(
+      matrix(unlist(response$resourceSets$resources[[1]]$point$coordinates), ncol = 2, byrow=TRUE),
+      col.names = c('lat', 'lng')
+    )
   )
   
   # if null result then return NA
@@ -66,7 +70,8 @@ extract_results <- function(method, response, full_results = TRUE, flatten = TRU
       'mapbox' = response$features,
       'here' = response$items,
       'tomtom' = response$results,
-      'mapquest' = response$results$locations[[1]]
+      'mapquest' = response$results$locations[[1]],
+      'bing' = response$resourceSets$resources[[1]]
     )
 
     # add prefix to variable names that likely could be in our input dataset

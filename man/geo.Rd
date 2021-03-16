@@ -85,6 +85,9 @@ each geocoder service for usage details and limitations.
   \item \code{"mapquest"}: Commercial MapQuest geocoder service. Requires an 
      API Key to be stored in the "MAPQUEST_API_KEY" environmental variable. 
      Can perform batch geocoding.
+  \item \code{"bing"}: Commercial Bing geocoder service. Requires an 
+     API Key to be stored in the "BINGMAPS_API_KEY" environmental variable. 
+     Can perform batch geocoding.
   \item \code{"cascade"} : Attempts to use one geocoder service and then uses
     a second geocoder service if the first service didn't return results.
     The services and order is specified by the cascade_order argument. 
