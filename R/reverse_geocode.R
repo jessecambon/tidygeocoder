@@ -56,6 +56,9 @@ reverse_geocode <- function(.tbl, lat, long, address = address, return_coords = 
     stop('.tbl is not a dataframe. See ?reverse_geocode')
   }
   
+  # convert .tbl to tibble if it isn't one already
+  .tbl <- tibble::as_tibble(.tbl)
+  
   coord_parameters <- list()
   # put all non-lat,long arguments into a named list
   # create address parameters to be passed to the geo function as a named list of lists
@@ -67,7 +70,7 @@ reverse_geocode <- function(.tbl, lat, long, address = address, return_coords = 
       coord_parameters[[var]] <- .tbl[[all_args[[var]]]]
   }
   
-  # Arguments to pass to geo()
+  # Arguments to pass to reverse_geo()
   reverse_geo_args <- c(coord_parameters, 
                 all_args[!names(all_args) %in% c('.tbl', 'lat', 'long')], list(...))
   

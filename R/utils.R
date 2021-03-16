@@ -49,8 +49,8 @@ extract_results <- function(method, response, full_results = TRUE, flatten = TRU
     'tomtom' = response$results$position[c('lat', 'lon')]
   )
   
-  # if null result then return NA
-  if (length(lat_lng) == 0 ) return(NA_result)
+  # if null or non-dataframe result then return NA
+  if (length(lat_lng) == 0 | !is.data.frame(lat_lng) ) return(NA_result)
   # check to make sure results aren't na or the wrong width
   if (nrow(lat_lng) == 0 | ncol(lat_lng) != 2) return(NA_result)
   
@@ -111,13 +111,19 @@ extract_results <- function(method, response, full_results = TRUE, flatten = TRU
 #' @seealso \code{\link{get_api_query}} \code{\link{query_api}} \code{\link{reverse_geo}}
 #' @export 
 extract_reverse_results <- function(method, response, full_results = TRUE, flatten = TRUE, limit = 1) {
+  
+  if (method == 'google') {
+    rows_to_return <- min(nrow(response$results), limit)
+  }
+  
+  
   # extract the single line address
   address <- switch(method,
                     'osm' = response['display_name'],
                     'iq' = response['display_name'],
                     'geocodio' = response$results['formatted_address'],
-                    # take first row of multiple results with google for now
-                    'google' = response$results[1, ]['formatted_address'],
+                    # note the application of the limit argument for google
+                    'google' = response$results[1:rows_to_return, ]['formatted_address'],
                     'opencage' = response$results['formatted'],
                     'mapbox' = response$features['place_name'],
                     'here' = response$items['title'],
@@ -132,8 +138,8 @@ extract_reverse_results <- function(method, response, full_results = TRUE, flatt
                       'iq' =  cbind(response[!(names(response) %in% c('display_name', 'boundingbox', 'address'))], 
                                     tibble::as_tibble(response[['address']]), tibble::tibble(boundingbox = list(response$boundingbox))),
                       'geocodio' = response$results[!names(response$results) %in% c('formatted_address')],
-                      # take first row of multiple results with google for now
-                      'google' = response$results[1, ][!names(response$results) %in% c('formatted_address')], 
+                      # note the application of the limit argument for google
+                      'google' = response$results[1:rows_to_return, ][!names(response$results) %in% c('formatted_address')], 
                       'opencage' = response$results[!names(response$results) %in% c('formatted')],
                       'mapbox' = response$features[!names(response$features) %in% c('place_name')],
                       'here' = response$items[!names(response$items) %in% c('title')],

@@ -306,7 +306,7 @@ reverse_geo <- function(lat, long, method = 'osm', address = address, limit = 1,
     results <- NA_value
   }
   else {
-    results <- extract_reverse_results(method, jsonlite::fromJSON(query_results$content), full_results, flatten)
+    results <- extract_reverse_results(method, jsonlite::fromJSON(query_results$content), full_results, flatten, limit)
     # rename address column
     names(results)[1] <- address
   }
