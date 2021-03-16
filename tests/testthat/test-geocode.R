@@ -77,7 +77,7 @@ test_that("geocode null/empty addresses", {
   expect_error(geo(address = as.character(seq(1, 10)), 
                    method = 'mapquest', batch_limit = 5, no_query = TRUE, batch_limit_error = TRUE))
   expect_error(geo(address = as.character(seq(1, 10)), 
-                   method = 'bing', batch_limit = 5, no_query = TRUE, batch_limit_error = TRUE))
+                   method = 'bing', batch_limit = 5, no_query = TRUE, batch_limit_error = TRUE, mode = 'batch'))
   
   expect_warning(geo(address = as.character(seq(1, 10)), 
                      method = 'census', batch_limit = 5, no_query = TRUE, batch_limit_error = FALSE))
@@ -88,7 +88,7 @@ test_that("geocode null/empty addresses", {
   expect_warning(geo(address = as.character(seq(1, 10)),
                      method = 'mapquest', batch_limit = 5, no_query = TRUE, batch_limit_error = FALSE))
   expect_warning(geo(address = as.character(seq(1, 10)),
-                     method = 'bing', batch_limit = 5, no_query = TRUE, batch_limit_error = FALSE))
+                     method = 'bing', batch_limit = 5, no_query = TRUE, batch_limit_error = FALSE, mode = 'batch'))
   
    # batch_limit_error should revert to FALSE with method = 'cascade'
   expect_warning(geo(address = as.character(seq(1, 10)), 
