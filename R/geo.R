@@ -6,7 +6,8 @@ batch_func_map <- list(
   geocodio = batch_geocodio, 
   census = batch_census,
   here = batch_here,
-  tomtom = batch_tomtom
+  tomtom = batch_tomtom,
+  mapquest = batch_mapquest
 )
 
 #' Geocode addresses
@@ -61,6 +62,9 @@ batch_func_map <- list(
 #'   \item \code{"tomtom"}: Commercial TomTom geocoder service. Requires an API Key to
 #'      be stored in the "TOMTOM_API_KEY" environmental variable. Can perform 
 #'      batch geocoding.
+#'   \item \code{"mapquest"}: Commercial MapQuest geocoder service. Requires an 
+#'      API Key to be stored in the "MAPQUEST_API_KEY" environmental variable. 
+#'      Can perform batch geocoding.
 #'   \item \code{"cascade"} : Attempts to use one geocoder service and then uses
 #'     a second geocoder service if the first service didn't return results.
 #'     The services and order is specified by the cascade_order argument. 
@@ -100,7 +104,8 @@ batch_func_map <- list(
 #'    Note that Geocodio batch geocoding results are flattened regardless.
 #' @param batch_limit limit to the number of addresses in a batch geocoding query.
 #'  'geocodio', 'census' and 'tomtom' batch geocoders have a 10,000 address limit so this
-#'  is the default. 'here' has a 1,000,000 address limit.
+#'  is the default. 'here' has a 1,000,000 address limit. 'mapquest' has a 100 address
+#'  limit.
 #' @param batch_limit_error if TRUE then an error is thrown if the number of unique addresses
 #'  exceeds the batch limit (if executing a batch query). This is reverted to FALSE when using the
 #'  cascade method.
@@ -130,6 +135,8 @@ batch_func_map <- list(
 #'   when \code{verbose} is TRUE. Note that this option would ignore the 
 #'   current \code{address} parameter on the request, so \code{return_addresses} 
 #'   needs to be FALSE.
+#' @param mapquest_open if TRUE then MapQuest would use the Open Geocoding 
+#'   endpoint, that relies solely on data contributed to OpenStreetMap.
 #'    
 #' @return parsed geocoding results in tibble format
 #' @examples
@@ -152,7 +159,8 @@ geo <- function(address = NULL,
     mode = '', full_results = FALSE, unique_only = FALSE, return_addresses = TRUE, 
     flatten = TRUE, batch_limit = 10000, batch_limit_error = TRUE, verbose = FALSE, no_query = FALSE, 
     custom_query = list(), return_type = 'locations', iq_region = 'us', geocodio_v = 1.6, 
-    param_error = TRUE, mapbox_permanent = FALSE, here_request_id = NULL) {
+    param_error = TRUE, mapbox_permanent = FALSE, here_request_id = NULL,
+    mapquest_open = FALSE) {
 
   # NSE - Quote unquoted vars without double quoting quoted vars
   # end result - all of these variables become character values
@@ -176,7 +184,8 @@ geo <- function(address = NULL,
             is.numeric(limit), is.numeric(batch_limit), is.logical(batch_limit_error), is.numeric(timeout),
             limit >= 1, batch_limit >= 1, timeout >= 0, is.list(custom_query),
             is.logical(mapbox_permanent), 
-            is.null(here_request_id) || is.character(here_request_id))
+            is.null(here_request_id) || is.character(here_request_id),
+            is.logical(mapquest_open))
   
   if (!(method %in% c('cascade', method_services))) {
     stop('Invalid method argument. See ?geo')
@@ -407,7 +416,7 @@ geo <- function(address = NULL,
   if (is.null(api_url)) {
     api_url <- get_api_url(method, reverse = FALSE, return_type = return_type,
                 search = search, geocodio_v = geocodio_v, iq_region = iq_region, 
-                mapbox_permanent = mapbox_permanent)
+                mapbox_permanent = mapbox_permanent, mapquest_open = mapquest_open)
   }
   
   # Workaround for Mapbox/TomTom - The search_text should be in the API URL
