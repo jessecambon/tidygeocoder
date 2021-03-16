@@ -22,8 +22,8 @@ response <-
   jsonlite::fromJSON(httr::content(soup, as = "text", encoding = "UTF-8"))
 
 as.data.frame(
-  matrix(unlist(response$resourceSets$resources[[1]]$point$coordinates), ncol = 2, byrow=TRUE),
-  col.names = c('lat', 'lng')
+  matrix(unlist(response$resourceSets$resources[[1]]$point$coordinates), ncol = 2, byrow = TRUE),
+  col.names = c("lat", "lng")
 )
 
 results_minimal <-
@@ -37,7 +37,7 @@ results
 
 full_results_notflat <-
   tidygeocoder::extract_results(selected_method,
-                                response,
+    response,
     full_results = TRUE,
     flatten = FALSE
   )
@@ -45,30 +45,31 @@ full_results_notflat
 
 full_results_flat <-
   tidygeocoder::extract_results(selected_method,
-                                response,
+    response,
     full_results = TRUE,
     flatten = TRUE
   )
 full_results_flat
 
 # Error on bad user
+query_results <- query_api(url_base, list(
+  key = tidygeocoder:::get_key(selected_method),
+  q = "Madrid, Spain",
+  strictMatch = "XX"
+))
 
-response <- tidygeocoder:::query_api(
-  api_url = gsub(" ", "%20", paste0(url_base, addr, ".json")),
-    query_parameters =  list(
-      limit = 1,
-      key = tidygeocoder:::get_key(selected_method),
-      language = "FFFFF"
-    )
-  )
-raw_results <- jsonlite::fromJSON(response$content)
+
+if (TRUE == TRUE) message(paste0("HTTP Status Code: ", as.character(query_results$status)))
+
+
+tidygeocoder:::extract_errors_from_results(query_results$content, method = "bing")
 
 httr::status_code(response)
 httr::warn_for_status(response)
-httr::content(response, as = 'text', encoding = "UTF-8")
-content <- jsonlite::fromJSON(httr::content(response, as = 'text', encoding = "UTF-8"))
+httr::content(response, as = "text", encoding = "UTF-8")
+content <- jsonlite::fromJSON(httr::content(response, as = "text", encoding = "UTF-8"))
 
-httr::content(response, as = 'text', encoding = "UTF-8")
+httr::content(response, as = "text", encoding = "UTF-8")
 
 tidygeocoder::check_results_for_problems("bing", soup2, TRUE)
 # Error on bad key
@@ -134,10 +135,24 @@ tidygeocoder::geo(
   mode = "single",
   limit = 2,
   custom_query = list(
-    language = "aaaaaa"
+    key = "aaaaaa"
   ),
   method = "bing"
 )
+
+tidygeocoder::geo(
+  address = c("Nieva"),
+  verbose = TRUE,
+  full_results = TRUE,
+  mode = "single",
+  limit = 2,
+  custom_query = list(
+    strictMatch = "aaaaaa"
+  ),
+  method = "bing"
+)
+
+# End error
 
 glimpse(livetest_params)
 

@@ -231,7 +231,9 @@ extract_errors_from_results <- function(method, response, verbose) {
     else if (method == 'mapquest'){
       if (!is.null(raw_results$info$messages)) message(paste0('Error: ', raw_results$info$messages))
     }
-    
+    else if (method == 'bing'){
+      if ('errorDetails' %in% names(raw_results)) message(paste0('Error: ', raw_results$errorDetails, collapse = "\n"))
+    }
   }
 }
 
