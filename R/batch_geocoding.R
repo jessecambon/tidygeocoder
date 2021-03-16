@@ -439,7 +439,7 @@ batch_mapquest <-  function(unique_addresses, lat = "lat", long = "long",
                             verbose = FALSE, api_url = NULL, limit = 1, 
                             mapquest_open = FALSE, ...) {
     # limit the dataframe to legitimate arguments
-    address_df <- unique_addresses[names(unique_addresses) %in% get_generic_parameters("tomtom", address_only = TRUE)]
+    address_df <- unique_addresses[names(unique_addresses) %in% get_generic_parameters("mapquest", address_only = TRUE)]
 
     NA_value <- get_na_value(lat, long, rows = nrow(address_df)) # filler result to return if needed
 
