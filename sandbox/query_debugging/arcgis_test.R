@@ -143,6 +143,19 @@ tidygeocoder::geo(
   method = "arcgis"
 )
 
+tidygeocoder::geo(
+  address = c("Nieva"),
+  verbose = TRUE,
+  full_results = TRUE,
+  mode = "single",
+  limit = 2,
+  custom_query = list(
+    forStorage = "aaaaaa"
+  ),
+  method = "arcgis"
+)
+
+
 # create a dataframe with addresses
 some_addresses <- tribble(
   ~name, ~addr,

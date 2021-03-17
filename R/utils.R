@@ -116,7 +116,8 @@ extract_reverse_results <- function(method, response, full_results = TRUE, flatt
                     'opencage' = response$results['formatted'],
                     'mapbox' = response$features['place_name'],
                     'here' = response$items['title'],
-                    'tomtom' = response$addresses$address['freeformAddress']
+                    'tomtom' = response$addresses$address['freeformAddress'],
+                    'arcgis' = response$address['LongLabel']
   )
   
   # extract other results (besides single line address)
@@ -132,7 +133,8 @@ extract_reverse_results <- function(method, response, full_results = TRUE, flatt
                       'opencage' = response$results[!names(response$results) %in% c('formatted')],
                       'mapbox' = response$features[!names(response$features) %in% c('place_name')],
                       'here' = response$items[!names(response$items) %in% c('title')],
-                      'tomtom' = response$addresses
+                      'tomtom' = response$addresses,
+                      'arcgis' = response$address[names(response$address) != 'LongLabel']
     )
     
     # add prefix to variable names that likely could be in our input dataset
