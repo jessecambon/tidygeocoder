@@ -55,8 +55,8 @@ extract_results <- function(method, response, full_results = TRUE, flatten = TRU
   if (nrow(lat_lng) == 0 | ncol(lat_lng) != 2) return(NA_result)
   
   # convert to numeric format
-  lat_lng[, 1] <- as.numeric(as.character(lat_lng[, 1]))
-  lat_lng[, 2] <- as.numeric(as.character(lat_lng[, 2]))
+  lat_lng[, 1] <- sapply(lat_lng[, 1], function(x) as.numeric(as.character(x)), USE.NAMES = FALSE)
+  lat_lng[, 2] <- sapply(lat_lng[, 2], function(x) as.numeric(as.character(x)), USE.NAMES = FALSE)
   
   if (full_results == TRUE) {
   # extract full results excluding latitude and longitude
@@ -134,12 +134,10 @@ extract_reverse_results <- function(method, response, full_results = TRUE, flatt
   
   # if null or non-dataframe result then return NA
   if (length(address) == 0 ) {
-    print('cond1')
     return(NA_result)
   }
   # check to make sure results aren't NA or the wrong width
   if (nrow(address) == 0 | ncol(address) != 1) {
-    print('cond2')
     return(NA_result)
   }
   
