@@ -13,7 +13,7 @@
 # Mapbox: https://docs.mapbox.com/api/search/geocoding/
 # HERE: https://developer.here.com/documentation/geocoding-search-api/dev_guide/index.html
 # TomTom: https://developer.tomtom.com/search-api/search-api-documentation-geocoding/geocode
-
+# ArcGis: https://developers.arcgis.com/rest/geocode/api-reference/overview-world-geocoding-service.htm
 
 ### Usage Policies
 # OSM: https://operations.osmfoundation.org/policies/nominatim/
@@ -22,7 +22,7 @@
 # Mapbox: https://www.mapbox.com/pricing/#search
 # HERE: https://developer.here.com/pricing
 # TomTom: https://developer.tomtom.com/store/maps-api
-
+# ArcGis: https://developers.arcgis.com/rest/geocode/api-reference/geocoding-free-vs-paid.htm
 
 ## Note: generic_name = 'address' is for one-line addresses
 ## If generic_name == NA then that means the parameter is specific to a given API/method
@@ -124,6 +124,13 @@ api_parameter_reference <- tibble::tribble(
   'tomtom', 'api_key',    'key',          NA,                  TRUE,
   'tomtom', 'address',    'query',        NA,                  TRUE,  
   'tomtom', 'limit',      'limit',        '1',                 FALSE,
+  
+  ########################### ArcGis #################################
+  # ArcGis may not require an api key
+  
+  'arcgis', 'address',    'SingleLine',   NA,                  FALSE,  
+  'arcgis', 'limit',      'maxLocations', '1',                 FALSE,
+  'arcgis', 'format',     'f',            'json',              TRUE,
 )
 
 usethis::use_data(api_parameter_reference, overwrite = TRUE)

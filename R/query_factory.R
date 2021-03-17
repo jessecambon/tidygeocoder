@@ -91,6 +91,11 @@ get_tomtom_url <- function(reverse = FALSE) {
     return(paste0('https://api.tomtom.com/search/2/', url_keyword))
 }
 
+get_arcgis_url <- function(reverse = FALSE) {
+  if (reverse == TRUE) return('https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/reverseGeocode')
+  else return('https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/findAddressCandidates')
+}
+
 ## wrapper function for above functions
 ### IMPORTANT: if arguments are changed in this definition then make sure to 
 ### update reverse_geo.R and geo.R where this function is called.
@@ -107,6 +112,7 @@ get_api_url <- function(method, reverse = FALSE, return_type = 'locations',
          "mapbox" = get_mapbox_url(mapbox_permanent), # same url as fwd geocoding
          "here" = get_here_url(reverse = reverse),
          "tomtom" = get_tomtom_url(reverse = reverse),
+         "arcgis" = get_arcgis_url(reverse = reverse),
          )
 
 

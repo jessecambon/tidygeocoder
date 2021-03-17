@@ -10,6 +10,7 @@
 \alias{geo_mapbox}
 \alias{geo_here}
 \alias{geo_tomtom}
+\alias{geo_arcgis}
 \title{Convenience functions for calling the \code{\link{geo}} function
 with a specified method}
 \usage{
@@ -30,6 +31,8 @@ geo_mapbox(...)
 geo_here(...)
 
 geo_tomtom(...)
+
+geo_arcgis(...)
 }
 \arguments{
 \item{...}{arguments to be passed to the \code{\link{geo}} function}

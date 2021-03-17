@@ -40,7 +40,8 @@ extract_results <- function(method, response, full_results = TRUE, flatten = TRU
       'long' = response$features$center[[1]][1]
     ), # mapbox results are nested unnames lists
     'here' = response$items$position[c('lat','lng')],
-    'tomtom' = response$results$position[c('lat', 'lon')]
+    'tomtom' = response$results$position[c('lat', 'lon')],
+    'arcgis' = response$candidates$location[c('y', 'x')]
   )
   
   # if null result then return NA
@@ -64,7 +65,8 @@ extract_results <- function(method, response, full_results = TRUE, flatten = TRU
       'opencage' = response$results[!names(response$results) %in% c('geometry')],
       'mapbox' = response$features,
       'here' = response$items,
-      'tomtom' = response$results
+      'tomtom' = response$results,
+      'arcgis' = response$candidates
     )
 
     # add prefix to variable names that likely could be in our input dataset

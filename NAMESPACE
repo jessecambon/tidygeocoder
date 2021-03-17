@@ -3,6 +3,7 @@
 export(extract_results)
 export(extract_reverse_results)
 export(geo)
+export(geo_arcgis)
 export(geo_cascade)
 export(geo_census)
 export(geo_geocodio)
