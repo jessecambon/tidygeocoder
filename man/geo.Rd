@@ -120,7 +120,7 @@ This parameter can be used to specify a local Nominatim server.}
 force single address geocoding (one address per query). If not 
 specified then batch geocoding will be used if available
 (given method selected) when multiple addresses are provided; otherwise
-single address geocoding will be used. For 'here' the batch mode
+single address geocoding will be used. For 'here' and 'bing the batch mode
 should be explicitly enforced.}
 
 \item{full_results}{returns all data from the geocoder service if TRUE. 
@@ -138,7 +138,7 @@ Note that Geocodio batch geocoding results are flattened regardless.}
 \item{batch_limit}{limit to the number of addresses in a batch geocoding query.
 'geocodio', 'census' and 'tomtom' batch geocoders have a 10,000 address limit so this
 is the default. 'here' has a 1,000,000 address limit. 'mapquest' has a 100 address
-limit.}
+limit. 'bing' as a 50 address limit.}
 
 \item{batch_limit_error}{if TRUE then an error is thrown if the number of unique addresses
 exceeds the batch limit (if executing a batch query). This is reverted to FALSE when using the

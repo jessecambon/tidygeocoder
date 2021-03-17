@@ -42,14 +42,21 @@ extract_results <- function(method, response, full_results = TRUE, flatten = TRU
     'here' = response$items$position[c('lat','lng')],
     'tomtom' = response$results$position[c('lat', 'lon')],
     'mapquest' = response$results$locations[[1]]$latLng[c('lat','lng')],
-    'bing' = as.data.frame(
-      matrix(unlist(response$resourceSets$resources[[1]]$point$coordinates), ncol = 2, byrow=TRUE),
-      col.names = c('lat', 'lng')
-    )
+    'bing' = response$resourceSets$resources[[1]]$point$coordinates
+
   )
   
   # if null result then return NA
   if (length(lat_lng) == 0 ) return(NA_result)
+  
+  # Extract results for Bing
+  if (method == 'bing') {
+    lat_lng <- as.data.frame(
+      matrix(unlist(response$resourceSets$resources[[1]]$point$coordinates), ncol = 2, byrow=TRUE),
+      col.names = c('lat', 'lng')
+    )
+  }
+  
   # check to make sure results aren't na or the wrong width
   if (nrow(lat_lng) == 0 | ncol(lat_lng) != 2) return(NA_result)
   

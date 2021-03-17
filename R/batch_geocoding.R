@@ -600,7 +600,10 @@ batch_bing <- function(unique_addresses, lat = 'lat', long = 'long', timeout = 2
   if (verbose == TRUE) display_query(api_url, query_parameters)
   
   # Create body of the POST request----
-  # Needs to have Id and GeocodeRequest/Query  
+  # Needs to have Id and GeocodeRequest/Query 
+  address_df <- dplyr::bind_cols(Id = seq_len(nrow(address_df)), address_df)
+  names(address_df) <- c("Id","GeocodeRequest/Query")
+  
   # Also needs to add response fields
   response_fields <- c('GeocodeResponse/Address/AddressLine',
                        'GeocodeResponse/Address/AdminDistrict',
@@ -623,29 +626,24 @@ batch_bing <- function(unique_addresses, lat = 'lat', long = 'long', timeout = 2
                        'GeocodeResponse/BoundingBox/NorthLatitude',
                        'GeocodeResponse/BoundingBox/EastLongitude')  
   
-  names(address_df) <- 'query'
-  address_df <- tibble::add_column(address_df, Id = seq_len(nrow(address_df)), .before = 'query')
-  
   # Create mock cols
-  mock <- as.data.frame(matrix(ncol=length(response_fields), nrow = nrow(address_df))
-  )
-  address_body <- cbind(address_df, mock)
+  mock <- as.data.frame(
+    matrix(data="", ncol=length(response_fields), nrow = nrow(address_df))
+    )
+  names(mock) <- response_fields
+
+  # Create tibble for body
+  address_body <- dplyr::bind_cols(address_df, mock)
   
-  # Plain text, \n new line using indelim
-  
-  headers <- paste0("Id|GeocodeRequest/Query|", paste0(response_fields, collapse = "|"))
-  
-  body <- paste0('Bing Spatial Data Services, 2.0\n',
-                 paste0(headers, '\n')
-  )
-  
-  for (j in (seq_len(nrow(address_body)))){
-    body <- paste0(body,paste0(paste0(address_body[j, ], collapse = "|"), "\n"))
-  }
-  body <- gsub('NA','',body)
-  
+  # Create file
   body_file <- tempfile()
-  writeLines(body, body_file)
+  cat("Bing Spatial Data Services, 2.0", file=body_file, append=FALSE, sep = "\n")
+  cat(paste0(names(address_body), collapse = "|"), file=body_file, append=TRUE, sep = "\n")
+  for (j in (seq_len(nrow(address_body)))){
+    body <- paste0(address_body[j, ], collapse = "|")
+    body <- gsub('NA','',body)
+    cat(body, file=body_file, append=TRUE, sep = "\n")
+  }
   # Body created on body_file
   
   # Step 1: Run job and retrieve id ----
@@ -695,10 +693,18 @@ batch_bing <- function(unique_addresses, lat = 'lat', long = 'long', timeout = 2
     }
   }
   
+  status_results <- status_get$resourceSets[[1]]$resources[[1]]
+  process <- as.integer(status_results$processedEntityCount)
+  errors <- as.integer(status_results$failedEntityCount)
+  succees <- process - errors
+  
   if (verbose) {
-    status_results <- status_get$resourceSets[[1]]$resources[[1]]
-    message(paste0('Bing: Processed: ', status_results$processedEntityCount,
-                   " | Failed: ", status_results$failedEntityCount))
+    httr::message_for_status(job)
+    # Force new line
+    message()
+    message(paste0('Bing: Processed: ', process,
+                   " | Succeeded: ", succees,
+                   " | Failed: ", errors))
   }
   
   update_time_elapsed <- get_seconds_elapsed(init_process)
@@ -710,7 +716,7 @@ batch_bing <- function(unique_addresses, lat = 'lat', long = 'long', timeout = 2
   links <- status_get$resourceSets[[1]]$resources[[1]]$links
   
   # If not succeeded return NA
-  if (links[[2]]$name != 'succeeded'){
+  if (process == errors){
     if (verbose) message("Bing: All failed")
     return(NA_batch)
   }
@@ -724,16 +730,14 @@ batch_bing <- function(unique_addresses, lat = 'lat', long = 'long', timeout = 2
   
   result_content <- httr::content(batch_results, as = 'text', encoding = 'UTF-8')
   
-  result_content
-  # Remove first line
-  result_content <- gsub("^([^Id]+)Id", "Id", result_content)
+  # Skip first line
   result_parsed <- tibble::as_tibble(utils::read.table(text = result_content,
+                                                       skip = 1,
                                                        header = TRUE, 
                                                        sep = "|"))
-  # Merge to original addresses and output
-  result_parsed$Id
+  # Merge to original addresses and output----
   base <- tibble::as_tibble(address_body)
-  results <- merge(base[c("Id","query")], 
+  results <- merge(base["Id"], 
                    result_parsed, 
                    all.x = TRUE)
   

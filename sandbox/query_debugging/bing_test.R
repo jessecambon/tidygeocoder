@@ -1,6 +1,6 @@
 selected_method <- "bing"
 
-addr <- "Acueducto de Segovia, Spain"
+addr <- "xxxxxx"
 url_base <- tidygeocoder:::get_bing_url()
 
 library(httr)
@@ -12,8 +12,8 @@ soup <-
   httr::GET(
     url = url_base,
     query = list(
-      key = tidygeocoder:::get_key(selected_method),
-      q = "Madrid, Spain",
+      key = get_key('bing'),
+      q = "xxxxxxxxxxxx",
       maxResults = 5
     )
   )
@@ -21,6 +21,9 @@ soup <-
 response <-
   jsonlite::fromJSON(httr::content(soup, as = "text", encoding = "UTF-8"))
 
+httr::status_code(soup)
+length(response$resourceSets$resources[[1]]$point$coordinates)
+is.null(response$resourceSets$resources[[1]])
 as.data.frame(
   matrix(unlist(response$resourceSets$resources[[1]]$point$coordinates), ncol = 2, byrow = TRUE),
   col.names = c("lat", "lng")
@@ -81,6 +84,16 @@ addr <- "Plaza Mayor"
 
 tidygeocoder::geo(
   address = addr,
+  verbose = TRUE,
+  lat = "latitude",
+  long = "longitude",
+  method = "bing",
+  limit = 5,
+)
+
+# NUll result
+tidygeocoder::geo(
+  address = "xxxxxxxxxxxxxxxxxxxx",
   verbose = TRUE,
   lat = "latitude",
   long = "longitude",

@@ -11,7 +11,8 @@ reverse_batch_func_map <- list(
   geocodio = reverse_batch_geocodio,
   here = reverse_batch_here,
   tomtom = reverse_batch_tomtom,
-  mapquest = reverse_batch_mapquest
+  mapquest = reverse_batch_mapquest,
+  bing = reverse_batch_bing
 )
 
 # Create API parameters for a single set of coordinates (lat, long) based on the 
@@ -108,7 +109,7 @@ get_coord_parameters <- function(custom_query, method, lat, long) {
 #'  force single address geocoding (one coordinate per query). If not 
 #'  specified then batch geocoding will be used if available
 #'  (given method selected) when multiple addresses are provided; otherwise
-#'  single address geocoding will be used. For 'here' the batch mode
+#'  single address geocoding will be used. For 'here' and 'bing' the batch mode
 #'  should be explicitly enforced.
 #' @param full_results returns all data from the geocoder service if TRUE. 
 #' If FALSE then only a single address column will be returned from the geocoder service.
@@ -121,7 +122,7 @@ get_coord_parameters <- function(custom_query, method, lat, long) {
 #' @param batch_limit limit to the number of addresses in a batch geocoding query.
 #'  Both geocodio and census batch geocoders have a 10,000 limit so this
 #'  is the default. 'here' has a 1,000,000 address limit. 'mapquest' has a 100 address
-#'  limit.
+#'  limit. 'bing' as a 50 address limit.
 #' @param verbose if TRUE then detailed logs are output to the console
 #' @param no_query if TRUE then no queries are sent to the geocoder and verbose is set to TRUE
 #' @param custom_query API-specific parameters to be used, passed as a named list 
@@ -191,7 +192,7 @@ reverse_geo <- function(lat, long, method = 'osm', address = address, limit = 1,
   # HERE Exception
   # Batch mode is quite slow. If batch mode is not called explicitly
   # use single method
-  if (method == "here" && mode != 'batch' ){
+  if (method %in% c("here", "bing") && mode != 'batch' ){
     mode <- 'single'
   }
   
