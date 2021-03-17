@@ -87,7 +87,7 @@ and usage limitations.
 | [Mapbox](https://docs.mapbox.com/api/search/)                                        | Worldwide     | See Note        | Yes              | 10/second (free tier)   |
 | [HERE](https://developer.here.com/products/geocoding-and-search)                     | Worldwide     | Yes             | Yes              | None                    |
 | [TomTom](https://developer.tomtom.com/search-api/search-api-documentation/geocoding) | Worldwide     | Yes             | Yes              | 5/second (free tier)    |
-| [MapQuest](https://www.mapquest.com/)                                                | Worldwide     | Yes             | Yes              | None                    |
+| [MapQuest](https://developer.mapquest.com/documentation/geocoding-api/)              | Worldwide     | Yes             | Yes              | None                    |
 
 Notes:
 
