@@ -9,7 +9,7 @@ all_methods <- unique(tidygeocoder::api_parameter_reference[['method']])
 ### Select which methods you want to test #################
 # Note that batch geocoding with 'here' can be slow 
 methods_to_test <- all_methods
-#methods_to_test <- c('here', 'census', 'osm')
+#methods_to_test <- c('opencage', 'census', 'osm')
 ###########################################################
 
 library(tidygeocoder)

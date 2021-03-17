@@ -4,7 +4,13 @@
 \alias{extract_results}
 \title{Extract forward geocoding results}
 \usage{
-extract_results(method, response, full_results = TRUE, flatten = TRUE)
+extract_results(
+  method,
+  response,
+  full_results = TRUE,
+  flatten = TRUE,
+  limit = 1
+)
 }
 \arguments{
 \item{method}{method name}
@@ -15,15 +21,17 @@ extract_results(method, response, full_results = TRUE, flatten = TRUE)
 will be returned.}
 
 \item{flatten}{if TRUE then flatten any nested dataframe content}
+
+\item{limit}{only used for method = 'google'. Limits number of results per address.}
 }
 \value{
 geocoder results in tibble format
 }
 \description{
-Parses the output of the \code{\link{query_api}} function.
+Parses the output of the \code{\link{query_api}} function for single
+address geocoding (ie. not batch geocoding).
 Latitude and longitude are extracted into the first two columns
-of the returned dataframe. This function is not used for batch 
-geocoded results. Refer to \code{\link{query_api}} for example
+of the returned dataframe.  Refer to \code{\link{query_api}} for example
 usage.
 }
 \seealso{

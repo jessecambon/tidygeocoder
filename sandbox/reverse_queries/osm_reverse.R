@@ -5,7 +5,7 @@ soup <- httr::GET(url = url_base,
                   query = list(lat = 6.455027, 
                                lon = 3.384082,
                          #      lon = NA,
-                               limit = 1,
+                               limit = 5,
                                format = 'json'
                                  ))
 

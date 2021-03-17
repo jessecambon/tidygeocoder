@@ -33,12 +33,12 @@ extract_results <- function(method, response, full_results = TRUE, flatten = TRU
   NA_result <- get_na_value('lat', 'long', 1)
   
   # extract latitude and longitude as a dataframe
-  lat_lng <- switch(method,
+  lat_lng <- tibble::as_tibble(switch(method,
     'census' = response$result$addressMatches$coordinates[c('y','x')],
     'osm' = response[c('lat', 'lon')],
     'iq' = response[c('lat', 'lon')],
     'geocodio' = response$results$location[c('lat', 'lng')],
-    # provide limit passthrough for google to limit number of results
+    # note the application of the limit argument for google
     'google' = response$results$geometry$location[c('lat','lng')][1:rows_to_return, ],
     'opencage' = response$results$geometry[c('lat', 'lng')],
     'mapbox' <- data.frame(
@@ -47,10 +47,10 @@ extract_results <- function(method, response, full_results = TRUE, flatten = TRU
     ), # mapbox results are nested unnamed lists
     'here' = response$items$position[c('lat','lng')],
     'tomtom' = response$results$position[c('lat', 'lon')]
-  )
+  ))
   
   # if null or non-dataframe result then return NA
-  if (length(lat_lng) == 0 | !is.data.frame(lat_lng) ) return(NA_result)
+  if (length(lat_lng) == 0 ) return(NA_result)
   # check to make sure results aren't na or the wrong width
   if (nrow(lat_lng) == 0 | ncol(lat_lng) != 2) return(NA_result)
   
@@ -61,17 +61,18 @@ extract_results <- function(method, response, full_results = TRUE, flatten = TRU
   if (full_results == TRUE) {
   # extract full results excluding latitude and longitude
   # note that lat/long are not excluded from the google results due to dataframe nesting
-    results <- switch(method,
+    results <- tibble::as_tibble(switch(method,
       'census' = response$result$addressMatches[!names(response$result$addressMatches) %in% c('coordinates')],
       'osm' = response[!names(response) %in% c('lat', 'lon')],
       'iq' =  response[!names(response) %in% c('lat', 'lon')],
       'geocodio' = response$results[!names(response$results) %in% c('location')],
+      # note the application of the limit argument for google
       'google' = response$results[1:rows_to_return, ],
       'opencage' = response$results[!names(response$results) %in% c('geometry')],
       'mapbox' = response$features,
       'here' = response$items,
       'tomtom' = response$results
-    )
+    ))
 
     # add prefix to variable names that likely could be in our input dataset
     # to avoid variable name overlap
@@ -116,35 +117,47 @@ extract_reverse_results <- function(method, response, full_results = TRUE, flatt
     rows_to_return <- min(nrow(response$results), limit)
   }
   
+  NA_result <- tibble::tibble(address = as.character(NA))
   
   # extract the single line address
-  address <- switch(method,
-                    'osm' = response['display_name'],
-                    'iq' = response['display_name'],
-                    'geocodio' = response$results['formatted_address'],
-                    # note the application of the limit argument for google
-                    'google' = response$results[1:rows_to_return, ]['formatted_address'],
-                    'opencage' = response$results['formatted'],
-                    'mapbox' = response$features['place_name'],
-                    'here' = response$items['title'],
-                    'tomtom' = response$addresses$address['freeformAddress']
-  )
+  address <- tibble::as_tibble(switch(method,
+    'osm' = response['display_name'],
+    'iq' = response['display_name'],
+    'geocodio' = response$results['formatted_address'],
+    # note the application of the limit argument for google
+    'google' = response$results[1:rows_to_return, ]['formatted_address'],
+    'opencage' = response$results['formatted'],
+    'mapbox' = response$features['place_name'],
+    'here' = response$items['title'],
+    'tomtom' = response$addresses$address['freeformAddress']
+  ))
+  
+  # if null or non-dataframe result then return NA
+  if (length(address) == 0 ) {
+    print('cond1')
+    return(NA_result)
+  }
+  # check to make sure results aren't NA or the wrong width
+  if (nrow(address) == 0 | ncol(address) != 1) {
+    print('cond2')
+    return(NA_result)
+  }
   
   # extract other results (besides single line address)
   if (full_results == TRUE) {
-    results <- switch(method,
-                      'osm' = cbind(response[!(names(response) %in% c('display_name', 'boundingbox', 'address'))], 
-                                    tibble::as_tibble(response[['address']]), tibble::tibble(boundingbox = list(response$boundingbox))),
-                      'iq' =  cbind(response[!(names(response) %in% c('display_name', 'boundingbox', 'address'))], 
-                                    tibble::as_tibble(response[['address']]), tibble::tibble(boundingbox = list(response$boundingbox))),
-                      'geocodio' = response$results[!names(response$results) %in% c('formatted_address')],
-                      # note the application of the limit argument for google
-                      'google' = response$results[1:rows_to_return, ][!names(response$results) %in% c('formatted_address')], 
-                      'opencage' = response$results[!names(response$results) %in% c('formatted')],
-                      'mapbox' = response$features[!names(response$features) %in% c('place_name')],
-                      'here' = response$items[!names(response$items) %in% c('title')],
-                      'tomtom' = response$addresses
-    )
+    tibble::as_tibble(results <- switch(method,
+      'osm' = cbind(response[!(names(response) %in% c('display_name', 'boundingbox', 'address'))], 
+                    tibble::as_tibble(response[['address']]), tibble::tibble(boundingbox = list(response$boundingbox))),
+      'iq' =  cbind(response[!(names(response) %in% c('display_name', 'boundingbox', 'address'))], 
+                    tibble::as_tibble(response[['address']]), tibble::tibble(boundingbox = list(response$boundingbox))),
+      'geocodio' = response$results[!names(response$results) %in% c('formatted_address')],
+      # note the application of the limit argument for google
+      'google' = response$results[1:rows_to_return, ][!names(response$results) %in% c('formatted_address')], 
+      'opencage' = response$results[!names(response$results) %in% c('formatted')],
+      'mapbox' = response$features[!names(response$features) %in% c('place_name')],
+      'here' = response$items[!names(response$items) %in% c('title')],
+      'tomtom' = response$addresses
+    ))
     
     # add prefix to variable names that likely could be in our input dataset
     # to avoid variable name overlap
