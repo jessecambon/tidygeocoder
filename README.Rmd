@@ -66,8 +66,8 @@ The supported geocoder services are shown in the table below with their geograph
 | [Mapbox](https://docs.mapbox.com/api/search/)                                             | Worldwide     | See Note        | Yes              | 10/second (free tier)   |
 | [HERE](https://developer.here.com/products/geocoding-and-search)              | Worldwide     | Yes             | Yes              | None                    |
 | [TomTom](https://developer.tomtom.com/search-api/search-api-documentation/geocoding)                                       | Worldwide     | Yes             | Yes              | 5/second (free tier)    |
-| [MapQuest](https://www.mapquest.com/)                                       | Worldwide     | Yes             | Yes              | None    |
-| [Bing](https://www.bing.com/maps)                                       | Worldwide     | Yes             | Yes              | None    |
+| [MapQuest](https://developer.mapquest.com/documentation/geocoding-api/)                                       | Worldwide     | Yes             | Yes              | None    |
+| [Bing](https://docs.microsoft.com/en-us/bingmaps/rest-services/locations/)                                       | Worldwide     | Yes             | Yes              | None    |
 
 Notes:
 
