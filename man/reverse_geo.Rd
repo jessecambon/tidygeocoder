@@ -58,6 +58,7 @@ Census service does not support reverse geocoding.
   \item \code{"tomtom"}: Commercial TomTom geocoder service. Requires an API Key to
      be stored in the "TOMTOM_API_KEY" environmental variable. Can perform
      batch geocoding.
+  \item \code{"arcgis"}: Commercial ArcGIS geocoder service.
 }}
 
 \item{address}{name of the address column (output data)}

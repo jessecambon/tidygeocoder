@@ -155,6 +155,13 @@ tidygeocoder::geo(
   method = "arcgis"
 )
 
+tidygeocoder::geo(
+  address = "New York, USA", method = "arcgis",
+  custom_query = list(
+    token = "<API_KEY>"
+  )
+)
+
 
 # create a dataframe with addresses
 some_addresses <- tribble(

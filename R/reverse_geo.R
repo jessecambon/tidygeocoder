@@ -83,6 +83,7 @@ get_coord_parameters <- function(custom_query, method, lat, long) {
 #'   \item \code{"tomtom"}: Commercial TomTom geocoder service. Requires an API Key to
 #'      be stored in the "TOMTOM_API_KEY" environmental variable. Can perform
 #'      batch geocoding.
+#'   \item \code{"arcgis"}: Commercial ArcGIS geocoder service.
 #' }
 #' @param address name of the address column (output data)
 #' @param limit number of results to return per coordinate. Note that not all methods support

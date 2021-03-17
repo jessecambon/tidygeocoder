@@ -61,6 +61,7 @@ batch_func_map <- list(
 #'   \item \code{"tomtom"}: Commercial TomTom geocoder service. Requires an API Key to
 #'      be stored in the "TOMTOM_API_KEY" environmental variable. Can perform 
 #'      batch geocoding.
+#'   \item \code{"arcgis"}: Commercial ArcGIS geocoder service.
 #'   \item \code{"cascade"} : Attempts to use one geocoder service and then uses
 #'     a second geocoder service if the first service didn't return results.
 #'     The services and order is specified by the cascade_order argument. 
