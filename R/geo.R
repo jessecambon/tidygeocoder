@@ -265,7 +265,7 @@ geo <- function(address = NULL,
   # then the method API must have a limit parameter)
   # Google has a special limit passthrough to the extract_results function even though limit is not
   # a legal API parameter
-  if ((limit != 1) & (!('limit' %in% legal_parameters) & (method != 'google'))) {
+  if ((limit != 1) & (!('limit' %in% legal_parameters) & (!method %in% c('census', 'google')))) {
     illegal_limit_message <- paste0('The limit parameter must be set to 1 (the default) because the "',  method,'" ',
                                     'method API service does not support a limit argument.\n\n',
                                     'See ?api_parameter_reference for more details.')

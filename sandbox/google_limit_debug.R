@@ -17,7 +17,6 @@ soup <- httr::GET(url = url_base,
 response <- jsonlite::fromJSON(httr::content(soup, as = 'text', encoding = "UTF-8"))
 
 
-
 results <- tidygeocoder::extract_results('google', response, full_results = FALSE, limit = 2)
 
 

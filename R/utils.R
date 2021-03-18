@@ -18,7 +18,7 @@ pkg.globals$address_arg_names <- c('address', 'street', 'city', 'county', 'state
 #' @param full_results if TRUE then the full results (not just latitude and longitude)
 #'   will be returned.
 #' @param flatten if TRUE then flatten any nested dataframe content
-#' @param limit only used for method = 'google'. Limits number of results per address.
+#' @param limit only used for 'google' and 'census' methods. Limits number of results per address.
 #' @return geocoder results in tibble format 
 #' @seealso \code{\link{get_api_query}} \code{\link{query_api}} \code{\link{geo}}
 #' @export 
@@ -28,13 +28,15 @@ extract_results <- function(method, response, full_results = TRUE, flatten = TRU
   
   if (method == 'google') {
     rows_to_return <- min(nrow(response$results), limit)
+  } else if (method == 'census') {
+    rows_to_return <- min(nrow(response$result$addressMatches$coordinates), limit)
   }
   
   NA_result <- get_na_value('lat', 'long', 1)
   
   # extract latitude and longitude as a dataframe
   lat_lng <- tibble::as_tibble(switch(method,
-    'census' = response$result$addressMatches$coordinates[c('y','x')],
+    'census' = response$result$addressMatches$coordinates[c('y','x')][1:rows_to_return, ],
     'osm' = response[c('lat', 'lon')],
     'iq' = response[c('lat', 'lon')],
     'geocodio' = response$results$location[c('lat', 'lng')],
@@ -62,7 +64,7 @@ extract_results <- function(method, response, full_results = TRUE, flatten = TRU
   # extract full results excluding latitude and longitude
   # note that lat/long are not excluded from the google results due to dataframe nesting
     results <- tibble::as_tibble(switch(method,
-      'census' = response$result$addressMatches[!names(response$result$addressMatches) %in% c('coordinates')],
+      'census' = response$result$addressMatches[!names(response$result$addressMatches) %in% c('coordinates')][1:rows_to_return, ],
       'osm' = response[!names(response) %in% c('lat', 'lon')],
       'iq' =  response[!names(response) %in% c('lat', 'lon')],
       'geocodio' = response$results[!names(response$results) %in% c('location')],

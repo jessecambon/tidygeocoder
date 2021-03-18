@@ -64,7 +64,7 @@ batch_census <- function(unique_addresses,
   
   # make sure results remain in proper order
   results <- results[order(results[['id']]), ]
-
+  
   # split out lat/lng. lapply is used with as.numeric to convert coordinates to numeric
   coord_df <- do.call(rbind, lapply(results$coords, split_coords))
   colnames(coord_df) <- c(long, lat)  # <--- NOTE ORDER
