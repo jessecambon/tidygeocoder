@@ -25,7 +25,8 @@ reverse_geo(
   iq_region = "us",
   geocodio_v = 1.6,
   mapbox_permanent = FALSE,
-  here_request_id = NULL
+  here_request_id = NULL,
+  mapquest_open = FALSE
 )
 }
 \arguments{
@@ -58,6 +59,9 @@ Census service does not support reverse geocoding.
   \item \code{"tomtom"}: Commercial TomTom geocoder service. Requires an API Key to
      be stored in the "TOMTOM_API_KEY" environmental variable. Can perform
      batch geocoding.
+  \item \code{"mapquest"}: Commercial MapQuest geocoder service. Requires an 
+     API Key to be stored in the "MAPQUEST_API_KEY" environmental variable. 
+     Can perform batch geocoding.
 }}
 
 \item{address}{name of the address column (output data)}
@@ -96,7 +100,8 @@ Note that Geocodio batch geocoding results are flattened regardless.}
 
 \item{batch_limit}{limit to the number of addresses in a batch geocoding query.
 Both geocodio and census batch geocoders have a 10,000 limit so this
-is the default. HERE has a 1,000,000 address limit.}
+is the default. 'here' has a 1,000,000 address limit. 'mapquest' has a 100 address
+limit.}
 
 \item{verbose}{if TRUE then detailed logs are output to the console}
 
@@ -120,6 +125,9 @@ identified by its RequestID. The RequestID of a batch job is displayed
 when \code{verbose} is TRUE. Note that this option would ignore the 
 current \code{lat, long} parameters on the request, so \code{return_coords} 
 needs to be FALSE.}
+
+\item{mapquest_open}{if TRUE then MapQuest would use the Open Geocoding 
+endpoint, that relies solely on data contributed to OpenStreetMap.}
 }
 \value{
 parsed geocoding results in tibble format
