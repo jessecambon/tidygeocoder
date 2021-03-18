@@ -58,7 +58,7 @@ input_df <- tibble(
   street = tie_addresses$res_street_address,
   city = tie_addresses$res_city_desc,
   state = tie_addresses$state_cd,
-  zip = tie_addresses$zip_cd,
+  zip = tie_addresses$zip_code,
 )
 
 # Write a Temporary CSV
