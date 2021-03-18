@@ -76,6 +76,9 @@ geocode <- function(.tbl, address = NULL, street = NULL, city = NULL, county = N
     stop('.tbl is not a dataframe. See ?geocode')
   }
   
+  # convert .tbl to tibble if it isn't one already
+  .tbl <- tibble::as_tibble(.tbl)
+  
   # put all non-NULL address components into a named list
   # create address parameters to be passed to the geo function as a named list of lists
   addr_parameters <- list()

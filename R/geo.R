@@ -272,7 +272,9 @@ geo <- function(address = NULL,
   
   # determine if an illegal limit parameter value was used (ie. if limit !=1
   # then the method API must have a limit parameter)
-  if ((limit != 1) & (!('limit' %in% legal_parameters))) {
+  # Google has a special limit passthrough to the extract_results function even though limit is not
+  # a legal API parameter
+  if ((limit != 1) & (!('limit' %in% legal_parameters) & (!method %in% c('census', 'google')))) {
     illegal_limit_message <- paste0('The limit parameter must be set to 1 (the default) because the "',  method,'" ',
                                     'method API service does not support a limit argument.\n\n',
                                     'See ?api_parameter_reference for more details.')
@@ -453,7 +455,7 @@ geo <- function(address = NULL,
   else {
     # Extract results. Use the full_results and flatten parameters
     # to control the output
-    results <- extract_results(method, jsonlite::fromJSON(query_results$content), full_results, flatten)
+    results <- extract_results(method, jsonlite::fromJSON(query_results$content), full_results, flatten, limit)
     
     # Name the latitude and longitude columns in accordance with lat/long arguments
     names(results)[1] <- lat

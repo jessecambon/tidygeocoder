@@ -4,7 +4,13 @@
 \alias{extract_reverse_results}
 \title{Extract reverse geocoding results}
 \usage{
-extract_reverse_results(method, response, full_results = TRUE, flatten = TRUE)
+extract_reverse_results(
+  method,
+  response,
+  full_results = TRUE,
+  flatten = TRUE,
+  limit = 1
+)
 }
 \arguments{
 \item{method}{method name}
@@ -15,6 +21,8 @@ extract_reverse_results(method, response, full_results = TRUE, flatten = TRUE)
 will be returned.}
 
 \item{flatten}{if TRUE then flatten any nested dataframe content}
+
+\item{limit}{only used for method = 'google'. Limits number of results per coordinate.}
 }
 \value{
 geocoder results in tibble format
