@@ -17,7 +17,8 @@ get_key <- function(method) {
   key <- Sys.getenv(env_var)
   
   if (key == "") stop(paste0("An API Key is needed to use the '", method, "' method.
-    Set the \"", env_var, "\" variable in your .Renviron file or with Sys.getenv()."))
+    Set the \"", env_var, "\" variable in your .Renviron file or with Sys.setenv().
+    Tip: usethis::edit_r_environ() will open your .Renviron file for editing. "))
   else return(key)
 }
 
@@ -116,7 +117,6 @@ get_api_url <- function(method, reverse = FALSE, return_type = 'locations',
          "tomtom" = get_tomtom_url(reverse = reverse),
          "mapquest" = get_mapquest_url(mapquest_open, reverse = reverse),
          )
-
 
   if (length(api_url) == 0) stop('API URL not found')
   return(api_url)

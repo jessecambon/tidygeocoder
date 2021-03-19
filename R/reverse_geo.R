@@ -61,7 +61,8 @@ get_coord_parameters <- function(custom_query, method, lat, long) {
 #' @param method the geocoder service to be used. Refer to 
 #' \code{\link{api_parameter_reference}} and the API documentation for
 #' each geocoder service for usage details and limitations. Note that the 
-#' Census service does not support reverse geocoding.
+#' Census service does not support reverse geocoding. Run \code{usethis::edit_r_environ()}
+#' to open your .Renviron file for editing to add API keys as an environmental variables.
 #' \itemize{
 #'   \item \code{"osm"}: Nominatim (OSM). Worldwide coverage.
 #'   \item \code{"geocodio"}: Commercial geocoder. Covers US and Canada and has
@@ -231,7 +232,6 @@ reverse_geo <- function(lat, long, method = 'osm', address = address, limit = 1,
       See the geo() function documentation for details.')
     }
     
-    
     # Enforce batch limit if needed
     if (num_unique_coords > batch_limit) {
       stop(paste0(format(num_unique_coords, big.mark = ','), ' unique coordinates found which exceeds the batch limit of',
@@ -246,14 +246,11 @@ reverse_geo <- function(lat, long, method = 'osm', address = address, limit = 1,
     if (no_query == TRUE) return(unpackage_inputs(coord_pack, NA_value, 
                                                   unique_only, return_coords))
     
-    
     # call the appropriate function for batch geocoding according the the reverse_batch_func_map named list
     # if batch limit was exceeded then apply that limit
     batch_results <- do.call(reverse_batch_func_map[[method]], 
         c(list(lat = coord_pack$unique$lat, long = coord_pack$unique$long),
         all_args[!names(all_args) %in% c('lat', 'long')]))
-    
- 
     
     # if verbose = TRUE, tell user how long batch query took
     if (verbose == TRUE) {
@@ -280,7 +277,6 @@ reverse_geo <- function(lat, long, method = 'osm', address = address, limit = 1,
     api_url <- get_api_url(method, reverse = TRUE, geocodio_v = geocodio_v, iq_region = iq_region,
                            mapbox_permanent = mapbox_permanent, mapquest_open = mapquest_open)
   }
-  if (length(api_url) == 0) stop('API URL not found')
   
   # Workaround for Mapbox/TomTom - The search_text should be in the url
   if (method %in%  c('mapbox', 'tomtom')) {
@@ -328,15 +324,3 @@ reverse_geo <- function(lat, long, method = 'osm', address = address, limit = 1,
 
   return(unpackage_inputs(coord_pack, results, unique_only, return_coords))
 }
-  
-### Test queries
-# a <- reverse_geo(lat = 38.895865, long = -77.0307713, method = 'osm', verbose = TRUE)
-# b <- reverse_geo(lat = 38.895865, long = -77.0307713, method = 'google', full_results = TRUE, verbose = TRUE)
-
-# c <- reverse_geo(lat = c(38.895865, 43.6534817, 300), long = c(-77.0307713, -79.3839347, 600), method = 'geocodio', full_results = TRUE, verbose = TRUE)
-
-# bq1 <- reverse_geocode(tibble::tibble(latitude = c(38.895865, 43.6534817, 700), longitude = c(-77.0307713, -79.3839347, 300)), 
-# lat = latitude, long = longitude, method = 'osm', full_results = TRUE, verbose = TRUE)
-
-# bl1 <- reverse_geocode(tibble::tibble(latitude = c(38.895865, 43.6534817, 35.0844), longitude = c(-77.0307713, -79.3839347, 106.6504)), 
-# lat = latitude, long = longitude, method = 'geocodio', full_results = TRUE, verbose = TRUE, batch_limit = 1)

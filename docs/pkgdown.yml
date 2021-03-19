@@ -3,7 +3,7 @@ pkgdown: 1.6.1
 pkgdown_sha: ~
 articles:
   tidygeocoder: tidygeocoder.html
-last_built: 2021-03-13T16:56Z
+last_built: 2021-03-19T23:05Z
 urls:
   reference: https://jessecambon.github.io/tidygeocoder/reference
   article: https://jessecambon.github.io/tidygeocoder/articles

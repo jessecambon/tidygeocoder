@@ -143,7 +143,13 @@ geocoded results. Refer to <code><a href='query_api.html'>query_api</a></code> f
 usage.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>extract_reverse_results</span><span class='op'>(</span><span class='va'>method</span>, <span class='va'>response</span>, full_results <span class='op'>=</span> <span class='cn'>TRUE</span>, flatten <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>extract_reverse_results</span><span class='op'>(</span>
+  <span class='va'>method</span>,
+  <span class='va'>response</span>,
+  full_results <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  flatten <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  limit <span class='op'>=</span> <span class='fl'>1</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -164,6 +170,10 @@ will be returned.</p></td>
     <tr>
       <th>flatten</th>
       <td><p>if TRUE then flatten any nested dataframe content</p></td>
+    </tr>
+    <tr>
+      <th>limit</th>
+      <td><p>only used for method = 'google'. Limits number of results per coordinate.</p></td>
     </tr>
     </table>
 

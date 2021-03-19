@@ -32,6 +32,11 @@
 #' The \code{api_name} column is the parameter name for the given geocoder service specified by the
 #'\code{method} column. When \code{generic_name} is missing 
 #' this means the parameter is specific to that geocoder service.
+#' 
+#' Note that while the "census" and "google" services do not have a \code{limit}
+#' argument in their APIs, tidygeocoder provides a passthrough so you can still
+#' use the \code{limit} argument in \code{geo} and \code{reverse_geo} to limit the 
+#' number of result per input.
 #'  
 #' Reference the documentation for \code{\link{geo}} for more information. 
 #' Also reference \code{vignette("tidygeocoder")} for more details on constructing API queries.
