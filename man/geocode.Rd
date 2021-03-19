@@ -15,6 +15,7 @@ geocode(
   country = NULL,
   lat = lat,
   long = long,
+  limit = 1,
   return_addresses = FALSE,
   unique_only = FALSE,
   ...
@@ -42,8 +43,10 @@ address component arguments (street, city, county, state, postalcode, country)}
 
 \item{long}{longitude column name. Can be quoted or unquoted (ie. long or 'long').}
 
-\item{return_addresses}{if TRUE then addresses with standard names will be returned
-This is defaulted to FALSE because the address fields are already in the input dataset}
+\item{limit}{--------------------------------------------------------}
+
+\item{return_addresses}{if TRUE then only the geocoder results and address data will be returned.
+if FALSE then the}
 
 \item{unique_only}{if TRUE then only unique addresses and results will be returned. 
 The input dataframe's format is not preserved. Addresses will also be returned if 

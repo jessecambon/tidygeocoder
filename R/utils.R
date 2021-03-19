@@ -35,7 +35,7 @@ extract_results <- function(method, response, full_results = TRUE, flatten = TRU
   NA_result <- get_na_value('lat', 'long', 1)
   
   # extract latitude and longitude as a dataframe
-  lat_lng <- tibble::as_tibble(switch(method,
+  lat_lng <- switch(method,
     'census' = response$result$addressMatches$coordinates[c('y','x')][1:rows_to_return, ],
     'osm' = response[c('lat', 'lon')],
     'iq' = response[c('lat', 'lon')],
@@ -49,10 +49,16 @@ extract_results <- function(method, response, full_results = TRUE, flatten = TRU
     ), # mapbox results are nested unnamed lists
     'here' = response$items$position[c('lat','lng')],
     'tomtom' = response$results$position[c('lat', 'lon')]
-  ))
+  )
   
   # if null or non-dataframe result then return NA
-  if (length(lat_lng) == 0 ) return(NA_result)
+  # also return NA if no column names are found
+  # (no columns prevents it from being converted to a dataframe)
+  if (is.null(names(lat_lng)) | length(lat_lng) == 0) return(NA_result)
+  
+  # convert to tibble
+  lat_lng <- tibble::as_tibble(lat_lng) 
+
   # check to make sure results aren't na or the wrong width
   if (nrow(lat_lng) == 0 | ncol(lat_lng) != 2) return(NA_result)
   
@@ -88,8 +94,6 @@ extract_results <- function(method, response, full_results = TRUE, flatten = TRU
   } else {
     combined_results <- lat_lng
   }
-  
-  combined_results <- tibble::as_tibble(combined_results)
 
   if (flatten == TRUE) return(jsonlite::flatten(combined_results))
   else return(combined_results)
@@ -122,7 +126,7 @@ extract_reverse_results <- function(method, response, full_results = TRUE, flatt
   NA_result <- tibble::tibble(address = as.character(NA))
   
   # extract the single line address
-  address <- tibble::as_tibble(switch(method,
+  address <- switch(method,
     'osm' = response['display_name'],
     'iq' = response['display_name'],
     'geocodio' = response$results['formatted_address'],
@@ -132,12 +136,16 @@ extract_reverse_results <- function(method, response, full_results = TRUE, flatt
     'mapbox' = response$features['place_name'],
     'here' = response$items['title'],
     'tomtom' = response$addresses$address['freeformAddress']
-  ))
+  )
   
   # if null or non-dataframe result then return NA
-  if (length(address) == 0 ) {
-    return(NA_result)
-  }
+  # also return NA if no column names are found
+  # (no columns prevents it from being converted to a dataframe)
+  if (is.null(names(address)) | length(address) == 0) return(NA_result)
+  
+  # convert to tibble
+  address <- tibble::as_tibble(address) 
+  
   # check to make sure results aren't NA or the wrong width
   if (nrow(address) == 0 | ncol(address) != 1) {
     return(NA_result)
@@ -170,8 +178,6 @@ extract_reverse_results <- function(method, response, full_results = TRUE, flatt
     } else {
     combined_results <- address
   }
-  
-  combined_results <- tibble::as_tibble(combined_results)
   
   if (flatten == TRUE) return(jsonlite::flatten(combined_results))
   else return(combined_results)

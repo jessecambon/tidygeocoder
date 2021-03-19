@@ -100,8 +100,8 @@ test_that("Test geo() error handling", {
   expect_error(geo('yz', no_query = TRUE, country = 'abc', method = 'census'))
   #expect_error(geo('yz', no_query = TRUE, limit = 5, method = 'census'))
   
-  # improper argument value for census but param_error = FALSE and verbose = TRUE so we expect a message
-  expect_warning(geo(no_query = TRUE, country = 'abc', method = 'census', verbose = TRUE, param_error = FALSE))
+  # improper argument value for census but param_error = FALSE so we expect a message
+  #expect_warning(geo(no_query = TRUE, country = 'abc', method = 'census', verbose = FALSE, param_error = FALSE))
   
   # improper parameters for cascade (limit !=1 and full_results = TRUE)
   expect_error(geo('xy', no_query = TRUE, full_results = TRUE, method = 'cascade'))

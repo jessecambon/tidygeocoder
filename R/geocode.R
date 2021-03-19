@@ -26,8 +26,9 @@
 #' 
 #' @param lat latitude column name. Can be quoted or unquoted (ie. lat or 'lat').
 #' @param long longitude column name. Can be quoted or unquoted (ie. long or 'long').
-#' @param return_addresses if TRUE then addresses with standard names will be returned
-#'   This is defaulted to FALSE because the address fields are already in the input dataset
+#' @param limit --------------------------------------------------------
+#' @param return_addresses if TRUE then only the geocoder results and address data will be returned.
+#'   if FALSE then the 
 #' @param unique_only if TRUE then only unique addresses and results will be returned. 
 #'   The input dataframe's format is not preserved. Addresses will also be returned if 
 #'   TRUE (overrides return_addresses argument).
@@ -52,7 +53,7 @@
 #' @export
 geocode <- function(.tbl, address = NULL, street = NULL, city = NULL, county = NULL, 
                     state = NULL, postalcode = NULL, country = NULL,
-                    lat = lat, long = long, return_addresses = FALSE, unique_only = FALSE, ...) {
+                    lat = lat, long = long, limit = 1, return_addresses = FALSE, unique_only = FALSE, ...) {
   
   # Non-standard evaluation --------------------------------------------------------------
   # Quote unquoted vars without double quoting quoted vars
@@ -74,6 +75,10 @@ geocode <- function(.tbl, address = NULL, street = NULL, city = NULL, county = N
 
   if (!(is.data.frame(.tbl))) {
     stop('.tbl is not a dataframe. See ?geocode')
+  }
+  
+  if (limit != 1 & return_addresses == FALSE & unique_only == FALSE) {
+    stop('To use limit > 1 then either set return_addresses or unique_only to TRUE.')
   }
   
   # convert .tbl to tibble if it isn't one already
@@ -100,11 +105,11 @@ geocode <- function(.tbl, address = NULL, street = NULL, city = NULL, county = N
   # Pass addresses to the geo function
   results <- do.call(geo, geo_args)
   
-  if (unique_only == TRUE) {
+  if (unique_only == TRUE | return_addresses == TRUE) {
     return(results)
   } else {
     # cbind the original dataframe to the coordinates and convert to tibble
     # change column names to be unique if there are duplicate column names
-    return(tibble::as_tibble(cbind(.tbl, results)))
+    return(dplyr::bind_cols(.tbl, results))
   }
 }
