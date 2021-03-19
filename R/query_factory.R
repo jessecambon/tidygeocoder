@@ -10,7 +10,8 @@ get_key <- function(method) {
          'opencage' = "OPENCAGE_KEY",
          'mapbox' = "MAPBOX_API_KEY",
          'here' = "HERE_API_KEY",
-         'tomtom' = "TOMTOM_API_KEY"
+         'tomtom' = "TOMTOM_API_KEY",
+         'mapquest' = "MAPQUEST_API_KEY",
          )
   # load api key from environmental variable
   key <- Sys.getenv(env_var)
@@ -92,12 +93,18 @@ get_tomtom_url <- function(reverse = FALSE) {
     return(paste0('https://api.tomtom.com/search/2/', url_keyword))
 }
 
+get_mapquest_url <- function(mapquest_open = FALSE, reverse = FALSE) {
+  endpoint <- if (mapquest_open == TRUE) 'http://open.' else 'http://www.'
+  url_keyword <- if (reverse == TRUE) 'reverse' else 'address'
+  return(paste0(endpoint,'mapquestapi.com/geocoding/v1/', url_keyword))
+}
+
 ## wrapper function for above functions
 ### IMPORTANT: if arguments are changed in this definition then make sure to 
 ### update reverse_geo.R and geo.R where this function is called.
 get_api_url <- function(method, reverse = FALSE, return_type = 'locations',
             search = 'onelineaddress', geocodio_v = 1.6, iq_region = 'us', 
-            mapbox_permanent = FALSE) {
+            mapbox_permanent = FALSE, mapquest_open = FALSE) {
   api_url <- switch(method,
          "osm" = get_osm_url(reverse = reverse),
          "census" = get_census_url(return_type, search),
@@ -108,6 +115,7 @@ get_api_url <- function(method, reverse = FALSE, return_type = 'locations',
          "mapbox" = get_mapbox_url(mapbox_permanent), # same url as fwd geocoding
          "here" = get_here_url(reverse = reverse),
          "tomtom" = get_tomtom_url(reverse = reverse),
+         "mapquest" = get_mapquest_url(mapquest_open, reverse = reverse),
          )
 
   if (length(api_url) == 0) stop('API URL not found')
@@ -255,6 +263,21 @@ query_api <- function(api_url, query_parameters, mode = 'single',
   httr::warn_for_status(response)
   
   content <- httr::content(response, as = 'text', encoding = content_encoding)
+  
+  # MapQuest exception on GET
+  # When a valid key is passed, errors on query are in the response
+  # Succesful code in response is 0
+  # https://developer.mapquest.com/documentation/geocoding-api/status-codes/
+  if (mode == 'single' && 
+      isTRUE(grep('mapquest', api_url) > 0) && 
+      isTRUE(httr::status_code(response) == 200)) {
+    status_code <- jsonlite::fromJSON(content)$info$statuscode
+    if (status_code == 0) status_code <- 200
+    
+    httr::warn_for_status(status_code)
+    return(list(content = content, status = status_code))
+  }
+  
   return(list(content = content, status = httr::status_code(response)))
 }
 

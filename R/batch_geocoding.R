@@ -457,3 +457,120 @@ batch_tomtom <- function(unique_addresses, lat = 'lat', long = 'long',
   if (full_results == FALSE) return(results[c(lat, long)])
   else return(cbind(results[c(lat, long)], results[!names(results) %in% c(lat, long)]))
 }
+
+
+# Batch geocoding with mapquest
+# ... are arguments passed from the geo() function
+# https://developer.mapquest.com/documentation/geocoding-api/batch/post/
+batch_mapquest <-  function(unique_addresses, lat = "lat", long = "long",
+                            timeout = 20, full_results = FALSE, custom_query = list(),
+                            verbose = FALSE, api_url = NULL, limit = 1, 
+                            mapquest_open = FALSE, ...) {
+    # limit the dataframe to legitimate arguments
+    address_df <- unique_addresses[names(unique_addresses) %in% get_generic_parameters("mapquest", address_only = TRUE)]
+
+    NA_value <- get_na_value(lat, long, rows = nrow(address_df)) # filler result to return if needed
+
+    # Construct query
+    # Depends if single or multiple query
+
+    # Single: Now allowed on batch, return a single query ----
+    if (nrow(address_df) == 1) {
+      results <- geo(address = address_df[["address"]], method = "mapquest",
+                     mode = "single", full_results = full_results,
+                     custom_query = custom_query, verbose = verbose,
+                     api_url = api_url, limit = limit,
+                     mapquest_open = mapquest_open)
+
+      # rename lat/long columns
+      names(results)[names(results) == "lat"] <- lat
+      names(results)[names(results) == "long"] <- long
+
+      return(results[!names(results) %in% "address"])
+    }
+
+    # Multiple via POST ----
+    # https://developer.mapquest.com/documentation/geocoding-api/batch/post/
+    if (is.null(api_url)) {
+      url_domain <- if (mapquest_open) "http://open" else  "http://www"
+      
+      api_url <- paste0(url_domain, ".mapquestapi.com/geocoding/v1/batch")
+    }
+
+    # Construct query - for display only
+
+    query_parameters <- get_api_query("mapquest", 
+                                      list(limit = limit, api_key = get_key("mapquest")),
+                                      custom_parameters = custom_query)
+    
+    if (verbose == TRUE) display_query(api_url, query_parameters)
+  
+    # https://developer.mapquest.com/documentation/geocoding-api/batch/post/
+    # Construct POST query
+
+    # A. Only certain parameters should be in the POST call----
+
+    body_params <- query_parameters[!names(query_parameters) %in% c("key", "callback")]
+    query_parameters <- query_parameters[names(query_parameters) %in% c("key", "callback")]
+
+    # B. Construct Body----
+    address_list <- list(
+      locations = address_df[["address"]],
+      options = body_params
+    )
+
+    ## Query API ----
+
+    query_results <- query_api(api_url, query_parameters, mode = "list",
+                               input_list = address_list, timeout = timeout)
+
+    # C. Error handling----
+    # Parse result code
+    if (jsonlite::validate(query_results$content)) {
+      status_code <- jsonlite::fromJSON(query_results$content, flatten = TRUE)$info$statuscode
+    } else {
+      status_code <- query_results$status
+    }
+    # Successful status_code is 0
+    if (status_code == "0") status_code <- "200"
+    status_code <- as.character(status_code)
+
+    if (verbose == TRUE) message(paste0("HTTP Status Code: ", as.character(status_code)))
+  
+    ## Extract results -----------------------------------------------------------------------------------
+    # if there were problems with the results then return NA
+    if (status_code != "200") {
+      if (!jsonlite::validate(query_results$content)) {
+        # in cases like this, display the raw content but limit the length
+        # in case it is really long.
+        message(paste0("Error: ", strtrim(as.character(query_results$content), 100)))
+      } else {
+        # Parse and get message
+        content <- jsonlite::fromJSON(query_results$content, flatten = TRUE)
+        if (!is.null(content$info$messages)) message(paste0("Error: ", content$info$messages))
+      }
+      # Return empty and exit
+      return(NA_value)
+    }
+    # D. On valid API response-----
+
+    # Note that flatten here is necessary in order to get rid of the
+    # nested dataframes that would cause dplyr::bind_rows (or rbind) to fail
+    content <- jsonlite::fromJSON(query_results$content, flatten = TRUE)
+
+    # combine list of dataframes into a single tibble. Column names may differ between the dataframes
+    # MapQuest always return a default value (lat:39.4 long:-99.1) for non-found addresses
+    results <- dplyr::bind_rows(content$results$locations)
+
+    # rename lat/long columns
+    names(results)[names(results) == "latLng.lat"] <- lat
+    names(results)[names(results) == "latLng.lng"] <- long
+    
+    # Format address
+    frmt_address <- format_address(results, c('street', paste0('adminArea', seq(6, 1))))
+    results <- tibble::as_tibble(cbind(frmt_address, results))
+
+    ## Prepare output----
+    if (full_results == FALSE) return(results[c(lat, long)])
+    else return(cbind(results[c(lat, long)], results[!names(results) %in% c(lat, long)]))
+  }

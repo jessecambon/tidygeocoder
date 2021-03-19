@@ -13,7 +13,8 @@
 # Mapbox: https://docs.mapbox.com/api/search/geocoding/
 # HERE: https://developer.here.com/documentation/geocoding-search-api/dev_guide/index.html
 # TomTom: https://developer.tomtom.com/search-api/search-api-documentation-geocoding/geocode
-
+# MapQuest: https://developer.mapquest.com/documentation/geocoding-api/
+#           https://developer.mapquest.com/documentation/open/geocoding-api/
 
 ### Usage Policies
 # OSM: https://operations.osmfoundation.org/policies/nominatim/
@@ -22,7 +23,7 @@
 # Mapbox: https://www.mapbox.com/pricing/#search
 # HERE: https://developer.here.com/pricing
 # TomTom: https://developer.tomtom.com/store/maps-api
-
+# MapQuest: https://developer.mapquest.com/plans
 
 ## Note: generic_name = 'address' is for one-line addresses
 ## If generic_name == NA then that means the parameter is specific to a given API/method
@@ -124,6 +125,14 @@ api_parameter_reference <- tibble::tribble(
   'tomtom', 'api_key',    'key',          NA,                  TRUE,
   'tomtom', 'address',    'query',        NA,                  TRUE,  
   'tomtom', 'limit',      'limit',        '1',                 FALSE,
+  
+  ########################### MapQuest #################################
+  # MapQuest returns json by default
+  # MapQuest requires an api_key
+  
+  'mapquest', 'api_key',    'key',           NA,                  TRUE,
+  'mapquest', 'address',    'location',      NA,                  TRUE,  
+  'mapquest', 'limit',      'maxResults',    '1',                 FALSE,
 )
 
 usethis::use_data(api_parameter_reference, overwrite = TRUE)
