@@ -24,7 +24,8 @@ reverse_geocode(
 
 \item{address}{address column name (output data). Can be quoted or unquoted (ie. addr or 'addr').}
 
-\item{limit}{--------------------------}
+\item{limit}{number of results to return per coordinate. To use limit > 1 either
+return_coords or unique_only must be set to TRUE.}
 
 \item{return_coords}{if TRUE then coordinates with standard names will be returned
 This is defaulted to FALSE because the coordinates are already in the input dataset}

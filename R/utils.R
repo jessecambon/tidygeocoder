@@ -51,15 +51,14 @@ extract_results <- function(method, response, full_results = TRUE, flatten = TRU
     'tomtom' = response$results$position[c('lat', 'lon')]
   )
   
-  # if null or non-dataframe result then return NA
-  # also return NA if no column names are found
+  # Return NA if data is not valid (NULL/no values or names)
   # (no columns prevents it from being converted to a dataframe)
-  if (is.null(names(lat_lng)) | length(lat_lng) == 0) return(NA_result)
+  if (is.null(names(lat_lng)) | all(sapply(lat_lng, is.null)) | length(lat_lng) == 0) return(NA_result)
   
   # convert to tibble
   lat_lng <- tibble::as_tibble(lat_lng) 
 
-  # check to make sure results aren't na or the wrong width
+  # check to make sure results aren't NA or the wrong width
   if (nrow(lat_lng) == 0 | ncol(lat_lng) != 2) return(NA_result)
   
   # convert to numeric format
@@ -141,7 +140,7 @@ extract_reverse_results <- function(method, response, full_results = TRUE, flatt
   # if null or non-dataframe result then return NA
   # also return NA if no column names are found
   # (no columns prevents it from being converted to a dataframe)
-  if (is.null(names(address)) | length(address) == 0) return(NA_result)
+  if (is.null(names(address)) | all(sapply(address, is.null)) | length(address) == 0) return(NA_result)
   
   # convert to tibble
   address <- tibble::as_tibble(address) 

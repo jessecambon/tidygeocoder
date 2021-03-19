@@ -13,7 +13,8 @@
 #' @param lat latitude column name (input data). Can be quoted or unquoted (ie. lat or 'lat').
 #' @param long longitude column name (input data). Can be quoted or unquoted (ie. long or 'long').
 #' @param address address column name (output data). Can be quoted or unquoted (ie. addr or 'addr').
-#' @param limit --------------------------
+#' @param limit number of results to return per coordinate. To use limit > 1 either
+#'   return_coords or unique_only must be set to TRUE.
 #' @param return_coords if TRUE then coordinates with standard names will be returned
 #'   This is defaulted to FALSE because the coordinates are already in the input dataset
 #' @param unique_only if TRUE then only unique coordinates and results will be returned. 
@@ -90,6 +91,3 @@ reverse_geocode <- function(.tbl, lat, long, address = address, limit = 1, retur
     return(dplyr::bind_cols(.tbl, results))
   }
 }
-
-# d <- reverse_geocode(tibble(latitude = c(38.895865, 43.6534817), longitude = c(-77.0307713, -79.3839347)), 
-# lat = latitude, long = longitude, method = 'osm', full_results = TRUE, verbose = TRUE)

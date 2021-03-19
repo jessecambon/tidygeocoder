@@ -57,7 +57,8 @@ Do not combine with the address component arguments below
 
 \item{method}{the geocoder service to be used. Refer to 
 \code{\link{api_parameter_reference}} and the API documentation for
-each geocoder service for usage details and limitations.
+each geocoder service for usage details and limitations. Run \code{usethis::edit_r_environ()}
+to open your .Renviron file for editing to add API keys as an environmental variables.
 \itemize{
   \item \code{"census"}: US Census Geocoder. US street-level addresses only. 
      Can perform batch geocoding.
@@ -96,8 +97,7 @@ in the order in which the geocoder services will be attempted for method = "casc
 
 \item{long}{longitude column name. Can be quoted or unquoted (ie. long or 'long').}
 
-\item{limit}{number of results to return per address. Note that not all methods support
-setting limit to a value other than 1. Also limit > 1 is not compatible 
+\item{limit}{number of results to return per address. limit > 1 is not compatible 
 with batch geocoding if return_addresses = TRUE.}
 
 \item{min_time}{minimum amount of time for a query to take (in seconds). If NULL

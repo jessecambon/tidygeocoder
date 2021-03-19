@@ -306,8 +306,8 @@ batch_here <- function(unique_addresses, lat = 'lat', long = 'long', timeout = 2
   # Parse results----
   # dlm was requested on custom_here_query - 
   result_parsed <- tibble::as_tibble(utils::read.table(text = result_content,
-                                                       header = TRUE, 
-                                                       sep = query_parameters[['outdelim']]
+                             header = TRUE, 
+                             sep = query_parameters[['outdelim']]
   )
   )
   
@@ -336,7 +336,6 @@ batch_tomtom <- function(unique_addresses, lat = 'lat', long = 'long',
   address_df <- unique_addresses[names(unique_addresses) %in% get_generic_parameters('tomtom', address_only = TRUE)]
   
   NA_value <- get_na_value(lat, long, rows = nrow(address_df)) # filler result to return if needed
-  
   
   if (is.null(api_url)) api_url <- 'https://api.tomtom.com/search/2/batch.json'
   

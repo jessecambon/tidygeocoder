@@ -26,7 +26,8 @@
 #' 
 #' @param lat latitude column name. Can be quoted or unquoted (ie. lat or 'lat').
 #' @param long longitude column name. Can be quoted or unquoted (ie. long or 'long').
-#' @param limit --------------------------------------------------------
+#' @param limit number of results to return per coordinate. To use limit > 1 either
+#'   return_addresses or unique_only must be set to TRUE.
 #' @param return_addresses if TRUE then only the geocoder results and address data will be returned.
 #'   if FALSE then the 
 #' @param unique_only if TRUE then only unique addresses and results will be returned. 

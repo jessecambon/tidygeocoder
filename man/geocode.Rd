@@ -43,7 +43,8 @@ address component arguments (street, city, county, state, postalcode, country)}
 
 \item{long}{longitude column name. Can be quoted or unquoted (ie. long or 'long').}
 
-\item{limit}{--------------------------------------------------------}
+\item{limit}{number of results to return per coordinate. To use limit > 1 either
+return_addresses or unique_only must be set to TRUE.}
 
 \item{return_addresses}{if TRUE then only the geocoder results and address data will be returned.
 if FALSE then the}

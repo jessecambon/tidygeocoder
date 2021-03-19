@@ -37,7 +37,8 @@ batch_func_map <- list(
 #' 
 #' @param method the geocoder service to be used. Refer to 
 #' \code{\link{api_parameter_reference}} and the API documentation for
-#' each geocoder service for usage details and limitations.
+#' each geocoder service for usage details and limitations. Run \code{usethis::edit_r_environ()}
+#' to open your .Renviron file for editing to add API keys as an environmental variables.
 #' \itemize{
 #'   \item \code{"census"}: US Census Geocoder. US street-level addresses only. 
 #'      Can perform batch geocoding.
@@ -72,8 +73,7 @@ batch_func_map <- list(
 #'  (ie. \code{c('census', 'geocodio')})
 #' @param lat latitude column name. Can be quoted or unquoted (ie. lat or 'lat').
 #' @param long longitude column name. Can be quoted or unquoted (ie. long or 'long').
-#' @param limit number of results to return per address. Note that not all methods support
-#'  setting limit to a value other than 1. Also limit > 1 is not compatible 
+#' @param limit number of results to return per address. limit > 1 is not compatible 
 #'  with batch geocoding if return_addresses = TRUE.
 #' @param min_time minimum amount of time for a query to take (in seconds). If NULL
 #' then min_time will be set to the lowest value that complies with the usage requirements of 
