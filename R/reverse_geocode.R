@@ -13,6 +13,8 @@
 #' @param lat latitude column name (input data). Can be quoted or unquoted (ie. lat or 'lat').
 #' @param long longitude column name (input data). Can be quoted or unquoted (ie. long or 'long').
 #' @param address address column name (output data). Can be quoted or unquoted (ie. addr or 'addr').
+#' @param limit number of results to return per coordinate. To use limit > 1 either
+#'   return_coords or unique_only must be set to TRUE.
 #' @param return_coords if TRUE then coordinates with standard names will be returned
 #'   This is defaulted to FALSE because the coordinates are already in the input dataset
 #' @param unique_only if TRUE then only unique coordinates and results will be returned. 
@@ -38,7 +40,7 @@
 #' }
 #' @seealso \code{\link{reverse_geo}} \code{\link{api_parameter_reference}}
 #' @export
-reverse_geocode <- function(.tbl, lat, long, address = address, return_coords = FALSE, unique_only = FALSE, ...) {
+reverse_geocode <- function(.tbl, lat, long, address = address, limit = 1, return_coords = FALSE, unique_only = FALSE, ...) {
   
   # Non-standard evaluation --------------------------------------------------------------
   # Quote unquoted vars without double quoting quoted vars
@@ -56,6 +58,13 @@ reverse_geocode <- function(.tbl, lat, long, address = address, return_coords = 
     stop('.tbl is not a dataframe. See ?reverse_geocode')
   }
   
+  if (limit != 1 & return_coords == FALSE & unique_only == FALSE) {
+    stop('To use limit > 1 then either set return_coords or unique_only to TRUE.')
+  }
+  
+  # convert .tbl to tibble if it isn't one already
+  .tbl <- tibble::as_tibble(.tbl)
+  
   coord_parameters <- list()
   # put all non-lat,long arguments into a named list
   # create address parameters to be passed to the geo function as a named list of lists
@@ -67,21 +76,18 @@ reverse_geocode <- function(.tbl, lat, long, address = address, return_coords = 
       coord_parameters[[var]] <- .tbl[[all_args[[var]]]]
   }
   
-  # Arguments to pass to geo()
+  # Arguments to pass to reverse_geo()
   reverse_geo_args <- c(coord_parameters, 
                 all_args[!names(all_args) %in% c('.tbl', 'lat', 'long')], list(...))
   
   # Pass addresses to the reverse_geo function
   results <- do.call(reverse_geo, reverse_geo_args)
   
-  if (unique_only == TRUE) {
+  if (unique_only == TRUE | return_coords == TRUE) {
     return(results)
   } else {
     # cbind the original dataframe to the coordinates and convert to tibble
     # change column names to be unique if there are duplicate column names
-    return(tibble::as_tibble(cbind(.tbl, results)))
+    return(dplyr::bind_cols(.tbl, results))
   }
 }
-
-# d <- reverse_geocode(tibble(latitude = c(38.895865, 43.6534817), longitude = c(-77.0307713, -79.3839347)), 
-# lat = latitude, long = longitude, method = 'osm', full_results = TRUE, verbose = TRUE)

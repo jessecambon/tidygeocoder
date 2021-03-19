@@ -23,9 +23,9 @@ Month](http://cranlogs.r-pkg.org/badges/tidygeocoder)](https://cran.r-project.or
 ## Introduction
 
 Tidygeocoder makes getting data from geocoder services easy. Both
-forward geocoding (providing addresses to obtain latitude and longitude)
-and reverse geocoding (providing latitude and longitude to obtain
-addresses) are supported. All results are returned in [tibble
+*forward geocoding* (providing addresses to obtain latitude and
+longitude) and *reverse geocoding* (providing latitude and longitude to
+obtain addresses) are supported. All results are returned in [tibble
 format](https://tibble.tidyverse.org/) and the supported geocoder
 services are listed below.
 

@@ -164,6 +164,7 @@ both acceptable).</p>
   country <span class='op'>=</span> <span class='cn'>NULL</span>,
   lat <span class='op'>=</span> <span class='va'>lat</span>,
   long <span class='op'>=</span> <span class='va'>long</span>,
+  limit <span class='op'>=</span> <span class='fl'>1</span>,
   return_addresses <span class='op'>=</span> <span class='cn'>FALSE</span>,
   unique_only <span class='op'>=</span> <span class='cn'>FALSE</span>,
   <span class='va'>...</span>
@@ -214,9 +215,14 @@ address component arguments (street, city, county, state, postalcode, country)</
       <td><p>longitude column name. Can be quoted or unquoted (ie. long or 'long').</p></td>
     </tr>
     <tr>
+      <th>limit</th>
+      <td><p>number of results to return per coordinate. To use limit &gt; 1 either
+return_addresses or unique_only must be set to TRUE.</p></td>
+    </tr>
+    <tr>
       <th>return_addresses</th>
-      <td><p>if TRUE then addresses with standard names will be returned
-This is defaulted to FALSE because the address fields are already in the input dataset</p></td>
+      <td><p>if TRUE then only the geocoder results and address data will be returned.
+if FALSE then the</p></td>
     </tr>
     <tr>
       <th>unique_only</th>

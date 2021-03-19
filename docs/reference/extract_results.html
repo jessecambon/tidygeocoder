@@ -46,10 +46,10 @@
 
 
 <meta property="og:title" content="Extract forward geocoding results — extract_results" />
-<meta property="og:description" content="Parses the output of the query_api function.
+<meta property="og:description" content="Parses the output of the query_api function for single
+address geocoding (ie. not batch geocoding).
 Latitude and longitude are extracted into the first two columns
-of the returned dataframe. This function is not used for batch 
-geocoded results. Refer to query_api for example
+of the returned dataframe.  Refer to query_api for example
 usage." />
 
 
@@ -136,14 +136,20 @@ usage." />
     </div>
 
     <div class="ref-description">
-    <p>Parses the output of the <code><a href='query_api.html'>query_api</a></code> function.
+    <p>Parses the output of the <code><a href='query_api.html'>query_api</a></code> function for single
+address geocoding (ie. not batch geocoding).
 Latitude and longitude are extracted into the first two columns
-of the returned dataframe. This function is not used for batch 
-geocoded results. Refer to <code><a href='query_api.html'>query_api</a></code> for example
+of the returned dataframe.  Refer to <code><a href='query_api.html'>query_api</a></code> for example
 usage.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>extract_results</span><span class='op'>(</span><span class='va'>method</span>, <span class='va'>response</span>, full_results <span class='op'>=</span> <span class='cn'>TRUE</span>, flatten <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>extract_results</span><span class='op'>(</span>
+  <span class='va'>method</span>,
+  <span class='va'>response</span>,
+  full_results <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  flatten <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  limit <span class='op'>=</span> <span class='fl'>1</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -164,6 +170,10 @@ will be returned.</p></td>
     <tr>
       <th>flatten</th>
       <td><p>if TRUE then flatten any nested dataframe content</p></td>
+    </tr>
+    <tr>
+      <th>limit</th>
+      <td><p>only used for 'google' and 'census' methods. Limits number of results per address.</p></td>
     </tr>
     </table>
 
