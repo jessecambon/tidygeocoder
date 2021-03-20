@@ -52,7 +52,10 @@ test_that("test single forward geocoding", {
     # label to include in error message so we know which method failed
     method_label = paste0('method = "', method, '"', ' ')
     
-    result1 <- geo(sample_address, method = method, full_results = TRUE)
+    result1 <- geo(sample_address, lat = lattt, long = longgg, method = method, full_results = TRUE)
+    
+    # check column names
+    expect_equal(names(result1)[1:3], c('address', 'lattt', 'longgg'), label = method_label)
     
     # check that a 1 row dataframe is returned
     expect_true(is.data.frame(result1), label = method_label)
@@ -62,12 +65,12 @@ test_that("test single forward geocoding", {
     expect_equal(result1$address, sample_address, label = method_label)
     
     # check lat long datatype
-    expect_true(is.numeric(result1$lat), label = method_label)
-    expect_true(is.numeric(result1$long), label = method_label)
+    expect_true(is.numeric(result1$lattt), label = method_label)
+    expect_true(is.numeric(result1$longgg), label = method_label)
     
     # check that results were not NA
-    expect_false(is.na(result1$lat), label = method_label)
-    expect_false(is.na(result1$long), label = method_label)
+    expect_false(is.na(result1$lattt), label = method_label)
+    expect_false(is.na(result1$longgg), label = method_label)
   }
 })
 
@@ -86,7 +89,10 @@ test_that("test forward batch geocoding", {
     # label to include in error message so we know which method failed
     method_label = paste0('method = "', method, '"', ' ')
     
-    result1 <- geo(sample_addresses, method = method, mode = 'batch', full_results = TRUE)
+    result1 <- geo(sample_addresses, method = method, lat = lattt, long = longgg, mode = 'batch', full_results = TRUE)
+    
+    # check column names
+    expect_equal(names(result1)[1:3], c('address', 'lattt', 'longgg'))
     
     # check that a 1 row dataframe is returned
     expect_true(is.data.frame(result1))
@@ -96,12 +102,12 @@ test_that("test forward batch geocoding", {
     expect_equal(result1$address, sample_addresses, label = method_label)
     
     # check that all lat long values are numeric
-    expect_true(all(is.numeric(result1$lat)), label = method_label)
-    expect_true(all(is.numeric(result1$long)), label = method_label)
+    expect_true(all(is.numeric(result1$lattt)), label = method_label)
+    expect_true(all(is.numeric(result1$longgg)), label = method_label)
     
     # check that no results were NA
-    expect_false(any(is.na(result1$lat)), label = method_label)
-    expect_false(any(is.na(result1$long)), label = method_label)
+    expect_false(any(is.na(result1$lattt)), label = method_label)
+    expect_false(any(is.na(result1$longgg)), label = method_label)
   }
 })
 
@@ -117,7 +123,10 @@ test_that("test reverse single geocoding", {
     method_label = paste0('method = "', method, '"', ' ')
     
     print(paste0('Reverse single queries: ', method))
-    result1 <- reverse_geo(lat = sample_lat, long = sample_long, method = method, full_results = TRUE)
+    result1 <- reverse_geo(lat = sample_lat, long = sample_long, address = addr, method = method, full_results = TRUE)
+    
+    # check column names
+    expect_equal(names(result1)[1:3], c('lat', 'long', 'addr'), label = method_label)
     
     # check that a 1 row dataframe is returned
     expect_true(is.data.frame(result1), label = method_label)
@@ -128,10 +137,10 @@ test_that("test reverse single geocoding", {
     expect_equal(result1$long, sample_long, label = method_label)
     
     # check address datatype
-    expect_true(is.character(result1$address), label = method_label)
+    expect_true(is.character(result1$addr), label = method_label)
     
     # check that address returned was not NA
-    expect_false(is.na(result1$address), label = method_label)
+    expect_false(is.na(result1$addr), label = method_label)
   }
 })
 
@@ -150,7 +159,11 @@ test_that("test reverse batch geocoding", {
     method_label = paste0('method = "', method, '"', ' ')
     
     print(paste0('Reverse batch queries: ', method))
-    result1 <- reverse_geo(lat = sample_lats, mode = 'batch', long = sample_longs, method = method, full_results = TRUE)
+    result1 <- reverse_geo(lat = sample_lats, long = sample_longs, mode = 'batch',
+                    address = addr, method = method, full_results = TRUE)
+    
+    # check column names
+    expect_equal(names(result1)[1:3], c('lat', 'long', 'addr'), label = method_label)
     
     # check that a 1 row dataframe is returned
     expect_true(is.data.frame(result1), label = method_label)
@@ -161,10 +174,10 @@ test_that("test reverse batch geocoding", {
     expect_equal(result1$long, sample_longs, label = method_label)
     
     # check address datatypes
-    expect_true(all(is.character(result1$address)), label = method_label)
+    expect_true(all(is.character(result1$addr)), label = method_label)
     
     # check that addresses returned are not NA
-    expect_false(any(is.na(result1$address)), label = method_label)
+    expect_false(any(is.na(result1$addr)), label = method_label)
   }
 })
 

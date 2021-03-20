@@ -1,23 +1,3 @@
-
-# if there is a column conflict then rename the columns in the 
-# second dataset. Then merge both datasets with dplyr::bind_cols
-# this avoids columns in the first dataset from being renamed
-# .suffix is appending to columns in the case of conflict
-# df2 is returned
-# rename_and_bind_cols <- function(df1, df2, suffix = 'results') {
-#   
-#   # what column names are in common between the two datasets
-#   names_in_common <- intersect(names(df1), names(df2))
-#   
-#   # iterate through column names in common (if any) and rename
-#   if (length(names_in_common) != 0) {
-#     for (name in names_in_common) {
-#       names(df2)[which(names(df2) == name)] <- paste0(name, '.', suffix)
-#     }
-#   }
-#   return(dplyr::bind_cols(df1, df2))
-# }
-
 # utility function for packaging either lat longs or address data
 # takes a dataframe input 
 # cords = TRUE if processing coordinates
@@ -28,7 +8,7 @@ package_inputs <- function(input_orig, coords = FALSE) {
   # Clean and inputs addresses. Remove all NA/missing addresses 
   input_unique <- input_orig
   
-  # limit lat/longs in unique dataset to possible values. assuming lat, long
+  # limit lat/longs in unique dataset to possible values
   if (coords == TRUE) {
     input_unique$lat[(input_unique$lat > 90 | input_unique$lat < -90)] <- NA
     input_unique$long[(input_unique$long > 180 | input_unique$long < -180)] <- NA
@@ -70,19 +50,6 @@ package_inputs <- function(input_orig, coords = FALSE) {
   return(list(unique = tibble::as_tibble(input_unique[!names(input_unique) %in% c('.uid')]), 
                         crosswalk = tibble::as_tibble(crosswalk[!names(crosswalk) %in% input_colnames])))
 }
-
-# Function for packaging and deduping addresses that are passed to the geo function
-# package addresses
-# package_coords <- function(lat, long) {
-#   
-#   
-#   # Turn address inputs into a dataframe
-#   addr_orig <- tibble::tibble(lat = lat, long = long)
-#   
-#   # package and return
-#   return(package_inputs(tibble::as_tibble(combined_coords)))
-# }
-
 
 
 # Function for packaging and deduping addresses that are passed to the geo function

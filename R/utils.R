@@ -53,8 +53,7 @@ extract_results <- function(method, response, full_results = TRUE, flatten = TRU
   )
 
   
-  # Return NA if data is not valid (NULL/no values or names)
-  # (no columns prevents it from being converted to a dataframe)
+  # Return NA if data is not empty or not valid (cannot be turned into a dataframe)
   if (is.null(names(lat_lng)) | all(sapply(lat_lng, is.null)) | length(lat_lng) == 0) return(NA_result)
   
   # convert to tibble
@@ -63,7 +62,8 @@ extract_results <- function(method, response, full_results = TRUE, flatten = TRU
   # check to make sure results aren't NA or the wrong width
   if (nrow(lat_lng) == 0 | ncol(lat_lng) != 2) return(NA_result)
   
-  # convert to numeric format
+  # convert to numeric format. sapply is used because there could be multiple coordinates returned
+  # for a single address
   lat_lng[, 1] <- sapply(lat_lng[, 1], function(x) as.numeric(as.character(x)), USE.NAMES = FALSE)
   lat_lng[, 2] <- sapply(lat_lng[, 2], function(x) as.numeric(as.character(x)), USE.NAMES = FALSE)
   
@@ -129,6 +129,8 @@ extract_results <- function(method, response, full_results = TRUE, flatten = TRU
 #' @seealso \code{\link{get_api_query}} \code{\link{query_api}} \code{\link{reverse_geo}}
 #' @export 
 extract_reverse_results <- function(method, response, full_results = TRUE, flatten = TRUE, limit = 1) {
+  # NOTE - the reverse_geo() function takes the output of this function and renames the 
+  # address column
   
   if (method == 'google') {
     rows_to_return <- min(nrow(response$results), limit)
@@ -150,11 +152,8 @@ extract_reverse_results <- function(method, response, full_results = TRUE, flatt
     'mapquest' = format_address(response$results$locations[[1]],
                                                 c('street', paste0('adminArea', seq(6, 1))))
   )
-
   
-  # if null or non-dataframe result then return NA
-  # also return NA if no column names are found
-  # (no columns prevents it from being converted to a dataframe)
+  # Return NA if data is not empty or not valid (cannot be turned into a dataframe)
   if (is.null(names(address)) | all(sapply(address, is.null)) | length(address) == 0) return(NA_result)
   
   # convert to tibble
@@ -288,7 +287,6 @@ split_coords <- function(input) {
     split <- as.list(unlist(strsplit(input, "," , fixed = TRUE)))
   }
   else split <- (list('', ''))
-  
   return(as.numeric(split))
 }
 
@@ -342,9 +340,7 @@ pause_until <- function(start_time, min_time, debug=FALSE) {
 # 1 ES, 2 Calle de Espoz y Mina
 format_address <- function(df, fields) {
   frmt_df <- tibble::as_tibble(df)
-  
   col_order <- intersect(fields, names(frmt_df))
-  
   frmt_df <- dplyr::relocate(frmt_df[col_order], col_order)
   
   frmt_char <- as.character(apply(frmt_df, 1, function(x) {
