@@ -1,5 +1,5 @@
-library(dplyr)
 library(tidygeocoder)
+library(dplyr)
 library(httr)
 library(jsonlite)
 
@@ -24,7 +24,7 @@ tg_batch <- tie_addresses %>%
           return_type = 'geographies'
   )
 
-## Try using tidygeocoder batch --- NA return
+## Try using tidygeocoder single address geocoding - results are returned
 tg_single <- tie_addresses %>%
   geocode(street = res_street_address,
           city = res_city_desc,
@@ -36,7 +36,7 @@ tg_single <- tie_addresses %>%
           return_type = 'geographies'
   )
 
-
+### -----------------------------------------------------------------------
 ## Try manually performing the census batch query: 
 
 # geographies or locations

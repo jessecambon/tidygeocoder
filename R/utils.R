@@ -48,8 +48,10 @@ extract_results <- function(method, response, full_results = TRUE, flatten = TRU
       'long' = response$features$center[[1]][1]
     ), # mapbox results are nested unnamed lists
     'here' = response$items$position[c('lat','lng')],
-    'tomtom' = response$results$position[c('lat', 'lon')]
+    'tomtom' = response$results$position[c('lat', 'lon')],
+    'mapquest' = response$results$locations[[1]]$latLng[c('lat','lng')]
   )
+
   
   # Return NA if data is not valid (NULL/no values or names)
   # (no columns prevents it from being converted to a dataframe)
@@ -78,8 +80,10 @@ extract_results <- function(method, response, full_results = TRUE, flatten = TRU
       'opencage' = response$results[!names(response$results) %in% c('geometry')],
       'mapbox' = response$features,
       'here' = response$items,
-      'tomtom' = response$results
+      'tomtom' = response$results,
+      'mapquest' = response$results$locations[[1]]
     ))
+
 
     # add prefix to variable names that likely could be in our input dataset
     # to avoid variable name overlap
@@ -88,8 +92,16 @@ extract_results <- function(method, response, full_results = TRUE, flatten = TRU
         names(results)[names(results) == var] <- paste0(method, '_', var)
       }
     }
+                                 
+    # Formatted address for mapquest
+    if (method == 'mapquest'){
+      frmt_address <- format_address(results,
+                     c('street', paste0('adminArea', seq(6, 1))))
+      results <- tibble::as_tibble(cbind(frmt_address, results))
+    }
     
     combined_results <- dplyr::bind_cols(lat_lng, results)
+
   } else {
     combined_results <- lat_lng
   }
@@ -134,8 +146,11 @@ extract_reverse_results <- function(method, response, full_results = TRUE, flatt
     'opencage' = response$results['formatted'],
     'mapbox' = response$features['place_name'],
     'here' = response$items['title'],
-    'tomtom' = response$addresses$address['freeformAddress']
+    'tomtom' = response$addresses$address['freeformAddress'],
+    'mapquest' = format_address(response$results$locations[[1]],
+                                                c('street', paste0('adminArea', seq(6, 1))))
   )
+
   
   # if null or non-dataframe result then return NA
   # also return NA if no column names are found
@@ -163,7 +178,8 @@ extract_reverse_results <- function(method, response, full_results = TRUE, flatt
       'opencage' = response$results[!names(response$results) %in% c('formatted')],
       'mapbox' = response$features[!names(response$features) %in% c('place_name')],
       'here' = response$items[!names(response$items) %in% c('title')],
-      'tomtom' = response$addresses
+      'tomtom' = response$addresses,
+      'mapquest' = response$results$locations[[1]]                                  
     ))
     
     # add prefix to variable names that likely could be in our input dataset
@@ -242,6 +258,9 @@ extract_errors_from_results <- function(method, response, verbose) {
         message(paste0('Error: ', raw_results$error))
       }
     }
+    else if (method == 'mapquest'){
+      if (!is.null(raw_results$info$messages)) message(paste0('Error: ', raw_results$info$messages))
+    }
     
   }
 }
@@ -310,3 +329,31 @@ pause_until <- function(start_time, min_time, debug=FALSE) {
   }
 }
 
+# Used for mapquest - provide formatted address based on fields
+# Could be extended to other providers if no frmt.address is provided - non specific
+# input is a data.frame/tibble and the list of fields used for creating 
+# a formatted address
+# output is a tibble with the formatted address
+# formatted address follow the order of fields vector
+# Result sample:
+# # A tibble: 1 x 1
+# formatted_address          
+# <chr>                      
+# 1 ES, 2 Calle de Espoz y Mina
+format_address <- function(df, fields) {
+  frmt_df <- tibble::as_tibble(df)
+  
+  col_order <- intersect(fields, names(frmt_df))
+  
+  frmt_df <- dplyr::relocate(frmt_df[col_order], col_order)
+  
+  frmt_char <- as.character(apply(frmt_df, 1, function(x) {
+    y <- unique(as.character(x))
+    y <- y[!y %in% c('', 'NA')]
+    paste0(y, collapse = ', ')
+  }))
+  
+  frmt_char[frmt_char == 'NA'] <- NA
+  frmt_out <- tibble::tibble(formatted_address = frmt_char)
+  return(frmt_out)
+}

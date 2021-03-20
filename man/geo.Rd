@@ -35,7 +35,8 @@ geo(
   geocodio_v = 1.6,
   param_error = TRUE,
   mapbox_permanent = FALSE,
-  here_request_id = NULL
+  here_request_id = NULL,
+  mapquest_open = FALSE
 )
 }
 \arguments{
@@ -82,6 +83,9 @@ to open your .Renviron file for editing to add API keys as an environmental vari
   \item \code{"tomtom"}: Commercial TomTom geocoder service. Requires an API Key to
      be stored in the "TOMTOM_API_KEY" environmental variable. Can perform 
      batch geocoding.
+  \item \code{"mapquest"}: Commercial MapQuest geocoder service. Requires an 
+     API Key to be stored in the "MAPQUEST_API_KEY" environmental variable. 
+     Can perform batch geocoding.
   \item \code{"cascade"} : Attempts to use one geocoder service and then uses
     a second geocoder service if the first service didn't return results.
     The services and order is specified by the cascade_order argument. 
@@ -130,7 +134,8 @@ Note that Geocodio batch geocoding results are flattened regardless.}
 
 \item{batch_limit}{limit to the number of addresses in a batch geocoding query.
 'geocodio', 'census' and 'tomtom' batch geocoders have a 10,000 address limit so this
-is the default. 'here' has a 1,000,000 address limit.}
+is the default. 'here' has a 1,000,000 address limit. 'mapquest' has a 100 address
+limit.}
 
 \item{batch_limit_error}{if TRUE then an error is thrown if the number of unique addresses
 exceeds the batch limit (if executing a batch query). This is reverted to FALSE when using the
@@ -169,6 +174,9 @@ identified by its RequestID. The RequestID of a batch job is displayed
 when \code{verbose} is TRUE. Note that this option would ignore the 
 current \code{address} parameter on the request, so \code{return_addresses} 
 needs to be FALSE.}
+
+\item{mapquest_open}{if TRUE then MapQuest would use the Open Geocoding 
+endpoint, that relies solely on data contributed to OpenStreetMap.}
 }
 \value{
 parsed geocoding results in tibble format
