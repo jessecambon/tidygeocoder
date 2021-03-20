@@ -442,7 +442,7 @@ geo <- function(address = NULL,
   
   # return NA results if no_query = TRUE
   if (no_query == TRUE) return(unpackage_inputs(address_pack, NA_value, unique_only, return_addresses))
-  query_results <- query_api(api_url, api_query_parameters)
+  query_results <- query_api(api_url, api_query_parameters, method = method)
   
   if (verbose == TRUE) message(paste0('HTTP Status Code: ', as.character(query_results$status)))
   

@@ -82,7 +82,7 @@ extract_results <- function(method, response, full_results = TRUE, flatten = TRU
       'here' = response$items,
       'tomtom' = response$results,
       'mapquest' = response$results$locations[[1]]
-    )
+    ))
 
 
     # add prefix to variable names that likely could be in our input dataset
@@ -148,7 +148,7 @@ extract_reverse_results <- function(method, response, full_results = TRUE, flatt
     'here' = response$items['title'],
     'tomtom' = response$addresses$address['freeformAddress'],
     'mapquest' = format_address(response$results$locations[[1]],
-                                                c('street', paste0('adminArea', seq(6, 1)))
+                                                c('street', paste0('adminArea', seq(6, 1))))
   )
 
   

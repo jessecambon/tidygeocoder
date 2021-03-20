@@ -302,7 +302,7 @@ reverse_geo <- function(lat, long, method = 'osm', address = address, limit = 1,
                                                 NA_value, 
                                                 unique_only, return_coords))
   
-  query_results <- query_api(api_url, api_query_parameters)
+  query_results <- query_api(api_url, api_query_parameters, method = method)
   
   if (verbose == TRUE) message(paste0('HTTP Status Code: ', as.character(query_results$status)))
   

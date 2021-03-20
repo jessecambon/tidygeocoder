@@ -230,6 +230,7 @@ get_api_query <- function(method, generic_parameters = list(), custom_parameters
 #' should be 'json' for geocodio and 'multipart' for census 
 #' @param content_encoding Encoding to be used for parsing content
 #' @param timeout timeout in minutes
+#' @param method if 'mapquest' then the query status code is changed appropriately
 #' @return a named list containing the response content (\code{content}) and the HTTP request status (\code{status})
 #' @examples
 #' \donttest{
@@ -249,7 +250,7 @@ get_api_query <- function(method, generic_parameters = list(), custom_parameters
 #' @seealso \code{\link{get_api_query}} \code{\link{extract_results}} \code{\link{geo}}
 #' @export 
 query_api <- function(api_url, query_parameters, mode = 'single', 
-          batch_file = NULL, input_list = NULL, content_encoding = 'UTF-8', timeout = 20) {
+          batch_file = NULL, input_list = NULL, content_encoding = 'UTF-8', timeout = 20, method = '') {
    response <- switch(mode,
     'single' = httr::GET(api_url, query = query_parameters),
     'list' = httr::POST(api_url, query = query_parameters, 
@@ -268,9 +269,7 @@ query_api <- function(api_url, query_parameters, mode = 'single',
   # When a valid key is passed, errors on query are in the response
   # Succesful code in response is 0
   # https://developer.mapquest.com/documentation/geocoding-api/status-codes/
-  if (mode == 'single' && 
-      isTRUE(grep('mapquest', api_url) > 0) && 
-      isTRUE(httr::status_code(response) == 200)) {
+  if (mode == 'single' && method == 'mapquest' && httr::status_code(response) == 200) {
     status_code <- jsonlite::fromJSON(content)$info$statuscode
     if (status_code == 0) status_code <- 200
     
