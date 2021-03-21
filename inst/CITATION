@@ -10,13 +10,13 @@ citEntry(
   title = "tidygeocoder: Geocoding Made Easy",
   author = personList(as.person("Jesse Cambon"), as.person("Christopher Belanger")),
   year = "2021",
-  month = "jan",
   publisher = "Zenodo",
   note = "R package version 1.0.2",
   url = "https://CRAN.R-project.org/package=tidygeocoder",
   doi = tidygeocoder_doi,
   textVersion = paste(
-     "Jesse Cambon. (2021, January).",
-     "Tidygeocoder (Version v1.0.2). Zenodo.",
-     tidygeocoder_doi)
+     "Jesse Cambon, Christopher Belanger (2021).",
+     "tidygeocoder: Geocoding Made Easy (version 1.0.2). DOI:",
+     paste0(tidygeocoder_doi, '.'), 
+     'URL: https://CRAN.R-project.org/package=tidygeocoder')
 )

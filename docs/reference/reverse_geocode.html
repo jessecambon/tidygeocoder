@@ -150,6 +150,7 @@ on possible arguments.</p>
   <span class='va'>lat</span>,
   <span class='va'>long</span>,
   address <span class='op'>=</span> <span class='va'>address</span>,
+  limit <span class='op'>=</span> <span class='fl'>1</span>,
   return_coords <span class='op'>=</span> <span class='cn'>FALSE</span>,
   unique_only <span class='op'>=</span> <span class='cn'>FALSE</span>,
   <span class='va'>...</span>
@@ -173,6 +174,11 @@ on possible arguments.</p>
     <tr>
       <th>address</th>
       <td><p>address column name (output data). Can be quoted or unquoted (ie. addr or 'addr').</p></td>
+    </tr>
+    <tr>
+      <th>limit</th>
+      <td><p>number of results to return per coordinate. To use limit &gt; 1 either
+return_coords or unique_only must be set to TRUE.</p></td>
     </tr>
     <tr>
       <th>return_coords</th>

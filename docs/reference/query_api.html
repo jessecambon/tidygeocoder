@@ -144,7 +144,8 @@ function to execute.</p>
   batch_file <span class='op'>=</span> <span class='cn'>NULL</span>,
   input_list <span class='op'>=</span> <span class='cn'>NULL</span>,
   content_encoding <span class='op'>=</span> <span class='st'>"UTF-8"</span>,
-  timeout <span class='op'>=</span> <span class='fl'>20</span>
+  timeout <span class='op'>=</span> <span class='fl'>20</span>,
+  method <span class='op'>=</span> <span class='st'>""</span>
 <span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -182,6 +183,10 @@ should be 'json' for geocodio and 'multipart' for census</p></td>
     <tr>
       <th>timeout</th>
       <td><p>timeout in minutes</p></td>
+    </tr>
+    <tr>
+      <th>method</th>
+      <td><p>if 'mapquest' then the query status code is changed appropriately</p></td>
     </tr>
     </table>
 

@@ -39,7 +39,8 @@ batch_func_map <- list(
 #' 
 #' @param method the geocoder service to be used. Refer to 
 #' \code{\link{api_parameter_reference}} and the API documentation for
-#' each geocoder service for usage details and limitations.
+#' each geocoder service for usage details and limitations. Run \code{usethis::edit_r_environ()}
+#' to open your .Renviron file for editing to add API keys as an environmental variables.
 #' \itemize{
 #'   \item \code{"census"}: US Census Geocoder. US street-level addresses only. 
 #'      Can perform batch geocoding.
@@ -80,8 +81,7 @@ batch_func_map <- list(
 #'  (ie. \code{c('census', 'geocodio')})
 #' @param lat latitude column name. Can be quoted or unquoted (ie. lat or 'lat').
 #' @param long longitude column name. Can be quoted or unquoted (ie. long or 'long').
-#' @param limit number of results to return per address. Note that not all methods support
-#'  setting limit to a value other than 1. Also limit > 1 is not compatible 
+#' @param limit number of results to return per address. limit > 1 is not compatible 
 #'  with batch geocoding if return_addresses = TRUE.
 #' @param min_time minimum amount of time for a query to take (in seconds). If NULL
 #' then min_time will be set to the lowest value that complies with the usage requirements of 
@@ -276,7 +276,9 @@ geo <- function(address = NULL,
   
   # determine if an illegal limit parameter value was used (ie. if limit !=1
   # then the method API must have a limit parameter)
-  if ((limit != 1) & (!('limit' %in% legal_parameters))) {
+  # Google has a special limit passthrough to the extract_results function even though limit is not
+  # a legal API parameter
+  if ((limit != 1) & (!('limit' %in% legal_parameters) & (!method %in% c('census', 'google')))) {
     illegal_limit_message <- paste0('The limit parameter must be set to 1 (the default) because the "',  method,'" ',
                                     'method API service does not support a limit argument.\n\n',
                                     'See ?api_parameter_reference for more details.')
@@ -444,7 +446,7 @@ geo <- function(address = NULL,
   
   # return NA results if no_query = TRUE
   if (no_query == TRUE) return(unpackage_inputs(address_pack, NA_value, unique_only, return_addresses))
-  query_results <- query_api(api_url, api_query_parameters)
+  query_results <- query_api(api_url, api_query_parameters, method = method)
   
   if (verbose == TRUE) message(paste0('HTTP Status Code: ', as.character(query_results$status)))
   
@@ -457,7 +459,7 @@ geo <- function(address = NULL,
   else {
     # Extract results. Use the full_results and flatten parameters
     # to control the output
-    results <- extract_results(method, jsonlite::fromJSON(query_results$content), full_results, flatten)
+    results <- extract_results(method, jsonlite::fromJSON(query_results$content), full_results, flatten, limit)
     
     # Name the latitude and longitude columns in accordance with lat/long arguments
     names(results)[1] <- lat

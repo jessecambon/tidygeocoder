@@ -37,7 +37,8 @@ reverse_geo(
 \item{method}{the geocoder service to be used. Refer to 
 \code{\link{api_parameter_reference}} and the API documentation for
 each geocoder service for usage details and limitations. Note that the 
-Census service does not support reverse geocoding.
+Census service does not support reverse geocoding. Run \code{usethis::edit_r_environ()}
+to open your .Renviron file for editing to add API keys as an environmental variables.
 \itemize{
   \item \code{"osm"}: Nominatim (OSM). Worldwide coverage.
   \item \code{"geocodio"}: Commercial geocoder. Covers US and Canada and has
