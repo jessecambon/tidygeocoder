@@ -15,6 +15,7 @@
 # TomTom: https://developer.tomtom.com/search-api/search-api-documentation-geocoding/geocode
 # MapQuest: https://developer.mapquest.com/documentation/geocoding-api/
 #           https://developer.mapquest.com/documentation/open/geocoding-api/
+# Bing: https://docs.microsoft.com/en-us/bingmaps/rest-services/locations/
 
 ### Usage Policies
 # OSM: https://operations.osmfoundation.org/policies/nominatim/
@@ -24,6 +25,7 @@
 # HERE: https://developer.here.com/pricing
 # TomTom: https://developer.tomtom.com/store/maps-api
 # MapQuest: https://developer.mapquest.com/plans
+# Bing: https://docs.microsoft.com/en-us/bingmaps/spatial-data-services/geocode-and-data-source-limits
 
 ## Note: generic_name = 'address' is for one-line addresses
 ## If generic_name == NA then that means the parameter is specific to a given API/method
@@ -133,6 +135,14 @@ api_parameter_reference <- tibble::tribble(
   'mapquest', 'api_key',    'key',           NA,                  TRUE,
   'mapquest', 'address',    'location',      NA,                  TRUE,  
   'mapquest', 'limit',      'maxResults',    '1',                 FALSE,
+  
+  ###########################    Bing    #################################
+  # Bing returns json by default
+  # Bing requires an api_key
+  
+  'bing',      'api_key',    'key',           NA,                  TRUE,
+  'bing',      'address',    'q',             NA,                  TRUE,  
+  'bing',      'limit',      'maxResults',    '1',                 FALSE,
 )
 
 usethis::use_data(api_parameter_reference, overwrite = TRUE)

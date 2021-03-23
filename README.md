@@ -88,6 +88,7 @@ and usage limitations.
 | [HERE](https://developer.here.com/products/geocoding-and-search)                     | Worldwide     | Yes             | Yes              | None                    |
 | [TomTom](https://developer.tomtom.com/search-api/search-api-documentation/geocoding) | Worldwide     | Yes             | Yes              | 5/second (free tier)    |
 | [MapQuest](https://developer.mapquest.com/documentation/geocoding-api/)              | Worldwide     | Yes             | Yes              | None                    |
+| [Bing](https://docs.microsoft.com/en-us/bingmaps/rest-services/locations/)           | Worldwide     | Yes             | Yes              | None                    |
 
 Notes:
 
@@ -96,9 +97,9 @@ Notes:
 -   The US Census and Geocodio services both support a maximum of 10,000
     addresses per batch query.
 -   The US Census and OSM services are free while Geocodio, Location IQ,
-    OpenCage, Mapbox, HERE, TomTom and MapQuest are commercial services
-    that offer both free and paid usage tiers. The Google service [bills
-    per
+    OpenCage, Mapbox, HERE, TomTom, MapQuest and Bing are commercial
+    services that offer both free and paid usage tiers. The Google
+    service [bills per
     query](https://developers.google.com/maps/documentation/geocoding/usage-and-billing).
 -   The Census geocoder does not support reverse geocoding.
 -   The Mapbox service is capable of performing batch geocoding when

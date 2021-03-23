@@ -11,6 +11,7 @@
 \alias{geo_here}
 \alias{geo_tomtom}
 \alias{geo_mapquest}
+\alias{geo_bing}
 \title{Convenience functions for calling the \code{\link{geo}} function
 with a specified method}
 \usage{
@@ -33,6 +34,8 @@ geo_here(...)
 geo_tomtom(...)
 
 geo_mapquest(...)
+
+geo_bing(...)
 }
 \arguments{
 \item{...}{arguments to be passed to the \code{\link{geo}} function}

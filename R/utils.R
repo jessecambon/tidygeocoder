@@ -49,18 +49,24 @@ extract_results <- function(method, response, full_results = TRUE, flatten = TRU
     ), # mapbox results are nested unnamed lists
     'here' = response$items$position[c('lat','lng')],
     'tomtom' = response$results$position[c('lat', 'lon')],
-    'mapquest' = response$results$locations[[1]]$latLng[c('lat','lng')]
+    'mapquest' = response$results$locations[[1]]$latLng[c('lat','lng')],
+    'bing' = response$resourceSets$resources[[1]]$point$coordinates
+
   )
 
   
   # Return NA if data is not empty or not valid (cannot be turned into a dataframe)
   if (is.null(names(lat_lng)) | all(sapply(lat_lng, is.null)) | length(lat_lng) == 0) return(NA_result)
   
-  # convert to tibble
-  lat_lng <- tibble::as_tibble(lat_lng) 
-
-  # check to make sure results aren't NA or the wrong width
   if (nrow(lat_lng) == 0 | ncol(lat_lng) != 2) return(NA_result)
+  
+    # Extract results for Bing
+  if (method == 'bing') {
+    lat_lng <- as.data.frame(
+      matrix(unlist(response$resourceSets$resources[[1]]$point$coordinates), ncol = 2, byrow=TRUE),
+      col.names = c('lat', 'lng')
+    )
+  }
   
   # convert to numeric format. sapply is used because there could be multiple coordinates returned
   # for a single address
@@ -81,7 +87,9 @@ extract_results <- function(method, response, full_results = TRUE, flatten = TRU
       'mapbox' = response$features,
       'here' = response$items,
       'tomtom' = response$results,
-      'mapquest' = response$results$locations[[1]]
+      'mapquest' = response$results$locations[[1]],
+      'bing' = response$resourceSets$resources[[1]]
+      
     ))
 
 
@@ -150,7 +158,8 @@ extract_reverse_results <- function(method, response, full_results = TRUE, flatt
     'here' = response$items['title'],
     'tomtom' = response$addresses$address['freeformAddress'],
     'mapquest' = format_address(response$results$locations[[1]],
-                                                c('street', paste0('adminArea', seq(6, 1))))
+                                                c('street', paste0('adminArea', seq(6, 1)))),
+                    'bing' = response$resourceSets$resources[[1]]['name']
   )
   
   # Return NA if data is not empty or not valid (cannot be turned into a dataframe)
@@ -178,8 +187,10 @@ extract_reverse_results <- function(method, response, full_results = TRUE, flatt
       'mapbox' = response$features[!names(response$features) %in% c('place_name')],
       'here' = response$items[!names(response$items) %in% c('title')],
       'tomtom' = response$addresses,
-      'mapquest' = response$results$locations[[1]]                                  
-    ))
+      'mapquest' = response$results$locations[[1]],
+      'bing' = response$resourceSets$resources[[1]][names(response$resourceSets$resources[[1]]) != 'name']
+))
+
     
     # add prefix to variable names that likely could be in our input dataset
     # to avoid variable name overlap
@@ -260,7 +271,9 @@ extract_errors_from_results <- function(method, response, verbose) {
     else if (method == 'mapquest'){
       if (!is.null(raw_results$info$messages)) message(paste0('Error: ', raw_results$info$messages))
     }
-    
+    else if (method == 'bing'){
+      if ('errorDetails' %in% names(raw_results)) message(paste0('Error: ', raw_results$errorDetails, collapse = "\n"))
+    }
   }
 }
 

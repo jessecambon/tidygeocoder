@@ -12,6 +12,7 @@ get_key <- function(method) {
          'here' = "HERE_API_KEY",
          'tomtom' = "TOMTOM_API_KEY",
          'mapquest' = "MAPQUEST_API_KEY",
+         'bing' = "BINGMAPS_API_KEY"
          )
   # load api key from environmental variable
   key <- Sys.getenv(env_var)
@@ -99,6 +100,10 @@ get_mapquest_url <- function(mapquest_open = FALSE, reverse = FALSE) {
   return(paste0(endpoint,'mapquestapi.com/geocoding/v1/', url_keyword))
 }
 
+get_bing_url <- function() {
+  return('http://dev.virtualearth.net/REST/v1/Locations')
+}
+
 ## wrapper function for above functions
 ### IMPORTANT: if arguments are changed in this definition then make sure to 
 ### update reverse_geo.R and geo.R where this function is called.
@@ -116,6 +121,7 @@ get_api_url <- function(method, reverse = FALSE, return_type = 'locations',
          "here" = get_here_url(reverse = reverse),
          "tomtom" = get_tomtom_url(reverse = reverse),
          "mapquest" = get_mapquest_url(mapquest_open, reverse = reverse),
+         "bing" = get_bing_url(),
          )
 
   if (length(api_url) == 0) stop('API URL not found')
@@ -207,6 +213,11 @@ get_api_query <- function(method, generic_parameters = list(), custom_parameters
     if (method == "tomtom") {
     api_query_parameters <-
       api_query_parameters[!names(api_query_parameters) %in% c("query", "to_url")]
+  }
+  # Bing: Workaround to remove inputs from parameters (since it is added to the API url instead)
+  if (method == "bing") {
+    api_query_parameters <-
+      api_query_parameters[!names(api_query_parameters) %in% c("to_url")]
   }
   return(api_query_parameters)
 }

@@ -213,6 +213,10 @@ test_that("test error catching", {
     # for methods requiring an api key, passing an invalid key
     # should cause an error
     for (method in setdiff(methods_to_test, c('osm', 'census'))) {
-    test_error_catching(method, list(api_key = 'invalid'))
+      if (method != "bing"){
+        test_error_catching(method, list(api_key = 'invalid')) 
+      } else {
+        test_error_catching(method, custom_args =list(key = 'invalid', q="invalid")) 
+      }
     }
 })
