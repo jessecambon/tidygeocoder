@@ -12,7 +12,7 @@ soup <-
   httr::GET(
     url = url_base,
     query = list(
-      key = get_key('bing'),
+      key = tidygeocoder:::get_key('bing'),
       q = "xxxxxxxxxxxx",
       maxResults = 5
     )

@@ -136,9 +136,9 @@ return_addresses to FALSE does not prevent this.}
 Note that Geocodio batch geocoding results are flattened regardless.}
 
 \item{batch_limit}{limit to the number of addresses in a batch geocoding query.
-'geocodio', 'census' and 'tomtom' batch geocoders have a 10,000 address limit so this
+'geocodio', 'census', and 'tomtom' batch geocoders have a 10,000 address limit so this
 is the default. 'here' has a 1,000,000 address limit. 'mapquest' has a 100 address
-limit. 'bing' as a 50 address limit.}
+limit. 'bing' has a 50 address limit.}
 
 \item{batch_limit_error}{if TRUE then an error is thrown if the number of unique addresses
 exceeds the batch limit (if executing a batch query). This is reverted to FALSE when using the
