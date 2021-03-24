@@ -10,7 +10,9 @@
 reverse_batch_func_map <- list(
   geocodio = reverse_batch_geocodio,
   here = reverse_batch_here,
-  tomtom = reverse_batch_tomtom
+  tomtom = reverse_batch_tomtom,
+  mapquest = reverse_batch_mapquest,
+  bing = reverse_batch_bing
 )
 
 # Create API parameters for a single set of coordinates (lat, long) based on the 
@@ -33,6 +35,10 @@ get_coord_parameters <- function(custom_query, method, lat, long) {
   } else if (method == 'tomtom') {
     custom_query[['to_url']] <- 
       paste0(as.character(lat), ',', as.character(long))
+  } else if (method == 'mapquest') {
+    custom_query[['location']] <-  paste0(as.character(lat), ',', as.character(long)) 
+  } else if (method == 'bing') {
+    custom_query[['to_url']] <-  paste0('/', as.character(lat), ',', as.character(long)) 
   } else if (method == 'arcgis'){
     custom_query[['location']] <-
       paste0(as.character(long), ',', as.character(lat))
@@ -61,7 +67,8 @@ get_coord_parameters <- function(custom_query, method, lat, long) {
 #' @param method the geocoder service to be used. Refer to 
 #' \code{\link{api_parameter_reference}} and the API documentation for
 #' each geocoder service for usage details and limitations. Note that the 
-#' Census service does not support reverse geocoding.
+#' Census service does not support reverse geocoding. Run \code{usethis::edit_r_environ()}
+#' to open your .Renviron file for editing to add API keys as an environmental variables.
 #' \itemize{
 #'   \item \code{"osm"}: Nominatim (OSM). Worldwide coverage.
 #'   \item \code{"geocodio"}: Commercial geocoder. Covers US and Canada and has
@@ -83,8 +90,15 @@ get_coord_parameters <- function(custom_query, method, lat, long) {
 #'   \item \code{"tomtom"}: Commercial TomTom geocoder service. Requires an API Key to
 #'      be stored in the "TOMTOM_API_KEY" environmental variable. Can perform
 #'      batch geocoding.
+#'   \item \code{"mapquest"}: Commercial MapQuest geocoder service. Requires an 
+#'      API Key to be stored in the "MAPQUEST_API_KEY" environmental variable. 
+#'      Can perform batch geocoding.
+#'   \item \code{"bing"}: Commercial Bing geocoder service. Requires an 
+#'      API Key to be stored in the "BINGMAPS_API_KEY" environmental variable. 
+#'      Can perform batch geocoding.
 #'   \item \code{"arcgis"}: Commercial ArcGIS geocoder service.
 #' }
+#' 
 #' @param address name of the address column (output data)
 #' @param limit number of results to return per coordinate. Note that not all methods support
 #'  setting limit to a value other than 1. Also limit > 1 is not compatible 
@@ -100,7 +114,7 @@ get_coord_parameters <- function(custom_query, method, lat, long) {
 #'  force single address geocoding (one coordinate per query). If not 
 #'  specified then batch geocoding will be used if available
 #'  (given method selected) when multiple addresses are provided; otherwise
-#'  single address geocoding will be used. For 'here' the batch mode
+#'  single address geocoding will be used. For 'here' and 'bing' the batch mode
 #'  should be explicitly enforced.
 #' @param full_results returns all data from the geocoder service if TRUE. 
 #' If FALSE then only a single address column will be returned from the geocoder service.
@@ -112,7 +126,8 @@ get_coord_parameters <- function(custom_query, method, lat, long) {
 #'    Note that Geocodio batch geocoding results are flattened regardless.
 #' @param batch_limit limit to the number of addresses in a batch geocoding query.
 #'  Both geocodio and census batch geocoders have a 10,000 limit so this
-#'  is the default. HERE has a 1,000,000 address limit.
+#'  is the default. 'here' has a 1,000,000 address limit. 'mapquest' has a 100 address
+#'  limit. 'bing' as a 50 address limit.
 #' @param verbose if TRUE then detailed logs are output to the console
 #' @param no_query if TRUE then no queries are sent to the geocoder and verbose is set to TRUE
 #' @param custom_query API-specific parameters to be used, passed as a named list 
@@ -129,7 +144,9 @@ get_coord_parameters <- function(custom_query, method, lat, long) {
 #'   when \code{verbose} is TRUE. Note that this option would ignore the 
 #'   current \code{lat, long} parameters on the request, so \code{return_coords} 
 #'   needs to be FALSE.
-#'   
+#' @param mapquest_open if TRUE then MapQuest would use the Open Geocoding 
+#'   endpoint, that relies solely on data contributed to OpenStreetMap.
+#'     
 #' @return parsed geocoding results in tibble format
 #' @examples
 #' \donttest{
@@ -144,7 +161,7 @@ get_coord_parameters <- function(custom_query, method, lat, long) {
 reverse_geo <- function(lat, long, method = 'osm', address = address, limit = 1, min_time = NULL, api_url = NULL,  
     timeout = 20, mode = '',  full_results = FALSE, unique_only = FALSE, return_coords = TRUE, flatten = TRUE, 
     batch_limit = 10000, verbose = FALSE, no_query = FALSE, custom_query = list(), iq_region = 'us', geocodio_v = 1.6,
-    mapbox_permanent = FALSE, here_request_id = NULL) {
+    mapbox_permanent = FALSE, here_request_id = NULL, mapquest_open = FALSE) {
 
   # NSE eval
   address <- rm_quote(deparse(substitute(address)))
@@ -158,7 +175,8 @@ reverse_geo <- function(lat, long, method = 'osm', address = address, limit = 1,
       is.logical(full_results), is.logical(unique_only),
       is.numeric(limit), limit >= 1,  is.list(custom_query), 
       is.logical(mapbox_permanent),
-      is.null(here_request_id) || is.character(here_request_id)
+      is.null(here_request_id) || is.character(here_request_id),
+      is.logical(mapquest_open)
   )
   if (length(lat) != length(long)) stop('Lengths of lat and long must be equal.')
   if (!(mode %in% c('', 'single', 'batch'))) {
@@ -179,7 +197,7 @@ reverse_geo <- function(lat, long, method = 'osm', address = address, limit = 1,
   # HERE Exception
   # Batch mode is quite slow. If batch mode is not called explicitly
   # use single method
-  if (method == "here" && mode != 'batch' ){
+  if (method %in% c("here", "bing") && mode != 'batch' ){
     mode <- 'single'
   }
   
@@ -224,7 +242,6 @@ reverse_geo <- function(lat, long, method = 'osm', address = address, limit = 1,
       See the geo() function documentation for details.')
     }
     
-    
     # Enforce batch limit if needed
     if (num_unique_coords > batch_limit) {
       stop(paste0(format(num_unique_coords, big.mark = ','), ' unique coordinates found which exceeds the batch limit of',
@@ -239,14 +256,11 @@ reverse_geo <- function(lat, long, method = 'osm', address = address, limit = 1,
     if (no_query == TRUE) return(unpackage_inputs(coord_pack, NA_value, 
                                                   unique_only, return_coords))
     
-    
     # call the appropriate function for batch geocoding according the the reverse_batch_func_map named list
     # if batch limit was exceeded then apply that limit
     batch_results <- do.call(reverse_batch_func_map[[method]], 
         c(list(lat = coord_pack$unique$lat, long = coord_pack$unique$long),
         all_args[!names(all_args) %in% c('lat', 'long')]))
-    
- 
     
     # if verbose = TRUE, tell user how long batch query took
     if (verbose == TRUE) {
@@ -271,9 +285,8 @@ reverse_geo <- function(lat, long, method = 'osm', address = address, limit = 1,
   # Set API URL (if not already set) ----------------------------------------
   if (is.null(api_url)) {
     api_url <- get_api_url(method, reverse = TRUE, geocodio_v = geocodio_v, iq_region = iq_region,
-                           mapbox_permanent = mapbox_permanent)
+                           mapbox_permanent = mapbox_permanent, mapquest_open = mapquest_open)
   }
-  if (length(api_url) == 0) stop('API URL not found')
   
   # Workaround for Mapbox/TomTom - The search_text should be in the url
   if (method %in%  c('mapbox', 'tomtom')) {
@@ -281,7 +294,10 @@ reverse_geo <- function(lat, long, method = 'osm', address = address, limit = 1,
     # Remove semicolons (Reserved for batch)
     api_url <- gsub(";", ",", api_url)
   }
-  
+  # Workaround for Bing - The search_text should be in the url
+  if (method %in%  c('bing')) {
+    api_url <- paste0(api_url, custom_query[["to_url"]])
+  }
   # Set min_time if not set based on usage limit of service
   if (is.null(min_time)) min_time <- get_min_query_time(method)
   
@@ -299,7 +315,7 @@ reverse_geo <- function(lat, long, method = 'osm', address = address, limit = 1,
                                                 NA_value, 
                                                 unique_only, return_coords))
   
-  query_results <- query_api(api_url, api_query_parameters)
+  query_results <- query_api(api_url, api_query_parameters, method = method)
   
   if (verbose == TRUE) message(paste0('HTTP Status Code: ', as.character(query_results$status)))
   
@@ -310,7 +326,7 @@ reverse_geo <- function(lat, long, method = 'osm', address = address, limit = 1,
     results <- NA_value
   }
   else {
-    results <- extract_reverse_results(method, jsonlite::fromJSON(query_results$content), full_results, flatten)
+    results <- extract_reverse_results(method, jsonlite::fromJSON(query_results$content), full_results, flatten, limit)
     # rename address column
     names(results)[1] <- address
   }
@@ -321,15 +337,3 @@ reverse_geo <- function(lat, long, method = 'osm', address = address, limit = 1,
 
   return(unpackage_inputs(coord_pack, results, unique_only, return_coords))
 }
-  
-### Test queries
-# a <- reverse_geo(lat = 38.895865, long = -77.0307713, method = 'osm', verbose = TRUE)
-# b <- reverse_geo(lat = 38.895865, long = -77.0307713, method = 'google', full_results = TRUE, verbose = TRUE)
-
-# c <- reverse_geo(lat = c(38.895865, 43.6534817, 300), long = c(-77.0307713, -79.3839347, 600), method = 'geocodio', full_results = TRUE, verbose = TRUE)
-
-# bq1 <- reverse_geocode(tibble::tibble(latitude = c(38.895865, 43.6534817, 700), longitude = c(-77.0307713, -79.3839347, 300)), 
-# lat = latitude, long = longitude, method = 'osm', full_results = TRUE, verbose = TRUE)
-
-# bl1 <- reverse_geocode(tibble::tibble(latitude = c(38.895865, 43.6534817, 35.0844), longitude = c(-77.0307713, -79.3839347, 106.6504)), 
-# lat = latitude, long = longitude, method = 'geocodio', full_results = TRUE, verbose = TRUE, batch_limit = 1)

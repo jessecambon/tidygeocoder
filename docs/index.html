@@ -90,7 +90,7 @@
 <div id="introduction" class="section level2">
 <h2 class="hasAnchor">
 <a href="#introduction" class="anchor"></a>Introduction</h2>
-<p>Tidygeocoder makes getting data from geocoder services easy. Both forward geocoding (providing addresses to obtain latitude and longitude) and reverse geocoding (providing latitude and longitude to obtain addresses) are supported. All results are returned in <a href="https://tibble.tidyverse.org/">tibble format</a> and the supported geocoder services are listed below.</p>
+<p>Tidygeocoder makes getting data from geocoder services easy. Both <em>forward geocoding</em> (providing addresses to obtain latitude and longitude) and <em>reverse geocoding</em> (providing latitude and longitude to obtain addresses) are supported. All results are returned in <a href="https://tibble.tidyverse.org/">tibble format</a> and the supported geocoder services are listed below.</p>
 <p>Batch geocoding (geocoding multiple addresses or coordinates per query) is used by default if supported by the geocoder service when multiple inputs (addresses or coordinates) are provided. Duplicate, missing/NA, and blank input data is handled elegantly - only unique inputs are passed to geocoder services, but the rows in the original data are preserved by default.</p>
 <p>In addition to the usage examples below you can refer to the following references:</p>
 <ul>
@@ -187,13 +187,20 @@
 <td>Yes</td>
 <td>5/second (free tier)</td>
 </tr>
+<tr class="even">
+<td><a href="https://developer.mapquest.com/documentation/geocoding-api/">MapQuest</a></td>
+<td>Worldwide</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>None</td>
+</tr>
 </tbody>
 </table>
 <p>Notes:</p>
 <ul>
 <li>The US Census service supports street-level addresses only (ie. “11 Wall St New York, NY” is OK but “New York, NY” is not).</li>
 <li>The US Census and Geocodio services both support a maximum of 10,000 addresses per batch query.</li>
-<li>The US Census and OSM services are free while Geocodio, Location IQ, OpenCage, Mapbox, HERE and TomTom are commercial services that offer both free and paid usage tiers. The Google service <a href="https://developers.google.com/maps/documentation/geocoding/usage-and-billing">bills per query</a>.</li>
+<li>The US Census and OSM services are free while Geocodio, Location IQ, OpenCage, Mapbox, HERE, TomTom and MapQuest are commercial services that offer both free and paid usage tiers. The Google service <a href="https://developers.google.com/maps/documentation/geocoding/usage-and-billing">bills per query</a>.</li>
 <li>The Census geocoder does not support reverse geocoding.</li>
 <li>The Mapbox service is capable of performing batch geocoding when using the <a href="https://docs.mapbox.com/api/search/geocoding/#batch-geocoding">permanent endpoint</a>, but this capability is not currently implemented in tidygeocoder. If you’d like to add this capability to the package see <a href="https://github.com/jessecambon/tidygeocoder/issues/73">issue #73</a>.</li>
 </ul>
@@ -514,6 +521,11 @@
 <h2 class="hasAnchor">
 <a href="#contributing" class="anchor"></a>Contributing</h2>
 <p>Contributions to the tidygeocoder package are welcome. File <a href="https://github.com/jessecambon/tidygeocoder/issues">an issue</a> for bug fixes or suggested features. If you would like to add support for a new geocoder service, reference <a href="https://github.com/jessecambon/tidygeocoder/issues/62#issue-777707424">this post</a> for instructions.</p>
+</div>
+<div id="citing-tidygeocoder" class="section level2">
+<h2 class="hasAnchor">
+<a href="#citing-tidygeocoder" class="anchor"></a>Citing tidygeocoder</h2>
+<p>To cite tidygeocoder in publications, refer to the <a href="https://jessecambon.github.io/tidygeocoder/authors.html">citation page</a>.</p>
 </div>
 </div>
   </div>

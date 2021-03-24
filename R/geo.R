@@ -6,7 +6,9 @@ batch_func_map <- list(
   geocodio = batch_geocodio, 
   census = batch_census,
   here = batch_here,
-  tomtom = batch_tomtom
+  tomtom = batch_tomtom,
+  mapquest = batch_mapquest,
+  bing = batch_bing
 )
 
 #' Geocode addresses
@@ -37,7 +39,8 @@ batch_func_map <- list(
 #' 
 #' @param method the geocoder service to be used. Refer to 
 #' \code{\link{api_parameter_reference}} and the API documentation for
-#' each geocoder service for usage details and limitations.
+#' each geocoder service for usage details and limitations. Run \code{usethis::edit_r_environ()}
+#' to open your .Renviron file for editing to add API keys as an environmental variables.
 #' \itemize{
 #'   \item \code{"census"}: US Census Geocoder. US street-level addresses only. 
 #'      Can perform batch geocoding.
@@ -61,6 +64,12 @@ batch_func_map <- list(
 #'   \item \code{"tomtom"}: Commercial TomTom geocoder service. Requires an API Key to
 #'      be stored in the "TOMTOM_API_KEY" environmental variable. Can perform 
 #'      batch geocoding.
+#'   \item \code{"mapquest"}: Commercial MapQuest geocoder service. Requires an 
+#'      API Key to be stored in the "MAPQUEST_API_KEY" environmental variable. 
+#'      Can perform batch geocoding.
+#'   \item \code{"bing"}: Commercial Bing geocoder service. Requires an 
+#'      API Key to be stored in the "BINGMAPS_API_KEY" environmental variable. 
+#'      Can perform batch geocoding.
 #'   \item \code{"arcgis"}: Commercial ArcGIS geocoder service.
 #'   \item \code{"cascade"} : Attempts to use one geocoder service and then uses
 #'     a second geocoder service if the first service didn't return results.
@@ -73,8 +82,7 @@ batch_func_map <- list(
 #'  (ie. \code{c('census', 'geocodio')})
 #' @param lat latitude column name. Can be quoted or unquoted (ie. lat or 'lat').
 #' @param long longitude column name. Can be quoted or unquoted (ie. long or 'long').
-#' @param limit number of results to return per address. Note that not all methods support
-#'  setting limit to a value other than 1. Also limit > 1 is not compatible 
+#' @param limit number of results to return per address. limit > 1 is not compatible 
 #'  with batch geocoding if return_addresses = TRUE.
 #' @param min_time minimum amount of time for a query to take (in seconds). If NULL
 #' then min_time will be set to the lowest value that complies with the usage requirements of 
@@ -87,7 +95,7 @@ batch_func_map <- list(
 #'  force single address geocoding (one address per query). If not 
 #'  specified then batch geocoding will be used if available
 #'  (given method selected) when multiple addresses are provided; otherwise
-#'  single address geocoding will be used. For 'here' the batch mode
+#'  single address geocoding will be used. For 'here' and 'bing' the batch mode
 #'  should be explicitly enforced.
 
 #' @param full_results returns all data from the geocoder service if TRUE. 
@@ -101,7 +109,8 @@ batch_func_map <- list(
 #'    Note that Geocodio batch geocoding results are flattened regardless.
 #' @param batch_limit limit to the number of addresses in a batch geocoding query.
 #'  'geocodio', 'census' and 'tomtom' batch geocoders have a 10,000 address limit so this
-#'  is the default. 'here' has a 1,000,000 address limit.
+#'  is the default. 'here' has a 1,000,000 address limit. 'mapquest' has a 100 address
+#'  limit. 'bing' as a 50 address limit.
 #' @param batch_limit_error if TRUE then an error is thrown if the number of unique addresses
 #'  exceeds the batch limit (if executing a batch query). This is reverted to FALSE when using the
 #'  cascade method.
@@ -131,6 +140,8 @@ batch_func_map <- list(
 #'   when \code{verbose} is TRUE. Note that this option would ignore the 
 #'   current \code{address} parameter on the request, so \code{return_addresses} 
 #'   needs to be FALSE.
+#' @param mapquest_open if TRUE then MapQuest would use the Open Geocoding 
+#'   endpoint, that relies solely on data contributed to OpenStreetMap.
 #'    
 #' @return parsed geocoding results in tibble format
 #' @examples
@@ -153,7 +164,8 @@ geo <- function(address = NULL,
     mode = '', full_results = FALSE, unique_only = FALSE, return_addresses = TRUE, 
     flatten = TRUE, batch_limit = 10000, batch_limit_error = TRUE, verbose = FALSE, no_query = FALSE, 
     custom_query = list(), return_type = 'locations', iq_region = 'us', geocodio_v = 1.6, 
-    param_error = TRUE, mapbox_permanent = FALSE, here_request_id = NULL) {
+    param_error = TRUE, mapbox_permanent = FALSE, here_request_id = NULL,
+    mapquest_open = FALSE) {
 
   # NSE - Quote unquoted vars without double quoting quoted vars
   # end result - all of these variables become character values
@@ -177,7 +189,8 @@ geo <- function(address = NULL,
             is.numeric(limit), is.numeric(batch_limit), is.logical(batch_limit_error), is.numeric(timeout),
             limit >= 1, batch_limit >= 1, timeout >= 0, is.list(custom_query),
             is.logical(mapbox_permanent), 
-            is.null(here_request_id) || is.character(here_request_id))
+            is.null(here_request_id) || is.character(here_request_id),
+            is.logical(mapquest_open))
   
   if (!(method %in% c('cascade', method_services))) {
     stop('Invalid method argument. See ?geo')
@@ -264,7 +277,9 @@ geo <- function(address = NULL,
   
   # determine if an illegal limit parameter value was used (ie. if limit !=1
   # then the method API must have a limit parameter)
-  if ((limit != 1) & (!('limit' %in% legal_parameters))) {
+  # Google has a special limit passthrough to the extract_results function even though limit is not
+  # a legal API parameter
+  if ((limit != 1) & (!('limit' %in% legal_parameters) & (!method %in% c('census', 'google')))) {
     illegal_limit_message <- paste0('The limit parameter must be set to 1 (the default) because the "',  method,'" ',
                                     'method API service does not support a limit argument.\n\n',
                                     'See ?api_parameter_reference for more details.')
@@ -278,10 +293,10 @@ geo <- function(address = NULL,
   # OR the user has explicitly specified single address geocoding then call the 
   # single address geocoder in a loop (ie. recursively call this function)
   
-  # HERE Exception
+  # HERE/Bing Exception
   # Batch mode is quite slow. If batch mode is not called explicitly
   # use single method
-  if (method == "here" && mode != 'batch' ){
+  if (method %in% c("here", "bing") && mode != 'batch' ){
     mode <- 'single'
   }
   
@@ -408,7 +423,7 @@ geo <- function(address = NULL,
   if (is.null(api_url)) {
     api_url <- get_api_url(method, reverse = FALSE, return_type = return_type,
                 search = search, geocodio_v = geocodio_v, iq_region = iq_region, 
-                mapbox_permanent = mapbox_permanent)
+                mapbox_permanent = mapbox_permanent, mapquest_open = mapquest_open)
   }
   
   # Workaround for Mapbox/TomTom - The search_text should be in the API URL
@@ -432,7 +447,7 @@ geo <- function(address = NULL,
   
   # return NA results if no_query = TRUE
   if (no_query == TRUE) return(unpackage_inputs(address_pack, NA_value, unique_only, return_addresses))
-  query_results <- query_api(api_url, api_query_parameters)
+  query_results <- query_api(api_url, api_query_parameters, method = method)
   
   if (verbose == TRUE) message(paste0('HTTP Status Code: ', as.character(query_results$status)))
   
@@ -445,7 +460,7 @@ geo <- function(address = NULL,
   else {
     # Extract results. Use the full_results and flatten parameters
     # to control the output
-    results <- extract_results(method, jsonlite::fromJSON(query_results$content), full_results, flatten)
+    results <- extract_results(method, jsonlite::fromJSON(query_results$content), full_results, flatten, limit)
     
     # Name the latitude and longitude columns in accordance with lat/long arguments
     names(results)[1] <- lat

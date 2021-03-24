@@ -39,7 +39,16 @@ geo_tomtom <- function(...) geo(method = 'tomtom', ...)
 
 #'@rdname geo_census
 #' @export
+geo_mapquest <- function(...) geo(method = 'mapquest', ...)
+
+#'@rdname geo_census
+#' @export
+geo_bing <- function(...) geo(method = 'bing', ...)
+
+#'@rdname geo_census
+#' @export
 geo_arcgis <- function(...) geo(method = 'arcgis', ...)
+
 
 #' Convenience function for calling the \code{\link{geo}} function
 #' with method = 'cascade'

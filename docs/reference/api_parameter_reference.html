@@ -53,7 +53,11 @@ are not in this dataset and are instead handled directly by the reverse_geo func
 The generic_name column is a universal parameter name that is shared between services.
 The api_name column is the parameter name for the given geocoder service specified by the
 method column. When generic_name is missing 
-this means the parameter is specific to that geocoder service. 
+this means the parameter is specific to that geocoder service.
+Note that while the &quot;census&quot; and &quot;google&quot; services do not have a limit
+argument in their APIs, tidygeocoder provides a passthrough so you can still
+use the limit argument in geo and reverse_geo to limit the 
+number of result per input. 
 Reference the documentation for geo for more information. 
 Also reference vignette(&quot;tidygeocoder&quot;) for more details on constructing API queries." />
 
@@ -148,7 +152,11 @@ are not in this dataset and are instead handled directly by the <code>reverse_ge
 <p>The <code>generic_name</code> column is a universal parameter name that is shared between services.
 The <code>api_name</code> column is the parameter name for the given geocoder service specified by the
 <code>method</code> column. When <code>generic_name</code> is missing 
-this means the parameter is specific to that geocoder service.</p> 
+this means the parameter is specific to that geocoder service.</p>
+<p>Note that while the "census" and "google" services do not have a <code>limit</code>
+argument in their APIs, tidygeocoder provides a passthrough so you can still
+use the <code>limit</code> argument in <code>geo</code> and <code>reverse_geo</code> to limit the 
+number of result per input.</p> 
 <p>Reference the documentation for <code><a href='geo.html'>geo</a></code> for more information. 
 Also reference <code><a href='../articles/tidygeocoder.html'>vignette("tidygeocoder")</a></code> for more details on constructing API queries.</p>
     </div>
@@ -179,6 +187,7 @@ Also reference <code><a href='../articles/tidygeocoder.html'>vignette("tidygeoco
 <li><p><a href='https://docs.mapbox.com/api/search/geocoding/'>Mapbox</a></p></li>
 <li><p><a href='https://developer.here.com/documentation/geocoding-search-api/dev_guide/index.html'>HERE</a></p></li>
 <li><p><a href='https://developer.tomtom.com/search-api/search-api-documentation-geocoding/geocode'>TomTom</a></p></li>
+<li><p><a href='https://developer.mapquest.com/documentation/geocoding-api/'>MapQuest</a></p></li>
 </ul>
 
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>

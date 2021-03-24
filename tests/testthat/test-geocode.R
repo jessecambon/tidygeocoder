@@ -35,6 +35,8 @@ test_that("geocode null/empty addresses", {
   expect_identical(geo_mapbox(" ", return_addresses = FALSE, no_query = TRUE), NA_result)
   expect_identical(geo_here(" ", return_addresses = FALSE, no_query = TRUE), NA_result)
   expect_identical(geo_tomtom(" ", return_addresses = FALSE, no_query = TRUE), NA_result)
+  expect_identical(geo_mapquest(" ", return_addresses = FALSE, no_query = TRUE), NA_result)
+  expect_identical(geo_bing(" ", return_addresses = FALSE, no_query = TRUE), NA_result)
   expect_identical(geo_arcgis(" ", return_addresses = FALSE, no_query = TRUE), NA_result)
   
   # Test with tibble
@@ -53,6 +55,8 @@ test_that("geocode null/empty addresses", {
   expect_identical(colnames(geocode(NA_data, addr, method = 'mapbox', no_query = TRUE)), expected_colnames)
   expect_identical(colnames(geocode(NA_data, addr, method = 'here', no_query = TRUE)), expected_colnames)
   expect_identical(colnames(geocode(NA_data, addr, method = 'tomtom', no_query = TRUE)), expected_colnames)
+  expect_identical(colnames(geocode(NA_data, addr, method = 'mapquest', no_query = TRUE)), expected_colnames)
+  expect_identical(colnames(geocode(NA_data, addr, method = 'bing', no_query = TRUE)), expected_colnames)
   expect_identical(colnames(geocode(NA_data, addr, method = 'arcgis', no_query = TRUE)), expected_colnames)
   
   # make sure geo_method is NA when address is NA
@@ -63,7 +67,9 @@ test_that("geocode null/empty addresses", {
   expect_equal(nrow(geocode(NA_data, addr, method = 'here', no_query = TRUE)), nrow(NA_data))
   expect_equal(nrow(geocode(NA_data, addr, method = 'tomtom', no_query = TRUE)), nrow(NA_data))
   expect_equal(nrow(geocode(NA_data, addr, method = 'arcgis', no_query = TRUE)), nrow(NA_data))
-  
+  expect_equal(nrow(geocode(NA_data, addr, method = 'mapquest', no_query = TRUE)), nrow(NA_data))
+  expect_equal(nrow(geocode(NA_data, addr, method = 'bing', no_query = TRUE)), nrow(NA_data))
+
   # Test batch limit detection and error/warning toggling
   expect_error(geo(address = as.character(seq(1, 10)), 
                    method = 'census', batch_limit = 5, no_query = TRUE, batch_limit_error = TRUE))
@@ -71,13 +77,23 @@ test_that("geocode null/empty addresses", {
                    method = 'here', batch_limit = 5, no_query = TRUE, batch_limit_error = TRUE))
   expect_error(geo(address = as.character(seq(1, 10)), 
                    method = 'tomtom', batch_limit = 5, no_query = TRUE, batch_limit_error = TRUE))
+  expect_error(geo(address = as.character(seq(1, 10)), 
+                   method = 'mapquest', batch_limit = 5, no_query = TRUE, batch_limit_error = TRUE))
+  expect_error(geo(address = as.character(seq(1, 10)), 
+                   method = 'bing', batch_limit = 5, no_query = TRUE, batch_limit_error = TRUE, mode = 'batch'))
+  
   expect_warning(geo(address = as.character(seq(1, 10)), 
                      method = 'census', batch_limit = 5, no_query = TRUE, batch_limit_error = FALSE))
   expect_warning(geo(address = as.character(seq(1, 10)), mode = 'batch',
                      method = 'here', batch_limit = 5, no_query = TRUE, batch_limit_error = FALSE))
   expect_warning(geo(address = as.character(seq(1, 10)),
                      method = 'tomtom', batch_limit = 5, no_query = TRUE, batch_limit_error = FALSE))
-  # batch_limit_error should revert to FALSE with method = 'cascade'
+  expect_warning(geo(address = as.character(seq(1, 10)),
+                     method = 'mapquest', batch_limit = 5, no_query = TRUE, batch_limit_error = FALSE))
+  expect_warning(geo(address = as.character(seq(1, 10)),
+                     method = 'bing', batch_limit = 5, no_query = TRUE, batch_limit_error = FALSE, mode = 'batch'))
+  
+   # batch_limit_error should revert to FALSE with method = 'cascade'
   expect_warning(geo(address = as.character(seq(1, 10)), 
                      method = 'cascade', batch_limit = 5, no_query = TRUE, batch_limit_error = TRUE))
 })
@@ -101,10 +117,10 @@ test_that("Test geo() error handling", {
   
   # invalid parameters for the census service (country and limit != 1)
   expect_error(geo('yz', no_query = TRUE, country = 'abc', method = 'census'))
-  expect_error(geo('yz', no_query = TRUE, limit = 5, method = 'census'))
+  #expect_error(geo('yz', no_query = TRUE, limit = 5, method = 'census'))
   
-  # improper limit value for census but param_error = FALSE and verbose = TRUE so we expect a message
-  expect_warning(geo('yz', no_query = TRUE, limit = 5, method = 'census', verbose = TRUE, param_error = FALSE))
+  # improper argument value for census but param_error = FALSE so we expect a message
+  #expect_warning(geo(no_query = TRUE, country = 'abc', method = 'census', verbose = FALSE, param_error = FALSE))
   
   # improper parameters for cascade (limit !=1 and full_results = TRUE)
   expect_error(geo('xy', no_query = TRUE, full_results = TRUE, method = 'cascade'))

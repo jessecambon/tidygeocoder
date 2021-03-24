@@ -23,9 +23,9 @@ Month](http://cranlogs.r-pkg.org/badges/tidygeocoder)](https://cran.r-project.or
 ## Introduction
 
 Tidygeocoder makes getting data from geocoder services easy. Both
-forward geocoding (providing addresses to obtain latitude and longitude)
-and reverse geocoding (providing latitude and longitude to obtain
-addresses) are supported. All results are returned in [tibble
+*forward geocoding* (providing addresses to obtain latitude and
+longitude) and *reverse geocoding* (providing latitude and longitude to
+obtain addresses) are supported. All results are returned in [tibble
 format](https://tibble.tidyverse.org/) and the supported geocoder
 services are listed below.
 
@@ -87,6 +87,8 @@ and usage limitations.
 | [Mapbox](https://docs.mapbox.com/api/search/)                                                           | Worldwide     | See Note        | Yes              | 10/second (free tier)   |
 | [HERE](https://developer.here.com/products/geocoding-and-search)                                        | Worldwide     | Yes             | Yes              | None                    |
 | [TomTom](https://developer.tomtom.com/search-api/search-api-documentation/geocoding)                    | Worldwide     | Yes             | Yes              | 5/second (free tier)    |
+| [MapQuest](https://developer.mapquest.com/documentation/geocoding-api/)                                 | Worldwide     | Yes             | Yes              | None                    |
+| [Bing](https://docs.microsoft.com/en-us/bingmaps/rest-services/locations/)                              | Worldwide     | Yes             | Yes              | None                    |
 | [ArcGIS](https://developers.arcgis.com/rest/geocode/api-reference/overview-world-geocoding-service.htm) | Worldwide     | See Note        | See Note         | None                    |
 
 Notes:
@@ -96,8 +98,9 @@ Notes:
 -   The US Census and Geocodio services both support a maximum of 10,000
     addresses per batch query.
 -   The US Census and OSM services are free while Geocodio, Location IQ,
-    OpenCage, Mapbox, HERE and TomTom are commercial services that offer
-    both free and paid usage tiers. The Google service [bills per
+    OpenCage, Mapbox, HERE, TomTom, MapQuest and Bing are commercial
+    services that offer both free and paid usage tiers. The Google
+    service [bills per
     query](https://developers.google.com/maps/documentation/geocoding/usage-and-billing).
 -   The Census geocoder does not support reverse geocoding.
 -   The Mapbox service is capable of performing batch geocoding when
@@ -209,11 +212,11 @@ rev1 <- coordinates %>%
                   address = address_found, full_results = TRUE)
 ```
 
-| latitude |  longitude | address\_found                                                                                                                                     | place\_id | licence                                                                  | osm\_type |   osm\_id | osm\_lat           | osm\_lon            | tourism         | road                     | city        | state                | postcode   | country       | country\_code | boundingbox                                        | amenity           | house\_number | neighbourhood      | quarter           | state\_district  | building        | suburb               | county            |
+| latitude |  longitude | address\_found                                                                                                                                     | place\_id | licence                                                                  | osm\_type |   osm\_id | lat                | lon                 | tourism         | road                     | city        | state                | postcode   | country       | country\_code | boundingbox                                        | amenity           | house\_number | neighbourhood      | quarter           | state\_district  | building        | suburb               | county            |
 |---------:|-----------:|:---------------------------------------------------------------------------------------------------------------------------------------------------|----------:|:-------------------------------------------------------------------------|:----------|----------:|:-------------------|:--------------------|:----------------|:-------------------------|:------------|:---------------------|:-----------|:--------------|:--------------|:---------------------------------------------------|:------------------|:--------------|:-------------------|:------------------|:-----------------|:----------------|:---------------------|:------------------|
-| 38.89587 |  -77.03077 | L’Enfant’s plan, Pennsylvania Avenue, Washington, District of Columbia, 20045, United States                                                       | 302200006 | Data © OpenStreetMap contributors, ODbL 1.0. <https://osm.org/copyright> | way       | 899927546 | 38.895859599999994 | -77.0306779870984   | L’Enfant’s plan | Pennsylvania Avenue      | Washington  | District of Columbia | 20045      | United States | us            | 38.8957273 , 38.8959688 , -77.0311667, -77.0301895 | NA                | NA            | NA                 | NA                | NA               | NA              | NA                   | NA                |
-| 43.65348 |  -79.38393 | Toronto City Hall, 100, Queen Street West, Financial District, Spadina—Fort York, Old Toronto, Toronto, Golden Horseshoe, Ontario, M5H 2N2, Canada | 137105159 | Data © OpenStreetMap contributors, ODbL 1.0. <https://osm.org/copyright> | way       | 198500761 | 43.6536032         | -79.38400547469666  | NA              | Queen Street West        | Old Toronto | Ontario              | M5H 2N2    | Canada        | ca            | 43.6529946 , 43.6541458 , -79.3848438, -79.3830415 | Toronto City Hall | 100           | Financial District | Spadina—Fort York | Golden Horseshoe | NA              | NA                   | NA                |
-| 35.08440 | -106.65040 | Market Building, 301, Central Avenue Northwest, Downtown Albuquerque, Albuquerque, Bernalillo County, New Mexico, 87102-3116, United States        | 189380691 | Data © OpenStreetMap contributors, ODbL 1.0. <https://osm.org/copyright> | way       | 437189749 | 35.0846948         | -106.65064483238235 | NA              | Central Avenue Northwest | Albuquerque | New Mexico           | 87102-3116 | United States | us            | 35.08451 , 35.084941 , -106.6508398, -106.6504144  | NA                | 301           | NA                 | NA                | NA               | Market Building | Downtown Albuquerque | Bernalillo County |
+| 38.89587 |  -77.03077 | L’Enfant’s plan, Pennsylvania Avenue, Washington, District of Columbia, 20045, United States                                                       | 301711857 | Data © OpenStreetMap contributors, ODbL 1.0. <https://osm.org/copyright> | way       | 899927546 | 38.895859599999994 | -77.0306779870984   | L’Enfant’s plan | Pennsylvania Avenue      | Washington  | District of Columbia | 20045      | United States | us            | 38.8957273 , 38.8959688 , -77.0311667, -77.0301895 | NA                | NA            | NA                 | NA                | NA               | NA              | NA                   | NA                |
+| 43.65348 |  -79.38393 | Toronto City Hall, 100, Queen Street West, Financial District, Spadina—Fort York, Old Toronto, Toronto, Golden Horseshoe, Ontario, M5H 2N2, Canada | 137497520 | Data © OpenStreetMap contributors, ODbL 1.0. <https://osm.org/copyright> | way       | 198500761 | 43.6536032         | -79.38400547469666  | NA              | Queen Street West        | Old Toronto | Ontario              | M5H 2N2    | Canada        | ca            | 43.6529946 , 43.6541458 , -79.3848438, -79.3830415 | Toronto City Hall | 100           | Financial District | Spadina—Fort York | Golden Horseshoe | NA              | NA                   | NA                |
+| 35.08440 | -106.65040 | Market Building, 301, Central Avenue Northwest, Downtown Albuquerque, Albuquerque, Bernalillo County, New Mexico, 87102-3116, United States        | 190582070 | Data © OpenStreetMap contributors, ODbL 1.0. <https://osm.org/copyright> | way       | 437189749 | 35.0846948         | -106.65064483238235 | NA              | Central Avenue Northwest | Albuquerque | New Mexico           | 87102-3116 | United States | us            | 35.08451 , 35.084941 , -106.6508398, -106.6504144  | NA                | 301           | NA                 | NA                | NA               | Market Building | Downtown Albuquerque | Bernalillo County |
 
 For further documentation, refer to the [Getting Started
 Vignette](https://jessecambon.github.io/tidygeocoder/articles/tidygeocoder.html)
@@ -228,3 +231,8 @@ or suggested features. If you would like to add support for a new
 geocoder service, reference [this
 post](https://github.com/jessecambon/tidygeocoder/issues/62#issue-777707424)
 for instructions.
+
+## Citing tidygeocoder
+
+To cite tidygeocoder in publications, refer to the [citation
+page](https://jessecambon.github.io/tidygeocoder/authors.html).

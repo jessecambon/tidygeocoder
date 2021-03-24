@@ -32,6 +32,11 @@
 #' The \code{api_name} column is the parameter name for the given geocoder service specified by the
 #'\code{method} column. When \code{generic_name} is missing 
 #' this means the parameter is specific to that geocoder service.
+#' 
+#' Note that while the "census" and "google" services do not have a \code{limit}
+#' argument in their APIs, tidygeocoder provides a passthrough so you can still
+#' use the \code{limit} argument in \code{geo} and \code{reverse_geo} to limit the 
+#' number of result per input.
 #'  
 #' Reference the documentation for \code{\link{geo}} for more information. 
 #' Also reference \code{vignette("tidygeocoder")} for more details on constructing API queries.
@@ -57,6 +62,8 @@
 #'  \item \href{https://docs.mapbox.com/api/search/geocoding/}{Mapbox}
 #'  \item \href{https://developer.here.com/documentation/geocoding-search-api/dev_guide/index.html}{HERE}
 #'  \item \href{https://developer.tomtom.com/search-api/search-api-documentation-geocoding/geocode}{TomTom}
+#'  \item \href{https://developer.mapquest.com/documentation/geocoding-api/}{MapQuest}
+#'  \item \href{https://docs.microsoft.com/en-us/bingmaps/rest-services/locations/}{Bing}
 #'  \item \href{https://developers.arcgis.com/rest/geocode/api-reference/overview-world-geocoding-service.htm}{ArcGIS}
 #' }     
 "api_parameter_reference"

@@ -227,7 +227,7 @@ reverse_batch_here <- function(lat, long, address = 'address', timeout = 20, ful
 
 
 # Reverse Batch geocoding with tomtom
-# ... are arguments passed from the geo() function
+# ... are arguments passed from the reverse_geo() function
 # https://developer.tomtom.com/search-api/search-api-documentation-batch-search/asynchronous-batch-submission
 reverse_batch_tomtom <- function(lat, long, address = 'address', timeout = 20, full_results = FALSE, custom_query = list(),
                                  verbose = FALSE, api_url = NULL, limit = 1, ...) {
@@ -345,6 +345,291 @@ reverse_batch_tomtom <- function(lat, long, address = 'address', timeout = 20, f
   results <- tibble::as_tibble(cbind(results, tomtom_address))
   
   names(results)[names(results) == 'freeformAddress'] <- address
+  
+  if (full_results == FALSE) return(results[address])
+  else return(cbind(results[address], results[!names(results) %in% c(address)]))
+  
+}
+
+
+# Reverse Batch geocoding with mapquest
+# ... are arguments passed from the reverse_geo() function
+# https://developer.mapquest.com/documentation/geocoding-api/batch/post/
+reverse_batch_mapquest <- function(lat, long, address = 'address', timeout = 20, full_results = FALSE, custom_query = list(),
+                                   verbose = FALSE, api_url = NULL, mapquest_open = FALSE, limit = 1, ...) {
+
+
+  latLng <- as.character(paste0(lat, ',', long))
+  
+  NA_value <- get_na_value(address, "xxx", rows = length(latLng))[address] # filler result to return if needed
+  
+  # Construct query
+  # Depends if single or multiple query
+  
+  # Single: Now allowed on batch, return a single query ----
+  if (length(latLng) == 1) {
+    results <- reverse_geo(lat = lat, long = long, mode = 'single', method = 'mapquest',
+                           full_results = full_results, custom_query = custom_query, 
+                           verbose = verbose, api_url = api_url, limit = limit, 
+                           mapquest_open = mapquest_open)
+    
+    # rename lat/long columns
+    names(results)[names(results) == 'address'] <- address
+    
+    return(results[!names(results) %in% c('lat', 'long')])
+  }
+  
+  # Multiple via POST ----
+  # https://developer.mapquest.com/documentation/geocoding-api/batch/post/
+  if (is.null(api_url)) {
+    url_domain <- if (mapquest_open) "http://open" else  "http://www"
+    
+    api_url <- paste0(url_domain, ".mapquestapi.com/geocoding/v1/batch")
+  }
+  
+  # Construct query - for display only
+  
+  query_parameters <- get_api_query("mapquest", 
+                                    list(limit = limit, api_key = get_key("mapquest")),
+                                    custom_parameters = custom_query)
+  
+  if (verbose == TRUE) display_query(api_url, query_parameters)
+  
+  # https://developer.mapquest.com/documentation/geocoding-api/batch/post/
+  # Construct POST query
+  
+  # A. Only certain parameters should be in the POST call----
+  
+  body_params <- query_parameters[!names(query_parameters) %in% c("key", "callback")]
+  query_parameters <- query_parameters[names(query_parameters) %in% c("key", "callback")]
+  
+  # B. Construct Body----
+  coords_list <- list(
+    locations = latLng,
+    options = body_params
+  )
+  
+  ## Query API ----
+  
+  query_results <- query_api(api_url, query_parameters, mode = "list",
+                             input_list = coords_list, timeout = timeout)
+  
+  # C. Error handling----
+  # Parse result code
+  if (jsonlite::validate(query_results$content)) {
+    status_code <- jsonlite::fromJSON(query_results$content, flatten = TRUE)$info$statuscode
+  } else {
+    status_code <- query_results$status
+  }
+  # Successful status_code is 0
+  if (status_code == "0") status_code <- "200"
+  status_code <- as.character(status_code)
+  
+  if (verbose == TRUE) message(paste0("HTTP Status Code: ", as.character(status_code)))
+  
+  ## Extract results -----------------------------------------------------------------------------------
+  # if there were problems with the results then return NA
+  if (status_code != "200") {
+    if (!jsonlite::validate(query_results$content)) {
+      # in cases like this, display the raw content but limit the length
+      # in case it is really long.
+      message(paste0("Error: ", strtrim(as.character(query_results$content), 100)))
+    } else {
+      # Parse and get message
+      content <- jsonlite::fromJSON(query_results$content, flatten = TRUE)
+      if (!is.null(content$info$messages)) message(paste0("Error: ", content$info$messages))
+    }
+    # Return empty and exit
+    return(NA_value)
+  }
+  # D. On valid API response-----
+  
+  # Note that flatten here is necessary in order to get rid of the
+  # nested dataframes that would cause dplyr::bind_rows (or rbind) to fail
+  content <- jsonlite::fromJSON(query_results$content, flatten = TRUE)
+  
+  # combine list of dataframes into a single tibble. Column names may differ between the dataframes
+  result_list <- content$results$locations
+  result_list_filled <- lapply(result_list, filler_df, c('street'))
+  results <- dplyr::bind_rows(result_list_filled)
+  
+  # Format address
+  frmt_address <- format_address(results, c('street', paste0('adminArea', seq(6, 1))))
+  results <- tibble::as_tibble(cbind(frmt_address, results))
+  
+  names(results)[names(results) == 'formatted_address'] <- address
+  
+  if (full_results == FALSE)  return(results[address])
+  else return(cbind(results[address], results[!names(results) %in% c(address)]))  
+}
+
+# Reverse Batch geocoding with Bing
+# ... are arguments passed from the reverse_geo() function
+# https://docs.microsoft.com/es-es/bingmaps/spatial-data-services/geocode-dataflow-api/
+reverse_batch_bing <- function(lat, long, address = 'address', timeout = 20, full_results = FALSE, custom_query = list(),
+                                   verbose = FALSE, api_url = NULL, ...) {
+  # Specific endpoint
+  if (is.null(api_url)) api_url <- 'http://spatial.virtualearth.net/REST/v1/Dataflows/Geocode'
+  
+  
+  latlon_df <- tibble::tibble(Id = seq_len(length(lat)),
+                              Latitude = lat,
+                              Longitude = long)
+  names(latlon_df) <- c("Id", "ReverseGeocodeRequest/Location/Latitude", 
+                        "ReverseGeocodeRequest/Location/Longitude")
+  
+  # filler result to return if needed
+  NA_batch <- get_na_value(address, "xxx", rows = nrow(latlon_df))[address]
+  
+  # Construct query ----
+  # Bing needs a special list of params
+  # https://docs.microsoft.com/es-es/bingmaps/spatial-data-services/geocode-dataflow-api/
+  query_parameters <- get_api_query('bing',
+                                    list(api_key = get_key('bing')),
+                                    custom_parameters = list(input = 'pipe')
+  )
+  if (verbose == TRUE) display_query(api_url, query_parameters)
+  
+  # Create body of the POST request----
+  # Needs to have Id and some fields, already on latlon_df
+  # Also needs to add response fields
+  response_fields <- c('GeocodeResponse/Address/AddressLine',
+                       'GeocodeResponse/Address/AdminDistrict',
+                       'GeocodeResponse/Address/CountryRegion',
+                       'GeocodeResponse/Address/AdminDistrict2',
+                       'GeocodeResponse/Address/FormattedAddress',  
+                       'GeocodeResponse/Address/Locality',
+                       'GeocodeResponse/Address/PostalCode',
+                       'GeocodeResponse/Address/PostalTown',
+                       'GeocodeResponse/Address/Neighborhood',
+                       'GeocodeResponse/Address/Landmark',
+                       'GeocodeResponse/Confidence',
+                       'GeocodeResponse/Name',
+                       'GeocodeResponse/EntityType',
+                       'GeocodeResponse/MatchCodes',
+                       'GeocodeResponse/Point/Latitude',
+                       'GeocodeResponse/Point/Longitude',
+                       'GeocodeResponse/BoundingBox/SouthLatitude',
+                       'GeocodeResponse/BoundingBox/WestLongitude',
+                       'GeocodeResponse/BoundingBox/NorthLatitude',
+                       'GeocodeResponse/BoundingBox/EastLongitude')  
+  
+  # Create mock cols
+  mock <- as.data.frame(
+    matrix(data="", ncol=length(response_fields), nrow = nrow(latlon_df))
+  )
+  names(mock) <- response_fields
+  
+  # Create tibble for body
+  latlon_body <- dplyr::bind_cols(latlon_df, mock)
+  
+  # Create file
+  body_file <- tempfile()
+  cat("Bing Spatial Data Services, 2.0", file=body_file, append=FALSE, sep = "\n")
+  cat(paste0(names(latlon_body), collapse = "|"), file=body_file, append=TRUE, sep = "\n")
+  for (j in (seq_len(nrow(latlon_body)))){
+    body <- paste0(latlon_body[j, ], collapse = "|")
+    body <- gsub('NA','',body)
+    cat(body, file=body_file, append=TRUE, sep = "\n")
+  }
+  # Body created on body_file
+  
+  # Step 1: Run job and retrieve id ----
+  # Modification from query_api function
+  if (verbose) message('\nBing: Batch job:')
+  
+  # Batch timer
+  init_process <- Sys.time()
+  job <- httr::POST(api_url,
+                    query = query_parameters,
+                    body = httr::upload_file(body_file),
+                    httr::timeout(60 * timeout)
+  )
+  httr::warn_for_status(job)
+  status_code <- httr::status_code(job)
+  job_result <- httr::content(job)
+  
+  # On error return NA
+  if (status_code != '201'){
+    if (verbose) message(paste0("Error: ", job_result$errorDetails))  
+    return(NA_batch)
+  }
+  
+  jobID <- job_result$resourceSets[[1]]$resources[[1]]$id
+  
+  # Step 2: Check job until is done ----
+  if (verbose) {
+    httr::message_for_status(job)
+    # Force new line
+    message()
+  }
+  
+  current_status <- ''
+  
+  while (current_status %in%  c('Pending', '')) {
+    Sys.sleep(3) # Arbitrary, 3sec
+    status <- httr::GET(url = paste0(api_url, '/', jobID),
+                        query = list(key = get_key('bing'))
+    )
+    status_get <- httr::content(status)
+    
+    prev_status <- current_status
+    current_status <- status_get$resourceSets[[1]]$resources[[1]]$status
+    
+    if (verbose && prev_status != current_status){
+      message(paste0("Bing: ",current_status))
+    }
+  }
+  
+  status_results <- status_get$resourceSets[[1]]$resources[[1]]
+  process <- as.integer(status_results$processedEntityCount)
+  errors <- as.integer(status_results$failedEntityCount)
+  succees <- process - errors
+  
+  if (verbose) {
+    httr::message_for_status(job)
+    # Force new line
+    message()
+    message(paste0('Bing: Processed: ', process,
+                   " | Succeeded: ", succees,
+                   " | Failed: ", errors))
+  }
+  
+  update_time_elapsed <- get_seconds_elapsed(init_process)
+  
+  if (verbose) print_time('Bing: Batch job processed in', update_time_elapsed)
+  
+  
+  # Step 3: GET results and parse ----
+  links <- status_get$resourceSets[[1]]$resources[[1]]$links
+  
+  # If not succeeded return NA
+  if (process == errors){
+    if (verbose) message("Bing: All failed")
+    return(NA_batch)
+  }
+  
+  # Download and parse succeeded results
+  
+  batch_results <-
+    httr::GET(url = links[[2]]$url,
+              query = list(key = get_key('bing'))
+    )
+  
+  result_content <- httr::content(batch_results, as = 'text', encoding = 'UTF-8')
+  
+  # Skip first line
+  result_parsed <- tibble::as_tibble(utils::read.table(text = result_content,
+                                                       skip = 1,
+                                                       header = TRUE, 
+                                                       sep = "|"))
+  # Merge to original latlons and output----
+  base <- tibble::as_tibble(latlon_df)
+  results <- merge(base["Id"], 
+                   result_parsed, 
+                   all.x = TRUE)
+  
+  names(results)[names(results) == 'GeocodeResponse.Address.FormattedAddress'] <- address
   
   if (full_results == FALSE) return(results[address])
   else return(cbind(results[address], results[!names(results) %in% c(address)]))

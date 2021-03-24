@@ -11,7 +11,8 @@ query_api(
   batch_file = NULL,
   input_list = NULL,
   content_encoding = "UTF-8",
-  timeout = 20
+  timeout = 20,
+  method = ""
 )
 }
 \arguments{
@@ -33,6 +34,8 @@ should be 'json' for geocodio and 'multipart' for census}
 \item{content_encoding}{Encoding to be used for parsing content}
 
 \item{timeout}{timeout in minutes}
+
+\item{method}{if 'mapquest' then the query status code is changed appropriately}
 }
 \value{
 a named list containing the response content (\code{content}) and the HTTP request status (\code{status})

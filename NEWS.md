@@ -3,14 +3,17 @@
 ### New Features
 -   Added support for reverse geocoding with the new `reverse_geo()` and `reverse_geocode()` functions. 
 -   Added support for the [OpenCage](https://opencagedata.com/) geocoder service ([\#67](https://github.com/jessecambon/tidygeocoder/issues/67)) (thanks [@dpprdan](https://github.com/dpprdan)).
--   Added support for the [Mapbox](https://docs.mapbox.com/api/search/) geocoder service
-([#71](https://github.com/jessecambon/tidygeocoder/issues/71)) (thanks [@dieghernan](https://github.com/dieghernan)). Note that currently the batch geocoding capability of this service is not implemented.
--   Added support for the [HERE](https://developer.here.com/products/geocoding-and-search) service (thanks [@dieghernan](https://github.com/dieghernan)).
+-   Added support for the [HERE](https://developer.here.com/products/geocoding-and-search), [Mapbox](https://docs.mapbox.com/api/search/), [MapQuest](https://developer.mapquest.com/documentation/geocoding-api/), and [TomTom](https://developer.tomtom.com/search-api/search-api-documentation/geocoding) geocoder services
+([#71](https://github.com/jessecambon/tidygeocoder/issues/71)) (thanks [@dieghernan](https://github.com/dieghernan)). Note that currently the batch geocoding capability for the Mapbox service is not implemented ([#73](https://github.com/jessecambon/tidygeocoder/issues/73)).
+-   The `limit` argument can now be used with the 'google' and 'census' methods to control the number of results returned. These two services do not have limit arguments in their APIs so the limit is applied after the results are returned.
 
-### Tweaks
+
+### Other Changes
+-   `geocode()` and `reverse_geocode()` now require the `limit = 1` (default) unless `unique_only = TRUE` or `return_addresses`/`return_coords` is TRUE. This fixes a bug where geocoding results could be misaligned when `limit > 1`.  ([#88](https://github.com/jessecambon/tidygeocoder/issues/88)).
 -   If the number of unique addresses or coordinates exceeds the batch query limit then an error is thrown by default. For forward geocoding, this behaviour can be toggled with the new `batch_limit_query` argument in the `geo()` function and `batch_limit_query` is set to FALSE if using the "cascade" method. When `batch_limit_query` is FALSE then the batch query is limited to the batch limit and executed. In the past, all batch queries that exceeded the batch query limit would be limited to the batch limit and no error was thrown.
 -   The `address_list` argument of `query_api()` has been renamed to `input_list` to reflect that it is used for both forward and reverse queries when using the Geocodio service for batch geocoding.
 -   The `query_api()` function now returns a named list which contains the response content (`content`) and the HTTP status code (`status`). The `geo()` and `reverse_geo()` functions now use the HTTP status code directly to determine if a response is valid.
+-   Added [external tests](https://github.com/jessecambon/tidygeocoder/blob/main/external_tests/online_tests.R) to more thoroughly test the package with live queries (internal package tests don't run queries).
 
 # tidygeocoder 1.0.2
 

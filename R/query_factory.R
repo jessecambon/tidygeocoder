@@ -10,13 +10,16 @@ get_key <- function(method) {
          'opencage' = "OPENCAGE_KEY",
          'mapbox' = "MAPBOX_API_KEY",
          'here' = "HERE_API_KEY",
-         'tomtom' = "TOMTOM_API_KEY"
+         'tomtom' = "TOMTOM_API_KEY",
+         'mapquest' = "MAPQUEST_API_KEY",
+         'bing' = "BINGMAPS_API_KEY"
          )
   # load api key from environmental variable
   key <- Sys.getenv(env_var)
   
   if (key == "") stop(paste0("An API Key is needed to use the '", method, "' method.
-    Set the \"", env_var, "\" variable in your .Renviron file or with Sys.getenv()."))
+    Set the \"", env_var, "\" variable in your .Renviron file or with Sys.setenv().
+    Tip: usethis::edit_r_environ() will open your .Renviron file for editing. "))
   else return(key)
 }
 
@@ -91,6 +94,16 @@ get_tomtom_url <- function(reverse = FALSE) {
     return(paste0('https://api.tomtom.com/search/2/', url_keyword))
 }
 
+get_mapquest_url <- function(mapquest_open = FALSE, reverse = FALSE) {
+  endpoint <- if (mapquest_open == TRUE) 'http://open.' else 'http://www.'
+  url_keyword <- if (reverse == TRUE) 'reverse' else 'address'
+  return(paste0(endpoint,'mapquestapi.com/geocoding/v1/', url_keyword))
+}
+
+get_bing_url <- function() {
+  return('http://dev.virtualearth.net/REST/v1/Locations')
+}
+
 get_arcgis_url <- function(reverse = FALSE) {
   if (reverse == TRUE) return('https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/reverseGeocode')
   else return('https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/findAddressCandidates')
@@ -101,7 +114,7 @@ get_arcgis_url <- function(reverse = FALSE) {
 ### update reverse_geo.R and geo.R where this function is called.
 get_api_url <- function(method, reverse = FALSE, return_type = 'locations',
             search = 'onelineaddress', geocodio_v = 1.6, iq_region = 'us', 
-            mapbox_permanent = FALSE) {
+            mapbox_permanent = FALSE, mapquest_open = FALSE) {
   api_url <- switch(method,
          "osm" = get_osm_url(reverse = reverse),
          "census" = get_census_url(return_type, search),
@@ -112,9 +125,10 @@ get_api_url <- function(method, reverse = FALSE, return_type = 'locations',
          "mapbox" = get_mapbox_url(mapbox_permanent), # same url as fwd geocoding
          "here" = get_here_url(reverse = reverse),
          "tomtom" = get_tomtom_url(reverse = reverse),
+         "mapquest" = get_mapquest_url(mapquest_open, reverse = reverse),
+         "bing" = get_bing_url(),
          "arcgis" = get_arcgis_url(reverse = reverse),
          )
-
 
   if (length(api_url) == 0) stop('API URL not found')
   return(api_url)
@@ -206,6 +220,11 @@ get_api_query <- function(method, generic_parameters = list(), custom_parameters
     api_query_parameters <-
       api_query_parameters[!names(api_query_parameters) %in% c("query", "to_url")]
   }
+  # Bing: Workaround to remove inputs from parameters (since it is added to the API url instead)
+  if (method == "bing") {
+    api_query_parameters <-
+      api_query_parameters[!names(api_query_parameters) %in% c("to_url")]
+  }
   return(api_query_parameters)
 }
 
@@ -228,6 +247,7 @@ get_api_query <- function(method, generic_parameters = list(), custom_parameters
 #' should be 'json' for geocodio and 'multipart' for census 
 #' @param content_encoding Encoding to be used for parsing content
 #' @param timeout timeout in minutes
+#' @param method if 'mapquest' then the query status code is changed appropriately
 #' @return a named list containing the response content (\code{content}) and the HTTP request status (\code{status})
 #' @examples
 #' \donttest{
@@ -247,7 +267,7 @@ get_api_query <- function(method, generic_parameters = list(), custom_parameters
 #' @seealso \code{\link{get_api_query}} \code{\link{extract_results}} \code{\link{geo}}
 #' @export 
 query_api <- function(api_url, query_parameters, mode = 'single', 
-          batch_file = NULL, input_list = NULL, content_encoding = 'UTF-8', timeout = 20) {
+          batch_file = NULL, input_list = NULL, content_encoding = 'UTF-8', timeout = 20, method = '') {
    response <- switch(mode,
     'single' = httr::GET(api_url, query = query_parameters),
     'list' = httr::POST(api_url, query = query_parameters, 
@@ -261,6 +281,19 @@ query_api <- function(api_url, query_parameters, mode = 'single',
   httr::warn_for_status(response)
   
   content <- httr::content(response, as = 'text', encoding = content_encoding)
+  
+  # MapQuest exception on GET
+  # When a valid key is passed, errors on query are in the response
+  # Succesful code in response is 0
+  # https://developer.mapquest.com/documentation/geocoding-api/status-codes/
+  if (mode == 'single' && method == 'mapquest' && httr::status_code(response) == 200) {
+    status_code <- jsonlite::fromJSON(content)$info$statuscode
+    if (status_code == 0) status_code <- 200
+    
+    httr::warn_for_status(status_code)
+    return(list(content = content, status = status_code))
+  }
+  
   return(list(content = content, status = httr::status_code(response)))
 }
 

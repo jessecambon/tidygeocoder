@@ -10,6 +10,8 @@
 \alias{geo_mapbox}
 \alias{geo_here}
 \alias{geo_tomtom}
+\alias{geo_mapquest}
+\alias{geo_bing}
 \alias{geo_arcgis}
 \title{Convenience functions for calling the \code{\link{geo}} function
 with a specified method}
@@ -31,6 +33,10 @@ geo_mapbox(...)
 geo_here(...)
 
 geo_tomtom(...)
+
+geo_mapquest(...)
+
+geo_bing(...)
 
 geo_arcgis(...)
 }
