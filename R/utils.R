@@ -43,14 +43,17 @@ extract_results <- function(method, response, full_results = TRUE, flatten = TRU
     # note the application of the limit argument for google
     'google' = response$results$geometry$location[c('lat','lng')][1:rows_to_return, ],
     'opencage' = response$results$geometry[c('lat', 'lng')],
-    'mapbox' <- data.frame(
+    'mapbox' = data.frame(
       'lat' = response$features$center[[1]][2],
       'long' = response$features$center[[1]][1]
     ), # mapbox results are nested unnamed lists
     'here' = response$items$position[c('lat','lng')],
     'tomtom' = response$results$position[c('lat', 'lon')],
     'mapquest' = response$results$locations[[1]]$latLng[c('lat','lng')],
-    'bing' = response$resourceSets$resources[[1]]$point$coordinates,
+    'bing' = data.frame(
+      'lat' = response$resourceSets$resources[[1]]$point$coordinates[[1]][1],
+      'long' = response$resourceSets$resources[[1]]$point$coordinates[[1]][2]
+    ),
     'arcgis' = response$candidates$location[c('y', 'x')]
   )
 

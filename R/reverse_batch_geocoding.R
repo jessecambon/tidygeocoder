@@ -486,7 +486,7 @@ reverse_batch_bing <- function(lat, long, address = 'address', timeout = 20, ful
   # https://docs.microsoft.com/es-es/bingmaps/spatial-data-services/geocode-dataflow-api/
   query_parameters <- get_api_query('bing',
                                     list(api_key = get_key('bing')),
-                                    custom_parameters = list(input = 'pipe')
+                                    custom_parameters = c(list(input = 'pipe'), custom_query)
   )
   if (verbose == TRUE) display_query(api_url, query_parameters)
   

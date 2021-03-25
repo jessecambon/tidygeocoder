@@ -1,6 +1,6 @@
 selected_method <- "bing"
 
-addr <- "xxxxxx"
+addr <- "London, UK"
 url_base <- tidygeocoder:::get_bing_url()
 
 library(httr)
@@ -12,14 +12,15 @@ soup <-
   httr::GET(
     url = url_base,
     query = list(
-      key = get_key('bing'),
-      q = "xxxxxxxxxxxx",
-      maxResults = 5
+      key = tidygeocoder:::get_key('bing'),
+      q = addr,
+      maxResults = 1
     )
   )
 
 response <-
   jsonlite::fromJSON(httr::content(soup, as = "text", encoding = "UTF-8"))
+
 
 httr::status_code(soup)
 length(response$resourceSets$resources[[1]]$point$coordinates)
