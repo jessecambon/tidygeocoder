@@ -47,7 +47,7 @@ address component arguments (street, city, county, state, postalcode, country)}
 return_addresses or unique_only must be set to TRUE.}
 
 \item{return_addresses}{if TRUE then only the geocoder results and address data will be returned.
-if FALSE then the}
+if FALSE then the input dataset's columns will also be included.}
 
 \item{unique_only}{if TRUE then only unique addresses and results will be returned. 
 The input dataframe's format is not preserved. Addresses will also be returned if 

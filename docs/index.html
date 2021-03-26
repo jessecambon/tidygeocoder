@@ -90,12 +90,12 @@
 <div id="introduction" class="section level2">
 <h2 class="hasAnchor">
 <a href="#introduction" class="anchor"></a>Introduction</h2>
-<p>Tidygeocoder makes getting data from geocoder services easy. Both <em>forward geocoding</em> (providing addresses to obtain latitude and longitude) and <em>reverse geocoding</em> (providing latitude and longitude to obtain addresses) are supported. All results are returned in <a href="https://tibble.tidyverse.org/">tibble format</a> and the supported geocoder services are listed below.</p>
+<p>Tidygeocoder makes getting data from geocoder services easy. Both <em>forward geocoding</em> (providing addresses to obtain geographic coordinates) and <em>reverse geocoding</em> (providing geographic coordinates to obtain addresses) are supported. All results are returned in <a href="https://tibble.tidyverse.org/">tibble format</a> and the supported geocoder services are listed below.</p>
 <p>Batch geocoding (geocoding multiple addresses or coordinates per query) is used by default if supported by the geocoder service when multiple inputs (addresses or coordinates) are provided. Duplicate, missing/NA, and blank input data is handled elegantly - only unique inputs are passed to geocoder services, but the rows in the original data are preserved by default.</p>
-<p>In addition to the usage examples below you can refer to the following references:</p>
+<p>Some useful references:</p>
 <ul>
-<li><a href="https://jessecambon.github.io/2020/07/15/tidygeocoder-1-0-0.html">Mapping European soccer club stadiums</a></li>
-<li><a href="https://jessecambon.github.io/2019/11/11/tidygeocoder-demo.html">Mapping Washington, DC landmarks</a></li>
+<li>
+<a href="https://jessecambon.github.io/tag/tidygeocoder">Blog posts on tidygeocoder</a> for updates on releases and more usage examples. In particular <a href="https://jessecambon.github.io/2020/07/15/tidygeocoder-1-0-0.html">this post</a> and <a href="https://jessecambon.github.io/2019/11/11/tidygeocoder-demo.html">this post</a> demonstrate some relevant mapping workflows.</li>
 <li>
 <a href="https://jessecambon.github.io/tidygeocoder/articles/tidygeocoder.html">Getting Started Vignette</a> for more detailed and comprehensive usage examples. The last section of the vignette contains a <a href="https://jessecambon.github.io/tidygeocoder/articles/tidygeocoder.html#api-reference-1">helpful reference</a> on geocoder service parameters.</li>
 </ul>
@@ -194,13 +194,20 @@
 <td>Yes</td>
 <td>None</td>
 </tr>
+<tr class="odd">
+<td><a href="https://docs.microsoft.com/en-us/bingmaps/rest-services/locations/">Bing</a></td>
+<td>Worldwide</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>None</td>
+</tr>
 </tbody>
 </table>
 <p>Notes:</p>
 <ul>
 <li>The US Census service supports street-level addresses only (ie. “11 Wall St New York, NY” is OK but “New York, NY” is not).</li>
 <li>The US Census and Geocodio services both support a maximum of 10,000 addresses per batch query.</li>
-<li>The US Census and OSM services are free while Geocodio, Location IQ, OpenCage, Mapbox, HERE, TomTom and MapQuest are commercial services that offer both free and paid usage tiers. The Google service <a href="https://developers.google.com/maps/documentation/geocoding/usage-and-billing">bills per query</a>.</li>
+<li>The US Census and OSM services are free while Geocodio, Location IQ, OpenCage, Mapbox, HERE, TomTom, MapQuest, and Bing are commercial services that offer both free and paid usage tiers. The Google service <a href="https://developers.google.com/maps/documentation/geocoding/usage-and-billing">bills per query</a>.</li>
 <li>The Census geocoder does not support reverse geocoding.</li>
 <li>The Mapbox service is capable of performing batch geocoding when using the <a href="https://docs.mapbox.com/api/search/geocoding/#batch-geocoding">permanent endpoint</a>, but this capability is not currently implemented in tidygeocoder. If you’d like to add this capability to the package see <a href="https://github.com/jessecambon/tidygeocoder/issues/73">issue #73</a>.</li>
 </ul>
@@ -525,7 +532,27 @@
 <div id="citing-tidygeocoder" class="section level2">
 <h2 class="hasAnchor">
 <a href="#citing-tidygeocoder" class="anchor"></a>Citing tidygeocoder</h2>
-<p>To cite tidygeocoder in publications, refer to the <a href="https://jessecambon.github.io/tidygeocoder/authors.html">citation page</a>.</p>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/citation.html">citation</a></span><span class="op">(</span><span class="st">'tidygeocoder'</span><span class="op">)</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; To cite tidygeocoder in publications use:</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt;   Jesse Cambon, Christopher Belanger (2021). tidygeocoder: Geocoding</span>
+<span class="co">#&gt;   Made Easy (version 1.0.2). DOI: 10.5281/zenodo.4448251. URL:</span>
+<span class="co">#&gt;   https://CRAN.R-project.org/package=tidygeocoder</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; A BibTeX entry for LaTeX users is</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt;   @Misc{,</span>
+<span class="co">#&gt;     title = {tidygeocoder: Geocoding Made Easy},</span>
+<span class="co">#&gt;     author = {Jesse Cambon and Christopher Belanger},</span>
+<span class="co">#&gt;     year = {2021},</span>
+<span class="co">#&gt;     publisher = {Zenodo},</span>
+<span class="co">#&gt;     note = {R package version 1.0.2},</span>
+<span class="co">#&gt;     url = {https://CRAN.R-project.org/package=tidygeocoder},</span>
+<span class="co">#&gt;     doi = {10.5281/zenodo.4448251},</span>
+<span class="co">#&gt;   }</span></code></pre></div>
+<p>Or refer to the <a href="https://jessecambon.github.io/tidygeocoder/authors.html">citation page</a>.</p>
 </div>
 </div>
   </div>

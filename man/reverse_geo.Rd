@@ -18,7 +18,7 @@ reverse_geo(
   unique_only = FALSE,
   return_coords = TRUE,
   flatten = TRUE,
-  batch_limit = 10000,
+  batch_limit = NULL,
   verbose = FALSE,
   no_query = FALSE,
   custom_query = list(),
@@ -71,9 +71,9 @@ to open your .Renviron file for editing to add API keys as an environmental vari
 
 \item{address}{name of the address column (output data)}
 
-\item{limit}{number of results to return per coordinate. Note that not all methods support
-setting limit to a value other than 1. Also limit > 1 is not compatible 
-with batch geocoding if return_coords = TRUE.}
+\item{limit}{number of results to return per coordinate. Use \code{limit = NULL} to
+return all results. For batch geocoding, limit must be set to 1 (default) 
+if \code{return_coords = TRUE}.}
 
 \item{min_time}{minimum amount of time for a query to take (in seconds). If NULL
 then min_time will be set to the lowest value that complies with the usage requirements of 

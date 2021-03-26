@@ -23,9 +23,9 @@ Month](http://cranlogs.r-pkg.org/badges/tidygeocoder)](https://cran.r-project.or
 ## Introduction
 
 Tidygeocoder makes getting data from geocoder services easy. Both
-*forward geocoding* (providing addresses to obtain latitude and
-longitude) and *reverse geocoding* (providing latitude and longitude to
-obtain addresses) are supported. All results are returned in [tibble
+*forward geocoding* (providing addresses to obtain geographic
+coordinates) and *reverse geocoding* (providing geographic coordinates
+to obtain addresses) are supported. All results are returned in [tibble
 format](https://tibble.tidyverse.org/) and the supported geocoder
 services are listed below.
 
@@ -36,13 +36,15 @@ and blank input data is handled elegantly - only unique inputs are
 passed to geocoder services, but the rows in the original data are
 preserved by default.
 
-In addition to the usage examples below you can refer to the following
-references:
+Some useful references:
 
--   [Mapping European soccer club
-    stadiums](https://jessecambon.github.io/2020/07/15/tidygeocoder-1-0-0.html)
--   [Mapping Washington, DC
-    landmarks](https://jessecambon.github.io/2019/11/11/tidygeocoder-demo.html)
+-   [Blog posts on
+    tidygeocoder](https://jessecambon.github.io/tag/tidygeocoder) for
+    updates on releases and more usage examples. In particular [this
+    post](https://jessecambon.github.io/2020/07/15/tidygeocoder-1-0-0.html)
+    and [this
+    post](https://jessecambon.github.io/2019/11/11/tidygeocoder-demo.html)
+    demonstrate some relevant mapping workflows.
 -   [Getting Started
     Vignette](https://jessecambon.github.io/tidygeocoder/articles/tidygeocoder.html)
     for more detailed and comprehensive usage examples. The last section
@@ -98,7 +100,7 @@ Notes:
 -   The US Census and Geocodio services both support a maximum of 10,000
     addresses per batch query.
 -   The US Census and OSM services are free while Geocodio, Location IQ,
-    OpenCage, Mapbox, HERE, TomTom, MapQuest and Bing are commercial
+    OpenCage, Mapbox, HERE, TomTom, MapQuest, and Bing are commercial
     services that offer both free and paid usage tiers. The Google
     service [bills per
     query](https://developers.google.com/maps/documentation/geocoding/usage-and-billing).
@@ -234,5 +236,27 @@ for instructions.
 
 ## Citing tidygeocoder
 
-To cite tidygeocoder in publications, refer to the [citation
+``` r
+citation('tidygeocoder')
+#> 
+#> To cite tidygeocoder in publications use:
+#> 
+#>   Jesse Cambon, Christopher Belanger (2021). tidygeocoder: Geocoding
+#>   Made Easy (version 1.0.2). DOI: 10.5281/zenodo.4448251. URL:
+#>   https://CRAN.R-project.org/package=tidygeocoder
+#> 
+#> A BibTeX entry for LaTeX users is
+#> 
+#>   @Misc{,
+#>     title = {tidygeocoder: Geocoding Made Easy},
+#>     author = {Jesse Cambon and Christopher Belanger},
+#>     year = {2021},
+#>     publisher = {Zenodo},
+#>     note = {R package version 1.0.2},
+#>     url = {https://CRAN.R-project.org/package=tidygeocoder},
+#>     doi = {10.5281/zenodo.4448251},
+#>   }
+```
+
+Or refer to the [citation
 page](https://jessecambon.github.io/tidygeocoder/authors.html).

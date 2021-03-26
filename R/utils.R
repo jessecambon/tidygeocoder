@@ -1,7 +1,9 @@
 ### Put common utility functions here
 
-## Declare global variables
+### Declare global package variables
 pkg.globals <- new.env()
+
+# These are the input field names for forward geocoding
 pkg.globals$address_arg_names <- c('address', 'street', 'city', 'county', 'state', 'postalcode', 'country')
 
 #' Extract forward geocoding results 
@@ -35,6 +37,7 @@ extract_results <- function(method, response, full_results = TRUE, flatten = TRU
   NA_result <- get_na_value('lat', 'long', 1)
   
   # extract latitude and longitude as a dataframe
+  # latitude should be first column and longitude should be second column (column names don't matter here, just position)
   lat_lng <- switch(method,
     'census' = response$result$addressMatches$coordinates[c('y','x')][1:rows_to_return, ],
     'osm' = response[c('lat', 'lon')],

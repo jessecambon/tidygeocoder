@@ -27,8 +27,8 @@ reverse_geocode(
 \item{limit}{number of results to return per coordinate. To use limit > 1 either
 return_coords or unique_only must be set to TRUE.}
 
-\item{return_coords}{if TRUE then coordinates with standard names will be returned
-This is defaulted to FALSE because the coordinates are already in the input dataset}
+\item{return_coords}{if TRUE then only the geocoder results and input coordinate data will be returned.
+if FALSE then the input dataset's columns will also be included.}
 
 \item{unique_only}{if TRUE then only unique coordinates and results will be returned. 
 The input dataframe's format is not preserved. Coordinates will also be returned if 

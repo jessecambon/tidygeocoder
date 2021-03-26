@@ -29,7 +29,7 @@
 #' @param limit number of results to return per coordinate. To use limit > 1 either
 #'   return_addresses or unique_only must be set to TRUE.
 #' @param return_addresses if TRUE then only the geocoder results and address data will be returned.
-#'   if FALSE then the 
+#'   if FALSE then the input dataset's columns will also be included.
 #' @param unique_only if TRUE then only unique addresses and results will be returned. 
 #'   The input dataframe's format is not preserved. Addresses will also be returned if 
 #'   TRUE (overrides return_addresses argument).
@@ -78,8 +78,8 @@ geocode <- function(.tbl, address = NULL, street = NULL, city = NULL, county = N
     stop('.tbl is not a dataframe. See ?geocode')
   }
   
-  if (limit != 1 & return_addresses == FALSE & unique_only == FALSE) {
-    stop('To use limit > 1 then either set return_addresses or unique_only to TRUE.')
+  if ((is.null(limit) || limit != 1) && return_addresses == FALSE && unique_only == FALSE) {
+    stop('To use limit > 1 or limit = NULL, set either return_addresses or unique_only to TRUE.')
   }
   
   # convert .tbl to tibble if it isn't one already

@@ -36,13 +36,29 @@ get_min_query_time <- function(method) {
     google = 1/50,         # 50 queries per second
     opencage = 1,          # 1 query/second 
     mapbox = 60/600,       # 600 queries per minute (free tier)
-    tomtom = 1/5           # 5 queries per second (free tier)
+    tomtom = 1/5,          # 5 queries per second (free tier)
+    here = 1/5             # 5 queries per second (free tier)
   )
   
   # default min_time to 0
   min_time <- ifelse(method %in% names(seconds_per_query), seconds_per_query[[method]], 0)
   return(min_time)
 }
+
+# Return the batch geocoding limit for the service
+# this is called from geo() and reverse_geo() when batch_limit = NULL
+get_batch_limit <- function(method) {
+  method_to_batch_limit <- list(
+    census = 1e4,
+    geocodio = 1e4,
+    tomtom = 1e4,       
+    here = 1e6,    
+    mapquest = 100,    
+    bing = 50          
+  )
+  return(method_to_batch_limit[[method]])
+}
+
 
 # API URL Functions ----------------------------------------------------------------
 # reverse = TRUE for reverse geocoding

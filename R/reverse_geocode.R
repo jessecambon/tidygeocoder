@@ -15,8 +15,8 @@
 #' @param address address column name (output data). Can be quoted or unquoted (ie. addr or 'addr').
 #' @param limit number of results to return per coordinate. To use limit > 1 either
 #'   return_coords or unique_only must be set to TRUE.
-#' @param return_coords if TRUE then coordinates with standard names will be returned
-#'   This is defaulted to FALSE because the coordinates are already in the input dataset
+#' @param return_coords if TRUE then only the geocoder results and input coordinate data will be returned.
+#'   if FALSE then the input dataset's columns will also be included.
 #' @param unique_only if TRUE then only unique coordinates and results will be returned. 
 #'   The input dataframe's format is not preserved. Coordinates will also be returned if 
 #'   TRUE (overrides return_coords argument).
@@ -58,8 +58,8 @@ reverse_geocode <- function(.tbl, lat, long, address = address, limit = 1, retur
     stop('.tbl is not a dataframe. See ?reverse_geocode')
   }
   
-  if (limit != 1 & return_coords == FALSE & unique_only == FALSE) {
-    stop('To use limit > 1 then either set return_coords or unique_only to TRUE.')
+  if ((is.null(limit) || limit != 1) && return_coords == FALSE && unique_only == FALSE) {
+    stop('To use limit > 1 or limit = NULL, set either return_coords or unique_only to TRUE.')
   }
   
   # convert .tbl to tibble if it isn't one already
@@ -87,7 +87,6 @@ reverse_geocode <- function(.tbl, lat, long, address = address, limit = 1, retur
     return(results)
   } else {
     # cbind the original dataframe to the coordinates and convert to tibble
-    # change column names to be unique if there are duplicate column names
     return(dplyr::bind_cols(.tbl, results))
   }
 }
