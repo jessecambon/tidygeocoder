@@ -18,7 +18,7 @@ reverse_geo(
   unique_only = FALSE,
   return_coords = TRUE,
   flatten = TRUE,
-  batch_limit = 10000,
+  batch_limit = NULL,
   verbose = FALSE,
   no_query = FALSE,
   custom_query = list(),
