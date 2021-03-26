@@ -174,7 +174,7 @@ API queries.</p>
   unique_only <span class='op'>=</span> <span class='cn'>FALSE</span>,
   return_addresses <span class='op'>=</span> <span class='cn'>TRUE</span>,
   flatten <span class='op'>=</span> <span class='cn'>TRUE</span>,
-  batch_limit <span class='op'>=</span> <span class='fl'>10000</span>,
+  batch_limit <span class='op'>=</span> <span class='cn'>NULL</span>,
   batch_limit_error <span class='op'>=</span> <span class='cn'>TRUE</span>,
   verbose <span class='op'>=</span> <span class='cn'>FALSE</span>,
   no_query <span class='op'>=</span> <span class='cn'>FALSE</span>,
@@ -252,6 +252,9 @@ to open your .Renviron file for editing to add API keys as an environmental vari
 <li><p><code>"mapquest"</code>: Commercial MapQuest geocoder service. Requires an 
      API Key to be stored in the "MAPQUEST_API_KEY" environmental variable. 
      Can perform batch geocoding.</p></li>
+<li><p><code>"bing"</code>: Commercial Bing geocoder service. Requires an 
+     API Key to be stored in the "BINGMAPS_API_KEY" environmental variable. 
+     Can perform batch geocoding.</p></li>
 <li><p><code>"cascade"</code> : Attempts to use one geocoder service and then uses
     a second geocoder service if the first service didn't return results.
     The services and order is specified by the cascade_order argument. 
@@ -275,8 +278,9 @@ in the order in which the geocoder services will be attempted for method = "casc
     </tr>
     <tr>
       <th>limit</th>
-      <td><p>number of results to return per address. limit &gt; 1 is not compatible 
-with batch geocoding if return_addresses = TRUE.</p></td>
+      <td><p>number of results to return per address. Use <code>limit = NULL</code> to
+return all results. For batch geocoding, limit must be set to 1 (default) 
+if <code>return_addresses = TRUE</code>.</p></td>
     </tr>
     <tr>
       <th>min_time</th>
@@ -299,7 +303,7 @@ This parameter can be used to specify a local Nominatim server.</p></td>
 force single address geocoding (one address per query). If not 
 specified then batch geocoding will be used if available
 (given method selected) when multiple addresses are provided; otherwise
-single address geocoding will be used. For 'here' the batch mode
+single address geocoding will be used. For 'here' and 'bing' the batch mode
 should be explicitly enforced.</p></td>
     </tr>
     <tr>
@@ -325,9 +329,9 @@ Note that Geocodio batch geocoding results are flattened regardless.</p></td>
     <tr>
       <th>batch_limit</th>
       <td><p>limit to the number of addresses in a batch geocoding query.
-'geocodio', 'census' and 'tomtom' batch geocoders have a 10,000 address limit so this
+'geocodio', 'census', and 'tomtom' batch geocoders have a 10,000 address limit so this
 is the default. 'here' has a 1,000,000 address limit. 'mapquest' has a 100 address
-limit.</p></td>
+limit. 'bing' has a 50 address limit.</p></td>
     </tr>
     <tr>
       <th>batch_limit_error</th>

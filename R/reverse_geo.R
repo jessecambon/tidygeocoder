@@ -96,9 +96,9 @@ get_coord_parameters <- function(custom_query, method, lat, long) {
 #' }
 #' 
 #' @param address name of the address column (output data)
-#' @param limit number of results to return per coordinate. Note that not all methods support
-#'  setting limit to a value other than 1. Also limit > 1 is not compatible 
-#'  with batch geocoding if return_coords = TRUE.
+#' @param limit number of results to return per coordinate. Use \code{limit = NULL} to
+#'   return all results. For batch geocoding, limit must be set to 1 (default) 
+#'   if \code{return_coords = TRUE}.
 #' @param min_time minimum amount of time for a query to take (in seconds). If NULL
 #' then min_time will be set to the lowest value that complies with the usage requirements of 
 #' the free tier of the selected geocoder service.
@@ -156,7 +156,7 @@ get_coord_parameters <- function(custom_query, method, lat, long) {
 #' @export
 reverse_geo <- function(lat, long, method = 'osm', address = address, limit = 1, min_time = NULL, api_url = NULL,  
     timeout = 20, mode = '',  full_results = FALSE, unique_only = FALSE, return_coords = TRUE, flatten = TRUE, 
-    batch_limit = 10000, verbose = FALSE, no_query = FALSE, custom_query = list(), iq_region = 'us', geocodio_v = 1.6,
+    batch_limit = NULL, verbose = FALSE, no_query = FALSE, custom_query = list(), iq_region = 'us', geocodio_v = 1.6,
     mapbox_permanent = FALSE, here_request_id = NULL, mapquest_open = FALSE) {
 
   # NSE eval
@@ -169,14 +169,25 @@ reverse_geo <- function(lat, long, method = 'osm', address = address, limit = 1,
   # Check argument inputs
   stopifnot(is.logical(verbose), is.logical(no_query), is.logical(flatten),
       is.logical(full_results), is.logical(unique_only),
-      is.numeric(limit), limit >= 1,  is.list(custom_query), 
+      is.list(custom_query), 
       is.logical(mapbox_permanent),
       is.null(here_request_id) || is.character(here_request_id),
       is.logical(mapquest_open)
   )
   if (length(lat) != length(long)) stop('Lengths of lat and long must be equal.')
+  
   if (!(mode %in% c('', 'single', 'batch'))) {
-    stop('Invalid mode argument. See ?geo')
+    stop('Invalid mode argument. See ?reverse_geo')
+  }
+  
+  # limit should either be NULL or numeric and >= 1
+  if (!(is.null(limit) || (is.numeric(limit) && limit >= 1))) {
+    stop('limit must be NULL or >= 1. See ?reverse_geo')
+  }
+  
+  # batch_limit should either be NULL or numeric and >= 1
+  if (!(is.null(batch_limit) || (is.numeric(batch_limit) && batch_limit >= 1))) {
+    stop('batch_limit must be NULL or >= 1. See ?reverse_geo')
   }
   
   if (no_query == TRUE) verbose <- TRUE
@@ -199,6 +210,11 @@ reverse_geo <- function(lat, long, method = 'osm', address = address, limit = 1,
   
   # Geocode coordinates one at a time in a loop -------------------------------------------------------
   if ((num_unique_coords > 1) & ((!(method %in% names(reverse_batch_func_map))) | (mode == 'single'))) {
+    
+    if (verbose == TRUE) {
+      message('Executing single coordinate geocoding...\n')
+    }
+    
     # construct arguments for a single address query
     # note that non-lat/long related fields go to the MoreArgs argument of mapply
     # since we aren't iterating through them
@@ -219,9 +235,10 @@ reverse_geo <- function(lat, long, method = 'osm', address = address, limit = 1,
   }
   
   # Batch geocoding --------------------------------------------------------------------------
-  if ((num_unique_coords > 1) | (mode == 'batch')) {
+  if ((num_unique_coords > 1) || (mode == 'batch')) {
+    if (verbose == TRUE) message('Executing batch geocoding...\n')
     
-    if (limit != 1 & return_coords == TRUE) {
+    if (is.null(limit) || (limit != 1 && return_coords == TRUE)) {
       stop('For batch geocoding (more than one coordinate per query) the limit argument must 
     be 1 (the default) OR the return_coords argument must be FALSE. Possible solutions:
     1) Set the mode argument to "single" to force single (not batch) geocoding 
@@ -229,6 +246,11 @@ reverse_geo <- function(lat, long, method = 'osm', address = address, limit = 1,
     3) Set return_coords to FALSE
     See the reverse_geo() function documentation for details.')
     }
+    
+    # set batch limit to default if not specified
+    if (is.null(batch_limit)) batch_limit <- get_batch_limit(method)
+    if (verbose == TRUE) message(paste0('Batch limit: ', 
+                                        format(batch_limit, big.mark = ',')))
     
     # HERE: If a previous job is requested return_coords should be FALSE
     # This is because the job won't send the coords, but would recover the
