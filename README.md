@@ -39,8 +39,8 @@ preserved by default.
 Some useful references:
 
 -   [Blog posts on
-    tidygeocoder](https://jessecambon.github.io/2020/07/15/tidygeocoder-1-0-0.html)
-    for updates on releases and more usage examples. In particular [this
+    tidygeocoder](https://jessecambon.github.io/tag/tidygeocoder) for
+    updates on releases and more usage examples. In particular [this
     post](https://jessecambon.github.io/2020/07/15/tidygeocoder-1-0-0.html)
     and [this
     post](https://jessecambon.github.io/2019/11/11/tidygeocoder-demo.html)
