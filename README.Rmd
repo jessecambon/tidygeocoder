@@ -26,7 +26,7 @@ options(tibble.print_min = 5, tibble.print_max = 5)
 
 ## Introduction
 
-Tidygeocoder makes getting data from geocoder services easy. Both *forward geocoding* (providing addresses to obtain latitude and longitude) and *reverse geocoding* (providing latitude and longitude to obtain addresses) are supported. All results are returned in [tibble format](https://tibble.tidyverse.org/) and the supported geocoder services are listed below.
+Tidygeocoder makes getting data from geocoder services easy. Both *forward geocoding* (providing addresses to obtain geographic coordinates) and *reverse geocoding* (providing geographic coordinates to obtain addresses) are supported. All results are returned in [tibble format](https://tibble.tidyverse.org/) and the supported geocoder services are listed below.
 
 Batch geocoding (geocoding multiple addresses or coordinates per query) is used by default if supported by the geocoder service when multiple inputs (addresses or coordinates) are provided. Duplicate, missing/NA, and blank input data is handled elegantly - only unique inputs are passed to geocoder services, but the rows in the original data are preserved by default.
 
@@ -67,12 +67,13 @@ The supported geocoder services are shown in the table below with their geograph
 | [HERE](https://developer.here.com/products/geocoding-and-search)              | Worldwide     | Yes             | Yes              | None                    |
 | [TomTom](https://developer.tomtom.com/search-api/search-api-documentation/geocoding)                                       | Worldwide     | Yes             | Yes              | 5/second (free tier)    |
 | [MapQuest](https://developer.mapquest.com/documentation/geocoding-api/)                                       | Worldwide     | Yes             | Yes              | None    |
+| [Bing](https://docs.microsoft.com/en-us/bingmaps/rest-services/locations/)                                       | Worldwide     | Yes             | Yes              | None    |
 
 Notes:
 
 -   The US Census service supports street-level addresses only (ie. "11 Wall St New York, NY" is OK but "New York, NY" is not).
 -   The US Census and Geocodio services both support a maximum of 10,000 addresses per batch query.
--   The US Census and OSM services are free while Geocodio, Location IQ, OpenCage, Mapbox, HERE, TomTom and MapQuest are commercial services that offer both free and paid usage tiers. The Google service [bills per query](https://developers.google.com/maps/documentation/geocoding/usage-and-billing).
+-   The US Census and OSM services are free while Geocodio, Location IQ, OpenCage, Mapbox, HERE, TomTom, MapQuest, and Bing are commercial services that offer both free and paid usage tiers. The Google service [bills per query](https://developers.google.com/maps/documentation/geocoding/usage-and-billing).
 -   The Census geocoder does not support reverse geocoding.
 -   The Mapbox service is capable of performing batch geocoding when using the [permanent endpoint](https://docs.mapbox.com/api/search/geocoding/#batch-geocoding), but this capability is not currently implemented in tidygeocoder. If you'd like to add this capability to the package see [issue \#73](https://github.com/jessecambon/tidygeocoder/issues/73).
 

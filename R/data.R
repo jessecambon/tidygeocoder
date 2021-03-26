@@ -63,5 +63,6 @@
 #'  \item \href{https://developer.here.com/documentation/geocoding-search-api/dev_guide/index.html}{HERE}
 #'  \item \href{https://developer.tomtom.com/search-api/search-api-documentation-geocoding/geocode}{TomTom}
 #'  \item \href{https://developer.mapquest.com/documentation/geocoding-api/}{MapQuest}
+#'  \item \href{https://docs.microsoft.com/en-us/bingmaps/rest-services/locations/}{Bing}
 #' }     
 "api_parameter_reference"

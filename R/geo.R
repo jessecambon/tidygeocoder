@@ -7,7 +7,8 @@ batch_func_map <- list(
   census = batch_census,
   here = batch_here,
   tomtom = batch_tomtom,
-  mapquest = batch_mapquest
+  mapquest = batch_mapquest,
+  bing = batch_bing
 )
 
 #' Geocode addresses
@@ -66,6 +67,9 @@ batch_func_map <- list(
 #'   \item \code{"mapquest"}: Commercial MapQuest geocoder service. Requires an 
 #'      API Key to be stored in the "MAPQUEST_API_KEY" environmental variable. 
 #'      Can perform batch geocoding.
+#'   \item \code{"bing"}: Commercial Bing geocoder service. Requires an 
+#'      API Key to be stored in the "BINGMAPS_API_KEY" environmental variable. 
+#'      Can perform batch geocoding.
 #'   \item \code{"cascade"} : Attempts to use one geocoder service and then uses
 #'     a second geocoder service if the first service didn't return results.
 #'     The services and order is specified by the cascade_order argument. 
@@ -90,7 +94,7 @@ batch_func_map <- list(
 #'  force single address geocoding (one address per query). If not 
 #'  specified then batch geocoding will be used if available
 #'  (given method selected) when multiple addresses are provided; otherwise
-#'  single address geocoding will be used. For 'here' the batch mode
+#'  single address geocoding will be used. For 'here' and 'bing' the batch mode
 #'  should be explicitly enforced.
 
 #' @param full_results returns all data from the geocoder service if TRUE. 
@@ -103,9 +107,9 @@ batch_func_map <- list(
 #' @param flatten if TRUE then any nested dataframes in results are flattened if possible.
 #'    Note that Geocodio batch geocoding results are flattened regardless.
 #' @param batch_limit limit to the number of addresses in a batch geocoding query.
-#'  'geocodio', 'census' and 'tomtom' batch geocoders have a 10,000 address limit so this
+#'  'geocodio', 'census', and 'tomtom' batch geocoders have a 10,000 address limit so this
 #'  is the default. 'here' has a 1,000,000 address limit. 'mapquest' has a 100 address
-#'  limit.
+#'  limit. 'bing' has a 50 address limit.
 #' @param batch_limit_error if TRUE then an error is thrown if the number of unique addresses
 #'  exceeds the batch limit (if executing a batch query). This is reverted to FALSE when using the
 #'  cascade method.
@@ -288,10 +292,10 @@ geo <- function(address = NULL,
   # OR the user has explicitly specified single address geocoding then call the 
   # single address geocoder in a loop (ie. recursively call this function)
   
-  # HERE Exception
+  # HERE/Bing Exception
   # Batch mode is quite slow. If batch mode is not called explicitly
   # use single method
-  if (method == "here" && mode != 'batch' ){
+  if (method %in% c("here", "bing") && mode != 'batch' ){
     mode <- 'single'
   }
   
