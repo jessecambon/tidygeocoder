@@ -30,10 +30,9 @@ Tidygeocoder makes getting data from geocoder services easy. Both *forward geoco
 
 Batch geocoding (geocoding multiple addresses or coordinates per query) is used by default if supported by the geocoder service when multiple inputs (addresses or coordinates) are provided. Duplicate, missing/NA, and blank input data is handled elegantly - only unique inputs are passed to geocoder services, but the rows in the original data are preserved by default.
 
-In addition to the usage examples below you can refer to the following references:
+Some useful references:
 
--   [Mapping European soccer club stadiums](https://jessecambon.github.io/2020/07/15/tidygeocoder-1-0-0.html)
--   [Mapping Washington, DC landmarks](https://jessecambon.github.io/2019/11/11/tidygeocoder-demo.html)
+-   [Blog posts on tidygeocoder](https://jessecambon.github.io/2020/07/15/tidygeocoder-1-0-0.html) for updates on releases and more usage examples. In particular [this post](https://jessecambon.github.io/2020/07/15/tidygeocoder-1-0-0.html) and [this post ](https://jessecambon.github.io/2019/11/11/tidygeocoder-demo.html) demonstrate some relevant mapping workflows.
 -   [Getting Started Vignette](https://jessecambon.github.io/tidygeocoder/articles/tidygeocoder.html) for more detailed and comprehensive usage examples. The last section of the vignette contains a [helpful reference](https://jessecambon.github.io/tidygeocoder/articles/tidygeocoder.html#api-reference-1) on geocoder service parameters.
 
 ## Installation
@@ -153,4 +152,8 @@ Contributions to the tidygeocoder package are welcome. File [an issue](https://g
 
 ## Citing tidygeocoder
 
-To cite tidygeocoder in publications, refer to the [citation page](https://jessecambon.github.io/tidygeocoder/authors.html).
+```{r}
+citation('tidygeocoder')
+```
+
+Or refer to the [citation page](https://jessecambon.github.io/tidygeocoder/authors.html).
