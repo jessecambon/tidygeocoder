@@ -50,7 +50,8 @@ extract_results <- function(method, response, full_results = TRUE, flatten = TRU
                     'bing' = data.frame(
                       'lat' = response$resourceSets$resources[[1]]$point$coordinates[[1]][1],
                       'long' = response$resourceSets$resources[[1]]$point$coordinates[[1]][2]
-                    )
+                    ),
+                    'arcgis' = response$candidates$location[c('y', 'x')]
   )
   
   # Return NA if data is not empty or not valid (cannot be turned into a dataframe)
@@ -86,8 +87,8 @@ extract_results <- function(method, response, full_results = TRUE, flatten = TRU
                                         'here' = response$items,
                                         'tomtom' = response$results,
                                         'mapquest' = response$results$locations[[1]],
-                                        'bing' = response$resourceSets$resources[[1]]
-                                        
+                                        'bing' = response$resourceSets$resources[[1]],
+                                        'arcgis' = response$candidates
     ))
     
     
@@ -157,7 +158,8 @@ extract_reverse_results <- function(method, response, full_results = TRUE, flatt
                     'tomtom' = response$addresses$address['freeformAddress'],
                     'mapquest' = format_address(response$results$locations[[1]],
                                                 c('street', paste0('adminArea', seq(6, 1)))),
-                    'bing' = response$resourceSets$resources[[1]]['name']
+                    'bing' = response$resourceSets$resources[[1]]['name'],
+                    'arcgis' = response$address['LongLabel']
   )
   
   # Return NA if data is not empty or not valid (cannot be turned into a dataframe)
@@ -186,7 +188,8 @@ extract_reverse_results <- function(method, response, full_results = TRUE, flatt
                                         'here' = response$items[!names(response$items) %in% c('title')],
                                         'tomtom' = response$addresses,
                                         'mapquest' = response$results$locations[[1]],
-                                        'bing' = response$resourceSets$resources[[1]][names(response$resourceSets$resources[[1]]) != 'name']
+                                        'bing' = response$resourceSets$resources[[1]][names(response$resourceSets$resources[[1]]) != 'name'],
+                                        'arcgis' = response$address[names(response$address) != 'LongLabel']
     ))
     
     
@@ -271,6 +274,9 @@ extract_errors_from_results <- function(method, response, verbose) {
     }
     else if (method == 'bing'){
       if ('errorDetails' %in% names(raw_results)) message(paste0('Error: ', raw_results$errorDetails, collapse = "\n"))
+    }
+    else if (method == 'arcgis'){
+      if ("error" %in% names(raw_results)) message(paste0('Error: ', raw_results$error$message, collapse = "\n"))
     }
   }
 }

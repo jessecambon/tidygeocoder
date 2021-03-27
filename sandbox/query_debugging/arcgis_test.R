@@ -56,15 +56,20 @@ response <- tidygeocoder:::query_api(
   api_url = url_base,
   query_parameters = list(
     f = "json",
-    maxLocations = 5,
+    maxLocations = "1",
     SingleLine = addr,
-    token="aa"
+    token="345"
   )
 )
-response$content
 
-# Error on bad key
 
+raw_results <- jsonlite::fromJSON(response$content)
+
+raw_results <- extract_errors_from_results("arcgis",response$content)
+
+if ("error" %in% names(raw_results)){
+  message(paste0('Error: ', raw_results$error$message, collapse = "\n"))
+}
 
 # Test geo ----
 library(tibble)
@@ -155,10 +160,12 @@ tidygeocoder::geo(
   method = "arcgis"
 )
 
+# Error on KEY
 tidygeocoder::geo(
   address = "New York, USA", method = "arcgis",
+  verbose = TRUE,
   custom_query = list(
-    token = "<API_KEY>"
+    token = "error"
   )
 )
 

@@ -290,6 +290,21 @@ query_api <- function(api_url, query_parameters, mode = 'single',
     return(list(content = content, status = status_code))
   }
   
+  # ArcGIS exception 
+  # Need to extract from results
+  if (method == 'arcgis' && httr::status_code(response) == 200) {
+    raw_results <- jsonlite::fromJSON(content)
+    status_code <- 200
+    if ('error' %in% names(raw_results)){
+      status_code <- raw_results$error$code
+      # One error, 498, not standard. Switching to 401      
+      if (status_code == 498) status_code <- 401
+    }
+    
+    httr::warn_for_status(status_code)
+    return(list(content = content, status = status_code))
+  }
+  
   return(list(content = content, status = httr::status_code(response)))
 }
 
