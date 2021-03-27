@@ -8,7 +8,7 @@ test_that("Check API Parameter Reference Dataset", {
   unique_api_param_rows <- nrow(tidygeocoder::api_parameter_reference[c('method', 'generic_name')])
   api_param_rows <- nrow(tidygeocoder::api_parameter_reference)
   
-  expect_equal(unique_api_param_rows,api_param_rows)
+  expect_equal(unique_api_param_rows, api_param_rows)
 })
 
 
@@ -121,5 +121,29 @@ test_that("Test Miscellaneous Functions", {
   # a <- data.frame(x=1)
   # b <- data.frame(x=1, x=2, check.names = FALSE)
   # expect_true(is.data.frame(tidygeocoder:::rename_and_bind_cols(a, b)))
+  
+})
+
+# check that batch functions all exist and have a batch_limit default value
+test_that('check batch function maps', {
+#  exists('batch_geocodio', where = asNamespace('tidygeocoder'), mode = 'function')
+  
+  for (method in names(tidygeocoder:::batch_func_map)) {
+    # label to include in error message so we know which method failed
+    method_label = paste0('method = "', method, '"', ' ')
+    
+    expect_true(method %in% tidygeocoder::batch_limit_reference[['method']], label = method_label)
+    expect_true(method %in% tidygeocoder::api_parameter_reference[['method']], label = method_label)
+    expect_true(is.function(tidygeocoder:::batch_func_map[[method]]), label = method_label)
+  }
+  
+  for (method in names(tidygeocoder:::reverse_batch_func_map)) {
+    # label to include in error message so we know which method failed
+    method_label = paste0('method = "', method, '"', ' ')
+    
+    expect_true(method %in% tidygeocoder::batch_limit_reference[['method']], label = method_label)
+    expect_true(method %in% tidygeocoder::api_parameter_reference[['method']], label = method_label)
+    expect_true(is.function(tidygeocoder:::reverse_batch_func_map[[method]]), label = method_label)
+  }
   
 })

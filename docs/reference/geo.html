@@ -278,9 +278,10 @@ in the order in which the geocoder services will be attempted for method = "casc
     </tr>
     <tr>
       <th>limit</th>
-      <td><p>number of results to return per address. Use <code>limit = NULL</code> to
-return all results. For batch geocoding, limit must be set to 1 (default) 
-if <code>return_addresses = TRUE</code>.</p></td>
+      <td><p>maximum number of results to return per address. For many geocoder services
+the maximum value for the limit parameter is 100. 
+Use <code>limit = NULL</code> to use the default value of the selected geocoder service. 
+For batch geocoding, limit must be set to 1 (default) if <code>return_addresses = TRUE</code>.</p></td>
     </tr>
     <tr>
       <th>min_time</th>

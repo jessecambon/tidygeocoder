@@ -67,11 +67,11 @@ package_addresses <- function(address = NULL,
   
   ## QA check the address inputs 
   if (('address' %in% arg_names) & (length(arg_names) > 1)) {
-    stop("Do not use other address component parameters with the single line 'address' parameter")
+    stop("Do not use other address component parameters with the single line 'address' parameter", call. = FALSE)
   }
   address_component_lengths <- lengths(combined_addr)
   if (max(address_component_lengths) != min(address_component_lengths)) {
-    stop('Address components must be equal in length')
+    stop('Address components must be equal in length', call. = FALSE)
   }
   
   # Turn address inputs into a dataframe

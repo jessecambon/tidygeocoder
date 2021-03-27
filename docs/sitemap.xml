@@ -7,6 +7,9 @@
     <loc>https://jessecambon.github.io/tidygeocoder/reference/api_parameter_reference.html</loc>
   </url>
   <url>
+    <loc>https://jessecambon.github.io/tidygeocoder/reference/batch_limit_reference.html</loc>
+  </url>
+  <url>
     <loc>https://jessecambon.github.io/tidygeocoder/reference/extract_results.html</loc>
   </url>
   <url>
@@ -29,6 +32,9 @@
   </url>
   <url>
     <loc>https://jessecambon.github.io/tidygeocoder/reference/louisville.html</loc>
+  </url>
+  <url>
+    <loc>https://jessecambon.github.io/tidygeocoder/reference/min_time_reference.html</loc>
   </url>
   <url>
     <loc>https://jessecambon.github.io/tidygeocoder/reference/query_api.html</loc>
