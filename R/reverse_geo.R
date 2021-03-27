@@ -40,7 +40,7 @@ get_coord_parameters <- function(custom_query, method, lat, long) {
   } else if (method == 'bing') {
     custom_query[['to_url']] <-  paste0('/', as.character(lat), ',', as.character(long)) 
   } else {
-    stop('Invalid method. See ?reverse_geo')
+    stop('Invalid method. See ?reverse_geo', call. = FALSE)
   }
   return(custom_query)
 }
@@ -96,9 +96,10 @@ get_coord_parameters <- function(custom_query, method, lat, long) {
 #' }
 #' 
 #' @param address name of the address column (output data)
-#' @param limit number of results to return per coordinate. Use \code{limit = NULL} to
-#'   return all results. For batch geocoding, limit must be set to 1 (default) 
-#'   if \code{return_coords = TRUE}.
+#' @param limit maximum number of results to return per coordinate For many geocoder services
+#'   the maximum value for the limit parameter is 100. 
+#'   Use \code{limit = NULL} to use the default value of the selected geocoder service. 
+#'   For batch geocoding, limit must be set to 1 (default) if \code{return_coords = TRUE}.
 #' @param min_time minimum amount of time for a query to take (in seconds). If NULL
 #' then min_time will be set to the lowest value that complies with the usage requirements of 
 #' the free tier of the selected geocoder service.
@@ -175,31 +176,28 @@ reverse_geo <- function(lat, long, method = 'osm', address = address, limit = 1,
       is.logical(mapquest_open)
   )
   if (length(lat) != length(long)) stop('Lengths of lat and long must be equal.')
+  lat <- as.numeric(lat)
+  long <- as.numeric(long)
   
-  if (!(mode %in% c('', 'single', 'batch'))) {
-    stop('Invalid mode argument. See ?reverse_geo')
-  }
-  
-  # limit should either be NULL or numeric and >= 1
-  if (!(is.null(limit) || (is.numeric(limit) && limit >= 1))) {
-    stop('limit must be NULL or >= 1. See ?reverse_geo')
-  }
-  
-  # batch_limit should either be NULL or numeric and >= 1
-  if (!(is.null(batch_limit) || (is.numeric(batch_limit) && batch_limit >= 1))) {
-    stop('batch_limit must be NULL or >= 1. See ?reverse_geo')
-  }
+  check_common_args('reverse_geo', mode, limit, batch_limit)
   
   if (no_query == TRUE) verbose <- TRUE
   start_time <- Sys.time() # start timer
   
   # Package inputs
-  coord_pack <- package_inputs(tibble::tibble(lat = as.numeric(lat), long = as.numeric(long)), coords = TRUE)
+  coord_pack <- package_inputs(tibble::tibble(lat = lat, long = long), coords = TRUE)
   num_unique_coords <- nrow(coord_pack$unique)
   if (verbose == TRUE) message(paste0('Number of Unique Coordinates: ', num_unique_coords))
   
-  NA_value <- tibble::tibble(address = rep(as.character(NA), num_unique_coords)) # filler NA result to return if needed
+  # filler NA result to return if needed
+  NA_value <- tibble::tibble(address = rep(as.character(NA), num_unique_coords))
   names(NA_value)[1] <- address # rename column
+  
+  # If no valid coordinates are passed then return NA
+  if (num_unique_coords == 1 && all(is.na(coord_pack$unique))) {
+    if (verbose == TRUE) message(paste0('No valid coordinates found. Returning NA results.'))
+    return(unpackage_inputs(coord_pack, NA_value, unique_only, return_coords))
+  }
   
   # HERE Exception
   # Batch mode is quite slow. If batch mode is not called explicitly

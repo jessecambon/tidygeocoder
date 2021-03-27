@@ -66,3 +66,22 @@
 #'  \item \href{https://docs.microsoft.com/en-us/bingmaps/rest-services/locations/}{Bing}
 #' }     
 "api_parameter_reference"
+
+#' The batch limit for each geocoder service
+#'
+#' @format A tibble dataframe
+#' \describe{
+#'  \item{method}{Geocoder service name}
+#'  \item{batch_limit}{The maximum number of addresses or coordinates allowed per batch}
+#' }
+"batch_limit_reference"
+
+#' The minimum number of seconds required per query to comply with usage restrictions
+#'
+#' @format A tibble dataframe
+#' \describe{
+#'  \item{method}{Geocoder service name}
+#'  \item{min_time}{The minimum number of seconds required per query to comply with usage restrictions}
+#'  \item{description}{A description of the usage rate restriction}
+#' }
+"min_time_reference"

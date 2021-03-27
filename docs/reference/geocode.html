@@ -216,8 +216,11 @@ address component arguments (street, city, county, state, postalcode, country)</
     </tr>
     <tr>
       <th>limit</th>
-      <td><p>number of results to return per coordinate. To use limit &gt; 1 either
-return_addresses or unique_only must be set to TRUE.</p></td>
+      <td><p>maximum number of results to return per address. For many geocoder services
+the maximum value for the limit parameter is 100. 
+Use <code>limit = NULL</code> to use the default value of the selected geocoder service. 
+For batch geocoding, limit must be set to 1 (default) if <code>return_addresses = TRUE</code>.
+To use <code>limit &gt; 1</code> or <code>limit = NULL</code> either <code>return_addresses</code> or <code>unique_only</code> must be set to TRUE.</p></td>
     </tr>
     <tr>
       <th>return_addresses</th>
@@ -238,7 +241,7 @@ TRUE (overrides return_addresses argument).</p></td>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>input dataframe (.tbl) with geocoder results appended as columns</p>
+    <p>output dataframe (.tbl)</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p><code><a href='geo.html'>geo</a></code> <code><a href='api_parameter_reference.html'>api_parameter_reference</a></code></p></div>
