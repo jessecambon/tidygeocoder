@@ -164,7 +164,6 @@ test_that("reverse geocode null/empty addresses", {
   expect_identical(colnames(result), expected_colnames)
   # check dataframe length
   expect_equal(nrow(result), nrow(NA_data)) 
-
   
   for (method in reverse_methods) {
     # label to include in error message so we know which method failed

@@ -71,9 +71,10 @@ to open your .Renviron file for editing to add API keys as an environmental vari
 
 \item{address}{name of the address column (output data)}
 
-\item{limit}{number of results to return per coordinate. Use \code{limit = NULL} to
-return all results. For batch geocoding, limit must be set to 1 (default) 
-if \code{return_coords = TRUE}.}
+\item{limit}{maximum number of results to return per coordinate For many geocoder services
+the maximum value for the limit parameter is 100. 
+Use \code{limit = NULL} to use the default value of the selected geocoder service. 
+For batch geocoding, limit must be set to 1 (default) if \code{return_coords = TRUE}.}
 
 \item{min_time}{minimum amount of time for a query to take (in seconds). If NULL
 then min_time will be set to the lowest value that complies with the usage requirements of 

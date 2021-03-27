@@ -82,9 +82,10 @@ batch_func_map <- list(
 #'  (ie. \code{c('census', 'geocodio')})
 #' @param lat latitude column name. Can be quoted or unquoted (ie. lat or 'lat').
 #' @param long longitude column name. Can be quoted or unquoted (ie. long or 'long').
-#' @param limit number of results to return per address. Use \code{limit = NULL} to
-#'   return all results. For batch geocoding, limit must be set to 1 (default) 
-#'   if \code{return_addresses = TRUE}.
+#' @param limit maximum number of results to return per address. For many geocoder services
+#'   the maximum value for the limit parameter is 100. 
+#'   Use \code{limit = NULL} to use the default value of the selected geocoder service. 
+#'   For batch geocoding, limit must be set to 1 (default) if \code{return_addresses = TRUE}.
 #' @param min_time minimum amount of time for a query to take (in seconds). If NULL
 #' then min_time will be set to the lowest value that complies with the usage requirements of 
 #' the free tier of the selected geocoder service.
@@ -193,15 +194,7 @@ geo <- function(address = NULL,
             is.null(here_request_id) || is.character(here_request_id),
             is.logical(mapquest_open))
   
-  # limit should either be NULL or numeric and >= 1
-  if (!(is.null(limit) || (is.numeric(limit) && limit >= 1))) {
-    stop('limit must be NULL or >= 1. See ?geo')
-  }
-  
-  # batch_limit should either be NULL or numeric and >= 1
-  if (!(is.null(batch_limit) || (is.numeric(batch_limit) && batch_limit >= 1))) {
-    stop('batch_limit must be NULL or >= 1. See ?geo')
-  }
+  check_common_args('geo', mode, limit, batch_limit)
   
   if (!(method %in% c('cascade', method_services))) {
     stop('Invalid method argument. See ?geo')
@@ -209,10 +202,6 @@ geo <- function(address = NULL,
   
   if (!(cascade_order[1] %in% method_services) || !(cascade_order[2] %in% method_services) || (length(cascade_order) != 2) || !(is.character(cascade_order))) {
     stop('Invalid cascade_order argument. See ?geo')
-  }
-  
-  if (!(mode %in% c('', 'single', 'batch'))) {
-    stop('Invalid mode argument. See ?geo')
   }
   
   if (!(return_type %in% c('geographies', 'locations'))) {

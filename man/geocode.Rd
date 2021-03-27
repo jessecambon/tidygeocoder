@@ -43,8 +43,11 @@ address component arguments (street, city, county, state, postalcode, country)}
 
 \item{long}{longitude column name. Can be quoted or unquoted (ie. long or 'long').}
 
-\item{limit}{number of results to return per coordinate. To use limit > 1 either
-return_addresses or unique_only must be set to TRUE.}
+\item{limit}{maximum number of results to return per address. For many geocoder services
+the maximum value for the limit parameter is 100. 
+Use \code{limit = NULL} to use the default value of the selected geocoder service. 
+For batch geocoding, limit must be set to 1 (default) if \code{return_addresses = TRUE}.
+To use \code{limit > 1} or \code{limit = NULL} either \code{return_addresses} or \code{unique_only} must be set to TRUE.}
 
 \item{return_addresses}{if TRUE then only the geocoder results and address data will be returned.
 if FALSE then the input dataset's columns will also be included.}
@@ -56,7 +59,7 @@ TRUE (overrides return_addresses argument).}
 \item{...}{arguments passed to the \code{\link{geo}} function}
 }
 \value{
-input dataframe (.tbl) with geocoder results appended as columns
+output dataframe (.tbl)
 }
 \description{
 Takes a dataframe containing addresses as an input and returns 

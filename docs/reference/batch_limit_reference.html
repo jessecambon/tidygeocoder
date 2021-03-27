@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>tidygeocoder makes getting data from geocoder services easy. — tidygeocoder-package • tidygeocoder</title>
+<title>The batch limit for each geocoder service — batch_limit_reference • tidygeocoder</title>
 
 
 <!-- jquery -->
@@ -45,12 +45,8 @@
 
 
 
-<meta property="og:title" content="tidygeocoder makes getting data from geocoder services easy. — tidygeocoder-package" />
-<meta property="og:description" content="The geocode and geo functions are for forward geocoding while
-the reverse_geocode and reverse_geo functions are for reverse geocoding.
-Refer to the documentation on the method argument in the geo and reverse_geo functions
-for more details on the available geocoder services. Also see vignette(&quot;tidygeocoder&quot;) 
-for example usage." />
+<meta property="og:title" content="The batch limit for each geocoder service — batch_limit_reference" />
+<meta property="og:description" content="The batch limit for each geocoder service" />
 
 
 
@@ -130,39 +126,25 @@ for example usage." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1><span class="pkg">tidygeocoder</span> makes getting data from geocoder services easy.</h1>
-    <small class="dont-index">Source: <a href='https://github.com/jessecambon/tidygeocoder/blob/master/R/tidygeocoder.R'><code>R/tidygeocoder.R</code></a></small>
-    <div class="hidden name"><code>tidygeocoder-package.Rd</code></div>
+    <h1>The batch limit for each geocoder service</h1>
+    <small class="dont-index">Source: <a href='https://github.com/jessecambon/tidygeocoder/blob/master/R/data.R'><code>R/data.R</code></a></small>
+    <div class="hidden name"><code>batch_limit_reference.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>The <code><a href='geocode.html'>geocode</a></code> and <code><a href='geo.html'>geo</a></code> functions are for forward geocoding while
-the <code><a href='reverse_geocode.html'>reverse_geocode</a></code> and <code><a href='reverse_geo.html'>reverse_geo</a></code> functions are for reverse geocoding.
-Refer to the documentation on the method argument in the <code><a href='geo.html'>geo</a></code> and <code><a href='reverse_geo.html'>reverse_geo</a></code> functions
-for more details on the available geocoder services. Also see <code><a href='../articles/tidygeocoder.html'>vignette("tidygeocoder")</a></code> 
-for example usage.</p>
+    <p>The batch limit for each geocoder service</p>
     </div>
 
+    <pre class="usage"><span class='va'>batch_limit_reference</span></pre>
 
 
-    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+    <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
 
-    <div class='dont-index'><p>Useful links:</p><ul>
-<li><p><a href='https://jessecambon.github.io/tidygeocoder/'>https://jessecambon.github.io/tidygeocoder/</a></p></li>
-<li><p><a href='https://github.com/jessecambon/tidygeocoder'>https://github.com/jessecambon/tidygeocoder</a></p></li>
-<li><p>Report bugs at <a href='https://github.com/jessecambon/tidygeocoder/issues'>https://github.com/jessecambon/tidygeocoder/issues</a></p></li>
-</ul>
+    <p>A tibble dataframe</p><dl>
+ <dt>method</dt><dd><p>Geocoder service name</p></dd>
+ <dt>batch_limit</dt><dd><p>The maximum number of addresses or coordinates allowed per batch</p></dd>
 
-</div>
-    <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
-
-    <p><strong>Maintainer</strong>: Jesse Cambon <a href='mailto:jesse.cambon@gmail.com'>jesse.cambon@gmail.com</a> (<a href='https://orcid.org/0000-0001-6854-1514'>ORCID</a>)</p>
-<p>Authors:</p><ul>
-<li><p>Diego Hernangómez <a href='mailto:diego.hernangomezherrero@gmail.com'>diego.hernangomezherrero@gmail.com</a> (<a href='https://orcid.org/0000-0001-8457-4658'>ORCID</a>)</p></li>
-<li><p>Christopher Belanger <a href='mailto:christopher.a.belanger@gmail.com'>christopher.a.belanger@gmail.com</a></p></li>
-<li><p>Daniel Possenriede <a href='mailto:possenriede+r@gmail.com'>possenriede+r@gmail.com</a> (<a href='https://orcid.org/0000-0002-6738-9845'>ORCID</a>)</p></li>
-</ul>
-
+</dl>
 
 
   </div>

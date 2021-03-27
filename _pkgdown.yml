@@ -19,9 +19,14 @@ reference:
   contents:
   - louisville
   - sample_addresses
-- title: Other
+- title: Reference Datasets
+  desc: These datasets are used to set parameters and settings for geocoder queries
   contents:
   - api_parameter_reference
+  - min_time_reference
+  - batch_limit_reference
+- title: Utility Functions
+  contents:
   - get_api_query
   - query_api
   - extract_results

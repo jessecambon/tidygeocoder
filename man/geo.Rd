@@ -105,9 +105,10 @@ in the order in which the geocoder services will be attempted for method = "casc
 
 \item{long}{longitude column name. Can be quoted or unquoted (ie. long or 'long').}
 
-\item{limit}{number of results to return per address. Use \code{limit = NULL} to
-return all results. For batch geocoding, limit must be set to 1 (default) 
-if \code{return_addresses = TRUE}.}
+\item{limit}{maximum number of results to return per address. For many geocoder services
+the maximum value for the limit parameter is 100. 
+Use \code{limit = NULL} to use the default value of the selected geocoder service. 
+For batch geocoding, limit must be set to 1 (default) if \code{return_addresses = TRUE}.}
 
 \item{min_time}{minimum amount of time for a query to take (in seconds). If NULL
 then min_time will be set to the lowest value that complies with the usage requirements of 

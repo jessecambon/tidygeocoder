@@ -19,50 +19,33 @@ get_key <- function(method) {
   
   if (key == "") stop(paste0("An API Key is needed to use the '", method, "' method.
     Set the \"", env_var, "\" variable in your .Renviron file or with Sys.setenv().
-    Tip: usethis::edit_r_environ() will open your .Renviron file for editing. "))
+    Tip: usethis::edit_r_environ() will open your .Renviron file for editing. "), call. = FALSE)
   else return(key)
 }
 
 # return minimum number of seconds each query should take based on usage rate limits
 get_min_query_time <- function(method) {
   
-  # stores the minimum number of seconds that must elapse for each query
-  # based on the usage limit of the service (free tier if there are multiple plans available)
-  # Stored value is SECONDS PER QUERY
-  seconds_per_query <- list(
-    osm = 1,               # 1 query/second             
-    geocodio = 60/1000,    # 1000 queries per minute (free tier)
-    iq = 1/2,              # 2 queries per second (free tier)
-    google = 1/50,         # 50 queries per second
-    opencage = 1,          # 1 query/second 
-    mapbox = 60/600,       # 600 queries per minute (free tier)
-    tomtom = 1/5,          # 5 queries per second (free tier)
-    here = 1/5             # 5 queries per second (free tier)
-  )
+  # Get min_time from min_time_reference. If method not found then default to 0
+  min_time <- if (method %in% names(tidygeocoder::min_time_reference)) {
+    tidygeocoder::min_time_reference[which(tidygeocoder::min_time_reference[['method']] == method), ][['min_time']]
+  } else {
+    0
+  }
   
-  # default min_time to 0
-  min_time <- ifelse(method %in% names(seconds_per_query), seconds_per_query[[method]], 0)
   return(min_time)
 }
 
 # Return the batch geocoding limit for the service
 # this is called from geo() and reverse_geo() when batch_limit = NULL
 get_batch_limit <- function(method) {
-  method_to_batch_limit <- list(
-    census = 1e4,
-    geocodio = 1e4,
-    tomtom = 1e4,       
-    here = 1e6,    
-    mapquest = 100,    
-    bing = 50          
+  return(
+    tidygeocoder::batch_limit_reference[which(tidygeocoder::batch_limit_reference[['method']] == method), ][['batch_limit']]
   )
-  return(method_to_batch_limit[[method]])
 }
-
 
 # API URL Functions ----------------------------------------------------------------
 # reverse = TRUE for reverse geocoding
-
 
 # return : returntype => 'locations' or 'geographies'
 # search:  searchtype => 'onelineaddress', 'addressbatch', 'address', or 'coordinates'
@@ -73,21 +56,17 @@ get_census_url <- function(return_type, search) {
 get_geocodio_url <- function(api_v, reverse = FALSE) {
   # return API URL based on api version (ex. 1.6)
   url_keyword <- if (reverse == TRUE) 'reverse' else 'geocode'
-  
   return(paste0("https://api.geocod.io/v", as.character(api_v), "/", url_keyword))
 }
 
 get_osm_url <- function(reverse = FALSE) {
   url_keyword <- if (reverse == TRUE) 'reverse' else 'search'
-  
   return(paste0('https://nominatim.openstreetmap.org/', url_keyword))
 }
 
 get_iq_url <- function(region = 'us', reverse = FALSE) {
   # region can be 'us' or 'eu'
-  
   url_keyword <- if (reverse == TRUE) 'reverse' else 'search'
-  
   return(paste0("https://", region, "1.locationiq.com/v1/", url_keyword,  ".php"))
 }
 
@@ -131,6 +110,7 @@ get_arcgis_url <- function(reverse = FALSE) {
 get_api_url <- function(method, reverse = FALSE, return_type = 'locations',
             search = 'onelineaddress', geocodio_v = 1.6, iq_region = 'us', 
             mapbox_permanent = FALSE, mapquest_open = FALSE) {
+  
   api_url <- switch(method,
          "osm" = get_osm_url(reverse = reverse),
          "census" = get_census_url(return_type, search),
@@ -146,7 +126,7 @@ get_api_url <- function(method, reverse = FALSE, return_type = 'locations',
          "arcgis" = get_arcgis_url(reverse = reverse),
          )
 
-  if (length(api_url) == 0) stop('API URL not found')
+  if (length(api_url) == 0) stop('API URL not found', call. = FALSE)
   return(api_url)
 }
 
@@ -362,7 +342,7 @@ add_common_generic_parameters <- function(generic_query, method, no_query, limit
     
     # don't attempt to load API key if no_query = TRUE. This allows you to
     # run no_query = TRUE without having the API key loaded.
-    if (no_query == TRUE) generic_query[['api_key']] <- 'xxxxxxxxxxxxx'
+    if (no_query == TRUE) generic_query[['api_key']] <- 'xxxxxxxxxx'
     else generic_query[['api_key']] <- get_key(method)
   }
   
