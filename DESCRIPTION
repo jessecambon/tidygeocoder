@@ -39,7 +39,6 @@ Imports:
 RoxygenNote: 7.1.1
 Suggests: 
     knitr,
-    DT,
     rmarkdown,
     ggplot2,
     ggrepel,
