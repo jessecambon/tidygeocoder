@@ -147,3 +147,11 @@ test_that('check batch function maps', {
   }
   
 })
+
+
+test_that('API variables defined', {
+  # Services that require an API key should have an api_key parameter
+  # defined in api_parameter_reference and also have an environmental variable 
+  # (where the key value will be read from) declared in api_key_reference
+  expect_setequal(get_services_requiring_key(), tidygeocoder::api_key_reference[['method']])
+})

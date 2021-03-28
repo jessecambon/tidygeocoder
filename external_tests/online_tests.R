@@ -217,7 +217,7 @@ test_that("test error catching", {
       if (method != "bing"){
         test_error_catching(method, list(api_key = 'invalid')) 
       } else {
-        test_error_catching(method, custom_args =list(key = 'invalid', q="invalid")) 
+        test_error_catching(method, custom_args = list(key = 'invalid', q="invalid")) 
       }
     }
 })

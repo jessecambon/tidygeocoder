@@ -55,4 +55,11 @@ batch_limit_reference %>%
   fmt_number(columns = 'batch_limit', decimals = 0)
 ```
 
+## API Key Retrieval 
 
+API keys are retrieved from environmental variables. The name of the environmental variable used for each service is stored in the `api_key_reference` dataset. See ?api_key_reference.
+
+```{r, echo = FALSE}
+api_key_reference %>%
+  gt()
+```

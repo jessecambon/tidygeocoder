@@ -6,8 +6,15 @@ pkg.globals <- new.env()
 # These are the input field names for forward geocoding
 pkg.globals$address_arg_names <- c('address', 'street', 'city', 'county', 'state', 'postalcode', 'country')
 
-
 ############################################################################################################
+
+# utility function for extracting setting values according to the method column
+get_setting_value <- function(df, method, value_column) {
+  return(
+    df[which(df[['method']] == method), ][[value_column]]
+  )
+}
+
 
 # For a list of dataframes, creates an NA df with 1 row with the column name supplied
 # this is used in parsing the response of the geocodio batch geocoder

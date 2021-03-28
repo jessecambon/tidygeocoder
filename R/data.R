@@ -86,3 +86,12 @@
 #'  \item{description}{A description of the usage rate restriction}
 #' }
 "min_time_reference"
+
+#' The name of the environmental variable where the API key will be read from.
+#'
+#' @format A tibble dataframe
+#' \describe{
+#'  \item{method}{Geocoder service name}
+#'  \item{env_var}{Environmental variable name}
+#' }
+"api_key_reference"

@@ -33,7 +33,7 @@ Batch geocoding (geocoding multiple addresses or coordinates per query) is used 
 Some useful references:
 
 -   [Blog posts on tidygeocoder](https://jessecambon.github.io/tag/tidygeocoder) for updates on releases and more usage examples. In particular [this post](https://jessecambon.github.io/2020/07/15/tidygeocoder-1-0-0.html) and [this post](https://jessecambon.github.io/2019/11/11/tidygeocoder-demo.html) demonstrate some relevant mapping workflows.
--   [Getting Started Vignette](https://jessecambon.github.io/tidygeocoder/articles/tidygeocoder.html) for more detailed and comprehensive usage examples. The last section of the vignette contains a [helpful reference](https://jessecambon.github.io/tidygeocoder/articles/tidygeocoder.html#api-reference-1) on geocoder service parameters.
+-   [Getting Started Vignette](https://jessecambon.github.io/tidygeocoder/articles/tidygeocoder.html) for more detailed and comprehensive usage examples. 
 
 ## Installation
 
@@ -52,7 +52,13 @@ devtools::install_github("jessecambon/tidygeocoder")
 
 ## Geocoder Services
 
-The supported geocoder services are shown in the table below with their geographic limitations, if they support batch geocoding (geocoding multiple addresses or coordinates in a single query), if an API key is required, and the usage rate limitations. Refer to the website for each geocoder service for the most up-to-date details on costs, capabilities, and usage limitations.
+The supported geocoder services are shown in the table below with their geographic limitations, if they support batch geocoding (geocoding multiple addresses or coordinates in a single query), if an API key is required, and the usage rate limitations. Refer to the website for each geocoder service for the most up-to-date details on costs, capabilities, and usage limitations. 
+
+**Summary:**
+
+- The Census and Nominatim (OSM) services are free and do not require an API key. ArcGIS can be used for free without an API key, but some features require a paid subscription and API key.
+- The Google service has no free tier and [bills per query](https://developers.google.com/maps/documentation/geocoding/usage-and-billing).
+- The Geocodio, Location IQ, OpenCage, Mapbox, HERE, TomTom, MapQuest, and Bing are commercial services that offer free tiers.
 
 | Service                                                                       | Geography     | Batch Geocoding | API Key Required | Query Rate Limit        |
 |-------------------------------------------------------------------------------|---------------|-----------------|------------------|-------------------------|
@@ -69,14 +75,13 @@ The supported geocoder services are shown in the table below with their geograph
 | [MapQuest](https://developer.mapquest.com/documentation/geocoding-api/)                                       | Worldwide     | Yes             | Yes              | None    |
 | [Bing](https://docs.microsoft.com/en-us/bingmaps/rest-services/locations/)                                       | Worldwide     | Yes             | Yes              | None    |
 
-Notes:
 
--   The US Census service supports street-level addresses only (ie. "11 Wall St New York, NY" is OK but "New York, NY" is not).
--   The US Census and Geocodio services both support a maximum of 10,000 addresses per batch query.
--   The US Census and OSM services are free while Geocodio, Location IQ, OpenCage, Mapbox, HERE, TomTom, MapQuest, and Bing are commercial services that offer both free and paid usage tiers. The Google service [bills per query](https://developers.google.com/maps/documentation/geocoding/usage-and-billing).
--   The Census geocoder does not support reverse geocoding.
--   The Mapbox service is capable of performing batch geocoding when using the [permanent endpoint](https://docs.mapbox.com/api/search/geocoding/#batch-geocoding), but this capability is not currently implemented in tidygeocoder. If you'd like to add this capability to the package see [issue \#73](https://github.com/jessecambon/tidygeocoder/issues/73).
-- For ArcGIS service, an API Key is not strictly required if the service is used
+**Notes:**
+
+- The US Census service supports street-level addresses only (ie. "11 Wall St New York, NY" is OK but "New York, NY" is not).
+- The Census geocoder is the only supported service that does not offer reverse geocoding.
+- The Mapbox service is capable of performing batch geocoding when using the [permanent endpoint](https://docs.mapbox.com/api/search/geocoding/#batch-geocoding), but this capability is not currently implemented in tidygeocoder. If you'd like to add this capability to the package see [issue \#73](https://github.com/jessecambon/tidygeocoder/issues/73).
+- For the ArcGIS service, an API Key is not strictly required if the service is used
 for search capabilities only (see [Free vs. paid operations](https://developers.arcgis.com/rest/geocode/api-reference/geocoding-free-vs-paid.htm)). It is possible to include an API Key on the request via the `custom_query` parameter:
 ```r
 tidygeocoder::geo(
