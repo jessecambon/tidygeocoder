@@ -39,6 +39,9 @@ get_coord_parameters <- function(custom_query, method, lat, long) {
     custom_query[['location']] <-  paste0(as.character(lat), ',', as.character(long)) 
   } else if (method == 'bing') {
     custom_query[['to_url']] <-  paste0('/', as.character(lat), ',', as.character(long)) 
+  } else if (method == 'arcgis'){
+    custom_query[['location']] <-
+      paste0(as.character(long), ',', as.character(lat))
   } else {
     stop('Invalid method. See ?reverse_geo', call. = FALSE)
   }
@@ -93,6 +96,7 @@ get_coord_parameters <- function(custom_query, method, lat, long) {
 #'   \item \code{"bing"}: Commercial Bing geocoder service. Requires an 
 #'      API Key to be stored in the "BINGMAPS_API_KEY" environmental variable. 
 #'      Can perform batch geocoding.
+#'   \item \code{"arcgis"}: Commercial ArcGIS geocoder service.
 #' }
 #' 
 #' @param address name of the address column (output data)

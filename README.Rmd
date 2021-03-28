@@ -67,6 +67,7 @@ The supported geocoder services are shown in the table below with their geograph
 | [TomTom](https://developer.tomtom.com/search-api/search-api-documentation/geocoding)                                       | Worldwide     | Yes             | Yes              | 5/second (free tier)    |
 | [MapQuest](https://developer.mapquest.com/documentation/geocoding-api/)                                       | Worldwide     | Yes             | Yes              | None    |
 | [Bing](https://docs.microsoft.com/en-us/bingmaps/rest-services/locations/)                                       | Worldwide     | Yes             | Yes              | None    |
+| [ArcGIS](https://developers.arcgis.com/rest/geocode/api-reference/overview-world-geocoding-service.htm)                                       | Worldwide     | See Note             | See Note               | None    |
 
 Notes:
 
@@ -75,6 +76,18 @@ Notes:
 -   The US Census and OSM services are free while Geocodio, Location IQ, OpenCage, Mapbox, HERE, TomTom, MapQuest, and Bing are commercial services that offer both free and paid usage tiers. The Google service [bills per query](https://developers.google.com/maps/documentation/geocoding/usage-and-billing).
 -   The Census geocoder does not support reverse geocoding.
 -   The Mapbox service is capable of performing batch geocoding when using the [permanent endpoint](https://docs.mapbox.com/api/search/geocoding/#batch-geocoding), but this capability is not currently implemented in tidygeocoder. If you'd like to add this capability to the package see [issue \#73](https://github.com/jessecambon/tidygeocoder/issues/73).
+- For ArcGIS service, an API Key is not strictly required if the service is used
+for search capabilities only (see [Free vs. paid operations](https://developers.arcgis.com/rest/geocode/api-reference/geocoding-free-vs-paid.htm)). It is possible to include an API Key on the request via the `custom_query` parameter:
+```r
+tidygeocoder::geo(
+  address = "New York, USA", method = "arcgis",
+  custom_query = list(
+    token = "<API_KEY>"
+  )
+)
+```
+-   The ArcGIS service is capable of performing [batch geocoding](https://developers.arcgis.com/rest/geocode/api-reference/geocoding-geocode-addresses.htm) 
+but this capability is not currently implemented in tidygeocoder.
 
 ## Usage
 

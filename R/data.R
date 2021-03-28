@@ -64,6 +64,7 @@
 #'  \item \href{https://developer.tomtom.com/search-api/search-api-documentation-geocoding/geocode}{TomTom}
 #'  \item \href{https://developer.mapquest.com/documentation/geocoding-api/}{MapQuest}
 #'  \item \href{https://docs.microsoft.com/en-us/bingmaps/rest-services/locations/}{Bing}
+#'  \item \href{https://developers.arcgis.com/rest/geocode/api-reference/overview-world-geocoding-service.htm}{ArcGIS}
 #' }     
 "api_parameter_reference"
 

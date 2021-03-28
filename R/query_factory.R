@@ -99,6 +99,11 @@ get_bing_url <- function() {
   return('http://dev.virtualearth.net/REST/v1/Locations')
 }
 
+get_arcgis_url <- function(reverse = FALSE) {
+  if (reverse == TRUE) return('https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/reverseGeocode')
+  else return('https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/findAddressCandidates')
+}
+
 ## wrapper function for above functions
 ### IMPORTANT: if arguments are changed in this definition then make sure to 
 ### update reverse_geo.R and geo.R where this function is called.
@@ -118,6 +123,7 @@ get_api_url <- function(method, reverse = FALSE, return_type = 'locations',
          "tomtom" = get_tomtom_url(reverse = reverse),
          "mapquest" = get_mapquest_url(mapquest_open, reverse = reverse),
          "bing" = get_bing_url(),
+         "arcgis" = get_arcgis_url(reverse = reverse),
          )
 
   if (length(api_url) == 0) stop('API URL not found', call. = FALSE)
@@ -279,6 +285,21 @@ query_api <- function(api_url, query_parameters, mode = 'single',
   if (mode == 'single' && method == 'mapquest' && httr::status_code(response) == 200) {
     status_code <- jsonlite::fromJSON(content)$info$statuscode
     if (status_code == 0) status_code <- 200
+    
+    httr::warn_for_status(status_code)
+    return(list(content = content, status = status_code))
+  }
+  
+  # ArcGIS exception 
+  # Need to extract from results
+  if (method == 'arcgis' && httr::status_code(response) == 200) {
+    raw_results <- jsonlite::fromJSON(content)
+    status_code <- 200
+    if ('error' %in% names(raw_results)){
+      status_code <- raw_results$error$code
+      # One error, 498, not standard. Switching to 401      
+      if (status_code == 498) status_code <- 401
+    }
     
     httr::warn_for_status(status_code)
     return(list(content = content, status = status_code))

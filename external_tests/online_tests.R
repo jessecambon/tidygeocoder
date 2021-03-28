@@ -209,10 +209,11 @@ test_error_catching <- function(method, generic_args = list(), custom_args = lis
 test_that("test error catching", {
     test_error_catching('osm', list(format = 'invalid'))
     test_error_catching('census', list())
+    test_error_catching('arcgis', list(format = 'invalid'))
     
     # for methods requiring an api key, passing an invalid key
     # should cause an error
-    for (method in setdiff(methods_to_test, c('osm', 'census'))) {
+    for (method in setdiff(methods_to_test, c('osm', 'census', 'arcgis'))) {
       if (method != "bing"){
         test_error_catching(method, list(api_key = 'invalid')) 
       } else {

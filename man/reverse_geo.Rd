@@ -66,6 +66,7 @@ to open your .Renviron file for editing to add API keys as an environmental vari
   \item \code{"bing"}: Commercial Bing geocoder service. Requires an 
      API Key to be stored in the "BINGMAPS_API_KEY" environmental variable. 
      Can perform batch geocoding.
+  \item \code{"arcgis"}: Commercial ArcGIS geocoder service.
 }}
 
 \item{address}{name of the address column (output data)}
