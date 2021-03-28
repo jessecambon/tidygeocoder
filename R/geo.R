@@ -193,18 +193,18 @@ geo <- function(address = NULL,
             is.null(here_request_id) || is.character(here_request_id),
             is.logical(mapquest_open))
   
-  check_common_args('geo', mode, limit, batch_limit)
+  check_common_args('geo', mode, limit, batch_limit, min_time)
   
   if (!(method %in% c('cascade', method_services))) {
-    stop('Invalid method argument. See ?geo')
+    stop('Invalid method argument. See ?geo', call. = FALSE)
   } 
   
   if (!(cascade_order[1] %in% method_services) || !(cascade_order[2] %in% method_services) || (length(cascade_order) != 2) || !(is.character(cascade_order))) {
-    stop('Invalid cascade_order argument. See ?geo')
+    stop('Invalid cascade_order argument. See ?geo', call. = FALSE)
   }
   
   if (!(return_type %in% c('geographies', 'locations'))) {
-    stop('Invalid return_type argument. See ?geo')
+    stop('Invalid return_type argument. See ?geo', call. = FALSE)
   }
   
   if (no_query == TRUE) verbose <- TRUE
@@ -257,7 +257,7 @@ geo <- function(address = NULL,
                            ' method:\n\n', paste0(illegal_params, collapse = ' '),
                            '\n\nSee ?api_parameter_reference for more details.')
     
-    if (param_error == TRUE) stop(param_message)
+    if (param_error == TRUE) stop(param_message, call. = FALSE)
     else if (verbose == TRUE) message(param_message)
   }
   
@@ -266,8 +266,8 @@ geo <- function(address = NULL,
   # except for method, param_error, and batch_limit_error
   # param_error and batch_limit_error are reverted to FALSE
   if (method == 'cascade') {
-    if (full_results == TRUE) stop("full_results = TRUE cannot be used with the cascade method.")
-    if (is.null(limit) || limit != 1) stop("limit argument must be 1 (default) to use the cascade method.")
+    if (full_results == TRUE) stop("full_results = TRUE cannot be used with the cascade method.", call. = FALSE)
+    if (is.null(limit) || limit != 1) stop("limit argument must be 1 (default) to use the cascade method.", call. = FALSE)
     
     return(do.call(geo_cascade, 
                 c(all_args[!names(all_args) %in% c('method', 'param_error', 'batch_limit_error')],
@@ -284,8 +284,8 @@ geo <- function(address = NULL,
                                     'method API service does not support a limit argument.\n\n',
                                     'See ?api_parameter_reference for more details.')
     
-    if (param_error == TRUE) stop(illegal_limit_message)
-    else if (verbose == TRUE) warning(illegal_limit_message)
+    if (param_error == TRUE) stop(illegal_limit_message, call. = FALSE)
+    else if (verbose == TRUE) warning(illegal_limit_message, call. = FALSE)
   }
   
   # Single Address geocoding -------------------------------------------------------------
@@ -333,7 +333,7 @@ geo <- function(address = NULL,
     1) Set the mode argument to "single" to force single (not batch) geocoding 
     2) Set limit argument to 1 (ie. 1 result is returned per address)
     3) Set return_addresses to FALSE
-    See the geo() function documentation for details.')
+    See the geo() function documentation for details.', call. = FALSE)
     }
     
     # set batch limit to default if not specified
@@ -368,7 +368,7 @@ geo <- function(address = NULL,
     # results of a previous request
     if (method == 'here' && is.character(here_request_id) && return_addresses == TRUE) {
       stop('HERE: When requesting a previous job via here_request_id, set return_addresses to FALSE.
-      See the geo() function documentation for details.')
+      See the geo() function documentation for details.', call. = FALSE)
       }
 
     if (verbose == TRUE) message(paste0('Passing ', 
