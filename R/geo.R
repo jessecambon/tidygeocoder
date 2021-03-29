@@ -188,8 +188,9 @@ geo <- function(address = NULL,
   # Check argument inputs
   stopifnot(is.logical(verbose), is.logical(no_query), is.logical(flatten), is.logical(param_error),
             is.logical(full_results), is.logical(unique_only), is.logical(return_addresses),
-            is.logical(batch_limit_error), is.numeric(timeout),
-            timeout >= 0, is.list(custom_query),
+            is.logical(batch_limit_error), 
+            is.numeric(timeout),timeout >= 0, 
+            is.list(custom_query),
             is.logical(mapbox_permanent), 
             is.null(here_request_id) || is.character(here_request_id),
             is.logical(mapquest_open))

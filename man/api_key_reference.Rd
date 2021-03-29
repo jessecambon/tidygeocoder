@@ -3,7 +3,7 @@
 \docType{data}
 \name{api_key_reference}
 \alias{api_key_reference}
-\title{The name of the environmental variable where the API key will be read from.}
+\title{The name of the environmental variable that the API key will be read from.}
 \format{
 A tibble dataframe
 \describe{
@@ -15,6 +15,6 @@ A tibble dataframe
 api_key_reference
 }
 \description{
-The name of the environmental variable where the API key will be read from.
+The name of the environmental variable that the API key will be read from.
 }
 \keyword{datasets}

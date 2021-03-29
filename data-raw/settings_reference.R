@@ -43,7 +43,6 @@ api_key_reference <- tibble::tribble(
   'bing',      "BINGMAPS_API_KEY",
 )
 
-
 usethis::use_data(batch_limit_reference, overwrite = TRUE)
 usethis::use_data(min_time_reference, overwrite = TRUE)
 usethis::use_data(api_key_reference, overwrite = TRUE)
