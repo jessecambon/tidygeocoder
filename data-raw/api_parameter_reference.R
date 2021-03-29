@@ -16,6 +16,8 @@
 # MapQuest: https://developer.mapquest.com/documentation/geocoding-api/
 #           https://developer.mapquest.com/documentation/open/geocoding-api/
 # Bing: https://docs.microsoft.com/en-us/bingmaps/rest-services/locations/
+# ArcGis: https://developers.arcgis.com/rest/geocode/api-reference/overview-world-geocoding-service.htm
+
 
 ### Usage Policies
 # OSM: https://operations.osmfoundation.org/policies/nominatim/
@@ -26,6 +28,8 @@
 # TomTom: https://developer.tomtom.com/store/maps-api
 # MapQuest: https://developer.mapquest.com/plans
 # Bing: https://docs.microsoft.com/en-us/bingmaps/spatial-data-services/geocode-and-data-source-limits
+# ArcGis: https://developers.arcgis.com/rest/geocode/api-reference/geocoding-free-vs-paid.htm
+
 
 ## Note: generic_name = 'address' is for one-line addresses
 ## If generic_name == NA then that means the parameter is specific to a given API/method
@@ -143,6 +147,13 @@ api_parameter_reference <- tibble::tribble(
   'bing',      'api_key',    'key',           NA,                  TRUE,
   'bing',      'address',    'q',             NA,                  TRUE,  
   'bing',      'limit',      'maxResults',    '1',                 FALSE,
+  
+  ########################### ArcGis #################################
+  # ArcGis may not require an api key
+  
+  'arcgis', 'address',    'SingleLine',   NA,                  FALSE,  
+  'arcgis', 'limit',      'maxLocations', '1',                 FALSE,
+  'arcgis', 'format',     'f',            'json',              TRUE,
 )
 
 usethis::use_data(api_parameter_reference, overwrite = TRUE)

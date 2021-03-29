@@ -37,6 +37,7 @@ test_that("geocode null/empty addresses", {
   expect_identical(geo_tomtom(" ", return_addresses = FALSE, no_query = TRUE), NA_result)
   expect_identical(geo_mapquest(" ", return_addresses = FALSE, no_query = TRUE), NA_result)
   expect_identical(geo_bing(" ", return_addresses = FALSE, no_query = TRUE), NA_result)
+  expect_identical(geo_arcgis(" ", return_addresses = FALSE, no_query = TRUE), NA_result)
   
   # Test with tibble
   NA_data <- tibble::tribble(~addr,
@@ -56,6 +57,7 @@ test_that("geocode null/empty addresses", {
   expect_identical(colnames(geocode(NA_data, addr, method = 'tomtom', no_query = TRUE)), expected_colnames)
   expect_identical(colnames(geocode(NA_data, addr, method = 'mapquest', no_query = TRUE)), expected_colnames)
   expect_identical(colnames(geocode(NA_data, addr, method = 'bing', no_query = TRUE)), expected_colnames)
+  expect_identical(colnames(geocode(NA_data, addr, method = 'arcgis', no_query = TRUE)), expected_colnames)
   
   # make sure geo_method is NA when address is NA
   expect_equal(nrow(result), nrow(NA_data)) # check dataframe length
@@ -64,9 +66,10 @@ test_that("geocode null/empty addresses", {
   expect_equal(nrow(geocode(NA_data, addr, method = 'mapbox', no_query = TRUE)), nrow(NA_data))
   expect_equal(nrow(geocode(NA_data, addr, method = 'here', no_query = TRUE)), nrow(NA_data))
   expect_equal(nrow(geocode(NA_data, addr, method = 'tomtom', no_query = TRUE)), nrow(NA_data))
+  expect_equal(nrow(geocode(NA_data, addr, method = 'arcgis', no_query = TRUE)), nrow(NA_data))
   expect_equal(nrow(geocode(NA_data, addr, method = 'mapquest', no_query = TRUE)), nrow(NA_data))
   expect_equal(nrow(geocode(NA_data, addr, method = 'bing', no_query = TRUE)), nrow(NA_data))
-  
+
   # Test batch limit detection and error/warning toggling
   expect_error(geo(address = as.character(seq(1, 10)), 
                    method = 'census', batch_limit = 5, no_query = TRUE, batch_limit_error = TRUE))

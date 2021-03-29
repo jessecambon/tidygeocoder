@@ -61,6 +61,7 @@ reverse_geocode <- function(.tbl, lat, long, address = address, limit = 1, retur
     stop('.tbl is not a dataframe. See ?reverse_geocode')
   }
   
+  # This check prevents a address-results misalignment issue https://github.com/jessecambon/tidygeocoder/issues/88
   if ((is.null(limit) || limit != 1) && return_coords == FALSE && unique_only == FALSE) {
     stop('To use limit > 1 or limit = NULL, set either return_coords or unique_only to TRUE.')
   }

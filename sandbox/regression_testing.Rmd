@@ -359,3 +359,39 @@ geocode_bing2 <- sample1 %>%
   )
 geocode_bing2
 ```
+
+# Check arcgis
+
+```{r}
+
+louisville_arcgis <- louisville %>%
+  mutate(full = paste0(street, ", Louisville")) %>%
+  geocode(
+    address = full,
+    method = 'arcgis',
+    full_results = TRUE,
+    custom_query = list(
+      outFields = "*"
+      )) %>%
+  mutate(lat_diff = lat - latitude,
+         long_diff = long - longitude) %>%
+  select(lat_diff, long_diff, everything())
+
+louisville_arcgis
+```
+
+
+```{r}
+geocode_arcgis1 <- sample1 %>%
+  mutate(addr = address) %>%
+  select(-address) %>%
+  geocode(
+    address = addr,
+    method = 'arcgis',
+    mode = 'single',
+    full_results = TRUE,
+    verbose = TRUE,
+    limit = 1
+  )
+geocode_arcgis1
+```

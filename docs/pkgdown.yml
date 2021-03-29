@@ -2,8 +2,9 @@ pandoc: 2.11.2
 pkgdown: 1.6.1
 pkgdown_sha: ~
 articles:
+  api_reference: api_reference.html
   tidygeocoder: tidygeocoder.html
-last_built: 2021-03-27T15:58Z
+last_built: 2021-03-29T02:26Z
 urls:
   reference: https://jessecambon.github.io/tidygeocoder/reference
   article: https://jessecambon.github.io/tidygeocoder/articles

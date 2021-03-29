@@ -23,7 +23,6 @@ The `geocode()` and `geo()` functions are for forward geocoding while the `rever
 
 ```{r setup, warning = FALSE, message = FALSE}
 library(tibble)
-library(DT)
 library(dplyr)
 library(tidygeocoder)
 
@@ -160,7 +159,7 @@ knitr::kable(uniqueonly1)
 
 ## Customizing Queries
 
-The `limit` argument can be specified to return multiple matches per input if available:
+The `limit` argument can be specified to allow multiple results (rows) per input if available. The maximum value for the `limit` argument is often 100 for geocoder services.
 
 ```{r}
 geo_limit <- geo(c('Lima, Peru', 'Cairo, Egypt'), method = 'osm', 
@@ -193,17 +192,3 @@ Here are some additional usage notes for the `geocode()`, `geo()`, `reverse_geoc
 * To specify a custom geocoder API URL, use the `api_url` argument. Alternatively, the `iq_region` and `geocodio_v` arguments are helper functions for customizing the API URL. 
 * If not specified manually, the `min_time` argument will default to a value based on the maximum query rate of the given geocoder service. If you are using a local Nominatim server or have a commercial geocoder plan that has less restrictive usage limits then you can manually set `min_time` to a lower valuer (such as 0).
 * By default batch geocoding will be used if available when more than one address is provided, otherwise single address geocoding will be used. To override this default, use the `mode` argument.
-
-## API Reference
-
-You can refer to the `api_parameter_reference` dataset to see which which parameters are supported with each geocoder service. This dataset is displayed below. The `generic_name` is the universal parameter named shared between services while `api_name` is the name of the parameter for the specified service (`method`). 
-
-Note that the input parameters (latitude and longitude) for reverse geocoding are not contained in this dataset and are instead handled directly by the `reverse_geo()` function. Refer to `?api_parameter_reference` for more details and links to the API documentation for each geocoder service.
-
-```{r, echo = FALSE}
-api_parameter_reference %>% 
-  mutate(across(c(method, generic_name, api_name), as.factor)) %>%
-  datatable(filter = 'top', rownames = FALSE, 
-  options = list(lengthMenu = c(5, 8, 12, nrow(.)), pageLength = 12, autoWidth = TRUE))
-```
-

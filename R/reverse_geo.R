@@ -39,6 +39,9 @@ get_coord_parameters <- function(custom_query, method, lat, long) {
     custom_query[['location']] <-  paste0(as.character(lat), ',', as.character(long)) 
   } else if (method == 'bing') {
     custom_query[['to_url']] <-  paste0('/', as.character(lat), ',', as.character(long)) 
+  } else if (method == 'arcgis'){
+    custom_query[['location']] <-
+      paste0(as.character(long), ',', as.character(lat))
   } else {
     stop('Invalid method. See ?reverse_geo', call. = FALSE)
   }
@@ -93,6 +96,7 @@ get_coord_parameters <- function(custom_query, method, lat, long) {
 #'   \item \code{"bing"}: Commercial Bing geocoder service. Requires an 
 #'      API Key to be stored in the "BINGMAPS_API_KEY" environmental variable. 
 #'      Can perform batch geocoding.
+#'   \item \code{"arcgis"}: Commercial ArcGIS geocoder service.
 #' }
 #' 
 #' @param address name of the address column (output data)
@@ -175,11 +179,19 @@ reverse_geo <- function(lat, long, method = 'osm', address = address, limit = 1,
       is.null(here_request_id) || is.character(here_request_id),
       is.logical(mapquest_open)
   )
-  if (length(lat) != length(long)) stop('Lengths of lat and long must be equal.')
+  
+  # Check method argument
+  # Currently census is the only method that doesn't support reverse geocoding
+  method_services <- unique(tidygeocoder::api_parameter_reference[['method']])
+  if (!(method %in% method_services[!method_services %in% c('census')])) {
+    stop('Invalid method argument. See ?reverse_geo', call. = FALSE)
+  } 
+  
+  if (length(lat) != length(long)) stop('Lengths of lat and long must be equal.', call. = FALSE)
   lat <- as.numeric(lat)
   long <- as.numeric(long)
   
-  check_common_args('reverse_geo', mode, limit, batch_limit)
+  check_common_args('reverse_geo', mode, limit, batch_limit, min_time)
   
   if (no_query == TRUE) verbose <- TRUE
   start_time <- Sys.time() # start timer
@@ -242,7 +254,7 @@ reverse_geo <- function(lat, long, method = 'osm', address = address, limit = 1,
     1) Set the mode argument to "single" to force single (not batch) geocoding 
     2) Set limit argument to 1 (ie. 1 result is returned per coordinate)
     3) Set return_coords to FALSE
-    See the reverse_geo() function documentation for details.')
+    See the reverse_geo() function documentation for details.', call. = FALSE)
     }
     
     # set batch limit to default if not specified
@@ -255,13 +267,13 @@ reverse_geo <- function(lat, long, method = 'osm', address = address, limit = 1,
     # results of a previous request
     if (method == 'here' && is.character(here_request_id) && return_coords == TRUE) {
       stop('HERE: When requesting a previous job via here_request_id, set return_coords to FALSE.
-      See the geo() function documentation for details.')
+      See the geo() function documentation for details.', call. = FALSE)
     }
     
     # Enforce batch limit if needed
     if (num_unique_coords > batch_limit) {
       stop(paste0(format(num_unique_coords, big.mark = ','), ' unique coordinates found which exceeds the batch limit of',
-            format(batch_limit, big.mark = ','), '.'))
+            format(batch_limit, big.mark = ','), '.'), call. = FALSE)
     }
     
     if (verbose == TRUE) message(paste0('Passing ', 

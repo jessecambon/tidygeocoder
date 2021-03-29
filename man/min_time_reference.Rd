@@ -3,7 +3,9 @@
 \docType{data}
 \name{min_time_reference}
 \alias{min_time_reference}
-\title{The minimum number of seconds required per query to comply with usage restrictions}
+\title{The minimum number of seconds required per query to comply with usage restrictions. 
+The \code{\link{geo}} and \code{\link{reverse_geo}} functions use this value to
+slow down the rate of querying if necessary.}
 \format{
 A tibble dataframe
 \describe{
@@ -16,6 +18,8 @@ A tibble dataframe
 min_time_reference
 }
 \description{
-The minimum number of seconds required per query to comply with usage restrictions
+The minimum number of seconds required per query to comply with usage restrictions. 
+The \code{\link{geo}} and \code{\link{reverse_geo}} functions use this value to
+slow down the rate of querying if necessary.
 }
 \keyword{datasets}

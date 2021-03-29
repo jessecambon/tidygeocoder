@@ -1,0 +1,77 @@
+---
+title: "API References"
+output: rmarkdown::html_vignette
+description: >
+  References for geocoder query parameters and settings
+vignette: >
+  %\VignetteIndexEntry{API References}
+  %\VignetteEngine{knitr::rmarkdown}
+  \usepackage[utf8]{inputenc}
+---
+
+```{r, echo = FALSE, message = FALSE}
+knitr::opts_chunk$set(collapse = T, comment = "#>")
+options(tibble.print_min = 4L, tibble.print_max = 4L)
+set.seed(42)
+
+library(DT)
+library(tidygeocoder)
+library(gt)
+library(dplyr)
+```
+
+This page displays built-in datasets that are used to set parameters and settings used in geocoder queries.
+
+## API Parameters
+
+The `api_parameter_reference` maps geocoder service API parameters to a common set of "generic" parameters. The `generic_name` is the universal parameter named shared between services while `api_name` is the name of the parameter for the specified service (`method`). 
+
+Note that the input parameters (latitude and longitude) for reverse geocoding are not contained in this dataset and are instead handled directly by the `reverse_geo()` function. Refer to `?api_parameter_reference` for more details and links to the API documentation for each geocoder service.
+
+```{r, echo = FALSE}
+api_parameter_reference %>% 
+  mutate(across(c(method, generic_name, api_name), as.factor)) %>%
+  datatable(filter = 'top', rownames = FALSE, 
+  options = list(
+    lengthMenu = c(5, 10, 15, 20, nrow(.)),
+    pageLength = 10,
+    autoWidth = TRUE)
+  )
+```
+
+## Minimum Time Per Query
+
+The minimum time (in seconds) required per query to comply with the usage limitations is stored in the `min_time_reference` dataset. See `?min_time_reference`.
+
+```{r, echo = FALSE}
+min_time_reference %>%
+  gt() %>%
+  opt_table_outline() %>%
+  opt_table_lines() %>%
+  tab_options(column_labels.font.weight = 'bold')
+```
+
+## Batch Query Limits
+
+The maximum number of inputs (geographic coordinates or addresses) per batch query is stored in the `batch_limit_reference` dataset. See `?batch_limit_reference`.
+
+```{r, echo = FALSE}
+batch_limit_reference %>%
+  gt() %>%
+  fmt_number(columns = 'batch_limit', decimals = 0) %>%
+  opt_table_outline() %>%
+  opt_table_lines() %>%
+  tab_options(column_labels.font.weight = 'bold')
+```
+
+## API Key Retrieval 
+
+API keys are retrieved from environmental variables. The name of the environmental variable used for each service is stored in the `api_key_reference` dataset. See `?api_key_reference`.
+
+```{r, echo = FALSE}
+api_key_reference %>%
+  gt() %>%
+  opt_table_outline() %>%
+  opt_table_lines() %>%
+  tab_options(column_labels.font.weight = 'bold')
+```

@@ -6,8 +6,15 @@ pkg.globals <- new.env()
 # These are the input field names for forward geocoding
 pkg.globals$address_arg_names <- c('address', 'street', 'city', 'county', 'state', 'postalcode', 'country')
 
-
 ############################################################################################################
+
+# utility function for extracting setting values according to the method column
+get_setting_value <- function(df, method, value_column) {
+  return(
+    df[which(df[['method']] == method), ][[value_column]]
+  )
+}
+
 
 # For a list of dataframes, creates an NA df with 1 row with the column name supplied
 # this is used in parsing the response of the geocodio batch geocoder
@@ -101,7 +108,7 @@ format_address <- function(df, fields) {
 
 # check some arguments common to geo() and reverse_geo()
 # fun_name is the name of the function that calls this one
-check_common_args <- function(fun_name, mode, limit, batch_limit) {
+check_common_args <- function(fun_name, mode, limit, batch_limit, min_time) {
   
   if (!(mode %in% c('', 'single', 'batch'))) {
     stop(paste0('Invalid mode argument. See ?', fun_name), call. = FALSE)
@@ -116,4 +123,9 @@ check_common_args <- function(fun_name, mode, limit, batch_limit) {
   if (!(is.null(batch_limit) || (is.numeric(batch_limit) && batch_limit >= 1))) {
     stop(paste0('batch_limit must be NULL or >= 1. See ?', fun_name), call. = FALSE)
   }
+  
+  # min_time should either be NULL or numeric and >= 0
+  if (!(is.null(min_time) || (is.numeric(min_time) && min_time >= 0))) {
+    stop(paste0('min_time must be NULL or >= 0. See ?', fun_name), call. = FALSE)
+  }  
 }

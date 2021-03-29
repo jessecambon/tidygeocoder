@@ -51,7 +51,6 @@ package_inputs <- function(input_orig, coords = FALSE) {
                         crosswalk = tibble::as_tibble(crosswalk[!names(crosswalk) %in% input_colnames])))
 }
 
-
 # Function for packaging and deduping addresses that are passed to the geo function
 # package addresses
 package_addresses <- function(address = NULL, 

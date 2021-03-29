@@ -51,6 +51,18 @@
 <li>
   <a href="reference/index.html">Reference</a>
 </li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Articles
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+<li>
+      <a href="articles/api_reference.html">API References</a>
+    </li>
+  </ul>
+</li>
 <li>
   <a href="news/index.html">Changelog</a>
 </li>
@@ -97,7 +109,9 @@
 <li>
 <a href="https://jessecambon.github.io/tag/tidygeocoder">Blog posts on tidygeocoder</a> for updates on releases and more usage examples. In particular <a href="https://jessecambon.github.io/2020/07/15/tidygeocoder-1-0-0.html">this post</a> and <a href="https://jessecambon.github.io/2019/11/11/tidygeocoder-demo.html">this post</a> demonstrate some relevant mapping workflows.</li>
 <li>
-<a href="https://jessecambon.github.io/tidygeocoder/articles/tidygeocoder.html">Getting Started Vignette</a> for more detailed and comprehensive usage examples. The last section of the vignette contains a <a href="https://jessecambon.github.io/tidygeocoder/articles/tidygeocoder.html#api-reference-1">helpful reference</a> on geocoder service parameters.</li>
+<a href="https://jessecambon.github.io/tidygeocoder/articles/tidygeocoder.html">Getting Started Vignette</a> for more detailed and comprehensive usage examples.</li>
+<li>
+<a href="https://jessecambon.github.io/tidygeocoder/articles/api_reference.html">API Reference Page</a> to view the built-in datasets that are used by tidygeocoder to set key parameters and settings for geocoder queries.</li>
 </ul>
 </div>
 <div id="installation" class="section level2">
@@ -139,62 +153,69 @@
 <td>1/second</td>
 </tr>
 <tr class="odd">
+<td><a href="https://developers.arcgis.com/rest/geocode/api-reference/overview-world-geocoding-service.htm">ArcGIS</a></td>
+<td>Worldwide</td>
+<td>See Note</td>
+<td>See Note</td>
+<td>None</td>
+</tr>
+<tr class="even">
 <td><a href="https://www.geocod.io/">Geocodio</a></td>
 <td>US and Canada</td>
 <td>Yes</td>
 <td>Yes</td>
 <td>1000/minute (free tier)</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td><a href="https://locationiq.com/">Location IQ</a></td>
 <td>Worldwide</td>
 <td>No</td>
 <td>Yes</td>
 <td>2/second (free tier)</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td><a href="https://developers.google.com/maps/documentation/geocoding/overview">Google</a></td>
 <td>Worldwide</td>
 <td>No</td>
 <td>Yes</td>
 <td>50/second</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td><a href="https://opencagedata.com">OpenCage</a></td>
 <td>Worldwide</td>
 <td>No</td>
 <td>Yes</td>
 <td>1/second (free tier)</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td><a href="https://docs.mapbox.com/api/search/">Mapbox</a></td>
 <td>Worldwide</td>
 <td>See Note</td>
 <td>Yes</td>
 <td>10/second (free tier)</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td><a href="https://developer.here.com/products/geocoding-and-search">HERE</a></td>
 <td>Worldwide</td>
 <td>Yes</td>
 <td>Yes</td>
 <td>None</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td><a href="https://developer.tomtom.com/search-api/search-api-documentation/geocoding">TomTom</a></td>
 <td>Worldwide</td>
 <td>Yes</td>
 <td>Yes</td>
 <td>5/second (free tier)</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td><a href="https://developer.mapquest.com/documentation/geocoding-api/">MapQuest</a></td>
 <td>Worldwide</td>
 <td>Yes</td>
 <td>Yes</td>
 <td>None</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td><a href="https://docs.microsoft.com/en-us/bingmaps/rest-services/locations/">Bing</a></td>
 <td>Worldwide</td>
 <td>Yes</td>
@@ -203,20 +224,36 @@
 </tr>
 </tbody>
 </table>
-<p>Notes:</p>
+<p><strong>Summary:</strong></p>
+<ul>
+<li>The Census and Nominatim (OSM) services are free and do not require an API key.</li>
+<li>ArcGIS can be used for free without an API key, but some features require a paid subscription and API key.</li>
+<li>The Geocodio, Location IQ, OpenCage, Mapbox, HERE, TomTom, MapQuest, and Bing are commercial services that offer free tiers.</li>
+<li>The Google service has no free tier and <a href="https://developers.google.com/maps/documentation/geocoding/usage-and-billing">bills per query</a>.</li>
+</ul>
+<p><strong>Notes:</strong></p>
 <ul>
 <li>The US Census service supports street-level addresses only (ie. “11 Wall St New York, NY” is OK but “New York, NY” is not).</li>
-<li>The US Census and Geocodio services both support a maximum of 10,000 addresses per batch query.</li>
-<li>The US Census and OSM services are free while Geocodio, Location IQ, OpenCage, Mapbox, HERE, TomTom, MapQuest, and Bing are commercial services that offer both free and paid usage tiers. The Google service <a href="https://developers.google.com/maps/documentation/geocoding/usage-and-billing">bills per query</a>.</li>
-<li>The Census geocoder does not support reverse geocoding.</li>
+<li>The Census geocoder is the only supported service that does not offer reverse geocoding.</li>
 <li>The Mapbox service is capable of performing batch geocoding when using the <a href="https://docs.mapbox.com/api/search/geocoding/#batch-geocoding">permanent endpoint</a>, but this capability is not currently implemented in tidygeocoder. If you’d like to add this capability to the package see <a href="https://github.com/jessecambon/tidygeocoder/issues/73">issue #73</a>.</li>
+<li>For the ArcGIS service, an API Key is not strictly required if the service is used for search capabilities only (see <a href="https://developers.arcgis.com/rest/geocode/api-reference/geocoding-free-vs-paid.htm">Free vs. paid operations</a>). It is possible to include an API Key on the request via the <code>custom_query</code> parameter:</li>
+</ul>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">tidygeocoder</span><span class="fu">::</span><span class="fu"><a href="reference/geo.html">geo</a></span><span class="op">(</span>
+  address <span class="op">=</span> <span class="st">"New York, USA"</span>, method <span class="op">=</span> <span class="st">"arcgis"</span>,
+  custom_query <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>
+    token <span class="op">=</span> <span class="st">"&lt;API_KEY&gt;"</span>
+  <span class="op">)</span>
+<span class="op">)</span></code></pre></div>
+<ul>
+<li>The ArcGIS service is capable of performing <a href="https://developers.arcgis.com/rest/geocode/api-reference/geocoding-geocode-addresses.htm">batch geocoding</a> but this capability is not currently implemented in tidygeocoder.</li>
 </ul>
 </div>
 <div id="usage" class="section level2">
 <h2 class="hasAnchor">
 <a href="#usage" class="anchor"></a>Usage</h2>
 <p>In this example we will geocode a few addresses using the <code><a href="reference/geocode.html">geocode()</a></code> function and plot them on a map with ggplot.</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org">dplyr</a></span><span class="op">)</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tibble.tidyverse.org/">tibble</a></span><span class="op">)</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://jessecambon.github.io/tidygeocoder/">tidygeocoder</a></span><span class="op">)</span>
@@ -268,7 +305,7 @@
 </tbody>
 </table>
 <p>Now that we have the longitude and latitude coordinates, we can use ggplot to plot our addresses on a map.</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org">ggplot2</a></span><span class="op">)</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">maps</span><span class="op">)</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/slowkow/ggrepel">ggrepel</a></span><span class="op">)</span>
@@ -279,7 +316,7 @@
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_void</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <p><img src="reference/figures/README-usamap-1.png" style="display: block; margin: auto;"></p>
 <p>To return the full results from a geocoder service (not just latitude and longitude) you can use <code>full_results = TRUE</code>. Additionally, for the Census geocoder you can use <code>return_type = 'geographies'</code> to return geography columns (state, county, Census tract, and Census block).</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">full</span> <span class="op">&lt;-</span> <span class="va">some_addresses</span> <span class="op">%&gt;%</span>
   <span class="fu"><a href="reference/geocode.html">geocode</a></span><span class="op">(</span><span class="va">addr</span>, method <span class="op">=</span> <span class="st">'census'</span>, full_results <span class="op">=</span> <span class="cn">TRUE</span>, 
           return_type <span class="op">=</span> <span class="st">'geographies'</span><span class="op">)</span></code></pre></div>
@@ -373,7 +410,7 @@
 </tbody>
 </table>
 <p>To perform <strong>reverse geocoding</strong> (obtaining addresses from latitude and longitude coordinates), we can use the <code><a href="reference/reverse_geocode.html">reverse_geocode()</a></code> function. The arguments are similar to the <code><a href="reference/geocode.html">geocode()</a></code> function, but we now are specifying the latitude and longitude columns in our dataset with the <code>lat</code> and <code>long</code> arguments. The single line address is returned in a column named by the <code>address</code> argument. See the <code><a href="reference/reverse_geo.html">reverse_geo()</a></code> function documentation for more details on reverse geocoding.</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">coordinates</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span><span class="op">(</span>latitude <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">38.895865</span>, <span class="fl">43.6534817</span>, <span class="fl">35.0844</span><span class="op">)</span>,
                 longitude <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">77.0307713</span>, <span class="op">-</span><span class="fl">79.3839347</span>, <span class="op">-</span><span class="fl">106.6504</span><span class="op">)</span><span class="op">)</span>
 
@@ -532,7 +569,7 @@
 <div id="citing-tidygeocoder" class="section level2">
 <h2 class="hasAnchor">
 <a href="#citing-tidygeocoder" class="anchor"></a>Citing tidygeocoder</h2>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/citation.html">citation</a></span><span class="op">(</span><span class="st">'tidygeocoder'</span><span class="op">)</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; To cite tidygeocoder in publications use:</span>
@@ -587,7 +624,8 @@
 <ul class="list-unstyled">
 <li>
 <a href="https://jessecambon.github.io">Jesse Cambon</a> <br><small class="roles"> Author, maintainer </small> <a href="https://orcid.org/0000-0001-6854-1514" target="orcid.widget" aria-label="ORCID"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
-<li>Diego Hernangómez <br><small class="roles"> Author </small> <a href="https://orcid.org/0000-0001-8457-4658" target="orcid.widget" aria-label="ORCID"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
+<li>
+<a href="https://github.com/dieghernan">Diego Hernangómez</a> <br><small class="roles"> Author </small> <a href="https://orcid.org/0000-0001-8457-4658" target="orcid.widget" aria-label="ORCID"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
 <li>Christopher Belanger <br><small class="roles"> Author </small>  </li>
 <li>Daniel Possenriede <br><small class="roles"> Author </small> <a href="https://orcid.org/0000-0002-6738-9845" target="orcid.widget" aria-label="ORCID"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
 </ul>
@@ -609,7 +647,7 @@
 
 
       <footer><div class="copyright">
-  <p>Developed by <a href="https://jessecambon.github.io">Jesse Cambon</a>, Diego Hernangómez, Christopher Belanger, Daniel Possenriede.</p>
+  <p>Developed by <a href="https://jessecambon.github.io">Jesse Cambon</a>, <a href="https://github.com/dieghernan">Diego Hernangómez</a>, Christopher Belanger, Daniel Possenriede.</p>
 </div>
 
 <div class="pkgdown">

@@ -64,7 +64,8 @@
 #'  \item \href{https://developer.tomtom.com/search-api/search-api-documentation-geocoding/geocode}{TomTom}
 #'  \item \href{https://developer.mapquest.com/documentation/geocoding-api/}{MapQuest}
 #'  \item \href{https://docs.microsoft.com/en-us/bingmaps/rest-services/locations/}{Bing}
-#' }     
+#'  \item \href{https://developers.arcgis.com/rest/geocode/api-reference/overview-world-geocoding-service.htm}{ArcGIS}
+#' }
 "api_parameter_reference"
 
 #' The batch limit for each geocoder service
@@ -76,7 +77,9 @@
 #' }
 "batch_limit_reference"
 
-#' The minimum number of seconds required per query to comply with usage restrictions
+#' The minimum number of seconds required per query to comply with usage restrictions. 
+#' The \code{\link{geo}} and \code{\link{reverse_geo}} functions use this value to
+#' slow down the rate of querying if necessary.
 #'
 #' @format A tibble dataframe
 #' \describe{
@@ -85,3 +88,12 @@
 #'  \item{description}{A description of the usage rate restriction}
 #' }
 "min_time_reference"
+
+#' The name of the environmental variable that the API key will be read from.
+#'
+#' @format A tibble dataframe
+#' \describe{
+#'  \item{method}{Geocoder service name}
+#'  \item{env_var}{Environmental variable name}
+#' }
+"api_key_reference"
