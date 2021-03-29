@@ -25,6 +25,7 @@ reference:
   - api_parameter_reference
   - min_time_reference
   - batch_limit_reference
+  - api_key_reference
 - title: Utility Functions
   contents:
   - get_api_query

@@ -32,8 +32,9 @@ Batch geocoding (geocoding multiple addresses or coordinates per query) is used 
 
 Some useful references:
 
--   [Blog posts on tidygeocoder](https://jessecambon.github.io/tag/tidygeocoder) for updates on releases and more usage examples. In particular [this post](https://jessecambon.github.io/2020/07/15/tidygeocoder-1-0-0.html) and [this post](https://jessecambon.github.io/2019/11/11/tidygeocoder-demo.html) demonstrate some relevant mapping workflows.
--   [Getting Started Vignette](https://jessecambon.github.io/tidygeocoder/articles/tidygeocoder.html) for more detailed and comprehensive usage examples. 
+- [Blog posts on tidygeocoder](https://jessecambon.github.io/tag/tidygeocoder) for updates on releases and more usage examples. In particular [this post](https://jessecambon.github.io/2020/07/15/tidygeocoder-1-0-0.html) and [this post](https://jessecambon.github.io/2019/11/11/tidygeocoder-demo.html) demonstrate some relevant mapping workflows.
+- [Getting Started Vignette](https://jessecambon.github.io/tidygeocoder/articles/tidygeocoder.html) for more detailed and comprehensive usage examples. 
+- [Reference Datasets](https://jessecambon.github.io/tidygeocoder/articles/api_reference.html) to view the built-in datasets that are used by tidygeocoder to set key parameters and settings for geocoder queries.
 
 ## Installation
 
@@ -56,9 +57,10 @@ The supported geocoder services are shown in the table below with their geograph
 
 **Summary:**
 
-- The Census and Nominatim (OSM) services are free and do not require an API key. ArcGIS can be used for free without an API key, but some features require a paid subscription and API key.
-- The Google service has no free tier and [bills per query](https://developers.google.com/maps/documentation/geocoding/usage-and-billing).
+- The Census and Nominatim (OSM) services are free and do not require an API key. 
+- ArcGIS can be used for free without an API key, but some features require a paid subscription and API key.
 - The Geocodio, Location IQ, OpenCage, Mapbox, HERE, TomTom, MapQuest, and Bing are commercial services that offer free tiers.
+- The Google service has no free tier and [bills per query](https://developers.google.com/maps/documentation/geocoding/usage-and-billing).
 
 | Service                                                                       | Geography     | Batch Geocoding | API Key Required | Query Rate Limit        |
 |-------------------------------------------------------------------------------|---------------|-----------------|------------------|-------------------------|
@@ -83,6 +85,7 @@ The supported geocoder services are shown in the table below with their geograph
 - The Mapbox service is capable of performing batch geocoding when using the [permanent endpoint](https://docs.mapbox.com/api/search/geocoding/#batch-geocoding), but this capability is not currently implemented in tidygeocoder. If you'd like to add this capability to the package see [issue \#73](https://github.com/jessecambon/tidygeocoder/issues/73).
 - For the ArcGIS service, an API Key is not strictly required if the service is used
 for search capabilities only (see [Free vs. paid operations](https://developers.arcgis.com/rest/geocode/api-reference/geocoding-free-vs-paid.htm)). It is possible to include an API Key on the request via the `custom_query` parameter:
+
 ```r
 tidygeocoder::geo(
   address = "New York, USA", method = "arcgis",

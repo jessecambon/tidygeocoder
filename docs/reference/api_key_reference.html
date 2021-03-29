@@ -6,9 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>The minimum number of seconds required per query to comply with usage restrictions. 
-The geo and reverse_geo functions use this value to
-slow down the rate of querying if necessary. — min_time_reference • tidygeocoder</title>
+<title>The name of the environmental variable that the API key will be read from. — api_key_reference • tidygeocoder</title>
 
 
 <!-- jquery -->
@@ -47,12 +45,8 @@ slow down the rate of querying if necessary. — min_time_reference • tidygeoc
 
 
 
-<meta property="og:title" content="The minimum number of seconds required per query to comply with usage restrictions. 
-The geo and reverse_geo functions use this value to
-slow down the rate of querying if necessary. — min_time_reference" />
-<meta property="og:description" content="The minimum number of seconds required per query to comply with usage restrictions. 
-The geo and reverse_geo functions use this value to
-slow down the rate of querying if necessary." />
+<meta property="og:title" content="The name of the environmental variable that the API key will be read from. — api_key_reference" />
+<meta property="og:description" content="The name of the environmental variable that the API key will be read from." />
 
 
 
@@ -144,28 +138,23 @@ slow down the rate of querying if necessary." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>The minimum number of seconds required per query to comply with usage restrictions. 
-The <code><a href='geo.html'>geo</a></code> and <code><a href='reverse_geo.html'>reverse_geo</a></code> functions use this value to
-slow down the rate of querying if necessary.</h1>
+    <h1>The name of the environmental variable that the API key will be read from.</h1>
     <small class="dont-index">Source: <a href='https://github.com/jessecambon/tidygeocoder/blob/master/R/data.R'><code>R/data.R</code></a></small>
-    <div class="hidden name"><code>min_time_reference.Rd</code></div>
+    <div class="hidden name"><code>api_key_reference.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>The minimum number of seconds required per query to comply with usage restrictions. 
-The <code><a href='geo.html'>geo</a></code> and <code><a href='reverse_geo.html'>reverse_geo</a></code> functions use this value to
-slow down the rate of querying if necessary.</p>
+    <p>The name of the environmental variable that the API key will be read from.</p>
     </div>
 
-    <pre class="usage"><span class='va'>min_time_reference</span></pre>
+    <pre class="usage"><span class='va'>api_key_reference</span></pre>
 
 
     <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
 
     <p>A tibble dataframe</p><dl>
  <dt>method</dt><dd><p>Geocoder service name</p></dd>
- <dt>min_time</dt><dd><p>The minimum number of seconds required per query to comply with usage restrictions</p></dd>
- <dt>description</dt><dd><p>A description of the usage rate restriction</p></dd>
+ <dt>env_var</dt><dd><p>Environmental variable name</p></dd>
 
 </dl>
 

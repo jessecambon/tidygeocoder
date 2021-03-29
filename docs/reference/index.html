@@ -260,13 +260,21 @@ with a specified method</p></td>
         <td>
           <p><code><a href="min_time_reference.html">min_time_reference</a></code> </p>
         </td>
-        <td><p>The minimum number of seconds required per query to comply with usage restrictions</p></td>
+        <td><p>The minimum number of seconds required per query to comply with usage restrictions. 
+The <code>geo</code> and <code>reverse_geo</code> functions use this value to
+slow down the rate of querying if necessary.</p></td>
       </tr><tr>
         
         <td>
           <p><code><a href="batch_limit_reference.html">batch_limit_reference</a></code> </p>
         </td>
         <td><p>The batch limit for each geocoder service</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="api_key_reference.html">api_key_reference</a></code> </p>
+        </td>
+        <td><p>The name of the environmental variable that the API key will be read from.</p></td>
       </tr>
     </tbody><tbody>
       <tr>
