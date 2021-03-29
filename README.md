@@ -48,8 +48,8 @@ Some useful references:
 -   [Getting Started
     Vignette](https://jessecambon.github.io/tidygeocoder/articles/tidygeocoder.html)
     for more detailed and comprehensive usage examples.
--   [Reference
-    Datasets](https://jessecambon.github.io/tidygeocoder/articles/api_reference.html)
+-   [API Reference
+    Page](https://jessecambon.github.io/tidygeocoder/articles/api_reference.html)
     to view the built-in datasets that are used by tidygeocoder to set
     key parameters and settings for geocoder queries.
 
@@ -79,17 +79,6 @@ required, and the usage rate limitations. Refer to the website for each
 geocoder service for the most up-to-date details on costs, capabilities,
 and usage limitations.
 
-**Summary:**
-
--   The Census and Nominatim (OSM) services are free and do not require
-    an API key.
--   ArcGIS can be used for free without an API key, but some features
-    require a paid subscription and API key.
--   The Geocodio, Location IQ, OpenCage, Mapbox, HERE, TomTom, MapQuest,
-    and Bing are commercial services that offer free tiers.
--   The Google service has no free tier and [bills per
-    query](https://developers.google.com/maps/documentation/geocoding/usage-and-billing).
-
 | Service                                                                                                 | Geography     | Batch Geocoding | API Key Required | Query Rate Limit        |
 |---------------------------------------------------------------------------------------------------------|---------------|-----------------|------------------|-------------------------|
 | [US Census](https://geocoding.geo.census.gov/)                                                          | US            | Yes             | No               | None                    |
@@ -104,6 +93,17 @@ and usage limitations.
 | [TomTom](https://developer.tomtom.com/search-api/search-api-documentation/geocoding)                    | Worldwide     | Yes             | Yes              | 5/second (free tier)    |
 | [MapQuest](https://developer.mapquest.com/documentation/geocoding-api/)                                 | Worldwide     | Yes             | Yes              | None                    |
 | [Bing](https://docs.microsoft.com/en-us/bingmaps/rest-services/locations/)                              | Worldwide     | Yes             | Yes              | None                    |
+
+**Summary:**
+
+-   The Census and Nominatim (OSM) services are free and do not require
+    an API key.
+-   ArcGIS can be used for free without an API key, but some features
+    require a paid subscription and API key.
+-   The Geocodio, Location IQ, OpenCage, Mapbox, HERE, TomTom, MapQuest,
+    and Bing are commercial services that offer free tiers.
+-   The Google service has no free tier and [bills per
+    query](https://developers.google.com/maps/documentation/geocoding/usage-and-billing).
 
 **Notes:**
 

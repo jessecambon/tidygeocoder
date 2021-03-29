@@ -19,7 +19,6 @@ options(tibble.print_min = 5, tibble.print_max = 5)
 # tidygeocoder <a href='https://jessecambon.github.io/tidygeocoder/'><img src="man/figures/tidygeocoder_hex.png" align="right" height="139"/></a>
 
 <!-- badges: start -->
-
 [![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active) [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/jessecambon/tidygeocoder/blob/master/LICENSE.md) [![CRAN](https://www.r-pkg.org/badges/version/tidygeocoder)](https://cran.r-project.org/package=tidygeocoder) [![CRAN Total Downloads](http://cranlogs.r-pkg.org/badges/grand-total/tidygeocoder)](https://CRAN.R-project.org/package=tidygeocoder) [![CRAN Downloads Per Month](http://cranlogs.r-pkg.org/badges/tidygeocoder)](https://cran.r-project.org/package=tidygeocoder) [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.4448251.svg)](https://doi.org/10.5281/zenodo.4448251) <!--[![Github Stars](https://img.shields.io/github/stars/jessecambon/tidygeocoder?style=social&label=Github)](https://github.com/jessecambon/tidygeocoder) -->
 
 <!-- badges: end -->
@@ -34,7 +33,7 @@ Some useful references:
 
 - [Blog posts on tidygeocoder](https://jessecambon.github.io/tag/tidygeocoder) for updates on releases and more usage examples. In particular [this post](https://jessecambon.github.io/2020/07/15/tidygeocoder-1-0-0.html) and [this post](https://jessecambon.github.io/2019/11/11/tidygeocoder-demo.html) demonstrate some relevant mapping workflows.
 - [Getting Started Vignette](https://jessecambon.github.io/tidygeocoder/articles/tidygeocoder.html) for more detailed and comprehensive usage examples. 
-- [Reference Datasets](https://jessecambon.github.io/tidygeocoder/articles/api_reference.html) to view the built-in datasets that are used by tidygeocoder to set key parameters and settings for geocoder queries.
+- [API Reference Page](https://jessecambon.github.io/tidygeocoder/articles/api_reference.html) to view the built-in datasets that are used by tidygeocoder to set key parameters and settings for geocoder queries.
 
 ## Installation
 
@@ -55,13 +54,6 @@ devtools::install_github("jessecambon/tidygeocoder")
 
 The supported geocoder services are shown in the table below with their geographic limitations, if they support batch geocoding (geocoding multiple addresses or coordinates in a single query), if an API key is required, and the usage rate limitations. Refer to the website for each geocoder service for the most up-to-date details on costs, capabilities, and usage limitations. 
 
-**Summary:**
-
-- The Census and Nominatim (OSM) services are free and do not require an API key. 
-- ArcGIS can be used for free without an API key, but some features require a paid subscription and API key.
-- The Geocodio, Location IQ, OpenCage, Mapbox, HERE, TomTom, MapQuest, and Bing are commercial services that offer free tiers.
-- The Google service has no free tier and [bills per query](https://developers.google.com/maps/documentation/geocoding/usage-and-billing).
-
 | Service                                                                       | Geography     | Batch Geocoding | API Key Required | Query Rate Limit        |
 |-------------------------------------------------------------------------------|---------------|-----------------|------------------|-------------------------|
 | [US Census](https://geocoding.geo.census.gov/)                                | US            | Yes             | No               | None                    |
@@ -77,6 +69,12 @@ The supported geocoder services are shown in the table below with their geograph
 | [MapQuest](https://developer.mapquest.com/documentation/geocoding-api/)                                       | Worldwide     | Yes             | Yes              | None    |
 | [Bing](https://docs.microsoft.com/en-us/bingmaps/rest-services/locations/)                                       | Worldwide     | Yes             | Yes              | None    |
 
+**Summary:**
+
+- The Census and Nominatim (OSM) services are free and do not require an API key. 
+- ArcGIS can be used for free without an API key, but some features require a paid subscription and API key.
+- The Geocodio, Location IQ, OpenCage, Mapbox, HERE, TomTom, MapQuest, and Bing are commercial services that offer free tiers.
+- The Google service has no free tier and [bills per query](https://developers.google.com/maps/documentation/geocoding/usage-and-billing).
 
 **Notes:**
 
