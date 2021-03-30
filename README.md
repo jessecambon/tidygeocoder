@@ -22,21 +22,25 @@ Month](http://cranlogs.r-pkg.org/badges/tidygeocoder)](https://cran.r-project.or
 
 ## Introduction
 
-Tidygeocoder makes getting data from geocoder services easy. Both
-*forward geocoding* (providing addresses to obtain geographic
-coordinates) and *reverse geocoding* (providing geographic coordinates
-to obtain addresses) are supported. All results are returned in [tibble
-format](https://tibble.tidyverse.org/) and the supported geocoder
-services are listed below.
+Tidygeocoder makes getting data from geocoder services easy. A unified
+interface is provided for the geocoder services listed below.
 
-Batch geocoding (geocoding multiple addresses or coordinates per query)
-is used by default if supported by the geocoder service when multiple
-inputs (addresses or coordinates) are provided. Duplicate, missing/NA,
-and blank input data is handled elegantly - only unique inputs are
-passed to geocoder services, but the rows in the original data are
-preserved by default.
+**Features:**
 
-Some useful references:
+-   Both **forward geocoding** (addresses -&gt; coordinates) and
+    **reverse geocoding** (coordinates -&gt; addresses) are supported.
+-   All results are returned in [tibble](https://tibble.tidyverse.org/)
+    (dataframe) format.
+-   **Batch geocoding** (geocoding multiple addresses or coordinates in
+    a single query) is used by default if supported by the geocoder
+    service when multiple inputs (addresses or coordinates) are provided
+    (with some noted exceptions for services with slower batch
+    geocoding).
+-   Duplicate, missing/NA, and blank input data is handled elegantly -
+    only unique inputs are submitted in queries to geocoder services,
+    but the rows in the original data are preserved by default.
+
+**References:**
 
 -   [Blog posts on
     tidygeocoder](https://jessecambon.github.io/tag/tidygeocoder) for
@@ -244,25 +248,32 @@ for instructions.
 
 ``` r
 citation('tidygeocoder')
-#> 
-#> To cite tidygeocoder in publications use:
-#> 
-#>   Jesse Cambon, Christopher Belanger (2021). tidygeocoder: Geocoding
-#>   Made Easy (version 1.0.2). DOI: 10.5281/zenodo.4448251. URL:
-#>   https://CRAN.R-project.org/package=tidygeocoder
-#> 
-#> A BibTeX entry for LaTeX users is
-#> 
-#>   @Misc{,
-#>     title = {tidygeocoder: Geocoding Made Easy},
-#>     author = {Jesse Cambon and Christopher Belanger},
-#>     year = {2021},
-#>     publisher = {Zenodo},
-#>     note = {R package version 1.0.2},
-#>     url = {https://CRAN.R-project.org/package=tidygeocoder},
-#>     doi = {10.5281/zenodo.4448251},
-#>   }
 ```
+
+</br>
+
+<blockquote>
+
+
+    To cite tidygeocoder in publications use:
+
+      Jesse Cambon, Christopher Belanger (2021). tidygeocoder: Geocoding
+      Made Easy (version 1.0.2). DOI: 10.5281/zenodo.4448251. URL:
+      https://CRAN.R-project.org/package=tidygeocoder
+
+    A BibTeX entry for LaTeX users is
+
+      @Misc{,
+        title = {tidygeocoder: Geocoding Made Easy},
+        author = {Jesse Cambon and Christopher Belanger},
+        year = {2021},
+        publisher = {Zenodo},
+        note = {R package version 1.0.2},
+        url = {https://CRAN.R-project.org/package=tidygeocoder},
+        doi = {10.5281/zenodo.4448251},
+      }
+
+</blockquote>
 
 Or refer to the [citation
 page](https://jessecambon.github.io/tidygeocoder/authors.html).
