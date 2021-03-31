@@ -36,7 +36,8 @@ Imports:
     dplyr,
     httr,
     jsonlite
-RoxygenNote: 7.1.1
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.1.1 
 Suggests: 
     knitr,
     rmarkdown,

@@ -75,3 +75,17 @@ api_key_reference %>%
   opt_table_lines() %>%
   tab_options(column_labels.font.weight = 'bold')
 ```
+
+## API Documentation
+
+Links to the API documentation for each geocoder service:
+
+```{r child = "../external/api_documentation_urls.md"}
+```
+
+## API Usage Policies
+
+Links to the usage policies for each geocoder service:
+
+```{r child = "../external/api_usage_urls.md"}
+```

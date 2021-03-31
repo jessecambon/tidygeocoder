@@ -70,15 +70,16 @@ get_coord_parameters <- function(custom_query, method, lat, long) {
 #' Census service does not support reverse geocoding. Run \code{usethis::edit_r_environ()}
 #' to open your .Renviron file for editing to add API keys as an environmental variables.
 #' \itemize{
-#'   \item \code{"osm"}: Nominatim (OSM). Worldwide coverage.
+#'   \item \code{"osm"}: Nominatim (OSM) geocoder service.
+#'   \item \code{"arcgis"}: Commercial ArcGIS geocoder service.
 #'   \item \code{"geocodio"}: Commercial geocoder. Covers US and Canada and has
 #'      batch geocoding capabilities. Requires an API Key to be stored in
 #'      the "GEOCODIO_API_KEY" environmental variable.
-#'   \item \code{"iq"}: Commercial Nominatim geocoder service. Requires an API Key to
+#'   \item \code{"iq"}: Location IQ geocoder service. Requires an API Key to
 #'      be stored in the "LOCATIONIQ_API_KEY" environmental variable.
-#'   \item \code{"google"}: Commercial Google geocoder service. Requires an API Key to
+#'   \item \code{"google"}: Google geocoder service. Requires an API Key to
 #'      be stored in the "GOOGLEGEOCODE_API_KEY" environmental variable.
-#'   \item \code{"opencage"}: Commercial geocoder with
+#'   \item \code{"opencage"}: Commercial Open Cage geocoder with
 #'      \href{https://opencagedata.com/credits}{various open data sources} (e.g.
 #'      OpenStreetMap). Requires an API Key to be stored
 #'      in the "OPENCAGE_KEY" environmental variable.
@@ -96,17 +97,19 @@ get_coord_parameters <- function(custom_query, method, lat, long) {
 #'   \item \code{"bing"}: Commercial Bing geocoder service. Requires an 
 #'      API Key to be stored in the "BINGMAPS_API_KEY" environmental variable. 
 #'      Can perform batch geocoding.
-#'   \item \code{"arcgis"}: Commercial ArcGIS geocoder service.
 #' }
 #' 
 #' @param address name of the address column (output data)
 #' @param limit maximum number of results to return per coordinate For many geocoder services
 #'   the maximum value for the limit parameter is 100. 
-#'   Use \code{limit = NULL} to use the default value of the selected geocoder service. 
-#'   For batch geocoding, limit must be set to 1 (default) if \code{return_coords = TRUE}.
+#'   Use `limit = NULL` to use the default value of the selected geocoder service. 
+#'   For batch geocoding, limit must be set to 1 (default) if `return_coords = TRUE`.
+#'   See See \code{\link{api_parameter_reference}} for more information.
+#' Refer to API documentation of each service for more information.
 #' @param min_time minimum amount of time for a query to take (in seconds). If NULL
 #' then min_time will be set to the lowest value that complies with the usage requirements of 
-#' the free tier of the selected geocoder service.
+#' the free tier of the selected geocoder service. See \code{\link{min_time_reference}} for
+#' default values.
 #' @param api_url custom API URL. If specified, the default API URL will be overridden.
 #'  This parameter can be used to specify a local Nominatim server.
 #' @param timeout query timeout (in minutes)
@@ -114,14 +117,14 @@ get_coord_parameters <- function(custom_query, method, lat, long) {
 #' @param mode set to 'batch' to force batch geocoding or 'single' to 
 #'  force single address geocoding (one coordinate per query). If not 
 #'  specified then batch geocoding will be used if available
-#'  (given method selected) when multiple addresses are provided; otherwise
+#'  (given method selected) when multiple coordinates are provided; otherwise
 #'  single address geocoding will be used. For 'here' and 'bing' the batch mode
-#'  should be explicitly enforced.
+#'  should be explicitly specified with `mode = 'batch'`.
 #' @param full_results returns all data from the geocoder service if TRUE. 
 #' If FALSE then only a single address column will be returned from the geocoder service.
 #' @param unique_only only return results for unique addresses if TRUE
 #' @param return_coords return input coordinates with results if TRUE. Note that
-#'    most services return the input coordinates with full_results = TRUE and setting
+#'    most services return the input coordinates with `full_results = TRUE` and setting
 #'    return_addresses to FALSE does not prevent this.
 #' @param flatten if TRUE then any nested dataframes in results are flattened if possible.
 #'    Note that Geocodio batch geocoding results are flattened regardless.
@@ -132,7 +135,7 @@ get_coord_parameters <- function(custom_query, method, lat, long) {
 #' @param verbose if TRUE then detailed logs are output to the console
 #' @param no_query if TRUE then no queries are sent to the geocoder and verbose is set to TRUE
 #' @param custom_query API-specific parameters to be used, passed as a named list 
-#'  (ie. \code{list(extratags = 1)}).
+#'  (ie. `list(extratags = 1)`).
 #' @param iq_region 'us' (default) or 'eu'. Used for establishing API URL for the 'iq' method
 #' @param geocodio_v version of geocodio api. Used for establishing API URL
 #'   for the 'geocodio' method.
@@ -142,7 +145,7 @@ get_coord_parameters <- function(custom_query, method, lat, long) {
 #'   account that does not have access to the endpoint may be billable.
 #' @param here_request_id This parameter would return a previous HERE batch job,
 #'   identified by its RequestID. The RequestID of a batch job is displayed 
-#'   when \code{verbose} is TRUE. Note that this option would ignore the 
+#'   when `verbose = TRUE`. Note that this option would ignore the 
 #'   current \code{lat, long} parameters on the request, so \code{return_coords} 
 #'   needs to be FALSE.
 #' @param mapquest_open if TRUE then MapQuest would use the Open Geocoding 
@@ -211,10 +214,8 @@ reverse_geo <- function(lat, long, method = 'osm', address = address, limit = 1,
     return(unpackage_inputs(coord_pack, NA_value, unique_only, return_coords))
   }
   
-  # HERE Exception
-  # Batch mode is quite slow. If batch mode is not called explicitly
-  # use single method
-  if (method %in% c("here", "bing") && mode != 'batch' ){
+  # Exception for geocoder services that should default to single instead of batch
+  if (method %in% pkg.globals$single_first_methods && mode != 'batch' ){
     mode <- 'single'
   }
   

@@ -79,13 +79,13 @@ batch_func_map <- list(
 #' }
 #' @param cascade_order a vector with two character values for the method argument 
 #'  in the order in which the geocoder services will be attempted for method = "cascade"
-#'  (ie. \code{c('census', 'geocodio')})
+#'  (ie. `c('census', 'geocodio')`)
 #' @param lat latitude column name. Can be quoted or unquoted (ie. lat or 'lat').
 #' @param long longitude column name. Can be quoted or unquoted (ie. long or 'long').
 #' @param limit maximum number of results to return per address. For many geocoder services
 #'   the maximum value for the limit parameter is 100. 
 #'   Use \code{limit = NULL} to use the default value of the selected geocoder service. 
-#'   For batch geocoding, limit must be set to 1 (default) if \code{return_addresses = TRUE}.
+#'   For batch geocoding, limit must be set to 1 (default) if `return_addresses = TRUE`.
 #' @param min_time minimum amount of time for a query to take (in seconds). If NULL
 #' then min_time will be set to the lowest value that complies with the usage requirements of 
 #' the free tier of the selected geocoder service.
@@ -98,7 +98,7 @@ batch_func_map <- list(
 #'  specified then batch geocoding will be used if available
 #'  (given method selected) when multiple addresses are provided; otherwise
 #'  single address geocoding will be used. For 'here' and 'bing' the batch mode
-#'  should be explicitly enforced.
+#'  should be explicitly specified with `mode = 'batch'`.
 
 #' @param full_results returns all data from the geocoder service if TRUE. 
 #' If FALSE then only longitude and latitude are returned from the geocoder service.
@@ -133,14 +133,14 @@ batch_func_map <- list(
 #' @param param_error if TRUE then an error will be thrown if certain parameters are invalid for the selected geocoder
 #'   service (method). The parameters checked are limit, address, street, city, county, state, postalcode, and country.
 #'   If method = 'cascade' then no errors will be thrown.
-#' @param mapbox_permanent if TRUE then the \code{mapbox.places-permanent} 
+#' @param mapbox_permanent if TRUE then the `mapbox.places-permanent`
 #'   endpoint would be used. Note that this option should be used only if you 
 #'   have applied for a permanent account. Unsuccessful requests made by an 
 #'   account that does not have access to the endpoint may be billable.
 #' @param here_request_id This parameter would return a previous HERE batch job,
 #'   identified by its RequestID. The RequestID of a batch job is displayed 
-#'   when \code{verbose} is TRUE. Note that this option would ignore the 
-#'   current \code{address} parameter on the request, so \code{return_addresses} 
+#'   when `verbose` is TRUE. Note that this option would ignore the 
+#'   current `address` parameter on the request, so `return_addresses`
 #'   needs to be FALSE.
 #' @param mapquest_open if TRUE then MapQuest would use the Open Geocoding 
 #'   endpoint, that relies solely on data contributed to OpenStreetMap.
@@ -281,7 +281,7 @@ geo <- function(address = NULL,
   
   # Google and Census services have a special limit passthrough to the extract_results function even though limit is not
   # a legal API parameter
-  if ((is.null(limit) || limit != 1) && (!('limit' %in% legal_parameters) && (!method %in% c('census', 'google')))) {
+  if ((is.null(limit) || limit != 1) && (!('limit' %in% legal_parameters) && (!method %in% pkg.globals$limit_passthru_methods))) {
     illegal_limit_message <- paste0('The limit parameter must be set to 1 (the default) because the "',  method,'" ',
                                     'method API service does not support a limit argument.\n\n',
                                     'See ?api_parameter_reference for more details.')
@@ -295,10 +295,8 @@ geo <- function(address = NULL,
   # OR the user has explicitly specified single address geocoding then call the 
   # single address geocoder in a loop (ie. recursively call this function)
   
-  # HERE/Bing Exception
-  # Batch mode is quite slow. If batch mode is not called explicitly
-  # use single method
-  if (method %in% c("here", "bing") && mode != 'batch' ){
+  # Exception for geocoder services that should default to single instead of batch
+  if (method %in% pkg.globals$single_first_methods && mode != 'batch' ){
     mode <- 'single'
   }
   
