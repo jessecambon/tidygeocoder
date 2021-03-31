@@ -43,6 +43,27 @@ api_key_reference <- tibble::tribble(
   'bing',      "BINGMAPS_API_KEY",
 )
 
+
+api_info_reference <- tibble::tribble(
+  ~method, ~method_display_name, ~api_documentation_url, ~api_usage_policy_url,
+"census",   "US Census", "https://www.census.gov/programs-surveys/geography/technical-documentation/complete-technical-documentation/census-geocoder.html", NA, 
+"osm",      "Nominatim", "https://nominatim.org/release-docs/develop/api/Search/", "https://operations.osmfoundation.org/policies/nominatim/",
+"arcgis",   "ArcGIS", "https://developers.arcgis.com/rest/geocode/api-reference/overview-world-geocoding-service.htm", "https://developers.arcgis.com/rest/geocode/api-reference/geocoding-free-vs-paid.htm",
+"geocodio", "Geocodio", "https://www.geocod.io/docs/", "https://www.geocod.io/pricing/",
+"iq",       "Location IQ", "https://locationiq.com/docs", "https://locationiq.com/pricing",
+"google",   "Google", "https://developers.google.com/maps/documentation/geocoding/overview", "https://developers.google.com/maps/documentation/geocoding/usage-and-billing",
+"opencage", "OpenCage", "https://opencagedata.com/api", "https://opencagedata.com/pricing",
+"mapbox",   "Mapbox", "https://docs.mapbox.com/api/search/geocoding/", "https://www.mapbox.com/pricing/-search",
+"here",     "HERE", "https://developer.here.com/documentation/geocoding-search-api/dev_guide/index.html", "https://developer.here.com/pricing",
+"tomtom",   "TomTom", "https://developer.tomtom.com/search-api/search-api-documentation-geocoding/geocode", "https://developer.tomtom.com/store/maps-api",
+"mapquest", "MapQuest", "https://developer.mapquest.com/documentation/geocoding-api/", "https://developer.mapquest.com/plans",
+"bing",     "Bing", "https://docs.microsoft.com/en-us/bingmaps/rest-services/locations/", "https://docs.microsoft.com/en-us/bingmaps/spatial-data-services/geocode-and-data-source-limits",
+)
+
+
+
+
 usethis::use_data(batch_limit_reference, overwrite = TRUE)
 usethis::use_data(min_time_reference, overwrite = TRUE)
 usethis::use_data(api_key_reference, overwrite = TRUE)
+usethis::use_data(api_info_reference, overwrite = TRUE)
