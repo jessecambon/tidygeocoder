@@ -57,7 +57,7 @@
 #' 
 #' The API documentation for each service is linked to below:
 #' 
-#' @includeRmd external/api_documentation_urls.md
+#' `r get_api_doc_bullets()`
 #' 
 #' @seealso \code{\link{get_api_query}} \code{\link{query_api}} \code{\link{geo}} \code{\link{geocode}}
 #' 
@@ -87,7 +87,7 @@
 #' 
 #' Links to the usage policies of each geocoder service is below:
 #' 
-#' @includeRmd external/api_usage_urls.md
+#' `r get_api_usage_bullets()`
 "min_time_reference"
 
 #' The name of the environmental variable that the API key will be read from.

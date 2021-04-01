@@ -69,35 +69,7 @@ get_coord_parameters <- function(custom_query, method, lat, long) {
 #' each geocoder service for usage details and limitations. Note that the 
 #' Census service does not support reverse geocoding. Run \code{usethis::edit_r_environ()}
 #' to open your .Renviron file for editing to add API keys as an environmental variables.
-#' \itemize{
-#'   \item \code{"osm"}: Nominatim (OSM) geocoder service.
-#'   \item \code{"arcgis"}: Commercial ArcGIS geocoder service.
-#'   \item \code{"geocodio"}: Commercial geocoder. Covers US and Canada and has
-#'      batch geocoding capabilities. Requires an API Key to be stored in
-#'      the "GEOCODIO_API_KEY" environmental variable.
-#'   \item \code{"iq"}: Location IQ geocoder service. Requires an API Key to
-#'      be stored in the "LOCATIONIQ_API_KEY" environmental variable.
-#'   \item \code{"google"}: Google geocoder service. Requires an API Key to
-#'      be stored in the "GOOGLEGEOCODE_API_KEY" environmental variable.
-#'   \item \code{"opencage"}: Commercial Open Cage geocoder with
-#'      \href{https://opencagedata.com/credits}{various open data sources} (e.g.
-#'      OpenStreetMap). Requires an API Key to be stored
-#'      in the "OPENCAGE_KEY" environmental variable.
-#'   \item \code{"mapbox"}: Commercial Mapbox geocoder service. Requires an API Key to
-#'      be stored in the "MAPBOX_API_KEY" environmental variable.
-#'   \item \code{"here"}: Commercial HERE geocoder service. Requires an API Key 
-#'      to be stored in the "HERE_API_KEY" environmental variable. Can perform 
-#'      batch geocoding, but this must be specified with \code{mode = 'batch'}.
-#'   \item \code{"tomtom"}: Commercial TomTom geocoder service. Requires an API Key to
-#'      be stored in the "TOMTOM_API_KEY" environmental variable. Can perform
-#'      batch geocoding.
-#'   \item \code{"mapquest"}: Commercial MapQuest geocoder service. Requires an 
-#'      API Key to be stored in the "MAPQUEST_API_KEY" environmental variable. 
-#'      Can perform batch geocoding.
-#'   \item \code{"bing"}: Commercial Bing geocoder service. Requires an 
-#'      API Key to be stored in the "BINGMAPS_API_KEY" environmental variable. 
-#'      Can perform batch geocoding.
-#' }
+#' `r get_method_bullet_list(reverse = TRUE)`
 #' 
 #' @param address name of the address column (output data)
 #' @param limit maximum number of results to return per coordinate For many geocoder services
@@ -186,7 +158,7 @@ reverse_geo <- function(lat, long, method = 'osm', address = address, limit = 1,
   # Check method argument
   # Currently census is the only method that doesn't support reverse geocoding
   method_services <- unique(tidygeocoder::api_parameter_reference[['method']])
-  if (!(method %in% method_services[!method_services %in% c('census')])) {
+  if (!(method %in% method_services[!method_services %in% pkg.globals$no_reverse_methods])) {
     stop('Invalid method argument. See ?reverse_geo', call. = FALSE)
   } 
   

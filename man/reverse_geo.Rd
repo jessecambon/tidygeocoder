@@ -40,33 +40,17 @@ each geocoder service for usage details and limitations. Note that the
 Census service does not support reverse geocoding. Run \code{usethis::edit_r_environ()}
 to open your .Renviron file for editing to add API keys as an environmental variables.
 \itemize{
-\item \code{"osm"}: Nominatim (OSM) geocoder service.
-\item \code{"arcgis"}: Commercial ArcGIS geocoder service.
-\item \code{"geocodio"}: Commercial geocoder. Covers US and Canada and has
-batch geocoding capabilities. Requires an API Key to be stored in
-the "GEOCODIO_API_KEY" environmental variable.
-\item \code{"iq"}: Location IQ geocoder service. Requires an API Key to
-be stored in the "LOCATIONIQ_API_KEY" environmental variable.
-\item \code{"google"}: Google geocoder service. Requires an API Key to
-be stored in the "GOOGLEGEOCODE_API_KEY" environmental variable.
-\item \code{"opencage"}: Commercial Open Cage geocoder with
-\href{https://opencagedata.com/credits}{various open data sources} (e.g.
-OpenStreetMap). Requires an API Key to be stored
-in the "OPENCAGE_KEY" environmental variable.
-\item \code{"mapbox"}: Commercial Mapbox geocoder service. Requires an API Key to
-be stored in the "MAPBOX_API_KEY" environmental variable.
-\item \code{"here"}: Commercial HERE geocoder service. Requires an API Key
-to be stored in the "HERE_API_KEY" environmental variable. Can perform
-batch geocoding, but this must be specified with \code{mode = 'batch'}.
-\item \code{"tomtom"}: Commercial TomTom geocoder service. Requires an API Key to
-be stored in the "TOMTOM_API_KEY" environmental variable. Can perform
-batch geocoding.
-\item \code{"mapquest"}: Commercial MapQuest geocoder service. Requires an
-API Key to be stored in the "MAPQUEST_API_KEY" environmental variable.
-Can perform batch geocoding.
-\item \code{"bing"}: Commercial Bing geocoder service. Requires an
-API Key to be stored in the "BINGMAPS_API_KEY" environmental variable.
-Can perform batch geocoding.
+\item \code{"osm"}: \href{https://nominatim.org}{Nominatim} geocoder service.
+\item \code{"arcgis"}: \href{https://developers.arcgis.com/rest/geocode/api-reference/overview-world-geocoding-service.htm}{ArcGIS} geocoder service.
+\item \code{"geocodio"}: \href{https://www.geocod.io/}{Geocodio} geocoder service. Geographic coverage limited to the United States and Canada. An API key must be stored in "GEOCODIO_API_KEY". Batch geocoding is supported.
+\item \code{"iq"}: \href{https://locationiq.com/}{Location IQ} geocoder service. An API key must be stored in "LOCATIONIQ_API_KEY".
+\item \code{"google"}: \href{https://developers.google.com/maps/documentation/geocoding/overview}{Google} geocoder service. An API key must be stored in "GOOGLEGEOCODE_API_KEY".
+\item \code{"opencage"}: \href{https://opencagedata.com}{OpenCage} geocoder service. An API key must be stored in "OPENCAGE_KEY".
+\item \code{"mapbox"}: \href{https://docs.mapbox.com/api/search/}{Mapbox} geocoder service. An API key must be stored in "MAPBOX_API_KEY".
+\item \code{"here"}: \href{https://developer.here.com/products/geocoding-and-search}{HERE} geocoder service. An API key must be stored in "HERE_API_KEY". Batch geocoding is supported.
+\item \code{"tomtom"}: \href{https://developer.tomtom.com/search-api/search-api-documentation/geocoding}{TomTom} geocoder service. An API key must be stored in "TOMTOM_API_KEY". Batch geocoding is supported.
+\item \code{"mapquest"}: \href{https://developer.mapquest.com/documentation/geocoding-api/}{MapQuest} geocoder service. An API key must be stored in "MAPQUEST_API_KEY". Batch geocoding is supported.
+\item \code{"bing"}: \href{https://docs.microsoft.com/en-us/bingmaps/rest-services/locations/}{Bing} geocoder service. An API key must be stored in "BINGMAPS_API_KEY". Batch geocoding is supported.
 }}
 
 \item{address}{name of the address column (output data)}

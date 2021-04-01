@@ -38,45 +38,11 @@ batch_func_map <- list(
 #' @param country country (ie. 'Japan')
 #' 
 #' @param method the geocoder service to be used. Refer to 
-#' \code{\link{api_parameter_reference}} and the API documentation for
-#' each geocoder service for usage details and limitations. Run \code{usethis::edit_r_environ()}
+#' [api_parameter_reference] and the API documentation for
+#' each geocoder service for usage details and limitations. Run `usethis::edit_r_environ()`
 #' to open your .Renviron file for editing to add API keys as an environmental variables.
-#' \itemize{
-#'   \item \code{"census"}: US Census Geocoder. US street-level addresses only. 
-#'      Can perform batch geocoding.
-#'   \item \code{"osm"}: Nominatim (OSM). Worldwide coverage.
-#'   \item \code{"geocodio"}: Commercial geocoder. Covers US and Canada and has
-#'      batch geocoding capabilities. Requires an API Key to be stored in
-#'      the "GEOCODIO_API_KEY" environmental variable.
-#'   \item \code{"iq"}: Commercial Nominatim geocoder service. Requires an API Key to
-#'      be stored in the "LOCATIONIQ_API_KEY" environmental variable.
-#'   \item \code{"google"}: Commercial Google geocoder service. Requires an API Key to
-#'      be stored in the "GOOGLEGEOCODE_API_KEY" environmental variable.
-#'   \item \code{"opencage"}: Commercial geocoder with
-#'      \href{https://opencagedata.com/credits}{various open data sources} (e.g.
-#'      OpenStreetMap) and worldwide coverage. Requires an API Key to be stored
-#'      in the "OPENCAGE_KEY" environmental variable.
-#'   \item \code{"mapbox"}: Commercial Mapbox geocoder service. Requires an API Key to
-#'      be stored in the "MAPBOX_API_KEY" environmental variable.
-#'   \item \code{"here"}: Commercial HERE geocoder service. Requires an API Key 
-#'      to be stored in the "HERE_API_KEY" environmental variable. Can perform 
-#'      batch geocoding, but this must be specified with \code{mode = 'batch'}.
-#'   \item \code{"tomtom"}: Commercial TomTom geocoder service. Requires an API Key to
-#'      be stored in the "TOMTOM_API_KEY" environmental variable. Can perform 
-#'      batch geocoding.
-#'   \item \code{"mapquest"}: Commercial MapQuest geocoder service. Requires an 
-#'      API Key to be stored in the "MAPQUEST_API_KEY" environmental variable. 
-#'      Can perform batch geocoding.
-#'   \item \code{"bing"}: Commercial Bing geocoder service. Requires an 
-#'      API Key to be stored in the "BINGMAPS_API_KEY" environmental variable. 
-#'      Can perform batch geocoding.
-#'   \item \code{"arcgis"}: Commercial ArcGIS geocoder service.
-#'   \item \code{"cascade"} : Attempts to use one geocoder service and then uses
-#'     a second geocoder service if the first service didn't return results.
-#'     The services and order is specified by the cascade_order argument. 
-#'     Note that this is not compatible with \code{full_results = TRUE} as geocoder
-#'     services have different columns that they return.
-#' }
+#' `r get_method_bullet_list(reverse = FALSE)`
+#' 
 #' @param cascade_order a vector with two character values for the method argument 
 #'  in the order in which the geocoder services will be attempted for method = "cascade"
 #'  (ie. `c('census', 'geocodio')`)

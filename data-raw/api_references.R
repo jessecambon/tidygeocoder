@@ -49,7 +49,7 @@ api_info_reference <- tibble::tribble(
 "census",   "US Census", "https://geocoding.geo.census.gov/", "https://www.census.gov/programs-surveys/geography/technical-documentation/complete-technical-documentation/census-geocoder.html", NA, 
 "osm",      "Nominatim", "https://nominatim.org", "https://nominatim.org/release-docs/develop/api/Search/", "https://operations.osmfoundation.org/policies/nominatim/",
 "arcgis",   "ArcGIS", "https://developers.arcgis.com/rest/geocode/api-reference/overview-world-geocoding-service.htm", "https://developers.arcgis.com/rest/geocode/api-reference/overview-world-geocoding-service.htm", "https://developers.arcgis.com/rest/geocode/api-reference/geocoding-free-vs-paid.htm",
-"geocodio", "Geocodio", "United States and Canada", "https://www.geocod.io/docs/", "https://www.geocod.io/pricing/",
+"geocodio", "Geocodio", "https://www.geocod.io/", "https://www.geocod.io/docs/", "https://www.geocod.io/pricing/",
 "iq",       "Location IQ", "https://locationiq.com/", "https://locationiq.com/docs", "https://locationiq.com/pricing",
 "google",   "Google", "https://developers.google.com/maps/documentation/geocoding/overview", "https://developers.google.com/maps/documentation/geocoding/overview", "https://developers.google.com/maps/documentation/geocoding/usage-and-billing",
 "opencage", "OpenCage", "https://opencagedata.com", "https://opencagedata.com/api", "https://opencagedata.com/pricing",

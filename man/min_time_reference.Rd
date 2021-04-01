@@ -24,14 +24,12 @@ slow down the rate of querying if necessary.
 }
 \details{
 Links to the usage policies of each geocoder service is below:
-
-\if{html}{\out{
-<!-- Links to the usage policies of geocoder services -->
-}}
-
 \itemize{
-\item \href{https://operations.osmfoundation.org/policies/nominatim/}{Nominatim (“osm”)}
-\item \href{https://developers.arcgis.com/rest/geocode/api-reference/geocoding-free-vs-paid.htm}{ArcGis}
+\item \href{NA}{US Census}
+\item \href{https://operations.osmfoundation.org/policies/nominatim/}{Nominatim}
+\item \href{https://developers.arcgis.com/rest/geocode/api-reference/geocoding-free-vs-paid.htm}{ArcGIS}
+\item \href{https://www.geocod.io/pricing/}{Geocodio}
+\item \href{https://locationiq.com/pricing}{Location IQ}
 \item \href{https://developers.google.com/maps/documentation/geocoding/usage-and-billing}{Google}
 \item \href{https://opencagedata.com/pricing}{OpenCage}
 \item \href{https://www.mapbox.com/pricing/-search}{Mapbox}
