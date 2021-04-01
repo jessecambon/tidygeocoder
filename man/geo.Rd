@@ -56,10 +56,10 @@ Do not combine with the address component arguments below
 
 \item{country}{country (ie. 'Japan')}
 
-\item{method}{the geocoder service to be used. Refer to
-\link{api_parameter_reference} and the API documentation for
-each geocoder service for usage details and limitations. Run \code{usethis::edit_r_environ()}
-to open your .Renviron file for editing to add API keys as an environmental variables.
+\item{method}{the geocoder service to be used. Refer to \link{api_parameter_reference}
+and the API documentation for each geocoder service for usage details and limitations.
+Run \code{usethis::edit_r_environ()} to open your .Renviron file for editing to add API keys
+as environmental variables.
 \itemize{
 \item \code{"census"}: \href{https://geocoding.geo.census.gov/}{US Census} geocoder service. Geographic coverage limited to the United States. Batch geocoding is supported.
 \item \code{"osm"}: \href{https://nominatim.org}{Nominatim} geocoder service.
@@ -73,6 +73,11 @@ to open your .Renviron file for editing to add API keys as an environmental vari
 \item \code{"tomtom"}: \href{https://developer.tomtom.com/search-api/search-api-documentation/geocoding}{TomTom} geocoder service. An API key must be stored in "TOMTOM_API_KEY". Batch geocoding is supported.
 \item \code{"mapquest"}: \href{https://developer.mapquest.com/documentation/geocoding-api/}{MapQuest} geocoder service. An API key must be stored in "MAPQUEST_API_KEY". Batch geocoding is supported.
 \item \code{"bing"}: \href{https://docs.microsoft.com/en-us/bingmaps/rest-services/locations/}{Bing} geocoder service. An API key must be stored in "BINGMAPS_API_KEY". Batch geocoding is supported.
+\item \code{"cascade"} : Attempts to use one geocoder service and then uses
+a second geocoder service if the first service didn't return results.
+The services and order is specified by the cascade_order argument.
+Note that this is not compatible with \code{full_results = TRUE} as geocoder
+services have different columns that they return.
 }}
 
 \item{cascade_order}{a vector with two character values for the method argument
@@ -172,7 +177,7 @@ See example usage in \code{vignette("tidygeocoder")}
 
 Note that not all geocoder services support certain address component
 parameters. For example, the Census geocoder only covers the United States
-and does not have a "country" parameter. Refer to \code{\link{api_parameter_reference}}
+and does not have a "country" parameter. Refer to \link{api_parameter_reference}
 for more details on geocoder service parameters and API usage.
 
 This function uses the \code{\link{get_api_query}}, \code{\link{query_api}}, and
@@ -192,5 +197,5 @@ geo(county = 'Jefferson', state = "Kentucky", country = "US",
 }
 }
 \seealso{
-\code{\link{geocode}} \code{\link{api_parameter_reference}}
+\link{geocode} \link{api_parameter_reference} \link{min_time_reference} \link{api_usage_reference}
 }

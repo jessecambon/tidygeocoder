@@ -60,8 +60,6 @@ api_info_reference <- tibble::tribble(
 "bing",     "Bing", "https://docs.microsoft.com/en-us/bingmaps/rest-services/locations/", "https://docs.microsoft.com/en-us/bingmaps/rest-services/locations/", "https://docs.microsoft.com/en-us/bingmaps/spatial-data-services/geocode-and-data-source-limits",
 )
 
-
-
 usethis::use_data(batch_limit_reference, overwrite = TRUE)
 usethis::use_data(min_time_reference, overwrite = TRUE)
 usethis::use_data(api_key_reference, overwrite = TRUE)

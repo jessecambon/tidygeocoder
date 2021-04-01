@@ -54,10 +54,16 @@ get_method_bullet <- function(method) {
 }
 
 
-# Get bullets for methods documentation
+# Returns methods documentation
 # reverse = TRUE if reverse geocoding, FALSE if forward geocoding
-get_method_bullet_list <- function(reverse) {
+get_method_documentation <- function(reverse) {
   all_methods <- api_info_reference[['method']]
+  
+  method_intro <- c(
+    "the geocoder service to be used. Refer to [api_parameter_reference]",
+    "and the API documentation for each geocoder service for usage details and limitations.",
+    "Run `usethis::edit_r_environ()` to open your .Renviron file for editing to add API keys",
+    "as environmental variables.")
   
   # if reverse geocoding then exclude methods that don't support reverse geocoding
   methods_to_list <- if (reverse == TRUE) {
@@ -65,48 +71,9 @@ get_method_bullet_list <- function(reverse) {
   } else all_methods
   
   return(
-    sapply(methods_to_list, get_method_bullet, USE.NAMES = FALSE)
+    c(
+      method_intro,
+      sapply(methods_to_list, get_method_bullet, USE.NAMES = FALSE)
+    )
   )
 }
-
-
-#' 
-#' get_method_bullet_list <- function() {
-#'   
-#'   @param method the geocoder service to be used. Refer to 
-#'   [api_parameter_reference] and the API documentation for
-#'   each geocoder service for usage details and limitations. Run `usethis::edit_r_environ()`
-#'    to open your .Renviron file for editing to add API keys as an environmental variables.
-#'    - `"census"`: US Census Geocoder. US street-level addresses only. 
-#'       Can perform batch geocoding.
-#'    - `"osm"`: Nominatim (OSM). Worldwide coverage.
-#'    - `"geocodio"`: Commercial geocoder. Covers US and Canada and has
-#'       batch geocoding capabilities. Requires an API Key to be stored in
-#'       the "GEOCODIO_API_KEY" environmental variable.
-#'    - `"iq"`: Commercial Nominatim geocoder service. Requires an API Key to
-#'       be stored in the "LOCATIONIQ_API_KEY" environmental variable.
-#'    - `"google"`: Commercial Google geocoder service. Requires an API Key to
-#'       be stored in the "GOOGLEGEOCODE_API_KEY" environmental variable.
-#'    - `"opencage"`: Requires an API Key to be stored
-#'       in the "OPENCAGE_KEY" environmental variable.
-#'    - `"mapbox"`: Commercial Mapbox geocoder service. Requires an API Key to
-#'       be stored in the "MAPBOX_API_KEY" environmental variable.
-#'    - `"here"`: Commercial HERE geocoder service. Requires an API Key 
-#'       to be stored in the "HERE_API_KEY" environmental variable. Can perform 
-#'       batch geocoding, but this must be specified with `mode = 'batch'`.
-#'    - `"tomtom"`: Commercial TomTom geocoder service. Requires an API Key to
-#'       be stored in the "TOMTOM_API_KEY" environmental variable. Can perform 
-#'       batch geocoding.
-#'    - `"mapquest"`: Commercial MapQuest geocoder service. Requires an 
-#'       API Key to be stored in the "MAPQUEST_API_KEY" environmental variable. 
-#'       Can perform batch geocoding.
-#'    - `"bing"`: Commercial Bing geocoder service. Requires an 
-#'       API Key to be stored in the "BINGMAPS_API_KEY" environmental variable. 
-#'       Can perform batch geocoding.
-#'    - `"arcgis"`: Commercial ArcGIS geocoder service.
-#'    - `"cascade"` : Attempts to use one geocoder service and then uses
-#'      a second geocoder service if the first service didn't return results.
-#'      The services and order is specified by the cascade_order argument. 
-#'      Note that this is not compatible with `full_results = TRUE} as geocoder
-#'      services have different columns that they return.
-#' }

@@ -34,11 +34,10 @@ reverse_geo(
 
 \item{long}{longitude values (input data)}
 
-\item{method}{the geocoder service to be used. Refer to
-\code{\link{api_parameter_reference}} and the API documentation for
-each geocoder service for usage details and limitations. Note that the
-Census service does not support reverse geocoding. Run \code{usethis::edit_r_environ()}
-to open your .Renviron file for editing to add API keys as an environmental variables.
+\item{method}{the geocoder service to be used. Refer to \link{api_parameter_reference}
+and the API documentation for each geocoder service for usage details and limitations.
+Run \code{usethis::edit_r_environ()} to open your .Renviron file for editing to add API keys
+as environmental variables.
 \itemize{
 \item \code{"osm"}: \href{https://nominatim.org}{Nominatim} geocoder service.
 \item \code{"arcgis"}: \href{https://developers.arcgis.com/rest/geocode/api-reference/overview-world-geocoding-service.htm}{ArcGIS} geocoder service.
@@ -59,12 +58,12 @@ to open your .Renviron file for editing to add API keys as an environmental vari
 the maximum value for the limit parameter is 100.
 Use \code{limit = NULL} to use the default value of the selected geocoder service.
 For batch geocoding, limit must be set to 1 (default) if \code{return_coords = TRUE}.
-See See \code{\link{api_parameter_reference}} for more information.
+See See \link{api_parameter_reference} for more information.
 Refer to API documentation of each service for more information.}
 
 \item{min_time}{minimum amount of time for a query to take (in seconds). If NULL
 then min_time will be set to the lowest value that complies with the usage requirements of
-the free tier of the selected geocoder service. See \code{\link{min_time_reference}} for
+the free tier of the selected geocoder service. See \link{min_time_reference} for
 default values.}
 
 \item{api_url}{custom API URL. If specified, the default API URL will be overridden.
@@ -101,7 +100,7 @@ limit. 'bing' as a 50 address limit.}
 \item{no_query}{if TRUE then no queries are sent to the geocoder and verbose is set to TRUE}
 
 \item{custom_query}{API-specific parameters to be used, passed as a named list
-(ie. \code{list(extratags = 1)}).}
+(ie. \code{list(vintage = 'Current_Census2010')}).}
 
 \item{iq_region}{'us' (default) or 'eu'. Used for establishing API URL for the 'iq' method}
 
@@ -129,11 +128,11 @@ parsed geocoding results in tibble format
 Reverse geocodes geographic coordinates (latitude and longitude) given as numeric values.
 Latitude and longitude inputs are limited to possible values. Latitudes must be between -90 and 90 and
 longitudes must be between -180 and 180. Invalid values will not be sent to the geocoder service.
-The \code{\link{reverse_geocode}} function utilizes this function on coordinates contained in dataframes.
+The \link{reverse_geocode} function utilizes this function on coordinates contained in dataframes.
 See example usage in \code{vignette("tidygeocoder")}.
 
-This function uses the \code{\link{get_api_query}}, \code{\link{query_api}}, and
-\code{\link{extract_reverse_results}} functions to create, execute, and parse the geocoder
+This function uses the \link{get_api_query}, \link{query_api}, and
+\link{extract_reverse_results} functions to create, execute, and parse the geocoder
 API queries.
 }
 \examples{

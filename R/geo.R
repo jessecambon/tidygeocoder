@@ -20,11 +20,11 @@ batch_func_map <- list(
 #' 
 #' Note that not all geocoder services support certain address component 
 #' parameters. For example, the Census geocoder only covers the United States 
-#' and does not have a "country" parameter. Refer to \code{\link{api_parameter_reference}} 
+#' and does not have a "country" parameter. Refer to [api_parameter_reference]
 #' for more details on geocoder service parameters and API usage. 
 #' 
-#' This function uses the \code{\link{get_api_query}}, \code{\link{query_api}}, and
-#' \code{\link{extract_results}} functions to create, execute, and parse the geocoder
+#' This function uses the [get_api_query], [query_api], and
+#' [extract_results] functions to create, execute, and parse the geocoder
 #' API queries.
 #' 
 #' @param address single line address (ie. '1600 Pennsylvania Ave NW, Washington, DC').
@@ -37,11 +37,12 @@ batch_func_map <- list(
 #' @param postalcode postalcode (zip code if in the United States)
 #' @param country country (ie. 'Japan')
 #' 
-#' @param method the geocoder service to be used. Refer to 
-#' [api_parameter_reference] and the API documentation for
-#' each geocoder service for usage details and limitations. Run `usethis::edit_r_environ()`
-#' to open your .Renviron file for editing to add API keys as an environmental variables.
-#' `r get_method_bullet_list(reverse = FALSE)`
+#' @param method `r get_method_documentation(reverse = FALSE)`
+#'  - `"cascade"` : Attempts to use one geocoder service and then uses
+#'     a second geocoder service if the first service didn't return results.
+#'     The services and order is specified by the cascade_order argument. 
+#'     Note that this is not compatible with `full_results = TRUE` as geocoder
+#'     services have different columns that they return.
 #' 
 #' @param cascade_order a vector with two character values for the method argument 
 #'  in the order in which the geocoder services will be attempted for method = "cascade"
@@ -68,7 +69,7 @@ batch_func_map <- list(
 
 #' @param full_results returns all data from the geocoder service if TRUE. 
 #' If FALSE then only longitude and latitude are returned from the geocoder service.
-#' @param unique_only only return results for unique addresses if TRUE
+#' @param unique_only only return results for unique inputs if TRUE
 #' @param return_addresses return input addresses with results if TRUE. Note that
 #'    most services return the input addresses with full_results = TRUE and setting
 #'    return_addresses to FALSE does not prevent this.
@@ -86,19 +87,17 @@ batch_func_map <- list(
 #' @param no_query if TRUE then no queries are sent to the geocoder and verbose is set to TRUE
 
 #' @param custom_query API-specific parameters to be used, passed as a named list 
-#'  (ie. \code{list(vintage = 'Current_Census2010')}).
-#' @param return_type only used when method = 'census'. Two possible values: 
-#' \itemize{
-#'     \item \code{"locations"} (default)
-#'     \item \code{"geographies"}: returns additional geography columns. 
+#'  (ie. `list(extratags = 1)}`.
+#' @param return_type only used when `method = 'census'`. Two possible values: 
+#'     - `"locations"` (default)
+#'     - `"geographies"`: returns additional geography columns. 
 #'     See the Census geocoder API documentation for more details.
-#' }
 #' @param iq_region 'us' (default) or 'eu'. Used for establishing API URL for the 'iq' method
 #' @param geocodio_v version of geocodio api. Used for establishing API URL
 #'   for the 'geocodio' method.
 #' @param param_error if TRUE then an error will be thrown if certain parameters are invalid for the selected geocoder
 #'   service (method). The parameters checked are limit, address, street, city, county, state, postalcode, and country.
-#'   If method = 'cascade' then no errors will be thrown.
+#'   If `method = 'cascade'` then no errors will be thrown.
 #' @param mapbox_permanent if TRUE then the `mapbox.places-permanent`
 #'   endpoint would be used. Note that this option should be used only if you 
 #'   have applied for a permanent account. Unsuccessful requests made by an 
@@ -111,7 +110,7 @@ batch_func_map <- list(
 #' @param mapquest_open if TRUE then MapQuest would use the Open Geocoding 
 #'   endpoint, that relies solely on data contributed to OpenStreetMap.
 #'    
-#' @return parsed geocoding results in tibble format
+#' @return tibble dataframe
 #' @examples
 #' \donttest{
 #' geo(street = "600 Peachtree Street NE", city = "Atlanta",
@@ -123,7 +122,7 @@ batch_func_map <- list(
 #' geo(county = 'Jefferson', state = "Kentucky", country = "US",
 #'      method = 'osm')
 #' }
-#' @seealso \code{\link{geocode}} \code{\link{api_parameter_reference}}
+#' @seealso [geocode] [api_parameter_reference] [min_time_reference] [api_usage_reference]
 #' @export
 geo <- function(address = NULL, 
     street = NULL, city = NULL, county = NULL, state = NULL, postalcode = NULL, country = NULL,

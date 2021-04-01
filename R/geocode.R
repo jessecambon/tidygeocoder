@@ -37,7 +37,7 @@
 #'   The input dataframe's format is not preserved. Addresses will also be returned if 
 #'   TRUE (overrides return_addresses argument).
 #' @param ... arguments passed to the \code{\link{geo}} function
-#' @return output dataframe (.tbl)
+#' @return tibble dataframe
 #'
 #' @examples
 #' \donttest{
@@ -53,7 +53,7 @@
 #' sample_addresses[4:5,] %>% geocode(addr, method = 'cascade',
 #'   lat = latitude, long = longitude)
 #' }
-#' @seealso \code{\link{geo}} \code{\link{api_parameter_reference}}
+#' @seealso \code{\link{geo}}
 #' @export
 geocode <- function(.tbl, address = NULL, street = NULL, city = NULL, county = NULL, 
                     state = NULL, postalcode = NULL, country = NULL,
