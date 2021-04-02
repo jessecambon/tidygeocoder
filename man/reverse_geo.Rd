@@ -41,7 +41,7 @@ as environmental variables.
 \itemize{
 \item \code{"osm"}: \href{https://nominatim.org}{Nominatim} geocoder service.
 \item \code{"arcgis"}: \href{https://developers.arcgis.com/rest/geocode/api-reference/overview-world-geocoding-service.htm}{ArcGIS} geocoder service.
-\item \code{"geocodio"}: \href{https://www.geocod.io/}{Geocodio} geocoder service. Geographic coverage limited to the United States and Canada. An API key must be stored in "GEOCODIO_API_KEY". Batch geocoding is supported.
+\item \code{"geocodio"}: \href{https://www.geocod.io/}{Geocodio} geocoder service. Geographic coverage is limited to the United States and Canada. An API key must be stored in "GEOCODIO_API_KEY". Batch geocoding is supported.
 \item \code{"iq"}: \href{https://locationiq.com/}{Location IQ} geocoder service. An API key must be stored in "LOCATIONIQ_API_KEY".
 \item \code{"google"}: \href{https://developers.google.com/maps/documentation/geocoding/overview}{Google} geocoder service. An API key must be stored in "GOOGLEGEOCODE_API_KEY".
 \item \code{"opencage"}: \href{https://opencagedata.com}{OpenCage} geocoder service. An API key must be stored in "OPENCAGE_KEY".
@@ -52,36 +52,31 @@ as environmental variables.
 \item \code{"bing"}: \href{https://docs.microsoft.com/en-us/bingmaps/rest-services/locations/}{Bing} geocoder service. An API key must be stored in "BINGMAPS_API_KEY". Batch geocoding is supported.
 }}
 
-\item{address}{name of the address column (output data)}
+\item{address}{name of the address column (in the output data)}
 
-\item{limit}{maximum number of results to return per coordinate For many geocoder services
-the maximum value for the limit parameter is 100.
-Use \code{limit = NULL} to use the default value of the selected geocoder service.
-For batch geocoding, limit must be set to 1 (default) if \code{return_coords = TRUE}.
-See See \link{api_parameter_reference} for more information.
-Refer to API documentation of each service for more information.}
+\item{limit}{limit maximum number of results to return per coordinate. For many geocoder services
+the maximum value for the limit parameter is 100. Pass \code{limit = NULL} to use
+the default \code{limit} value of the selected geocoder service.
+For batch geocoding, limit must be set to 1 (default) if \code{return_coords = TRUE}}
 
 \item{min_time}{minimum amount of time for a query to take (in seconds). If NULL
-then min_time will be set to the lowest value that complies with the usage requirements of
-the free tier of the selected geocoder service. See \link{min_time_reference} for
-default values.}
+then min_time will be set to the default value specified in \link{min_time_reference}.}
 
 \item{api_url}{custom API URL. If specified, the default API URL will be overridden.
 This parameter can be used to specify a local Nominatim server.}
 
 \item{timeout}{query timeout (in minutes)}
 
-\item{mode}{set to 'batch' to force batch geocoding or 'single' to
-force single address geocoding (one coordinate per query). If not
-specified then batch geocoding will be used if available
-(given method selected) when multiple coordinates are provided; otherwise
-single address geocoding will be used. For 'here' and 'bing' the batch mode
-should be explicitly specified with \code{mode = 'batch'}.}
+\item{mode}{set to 'batch' to force batch geocoding or 'single' to force single coordinate
+geocoding (one coordinate per query). If not specified then batch geocoding will
+be used if available (given method selected) when multiple coordinates are
+provided; otherwise single address geocoding will be used. For here and bing the
+batch mode should be explicitly specified with \code{mode = 'batch'}.}
 
 \item{full_results}{returns all data from the geocoder service if TRUE.
 If FALSE then only a single address column will be returned from the geocoder service.}
 
-\item{unique_only}{only return results for unique addresses if TRUE}
+\item{unique_only}{only return results for unique inputs if TRUE}
 
 \item{return_coords}{return input coordinates with results if TRUE. Note that
 most services return the input coordinates with \code{full_results = TRUE} and setting
@@ -90,17 +85,15 @@ return_addresses to FALSE does not prevent this.}
 \item{flatten}{if TRUE then any nested dataframes in results are flattened if possible.
 Note that Geocodio batch geocoding results are flattened regardless.}
 
-\item{batch_limit}{limit to the number of addresses in a batch geocoding query.
-Both geocodio and census batch geocoders have a 10,000 limit so this
-is the default. 'here' has a 1,000,000 address limit. 'mapquest' has a 100 address
-limit. 'bing' as a 50 address limit.}
+\item{batch_limit}{limit to the number of coordinates in a batch geocoding query.
+Set to the value specified in \link{batch_limit_reference} unless otherwise specified.}
 
 \item{verbose}{if TRUE then detailed logs are output to the console}
 
 \item{no_query}{if TRUE then no queries are sent to the geocoder and verbose is set to TRUE}
 
 \item{custom_query}{API-specific parameters to be used, passed as a named list
-(ie. \code{list(vintage = 'Current_Census2010')}).}
+(ie. \code{list(extratags = 1)}.}
 
 \item{iq_region}{'us' (default) or 'eu'. Used for establishing API URL for the 'iq' method}
 
@@ -115,14 +108,14 @@ account that does not have access to the endpoint may be billable.}
 \item{here_request_id}{This parameter would return a previous HERE batch job,
 identified by its RequestID. The RequestID of a batch job is displayed
 when \code{verbose = TRUE}. Note that this option would ignore the
-current \code{lat, long} parameters on the request, so \code{return_coords}
+current \verb{lat, long} parameters on the request, so \code{return_coords}
 needs to be FALSE.}
 
 \item{mapquest_open}{if TRUE then MapQuest would use the Open Geocoding
 endpoint, that relies solely on data contributed to OpenStreetMap.}
 }
 \value{
-parsed geocoding results in tibble format
+tibble (dataframe)
 }
 \description{
 Reverse geocodes geographic coordinates (latitude and longitude) given as numeric values.
@@ -145,5 +138,5 @@ API queries.
 }
 }
 \seealso{
-\code{\link{geocode}} \code{\link{api_parameter_reference}}
+\link{reverse_geocode} \link{api_parameter_reference} \link{min_time_reference} \link{api_usage_reference}
 }

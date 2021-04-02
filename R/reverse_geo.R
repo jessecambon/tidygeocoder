@@ -66,38 +66,25 @@ get_coord_parameters <- function(custom_query, method, lat, long) {
 #' @param long longitude values (input data)
 #' @param method `r get_method_documentation(reverse = TRUE)`
 #' 
-#' @param address name of the address column (output data)
-#' @param limit maximum number of results to return per coordinate For many geocoder services
-#'   the maximum value for the limit parameter is 100. 
-#'   Use `limit = NULL` to use the default value of the selected geocoder service. 
-#'   For batch geocoding, limit must be set to 1 (default) if `return_coords = TRUE`.
-#'   See [api_parameter_reference] for more information.
-#' Refer to API documentation of each service for more information.
+#' @param address name of the address column (in the output data)
+#' @param limit `r get_limit_documentation(reverse = TRUE, df_input = FALSE)`
 #' 
-#' @param mode set to 'batch' to force batch geocoding or 'single' to 
-#'  force single address geocoding (one coordinate per query). If not 
-#'  specified then batch geocoding will be used if available
-#'  (given method selected) when multiple coordinates are provided; otherwise
-#'  single address geocoding will be used. For 'here' and 'bing' the batch mode
-#'  should be explicitly specified with `mode = 'batch'`.
+#' @param mode `r get_mode_documentation(reverse = TRUE)`
 #' @param full_results returns all data from the geocoder service if TRUE. 
 #' If FALSE then only a single address column will be returned from the geocoder service.
 #' @param return_coords return input coordinates with results if TRUE. Note that
 #'    most services return the input coordinates with `full_results = TRUE` and setting
 #'    return_addresses to FALSE does not prevent this.
-#' @param batch_limit limit to the number of addresses in a batch geocoding query.
-#'  Both geocodio and census batch geocoders have a 10,000 limit so this
-#'  is the default. 'here' has a 1,000,000 address limit. 'mapquest' has a 100 address
-#'  limit. 'bing' as a 50 address limit.
+#' @param batch_limit `r get_batch_limit_documentation(reverse = TRUE)`
 #' @param no_query if TRUE then no queries are sent to the geocoder and verbose is set to TRUE
 #' @param here_request_id This parameter would return a previous HERE batch job,
 #'   identified by its RequestID. The RequestID of a batch job is displayed 
 #'   when `verbose = TRUE`. Note that this option would ignore the 
-#'   current \code{lat, long} parameters on the request, so `return_coords`
+#'   current `lat, long` parameters on the request, so `return_coords`
 #'   needs to be FALSE.
 #' @inheritParams geo
 #'     
-#' @return tibble dataframe
+#' @inherit geo return
 #' @examples
 #' \donttest{
 #'  reverse_geo(lat = 38.895865, long = -77.0307713, method = 'osm', verbose = TRUE)

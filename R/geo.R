@@ -49,23 +49,14 @@ batch_func_map <- list(
 #'  (ie. `c('census', 'geocodio')`)
 #' @param lat latitude column name. Can be quoted or unquoted (ie. lat or 'lat').
 #' @param long longitude column name. Can be quoted or unquoted (ie. long or 'long').
-#' @param limit maximum number of results to return per address. For many geocoder services
-#'   the maximum value for the limit parameter is 100. 
-#'   Use \code{limit = NULL} to use the default value of the selected geocoder service. 
-#'   For batch geocoding, limit must be set to 1 (default) if `return_addresses = TRUE`.
+#' @param limit `r get_limit_documentation(reverse = FALSE, df_input = FALSE)`
 #' @param min_time minimum amount of time for a query to take (in seconds). If NULL
-#' then min_time will be set to the lowest value that complies with the usage requirements of 
-#' the free tier of the selected geocoder service.
+#' then min_time will be set to the default value specified in [min_time_reference].
 #' @param api_url custom API URL. If specified, the default API URL will be overridden.
 #'  This parameter can be used to specify a local Nominatim server.
 #' @param timeout query timeout (in minutes)
 #' 
-#' @param mode set to 'batch' to force batch geocoding or 'single' to 
-#'  force single address geocoding (one address per query). If not 
-#'  specified then batch geocoding will be used if available
-#'  (given method selected) when multiple addresses are provided; otherwise
-#'  single address geocoding will be used. For 'here' and 'bing' the batch mode
-#'  should be explicitly specified with `mode = 'batch'`.
+#' @param mode `r get_mode_documentation(reverse = FALSE)`
 
 #' @param full_results returns all data from the geocoder service if TRUE. 
 #' If FALSE then only longitude and latitude are returned from the geocoder service.
@@ -76,10 +67,7 @@ batch_func_map <- list(
 #' 
 #' @param flatten if TRUE then any nested dataframes in results are flattened if possible.
 #'    Note that Geocodio batch geocoding results are flattened regardless.
-#' @param batch_limit limit to the number of addresses in a batch geocoding query.
-#'  'geocodio', 'census', and 'tomtom' batch geocoders have a 10,000 address limit so this
-#'  is the default. 'here' has a 1,000,000 address limit. 'mapquest' has a 100 address
-#'  limit. 'bing' has a 50 address limit.
+#' @param batch_limit  `r get_batch_limit_documentation(reverse = FALSE)`
 #' @param batch_limit_error if TRUE then an error is thrown if the number of unique addresses
 #'  exceeds the batch limit (if executing a batch query). This is reverted to FALSE when using the
 #'  cascade method.
@@ -87,7 +75,7 @@ batch_func_map <- list(
 #' @param no_query if TRUE then no queries are sent to the geocoder and verbose is set to TRUE
 
 #' @param custom_query API-specific parameters to be used, passed as a named list 
-#'  (ie. `list(extratags = 1)}`.
+#'  (ie. `list(extratags = 1)`.
 #' @param return_type only used when `method = 'census'`. Two possible values: 
 #'     - `"locations"` (default)
 #'     - `"geographies"`: returns additional geography columns. 
@@ -110,7 +98,7 @@ batch_func_map <- list(
 #' @param mapquest_open if TRUE then MapQuest would use the Open Geocoding 
 #'   endpoint, that relies solely on data contributed to OpenStreetMap.
 #'    
-#' @return tibble dataframe
+#' @return tibble (dataframe)
 #' @examples
 #' \donttest{
 #' geo(street = "600 Peachtree Street NE", city = "Atlanta",
