@@ -16,7 +16,7 @@
 -   The `address_list` argument of `query_api()` has been renamed to `input_list` to reflect that it is used for both forward and reverse queries when using the Geocodio service for batch geocoding.
 -   The `query_api()` function now returns a named list which contains the response content (`content`) and the HTTP status code (`status`). The `geo()` and `reverse_geo()` functions now use the HTTP status code directly to determine if a response is valid.
 -   Added [external tests](https://github.com/jessecambon/tidygeocoder/blob/main/external_tests/online_tests.R) to more thoroughly test the package with live queries (internal package tests don't run queries).
--   Added [functions](R/documentation.R) to generate package documentation from built-in datasets.
+-   Added functions to generate package documentation from built-in datasets.
 
 # tidygeocoder 1.0.2
 
