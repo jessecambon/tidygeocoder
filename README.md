@@ -22,21 +22,25 @@ Month](http://cranlogs.r-pkg.org/badges/tidygeocoder)](https://cran.r-project.or
 
 ## Introduction
 
-Tidygeocoder makes getting data from geocoder services easy. Both
-*forward geocoding* (providing addresses to obtain geographic
-coordinates) and *reverse geocoding* (providing geographic coordinates
-to obtain addresses) are supported. All results are returned in [tibble
-format](https://tibble.tidyverse.org/) and the supported geocoder
-services are listed below.
+Tidygeocoder makes getting data from geocoder services easy. A unified
+interface is provided for the geocoder services listed below and all
+results are returned in [tibble](https://tibble.tidyverse.org/)
+(dataframe) format.
 
-Batch geocoding (geocoding multiple addresses or coordinates per query)
-is used by default if supported by the geocoder service when multiple
-inputs (addresses or coordinates) are provided. Duplicate, missing/NA,
-and blank input data is handled elegantly - only unique inputs are
-passed to geocoder services, but the rows in the original data are
-preserved by default.
+**Features:**
 
-Some useful references:
+-   Both **forward geocoding** (addresses -&gt; coordinates) and
+    **reverse geocoding** (coordinates -&gt; addresses) are supported.
+-   **Batch geocoding** (geocoding multiple addresses or coordinates in
+    a single query) is used by default if supported by the geocoder
+    service when multiple inputs (addresses or coordinates) are provided
+    (with some noted exceptions for services with slower batch
+    geocoding).
+-   Duplicate, missing/NA, and blank input data is handled elegantly -
+    only unique inputs are submitted in queries to geocoder services,
+    but the rows in the original data are preserved by default.
+
+**References:**
 
 -   [Blog posts on
     tidygeocoder](https://jessecambon.github.io/tag/tidygeocoder) for
@@ -72,30 +76,29 @@ devtools::install_github("jessecambon/tidygeocoder")
 
 ## Geocoder Services
 
-The supported geocoder services are shown in the table below with their
-geographic limitations, if they support batch geocoding (geocoding
-multiple addresses or coordinates in a single query), if an API key is
-required, and the usage rate limitations. Refer to the website for each
-geocoder service for the most up-to-date details on costs, capabilities,
-and usage limitations.
+The supported geocoder services are shown in the table below. Refer to
+the website for each geocoder service for the most up-to-date details on
+costs, capabilities, and usage limitations.
 
-| Service                                                                                                 | Geography     | Batch Geocoding | API Key Required | Query Rate Limit        |
-|---------------------------------------------------------------------------------------------------------|---------------|-----------------|------------------|-------------------------|
-| [US Census](https://geocoding.geo.census.gov/)                                                          | US            | Yes             | No               | None                    |
-| [Nominatim (OSM)](https://nominatim.org)                                                                | Worldwide     | No              | No               | 1/second                |
-| [ArcGIS](https://developers.arcgis.com/rest/geocode/api-reference/overview-world-geocoding-service.htm) | Worldwide     | See Note        | See Note         | None                    |
-| [Geocodio](https://www.geocod.io/)                                                                      | US and Canada | Yes             | Yes              | 1000/minute (free tier) |
-| [Location IQ](https://locationiq.com/)                                                                  | Worldwide     | No              | Yes              | 2/second (free tier)    |
-| [Google](https://developers.google.com/maps/documentation/geocoding/overview)                           | Worldwide     | No              | Yes              | 50/second               |
-| [OpenCage](https://opencagedata.com)                                                                    | Worldwide     | No              | Yes              | 1/second (free tier)    |
-| [Mapbox](https://docs.mapbox.com/api/search/)                                                           | Worldwide     | See Note        | Yes              | 10/second (free tier)   |
-| [HERE](https://developer.here.com/products/geocoding-and-search)                                        | Worldwide     | Yes             | Yes              | None                    |
-| [TomTom](https://developer.tomtom.com/search-api/search-api-documentation/geocoding)                    | Worldwide     | Yes             | Yes              | 5/second (free tier)    |
-| [MapQuest](https://developer.mapquest.com/documentation/geocoding-api/)                                 | Worldwide     | Yes             | Yes              | None                    |
-| [Bing](https://docs.microsoft.com/en-us/bingmaps/rest-services/locations/)                              | Worldwide     | Yes             | Yes              | None                    |
+| Service                                                                                                 | Method     | API Key Required | Batch Geocoding | Usage Limitations                   | API Documentation                                                                                                                       |
+|:--------------------------------------------------------------------------------------------------------|:-----------|:-----------------|:----------------|:------------------------------------|:----------------------------------------------------------------------------------------------------------------------------------------|
+| [US Census](https://geocoding.geo.census.gov/)                                                          | `census`   |                  | X               | NA                                  | [docs](https://www.census.gov/programs-surveys/geography/technical-documentation/complete-technical-documentation/census-geocoder.html) |
+| [Nominatim](https://nominatim.org)                                                                      | `osm`      |                  |                 | 1 query per second                  | [docs](https://nominatim.org/release-docs/develop/api/Search/)                                                                          |
+| [ArcGIS](https://developers.arcgis.com/rest/geocode/api-reference/overview-world-geocoding-service.htm) | `arcgis`   |                  |                 | NA                                  | [docs](https://developers.arcgis.com/rest/geocode/api-reference/overview-world-geocoding-service.htm)                                   |
+| [Geocodio](https://www.geocod.io/)                                                                      | `geocodio` | X                | X               | 1000 queries per minute (free tier) | [docs](https://www.geocod.io/docs/)                                                                                                     |
+| [Location IQ](https://locationiq.com/)                                                                  | `iq`       | X                |                 | 2 queries per second (free tier)    | [docs](https://locationiq.com/docs)                                                                                                     |
+| [Google](https://developers.google.com/maps/documentation/geocoding/overview)                           | `google`   | X                |                 | 50 queries per second               | [docs](https://developers.google.com/maps/documentation/geocoding/overview)                                                             |
+| [OpenCage](https://opencagedata.com)                                                                    | `opencage` | X                |                 | 1 query/second                      | [docs](https://opencagedata.com/api)                                                                                                    |
+| [Mapbox](https://docs.mapbox.com/api/search/)                                                           | `mapbox`   | X                |                 | 600 queries per minute (free tier)  | [docs](https://docs.mapbox.com/api/search/geocoding/)                                                                                   |
+| [HERE](https://developer.here.com/products/geocoding-and-search)                                        | `here`     | X                | X               | 5 queries per second (free tier)    | [docs](https://developer.here.com/documentation/geocoding-search-api/dev_guide/index.html)                                              |
+| [TomTom](https://developer.tomtom.com/search-api/search-api-documentation/geocoding)                    | `tomtom`   | X                | X               | 5 queries per second (free tier)    | [docs](https://developer.tomtom.com/search-api/search-api-documentation-geocoding/geocode)                                              |
+| [MapQuest](https://developer.mapquest.com/documentation/geocoding-api/)                                 | `mapquest` | X                | X               | NA                                  | [docs](https://developer.mapquest.com/documentation/geocoding-api/)                                                                     |
+| [Bing](https://docs.microsoft.com/en-us/bingmaps/rest-services/locations/)                              | `bing`     | X                | X               | NA                                  | [docs](https://docs.microsoft.com/en-us/bingmaps/rest-services/locations/)                                                              |
 
-**Summary:**
+**Highlights:**
 
+-   The US Census service is limited to the United States while Geocodio
+    is limited to the US and Canada.
 -   The Census and Nominatim (OSM) services are free and do not require
     an API key.
 -   ArcGIS can be used for free without an API key, but some features
@@ -109,14 +112,18 @@ and usage limitations.
 
 -   The US Census service supports street-level addresses only (ie. “11
     Wall St New York, NY” is OK but “New York, NY” is not).
--   The Census geocoder is the only supported service that does not
-    offer reverse geocoding.
+-   The Census service does not support reverse geocoding.
 -   The Mapbox service is capable of performing batch geocoding when
     using the [permanent
     endpoint](https://docs.mapbox.com/api/search/geocoding/#batch-geocoding),
     but this capability is not currently implemented in tidygeocoder. If
     you’d like to add this capability to the package see [issue
     \#73](https://github.com/jessecambon/tidygeocoder/issues/73).
+-   The ArcGIS service is capable of performing [batch
+    geocoding](https://developers.arcgis.com/rest/geocode/api-reference/geocoding-geocode-addresses.htm)
+    but this capability is not currently implemented in tidygeocoder. If
+    you’d like to add this capability see
+    [\#102](https://github.com/jessecambon/tidygeocoder/issues/102).
 -   For the ArcGIS service, an API Key is not strictly required if the
     service is used for search capabilities only (see [Free vs. paid
     operations](https://developers.arcgis.com/rest/geocode/api-reference/geocoding-free-vs-paid.htm)).
@@ -124,17 +131,9 @@ and usage limitations.
     `custom_query` parameter:
 
 ``` r
-tidygeocoder::geo(
-  address = "New York, USA", method = "arcgis",
-  custom_query = list(
-    token = "<API_KEY>"
-  )
-)
+tidygeocoder::geo(address = "New York, USA", method = "arcgis",
+  custom_query = list(token = "<API_KEY>"))
 ```
-
--   The ArcGIS service is capable of performing [batch
-    geocoding](https://developers.arcgis.com/rest/geocode/api-reference/geocoding-geocode-addresses.htm)
-    but this capability is not currently implemented in tidygeocoder.
 
 ## Usage
 
@@ -156,19 +155,20 @@ some_addresses <- tribble(
 
 # geocode the addresses
 lat_longs <- some_addresses %>%
-  geocode(addr, method = 'census', lat = latitude , long = longitude)
+  geocode(addr, method = 'osm', lat = latitude , long = longitude)
 ```
 
 The `geocode()` function attaches latitude and longitude columns to our
-input dataset of addresses. The US Census geocoder is used here, but
-other services can be specified with the `method` argument. See the
-`geo()` function documentation for details.
+input dataset of addresses. The [Nominatim
+(“osm”)](https://nominatim.org/) geocoder is used here, but other
+services can be specified with the `method` argument. See the `geo()`
+function documentation for details.
 
 | name                 | addr                                       | latitude |  longitude |
 |:---------------------|:-------------------------------------------|---------:|-----------:|
-| White House          | 1600 Pennsylvania Ave NW, Washington, DC   | 38.89875 |  -77.03535 |
-| Transamerica Pyramid | 600 Montgomery St, San Francisco, CA 94111 | 37.79470 | -122.40314 |
-| Willis Tower         | 233 S Wacker Dr, Chicago, IL 60606         | 41.87851 |  -87.63666 |
+| White House          | 1600 Pennsylvania Ave NW, Washington, DC   | 38.89770 |  -77.03655 |
+| Transamerica Pyramid | 600 Montgomery St, San Francisco, CA 94111 | 37.79520 | -122.40279 |
+| Willis Tower         | 233 S Wacker Dr, Chicago, IL 60606         | 41.87887 |  -87.63591 |
 
 Now that we have the longitude and latitude coordinates, we can use
 ggplot to plot our addresses on a map.
@@ -212,19 +212,16 @@ column named by the `address` argument. See the `reverse_geo()` function
 documentation for more details on reverse geocoding.
 
 ``` r
-coordinates <- tibble(latitude = c(38.895865, 43.6534817, 35.0844),
-                longitude = c(-77.0307713, -79.3839347, -106.6504))
-
-rev1 <- coordinates %>%
+rev1 <- lat_longs %>%
   reverse_geocode(lat = latitude, long = longitude, method = 'osm',
                   address = address_found, full_results = TRUE)
 ```
 
-| latitude |  longitude | address\_found                                                                                                                                     | place\_id | licence                                                                  | osm\_type |   osm\_id | osm\_lat           | osm\_lon            | tourism         | road                     | city        | state                | postcode   | country       | country\_code | boundingbox                                        | amenity           | house\_number | neighbourhood      | quarter           | state\_district  | building        | suburb               | county            |
-|---------:|-----------:|:---------------------------------------------------------------------------------------------------------------------------------------------------|----------:|:-------------------------------------------------------------------------|:----------|----------:|:-------------------|:--------------------|:----------------|:-------------------------|:------------|:---------------------|:-----------|:--------------|:--------------|:---------------------------------------------------|:------------------|:--------------|:-------------------|:------------------|:-----------------|:----------------|:---------------------|:------------------|
-| 38.89587 |  -77.03077 | L’Enfant’s plan, Pennsylvania Avenue, Washington, District of Columbia, 20045, United States                                                       | 301711857 | Data © OpenStreetMap contributors, ODbL 1.0. <https://osm.org/copyright> | way       | 899927546 | 38.895859599999994 | -77.0306779870984   | L’Enfant’s plan | Pennsylvania Avenue      | Washington  | District of Columbia | 20045      | United States | us            | 38.8957273 , 38.8959688 , -77.0311667, -77.0301895 | NA                | NA            | NA                 | NA                | NA               | NA              | NA                   | NA                |
-| 43.65348 |  -79.38393 | Toronto City Hall, 100, Queen Street West, Financial District, Spadina—Fort York, Old Toronto, Toronto, Golden Horseshoe, Ontario, M5H 2N2, Canada | 137497520 | Data © OpenStreetMap contributors, ODbL 1.0. <https://osm.org/copyright> | way       | 198500761 | 43.6536032         | -79.38400547469666  | NA              | Queen Street West        | Old Toronto | Ontario              | M5H 2N2    | Canada        | ca            | 43.6529946 , 43.6541458 , -79.3848438, -79.3830415 | Toronto City Hall | 100           | Financial District | Spadina—Fort York | Golden Horseshoe | NA              | NA                   | NA                |
-| 35.08440 | -106.65040 | Market Building, 301, Central Avenue Northwest, Downtown Albuquerque, Albuquerque, Bernalillo County, New Mexico, 87102-3116, United States        | 190582070 | Data © OpenStreetMap contributors, ODbL 1.0. <https://osm.org/copyright> | way       | 437189749 | 35.0846948         | -106.65064483238235 | NA              | Central Avenue Northwest | Albuquerque | New Mexico           | 87102-3116 | United States | us            | 35.08451 , 35.084941 , -106.6508398, -106.6504144  | NA                | 301           | NA                 | NA                | NA               | Market Building | Downtown Albuquerque | Bernalillo County |
+| name                 | addr                                       | latitude |  longitude | address\_found                                                                                                                                   | place\_id | licence                                                                  | osm\_type |   osm\_id | osm\_lat           | osm\_lon            | historic    | house\_number | road                          | city          | state                | postcode | country       | country\_code | boundingbox                                          | tourism              | neighbourhood      | county                        | building     | suburb |
+|:---------------------|:-------------------------------------------|---------:|-----------:|:-------------------------------------------------------------------------------------------------------------------------------------------------|----------:|:-------------------------------------------------------------------------|:----------|----------:|:-------------------|:--------------------|:------------|:--------------|:------------------------------|:--------------|:---------------------|:---------|:--------------|:--------------|:-----------------------------------------------------|:---------------------|:-------------------|:------------------------------|:-------------|:-------|
+| White House          | 1600 Pennsylvania Ave NW, Washington, DC   | 38.89770 |  -77.03655 | White House, 1600, Pennsylvania Avenue Northwest, Washington, District of Columbia, 20500, United States                                         | 147370893 | Data © OpenStreetMap contributors, ODbL 1.0. <https://osm.org/copyright> | way       | 238241022 | 38.897699700000004 | -77.03655315        | White House | 1600          | Pennsylvania Avenue Northwest | Washington    | District of Columbia | 20500    | United States | us            | 38.8974908 , 38.897911 , -77.0368537, -77.0362519    | NA                   | NA                 | NA                            | NA           | NA     |
+| Transamerica Pyramid | 600 Montgomery St, San Francisco, CA 94111 | 37.79520 | -122.40279 | Transamerica Pyramid, 600, Montgomery Street, Financial District, San Francisco, San Francisco City and County, California, 94111, United States |  95364489 | Data © OpenStreetMap contributors, ODbL 1.0. <https://osm.org/copyright> | way       |  24222973 | 37.795200550000004 | -122.40279267840137 | NA          | 600           | Montgomery Street             | San Francisco | California           | 94111    | United States | us            | 37.7948854 , 37.7954472 , -122.4031399, -122.4024317 | Transamerica Pyramid | Financial District | San Francisco City and County | NA           | NA     |
+| Willis Tower         | 233 S Wacker Dr, Chicago, IL 60606         | 41.87887 |  -87.63591 | Willis Tower, 233, South Wacker Drive, Printer’s Row, Loop, Chicago, Cook County, Illinois, 60606, United States                                 | 103673983 | Data © OpenStreetMap contributors, ODbL 1.0. <https://osm.org/copyright> | way       |  58528804 | 41.878871700000005 | -87.63590893936448  | NA          | 233           | South Wacker Drive            | Chicago       | Illinois             | 60606    | United States | us            | 41.8785389 , 41.8791932 , -87.6363362, -87.6354746   | NA                   | Printer’s Row      | Cook County                   | Willis Tower | Loop   |
 
 For further documentation, refer to the [Getting Started
 Vignette](https://jessecambon.github.io/tidygeocoder/articles/tidygeocoder.html)
@@ -237,32 +234,39 @@ Contributions to the tidygeocoder package are welcome. File [an
 issue](https://github.com/jessecambon/tidygeocoder/issues) for bug fixes
 or suggested features. If you would like to add support for a new
 geocoder service, reference [this
-post](https://github.com/jessecambon/tidygeocoder/issues/62#issue-777707424)
+page](https://jessecambon.github.io/tidygeocoder/docs/articles/adding_geocoder_services.html)
 for instructions.
 
 ## Citing tidygeocoder
 
 ``` r
 citation('tidygeocoder')
-#> 
-#> To cite tidygeocoder in publications use:
-#> 
-#>   Jesse Cambon, Christopher Belanger (2021). tidygeocoder: Geocoding
-#>   Made Easy (version 1.0.2). DOI: 10.5281/zenodo.4448251. URL:
-#>   https://CRAN.R-project.org/package=tidygeocoder
-#> 
-#> A BibTeX entry for LaTeX users is
-#> 
-#>   @Misc{,
-#>     title = {tidygeocoder: Geocoding Made Easy},
-#>     author = {Jesse Cambon and Christopher Belanger},
-#>     year = {2021},
-#>     publisher = {Zenodo},
-#>     note = {R package version 1.0.2},
-#>     url = {https://CRAN.R-project.org/package=tidygeocoder},
-#>     doi = {10.5281/zenodo.4448251},
-#>   }
 ```
+
+</br>
+
+<blockquote>
+
+
+    To cite tidygeocoder in publications use:
+
+      Jesse Cambon, Christopher Belanger (2021). tidygeocoder: Geocoding
+      Made Easy (version 1.0.2). DOI: 10.5281/zenodo.4448251. URL:
+      https://CRAN.R-project.org/package=tidygeocoder
+
+    A BibTeX entry for LaTeX users is
+
+      @Misc{,
+        title = {tidygeocoder: Geocoding Made Easy},
+        author = {Jesse Cambon and Christopher Belanger},
+        year = {2021},
+        publisher = {Zenodo},
+        note = {R package version 1.0.2},
+        url = {https://CRAN.R-project.org/package=tidygeocoder},
+        doi = {10.5281/zenodo.4448251},
+      }
+
+</blockquote>
 
 Or refer to the [citation
 page](https://jessecambon.github.io/tidygeocoder/authors.html).

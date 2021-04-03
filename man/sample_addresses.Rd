@@ -7,8 +7,8 @@
 \format{
 A tibble dataframe with single line addresses
 \describe{
- \item{name}{Description of the address}
- \item{addr}{Single line address}
+\item{name}{Description of the address}
+\item{addr}{Single line address}
 }
 }
 \usage{

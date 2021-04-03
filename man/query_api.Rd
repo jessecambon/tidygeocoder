@@ -21,9 +21,9 @@ query_api(
 \item{query_parameters}{api query parameters in the form of a named list}
 
 \item{mode}{\itemize{
-    \item \code{"single"} : geocode a single address (all methods)
-    \item \code{"list"} : batch geocode a list of addresses (geocodio)
-    \item \code{"file"} : batch geocode a file of addresses (census)
+\item \code{"single"} : geocode a single address (all methods)
+\item \code{"list"} : batch geocode a list of addresses (geocodio)
+\item \code{"file"} : batch geocode a file of addresses (census)
 }}
 
 \item{batch_file}{a csv file of addresses to upload (census)}

@@ -16,7 +16,7 @@
 #'  \item{state}{state}
 #'  \item{zip}{zip code}
 #' }
-#' @source Downloaded from \href{http://results.openaddresses.io/sources/us/ky/jefferson}{OpenAddresses.io}
+#' @source Downloaded from [http://results.openaddresses.io/sources/us/ky/jefferson](OpenAddresses.io)
 #'  on June 1st 2020
 "louisville"
 
@@ -25,21 +25,24 @@
 #' @description
 #' This dataset contains the mapping that allows this package to use a 
 #' universal syntax to specify parameters for different geocoder services. 
-#' Note that latitude nad longitude input parameters for reverse geocoding
-#' are not in this dataset and are instead handled directly by the \code{reverse_geo} function.
+#' Note that latitude and longitude input parameters for reverse geocoding
+#' are not in this dataset and are instead handled directly by the [reverse_geo] function.
 #' 
-#' The \code{generic_name} column is a universal parameter name that is shared between services.
-#' The \code{api_name} column is the parameter name for the given geocoder service specified by the
-#'\code{method} column. When \code{generic_name} is missing 
+#' The `generic_name` column is a universal parameter name that is shared between services.
+#' The `api_name` column is the parameter name for the given geocoder service specified by the
+#'`method` column. When `generic_name` is missing 
 #' this means the parameter is specific to that geocoder service.
 #' 
-#' Note that while the "census" and "google" services do not have a \code{limit}
+#' While the `r create_comma_list(pkg.globals$limit_passthru_methods, wrap ='"')` services do not have a `limit`
 #' argument in their APIs, tidygeocoder provides a passthrough so you can still
-#' use the \code{limit} argument in \code{geo} and \code{reverse_geo} to limit the 
-#' number of result per input.
+#' use the `limit` argument in [geo] and [reverse_geo] to limit the 
+#' number of results per input.
+#' 
+#' Note that some geocoder services only use the `limit` argument for forward geocoding.
+#' Refer to API documentation of each service for more information.
 #'  
-#' Reference the documentation for \code{\link{geo}} for more information. 
-#' Also reference \code{vignette("tidygeocoder")} for more details on constructing API queries.
+#' Reference the documentation for `geo` and `reverse_geo`  for more information. 
+#' Also reference `vignette("tidygeocoder")` for more details on constructing API queries.
 #'
 #' @format A tibble dataframe
 #' \describe{
@@ -50,36 +53,32 @@
 #'  \item{required}{Is the parameter required by the specified geocoder service?}
 #' }
 #' 
-#' @seealso \code{\link{get_api_query}} \code{\link{query_api}} \code{\link{geo}} \code{\link{geocode}}
-#' @source Links to API documentation for each geocoder service are below.
-#' \itemize{ 
-#'  \item \href{https://www.census.gov/programs-surveys/geography/technical-documentation/complete-technical-documentation/census-geocoder.html}{Census}
-#'  \item \href{https://nominatim.org/release-docs/develop/api/Search/}{Nominatim} ("osm")
-#'  \item \href{https://www.geocod.io/docs/}{Geocodio}
-#'  \item \href{https://locationiq.com/docs}{Location IQ} ("iq") 
-#'  \item \href{https://developers.google.com/maps/documentation/geocoding/overview}{Google}
-#'  \item \href{https://opencagedata.com/api}{OpenCage}
-#'  \item \href{https://docs.mapbox.com/api/search/geocoding/}{Mapbox}
-#'  \item \href{https://developer.here.com/documentation/geocoding-search-api/dev_guide/index.html}{HERE}
-#'  \item \href{https://developer.tomtom.com/search-api/search-api-documentation-geocoding/geocode}{TomTom}
-#'  \item \href{https://developer.mapquest.com/documentation/geocoding-api/}{MapQuest}
-#'  \item \href{https://docs.microsoft.com/en-us/bingmaps/rest-services/locations/}{Bing}
-#'  \item \href{https://developers.arcgis.com/rest/geocode/api-reference/overview-world-geocoding-service.htm}{ArcGIS}
-#' }
+#' @details 
+#' 
+#' The API documentation for each service is linked to below:
+#' 
+#' `r get_api_doc_bullets()`
+#' 
+#' @seealso [geo] [reverse_geo] [get_api_query] [query_api] [min_time_reference] [batch_limit_reference]
+#' 
 "api_parameter_reference"
 
-#' The batch limit for each geocoder service
+#' Limits for batch sizes
 #'
 #' @format A tibble dataframe
 #' \describe{
 #'  \item{method}{Geocoder service name}
 #'  \item{batch_limit}{The maximum number of addresses or coordinates allowed per batch}
 #' }
+#' @seealso [geo] [reverse_geo] 
+#' 
 "batch_limit_reference"
 
-#' The minimum number of seconds required per query to comply with usage restrictions. 
-#' The \code{\link{geo}} and \code{\link{reverse_geo}} functions use this value to
-#' slow down the rate of querying if necessary.
+#' Minimum time required per query
+#' 
+#' The [geo] and [reverse_geo] functions use this value to
+#' slow down the rate of querying if necessary to comply
+#' with each geocoder service's usage policies.
 #'
 #' @format A tibble dataframe
 #' \describe{
@@ -87,13 +86,37 @@
 #'  \item{min_time}{The minimum number of seconds required per query to comply with usage restrictions}
 #'  \item{description}{A description of the usage rate restriction}
 #' }
+#' @details 
+#' 
+#' Links to the usage policies of each geocoder service are below:
+#' 
+#' `r get_api_usage_bullets()`
+#' 
+#' #' @seealso [geo] [reverse_geo]
+#' 
 "min_time_reference"
 
-#' The name of the environmental variable that the API key will be read from.
+#' API Key Environmental Variables
 #'
 #' @format A tibble dataframe
 #' \describe{
 #'  \item{method}{Geocoder service name}
 #'  \item{env_var}{Environmental variable name}
 #' }
+#' 
+#' @seealso [geo] [reverse_geo] 
+#' 
 "api_key_reference"
+
+#' Geocoder service links and info
+#'
+#' @format A tibble dataframe
+#' \describe{
+#'  \item{method}{Geocoder service name}
+#'  \item{method_display_name}{Geocoder service display name}
+#'  \item{site_url}{Link to the main site of the geocoder service}
+#'  \item{api_documentation_url}{Link to API documentation}
+#'  \item{api_usage_policy_url}{Link to the usage policy}
+#' }
+#' 
+"api_info_reference"

@@ -20,7 +20,7 @@ library(gt)
 library(dplyr)
 ```
 
-This page displays built-in datasets that are used to set parameters and settings used in geocoder queries.
+This page displays the built-in datasets that are used in the tidygeocoder package to set parameters and settings for geocoder queries.
 
 ## API Parameters
 
@@ -74,4 +74,22 @@ api_key_reference %>%
   opt_table_outline() %>%
   opt_table_lines() %>%
   tab_options(column_labels.font.weight = 'bold')
+```
+
+<!-- https://bookdown.org/yihui/rmarkdown-cookbook/results-asis.html -->
+
+## API Documentation
+
+Links to the API documentation for each geocoder service:
+
+```{r, echo = FALSE, results = 'asis'}
+cat(tidygeocoder:::get_api_doc_bullets(), sep = '\n')
+```
+
+## API Usage Policies
+
+Links to the usage policies for each geocoder service:
+
+```{r, echo = FALSE, results = 'asis'}
+cat(tidygeocoder:::get_api_usage_bullets(), sep = '\n')
 ```

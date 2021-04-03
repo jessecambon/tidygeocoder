@@ -59,6 +59,9 @@
   </a>
   <ul class="dropdown-menu" role="menu">
 <li>
+      <a href="articles/adding_geocoder_services.html">Adding a Geocoder Service</a>
+    </li>
+    <li>
       <a href="articles/api_reference.html">API References</a>
     </li>
   </ul>
@@ -102,9 +105,15 @@
 <div id="introduction" class="section level2">
 <h2 class="hasAnchor">
 <a href="#introduction" class="anchor"></a>Introduction</h2>
-<p>Tidygeocoder makes getting data from geocoder services easy. Both <em>forward geocoding</em> (providing addresses to obtain geographic coordinates) and <em>reverse geocoding</em> (providing geographic coordinates to obtain addresses) are supported. All results are returned in <a href="https://tibble.tidyverse.org/">tibble format</a> and the supported geocoder services are listed below.</p>
-<p>Batch geocoding (geocoding multiple addresses or coordinates per query) is used by default if supported by the geocoder service when multiple inputs (addresses or coordinates) are provided. Duplicate, missing/NA, and blank input data is handled elegantly - only unique inputs are passed to geocoder services, but the rows in the original data are preserved by default.</p>
-<p>Some useful references:</p>
+<p>Tidygeocoder makes getting data from geocoder services easy. A unified interface is provided for the geocoder services listed below and all results are returned in <a href="https://tibble.tidyverse.org/">tibble</a> (dataframe) format.</p>
+<p><strong>Features:</strong></p>
+<ul>
+<li>Both <strong>forward geocoding</strong> (addresses -&gt; coordinates) and <strong>reverse geocoding</strong> (coordinates -&gt; addresses) are supported.</li>
+<li>
+<strong>Batch geocoding</strong> (geocoding multiple addresses or coordinates in a single query) is used by default if supported by the geocoder service when multiple inputs (addresses or coordinates) are provided (with some noted exceptions for services with slower batch geocoding).</li>
+<li>Duplicate, missing/NA, and blank input data is handled elegantly - only unique inputs are submitted in queries to geocoder services, but the rows in the original data are preserved by default.</li>
+</ul>
+<p><strong>References:</strong></p>
 <ul>
 <li>
 <a href="https://jessecambon.github.io/tag/tidygeocoder">Blog posts on tidygeocoder</a> for updates on releases and more usage examples. In particular <a href="https://jessecambon.github.io/2020/07/15/tidygeocoder-1-0-0.html">this post</a> and <a href="https://jessecambon.github.io/2019/11/11/tidygeocoder-demo.html">this post</a> demonstrate some relevant mapping workflows.</li>
@@ -128,104 +137,126 @@
 <div id="geocoder-services" class="section level2">
 <h2 class="hasAnchor">
 <a href="#geocoder-services" class="anchor"></a>Geocoder Services</h2>
-<p>The supported geocoder services are shown in the table below with their geographic limitations, if they support batch geocoding (geocoding multiple addresses or coordinates in a single query), if an API key is required, and the usage rate limitations. Refer to the website for each geocoder service for the most up-to-date details on costs, capabilities, and usage limitations.</p>
+<p>The supported geocoder services are shown in the table below. Refer to the website for each geocoder service for the most up-to-date details on costs, capabilities, and usage limitations.</p>
 <table class="table">
+<colgroup>
+<col width="32%">
+<col width="3%">
+<col width="5%">
+<col width="5%">
+<col width="11%">
+<col width="42%">
+</colgroup>
 <thead><tr class="header">
-<th>Service</th>
-<th>Geography</th>
-<th>Batch Geocoding</th>
-<th>API Key Required</th>
-<th>Query Rate Limit</th>
+<th align="left">Service</th>
+<th align="left">Method</th>
+<th align="left">API Key Required</th>
+<th align="left">Batch Geocoding</th>
+<th align="left">Usage Limitations</th>
+<th align="left">API Documentation</th>
 </tr></thead>
 <tbody>
 <tr class="odd">
-<td><a href="https://geocoding.geo.census.gov/">US Census</a></td>
-<td>US</td>
-<td>Yes</td>
-<td>No</td>
-<td>None</td>
+<td align="left"><a href="https://geocoding.geo.census.gov/">US Census</a></td>
+<td align="left"><code>census</code></td>
+<td align="left"></td>
+<td align="left">X</td>
+<td align="left">NA</td>
+<td align="left"><a href="https://www.census.gov/programs-surveys/geography/technical-documentation/complete-technical-documentation/census-geocoder.html">docs</a></td>
 </tr>
 <tr class="even">
-<td><a href="https://nominatim.org">Nominatim (OSM)</a></td>
-<td>Worldwide</td>
-<td>No</td>
-<td>No</td>
-<td>1/second</td>
+<td align="left"><a href="https://nominatim.org">Nominatim</a></td>
+<td align="left"><code>osm</code></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">1 query per second</td>
+<td align="left"><a href="https://nominatim.org/release-docs/develop/api/Search/">docs</a></td>
 </tr>
 <tr class="odd">
-<td><a href="https://developers.arcgis.com/rest/geocode/api-reference/overview-world-geocoding-service.htm">ArcGIS</a></td>
-<td>Worldwide</td>
-<td>See Note</td>
-<td>See Note</td>
-<td>None</td>
+<td align="left"><a href="https://developers.arcgis.com/rest/geocode/api-reference/overview-world-geocoding-service.htm">ArcGIS</a></td>
+<td align="left"><code>arcgis</code></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">NA</td>
+<td align="left"><a href="https://developers.arcgis.com/rest/geocode/api-reference/overview-world-geocoding-service.htm">docs</a></td>
 </tr>
 <tr class="even">
-<td><a href="https://www.geocod.io/">Geocodio</a></td>
-<td>US and Canada</td>
-<td>Yes</td>
-<td>Yes</td>
-<td>1000/minute (free tier)</td>
+<td align="left"><a href="https://www.geocod.io/">Geocodio</a></td>
+<td align="left"><code>geocodio</code></td>
+<td align="left">X</td>
+<td align="left">X</td>
+<td align="left">1000 queries per minute (free tier)</td>
+<td align="left"><a href="https://www.geocod.io/docs/">docs</a></td>
 </tr>
 <tr class="odd">
-<td><a href="https://locationiq.com/">Location IQ</a></td>
-<td>Worldwide</td>
-<td>No</td>
-<td>Yes</td>
-<td>2/second (free tier)</td>
+<td align="left"><a href="https://locationiq.com/">Location IQ</a></td>
+<td align="left"><code>iq</code></td>
+<td align="left">X</td>
+<td align="left"></td>
+<td align="left">2 queries per second (free tier)</td>
+<td align="left"><a href="https://locationiq.com/docs">docs</a></td>
 </tr>
 <tr class="even">
-<td><a href="https://developers.google.com/maps/documentation/geocoding/overview">Google</a></td>
-<td>Worldwide</td>
-<td>No</td>
-<td>Yes</td>
-<td>50/second</td>
+<td align="left"><a href="https://developers.google.com/maps/documentation/geocoding/overview">Google</a></td>
+<td align="left"><code>google</code></td>
+<td align="left">X</td>
+<td align="left"></td>
+<td align="left">50 queries per second</td>
+<td align="left"><a href="https://developers.google.com/maps/documentation/geocoding/overview">docs</a></td>
 </tr>
 <tr class="odd">
-<td><a href="https://opencagedata.com">OpenCage</a></td>
-<td>Worldwide</td>
-<td>No</td>
-<td>Yes</td>
-<td>1/second (free tier)</td>
+<td align="left"><a href="https://opencagedata.com">OpenCage</a></td>
+<td align="left"><code>opencage</code></td>
+<td align="left">X</td>
+<td align="left"></td>
+<td align="left">1 query/second</td>
+<td align="left"><a href="https://opencagedata.com/api">docs</a></td>
 </tr>
 <tr class="even">
-<td><a href="https://docs.mapbox.com/api/search/">Mapbox</a></td>
-<td>Worldwide</td>
-<td>See Note</td>
-<td>Yes</td>
-<td>10/second (free tier)</td>
+<td align="left"><a href="https://docs.mapbox.com/api/search/">Mapbox</a></td>
+<td align="left"><code>mapbox</code></td>
+<td align="left">X</td>
+<td align="left"></td>
+<td align="left">600 queries per minute (free tier)</td>
+<td align="left"><a href="https://docs.mapbox.com/api/search/geocoding/">docs</a></td>
 </tr>
 <tr class="odd">
-<td><a href="https://developer.here.com/products/geocoding-and-search">HERE</a></td>
-<td>Worldwide</td>
-<td>Yes</td>
-<td>Yes</td>
-<td>None</td>
+<td align="left"><a href="https://developer.here.com/products/geocoding-and-search">HERE</a></td>
+<td align="left"><code>here</code></td>
+<td align="left">X</td>
+<td align="left">X</td>
+<td align="left">5 queries per second (free tier)</td>
+<td align="left"><a href="https://developer.here.com/documentation/geocoding-search-api/dev_guide/index.html">docs</a></td>
 </tr>
 <tr class="even">
-<td><a href="https://developer.tomtom.com/search-api/search-api-documentation/geocoding">TomTom</a></td>
-<td>Worldwide</td>
-<td>Yes</td>
-<td>Yes</td>
-<td>5/second (free tier)</td>
+<td align="left"><a href="https://developer.tomtom.com/search-api/search-api-documentation/geocoding">TomTom</a></td>
+<td align="left"><code>tomtom</code></td>
+<td align="left">X</td>
+<td align="left">X</td>
+<td align="left">5 queries per second (free tier)</td>
+<td align="left"><a href="https://developer.tomtom.com/search-api/search-api-documentation-geocoding/geocode">docs</a></td>
 </tr>
 <tr class="odd">
-<td><a href="https://developer.mapquest.com/documentation/geocoding-api/">MapQuest</a></td>
-<td>Worldwide</td>
-<td>Yes</td>
-<td>Yes</td>
-<td>None</td>
+<td align="left"><a href="https://developer.mapquest.com/documentation/geocoding-api/">MapQuest</a></td>
+<td align="left"><code>mapquest</code></td>
+<td align="left">X</td>
+<td align="left">X</td>
+<td align="left">NA</td>
+<td align="left"><a href="https://developer.mapquest.com/documentation/geocoding-api/">docs</a></td>
 </tr>
 <tr class="even">
-<td><a href="https://docs.microsoft.com/en-us/bingmaps/rest-services/locations/">Bing</a></td>
-<td>Worldwide</td>
-<td>Yes</td>
-<td>Yes</td>
-<td>None</td>
+<td align="left"><a href="https://docs.microsoft.com/en-us/bingmaps/rest-services/locations/">Bing</a></td>
+<td align="left"><code>bing</code></td>
+<td align="left">X</td>
+<td align="left">X</td>
+<td align="left">NA</td>
+<td align="left"><a href="https://docs.microsoft.com/en-us/bingmaps/rest-services/locations/">docs</a></td>
 </tr>
 </tbody>
 </table>
-<p><strong>Summary:</strong></p>
+<p><strong>Highlights:</strong></p>
 <ul>
+<li>The US Census service is limited to the United States while Geocodio is limited to the US and Canada.</li>
 <li>The Census and Nominatim (OSM) services are free and do not require an API key.</li>
 <li>ArcGIS can be used for free without an API key, but some features require a paid subscription and API key.</li>
 <li>The Geocodio, Location IQ, OpenCage, Mapbox, HERE, TomTom, MapQuest, and Bing are commercial services that offer free tiers.</li>
@@ -234,20 +265,14 @@
 <p><strong>Notes:</strong></p>
 <ul>
 <li>The US Census service supports street-level addresses only (ie. “11 Wall St New York, NY” is OK but “New York, NY” is not).</li>
-<li>The Census geocoder is the only supported service that does not offer reverse geocoding.</li>
+<li>The Census service does not support reverse geocoding.</li>
 <li>The Mapbox service is capable of performing batch geocoding when using the <a href="https://docs.mapbox.com/api/search/geocoding/#batch-geocoding">permanent endpoint</a>, but this capability is not currently implemented in tidygeocoder. If you’d like to add this capability to the package see <a href="https://github.com/jessecambon/tidygeocoder/issues/73">issue #73</a>.</li>
+<li>The ArcGIS service is capable of performing <a href="https://developers.arcgis.com/rest/geocode/api-reference/geocoding-geocode-addresses.htm">batch geocoding</a> but this capability is not currently implemented in tidygeocoder. If you’d like to add this capability see <a href="https://github.com/jessecambon/tidygeocoder/issues/102">#102</a>.</li>
 <li>For the ArcGIS service, an API Key is not strictly required if the service is used for search capabilities only (see <a href="https://developers.arcgis.com/rest/geocode/api-reference/geocoding-free-vs-paid.htm">Free vs. paid operations</a>). It is possible to include an API Key on the request via the <code>custom_query</code> parameter:</li>
 </ul>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">tidygeocoder</span><span class="fu">::</span><span class="fu"><a href="reference/geo.html">geo</a></span><span class="op">(</span>
-  address <span class="op">=</span> <span class="st">"New York, USA"</span>, method <span class="op">=</span> <span class="st">"arcgis"</span>,
-  custom_query <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>
-    token <span class="op">=</span> <span class="st">"&lt;API_KEY&gt;"</span>
-  <span class="op">)</span>
-<span class="op">)</span></code></pre></div>
-<ul>
-<li>The ArcGIS service is capable of performing <a href="https://developers.arcgis.com/rest/geocode/api-reference/geocoding-geocode-addresses.htm">batch geocoding</a> but this capability is not currently implemented in tidygeocoder.</li>
-</ul>
+<code class="sourceCode R"><span class="fu">tidygeocoder</span><span class="fu">::</span><span class="fu"><a href="reference/geo.html">geo</a></span><span class="op">(</span>address <span class="op">=</span> <span class="st">"New York, USA"</span>, method <span class="op">=</span> <span class="st">"arcgis"</span>,
+  custom_query <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>token <span class="op">=</span> <span class="st">"&lt;API_KEY&gt;"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 </div>
 <div id="usage" class="section level2">
 <h2 class="hasAnchor">
@@ -268,8 +293,8 @@
 
 <span class="co"># geocode the addresses</span>
 <span class="va">lat_longs</span> <span class="op">&lt;-</span> <span class="va">some_addresses</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="reference/geocode.html">geocode</a></span><span class="op">(</span><span class="va">addr</span>, method <span class="op">=</span> <span class="st">'census'</span>, lat <span class="op">=</span> <span class="va">latitude</span> , long <span class="op">=</span> <span class="va">longitude</span><span class="op">)</span></code></pre></div>
-<p>The <code><a href="reference/geocode.html">geocode()</a></code> function attaches latitude and longitude columns to our input dataset of addresses. The US Census geocoder is used here, but other services can be specified with the <code>method</code> argument. See the <code><a href="reference/geo.html">geo()</a></code> function documentation for details.</p>
+  <span class="fu"><a href="reference/geocode.html">geocode</a></span><span class="op">(</span><span class="va">addr</span>, method <span class="op">=</span> <span class="st">'osm'</span>, lat <span class="op">=</span> <span class="va">latitude</span> , long <span class="op">=</span> <span class="va">longitude</span><span class="op">)</span></code></pre></div>
+<p>The <code><a href="reference/geocode.html">geocode()</a></code> function attaches latitude and longitude columns to our input dataset of addresses. The <a href="https://nominatim.org/">Nominatim (“osm”)</a> geocoder is used here, but other services can be specified with the <code>method</code> argument. See the <code><a href="reference/geo.html">geo()</a></code> function documentation for details.</p>
 <table class="table">
 <colgroup>
 <col width="25%">
@@ -287,20 +312,20 @@
 <tr class="odd">
 <td align="left">White House</td>
 <td align="left">1600 Pennsylvania Ave NW, Washington, DC</td>
-<td align="right">38.89875</td>
-<td align="right">-77.03535</td>
+<td align="right">38.89770</td>
+<td align="right">-77.03655</td>
 </tr>
 <tr class="even">
 <td align="left">Transamerica Pyramid</td>
 <td align="left">600 Montgomery St, San Francisco, CA 94111</td>
-<td align="right">37.79470</td>
-<td align="right">-122.40314</td>
+<td align="right">37.79520</td>
+<td align="right">-122.40279</td>
 </tr>
 <tr class="odd">
 <td align="left">Willis Tower</td>
 <td align="left">233 S Wacker Dr, Chicago, IL 60606</td>
-<td align="right">41.87851</td>
-<td align="right">-87.63666</td>
+<td align="right">41.87887</td>
+<td align="right">-87.63591</td>
 </tr>
 </tbody>
 </table>
@@ -411,23 +436,23 @@
 </table>
 <p>To perform <strong>reverse geocoding</strong> (obtaining addresses from latitude and longitude coordinates), we can use the <code><a href="reference/reverse_geocode.html">reverse_geocode()</a></code> function. The arguments are similar to the <code><a href="reference/geocode.html">geocode()</a></code> function, but we now are specifying the latitude and longitude columns in our dataset with the <code>lat</code> and <code>long</code> arguments. The single line address is returned in a column named by the <code>address</code> argument. See the <code><a href="reference/reverse_geo.html">reverse_geo()</a></code> function documentation for more details on reverse geocoding.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">coordinates</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span><span class="op">(</span>latitude <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">38.895865</span>, <span class="fl">43.6534817</span>, <span class="fl">35.0844</span><span class="op">)</span>,
-                longitude <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">77.0307713</span>, <span class="op">-</span><span class="fl">79.3839347</span>, <span class="op">-</span><span class="fl">106.6504</span><span class="op">)</span><span class="op">)</span>
-
-<span class="va">rev1</span> <span class="op">&lt;-</span> <span class="va">coordinates</span> <span class="op">%&gt;%</span>
+<code class="sourceCode R"><span class="va">rev1</span> <span class="op">&lt;-</span> <span class="va">lat_longs</span> <span class="op">%&gt;%</span>
   <span class="fu"><a href="reference/reverse_geocode.html">reverse_geocode</a></span><span class="op">(</span>lat <span class="op">=</span> <span class="va">latitude</span>, long <span class="op">=</span> <span class="va">longitude</span>, method <span class="op">=</span> <span class="st">'osm'</span>,
                   address <span class="op">=</span> <span class="va">address_found</span>, full_results <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
 <table class="table">
 <colgroup>
+<col width="3%">
+<col width="6%">
 <col width="1%">
 <col width="1%">
-<col width="23%">
+<col width="21%">
 <col width="1%">
 <col width="11%">
 <col width="1%">
 <col width="1%">
+<col width="2%">
 <col width="3%">
-<col width="3%">
+<col width="1%">
 <col width="2%">
 <col width="4%">
 <col width="2%">
@@ -436,16 +461,15 @@
 <col width="2%">
 <col width="2%">
 <col width="8%">
-<col width="2%">
-<col width="2%">
 <col width="3%">
 <col width="2%">
+<col width="4%">
 <col width="2%">
-<col width="2%">
-<col width="3%">
-<col width="2%">
+<col width="1%">
 </colgroup>
 <thead><tr class="header">
+<th align="left">name</th>
+<th align="left">addr</th>
 <th align="right">latitude</th>
 <th align="right">longitude</th>
 <th align="left">address_found</th>
@@ -455,7 +479,8 @@
 <th align="right">osm_id</th>
 <th align="left">osm_lat</th>
 <th align="left">osm_lon</th>
-<th align="left">tourism</th>
+<th align="left">historic</th>
+<th align="left">house_number</th>
 <th align="left">road</th>
 <th align="left">city</th>
 <th align="left">state</th>
@@ -463,38 +488,35 @@
 <th align="left">country</th>
 <th align="left">country_code</th>
 <th align="left">boundingbox</th>
-<th align="left">amenity</th>
-<th align="left">house_number</th>
+<th align="left">tourism</th>
 <th align="left">neighbourhood</th>
-<th align="left">quarter</th>
-<th align="left">state_district</th>
+<th align="left">county</th>
 <th align="left">building</th>
 <th align="left">suburb</th>
-<th align="left">county</th>
 </tr></thead>
 <tbody>
 <tr class="odd">
-<td align="right">38.89587</td>
-<td align="right">-77.03077</td>
-<td align="left">L’Enfant’s plan, Pennsylvania Avenue, Washington, District of Columbia, 20045, United States</td>
-<td align="right">301711857</td>
+<td align="left">White House</td>
+<td align="left">1600 Pennsylvania Ave NW, Washington, DC</td>
+<td align="right">38.89770</td>
+<td align="right">-77.03655</td>
+<td align="left">White House, 1600, Pennsylvania Avenue Northwest, Washington, District of Columbia, 20500, United States</td>
+<td align="right">147370893</td>
 <td align="left">Data © OpenStreetMap contributors, ODbL 1.0. <a href="https://osm.org/copyright" class="uri">https://osm.org/copyright</a>
 </td>
 <td align="left">way</td>
-<td align="right">899927546</td>
-<td align="left">38.895859599999994</td>
-<td align="left">-77.0306779870984</td>
-<td align="left">L’Enfant’s plan</td>
-<td align="left">Pennsylvania Avenue</td>
+<td align="right">238241022</td>
+<td align="left">38.897699700000004</td>
+<td align="left">-77.03655315</td>
+<td align="left">White House</td>
+<td align="left">1600</td>
+<td align="left">Pennsylvania Avenue Northwest</td>
 <td align="left">Washington</td>
 <td align="left">District of Columbia</td>
-<td align="left">20045</td>
+<td align="left">20500</td>
 <td align="left">United States</td>
 <td align="left">us</td>
-<td align="left">38.8957273 , 38.8959688 , -77.0311667, -77.0301895</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
+<td align="left">38.8974908 , 38.897911 , -77.0368537, -77.0362519</td>
 <td align="left">NA</td>
 <td align="left">NA</td>
 <td align="left">NA</td>
@@ -502,60 +524,60 @@
 <td align="left">NA</td>
 </tr>
 <tr class="even">
-<td align="right">43.65348</td>
-<td align="right">-79.38393</td>
-<td align="left">Toronto City Hall, 100, Queen Street West, Financial District, Spadina—Fort York, Old Toronto, Toronto, Golden Horseshoe, Ontario, M5H 2N2, Canada</td>
-<td align="right">137497520</td>
+<td align="left">Transamerica Pyramid</td>
+<td align="left">600 Montgomery St, San Francisco, CA 94111</td>
+<td align="right">37.79520</td>
+<td align="right">-122.40279</td>
+<td align="left">Transamerica Pyramid, 600, Montgomery Street, Financial District, San Francisco, San Francisco City and County, California, 94111, United States</td>
+<td align="right">95364489</td>
 <td align="left">Data © OpenStreetMap contributors, ODbL 1.0. <a href="https://osm.org/copyright" class="uri">https://osm.org/copyright</a>
 </td>
 <td align="left">way</td>
-<td align="right">198500761</td>
-<td align="left">43.6536032</td>
-<td align="left">-79.38400547469666</td>
+<td align="right">24222973</td>
+<td align="left">37.795200550000004</td>
+<td align="left">-122.40279267840137</td>
 <td align="left">NA</td>
-<td align="left">Queen Street West</td>
-<td align="left">Old Toronto</td>
-<td align="left">Ontario</td>
-<td align="left">M5H 2N2</td>
-<td align="left">Canada</td>
-<td align="left">ca</td>
-<td align="left">43.6529946 , 43.6541458 , -79.3848438, -79.3830415</td>
-<td align="left">Toronto City Hall</td>
-<td align="left">100</td>
+<td align="left">600</td>
+<td align="left">Montgomery Street</td>
+<td align="left">San Francisco</td>
+<td align="left">California</td>
+<td align="left">94111</td>
+<td align="left">United States</td>
+<td align="left">us</td>
+<td align="left">37.7948854 , 37.7954472 , -122.4031399, -122.4024317</td>
+<td align="left">Transamerica Pyramid</td>
 <td align="left">Financial District</td>
-<td align="left">Spadina—Fort York</td>
-<td align="left">Golden Horseshoe</td>
-<td align="left">NA</td>
+<td align="left">San Francisco City and County</td>
 <td align="left">NA</td>
 <td align="left">NA</td>
 </tr>
 <tr class="odd">
-<td align="right">35.08440</td>
-<td align="right">-106.65040</td>
-<td align="left">Market Building, 301, Central Avenue Northwest, Downtown Albuquerque, Albuquerque, Bernalillo County, New Mexico, 87102-3116, United States</td>
-<td align="right">190582070</td>
+<td align="left">Willis Tower</td>
+<td align="left">233 S Wacker Dr, Chicago, IL 60606</td>
+<td align="right">41.87887</td>
+<td align="right">-87.63591</td>
+<td align="left">Willis Tower, 233, South Wacker Drive, Printer’s Row, Loop, Chicago, Cook County, Illinois, 60606, United States</td>
+<td align="right">103673983</td>
 <td align="left">Data © OpenStreetMap contributors, ODbL 1.0. <a href="https://osm.org/copyright" class="uri">https://osm.org/copyright</a>
 </td>
 <td align="left">way</td>
-<td align="right">437189749</td>
-<td align="left">35.0846948</td>
-<td align="left">-106.65064483238235</td>
+<td align="right">58528804</td>
+<td align="left">41.878871700000005</td>
+<td align="left">-87.63590893936448</td>
 <td align="left">NA</td>
-<td align="left">Central Avenue Northwest</td>
-<td align="left">Albuquerque</td>
-<td align="left">New Mexico</td>
-<td align="left">87102-3116</td>
+<td align="left">233</td>
+<td align="left">South Wacker Drive</td>
+<td align="left">Chicago</td>
+<td align="left">Illinois</td>
+<td align="left">60606</td>
 <td align="left">United States</td>
 <td align="left">us</td>
-<td align="left">35.08451 , 35.084941 , -106.6508398, -106.6504144</td>
+<td align="left">41.8785389 , 41.8791932 , -87.6363362, -87.6354746</td>
 <td align="left">NA</td>
-<td align="left">301</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-<td align="left">Market Building</td>
-<td align="left">Downtown Albuquerque</td>
-<td align="left">Bernalillo County</td>
+<td align="left">Printer’s Row</td>
+<td align="left">Cook County</td>
+<td align="left">Willis Tower</td>
+<td align="left">Loop</td>
 </tr>
 </tbody>
 </table>
@@ -564,31 +586,33 @@
 <div id="contributing" class="section level2">
 <h2 class="hasAnchor">
 <a href="#contributing" class="anchor"></a>Contributing</h2>
-<p>Contributions to the tidygeocoder package are welcome. File <a href="https://github.com/jessecambon/tidygeocoder/issues">an issue</a> for bug fixes or suggested features. If you would like to add support for a new geocoder service, reference <a href="https://github.com/jessecambon/tidygeocoder/issues/62#issue-777707424">this post</a> for instructions.</p>
+<p>Contributions to the tidygeocoder package are welcome. File <a href="https://github.com/jessecambon/tidygeocoder/issues">an issue</a> for bug fixes or suggested features. If you would like to add support for a new geocoder service, reference <a href="https://jessecambon.github.io/tidygeocoder/docs/articles/adding_geocoder_services.html">this page</a> for instructions.</p>
 </div>
 <div id="citing-tidygeocoder" class="section level2">
 <h2 class="hasAnchor">
 <a href="#citing-tidygeocoder" class="anchor"></a>Citing tidygeocoder</h2>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/citation.html">citation</a></span><span class="op">(</span><span class="st">'tidygeocoder'</span><span class="op">)</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; To cite tidygeocoder in publications use:</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt;   Jesse Cambon, Christopher Belanger (2021). tidygeocoder: Geocoding</span>
-<span class="co">#&gt;   Made Easy (version 1.0.2). DOI: 10.5281/zenodo.4448251. URL:</span>
-<span class="co">#&gt;   https://CRAN.R-project.org/package=tidygeocoder</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; A BibTeX entry for LaTeX users is</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt;   @Misc{,</span>
-<span class="co">#&gt;     title = {tidygeocoder: Geocoding Made Easy},</span>
-<span class="co">#&gt;     author = {Jesse Cambon and Christopher Belanger},</span>
-<span class="co">#&gt;     year = {2021},</span>
-<span class="co">#&gt;     publisher = {Zenodo},</span>
-<span class="co">#&gt;     note = {R package version 1.0.2},</span>
-<span class="co">#&gt;     url = {https://CRAN.R-project.org/package=tidygeocoder},</span>
-<span class="co">#&gt;     doi = {10.5281/zenodo.4448251},</span>
-<span class="co">#&gt;   }</span></code></pre></div>
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/citation.html">citation</a></span><span class="op">(</span><span class="st">'tidygeocoder'</span><span class="op">)</span></code></pre></div>
+<p></p>
+<blockquote>
+<div class="sourceCode" id="cb9"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>To cite tidygeocoder <span class="cf">in</span> publications use<span class="sc">:</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  Jesse Cambon, Christopher <span class="fu">Belanger</span> (<span class="dv">2021</span>). tidygeocoder<span class="sc">:</span> Geocoding</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  Made <span class="fu">Easy</span> (version <span class="dv">1</span>.<span class="fl">0.2</span>). DOI<span class="sc">:</span> <span class="fl">10.5281</span><span class="sc">/</span>zenodo.<span class="fl">4448251.</span> URL<span class="sc">:</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>  https<span class="sc">:</span><span class="er">//</span>CRAN.R<span class="sc">-</span>project.org<span class="sc">/</span>package<span class="ot">=</span>tidygeocoder</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>A BibTeX entry <span class="cf">for</span> LaTeX users is</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>  <span class="sc">@</span>Misc{,</span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>    title <span class="ot">=</span> {tidygeocoder<span class="sc">:</span> Geocoding Made Easy},</span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>    author <span class="ot">=</span> {Jesse Cambon and Christopher Belanger},</span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>    year <span class="ot">=</span> {<span class="dv">2021</span>},</span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>    publisher <span class="ot">=</span> {Zenodo},</span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>    note <span class="ot">=</span> {R package version <span class="dv">1</span>.<span class="fl">0.2</span>},</span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>    url <span class="ot">=</span> {https<span class="sc">:</span><span class="er">//</span>CRAN.R<span class="sc">-</span>project.org<span class="sc">/</span>package<span class="ot">=</span>tidygeocoder},</span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>    doi <span class="ot">=</span> {<span class="fl">10.5281</span><span class="sc">/</span>zenodo<span class="fl">.4448251</span>},</span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>  }</span></code></pre></div>
+</blockquote>
 <p>Or refer to the <a href="https://jessecambon.github.io/tidygeocoder/authors.html">citation page</a>.</p>
 </div>
 </div>

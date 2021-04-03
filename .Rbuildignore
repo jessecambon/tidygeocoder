@@ -14,5 +14,5 @@
 ^cran-comments\.md$
 ^CRAN-RELEASE$
 ^.github$
-^external_tests$
+^external$
 ^vignettes/api_reference\.Rmd$

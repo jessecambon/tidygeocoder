@@ -3,18 +3,21 @@
 \docType{data}
 \name{api_key_reference}
 \alias{api_key_reference}
-\title{The name of the environmental variable that the API key will be read from.}
+\title{API Key Environmental Variables}
 \format{
 A tibble dataframe
 \describe{
- \item{method}{Geocoder service name}
- \item{env_var}{Environmental variable name}
+\item{method}{Geocoder service name}
+\item{env_var}{Environmental variable name}
 }
 }
 \usage{
 api_key_reference
 }
 \description{
-The name of the environmental variable that the API key will be read from.
+API Key Environmental Variables
+}
+\seealso{
+\link{geo} \link{reverse_geo}
 }
 \keyword{datasets}

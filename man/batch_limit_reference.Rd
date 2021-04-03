@@ -3,18 +3,21 @@
 \docType{data}
 \name{batch_limit_reference}
 \alias{batch_limit_reference}
-\title{The batch limit for each geocoder service}
+\title{Limits for batch sizes}
 \format{
 A tibble dataframe
 \describe{
- \item{method}{Geocoder service name}
- \item{batch_limit}{The maximum number of addresses or coordinates allowed per batch}
+\item{method}{Geocoder service name}
+\item{batch_limit}{The maximum number of addresses or coordinates allowed per batch}
 }
 }
 \usage{
 batch_limit_reference
 }
 \description{
-The batch limit for each geocoder service
+Limits for batch sizes
+}
+\seealso{
+\link{geo} \link{reverse_geo}
 }
 \keyword{datasets}

@@ -4,12 +4,12 @@
 \name{tidygeocoder-package}
 \alias{tidygeocoder}
 \alias{tidygeocoder-package}
-\title{\pkg{tidygeocoder} makes getting data from geocoder services easy.}
+\title{The tidygeocoder package makes getting data from geocoder services easy.}
 \description{
-The \code{\link{geocode}} and \code{\link{geo}} functions are for forward geocoding while
-the \code{\link{reverse_geocode}} and \code{\link{reverse_geo}} functions are for reverse geocoding.
-Refer to the documentation on the method argument in the \code{\link{geo}} and \code{\link{reverse_geo}} functions
-for more details on the available geocoder services. Also see \code{vignette("tidygeocoder")} 
+The \link{geocode} and \link{geo} functions are for forward geocoding while
+the \link{reverse_geocode} and \link{reverse_geo} functions are for reverse geocoding.
+Refer to the documentation on the \code{method} argument in the \link{geo} and \link{reverse_geo} functions
+for more details on the available geocoder services. Also see \code{vignette("tidygeocoder")}
 for example usage.
 }
 \seealso{

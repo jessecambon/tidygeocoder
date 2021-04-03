@@ -1,36 +1,5 @@
 ### Dataframes for storing API parameters and urls
 
-### Style Guide
-# http://adv-r.had.co.nz/Style.html
-
-### API references
-# IQ: https://locationiq.com/docs
-# OSM: https://nominatim.org/release-docs/develop/api/Search/
-# Geocodio: https://www.geocod.io/docs/#single-address
-# Census: https://www.census.gov/programs-surveys/geography/technical-documentation/complete-technical-documentation/census-geocoder.html
-# Google: https://developers.google.com/maps/documentation/geocoding/overview
-# OpenCage: https://opencagedata.com/api
-# Mapbox: https://docs.mapbox.com/api/search/geocoding/
-# HERE: https://developer.here.com/documentation/geocoding-search-api/dev_guide/index.html
-# TomTom: https://developer.tomtom.com/search-api/search-api-documentation-geocoding/geocode
-# MapQuest: https://developer.mapquest.com/documentation/geocoding-api/
-#           https://developer.mapquest.com/documentation/open/geocoding-api/
-# Bing: https://docs.microsoft.com/en-us/bingmaps/rest-services/locations/
-# ArcGis: https://developers.arcgis.com/rest/geocode/api-reference/overview-world-geocoding-service.htm
-
-
-### Usage Policies
-# OSM: https://operations.osmfoundation.org/policies/nominatim/
-# Google: https://developers.google.com/maps/documentation/geocoding/usage-and-billing
-# OpenCage: https://opencagedata.com/pricing
-# Mapbox: https://www.mapbox.com/pricing/#search
-# HERE: https://developer.here.com/pricing
-# TomTom: https://developer.tomtom.com/store/maps-api
-# MapQuest: https://developer.mapquest.com/plans
-# Bing: https://docs.microsoft.com/en-us/bingmaps/spatial-data-services/geocode-and-data-source-limits
-# ArcGis: https://developers.arcgis.com/rest/geocode/api-reference/geocoding-free-vs-paid.htm
-
-
 ## Note: generic_name = 'address' is for one-line addresses
 ## If generic_name == NA then that means the parameter is specific to a given API/method
 

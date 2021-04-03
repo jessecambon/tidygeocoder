@@ -24,7 +24,7 @@ geocode(
 \arguments{
 \item{.tbl}{dataframe containing addresses}
 
-\item{address}{single line street address column name. Do not combine with 
+\item{address}{single line street address column name. Do not combine with
 address component arguments (street, city, county, state, postalcode, country)}
 
 \item{street}{street address column name}
@@ -44,35 +44,35 @@ address component arguments (street, city, county, state, postalcode, country)}
 \item{long}{longitude column name. Can be quoted or unquoted (ie. long or 'long').}
 
 \item{limit}{maximum number of results to return per address. For many geocoder services
-the maximum value for the limit parameter is 100. 
-Use \code{limit = NULL} to use the default value of the selected geocoder service. 
-For batch geocoding, limit must be set to 1 (default) if \code{return_addresses = TRUE}.
-To use \code{limit > 1} or \code{limit = NULL} either \code{return_addresses} or \code{unique_only} must be set to TRUE.}
+the maximum value for the limit parameter is 100. Pass \code{limit = NULL} to use
+the default \code{limit} value of the selected geocoder service.
+For batch geocoding, limit must be set to 1 (default) if \code{return_addresses = TRUE}
+To use \code{limit > 1} or \code{limit = NULL} either \code{return_addresses} or \code{unique_only} must be set to TRUE.
+Refer to \link{api_parameter_reference} for more details.}
 
-\item{return_addresses}{if TRUE then only the geocoder results and address data will be returned.
-if FALSE then the input dataset's columns will also be included.}
+\item{return_addresses}{return input addresses with results if TRUE. Note that
+most services return the input addresses with \code{full_results = TRUE} and setting
+return_addresses to FALSE does not prevent this.}
 
-\item{unique_only}{if TRUE then only unique addresses and results will be returned. 
-The input dataframe's format is not preserved. Addresses will also be returned if 
-TRUE (overrides return_addresses argument).}
+\item{unique_only}{only return results for unique inputs if TRUE}
 
-\item{...}{arguments passed to the \code{\link{geo}} function}
+\item{...}{arguments passed to the \link{geo} function}
 }
 \value{
-output dataframe (.tbl)
+tibble (dataframe)
 }
 \description{
-Takes a dataframe containing addresses as an input and returns 
+Takes a dataframe containing addresses as an input and returns
 the results from a specified geocoder service in a dataframe format using the
-\code{\link{geo}} function. See example usage in \code{vignette("tidygeocoder")}.
+\link{geo} function. See example usage in \code{vignette("tidygeocoder")}.
 
-This function passes all additional parameters (\code{...}) to the 
+This function passes all additional parameters (\code{...}) to the
 \code{\link{geo}} function, so you can refer to its documentation for more details
 on possible arguments.
 
-Note that the arguments used for specifying address columns (address, 
+Note that the arguments used for specifying address columns (address,
 street, city, county, state, postalcode, and country) accept either
-quoted or unquoted column names (ie. "address_col" and address_col are 
+quoted or unquoted column names (ie. "address_col" and address_col are
 both acceptable).
 }
 \examples{
@@ -91,5 +91,5 @@ sample_addresses[4:5,] \%>\% geocode(addr, method = 'cascade',
 }
 }
 \seealso{
-\code{\link{geo}} \code{\link{api_parameter_reference}}
+\code{\link{geo}}
 }

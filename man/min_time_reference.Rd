@@ -3,23 +3,40 @@
 \docType{data}
 \name{min_time_reference}
 \alias{min_time_reference}
-\title{The minimum number of seconds required per query to comply with usage restrictions. 
-The \code{\link{geo}} and \code{\link{reverse_geo}} functions use this value to
-slow down the rate of querying if necessary.}
+\title{Minimum time required per query}
 \format{
 A tibble dataframe
 \describe{
- \item{method}{Geocoder service name}
- \item{min_time}{The minimum number of seconds required per query to comply with usage restrictions}
- \item{description}{A description of the usage rate restriction}
+\item{method}{Geocoder service name}
+\item{min_time}{The minimum number of seconds required per query to comply with usage restrictions}
+\item{description}{A description of the usage rate restriction}
 }
 }
 \usage{
 min_time_reference
 }
 \description{
-The minimum number of seconds required per query to comply with usage restrictions. 
-The \code{\link{geo}} and \code{\link{reverse_geo}} functions use this value to
-slow down the rate of querying if necessary.
+The \link{geo} and \link{reverse_geo} functions use this value to
+slow down the rate of querying if necessary to comply
+with each geocoder service's usage policies.
+}
+\details{
+Links to the usage policies of each geocoder service are below:
+\itemize{
+\item \href{NA}{US Census}
+\item \href{https://operations.osmfoundation.org/policies/nominatim/}{Nominatim}
+\item \href{https://developers.arcgis.com/rest/geocode/api-reference/geocoding-free-vs-paid.htm}{ArcGIS}
+\item \href{https://www.geocod.io/pricing/}{Geocodio}
+\item \href{https://locationiq.com/pricing}{Location IQ}
+\item \href{https://developers.google.com/maps/documentation/geocoding/usage-and-billing}{Google}
+\item \href{https://opencagedata.com/pricing}{OpenCage}
+\item \href{https://www.mapbox.com/pricing/-search}{Mapbox}
+\item \href{https://developer.here.com/pricing}{HERE}
+\item \href{https://developer.tomtom.com/store/maps-api}{TomTom}
+\item \href{https://developer.mapquest.com/plans}{MapQuest}
+\item \href{https://docs.microsoft.com/en-us/bingmaps/spatial-data-services/geocode-and-data-source-limits}{Bing}
+}
+
+#' @seealso \link{geo} \link{reverse_geo}
 }
 \keyword{datasets}

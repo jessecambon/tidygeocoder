@@ -14,17 +14,18 @@ batch_func_map <- list(
 #' Geocode addresses
 #' 
 #' @description
-#' Geocodes addresses given as character values. The \code{\link{geocode}}
+#' Geocodes addresses given as character values. The [geocode]
 #' function utilizes this function on addresses contained in dataframes.
-#' See example usage in \code{vignette("tidygeocoder")} 
+#' See example usage in `vignette("tidygeocoder")`` 
 #' 
 #' Note that not all geocoder services support certain address component 
 #' parameters. For example, the Census geocoder only covers the United States 
-#' and does not have a "country" parameter. Refer to \code{\link{api_parameter_reference}} 
-#' for more details on geocoder service parameters and API usage. 
+#' and does not have a "country" parameter. Refer to [api_parameter_reference],
+#' [min_time_reference], and [batch_limit_reference] for more details on 
+#' geocoder service parameters and usage. 
 #' 
-#' This function uses the \code{\link{get_api_query}}, \code{\link{query_api}}, and
-#' \code{\link{extract_results}} functions to create, execute, and parse the geocoder
+#' This function uses the [get_api_query], [query_api], and
+#' [extract_results] functions to create, execute, and parse geocoder
 #' API queries.
 #' 
 #' @param address single line address (ie. '1600 Pennsylvania Ave NW, Washington, DC').
@@ -37,115 +38,67 @@ batch_func_map <- list(
 #' @param postalcode postalcode (zip code if in the United States)
 #' @param country country (ie. 'Japan')
 #' 
-#' @param method the geocoder service to be used. Refer to 
-#' \code{\link{api_parameter_reference}} and the API documentation for
-#' each geocoder service for usage details and limitations. Run \code{usethis::edit_r_environ()}
-#' to open your .Renviron file for editing to add API keys as an environmental variables.
-#' \itemize{
-#'   \item \code{"census"}: US Census Geocoder. US street-level addresses only. 
-#'      Can perform batch geocoding.
-#'   \item \code{"osm"}: Nominatim (OSM). Worldwide coverage.
-#'   \item \code{"geocodio"}: Commercial geocoder. Covers US and Canada and has
-#'      batch geocoding capabilities. Requires an API Key to be stored in
-#'      the "GEOCODIO_API_KEY" environmental variable.
-#'   \item \code{"iq"}: Commercial Nominatim geocoder service. Requires an API Key to
-#'      be stored in the "LOCATIONIQ_API_KEY" environmental variable.
-#'   \item \code{"google"}: Commercial Google geocoder service. Requires an API Key to
-#'      be stored in the "GOOGLEGEOCODE_API_KEY" environmental variable.
-#'   \item \code{"opencage"}: Commercial geocoder with
-#'      \href{https://opencagedata.com/credits}{various open data sources} (e.g.
-#'      OpenStreetMap) and worldwide coverage. Requires an API Key to be stored
-#'      in the "OPENCAGE_KEY" environmental variable.
-#'   \item \code{"mapbox"}: Commercial Mapbox geocoder service. Requires an API Key to
-#'      be stored in the "MAPBOX_API_KEY" environmental variable.
-#'   \item \code{"here"}: Commercial HERE geocoder service. Requires an API Key 
-#'      to be stored in the "HERE_API_KEY" environmental variable. Can perform 
-#'      batch geocoding, but this must be specified with \code{mode = 'batch'}.
-#'   \item \code{"tomtom"}: Commercial TomTom geocoder service. Requires an API Key to
-#'      be stored in the "TOMTOM_API_KEY" environmental variable. Can perform 
-#'      batch geocoding.
-#'   \item \code{"mapquest"}: Commercial MapQuest geocoder service. Requires an 
-#'      API Key to be stored in the "MAPQUEST_API_KEY" environmental variable. 
-#'      Can perform batch geocoding.
-#'   \item \code{"bing"}: Commercial Bing geocoder service. Requires an 
-#'      API Key to be stored in the "BINGMAPS_API_KEY" environmental variable. 
-#'      Can perform batch geocoding.
-#'   \item \code{"arcgis"}: Commercial ArcGIS geocoder service.
-#'   \item \code{"cascade"} : Attempts to use one geocoder service and then uses
+#' @param method `r get_method_documentation(reverse = FALSE)`
+#'  - `"cascade"` : Attempts to use one geocoder service and then uses
 #'     a second geocoder service if the first service didn't return results.
 #'     The services and order is specified by the cascade_order argument. 
-#'     Note that this is not compatible with \code{full_results = TRUE} as geocoder
+#'     Note that this is not compatible with `full_results = TRUE` as geocoder
 #'     services have different columns that they return.
-#' }
+#' 
 #' @param cascade_order a vector with two character values for the method argument 
-#'  in the order in which the geocoder services will be attempted for method = "cascade"
-#'  (ie. \code{c('census', 'geocodio')})
+#'  in the order in which the geocoder services will be attempted for `method = "cascade"`
+#'  (ie. `c('census', 'geocodio')`)
 #' @param lat latitude column name. Can be quoted or unquoted (ie. lat or 'lat').
 #' @param long longitude column name. Can be quoted or unquoted (ie. long or 'long').
-#' @param limit maximum number of results to return per address. For many geocoder services
-#'   the maximum value for the limit parameter is 100. 
-#'   Use \code{limit = NULL} to use the default value of the selected geocoder service. 
-#'   For batch geocoding, limit must be set to 1 (default) if \code{return_addresses = TRUE}.
+#' @param limit `r get_limit_documentation(reverse = FALSE, df_input = FALSE)`
 #' @param min_time minimum amount of time for a query to take (in seconds). If NULL
-#' then min_time will be set to the lowest value that complies with the usage requirements of 
-#' the free tier of the selected geocoder service.
+#' then min_time will be set to the default value specified in [min_time_reference].
 #' @param api_url custom API URL. If specified, the default API URL will be overridden.
-#'  This parameter can be used to specify a local Nominatim server.
+#'  This parameter can be used to specify a local Nominatim server, for instance.
 #' @param timeout query timeout (in minutes)
 #' 
-#' @param mode set to 'batch' to force batch geocoding or 'single' to 
-#'  force single address geocoding (one address per query). If not 
-#'  specified then batch geocoding will be used if available
-#'  (given method selected) when multiple addresses are provided; otherwise
-#'  single address geocoding will be used. For 'here' and 'bing' the batch mode
-#'  should be explicitly enforced.
+#' @param mode `r get_mode_documentation(reverse = FALSE)`
 
 #' @param full_results returns all data from the geocoder service if TRUE. 
 #' If FALSE then only longitude and latitude are returned from the geocoder service.
-#' @param unique_only only return results for unique addresses if TRUE
+#' @param unique_only only return results for unique inputs if TRUE
 #' @param return_addresses return input addresses with results if TRUE. Note that
-#'    most services return the input addresses with full_results = TRUE and setting
+#'    most services return the input addresses with `full_results = TRUE` and setting
 #'    return_addresses to FALSE does not prevent this.
 #' 
 #' @param flatten if TRUE then any nested dataframes in results are flattened if possible.
-#'    Note that Geocodio batch geocoding results are flattened regardless.
-#' @param batch_limit limit to the number of addresses in a batch geocoding query.
-#'  'geocodio', 'census', and 'tomtom' batch geocoders have a 10,000 address limit so this
-#'  is the default. 'here' has a 1,000,000 address limit. 'mapquest' has a 100 address
-#'  limit. 'bing' has a 50 address limit.
-#' @param batch_limit_error if TRUE then an error is thrown if the number of unique addresses
-#'  exceeds the batch limit (if executing a batch query). This is reverted to FALSE when using the
-#'  cascade method.
+#'    Note that in some cases results are flattened regardless such as for
+#'    Geocodio batch geocoding.
+#' @param batch_limit  `r get_batch_limit_documentation(reverse = FALSE)`
+#' @param batch_limit_error `r get_batch_limit_error_documentation(reverse = FALSE)`
 #' @param verbose if TRUE then detailed logs are output to the console
 #' @param no_query if TRUE then no queries are sent to the geocoder and verbose is set to TRUE
 
 #' @param custom_query API-specific parameters to be used, passed as a named list 
-#'  (ie. \code{list(vintage = 'Current_Census2010')}).
-#' @param return_type only used when method = 'census'. Two possible values: 
-#' \itemize{
-#'     \item \code{"locations"} (default)
-#'     \item \code{"geographies"}: returns additional geography columns. 
-#'     See the Census geocoder API documentation for more details.
-#' }
-#' @param iq_region 'us' (default) or 'eu'. Used for establishing API URL for the 'iq' method
-#' @param geocodio_v version of geocodio api. Used for establishing API URL
+#'  (ie. `list(extratags = 1)`.
+#' @param return_type only used when `method = 'census'`. Two possible values: 
+#'   - `"locations"` (default)
+#'   - `"geographies"`: returns additional geography columns. 
+#'   See the Census geocoder API documentation for more details.
+#' @param iq_region 'us' (default) or 'eu'. Used for establishing API URL for the 'iq' method.
+#' @param geocodio_v version of geocodio API. Used for establishing API URL
 #'   for the 'geocodio' method.
 #' @param param_error if TRUE then an error will be thrown if certain parameters are invalid for the selected geocoder
 #'   service (method). The parameters checked are limit, address, street, city, county, state, postalcode, and country.
-#'   If method = 'cascade' then no errors will be thrown.
-#' @param mapbox_permanent if TRUE then the \code{mapbox.places-permanent} 
+#'   If `method = 'cascade'` then no errors will be thrown.
+#' @param mapbox_permanent if TRUE then the `mapbox.places-permanent`
 #'   endpoint would be used. Note that this option should be used only if you 
 #'   have applied for a permanent account. Unsuccessful requests made by an 
 #'   account that does not have access to the endpoint may be billable.
 #' @param here_request_id This parameter would return a previous HERE batch job,
 #'   identified by its RequestID. The RequestID of a batch job is displayed 
-#'   when \code{verbose} is TRUE. Note that this option would ignore the 
-#'   current \code{address} parameter on the request, so \code{return_addresses} 
+#'   when `verbose` is TRUE. Note that this option would ignore the 
+#'   current `address` parameter on the request, so `return_addresses`
 #'   needs to be FALSE.
 #' @param mapquest_open if TRUE then MapQuest would use the Open Geocoding 
 #'   endpoint, that relies solely on data contributed to OpenStreetMap.
 #'    
-#' @return parsed geocoding results in tibble format
+#' @return tibble (dataframe)
 #' @examples
 #' \donttest{
 #' geo(street = "600 Peachtree Street NE", city = "Atlanta",
@@ -157,7 +110,7 @@ batch_func_map <- list(
 #' geo(county = 'Jefferson', state = "Kentucky", country = "US",
 #'      method = 'osm')
 #' }
-#' @seealso \code{\link{geocode}} \code{\link{api_parameter_reference}}
+#' @seealso [geocode] [api_parameter_reference] [min_time_reference] [batch_limit_reference]
 #' @export
 geo <- function(address = NULL, 
     street = NULL, city = NULL, county = NULL, state = NULL, postalcode = NULL, country = NULL,
@@ -281,7 +234,7 @@ geo <- function(address = NULL,
   
   # Google and Census services have a special limit passthrough to the extract_results function even though limit is not
   # a legal API parameter
-  if ((is.null(limit) || limit != 1) && (!('limit' %in% legal_parameters) && (!method %in% c('census', 'google')))) {
+  if ((is.null(limit) || limit != 1) && (!('limit' %in% legal_parameters) && (!method %in% pkg.globals$limit_passthru_methods))) {
     illegal_limit_message <- paste0('The limit parameter must be set to 1 (the default) because the "',  method,'" ',
                                     'method API service does not support a limit argument.\n\n',
                                     'See ?api_parameter_reference for more details.')
@@ -295,10 +248,8 @@ geo <- function(address = NULL,
   # OR the user has explicitly specified single address geocoding then call the 
   # single address geocoder in a loop (ie. recursively call this function)
   
-  # HERE/Bing Exception
-  # Batch mode is quite slow. If batch mode is not called explicitly
-  # use single method
-  if (method %in% c("here", "bing") && mode != 'batch' ){
+  # Exception for geocoder services that should default to single instead of batch
+  if (method %in% pkg.globals$single_first_methods && mode != 'batch' ){
     mode <- 'single'
   }
   

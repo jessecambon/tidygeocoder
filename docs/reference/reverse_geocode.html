@@ -46,10 +46,10 @@
 
 
 <meta property="og:title" content="Reverse geocode coordinates in a dataframe — reverse_geocode" />
-<meta property="og:description" content="Takes a dataframe containing coordinates (latitude and longitude) and returns 
+<meta property="og:description" content="Takes a dataframe containing coordinates (latitude and longitude) and returns
 the reverse geocoding query results from a specified service by using the
 reverse_geo function. See example usage in vignette(&quot;tidygeocoder&quot;).
-This function passes all additional parameters (...) to the 
+This function passes all additional parameters (...) to the
 reverse_geo function, so you can refer to its documentation for more details
 on possible arguments." />
 
@@ -109,6 +109,9 @@ on possible arguments." />
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
+      <a href="../articles/adding_geocoder_services.html">Adding a Geocoder Service</a>
+    </li>
+    <li>
       <a href="../articles/api_reference.html">API References</a>
     </li>
   </ul>
@@ -149,10 +152,10 @@ on possible arguments." />
     </div>
 
     <div class="ref-description">
-    <p>Takes a dataframe containing coordinates (latitude and longitude) and returns 
+    <p>Takes a dataframe containing coordinates (latitude and longitude) and returns
 the reverse geocoding query results from a specified service by using the
 <code><a href='reverse_geo.html'>reverse_geo</a></code> function. See example usage in <code><a href='../articles/tidygeocoder.html'>vignette("tidygeocoder")</a></code>.</p>
-<p>This function passes all additional parameters (<code>...</code>) to the 
+<p>This function passes all additional parameters (<code>...</code>) to the
 <code><a href='reverse_geo.html'>reverse_geo</a></code> function, so you can refer to its documentation for more details
 on possible arguments.</p>
     </div>
@@ -189,11 +192,12 @@ on possible arguments.</p>
     </tr>
     <tr>
       <th>limit</th>
-      <td><p>maximum number of results to return per coordinate For many geocoder services
-the maximum value for the limit parameter is 100. 
-Use <code>limit = NULL</code> to use the default value of the selected geocoder service.
-For batch geocoding, limit must be set to 1 (default) if <code>return_coords = TRUE</code>. 
-To use <code>limit &gt; 1</code> or <code>limit = NULL</code> either <code>return_coords</code> or <code>unique_only</code> must be set to TRUE.</p></td>
+      <td><p>maximum number of results to return per coordinate. For many geocoder services
+the maximum value for the limit parameter is 100. Pass <code>limit = NULL</code> to use
+the default <code>limit</code> value of the selected geocoder service.
+For batch geocoding, limit must be set to 1 (default) if <code>return_coords = TRUE</code>
+To use <code>limit &gt; 1</code> or <code>limit = NULL</code> either <code>return_coords</code> or <code>unique_only</code> must be set to TRUE.
+Refer to <a href='api_parameter_reference.html'>api_parameter_reference</a> for more details.</p></td>
     </tr>
     <tr>
       <th>return_coords</th>
@@ -202,22 +206,22 @@ if FALSE then the input dataset's columns will also be included.</p></td>
     </tr>
     <tr>
       <th>unique_only</th>
-      <td><p>if TRUE then only unique coordinates and results will be returned. 
-The input dataframe's format is not preserved. Coordinates will also be returned if 
+      <td><p>if TRUE then only unique coordinates and results will be returned.
+The input dataframe's format is not preserved. Coordinates will also be returned if
 TRUE (overrides return_coords argument).</p></td>
     </tr>
     <tr>
       <th>...</th>
-      <td><p>arguments passed to the <code><a href='reverse_geo.html'>reverse_geo</a></code> function</p></td>
+      <td><p>arguments passed to the <a href='reverse_geo.html'>reverse_geo</a> function</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>input dataframe (.tbl) with geocoder results appended as columns</p>
+    <p>tibble (dataframe)</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><code><a href='reverse_geo.html'>reverse_geo</a></code> <code><a href='api_parameter_reference.html'>api_parameter_reference</a></code></p></div>
+    <div class='dont-index'><p><a href='reverse_geo.html'>reverse_geo</a></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># \donttest{</span>
@@ -233,7 +237,7 @@ TRUE (overrides return_coords argument).</p></td>
   full_results <span class='op'>=</span> <span class='cn'>TRUE</span>,
   verbose <span class='op'>=</span> <span class='cn'>TRUE</span>
 <span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'>Number of Unique Coordinates: 2</span></div><div class='output co'>#&gt; <span class='message'>Executing single coordinate geocoding...</span></div><div class='output co'>#&gt; <span class='message'>Number of Unique Coordinates: 1</span></div><div class='output co'>#&gt; <span class='message'>Querying API URL: https://nominatim.openstreetmap.org/reverse</span></div><div class='output co'>#&gt; <span class='message'>Passing the following parameters to the API:</span></div><div class='output co'>#&gt; <span class='message'>limit : "1"</span></div><div class='output co'>#&gt; <span class='message'>lat : "38.895865"</span></div><div class='output co'>#&gt; <span class='message'>lon : "-77.0307713"</span></div><div class='output co'>#&gt; <span class='message'>format : "json"</span></div><div class='output co'>#&gt; </div><div class='output co'>#&gt; <span class='message'>HTTP Status Code: 200</span></div><div class='output co'>#&gt; <span class='message'>Query completed in: 0.2 seconds</span></div><div class='output co'>#&gt; </div><div class='output co'>#&gt; <span class='message'>Number of Unique Coordinates: 1</span></div><div class='output co'>#&gt; <span class='message'>Querying API URL: https://nominatim.openstreetmap.org/reverse</span></div><div class='output co'>#&gt; <span class='message'>Passing the following parameters to the API:</span></div><div class='output co'>#&gt; <span class='message'>limit : "1"</span></div><div class='output co'>#&gt; <span class='message'>lat : "43.6534817"</span></div><div class='output co'>#&gt; <span class='message'>lon : "-79.3839347"</span></div><div class='output co'>#&gt; <span class='message'>format : "json"</span></div><div class='output co'>#&gt; </div><div class='output co'>#&gt; <span class='message'>HTTP Status Code: 200</span></div><div class='output co'>#&gt; <span class='message'>Query completed in: 0.5 seconds</span></div><div class='output co'>#&gt; </div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 2 x 22</span><span>
+</div><div class='output co'>#&gt; <span class='message'>Number of Unique Coordinates: 2</span></div><div class='output co'>#&gt; <span class='message'>Executing single coordinate geocoding...</span></div><div class='output co'>#&gt; <span class='message'>Number of Unique Coordinates: 1</span></div><div class='output co'>#&gt; <span class='message'>Querying API URL: https://nominatim.openstreetmap.org/reverse</span></div><div class='output co'>#&gt; <span class='message'>Passing the following parameters to the API:</span></div><div class='output co'>#&gt; <span class='message'>limit : "1"</span></div><div class='output co'>#&gt; <span class='message'>lat : "38.895865"</span></div><div class='output co'>#&gt; <span class='message'>lon : "-77.0307713"</span></div><div class='output co'>#&gt; <span class='message'>format : "json"</span></div><div class='output co'>#&gt; </div><div class='output co'>#&gt; <span class='message'>HTTP Status Code: 200</span></div><div class='output co'>#&gt; <span class='message'>Query completed in: 0.1 seconds</span></div><div class='output co'>#&gt; </div><div class='output co'>#&gt; <span class='message'>Number of Unique Coordinates: 1</span></div><div class='output co'>#&gt; <span class='message'>Querying API URL: https://nominatim.openstreetmap.org/reverse</span></div><div class='output co'>#&gt; <span class='message'>Passing the following parameters to the API:</span></div><div class='output co'>#&gt; <span class='message'>limit : "1"</span></div><div class='output co'>#&gt; <span class='message'>lat : "43.6534817"</span></div><div class='output co'>#&gt; <span class='message'>lon : "-79.3839347"</span></div><div class='output co'>#&gt; <span class='message'>format : "json"</span></div><div class='output co'>#&gt; </div><div class='output co'>#&gt; <span class='message'>HTTP Status Code: 200</span></div><div class='output co'>#&gt; <span class='message'>Query completed in: 0.7 seconds</span></div><div class='output co'>#&gt; </div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 2 x 22</span><span>
 #&gt;   latitude longitude address place_id licence osm_type osm_id osm_lat osm_lon
 #&gt;      </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>     </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>     </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>  
 #&gt; </span><span style='color: #BCBCBC;'>1</span><span>     38.9     -</span><span style='color: #BB0000;'>77.0</span><span> L’Enfa…   3.02</span><span style='color: #949494;'>e</span><span>8 Data ©… way      9.00</span><span style='color: #949494;'>e</span><span>8 38.895… -77.03…

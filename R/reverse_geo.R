@@ -55,100 +55,35 @@ get_coord_parameters <- function(custom_query, method, lat, long) {
 #' Reverse geocodes geographic coordinates (latitude and longitude) given as numeric values. 
 #' Latitude and longitude inputs are limited to possible values. Latitudes must be between -90 and 90 and
 #' longitudes must be between -180 and 180. Invalid values will not be sent to the geocoder service. 
-#' The \code{\link{reverse_geocode}} function utilizes this function on coordinates contained in dataframes.
-#' See example usage in \code{vignette("tidygeocoder")}.
+#' The [reverse_geocode] function utilizes this function on coordinates contained in dataframes.
+#' See example usage in `vignette("tidygeocoder")`.
 #'
-#' This function uses the \code{\link{get_api_query}}, \code{\link{query_api}}, and
-#' \code{\link{extract_reverse_results}} functions to create, execute, and parse the geocoder
+#' This function uses the [get_api_query], [query_api], and
+#' [extract_reverse_results] functions to create, execute, and parse geocoder
 #' API queries.
 #' 
 #' @param lat latitude values (input data)
 #' @param long longitude values (input data)
-#' @param method the geocoder service to be used. Refer to 
-#' \code{\link{api_parameter_reference}} and the API documentation for
-#' each geocoder service for usage details and limitations. Note that the 
-#' Census service does not support reverse geocoding. Run \code{usethis::edit_r_environ()}
-#' to open your .Renviron file for editing to add API keys as an environmental variables.
-#' \itemize{
-#'   \item \code{"osm"}: Nominatim (OSM). Worldwide coverage.
-#'   \item \code{"geocodio"}: Commercial geocoder. Covers US and Canada and has
-#'      batch geocoding capabilities. Requires an API Key to be stored in
-#'      the "GEOCODIO_API_KEY" environmental variable.
-#'   \item \code{"iq"}: Commercial Nominatim geocoder service. Requires an API Key to
-#'      be stored in the "LOCATIONIQ_API_KEY" environmental variable.
-#'   \item \code{"google"}: Commercial Google geocoder service. Requires an API Key to
-#'      be stored in the "GOOGLEGEOCODE_API_KEY" environmental variable.
-#'   \item \code{"opencage"}: Commercial geocoder with
-#'      \href{https://opencagedata.com/credits}{various open data sources} (e.g.
-#'      OpenStreetMap). Requires an API Key to be stored
-#'      in the "OPENCAGE_KEY" environmental variable.
-#'   \item \code{"mapbox"}: Commercial Mapbox geocoder service. Requires an API Key to
-#'      be stored in the "MAPBOX_API_KEY" environmental variable.
-#'   \item \code{"here"}: Commercial HERE geocoder service. Requires an API Key 
-#'      to be stored in the "HERE_API_KEY" environmental variable. Can perform 
-#'      batch geocoding, but this must be specified with \code{mode = 'batch'}.
-#'   \item \code{"tomtom"}: Commercial TomTom geocoder service. Requires an API Key to
-#'      be stored in the "TOMTOM_API_KEY" environmental variable. Can perform
-#'      batch geocoding.
-#'   \item \code{"mapquest"}: Commercial MapQuest geocoder service. Requires an 
-#'      API Key to be stored in the "MAPQUEST_API_KEY" environmental variable. 
-#'      Can perform batch geocoding.
-#'   \item \code{"bing"}: Commercial Bing geocoder service. Requires an 
-#'      API Key to be stored in the "BINGMAPS_API_KEY" environmental variable. 
-#'      Can perform batch geocoding.
-#'   \item \code{"arcgis"}: Commercial ArcGIS geocoder service.
-#' }
+#' @param method `r get_method_documentation(reverse = TRUE)`
 #' 
-#' @param address name of the address column (output data)
-#' @param limit maximum number of results to return per coordinate For many geocoder services
-#'   the maximum value for the limit parameter is 100. 
-#'   Use \code{limit = NULL} to use the default value of the selected geocoder service. 
-#'   For batch geocoding, limit must be set to 1 (default) if \code{return_coords = TRUE}.
-#' @param min_time minimum amount of time for a query to take (in seconds). If NULL
-#' then min_time will be set to the lowest value that complies with the usage requirements of 
-#' the free tier of the selected geocoder service.
-#' @param api_url custom API URL. If specified, the default API URL will be overridden.
-#'  This parameter can be used to specify a local Nominatim server.
-#' @param timeout query timeout (in minutes)
+#' @param address name of the address column (in the output data)
+#' @param limit `r get_limit_documentation(reverse = TRUE, df_input = FALSE)`
 #' 
-#' @param mode set to 'batch' to force batch geocoding or 'single' to 
-#'  force single address geocoding (one coordinate per query). If not 
-#'  specified then batch geocoding will be used if available
-#'  (given method selected) when multiple addresses are provided; otherwise
-#'  single address geocoding will be used. For 'here' and 'bing' the batch mode
-#'  should be explicitly enforced.
+#' @param mode `r get_mode_documentation(reverse = TRUE)`
 #' @param full_results returns all data from the geocoder service if TRUE. 
 #' If FALSE then only a single address column will be returned from the geocoder service.
-#' @param unique_only only return results for unique addresses if TRUE
 #' @param return_coords return input coordinates with results if TRUE. Note that
-#'    most services return the input coordinates with full_results = TRUE and setting
+#'    most services return the input coordinates with `full_results = TRUE` and setting
 #'    return_addresses to FALSE does not prevent this.
-#' @param flatten if TRUE then any nested dataframes in results are flattened if possible.
-#'    Note that Geocodio batch geocoding results are flattened regardless.
-#' @param batch_limit limit to the number of addresses in a batch geocoding query.
-#'  Both geocodio and census batch geocoders have a 10,000 limit so this
-#'  is the default. 'here' has a 1,000,000 address limit. 'mapquest' has a 100 address
-#'  limit. 'bing' as a 50 address limit.
-#' @param verbose if TRUE then detailed logs are output to the console
-#' @param no_query if TRUE then no queries are sent to the geocoder and verbose is set to TRUE
-#' @param custom_query API-specific parameters to be used, passed as a named list 
-#'  (ie. \code{list(extratags = 1)}).
-#' @param iq_region 'us' (default) or 'eu'. Used for establishing API URL for the 'iq' method
-#' @param geocodio_v version of geocodio api. Used for establishing API URL
-#'   for the 'geocodio' method.
-#' @param mapbox_permanent if TRUE then the \code{mapbox.places-permanent} 
-#'   endpoint would be used. Note that this option should be used only if you 
-#'   have applied for a permanent account. Unsuccessful requests made by an 
-#'   account that does not have access to the endpoint may be billable.
+#' @param batch_limit `r get_batch_limit_documentation(reverse = TRUE)`
 #' @param here_request_id This parameter would return a previous HERE batch job,
 #'   identified by its RequestID. The RequestID of a batch job is displayed 
-#'   when \code{verbose} is TRUE. Note that this option would ignore the 
-#'   current \code{lat, long} parameters on the request, so \code{return_coords} 
+#'   when `verbose = TRUE`. Note that this option would ignore the 
+#'   current `lat, long` parameters on the request, so `return_coords`
 #'   needs to be FALSE.
-#' @param mapquest_open if TRUE then MapQuest would use the Open Geocoding 
-#'   endpoint, that relies solely on data contributed to OpenStreetMap.
+#' @inheritParams geo
 #'     
-#' @return parsed geocoding results in tibble format
+#' @inherit geo return
 #' @examples
 #' \donttest{
 #'  reverse_geo(lat = 38.895865, long = -77.0307713, method = 'osm', verbose = TRUE)
@@ -157,7 +92,7 @@ get_coord_parameters <- function(custom_query, method, lat, long) {
 #'  long = c(-77.0307713, -79.3839347, 600), method = 'osm', full_results = TRUE, verbose = TRUE)
 #'  
 #' }
-#' @seealso \code{\link{geocode}} \code{\link{api_parameter_reference}}
+#' @seealso [reverse_geocode] [api_parameter_reference] [min_time_reference] [batch_limit_reference]
 #' @export
 reverse_geo <- function(lat, long, method = 'osm', address = address, limit = 1, min_time = NULL, api_url = NULL,  
     timeout = 20, mode = '',  full_results = FALSE, unique_only = FALSE, return_coords = TRUE, flatten = TRUE, 
@@ -183,7 +118,7 @@ reverse_geo <- function(lat, long, method = 'osm', address = address, limit = 1,
   # Check method argument
   # Currently census is the only method that doesn't support reverse geocoding
   method_services <- unique(tidygeocoder::api_parameter_reference[['method']])
-  if (!(method %in% method_services[!method_services %in% c('census')])) {
+  if (!(method %in% method_services[!method_services %in% pkg.globals$no_reverse_methods])) {
     stop('Invalid method argument. See ?reverse_geo', call. = FALSE)
   } 
   
@@ -211,10 +146,8 @@ reverse_geo <- function(lat, long, method = 'osm', address = address, limit = 1,
     return(unpackage_inputs(coord_pack, NA_value, unique_only, return_coords))
   }
   
-  # HERE Exception
-  # Batch mode is quite slow. If batch mode is not called explicitly
-  # use single method
-  if (method %in% c("here", "bing") && mode != 'batch' ){
+  # Exception for geocoder services that should default to single instead of batch
+  if (method %in% pkg.globals$single_first_methods && mode != 'batch' ){
     mode <- 'single'
   }
   
