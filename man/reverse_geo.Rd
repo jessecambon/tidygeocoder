@@ -140,5 +140,5 @@ API queries.
 }
 }
 \seealso{
-\link{reverse_geocode} \link{api_parameter_reference} \link{min_time_reference} \link{api_usage_reference} \link{batch_limit_reference}
+\link{reverse_geocode} \link{api_parameter_reference} \link{min_time_reference} \link{batch_limit_reference}
 }

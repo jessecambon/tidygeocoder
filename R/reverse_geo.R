@@ -92,7 +92,7 @@ get_coord_parameters <- function(custom_query, method, lat, long) {
 #'  long = c(-77.0307713, -79.3839347, 600), method = 'osm', full_results = TRUE, verbose = TRUE)
 #'  
 #' }
-#' @seealso [reverse_geocode] [api_parameter_reference] [min_time_reference] [api_usage_reference] [batch_limit_reference]
+#' @seealso [reverse_geocode] [api_parameter_reference] [min_time_reference] [batch_limit_reference]
 #' @export
 reverse_geo <- function(lat, long, method = 'osm', address = address, limit = 1, min_time = NULL, api_url = NULL,  
     timeout = 20, mode = '',  full_results = FALSE, unique_only = FALSE, return_coords = TRUE, flatten = TRUE, 

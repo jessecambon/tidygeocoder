@@ -71,16 +71,16 @@ get_api_usage_bullets <- function() {
 
 get_method_bullet <- function(method) {
   # extract row in api_info_reference and convert to list
-  info <- as.list(api_info_reference[which(api_info_reference[['method']] == method) ,])
+  info <- as.list(tidygeocoder::api_info_reference[which(tidygeocoder::api_info_reference[['method']] == method) ,])
   
   bullet_intro <- paste0("- ", '`"', method, '"`: [', info[['method_display_name']], '](',
      info[['site_url']], ') geocoder service.')
   
   # if an API key is required list environmental variable
   api_requirements <- ifelse(
-    method %in% api_key_reference[['method']],
+    method %in% tidygeocoder::api_key_reference[['method']],
     paste0(' An API key must be stored in "', 
-           get_setting_value(api_key_reference, method, 'env_var'), '".'), 
+           get_setting_value(tidygeocoder::api_key_reference, method, 'env_var'), '".'), 
   ''
   )
   
@@ -91,7 +91,7 @@ get_method_bullet <- function(method) {
   )
 
   # note if batch geocoding needs to be manually specified
-  batch_capabilities <- if (method %in% batch_limit_reference[['method']]) {
+  batch_capabilities <- if (method %in% tidygeocoder::batch_limit_reference[['method']]) {
     ifelse(method %in% names(pkg.globals$single_first_methods), 
         ' Batch geocoding is supported, but must be explicitly called with `mode = "batch"`.',
         ' Batch geocoding is supported.'
@@ -160,7 +160,7 @@ get_mode_documentation <- function(reverse) {
 # Returns methods documentation
 # reverse = TRUE if reverse geocoding, FALSE if forward geocoding
 get_method_documentation <- function(reverse) {
-  all_methods <- api_info_reference[['method']]
+  all_methods <- tidygeocoder::api_info_reference[['method']]
   
   method_intro <- c(
     "the geocoder service to be used. Refer to [api_parameter_reference], [min_time_reference],",

@@ -195,5 +195,5 @@ geo(county = 'Jefferson', state = "Kentucky", country = "US",
 }
 }
 \seealso{
-\link{geocode} \link{api_parameter_reference} \link{min_time_reference} \link{api_usage_reference} \link{batch_limit_reference}
+\link{geocode} \link{api_parameter_reference} \link{min_time_reference} \link{batch_limit_reference}
 }

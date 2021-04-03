@@ -110,7 +110,7 @@ batch_func_map <- list(
 #' geo(county = 'Jefferson', state = "Kentucky", country = "US",
 #'      method = 'osm')
 #' }
-#' @seealso [geocode] [api_parameter_reference] [min_time_reference] [api_usage_reference] [batch_limit_reference]
+#' @seealso [geocode] [api_parameter_reference] [min_time_reference] [batch_limit_reference]
 #' @export
 geo <- function(address = NULL, 
     street = NULL, city = NULL, county = NULL, state = NULL, postalcode = NULL, country = NULL,

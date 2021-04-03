@@ -107,3 +107,16 @@
 #' @seealso [geo] [reverse_geo] 
 #' 
 "api_key_reference"
+
+#' Geocoder service links and info
+#'
+#' @format A tibble dataframe
+#' \describe{
+#'  \item{method}{Geocoder service name}
+#'  \item{method_display_name}{Geocoder service display name}
+#'  \item{site_url}{Link to the main site of the geocoder service}
+#'  \item{api_documentation_url}{Link to API documentation}
+#'  \item{api_usage_policy_url}{Link to the usage policy}
+#' }
+#' 
+"api_info_reference"
