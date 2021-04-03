@@ -107,7 +107,7 @@
 
     
     
-<p>This page documents how to add support for a new geocoder service to the package. Required changes are organized by file. If anything isn’t clear, feel free to f<a href="https://github.com/jessecambon/tidygeocoder/issues">ile an issue</a>.</p>
+<p>This page documents how to add support for a new geocoder service to the package. Required changes are organized by file. If anything isn’t clear, feel free to <a href="https://github.com/jessecambon/tidygeocoder/issues">file an issue</a>.</p>
 <p><strong>Base all changes on the main branch</strong>.</p>
 <div id="files-to-update" class="section level2">
 <h2 class="hasAnchor">
@@ -130,6 +130,7 @@
 <strong><a href="https://github.com/jessecambon/tidygeocoder/blob/master/data-raw/api_references.R">data-raw/api_references.R</a></strong>
 <ul>
 <li>Add a row to <code>min_time_reference</code> with the minimum time each query should take (in seconds) according to the geocoder service’s free tier usage restrictions.</li>
+<li>Add a row to <code>api_key_reference</code> if the service requires an API key.</li>
 <li>If the service you are adding has batch geocoding capabilities, add the maximum batch size (as a row) to <code>batch_limit_reference</code>.</li>
 <li>Add a row to <code>api_info_reference</code> with links to the service’s website, documentation, and usage policy.</li>
 </ul>
@@ -159,7 +160,6 @@
 <strong><a href="https://github.com/jessecambon/tidygeocoder/blob/master/R/reverse_geo.R">R/reverse_geo.R</a></strong>
 <ul>
 <li>Update the <code>get_coord_parameters()</code> function based on how the service passed latitude and longitude coordinates for reverse geocoding.</li>
-<li>Add the new method to the <code><a href="../reference/reverse_geo.html">reverse_geo()</a></code> documentation.</li>
 <li>If the service supports reverse batch geocoding then add a new function in <a href="https://github.com/jessecambon/tidygeocoder/blob/master/R/reverse_batch_geocoding.R">R/reverse_batch_geocoding.R</a> and add it to the <code>reverse_batch_func_map</code> named list.</li>
 </ul>
 </li>
@@ -181,7 +181,7 @@
 <div id="other-files" class="section level2">
 <h2 class="hasAnchor">
 <a href="#other-files" class="anchor"></a>Other Files</h2>
-<p>These files won’t need editing unless the service you are implementing requires a workaround.</p>
+<p>These files don’t necessarily need to be updated. However, you might need to make changes to these files if the service you are implementing requires some non-standard workarounds.</p>
 <ul>
 <li>
 <strong><a href="https://github.com/jessecambon/tidygeocoder/blob/master/R/query_factory.R">R/query_factory.R</a></strong>
@@ -189,10 +189,30 @@
 <li>Houses the functions used to create and execute API queries.</li>
 </ul>
 </li>
-<li><strong><a href="https://github.com/jessecambon/tidygeocoder/blob/master/R/utils.R">R/utils.R</a></strong></li>
-<li><strong><a href="https://github.com/jessecambon/tidygeocoder/blob/master/R/input_handling.R">R/input_handling.R</a></strong></li>
-<li><strong><a href="https://github.com/jessecambon/tidygeocoder/blob/master/R/documentation.R">R/documentation.R</a></strong></li>
-<li><strong><a href="https://github.com/jessecambon/tidygeocoder/blob/master/R/data.R">R/data.R</a></strong></li>
+<li>
+<strong><a href="https://github.com/jessecambon/tidygeocoder/blob/master/R/documentation.R">R/documentation.R</a></strong>
+<ul>
+<li>Functions for producing rmarkdown package documentation.</li>
+</ul>
+</li>
+<li>
+<strong><a href="https://github.com/jessecambon/tidygeocoder/blob/master/R/data.R">R/data.R</a></strong>
+<ul>
+<li>Documentation for in-built datasets.</li>
+</ul>
+</li>
+<li>
+<strong><a href="https://github.com/jessecambon/tidygeocoder/blob/master/R/utils.R">R/utils.R</a></strong>
+<ul>
+<li>Common utility functions.</li>
+</ul>
+</li>
+<li>
+<strong><a href="https://github.com/jessecambon/tidygeocoder/blob/master/R/input_handling.R">R/input_handling.R</a></strong>
+<ul>
+<li>Handles the deduplication of input data.</li>
+</ul>
+</li>
 </ul>
 </div>
 <div id="testing" class="section level2">

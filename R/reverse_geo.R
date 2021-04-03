@@ -59,7 +59,7 @@ get_coord_parameters <- function(custom_query, method, lat, long) {
 #' See example usage in `vignette("tidygeocoder")`.
 #'
 #' This function uses the [get_api_query], [query_api], and
-#' [extract_reverse_results] functions to create, execute, and parse the geocoder
+#' [extract_reverse_results] functions to create, execute, and parse geocoder
 #' API queries.
 #' 
 #' @param lat latitude values (input data)

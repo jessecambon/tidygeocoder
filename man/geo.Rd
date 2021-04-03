@@ -81,7 +81,7 @@ services have different columns that they return.
 }}
 
 \item{cascade_order}{a vector with two character values for the method argument
-in the order in which the geocoder services will be attempted for method = "cascade"
+in the order in which the geocoder services will be attempted for \code{method = "cascade"}
 (ie. \code{c('census', 'geocodio')})}
 
 \item{lat}{latitude column name. Can be quoted or unquoted (ie. lat or 'lat').}
@@ -141,10 +141,10 @@ Set to the value specified in \link{batch_limit_reference} unless otherwise spec
 See the Census geocoder API documentation for more details.
 }}
 
-\item{iq_region}{'us' (default) or 'eu'. Used for establishing API URL for the 'iq' method}
+\item{iq_region}{'us' (default) or 'eu'. Used for establishing API URL for the 'iq' method.}
 
-\item{geocodio_v}{version of geocodio api. Used for establishing API URL
-for the 'geocodio' method}
+\item{geocodio_v}{version of geocodio API. Used for establishing API URL
+for the 'geocodio' method.}
 
 \item{param_error}{if TRUE then an error will be thrown if certain parameters are invalid for the selected geocoder
 service (method). The parameters checked are limit, address, street, city, county, state, postalcode, and country.

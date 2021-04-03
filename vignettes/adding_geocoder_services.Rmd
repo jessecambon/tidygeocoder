@@ -9,7 +9,7 @@ vignette: >
   \usepackage[utf8]{inputenc}
 ---
 
-This page documents how to add support for a new geocoder service to the package. Required changes are organized by file. If anything isn't clear, feel free to f[ile an issue](https://github.com/jessecambon/tidygeocoder/issues).
+This page documents how to add support for a new geocoder service to the package. Required changes are organized by file. If anything isn't clear, feel free to [file an issue](https://github.com/jessecambon/tidygeocoder/issues).
 
 **Base all changes on the main branch**.
 
@@ -22,6 +22,7 @@ This page documents how to add support for a new geocoder service to the package
     * Note that there is no need to include parameters that are only used for reverse geocoding or parameters that have no equivalent in other geocoding services (ie. there is no `generic_name`) **unless** the parameters are required. Parameters can always be passed to services directly with the `custom_query` argument in `geo()` or `reverse_geo()`. 
 * **[data-raw/api_references.R](https://github.com/jessecambon/tidygeocoder/blob/master/data-raw/api_references.R)**
    * Add a row to `min_time_reference` with the minimum time each query should take (in seconds) according to the geocoder service's free tier usage restrictions.
+   * Add a row to `api_key_reference` if the service requires an API key.
    * If the service you are adding has batch geocoding capabilities, add the maximum batch size (as a row) to `batch_limit_reference`.
    * Add a row to `api_info_reference` with links to the service's website, documentation, and usage policy.
 * **[R/results_processing.R](https://github.com/jessecambon/tidygeocoder/blob/master/R/results_processing.R)**
@@ -35,7 +36,6 @@ This page documents how to add support for a new geocoder service to the package
     * If the service supports batch geocoding then add a function for this capability. These functions are called from `geo()`.
 * **[R/reverse_geo.R](https://github.com/jessecambon/tidygeocoder/blob/master/R/reverse_geo.R)**
     * Update the `get_coord_parameters()` function based on how the service passed latitude and longitude coordinates for reverse geocoding.
-    * Add the new method to the `reverse_geo()` documentation.
     * If the service supports reverse batch geocoding then add a new function in [R/reverse_batch_geocoding.R](https://github.com/jessecambon/tidygeocoder/blob/master/R/reverse_batch_geocoding.R) and add it to the `reverse_batch_func_map` named list.
 * **[R/geo_methods.R](https://github.com/jessecambon/tidygeocoder/blob/master/R/geo_methods.R)**
     * Add a new `geo_<method>()` convenience function to [R/geo_methods.R](https://github.com/jessecambon/tidygeocoder/blob/master/R/geo_methods.R).
@@ -45,16 +45,18 @@ This page documents how to add support for a new geocoder service to the package
 
 ## Other Files
 
-These files won't need editing unless the service you are implementing requires a workaround.
+These files don't necessarily need to be updated. However, you might need to make changes to these files if the service you are implementing requires some non-standard workarounds.
 
 * **[R/query_factory.R](https://github.com/jessecambon/tidygeocoder/blob/master/R/query_factory.R)**
     * Houses the functions used to create and execute API queries.
-* **[R/utils.R](https://github.com/jessecambon/tidygeocoder/blob/master/R/utils.R)**
-* **[R/input_handling.R](https://github.com/jessecambon/tidygeocoder/blob/master/R/input_handling.R)**
 * **[R/documentation.R](https://github.com/jessecambon/tidygeocoder/blob/master/R/documentation.R)**
+    * Functions for producing rmarkdown package documentation.
 * **[R/data.R](https://github.com/jessecambon/tidygeocoder/blob/master/R/data.R)**
-
-
+    * Documentation for in-built datasets.
+* **[R/utils.R](https://github.com/jessecambon/tidygeocoder/blob/master/R/utils.R)**
+    * Common utility functions.
+* **[R/input_handling.R](https://github.com/jessecambon/tidygeocoder/blob/master/R/input_handling.R)**
+    * Handles the deduplication of input data.
 
 ## Testing
 

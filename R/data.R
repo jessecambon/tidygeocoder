@@ -86,7 +86,7 @@
 #' }
 #' @details 
 #' 
-#' Links to the usage policies of each geocoder service is below:
+#' Links to the usage policies of each geocoder service are below:
 #' 
 #' `r get_api_usage_bullets()`
 #' 

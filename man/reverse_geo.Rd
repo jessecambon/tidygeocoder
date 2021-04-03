@@ -97,10 +97,10 @@ Set to the value specified in \link{batch_limit_reference} unless otherwise spec
 \item{custom_query}{API-specific parameters to be used, passed as a named list
 (ie. \code{list(extratags = 1)}.}
 
-\item{iq_region}{'us' (default) or 'eu'. Used for establishing API URL for the 'iq' method}
+\item{iq_region}{'us' (default) or 'eu'. Used for establishing API URL for the 'iq' method.}
 
-\item{geocodio_v}{version of geocodio api. Used for establishing API URL
-for the 'geocodio' method}
+\item{geocodio_v}{version of geocodio API. Used for establishing API URL
+for the 'geocodio' method.}
 
 \item{mapbox_permanent}{if TRUE then the \code{mapbox.places-permanent}
 endpoint would be used. Note that this option should be used only if you
@@ -127,7 +127,7 @@ The \link{reverse_geocode} function utilizes this function on coordinates contai
 See example usage in \code{vignette("tidygeocoder")}.
 
 This function uses the \link{get_api_query}, \link{query_api}, and
-\link{extract_reverse_results} functions to create, execute, and parse the geocoder
+\link{extract_reverse_results} functions to create, execute, and parse geocoder
 API queries.
 }
 \examples{
