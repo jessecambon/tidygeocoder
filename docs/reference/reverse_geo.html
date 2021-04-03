@@ -46,13 +46,13 @@
 
 
 <meta property="og:title" content="Reverse geocode coordinates — reverse_geo" />
-<meta property="og:description" content="Reverse geocodes geographic coordinates (latitude and longitude) given as numeric values. 
+<meta property="og:description" content="Reverse geocodes geographic coordinates (latitude and longitude) given as numeric values.
 Latitude and longitude inputs are limited to possible values. Latitudes must be between -90 and 90 and
-longitudes must be between -180 and 180. Invalid values will not be sent to the geocoder service. 
+longitudes must be between -180 and 180. Invalid values will not be sent to the geocoder service.
 The reverse_geocode function utilizes this function on coordinates contained in dataframes.
 See example usage in vignette(&quot;tidygeocoder&quot;).
 This function uses the get_api_query, query_api, and
-extract_reverse_results functions to create, execute, and parse the geocoder
+extract_reverse_results functions to create, execute, and parse geocoder
 API queries." />
 
 
@@ -111,6 +111,9 @@ API queries." />
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
+      <a href="../articles/adding_geocoder_services.html">Adding a Geocoder Service</a>
+    </li>
+    <li>
       <a href="../articles/api_reference.html">API References</a>
     </li>
   </ul>
@@ -151,13 +154,13 @@ API queries." />
     </div>
 
     <div class="ref-description">
-    <p>Reverse geocodes geographic coordinates (latitude and longitude) given as numeric values. 
+    <p>Reverse geocodes geographic coordinates (latitude and longitude) given as numeric values.
 Latitude and longitude inputs are limited to possible values. Latitudes must be between -90 and 90 and
-longitudes must be between -180 and 180. Invalid values will not be sent to the geocoder service. 
-The <code><a href='reverse_geocode.html'>reverse_geocode</a></code> function utilizes this function on coordinates contained in dataframes.
+longitudes must be between -180 and 180. Invalid values will not be sent to the geocoder service.
+The <a href='reverse_geocode.html'>reverse_geocode</a> function utilizes this function on coordinates contained in dataframes.
 See example usage in <code><a href='../articles/tidygeocoder.html'>vignette("tidygeocoder")</a></code>.</p>
-<p>This function uses the <code><a href='get_api_query.html'>get_api_query</a></code>, <code><a href='query_api.html'>query_api</a></code>, and
-<code><a href='extract_reverse_results.html'>extract_reverse_results</a></code> functions to create, execute, and parse the geocoder
+<p>This function uses the <a href='get_api_query.html'>get_api_query</a>, <a href='query_api.html'>query_api</a>, and
+<a href='extract_reverse_results.html'>extract_reverse_results</a> functions to create, execute, and parse geocoder
 API queries.</p>
     </div>
 
@@ -199,61 +202,44 @@ API queries.</p>
     </tr>
     <tr>
       <th>method</th>
-      <td><p>the geocoder service to be used. Refer to 
-<code><a href='api_parameter_reference.html'>api_parameter_reference</a></code> and the API documentation for
-each geocoder service for usage details and limitations. Note that the 
-Census service does not support reverse geocoding. Run <code><a href='https://usethis.r-lib.org/reference/edit.html'>usethis::edit_r_environ()</a></code>
-to open your .Renviron file for editing to add API keys as an environmental variables.</p><ul>
-<li><p><code>"osm"</code>: Nominatim (OSM). Worldwide coverage.</p></li>
-<li><p><code>"geocodio"</code>: Commercial geocoder. Covers US and Canada and has
-     batch geocoding capabilities. Requires an API Key to be stored in
-     the "GEOCODIO_API_KEY" environmental variable.</p></li>
-<li><p><code>"iq"</code>: Commercial Nominatim geocoder service. Requires an API Key to
-     be stored in the "LOCATIONIQ_API_KEY" environmental variable.</p></li>
-<li><p><code>"google"</code>: Commercial Google geocoder service. Requires an API Key to
-     be stored in the "GOOGLEGEOCODE_API_KEY" environmental variable.</p></li>
-<li><p><code>"opencage"</code>: Commercial geocoder with
-     <a href='https://opencagedata.com/credits'>various open data sources</a> (e.g.
-     OpenStreetMap). Requires an API Key to be stored
-     in the "OPENCAGE_KEY" environmental variable.</p></li>
-<li><p><code>"mapbox"</code>: Commercial Mapbox geocoder service. Requires an API Key to
-     be stored in the "MAPBOX_API_KEY" environmental variable.</p></li>
-<li><p><code>"here"</code>: Commercial HERE geocoder service. Requires an API Key 
-     to be stored in the "HERE_API_KEY" environmental variable. Can perform 
-     batch geocoding, but this must be specified with <code>mode = 'batch'</code>.</p></li>
-<li><p><code>"tomtom"</code>: Commercial TomTom geocoder service. Requires an API Key to
-     be stored in the "TOMTOM_API_KEY" environmental variable. Can perform
-     batch geocoding.</p></li>
-<li><p><code>"mapquest"</code>: Commercial MapQuest geocoder service. Requires an 
-     API Key to be stored in the "MAPQUEST_API_KEY" environmental variable. 
-     Can perform batch geocoding.</p></li>
-<li><p><code>"bing"</code>: Commercial Bing geocoder service. Requires an 
-     API Key to be stored in the "BINGMAPS_API_KEY" environmental variable. 
-     Can perform batch geocoding.</p></li>
-<li><p><code>"arcgis"</code>: Commercial ArcGIS geocoder service.</p></li>
+      <td><p>the geocoder service to be used. Refer to <a href='api_parameter_reference.html'>api_parameter_reference</a>, <a href='min_time_reference.html'>min_time_reference</a>,
+and <a href='batch_limit_reference.html'>batch_limit_reference</a> for more information.
+To add an API key for use, run <code><a href='https://usethis.r-lib.org/reference/edit.html'>usethis::edit_r_environ()</a></code>. This will open
+your .Renviron file for editing. (ex. add the line `GEOCODIO_API_KEY='YourAPIKeyHere')</p><ul>
+<li><p><code>"osm"</code>: <a href='https://nominatim.org'>Nominatim</a> geocoder service.</p></li>
+<li><p><code>"arcgis"</code>: <a href='https://developers.arcgis.com/rest/geocode/api-reference/overview-world-geocoding-service.htm'>ArcGIS</a> geocoder service.</p></li>
+<li><p><code>"geocodio"</code>: <a href='https://www.geocod.io/'>Geocodio</a> geocoder service. Geographic coverage is limited to the United States and Canada. An API key must be stored in "GEOCODIO_API_KEY". Batch geocoding is supported.</p></li>
+<li><p><code>"iq"</code>: <a href='https://locationiq.com/'>Location IQ</a> geocoder service. An API key must be stored in "LOCATIONIQ_API_KEY".</p></li>
+<li><p><code>"google"</code>: <a href='https://developers.google.com/maps/documentation/geocoding/overview'>Google</a> geocoder service. An API key must be stored in "GOOGLEGEOCODE_API_KEY".</p></li>
+<li><p><code>"opencage"</code>: <a href='https://opencagedata.com'>OpenCage</a> geocoder service. An API key must be stored in "OPENCAGE_KEY".</p></li>
+<li><p><code>"mapbox"</code>: <a href='https://docs.mapbox.com/api/search/'>Mapbox</a> geocoder service. An API key must be stored in "MAPBOX_API_KEY".</p></li>
+<li><p><code>"here"</code>: <a href='https://developer.here.com/products/geocoding-and-search'>HERE</a> geocoder service. An API key must be stored in "HERE_API_KEY". Batch geocoding is supported.</p></li>
+<li><p><code>"tomtom"</code>: <a href='https://developer.tomtom.com/search-api/search-api-documentation/geocoding'>TomTom</a> geocoder service. An API key must be stored in "TOMTOM_API_KEY". Batch geocoding is supported.</p></li>
+<li><p><code>"mapquest"</code>: <a href='https://developer.mapquest.com/documentation/geocoding-api/'>MapQuest</a> geocoder service. An API key must be stored in "MAPQUEST_API_KEY". Batch geocoding is supported.</p></li>
+<li><p><code>"bing"</code>: <a href='https://docs.microsoft.com/en-us/bingmaps/rest-services/locations/'>Bing</a> geocoder service. An API key must be stored in "BINGMAPS_API_KEY". Batch geocoding is supported.</p></li>
 </ul></td>
     </tr>
     <tr>
       <th>address</th>
-      <td><p>name of the address column (output data)</p></td>
+      <td><p>name of the address column (in the output data)</p></td>
     </tr>
     <tr>
       <th>limit</th>
-      <td><p>maximum number of results to return per coordinate For many geocoder services
-the maximum value for the limit parameter is 100. 
-Use <code>limit = NULL</code> to use the default value of the selected geocoder service. 
-For batch geocoding, limit must be set to 1 (default) if <code>return_coords = TRUE</code>.</p></td>
+      <td><p>maximum number of results to return per coordinate. For many geocoder services
+the maximum value for the limit parameter is 100. Pass <code>limit = NULL</code> to use
+the default <code>limit</code> value of the selected geocoder service.
+For batch geocoding, limit must be set to 1 (default) if <code>return_coords = TRUE</code>
+Refer to <a href='api_parameter_reference.html'>api_parameter_reference</a> for more details.</p></td>
     </tr>
     <tr>
       <th>min_time</th>
       <td><p>minimum amount of time for a query to take (in seconds). If NULL
-then min_time will be set to the lowest value that complies with the usage requirements of 
-the free tier of the selected geocoder service.</p></td>
+then min_time will be set to the default value specified in <a href='min_time_reference.html'>min_time_reference</a>.</p></td>
     </tr>
     <tr>
       <th>api_url</th>
       <td><p>custom API URL. If specified, the default API URL will be overridden.
-This parameter can be used to specify a local Nominatim server.</p></td>
+This parameter can be used to specify a local Nominatim server, for instance.</p></td>
     </tr>
     <tr>
       <th>timeout</th>
@@ -261,39 +247,37 @@ This parameter can be used to specify a local Nominatim server.</p></td>
     </tr>
     <tr>
       <th>mode</th>
-      <td><p>set to 'batch' to force batch geocoding or 'single' to 
-force single address geocoding (one coordinate per query). If not 
-specified then batch geocoding will be used if available
-(given method selected) when multiple addresses are provided; otherwise
-single address geocoding will be used. For 'here' and 'bing' the batch mode
-should be explicitly enforced.</p></td>
+      <td><p>set to 'batch' to force batch geocoding or 'single' to force single coordinate
+geocoding (one coordinate per query). If not specified then batch geocoding will
+be used if available (given method selected) when multiple coordinates are
+provided; otherwise single address geocoding will be used. For here and bing the
+batch mode should be explicitly specified with <code>mode = 'batch'</code>.</p></td>
     </tr>
     <tr>
       <th>full_results</th>
-      <td><p>returns all data from the geocoder service if TRUE. 
+      <td><p>returns all data from the geocoder service if TRUE.
 If FALSE then only a single address column will be returned from the geocoder service.</p></td>
     </tr>
     <tr>
       <th>unique_only</th>
-      <td><p>only return results for unique addresses if TRUE</p></td>
+      <td><p>only return results for unique inputs if TRUE</p></td>
     </tr>
     <tr>
       <th>return_coords</th>
       <td><p>return input coordinates with results if TRUE. Note that
-most services return the input coordinates with full_results = TRUE and setting
+most services return the input coordinates with <code>full_results = TRUE</code> and setting
 return_addresses to FALSE does not prevent this.</p></td>
     </tr>
     <tr>
       <th>flatten</th>
       <td><p>if TRUE then any nested dataframes in results are flattened if possible.
-Note that Geocodio batch geocoding results are flattened regardless.</p></td>
+Note that in some cases results are flattened regardless such as for
+Geocodio batch geocoding.</p></td>
     </tr>
     <tr>
       <th>batch_limit</th>
-      <td><p>limit to the number of addresses in a batch geocoding query.
-Both geocodio and census batch geocoders have a 10,000 limit so this
-is the default. 'here' has a 1,000,000 address limit. 'mapquest' has a 100 address
-limit. 'bing' as a 50 address limit.</p></td>
+      <td><p>limit to the number of coordinates in a batch geocoding query.
+Set to the value specified in <a href='batch_limit_reference.html'>batch_limit_reference</a> unless otherwise specified.</p></td>
     </tr>
     <tr>
       <th>verbose</th>
@@ -305,57 +289,57 @@ limit. 'bing' as a 50 address limit.</p></td>
     </tr>
     <tr>
       <th>custom_query</th>
-      <td><p>API-specific parameters to be used, passed as a named list 
-(ie. <code><a href='https://rdrr.io/r/base/list.html'>list(extratags = 1)</a></code>).</p></td>
+      <td><p>API-specific parameters to be used, passed as a named list
+(ie. <code><a href='https://rdrr.io/r/base/list.html'>list(extratags = 1)</a></code>.</p></td>
     </tr>
     <tr>
       <th>iq_region</th>
-      <td><p>'us' (default) or 'eu'. Used for establishing API URL for the 'iq' method</p></td>
+      <td><p>'us' (default) or 'eu'. Used for establishing API URL for the 'iq' method.</p></td>
     </tr>
     <tr>
       <th>geocodio_v</th>
-      <td><p>version of geocodio api. Used for establishing API URL
+      <td><p>version of geocodio API. Used for establishing API URL
 for the 'geocodio' method.</p></td>
     </tr>
     <tr>
       <th>mapbox_permanent</th>
-      <td><p>if TRUE then the <code>mapbox.places-permanent</code> 
-endpoint would be used. Note that this option should be used only if you 
-have applied for a permanent account. Unsuccessful requests made by an 
+      <td><p>if TRUE then the <code>mapbox.places-permanent</code>
+endpoint would be used. Note that this option should be used only if you
+have applied for a permanent account. Unsuccessful requests made by an
 account that does not have access to the endpoint may be billable.</p></td>
     </tr>
     <tr>
       <th>here_request_id</th>
       <td><p>This parameter would return a previous HERE batch job,
-identified by its RequestID. The RequestID of a batch job is displayed 
-when <code>verbose</code> is TRUE. Note that this option would ignore the 
-current <code>lat, long</code> parameters on the request, so <code>return_coords</code> 
+identified by its RequestID. The RequestID of a batch job is displayed
+when <code>verbose = TRUE</code>. Note that this option would ignore the
+current <code>lat, long</code> parameters on the request, so <code>return_coords</code>
 needs to be FALSE.</p></td>
     </tr>
     <tr>
       <th>mapquest_open</th>
-      <td><p>if TRUE then MapQuest would use the Open Geocoding 
+      <td><p>if TRUE then MapQuest would use the Open Geocoding
 endpoint, that relies solely on data contributed to OpenStreetMap.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>parsed geocoding results in tibble format</p>
+    <p>tibble (dataframe)</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><code><a href='geocode.html'>geocode</a></code> <code><a href='api_parameter_reference.html'>api_parameter_reference</a></code></p></div>
+    <div class='dont-index'><p><a href='reverse_geocode.html'>reverse_geocode</a> <a href='api_parameter_reference.html'>api_parameter_reference</a> <a href='min_time_reference.html'>min_time_reference</a> api_usage_reference <a href='batch_limit_reference.html'>batch_limit_reference</a></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># \donttest{</span>
  <span class='fu'>reverse_geo</span><span class='op'>(</span>lat <span class='op'>=</span> <span class='fl'>38.895865</span>, long <span class='op'>=</span> <span class='op'>-</span><span class='fl'>77.0307713</span>, method <span class='op'>=</span> <span class='st'>'osm'</span>, verbose <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'>Number of Unique Coordinates: 1</span></div><div class='output co'>#&gt; <span class='message'>Querying API URL: https://nominatim.openstreetmap.org/reverse</span></div><div class='output co'>#&gt; <span class='message'>Passing the following parameters to the API:</span></div><div class='output co'>#&gt; <span class='message'>limit : "1"</span></div><div class='output co'>#&gt; <span class='message'>lat : "38.895865"</span></div><div class='output co'>#&gt; <span class='message'>lon : "-77.0307713"</span></div><div class='output co'>#&gt; <span class='message'>format : "json"</span></div><div class='output co'>#&gt; </div><div class='output co'>#&gt; <span class='message'>HTTP Status Code: 200</span></div><div class='output co'>#&gt; <span class='message'>Query completed in: 0.2 seconds</span></div><div class='output co'>#&gt; </div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 1 x 3</span><span>
+</div><div class='output co'>#&gt; <span class='message'>Number of Unique Coordinates: 1</span></div><div class='output co'>#&gt; <span class='message'>Querying API URL: https://nominatim.openstreetmap.org/reverse</span></div><div class='output co'>#&gt; <span class='message'>Passing the following parameters to the API:</span></div><div class='output co'>#&gt; <span class='message'>limit : "1"</span></div><div class='output co'>#&gt; <span class='message'>lat : "38.895865"</span></div><div class='output co'>#&gt; <span class='message'>lon : "-77.0307713"</span></div><div class='output co'>#&gt; <span class='message'>format : "json"</span></div><div class='output co'>#&gt; </div><div class='output co'>#&gt; <span class='message'>HTTP Status Code: 200</span></div><div class='output co'>#&gt; <span class='message'>Query completed in: 0.1 seconds</span></div><div class='output co'>#&gt; </div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 1 x 3</span><span>
 #&gt;     lat  long address                                                           
 #&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>                                                             
 #&gt; </span><span style='color: #BCBCBC;'>1</span><span>  38.9 -</span><span style='color: #BB0000;'>77.0</span><span> L’Enfant's plan, Pennsylvania Avenue, Washington, District of Col…</div><div class='input'> 
  <span class='fu'>reverse_geo</span><span class='op'>(</span>lat <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>38.895865</span>, <span class='fl'>43.6534817</span>, <span class='fl'>300</span><span class='op'>)</span>, 
  long <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='op'>-</span><span class='fl'>77.0307713</span>, <span class='op'>-</span><span class='fl'>79.3839347</span>, <span class='fl'>600</span><span class='op'>)</span>, method <span class='op'>=</span> <span class='st'>'osm'</span>, full_results <span class='op'>=</span> <span class='cn'>TRUE</span>, verbose <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'>Number of Unique Coordinates: 2</span></div><div class='output co'>#&gt; <span class='message'>Executing single coordinate geocoding...</span></div><div class='output co'>#&gt; <span class='message'>Number of Unique Coordinates: 1</span></div><div class='output co'>#&gt; <span class='message'>Querying API URL: https://nominatim.openstreetmap.org/reverse</span></div><div class='output co'>#&gt; <span class='message'>Passing the following parameters to the API:</span></div><div class='output co'>#&gt; <span class='message'>limit : "1"</span></div><div class='output co'>#&gt; <span class='message'>lat : "38.895865"</span></div><div class='output co'>#&gt; <span class='message'>lon : "-77.0307713"</span></div><div class='output co'>#&gt; <span class='message'>format : "json"</span></div><div class='output co'>#&gt; </div><div class='output co'>#&gt; <span class='message'>HTTP Status Code: 200</span></div><div class='output co'>#&gt; <span class='message'>Query completed in: 0.3 seconds</span></div><div class='output co'>#&gt; </div><div class='output co'>#&gt; <span class='message'>Number of Unique Coordinates: 1</span></div><div class='output co'>#&gt; <span class='message'>Querying API URL: https://nominatim.openstreetmap.org/reverse</span></div><div class='output co'>#&gt; <span class='message'>Passing the following parameters to the API:</span></div><div class='output co'>#&gt; <span class='message'>limit : "1"</span></div><div class='output co'>#&gt; <span class='message'>lat : "43.6534817"</span></div><div class='output co'>#&gt; <span class='message'>lon : "-79.3839347"</span></div><div class='output co'>#&gt; <span class='message'>format : "json"</span></div><div class='output co'>#&gt; </div><div class='output co'>#&gt; <span class='message'>HTTP Status Code: 200</span></div><div class='output co'>#&gt; <span class='message'>Query completed in: 0.5 seconds</span></div><div class='output co'>#&gt; </div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 3 x 22</span><span>
+</div><div class='output co'>#&gt; <span class='message'>Number of Unique Coordinates: 2</span></div><div class='output co'>#&gt; <span class='message'>Executing single coordinate geocoding...</span></div><div class='output co'>#&gt; <span class='message'>Number of Unique Coordinates: 1</span></div><div class='output co'>#&gt; <span class='message'>Querying API URL: https://nominatim.openstreetmap.org/reverse</span></div><div class='output co'>#&gt; <span class='message'>Passing the following parameters to the API:</span></div><div class='output co'>#&gt; <span class='message'>limit : "1"</span></div><div class='output co'>#&gt; <span class='message'>lat : "38.895865"</span></div><div class='output co'>#&gt; <span class='message'>lon : "-77.0307713"</span></div><div class='output co'>#&gt; <span class='message'>format : "json"</span></div><div class='output co'>#&gt; </div><div class='output co'>#&gt; <span class='message'>HTTP Status Code: 200</span></div><div class='output co'>#&gt; <span class='message'>Query completed in: 0.7 seconds</span></div><div class='output co'>#&gt; </div><div class='output co'>#&gt; <span class='message'>Number of Unique Coordinates: 1</span></div><div class='output co'>#&gt; <span class='message'>Querying API URL: https://nominatim.openstreetmap.org/reverse</span></div><div class='output co'>#&gt; <span class='message'>Passing the following parameters to the API:</span></div><div class='output co'>#&gt; <span class='message'>limit : "1"</span></div><div class='output co'>#&gt; <span class='message'>lat : "43.6534817"</span></div><div class='output co'>#&gt; <span class='message'>lon : "-79.3839347"</span></div><div class='output co'>#&gt; <span class='message'>format : "json"</span></div><div class='output co'>#&gt; </div><div class='output co'>#&gt; <span class='message'>HTTP Status Code: 200</span></div><div class='output co'>#&gt; <span class='message'>Query completed in: 0.4 seconds</span></div><div class='output co'>#&gt; </div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 3 x 22</span><span>
 #&gt;     lat  long address place_id licence osm_type  osm_id osm_lat osm_lon tourism
 #&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>  
 #&gt; </span><span style='color: #BCBCBC;'>1</span><span>  38.9 -</span><span style='color: #BB0000;'>77.0</span><span> L’Enfa…   3.02</span><span style='color: #949494;'>e</span><span>8 Data ©… way       9.00</span><span style='color: #949494;'>e</span><span>8 38.895… -77.03… L’Enfa…

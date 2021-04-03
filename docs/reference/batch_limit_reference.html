@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>The batch limit for each geocoder service — batch_limit_reference • tidygeocoder</title>
+<title>Limits for batch sizes — batch_limit_reference • tidygeocoder</title>
 
 
 <!-- jquery -->
@@ -45,8 +45,8 @@
 
 
 
-<meta property="og:title" content="The batch limit for each geocoder service — batch_limit_reference" />
-<meta property="og:description" content="The batch limit for each geocoder service" />
+<meta property="og:title" content="Limits for batch sizes — batch_limit_reference" />
+<meta property="og:description" content="Limits for batch sizes" />
 
 
 
@@ -104,6 +104,9 @@
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
+      <a href="../articles/adding_geocoder_services.html">Adding a Geocoder Service</a>
+    </li>
+    <li>
       <a href="../articles/api_reference.html">API References</a>
     </li>
   </ul>
@@ -138,13 +141,13 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>The batch limit for each geocoder service</h1>
+    <h1>Limits for batch sizes</h1>
     <small class="dont-index">Source: <a href='https://github.com/jessecambon/tidygeocoder/blob/master/R/data.R'><code>R/data.R</code></a></small>
     <div class="hidden name"><code>batch_limit_reference.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>The batch limit for each geocoder service</p>
+    <p>Limits for batch sizes</p>
     </div>
 
     <pre class="usage"><span class='va'>batch_limit_reference</span></pre>
@@ -153,11 +156,14 @@
     <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
 
     <p>A tibble dataframe</p><dl>
- <dt>method</dt><dd><p>Geocoder service name</p></dd>
- <dt>batch_limit</dt><dd><p>The maximum number of addresses or coordinates allowed per batch</p></dd>
+<dt>method</dt><dd><p>Geocoder service name</p></dd>
+<dt>batch_limit</dt><dd><p>The maximum number of addresses or coordinates allowed per batch</p></dd>
 
 </dl>
 
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <div class='dont-index'><p><a href='geo.html'>geo</a> <a href='reverse_geo.html'>reverse_geo</a></p></div>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

@@ -3,9 +3,7 @@
 \docType{data}
 \name{min_time_reference}
 \alias{min_time_reference}
-\title{The minimum number of seconds required per query to comply with usage restrictions.
-The \link{geo} and \link{reverse_geo} functions use this value to
-slow down the rate of querying if necessary.}
+\title{Minimum time required per query}
 \format{
 A tibble dataframe
 \describe{
@@ -18,9 +16,9 @@ A tibble dataframe
 min_time_reference
 }
 \description{
-The minimum number of seconds required per query to comply with usage restrictions.
 The \link{geo} and \link{reverse_geo} functions use this value to
-slow down the rate of querying if necessary.
+slow down the rate of querying if necessary to comply
+with each geocoder service's usage policies.
 }
 \details{
 Links to the usage policies of each geocoder service are below:

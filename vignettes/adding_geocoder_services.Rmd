@@ -1,10 +1,10 @@
 ---
-title: "Adding a Geocode Service"
+title: "Adding a Geocoder Service"
 output: rmarkdown::html_vignette
 description: >
   Refer to this page on how to add support for a geocoder service to the package.
 vignette: >
-  %\VignetteIndexEntry{Adding a Geocode Service}
+  %\VignetteIndexEntry{Adding a Geocoder Service}
   %\VignetteEngine{knitr::rmarkdown}
   \usepackage[utf8]{inputenc}
 ---
@@ -45,7 +45,7 @@ This page documents how to add support for a new geocoder service to the package
 
 ## Other Files
 
-These files don't necessarily need to be updated. However, you might need to make changes to these files if the service you are implementing requires some non-standard workarounds.
+These files don't necessarily need to be updated. However, you might need to make changes to these files if the service you are implementing requires some non-standard workarounds. 
 
 * **[R/query_factory.R](https://github.com/jessecambon/tidygeocoder/blob/master/R/query_factory.R)**
     * Houses the functions used to create and execute API queries.

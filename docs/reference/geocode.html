@@ -46,15 +46,15 @@
 
 
 <meta property="og:title" content="Geocode addresses in a dataframe — geocode" />
-<meta property="og:description" content="Takes a dataframe containing addresses as an input and returns 
+<meta property="og:description" content="Takes a dataframe containing addresses as an input and returns
 the results from a specified geocoder service in a dataframe format using the
 geo function. See example usage in vignette(&quot;tidygeocoder&quot;).
-This function passes all additional parameters (...) to the 
+This function passes all additional parameters (...) to the
 geo function, so you can refer to its documentation for more details
 on possible arguments.
-Note that the arguments used for specifying address columns (address, 
+Note that the arguments used for specifying address columns (address,
 street, city, county, state, postalcode, and country) accept either
-quoted or unquoted column names (ie. &quot;address_col&quot; and address_col are 
+quoted or unquoted column names (ie. &quot;address_col&quot; and address_col are
 both acceptable)." />
 
 
@@ -113,6 +113,9 @@ both acceptable)." />
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
+      <a href="../articles/adding_geocoder_services.html">Adding a Geocoder Service</a>
+    </li>
+    <li>
       <a href="../articles/api_reference.html">API References</a>
     </li>
   </ul>
@@ -153,15 +156,15 @@ both acceptable)." />
     </div>
 
     <div class="ref-description">
-    <p>Takes a dataframe containing addresses as an input and returns 
+    <p>Takes a dataframe containing addresses as an input and returns
 the results from a specified geocoder service in a dataframe format using the
-<code><a href='geo.html'>geo</a></code> function. See example usage in <code><a href='../articles/tidygeocoder.html'>vignette("tidygeocoder")</a></code>.</p>
-<p>This function passes all additional parameters (<code>...</code>) to the 
+<a href='geo.html'>geo</a> function. See example usage in <code><a href='../articles/tidygeocoder.html'>vignette("tidygeocoder")</a></code>.</p>
+<p>This function passes all additional parameters (<code>...</code>) to the
 <code><a href='geo.html'>geo</a></code> function, so you can refer to its documentation for more details
 on possible arguments.</p>
-<p>Note that the arguments used for specifying address columns (address, 
+<p>Note that the arguments used for specifying address columns (address,
 street, city, county, state, postalcode, and country) accept either
-quoted or unquoted column names (ie. "address_col" and address_col are 
+quoted or unquoted column names (ie. "address_col" and address_col are
 both acceptable).</p>
     </div>
 
@@ -191,7 +194,7 @@ both acceptable).</p>
     </tr>
     <tr>
       <th>address</th>
-      <td><p>single line street address column name. Do not combine with 
+      <td><p>single line street address column name. Do not combine with
 address component arguments (street, city, county, state, postalcode, country)</p></td>
     </tr>
     <tr>
@@ -229,34 +232,34 @@ address component arguments (street, city, county, state, postalcode, country)</
     <tr>
       <th>limit</th>
       <td><p>maximum number of results to return per address. For many geocoder services
-the maximum value for the limit parameter is 100. 
-Use <code>limit = NULL</code> to use the default value of the selected geocoder service. 
-For batch geocoding, limit must be set to 1 (default) if <code>return_addresses = TRUE</code>.
-To use <code>limit &gt; 1</code> or <code>limit = NULL</code> either <code>return_addresses</code> or <code>unique_only</code> must be set to TRUE.</p></td>
+the maximum value for the limit parameter is 100. Pass <code>limit = NULL</code> to use
+the default <code>limit</code> value of the selected geocoder service.
+For batch geocoding, limit must be set to 1 (default) if <code>return_addresses = TRUE</code>
+To use <code>limit &gt; 1</code> or <code>limit = NULL</code> either <code>return_addresses</code> or <code>unique_only</code> must be set to TRUE.
+Refer to <a href='api_parameter_reference.html'>api_parameter_reference</a> for more details.</p></td>
     </tr>
     <tr>
       <th>return_addresses</th>
-      <td><p>if TRUE then only the geocoder results and address data will be returned.
-if FALSE then the input dataset's columns will also be included.</p></td>
+      <td><p>return input addresses with results if TRUE. Note that
+most services return the input addresses with <code>full_results = TRUE</code> and setting
+return_addresses to FALSE does not prevent this.</p></td>
     </tr>
     <tr>
       <th>unique_only</th>
-      <td><p>if TRUE then only unique addresses and results will be returned. 
-The input dataframe's format is not preserved. Addresses will also be returned if 
-TRUE (overrides return_addresses argument).</p></td>
+      <td><p>only return results for unique inputs if TRUE</p></td>
     </tr>
     <tr>
       <th>...</th>
-      <td><p>arguments passed to the <code><a href='geo.html'>geo</a></code> function</p></td>
+      <td><p>arguments passed to the <a href='geo.html'>geo</a> function</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>output dataframe (.tbl)</p>
+    <p>tibble (dataframe)</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><code><a href='geo.html'>geo</a></code> <code><a href='api_parameter_reference.html'>api_parameter_reference</a></code></p></div>
+    <div class='dont-index'><p><code><a href='geo.html'>geo</a></code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># \donttest{</span>

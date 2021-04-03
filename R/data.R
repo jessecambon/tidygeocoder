@@ -63,7 +63,7 @@
 #' 
 "api_parameter_reference"
 
-#' The batch limit for each geocoder service
+#' Limits for batch sizes
 #'
 #' @format A tibble dataframe
 #' \describe{
@@ -74,9 +74,11 @@
 #' 
 "batch_limit_reference"
 
-#' The minimum number of seconds required per query to comply with usage restrictions. 
+#' Minimum time required per query
+#' 
 #' The [geo] and [reverse_geo] functions use this value to
-#' slow down the rate of querying if necessary.
+#' slow down the rate of querying if necessary to comply
+#' with each geocoder service's usage policies.
 #'
 #' @format A tibble dataframe
 #' \describe{
@@ -94,7 +96,7 @@
 #' 
 "min_time_reference"
 
-#' The name of the environmental variable that the API key will be read from.
+#' API Key Environmental Variables
 #'
 #' @format A tibble dataframe
 #' \describe{

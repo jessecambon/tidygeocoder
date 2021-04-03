@@ -59,7 +59,7 @@
   </a>
   <ul class="dropdown-menu" role="menu">
 <li>
-      <a href="articles/adding_geocoder_services.html">Adding a Geocode Service</a>
+      <a href="articles/adding_geocoder_services.html">Adding a Geocoder Service</a>
     </li>
     <li>
       <a href="articles/api_reference.html">API References</a>
@@ -105,11 +105,10 @@
 <div id="introduction" class="section level2">
 <h2 class="hasAnchor">
 <a href="#introduction" class="anchor"></a>Introduction</h2>
-<p>Tidygeocoder makes getting data from geocoder services easy. A unified interface is provided for the geocoder services listed below.</p>
+<p>Tidygeocoder makes getting data from geocoder services easy. A unified interface is provided for the geocoder services listed below and all results are returned in <a href="https://tibble.tidyverse.org/">tibble</a> (dataframe) format.</p>
 <p><strong>Features:</strong></p>
 <ul>
 <li>Both <strong>forward geocoding</strong> (addresses -&gt; coordinates) and <strong>reverse geocoding</strong> (coordinates -&gt; addresses) are supported.</li>
-<li>All results are returned in <a href="https://tibble.tidyverse.org/">tibble</a> (dataframe) format.</li>
 <li>
 <strong>Batch geocoding</strong> (geocoding multiple addresses or coordinates in a single query) is used by default if supported by the geocoder service when multiple inputs (addresses or coordinates) are provided (with some noted exceptions for services with slower batch geocoding).</li>
 <li>Duplicate, missing/NA, and blank input data is handled elegantly - only unique inputs are submitted in queries to geocoder services, but the rows in the original data are preserved by default.</li>
@@ -138,7 +137,7 @@
 <div id="geocoder-services" class="section level2">
 <h2 class="hasAnchor">
 <a href="#geocoder-services" class="anchor"></a>Geocoder Services</h2>
-<p>The supported geocoder services are shown in the table below with their geographic limitations, if they support batch geocoding (geocoding multiple addresses or coordinates in a single query), if an API key is required, and the usage rate limitations. Refer to the website for each geocoder service for the most up-to-date details on costs, capabilities, and usage limitations.</p>
+<p>The supported geocoder services are shown in the table below. Refer to the website for each geocoder service for the most up-to-date details on costs, capabilities, and usage limitations.</p>
 <table class="table">
 <colgroup>
 <col width="32%">
@@ -153,13 +152,13 @@
 <th align="left">Method</th>
 <th align="left">API Key Required</th>
 <th align="left">Batch Geocoding</th>
-<th align="left">Usage Limitation</th>
+<th align="left">Usage Limitations</th>
 <th align="left">API Documentation</th>
 </tr></thead>
 <tbody>
 <tr class="odd">
 <td align="left"><a href="https://geocoding.geo.census.gov/">US Census</a></td>
-<td align="left">census</td>
+<td align="left"><code>census</code></td>
 <td align="left"></td>
 <td align="left">X</td>
 <td align="left">NA</td>
@@ -167,7 +166,7 @@
 </tr>
 <tr class="even">
 <td align="left"><a href="https://nominatim.org">Nominatim</a></td>
-<td align="left">osm</td>
+<td align="left"><code>osm</code></td>
 <td align="left"></td>
 <td align="left"></td>
 <td align="left">1 query per second</td>
@@ -175,15 +174,15 @@
 </tr>
 <tr class="odd">
 <td align="left"><a href="https://developers.arcgis.com/rest/geocode/api-reference/overview-world-geocoding-service.htm">ArcGIS</a></td>
-<td align="left">arcgis</td>
+<td align="left"><code>arcgis</code></td>
 <td align="left"></td>
 <td align="left"></td>
 <td align="left">NA</td>
 <td align="left"><a href="https://developers.arcgis.com/rest/geocode/api-reference/overview-world-geocoding-service.htm">docs</a></td>
 </tr>
 <tr class="even">
-<td align="left"><a href="United%20States%20and%20Canada">Geocodio</a></td>
-<td align="left">geocodio</td>
+<td align="left"><a href="https://www.geocod.io/">Geocodio</a></td>
+<td align="left"><code>geocodio</code></td>
 <td align="left">X</td>
 <td align="left">X</td>
 <td align="left">1000 queries per minute (free tier)</td>
@@ -191,7 +190,7 @@
 </tr>
 <tr class="odd">
 <td align="left"><a href="https://locationiq.com/">Location IQ</a></td>
-<td align="left">iq</td>
+<td align="left"><code>iq</code></td>
 <td align="left">X</td>
 <td align="left"></td>
 <td align="left">2 queries per second (free tier)</td>
@@ -199,7 +198,7 @@
 </tr>
 <tr class="even">
 <td align="left"><a href="https://developers.google.com/maps/documentation/geocoding/overview">Google</a></td>
-<td align="left">google</td>
+<td align="left"><code>google</code></td>
 <td align="left">X</td>
 <td align="left"></td>
 <td align="left">50 queries per second</td>
@@ -207,7 +206,7 @@
 </tr>
 <tr class="odd">
 <td align="left"><a href="https://opencagedata.com">OpenCage</a></td>
-<td align="left">opencage</td>
+<td align="left"><code>opencage</code></td>
 <td align="left">X</td>
 <td align="left"></td>
 <td align="left">1 query/second</td>
@@ -215,7 +214,7 @@
 </tr>
 <tr class="even">
 <td align="left"><a href="https://docs.mapbox.com/api/search/">Mapbox</a></td>
-<td align="left">mapbox</td>
+<td align="left"><code>mapbox</code></td>
 <td align="left">X</td>
 <td align="left"></td>
 <td align="left">600 queries per minute (free tier)</td>
@@ -223,7 +222,7 @@
 </tr>
 <tr class="odd">
 <td align="left"><a href="https://developer.here.com/products/geocoding-and-search">HERE</a></td>
-<td align="left">here</td>
+<td align="left"><code>here</code></td>
 <td align="left">X</td>
 <td align="left">X</td>
 <td align="left">5 queries per second (free tier)</td>
@@ -231,7 +230,7 @@
 </tr>
 <tr class="even">
 <td align="left"><a href="https://developer.tomtom.com/search-api/search-api-documentation/geocoding">TomTom</a></td>
-<td align="left">tomtom</td>
+<td align="left"><code>tomtom</code></td>
 <td align="left">X</td>
 <td align="left">X</td>
 <td align="left">5 queries per second (free tier)</td>
@@ -239,7 +238,7 @@
 </tr>
 <tr class="odd">
 <td align="left"><a href="https://developer.mapquest.com/documentation/geocoding-api/">MapQuest</a></td>
-<td align="left">mapquest</td>
+<td align="left"><code>mapquest</code></td>
 <td align="left">X</td>
 <td align="left">X</td>
 <td align="left">NA</td>
@@ -247,7 +246,7 @@
 </tr>
 <tr class="even">
 <td align="left"><a href="https://docs.microsoft.com/en-us/bingmaps/rest-services/locations/">Bing</a></td>
-<td align="left">bing</td>
+<td align="left"><code>bing</code></td>
 <td align="left">X</td>
 <td align="left">X</td>
 <td align="left">NA</td>
@@ -255,9 +254,9 @@
 </tr>
 </tbody>
 </table>
-<p><strong>Note that the US Census service is limited to the United States while Geocodio is limited to the US and Canada.</strong></p>
 <p><strong>Highlights:</strong></p>
 <ul>
+<li>The US Census service is limited to the United States while Geocodio is limited to the US and Canada.</li>
 <li>The Census and Nominatim (OSM) services are free and do not require an API key.</li>
 <li>ArcGIS can be used for free without an API key, but some features require a paid subscription and API key.</li>
 <li>The Geocodio, Location IQ, OpenCage, Mapbox, HERE, TomTom, MapQuest, and Bing are commercial services that offer free tiers.</li>
@@ -294,8 +293,8 @@
 
 <span class="co"># geocode the addresses</span>
 <span class="va">lat_longs</span> <span class="op">&lt;-</span> <span class="va">some_addresses</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="reference/geocode.html">geocode</a></span><span class="op">(</span><span class="va">addr</span>, method <span class="op">=</span> <span class="st">'census'</span>, lat <span class="op">=</span> <span class="va">latitude</span> , long <span class="op">=</span> <span class="va">longitude</span><span class="op">)</span></code></pre></div>
-<p>The <code><a href="reference/geocode.html">geocode()</a></code> function attaches latitude and longitude columns to our input dataset of addresses. The US Census geocoder is used here, but other services can be specified with the <code>method</code> argument. See the <code><a href="reference/geo.html">geo()</a></code> function documentation for details.</p>
+  <span class="fu"><a href="reference/geocode.html">geocode</a></span><span class="op">(</span><span class="va">addr</span>, method <span class="op">=</span> <span class="st">'osm'</span>, lat <span class="op">=</span> <span class="va">latitude</span> , long <span class="op">=</span> <span class="va">longitude</span><span class="op">)</span></code></pre></div>
+<p>The <code><a href="reference/geocode.html">geocode()</a></code> function attaches latitude and longitude columns to our input dataset of addresses. The <a href="https://nominatim.org/">Nominatim (“osm”)</a> geocoder is used here, but other services can be specified with the <code>method</code> argument. See the <code><a href="reference/geo.html">geo()</a></code> function documentation for details.</p>
 <table class="table">
 <colgroup>
 <col width="25%">
@@ -313,20 +312,20 @@
 <tr class="odd">
 <td align="left">White House</td>
 <td align="left">1600 Pennsylvania Ave NW, Washington, DC</td>
-<td align="right">38.89875</td>
-<td align="right">-77.03535</td>
+<td align="right">38.89770</td>
+<td align="right">-77.03655</td>
 </tr>
 <tr class="even">
 <td align="left">Transamerica Pyramid</td>
 <td align="left">600 Montgomery St, San Francisco, CA 94111</td>
-<td align="right">37.79470</td>
-<td align="right">-122.40314</td>
+<td align="right">37.79520</td>
+<td align="right">-122.40279</td>
 </tr>
 <tr class="odd">
 <td align="left">Willis Tower</td>
 <td align="left">233 S Wacker Dr, Chicago, IL 60606</td>
-<td align="right">41.87851</td>
-<td align="right">-87.63666</td>
+<td align="right">41.87887</td>
+<td align="right">-87.63591</td>
 </tr>
 </tbody>
 </table>
@@ -446,7 +445,7 @@
 <col width="6%">
 <col width="1%">
 <col width="1%">
-<col width="22%">
+<col width="21%">
 <col width="1%">
 <col width="11%">
 <col width="1%">
@@ -454,6 +453,7 @@
 <col width="2%">
 <col width="3%">
 <col width="1%">
+<col width="2%">
 <col width="4%">
 <col width="2%">
 <col width="3%">
@@ -461,9 +461,10 @@
 <col width="2%">
 <col width="2%">
 <col width="8%">
-<col width="5%">
 <col width="3%">
+<col width="2%">
 <col width="4%">
+<col width="2%">
 <col width="1%">
 </colgroup>
 <thead><tr class="header">
@@ -478,7 +479,8 @@
 <th align="right">osm_id</th>
 <th align="left">osm_lat</th>
 <th align="left">osm_lon</th>
-<th align="left">man_made</th>
+<th align="left">historic</th>
+<th align="left">house_number</th>
 <th align="left">road</th>
 <th align="left">city</th>
 <th align="left">state</th>
@@ -486,33 +488,36 @@
 <th align="left">country</th>
 <th align="left">country_code</th>
 <th align="left">boundingbox</th>
-<th align="left">highway</th>
+<th align="left">tourism</th>
 <th align="left">neighbourhood</th>
 <th align="left">county</th>
+<th align="left">building</th>
 <th align="left">suburb</th>
 </tr></thead>
 <tbody>
 <tr class="odd">
 <td align="left">White House</td>
 <td align="left">1600 Pennsylvania Ave NW, Washington, DC</td>
-<td align="right">38.89875</td>
-<td align="right">-77.03535</td>
-<td align="left">361, Pennsylvania Avenue Northwest, Washington, District of Columbia, 20006, United States</td>
-<td align="right">56845035</td>
+<td align="right">38.89770</td>
+<td align="right">-77.03655</td>
+<td align="left">White House, 1600, Pennsylvania Avenue Northwest, Washington, District of Columbia, 20500, United States</td>
+<td align="right">147370893</td>
 <td align="left">Data © OpenStreetMap contributors, ODbL 1.0. <a href="https://osm.org/copyright" class="uri">https://osm.org/copyright</a>
 </td>
-<td align="left">node</td>
-<td align="right">4838971258</td>
-<td align="left">38.8988819</td>
-<td align="left">-77.0353557</td>
-<td align="left">361</td>
+<td align="left">way</td>
+<td align="right">238241022</td>
+<td align="left">38.897699700000004</td>
+<td align="left">-77.03655315</td>
+<td align="left">White House</td>
+<td align="left">1600</td>
 <td align="left">Pennsylvania Avenue Northwest</td>
 <td align="left">Washington</td>
 <td align="left">District of Columbia</td>
-<td align="left">20006</td>
+<td align="left">20500</td>
 <td align="left">United States</td>
 <td align="left">us</td>
-<td align="left">38.8988319 , 38.8989319 , -77.0354057, -77.0353057</td>
+<td align="left">38.8974908 , 38.897911 , -77.0368537, -77.0362519</td>
+<td align="left">NA</td>
 <td align="left">NA</td>
 <td align="left">NA</td>
 <td align="left">NA</td>
@@ -521,53 +526,57 @@
 <tr class="even">
 <td align="left">Transamerica Pyramid</td>
 <td align="left">600 Montgomery St, San Francisco, CA 94111</td>
-<td align="right">37.79470</td>
-<td align="right">-122.40314</td>
-<td align="left">Clay Street &amp; Montgomery Street, Clay Street, Financial District, San Francisco, San Francisco City and County, California, 94111, United States</td>
-<td align="right">21547438</td>
+<td align="right">37.79520</td>
+<td align="right">-122.40279</td>
+<td align="left">Transamerica Pyramid, 600, Montgomery Street, Financial District, San Francisco, San Francisco City and County, California, 94111, United States</td>
+<td align="right">95364489</td>
 <td align="left">Data © OpenStreetMap contributors, ODbL 1.0. <a href="https://osm.org/copyright" class="uri">https://osm.org/copyright</a>
 </td>
-<td align="left">node</td>
-<td align="right">2245869263</td>
-<td align="left">37.7946617</td>
-<td align="left">-122.402864</td>
+<td align="left">way</td>
+<td align="right">24222973</td>
+<td align="left">37.795200550000004</td>
+<td align="left">-122.40279267840137</td>
 <td align="left">NA</td>
-<td align="left">Clay Street</td>
+<td align="left">600</td>
+<td align="left">Montgomery Street</td>
 <td align="left">San Francisco</td>
 <td align="left">California</td>
 <td align="left">94111</td>
 <td align="left">United States</td>
 <td align="left">us</td>
-<td align="left">37.7946117 , 37.7947117 , -122.402914, -122.402814</td>
-<td align="left">Clay Street &amp; Montgomery Street</td>
+<td align="left">37.7948854 , 37.7954472 , -122.4031399, -122.4024317</td>
+<td align="left">Transamerica Pyramid</td>
 <td align="left">Financial District</td>
 <td align="left">San Francisco City and County</td>
+<td align="left">NA</td>
 <td align="left">NA</td>
 </tr>
 <tr class="odd">
 <td align="left">Willis Tower</td>
 <td align="left">233 S Wacker Dr, Chicago, IL 60606</td>
-<td align="right">41.87851</td>
-<td align="right">-87.63666</td>
-<td align="left">South Upper Wacker Drive, Printer’s Row, Loop, Chicago, Cook County, Illinois, 60606, United States</td>
-<td align="right">96603182</td>
+<td align="right">41.87887</td>
+<td align="right">-87.63591</td>
+<td align="left">Willis Tower, 233, South Wacker Drive, Printer’s Row, Loop, Chicago, Cook County, Illinois, 60606, United States</td>
+<td align="right">103673983</td>
 <td align="left">Data © OpenStreetMap contributors, ODbL 1.0. <a href="https://osm.org/copyright" class="uri">https://osm.org/copyright</a>
 </td>
 <td align="left">way</td>
-<td align="right">24952943</td>
-<td align="left">41.87851252360928</td>
-<td align="left">-87.63668864939645</td>
+<td align="right">58528804</td>
+<td align="left">41.878871700000005</td>
+<td align="left">-87.63590893936448</td>
 <td align="left">NA</td>
-<td align="left">South Upper Wacker Drive</td>
+<td align="left">233</td>
+<td align="left">South Wacker Drive</td>
 <td align="left">Chicago</td>
 <td align="left">Illinois</td>
 <td align="left">60606</td>
 <td align="left">United States</td>
 <td align="left">us</td>
-<td align="left">41.8780844 , 41.8805439 , -87.6367295, -87.63668</td>
+<td align="left">41.8785389 , 41.8791932 , -87.6363362, -87.6354746</td>
 <td align="left">NA</td>
 <td align="left">Printer’s Row</td>
 <td align="left">Cook County</td>
+<td align="left">Willis Tower</td>
 <td align="left">Loop</td>
 </tr>
 </tbody>
@@ -577,7 +586,7 @@
 <div id="contributing" class="section level2">
 <h2 class="hasAnchor">
 <a href="#contributing" class="anchor"></a>Contributing</h2>
-<p>Contributions to the tidygeocoder package are welcome. File <a href="https://github.com/jessecambon/tidygeocoder/issues">an issue</a> for bug fixes or suggested features. If you would like to add support for a new geocoder service, reference <a href="https://github.com/jessecambon/tidygeocoder/issues/62#issue-777707424">this post</a> for instructions.</p>
+<p>Contributions to the tidygeocoder package are welcome. File <a href="https://github.com/jessecambon/tidygeocoder/issues">an issue</a> for bug fixes or suggested features. If you would like to add support for a new geocoder service, reference <a href="https://jessecambon.github.io/tidygeocoder/docs/articles/adding_geocoder_services.html">this page</a> for instructions.</p>
 </div>
 <div id="citing-tidygeocoder" class="section level2">
 <h2 class="hasAnchor">

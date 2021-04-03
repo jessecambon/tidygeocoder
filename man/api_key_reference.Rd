@@ -3,7 +3,7 @@
 \docType{data}
 \name{api_key_reference}
 \alias{api_key_reference}
-\title{The name of the environmental variable that the API key will be read from.}
+\title{API Key Environmental Variables}
 \format{
 A tibble dataframe
 \describe{
@@ -15,7 +15,7 @@ A tibble dataframe
 api_key_reference
 }
 \description{
-The name of the environmental variable that the API key will be read from.
+API Key Environmental Variables
 }
 \seealso{
 \link{geo} \link{reverse_geo}

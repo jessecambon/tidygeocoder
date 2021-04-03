@@ -23,14 +23,14 @@ Month](http://cranlogs.r-pkg.org/badges/tidygeocoder)](https://cran.r-project.or
 ## Introduction
 
 Tidygeocoder makes getting data from geocoder services easy. A unified
-interface is provided for the geocoder services listed below.
+interface is provided for the geocoder services listed below and all
+results are returned in [tibble](https://tibble.tidyverse.org/)
+(dataframe) format.
 
 **Features:**
 
 -   Both **forward geocoding** (addresses -&gt; coordinates) and
     **reverse geocoding** (coordinates -&gt; addresses) are supported.
--   All results are returned in [tibble](https://tibble.tidyverse.org/)
-    (dataframe) format.
 -   **Batch geocoding** (geocoding multiple addresses or coordinates in
     a single query) is used by default if supported by the geocoder
     service when multiple inputs (addresses or coordinates) are provided
@@ -76,33 +76,29 @@ devtools::install_github("jessecambon/tidygeocoder")
 
 ## Geocoder Services
 
-The supported geocoder services are shown in the table below with their
-geographic limitations, if they support batch geocoding (geocoding
-multiple addresses or coordinates in a single query), if an API key is
-required, and the usage rate limitations. Refer to the website for each
-geocoder service for the most up-to-date details on costs, capabilities,
-and usage limitations.
+The supported geocoder services are shown in the table below. Refer to
+the website for each geocoder service for the most up-to-date details on
+costs, capabilities, and usage limitations.
 
-| Service                                                                                                 | Method   | API Key Required | Batch Geocoding | Usage Limitation                    | API Documentation                                                                                                                       |
-|:--------------------------------------------------------------------------------------------------------|:---------|:-----------------|:----------------|:------------------------------------|:----------------------------------------------------------------------------------------------------------------------------------------|
-| [US Census](https://geocoding.geo.census.gov/)                                                          | census   |                  | X               | NA                                  | [docs](https://www.census.gov/programs-surveys/geography/technical-documentation/complete-technical-documentation/census-geocoder.html) |
-| [Nominatim](https://nominatim.org)                                                                      | osm      |                  |                 | 1 query per second                  | [docs](https://nominatim.org/release-docs/develop/api/Search/)                                                                          |
-| [ArcGIS](https://developers.arcgis.com/rest/geocode/api-reference/overview-world-geocoding-service.htm) | arcgis   |                  |                 | NA                                  | [docs](https://developers.arcgis.com/rest/geocode/api-reference/overview-world-geocoding-service.htm)                                   |
-| [Geocodio](United%20States%20and%20Canada)                                                              | geocodio | X                | X               | 1000 queries per minute (free tier) | [docs](https://www.geocod.io/docs/)                                                                                                     |
-| [Location IQ](https://locationiq.com/)                                                                  | iq       | X                |                 | 2 queries per second (free tier)    | [docs](https://locationiq.com/docs)                                                                                                     |
-| [Google](https://developers.google.com/maps/documentation/geocoding/overview)                           | google   | X                |                 | 50 queries per second               | [docs](https://developers.google.com/maps/documentation/geocoding/overview)                                                             |
-| [OpenCage](https://opencagedata.com)                                                                    | opencage | X                |                 | 1 query/second                      | [docs](https://opencagedata.com/api)                                                                                                    |
-| [Mapbox](https://docs.mapbox.com/api/search/)                                                           | mapbox   | X                |                 | 600 queries per minute (free tier)  | [docs](https://docs.mapbox.com/api/search/geocoding/)                                                                                   |
-| [HERE](https://developer.here.com/products/geocoding-and-search)                                        | here     | X                | X               | 5 queries per second (free tier)    | [docs](https://developer.here.com/documentation/geocoding-search-api/dev_guide/index.html)                                              |
-| [TomTom](https://developer.tomtom.com/search-api/search-api-documentation/geocoding)                    | tomtom   | X                | X               | 5 queries per second (free tier)    | [docs](https://developer.tomtom.com/search-api/search-api-documentation-geocoding/geocode)                                              |
-| [MapQuest](https://developer.mapquest.com/documentation/geocoding-api/)                                 | mapquest | X                | X               | NA                                  | [docs](https://developer.mapquest.com/documentation/geocoding-api/)                                                                     |
-| [Bing](https://docs.microsoft.com/en-us/bingmaps/rest-services/locations/)                              | bing     | X                | X               | NA                                  | [docs](https://docs.microsoft.com/en-us/bingmaps/rest-services/locations/)                                                              |
-
-**Note that the US Census service is limited to the United States while
-Geocodio is limited to the US and Canada.**
+| Service                                                                                                 | Method     | API Key Required | Batch Geocoding | Usage Limitations                   | API Documentation                                                                                                                       |
+|:--------------------------------------------------------------------------------------------------------|:-----------|:-----------------|:----------------|:------------------------------------|:----------------------------------------------------------------------------------------------------------------------------------------|
+| [US Census](https://geocoding.geo.census.gov/)                                                          | `census`   |                  | X               | NA                                  | [docs](https://www.census.gov/programs-surveys/geography/technical-documentation/complete-technical-documentation/census-geocoder.html) |
+| [Nominatim](https://nominatim.org)                                                                      | `osm`      |                  |                 | 1 query per second                  | [docs](https://nominatim.org/release-docs/develop/api/Search/)                                                                          |
+| [ArcGIS](https://developers.arcgis.com/rest/geocode/api-reference/overview-world-geocoding-service.htm) | `arcgis`   |                  |                 | NA                                  | [docs](https://developers.arcgis.com/rest/geocode/api-reference/overview-world-geocoding-service.htm)                                   |
+| [Geocodio](https://www.geocod.io/)                                                                      | `geocodio` | X                | X               | 1000 queries per minute (free tier) | [docs](https://www.geocod.io/docs/)                                                                                                     |
+| [Location IQ](https://locationiq.com/)                                                                  | `iq`       | X                |                 | 2 queries per second (free tier)    | [docs](https://locationiq.com/docs)                                                                                                     |
+| [Google](https://developers.google.com/maps/documentation/geocoding/overview)                           | `google`   | X                |                 | 50 queries per second               | [docs](https://developers.google.com/maps/documentation/geocoding/overview)                                                             |
+| [OpenCage](https://opencagedata.com)                                                                    | `opencage` | X                |                 | 1 query/second                      | [docs](https://opencagedata.com/api)                                                                                                    |
+| [Mapbox](https://docs.mapbox.com/api/search/)                                                           | `mapbox`   | X                |                 | 600 queries per minute (free tier)  | [docs](https://docs.mapbox.com/api/search/geocoding/)                                                                                   |
+| [HERE](https://developer.here.com/products/geocoding-and-search)                                        | `here`     | X                | X               | 5 queries per second (free tier)    | [docs](https://developer.here.com/documentation/geocoding-search-api/dev_guide/index.html)                                              |
+| [TomTom](https://developer.tomtom.com/search-api/search-api-documentation/geocoding)                    | `tomtom`   | X                | X               | 5 queries per second (free tier)    | [docs](https://developer.tomtom.com/search-api/search-api-documentation-geocoding/geocode)                                              |
+| [MapQuest](https://developer.mapquest.com/documentation/geocoding-api/)                                 | `mapquest` | X                | X               | NA                                  | [docs](https://developer.mapquest.com/documentation/geocoding-api/)                                                                     |
+| [Bing](https://docs.microsoft.com/en-us/bingmaps/rest-services/locations/)                              | `bing`     | X                | X               | NA                                  | [docs](https://docs.microsoft.com/en-us/bingmaps/rest-services/locations/)                                                              |
 
 **Highlights:**
 
+-   The US Census service is limited to the United States while Geocodio
+    is limited to the US and Canada.
 -   The Census and Nominatim (OSM) services are free and do not require
     an API key.
 -   ArcGIS can be used for free without an API key, but some features
@@ -159,19 +155,20 @@ some_addresses <- tribble(
 
 # geocode the addresses
 lat_longs <- some_addresses %>%
-  geocode(addr, method = 'census', lat = latitude , long = longitude)
+  geocode(addr, method = 'osm', lat = latitude , long = longitude)
 ```
 
 The `geocode()` function attaches latitude and longitude columns to our
-input dataset of addresses. The US Census geocoder is used here, but
-other services can be specified with the `method` argument. See the
-`geo()` function documentation for details.
+input dataset of addresses. The [Nominatim
+(“osm”)](https://nominatim.org/) geocoder is used here, but other
+services can be specified with the `method` argument. See the `geo()`
+function documentation for details.
 
 | name                 | addr                                       | latitude |  longitude |
 |:---------------------|:-------------------------------------------|---------:|-----------:|
-| White House          | 1600 Pennsylvania Ave NW, Washington, DC   | 38.89875 |  -77.03535 |
-| Transamerica Pyramid | 600 Montgomery St, San Francisco, CA 94111 | 37.79470 | -122.40314 |
-| Willis Tower         | 233 S Wacker Dr, Chicago, IL 60606         | 41.87851 |  -87.63666 |
+| White House          | 1600 Pennsylvania Ave NW, Washington, DC   | 38.89770 |  -77.03655 |
+| Transamerica Pyramid | 600 Montgomery St, San Francisco, CA 94111 | 37.79520 | -122.40279 |
+| Willis Tower         | 233 S Wacker Dr, Chicago, IL 60606         | 41.87887 |  -87.63591 |
 
 Now that we have the longitude and latitude coordinates, we can use
 ggplot to plot our addresses on a map.
@@ -220,11 +217,11 @@ rev1 <- lat_longs %>%
                   address = address_found, full_results = TRUE)
 ```
 
-| name                 | addr                                       | latitude |  longitude | address\_found                                                                                                                                   | place\_id | licence                                                                  | osm\_type |    osm\_id | osm\_lat          | osm\_lon           | man\_made | road                          | city          | state                | postcode | country       | country\_code | boundingbox                                        | highway                         | neighbourhood      | county                        | suburb |
-|:---------------------|:-------------------------------------------|---------:|-----------:|:-------------------------------------------------------------------------------------------------------------------------------------------------|----------:|:-------------------------------------------------------------------------|:----------|-----------:|:------------------|:-------------------|:----------|:------------------------------|:--------------|:---------------------|:---------|:--------------|:--------------|:---------------------------------------------------|:--------------------------------|:-------------------|:------------------------------|:-------|
-| White House          | 1600 Pennsylvania Ave NW, Washington, DC   | 38.89875 |  -77.03535 | 361, Pennsylvania Avenue Northwest, Washington, District of Columbia, 20006, United States                                                       |  56845035 | Data © OpenStreetMap contributors, ODbL 1.0. <https://osm.org/copyright> | node      | 4838971258 | 38.8988819        | -77.0353557        | 361       | Pennsylvania Avenue Northwest | Washington    | District of Columbia | 20006    | United States | us            | 38.8988319 , 38.8989319 , -77.0354057, -77.0353057 | NA                              | NA                 | NA                            | NA     |
-| Transamerica Pyramid | 600 Montgomery St, San Francisco, CA 94111 | 37.79470 | -122.40314 | Clay Street & Montgomery Street, Clay Street, Financial District, San Francisco, San Francisco City and County, California, 94111, United States |  21547438 | Data © OpenStreetMap contributors, ODbL 1.0. <https://osm.org/copyright> | node      | 2245869263 | 37.7946617        | -122.402864        | NA        | Clay Street                   | San Francisco | California           | 94111    | United States | us            | 37.7946117 , 37.7947117 , -122.402914, -122.402814 | Clay Street & Montgomery Street | Financial District | San Francisco City and County | NA     |
-| Willis Tower         | 233 S Wacker Dr, Chicago, IL 60606         | 41.87851 |  -87.63666 | South Upper Wacker Drive, Printer’s Row, Loop, Chicago, Cook County, Illinois, 60606, United States                                              |  96603182 | Data © OpenStreetMap contributors, ODbL 1.0. <https://osm.org/copyright> | way       |   24952943 | 41.87851252360928 | -87.63668864939645 | NA        | South Upper Wacker Drive      | Chicago       | Illinois             | 60606    | United States | us            | 41.8780844 , 41.8805439 , -87.6367295, -87.63668   | NA                              | Printer’s Row      | Cook County                   | Loop   |
+| name                 | addr                                       | latitude |  longitude | address\_found                                                                                                                                   | place\_id | licence                                                                  | osm\_type |   osm\_id | osm\_lat           | osm\_lon            | historic    | house\_number | road                          | city          | state                | postcode | country       | country\_code | boundingbox                                          | tourism              | neighbourhood      | county                        | building     | suburb |
+|:---------------------|:-------------------------------------------|---------:|-----------:|:-------------------------------------------------------------------------------------------------------------------------------------------------|----------:|:-------------------------------------------------------------------------|:----------|----------:|:-------------------|:--------------------|:------------|:--------------|:------------------------------|:--------------|:---------------------|:---------|:--------------|:--------------|:-----------------------------------------------------|:---------------------|:-------------------|:------------------------------|:-------------|:-------|
+| White House          | 1600 Pennsylvania Ave NW, Washington, DC   | 38.89770 |  -77.03655 | White House, 1600, Pennsylvania Avenue Northwest, Washington, District of Columbia, 20500, United States                                         | 147370893 | Data © OpenStreetMap contributors, ODbL 1.0. <https://osm.org/copyright> | way       | 238241022 | 38.897699700000004 | -77.03655315        | White House | 1600          | Pennsylvania Avenue Northwest | Washington    | District of Columbia | 20500    | United States | us            | 38.8974908 , 38.897911 , -77.0368537, -77.0362519    | NA                   | NA                 | NA                            | NA           | NA     |
+| Transamerica Pyramid | 600 Montgomery St, San Francisco, CA 94111 | 37.79520 | -122.40279 | Transamerica Pyramid, 600, Montgomery Street, Financial District, San Francisco, San Francisco City and County, California, 94111, United States |  95364489 | Data © OpenStreetMap contributors, ODbL 1.0. <https://osm.org/copyright> | way       |  24222973 | 37.795200550000004 | -122.40279267840137 | NA          | 600           | Montgomery Street             | San Francisco | California           | 94111    | United States | us            | 37.7948854 , 37.7954472 , -122.4031399, -122.4024317 | Transamerica Pyramid | Financial District | San Francisco City and County | NA           | NA     |
+| Willis Tower         | 233 S Wacker Dr, Chicago, IL 60606         | 41.87887 |  -87.63591 | Willis Tower, 233, South Wacker Drive, Printer’s Row, Loop, Chicago, Cook County, Illinois, 60606, United States                                 | 103673983 | Data © OpenStreetMap contributors, ODbL 1.0. <https://osm.org/copyright> | way       |  58528804 | 41.878871700000005 | -87.63590893936448  | NA          | 233           | South Wacker Drive            | Chicago       | Illinois             | 60606    | United States | us            | 41.8785389 , 41.8791932 , -87.6363362, -87.6354746   | NA                   | Printer’s Row      | Cook County                   | Willis Tower | Loop   |
 
 For further documentation, refer to the [Getting Started
 Vignette](https://jessecambon.github.io/tidygeocoder/articles/tidygeocoder.html)
@@ -237,7 +234,7 @@ Contributions to the tidygeocoder package are welcome. File [an
 issue](https://github.com/jessecambon/tidygeocoder/issues) for bug fixes
 or suggested features. If you would like to add support for a new
 geocoder service, reference [this
-post](https://github.com/jessecambon/tidygeocoder/issues/62#issue-777707424)
+page](https://jessecambon.github.io/tidygeocoder/docs/articles/adding_geocoder_services.html)
 for instructions.
 
 ## Citing tidygeocoder
