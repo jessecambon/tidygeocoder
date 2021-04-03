@@ -37,7 +37,7 @@
 #'   verbose = TRUE
 #' )
 #' }
-#' @seealso [reverse_geo] [api_parameter_reference]
+#' @seealso [reverse_geo]
 #' @export
 reverse_geocode <- function(.tbl, lat, long, address = address, limit = 1, return_coords = FALSE, unique_only = FALSE, ...) {
   

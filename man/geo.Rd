@@ -56,10 +56,10 @@ Do not combine with the address component arguments below
 
 \item{country}{country (ie. 'Japan')}
 
-\item{method}{the geocoder service to be used. Refer to \link{api_parameter_reference}
-and the API documentation for each geocoder service for usage details and limitations.
-Run \code{usethis::edit_r_environ()} to open your .Renviron file for editing to add API keys
-as environmental variables.
+\item{method}{the geocoder service to be used. Refer to \link{api_parameter_reference}, \link{min_time_reference},
+and \link{batch_limit_reference} for more information.
+To add an API key for use, run \code{usethis::edit_r_environ()}. This will open
+your .Renviron file for editing. (ex. add the line `GEOCODIO_API_KEY='YourAPIKeyHere')
 \itemize{
 \item \code{"census"}: \href{https://geocoding.geo.census.gov/}{US Census} geocoder service. Geographic coverage is limited to the United States. Batch geocoding is supported.
 \item \code{"osm"}: \href{https://nominatim.org}{Nominatim} geocoder service.
@@ -88,16 +88,17 @@ in the order in which the geocoder services will be attempted for method = "casc
 
 \item{long}{longitude column name. Can be quoted or unquoted (ie. long or 'long').}
 
-\item{limit}{limit maximum number of results to return per address. For many geocoder services
+\item{limit}{maximum number of results to return per address. For many geocoder services
 the maximum value for the limit parameter is 100. Pass \code{limit = NULL} to use
 the default \code{limit} value of the selected geocoder service.
-For batch geocoding, limit must be set to 1 (default) if \code{return_addresses = TRUE}}
+For batch geocoding, limit must be set to 1 (default) if \code{return_addresses = TRUE}
+Refer to \link{api_parameter_reference} for more details.}
 
 \item{min_time}{minimum amount of time for a query to take (in seconds). If NULL
 then min_time will be set to the default value specified in \link{min_time_reference}.}
 
 \item{api_url}{custom API URL. If specified, the default API URL will be overridden.
-This parameter can be used to specify a local Nominatim server.}
+This parameter can be used to specify a local Nominatim server, for instance.}
 
 \item{timeout}{query timeout (in minutes)}
 
@@ -113,18 +114,18 @@ If FALSE then only longitude and latitude are returned from the geocoder service
 \item{unique_only}{only return results for unique inputs if TRUE}
 
 \item{return_addresses}{return input addresses with results if TRUE. Note that
-most services return the input addresses with full_results = TRUE and setting
+most services return the input addresses with \code{full_results = TRUE} and setting
 return_addresses to FALSE does not prevent this.}
 
 \item{flatten}{if TRUE then any nested dataframes in results are flattened if possible.
-Note that Geocodio batch geocoding results are flattened regardless.}
+Note that in some cases results are flattened regardless such as for
+Geocodio batch geocoding.}
 
 \item{batch_limit}{limit to the number of addresses in a batch geocoding query.
 Set to the value specified in \link{batch_limit_reference} unless otherwise specified.}
 
-\item{batch_limit_error}{if TRUE then an error is thrown if the number of unique addresses
-exceeds the batch limit (if executing a batch query). This is reverted to FALSE when using the
-cascade method.}
+\item{batch_limit_error}{if TRUE then an error is thrown if the number of addresses exceeds the batch limit.
+(if executing a batch query). This is reverted to FALSE when using the cascade method.}
 
 \item{verbose}{if TRUE then detailed logs are output to the console}
 
@@ -134,14 +135,16 @@ cascade method.}
 (ie. \code{list(extratags = 1)}.}
 
 \item{return_type}{only used when \code{method = 'census'}. Two possible values:
-- \code{"locations"} (default)
-- \code{"geographies"}: returns additional geography columns.
-See the Census geocoder API documentation for more details.}
+\itemize{
+\item \code{"locations"} (default)
+\item \code{"geographies"}: returns additional geography columns.
+See the Census geocoder API documentation for more details.
+}}
 
 \item{iq_region}{'us' (default) or 'eu'. Used for establishing API URL for the 'iq' method}
 
 \item{geocodio_v}{version of geocodio api. Used for establishing API URL
-for the 'geocodio' method.}
+for the 'geocodio' method}
 
 \item{param_error}{if TRUE then an error will be thrown if certain parameters are invalid for the selected geocoder
 service (method). The parameters checked are limit, address, street, city, county, state, postalcode, and country.
@@ -165,17 +168,18 @@ endpoint, that relies solely on data contributed to OpenStreetMap.}
 tibble (dataframe)
 }
 \description{
-Geocodes addresses given as character values. The \code{\link{geocode}}
+Geocodes addresses given as character values. The \link{geocode}
 function utilizes this function on addresses contained in dataframes.
-See example usage in \code{vignette("tidygeocoder")}
+See example usage in `vignette("tidygeocoder")``
 
 Note that not all geocoder services support certain address component
 parameters. For example, the Census geocoder only covers the United States
-and does not have a "country" parameter. Refer to \link{api_parameter_reference}
-for more details on geocoder service parameters and API usage.
+and does not have a "country" parameter. Refer to \link{api_parameter_reference},
+\link{min_time_reference}, and \link{batch_limit_reference} for more details on
+geocoder service parameters and usage.
 
 This function uses the \link{get_api_query}, \link{query_api}, and
-\link{extract_results} functions to create, execute, and parse the geocoder
+\link{extract_results} functions to create, execute, and parse geocoder
 API queries.
 }
 \examples{
@@ -191,5 +195,5 @@ geo(county = 'Jefferson', state = "Kentucky", country = "US",
 }
 }
 \seealso{
-\link{geocode} \link{api_parameter_reference} \link{min_time_reference} \link{api_usage_reference}
+\link{geocode} \link{api_parameter_reference} \link{min_time_reference} \link{api_usage_reference} \link{batch_limit_reference}
 }

@@ -1,4 +1,52 @@
-## Functions to produce documentation
+### Functions to produce documentation
+# Functions return a character vector with one element per line
+# to produce roxygen documention
+# see: https://roxygen2.r-lib.org/articles/rd-formatting.html#dynamic-r-code 
+
+
+# Utility functions ---------------------------------------------------------------
+
+# create a string list given a character vector input
+# ie. c('eggs', 'cheese', 'ham')  ->  eggs, cheese, and ham
+# optional wrap argument can be used to add quotations
+# ie create_comma_list(c('eggs', 'cheese'), wrap = '"')  ->  "eggs" and "cheese"
+
+create_comma_list <- function(v, wrap = "") {
+  
+  # wrap each element in quotes
+  if (wrap != "") {
+    v <- sapply(v, function(x) paste0(c(wrap, x, wrap), collapse = ''), USE.NAMES = FALSE)
+  }
+  
+  if (length(v) <= 1) return(v)
+  else if (length(v) == 2) return(paste0(v, collapse = ' and '))
+  else if (length(v) > 2) {
+    ending <- paste0(v[(length(v) - 1)], ', and ', v[length(v)], collapse = '')
+    beginning <- paste0(v[1 : (length(v) - 2)], collapse = ', ')
+    return(
+      paste0(c(beginning, ending), collapse = ', ')
+    )
+  }
+}
+
+# get replaceable coordinate/address terms
+get_coord_address_terms <- function(reverse) {
+  terms <- list()
+  
+  if (reverse == TRUE) {
+    terms$input_singular <- 'coordinate'
+    terms$input_plural <- 'coordinates'
+    terms$return_arg <- "return_coords"
+  } else {
+    terms$input_singular <- 'address'
+    terms$input_plural <- 'addresses'
+    terms$return_arg <- "return_addresses"
+  }
+  return(terms)
+}
+
+# Documentation functions ---------------------------------------------------------------
+
 
 # produce markdown list of api documentation urls
 get_api_doc_bullets <- function() {
@@ -18,20 +66,6 @@ get_api_usage_bullets <- function() {
       '](', tidygeocoder::api_info_reference$api_usage_policy_url, ')'
     )
   )
-}
-
-# create a string list given a character vector input
-# ie. c('eggs', 'cheese', 'ham') -> 'eggs, cheese, and ham'
-create_comma_list <- function(v) {
-  if (length(v) <= 1) return(v)
-  else if (length(v) == 2) return(paste0(v, collapse = ' and '))
-  else if (length(v) > 2) {
-    ending <- paste0(v[(length(v) - 1)], ', and ', v[length(v)], collapse = '')
-    beginning <- paste0(v[1 : (length(v) - 2)], collapse = ', ')
-    return(
-      paste0(c(beginning, ending), collapse = ', ')
-    )
-  }
 }
 
 
@@ -68,24 +102,6 @@ get_method_bullet <- function(method) {
 }
 
 
-# get replaceable coordinate/address terms
-get_coord_address_terms <- function(reverse) {
-  terms <- list()
-  
-  if (reverse == TRUE) {
-    terms$input_singular <- 'coordinate'
-    terms$input_plural <- 'coordinates'
-    terms$return_arg <- "return_coords"
-  } else {
-    terms$input_singular <- 'address'
-    terms$input_plural <- 'addresses'
-    terms$return_arg <- "return_addresses"
-  }
-  return(terms)
-}
-
-
-
 get_batch_limit_documentation <- function(reverse) {
   terms <- get_coord_address_terms(reverse)
   return(
@@ -96,44 +112,43 @@ get_batch_limit_documentation <- function(reverse) {
   )
 }
 
-get_limit_documentation <- function(reverse, df_input) {
-  
-  if (reverse == TRUE) {
-    return_arg <- "return_coords"
-    input_singular <- 'coordinate'
-  } else {
-    return_arg <- "return_addresses"
-    input_singular <- 'address'
-  }
-  
-  main <- c(
-    paste0(c("limit maximum number of results to return per ", input_singular, ". For many geocoder services"), collapse = ''),
-    "the maximum value for the limit parameter is 100. Pass `limit = NULL` to use",
-    "the default `limit` value of the selected geocoder service.",
-    paste0(c("For batch geocoding, limit must be set to 1 (default) if `", return_arg, " = TRUE`"), collapse = '')
-  )
-  
-  append <- if (df_input == FALSE) c() else {
-    paste0(c("To use `limit > 1` or `limit = NULL` either `", return_arg, "` or `unique_only` must be set to TRUE."), collapse = '')
-  }
-  
-  return(c(main, append))
-}
-
-get_mode_documentation <- function(reverse) {
-  if (reverse == TRUE) {
-    input_singular <- 'coordinate'
-    input_plural <- 'coordinates'
-  } else {
-    input_singular <- 'address'
-    input_plural <- 'addresses'
-  }
+get_batch_limit_error_documentation <- function(reverse) {
+  terms <- get_coord_address_terms(reverse)
+  cascade_message <- if (reverse == FALSE) " This is reverted to FALSE when using the cascade method." else ""
   
   return(
     c(
-      paste0(c("set to 'batch' to force batch geocoding or 'single' to force single ", input_singular), collapse = ''),
-      paste0(c("geocoding (one ", input_singular, " per query). If not specified then batch geocoding will"), collapse = ''),
-      paste0(c("be used if available (given method selected) when multiple ", input_plural, " are"), collapse = ''),
+      paste0(c("if TRUE then an error is thrown if the number of ", terms$input_plural, " exceeds the batch limit."), collapse = ''),
+      paste0(c("(if executing a batch query).", cascade_message), collapse = '')
+    )
+  )
+}
+
+get_limit_documentation <- function(reverse, df_input) {
+  terms <- get_coord_address_terms(reverse)
+
+  main <- c(
+    paste0(c("maximum number of results to return per ", terms$input_singular, ". For many geocoder services"), collapse = ''),
+    "the maximum value for the limit parameter is 100. Pass `limit = NULL` to use",
+    "the default `limit` value of the selected geocoder service.",
+    paste0(c("For batch geocoding, limit must be set to 1 (default) if `", terms$return_arg, " = TRUE`"), collapse = '')
+  )
+  
+  append <- if (df_input == FALSE) c() else {
+    paste0(c("To use `limit > 1` or `limit = NULL` either `", terms$return_arg, "` or `unique_only` must be set to TRUE."), collapse = '')
+  }
+  
+  return(c(main, append, "Refer to [api_parameter_reference] for more details."))
+}
+
+get_mode_documentation <- function(reverse) {
+  terms <- get_coord_address_terms(reverse)
+  
+  return(
+    c(
+      paste0(c("set to 'batch' to force batch geocoding or 'single' to force single ", terms$input_singular), collapse = ''),
+      paste0(c("geocoding (one ", terms$input_singular, " per query). If not specified then batch geocoding will"), collapse = ''),
+      paste0(c("be used if available (given method selected) when multiple ", terms$input_plural, " are"), collapse = ''),
       paste0(c("provided; otherwise single address geocoding will be used. For ", 
             create_comma_list(pkg.globals$single_first_methods), " the"), collapse = ''),
       "batch mode should be explicitly specified with `mode = 'batch'`."
@@ -148,10 +163,11 @@ get_method_documentation <- function(reverse) {
   all_methods <- api_info_reference[['method']]
   
   method_intro <- c(
-    "the geocoder service to be used. Refer to [api_parameter_reference]",
-    "and the API documentation for each geocoder service for usage details and limitations.",
-    "Run `usethis::edit_r_environ()` to open your .Renviron file for editing to add API keys",
-    "as environmental variables.")
+    "the geocoder service to be used. Refer to [api_parameter_reference], [min_time_reference],",
+    "and [batch_limit_reference] for more information.",
+    "To add an API key for use, run `usethis::edit_r_environ()`. This will open",
+    "your .Renviron file for editing. (ex. add the line `GEOCODIO_API_KEY='YourAPIKeyHere')"
+    )
   
   # if reverse geocoding then exclude methods that don't support reverse geocoding
   methods_to_list <- if (reverse == TRUE) {

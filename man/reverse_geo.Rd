@@ -34,10 +34,10 @@ reverse_geo(
 
 \item{long}{longitude values (input data)}
 
-\item{method}{the geocoder service to be used. Refer to \link{api_parameter_reference}
-and the API documentation for each geocoder service for usage details and limitations.
-Run \code{usethis::edit_r_environ()} to open your .Renviron file for editing to add API keys
-as environmental variables.
+\item{method}{the geocoder service to be used. Refer to \link{api_parameter_reference}, \link{min_time_reference},
+and \link{batch_limit_reference} for more information.
+To add an API key for use, run \code{usethis::edit_r_environ()}. This will open
+your .Renviron file for editing. (ex. add the line `GEOCODIO_API_KEY='YourAPIKeyHere')
 \itemize{
 \item \code{"osm"}: \href{https://nominatim.org}{Nominatim} geocoder service.
 \item \code{"arcgis"}: \href{https://developers.arcgis.com/rest/geocode/api-reference/overview-world-geocoding-service.htm}{ArcGIS} geocoder service.
@@ -54,16 +54,17 @@ as environmental variables.
 
 \item{address}{name of the address column (in the output data)}
 
-\item{limit}{limit maximum number of results to return per coordinate. For many geocoder services
+\item{limit}{maximum number of results to return per coordinate. For many geocoder services
 the maximum value for the limit parameter is 100. Pass \code{limit = NULL} to use
 the default \code{limit} value of the selected geocoder service.
-For batch geocoding, limit must be set to 1 (default) if \code{return_coords = TRUE}}
+For batch geocoding, limit must be set to 1 (default) if \code{return_coords = TRUE}
+Refer to \link{api_parameter_reference} for more details.}
 
 \item{min_time}{minimum amount of time for a query to take (in seconds). If NULL
 then min_time will be set to the default value specified in \link{min_time_reference}.}
 
 \item{api_url}{custom API URL. If specified, the default API URL will be overridden.
-This parameter can be used to specify a local Nominatim server.}
+This parameter can be used to specify a local Nominatim server, for instance.}
 
 \item{timeout}{query timeout (in minutes)}
 
@@ -83,7 +84,8 @@ most services return the input coordinates with \code{full_results = TRUE} and s
 return_addresses to FALSE does not prevent this.}
 
 \item{flatten}{if TRUE then any nested dataframes in results are flattened if possible.
-Note that Geocodio batch geocoding results are flattened regardless.}
+Note that in some cases results are flattened regardless such as for
+Geocodio batch geocoding.}
 
 \item{batch_limit}{limit to the number of coordinates in a batch geocoding query.
 Set to the value specified in \link{batch_limit_reference} unless otherwise specified.}
@@ -98,7 +100,7 @@ Set to the value specified in \link{batch_limit_reference} unless otherwise spec
 \item{iq_region}{'us' (default) or 'eu'. Used for establishing API URL for the 'iq' method}
 
 \item{geocodio_v}{version of geocodio api. Used for establishing API URL
-for the 'geocodio' method.}
+for the 'geocodio' method}
 
 \item{mapbox_permanent}{if TRUE then the \code{mapbox.places-permanent}
 endpoint would be used. Note that this option should be used only if you
@@ -138,5 +140,5 @@ API queries.
 }
 }
 \seealso{
-\link{reverse_geocode} \link{api_parameter_reference} \link{min_time_reference} \link{api_usage_reference}
+\link{reverse_geocode} \link{api_parameter_reference} \link{min_time_reference} \link{api_usage_reference} \link{batch_limit_reference}
 }

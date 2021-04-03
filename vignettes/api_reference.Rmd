@@ -20,7 +20,7 @@ library(gt)
 library(dplyr)
 ```
 
-This page displays built-in datasets that are used to set parameters and settings used in geocoder queries.
+This page displays the built-in datasets that are used in the tidygeocoder package to set parameters and settings for geocoder queries.
 
 ## API Parameters
 

@@ -76,7 +76,6 @@ get_coord_parameters <- function(custom_query, method, lat, long) {
 #'    most services return the input coordinates with `full_results = TRUE` and setting
 #'    return_addresses to FALSE does not prevent this.
 #' @param batch_limit `r get_batch_limit_documentation(reverse = TRUE)`
-#' @param no_query if TRUE then no queries are sent to the geocoder and verbose is set to TRUE
 #' @param here_request_id This parameter would return a previous HERE batch job,
 #'   identified by its RequestID. The RequestID of a batch job is displayed 
 #'   when `verbose = TRUE`. Note that this option would ignore the 
@@ -93,7 +92,7 @@ get_coord_parameters <- function(custom_query, method, lat, long) {
 #'  long = c(-77.0307713, -79.3839347, 600), method = 'osm', full_results = TRUE, verbose = TRUE)
 #'  
 #' }
-#' @seealso [reverse_geocode] [api_parameter_reference] [min_time_reference] [api_usage_reference]
+#' @seealso [reverse_geocode] [api_parameter_reference] [min_time_reference] [api_usage_reference] [batch_limit_reference]
 #' @export
 reverse_geo <- function(lat, long, method = 'osm', address = address, limit = 1, min_time = NULL, api_url = NULL,  
     timeout = 20, mode = '',  full_results = FALSE, unique_only = FALSE, return_coords = TRUE, flatten = TRUE, 

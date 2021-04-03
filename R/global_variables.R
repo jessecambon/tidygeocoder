@@ -13,7 +13,7 @@ pkg.globals$single_first_methods <- c("here", "bing")
 # geo() or reverse_geo() to limit the number of results (ie. a passthrough)
 pkg.globals$limit_passthru_methods <- c("census", "google")
 
-# For services that don't offer global coverage, specify
+# For services that don't offer global coverage, specify geographic limitations
 pkg.globals$geographic_limitations <- list(
   'census' = "United States",
   'geocodio' = "United States and Canada"

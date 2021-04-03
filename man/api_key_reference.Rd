@@ -17,4 +17,7 @@ api_key_reference
 \description{
 The name of the environmental variable that the API key will be read from.
 }
+\seealso{
+\link{geo} \link{reverse_geo}
+}
 \keyword{datasets}

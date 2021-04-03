@@ -17,4 +17,7 @@ batch_limit_reference
 \description{
 The batch limit for each geocoder service
 }
+\seealso{
+\link{geo} \link{reverse_geo}
+}
 \keyword{datasets}

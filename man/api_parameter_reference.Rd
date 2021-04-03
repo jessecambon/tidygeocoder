@@ -21,7 +21,7 @@ api_parameter_reference
 This dataset contains the mapping that allows this package to use a
 universal syntax to specify parameters for different geocoder services.
 Note that latitude and longitude input parameters for reverse geocoding
-are not in this dataset and are instead handled directly by the \code{reverse_geo} function.
+are not in this dataset and are instead handled directly by the \link{reverse_geo} function.
 
 The \code{generic_name} column is a universal parameter name that is shared between services.
 The \code{api_name} column is the parameter name for the given geocoder service specified by the
@@ -30,13 +30,13 @@ this means the parameter is specific to that geocoder service.
 
 While the "census" and "google" services do not have a \code{limit}
 argument in their APIs, tidygeocoder provides a passthrough so you can still
-use the \code{limit} argument in \code{geo} and \code{reverse_geo} to limit the
-number of result per input.
+use the \code{limit} argument in \link{geo} and \link{reverse_geo} to limit the
+number of results per input.
 
 Note that some geocoder services only use the \code{limit} argument for forward geocoding.
 Refer to API documentation of each service for more information.
 
-Reference the documentation for \code{\link{geo}} and \code{\link{reverse_geo}}  for more information.
+Reference the documentation for \code{geo} and \code{reverse_geo}  for more information.
 Also reference \code{vignette("tidygeocoder")} for more details on constructing API queries.
 }
 \details{
@@ -57,6 +57,6 @@ The API documentation for each service is linked to below:
 }
 }
 \seealso{
-\code{\link{get_api_query}} \code{\link{query_api}} \code{\link{geo}} \code{\link{geocode}}
+\link{geo} \link{reverse_geo} \link{get_api_query} \link{query_api} \link{min_time_reference} \link{batch_limit_reference}
 }
 \keyword{datasets}

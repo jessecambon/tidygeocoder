@@ -4,7 +4,7 @@
 \name{min_time_reference}
 \alias{min_time_reference}
 \title{The minimum number of seconds required per query to comply with usage restrictions.
-The \code{\link{geo}} and \code{\link{reverse_geo}} functions use this value to
+The \link{geo} and \link{reverse_geo} functions use this value to
 slow down the rate of querying if necessary.}
 \format{
 A tibble dataframe
@@ -19,7 +19,7 @@ min_time_reference
 }
 \description{
 The minimum number of seconds required per query to comply with usage restrictions.
-The \code{\link{geo}} and \code{\link{reverse_geo}} functions use this value to
+The \link{geo} and \link{reverse_geo} functions use this value to
 slow down the rate of querying if necessary.
 }
 \details{
@@ -38,5 +38,7 @@ Links to the usage policies of each geocoder service is below:
 \item \href{https://developer.mapquest.com/plans}{MapQuest}
 \item \href{https://docs.microsoft.com/en-us/bingmaps/spatial-data-services/geocode-and-data-source-limits}{Bing}
 }
+
+#' @seealso \link{geo} \link{reverse_geo}
 }
 \keyword{datasets}

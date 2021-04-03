@@ -14,17 +14,18 @@ batch_func_map <- list(
 #' Geocode addresses
 #' 
 #' @description
-#' Geocodes addresses given as character values. The \code{\link{geocode}}
+#' Geocodes addresses given as character values. The [geocode]
 #' function utilizes this function on addresses contained in dataframes.
-#' See example usage in \code{vignette("tidygeocoder")} 
+#' See example usage in `vignette("tidygeocoder")`` 
 #' 
 #' Note that not all geocoder services support certain address component 
 #' parameters. For example, the Census geocoder only covers the United States 
-#' and does not have a "country" parameter. Refer to [api_parameter_reference]
-#' for more details on geocoder service parameters and API usage. 
+#' and does not have a "country" parameter. Refer to [api_parameter_reference],
+#' [min_time_reference], and [batch_limit_reference] for more details on 
+#' geocoder service parameters and usage. 
 #' 
 #' This function uses the [get_api_query], [query_api], and
-#' [extract_results] functions to create, execute, and parse the geocoder
+#' [extract_results] functions to create, execute, and parse geocoder
 #' API queries.
 #' 
 #' @param address single line address (ie. '1600 Pennsylvania Ave NW, Washington, DC').
@@ -53,7 +54,7 @@ batch_func_map <- list(
 #' @param min_time minimum amount of time for a query to take (in seconds). If NULL
 #' then min_time will be set to the default value specified in [min_time_reference].
 #' @param api_url custom API URL. If specified, the default API URL will be overridden.
-#'  This parameter can be used to specify a local Nominatim server.
+#'  This parameter can be used to specify a local Nominatim server, for instance.
 #' @param timeout query timeout (in minutes)
 #' 
 #' @param mode `r get_mode_documentation(reverse = FALSE)`
@@ -62,27 +63,26 @@ batch_func_map <- list(
 #' If FALSE then only longitude and latitude are returned from the geocoder service.
 #' @param unique_only only return results for unique inputs if TRUE
 #' @param return_addresses return input addresses with results if TRUE. Note that
-#'    most services return the input addresses with full_results = TRUE and setting
+#'    most services return the input addresses with `full_results = TRUE` and setting
 #'    return_addresses to FALSE does not prevent this.
 #' 
 #' @param flatten if TRUE then any nested dataframes in results are flattened if possible.
-#'    Note that Geocodio batch geocoding results are flattened regardless.
+#'    Note that in some cases results are flattened regardless such as for
+#'    Geocodio batch geocoding.
 #' @param batch_limit  `r get_batch_limit_documentation(reverse = FALSE)`
-#' @param batch_limit_error if TRUE then an error is thrown if the number of unique addresses
-#'  exceeds the batch limit (if executing a batch query). This is reverted to FALSE when using the
-#'  cascade method.
+#' @param batch_limit_error `r get_batch_limit_error_documentation(reverse = FALSE)`
 #' @param verbose if TRUE then detailed logs are output to the console
 #' @param no_query if TRUE then no queries are sent to the geocoder and verbose is set to TRUE
 
 #' @param custom_query API-specific parameters to be used, passed as a named list 
 #'  (ie. `list(extratags = 1)`.
 #' @param return_type only used when `method = 'census'`. Two possible values: 
-#'     - `"locations"` (default)
-#'     - `"geographies"`: returns additional geography columns. 
-#'     See the Census geocoder API documentation for more details.
+#'   - `"locations"` (default)
+#'   - `"geographies"`: returns additional geography columns. 
+#'   See the Census geocoder API documentation for more details.
 #' @param iq_region 'us' (default) or 'eu'. Used for establishing API URL for the 'iq' method
 #' @param geocodio_v version of geocodio api. Used for establishing API URL
-#'   for the 'geocodio' method.
+#'   for the 'geocodio' method
 #' @param param_error if TRUE then an error will be thrown if certain parameters are invalid for the selected geocoder
 #'   service (method). The parameters checked are limit, address, street, city, county, state, postalcode, and country.
 #'   If `method = 'cascade'` then no errors will be thrown.
@@ -110,7 +110,7 @@ batch_func_map <- list(
 #' geo(county = 'Jefferson', state = "Kentucky", country = "US",
 #'      method = 'osm')
 #' }
-#' @seealso [geocode] [api_parameter_reference] [min_time_reference] [api_usage_reference]
+#' @seealso [geocode] [api_parameter_reference] [min_time_reference] [api_usage_reference] [batch_limit_reference]
 #' @export
 geo <- function(address = NULL, 
     street = NULL, city = NULL, county = NULL, state = NULL, postalcode = NULL, country = NULL,
