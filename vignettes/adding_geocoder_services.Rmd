@@ -2,7 +2,7 @@
 title: "Adding a Geocoder Service"
 output: rmarkdown::html_vignette
 description: >
-  Refer to this page on how to add support for a geocoder service to the package.
+  Refer to this page for instructions on how to add support for a geocoder service to tidygeocoder.
 vignette: >
   %\VignetteIndexEntry{Adding a Geocoder Service}
   %\VignetteEngine{knitr::rmarkdown}
@@ -13,10 +13,9 @@ This page documents how to add support for a new geocoder service to the package
 
 **Base all changes on the main branch**.
 
-
 ## Introduction
 
-The two core functions in the package are [geo()](https://github.com/jessecambon/tidygeocoder/blob/master/R/geo.R) and [reverse_geo()](https://github.com/jessecambon/tidygeocoder/blob/master/R/reverse_geo.R). They are both have a similar layout, but `geo()` is for forward geocoding while `reverse_geo()` is for reverse geocoding. The both take inputs (either addresses or coordinates) and call other functions as needed to deduplicate the inputs and perform geocoding queries. Key parameters and settings are stored in several in-built datasets which are documented below.
+The two core functions in the package are [geo()](https://github.com/jessecambon/tidygeocoder/blob/master/R/geo.R) and [reverse_geo()](https://github.com/jessecambon/tidygeocoder/blob/master/R/reverse_geo.R). They both have a similar layout, but `geo()` is for forward geocoding while `reverse_geo()` is for reverse geocoding. Both take inputs (either addresses or coordinates) and call other functions as needed to deduplicate the inputs and perform geocoding queries. Key parameters and settings for geocoding are stored for easy access and display in in-built datasets which are documented below.
 
 ## Files to Update
 

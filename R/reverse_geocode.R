@@ -3,10 +3,10 @@
 #' @description
 #' Takes a dataframe containing coordinates (latitude and longitude) and returns 
 #' the reverse geocoding query results from a specified service by using the
-#' \code{\link{reverse_geo}} function. See example usage in \code{vignette("tidygeocoder")}.
+#' [reverse_geo] function. See example usage in `vignette("tidygeocoder")`.
 #' 
-#' This function passes all additional parameters (\code{...}) to the 
-#' \code{\link{reverse_geo}} function, so you can refer to its documentation for more details
+#' This function passes all additional parameters (`...`) to the 
+#' [reverse_geo] function, so you can refer to its documentation for more details
 #' on possible arguments.
 #'
 #' @param .tbl dataframe containing coordinates

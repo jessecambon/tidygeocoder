@@ -22,23 +22,17 @@ extract_results <- function(method, response, full_results = TRUE, flatten = TRU
   # NOTE - the geo() function takes the output of this function and renames the 
   # latitude and longitude columns
   
-  if (method == 'google') {
-    rows_to_return <- min(nrow(response$results), limit)
-  } else if (method == 'census') {
-    rows_to_return <- min(nrow(response$result$addressMatches$coordinates), limit)
-  }
-  
   NA_result <- get_na_value('lat', 'long', 1)
   
   # extract latitude and longitude as a dataframe
   # latitude should be first column and longitude should be second column (column names don't matter here, just position)
   lat_lng <- switch(method,
-      'census' = response$result$addressMatches$coordinates[c('y','x')][1:rows_to_return, ],
+      'census' = response$result$addressMatches$coordinates[c('y','x')],
       'osm' = response[c('lat', 'lon')],
       'iq' = response[c('lat', 'lon')],
       'geocodio' = response$results$location[c('lat', 'lng')],
       # note the application of the limit argument for google
-      'google' = response$results$geometry$location[c('lat','lng')][1:rows_to_return, ],
+      'google' = response$results$geometry$location[c('lat','lng')],
       'opencage' = response$results$geometry[c('lat', 'lng')],
       'mapbox' = data.frame(
         'lat' = response$features$center[[1]][2],
@@ -55,16 +49,15 @@ extract_results <- function(method, response, full_results = TRUE, flatten = TRU
   )
   
   # Return NA if data is not empty or not valid (cannot be turned into a dataframe)
-  if (is.null(names(lat_lng)) | all(sapply(lat_lng, is.null)) | length(lat_lng) == 0) return(NA_result)
+  if (is.null(names(lat_lng)) || all(sapply(lat_lng, is.null)) || length(lat_lng) == 0) return(NA_result)
+  if (nrow(lat_lng) == 0 || ncol(lat_lng) != 2) return(NA_result)
   
-  if (nrow(lat_lng) == 0 | ncol(lat_lng) != 2) return(NA_result)
   
-  # Extract results for Bing
-  if (method == 'bing') {
-    lat_lng <- as.data.frame(
-      matrix(unlist(response$resourceSets$resources[[1]]$point$coordinates), ncol = 2, byrow=TRUE),
-      col.names = c('lat', 'lng')
-    )
+  # For methods without a limit **API** parameter...
+  # limit nrows in results to limit if limit is not NULL.
+  if (method %in% c('census', 'google')) {
+    rows_to_return <- min(limit, nrow(lat_lng))
+    lat_lng <- lat_lng[1:rows_to_return, ]
   }
   
   # convert to numeric format. sapply is used because there could be multiple coordinates returned
@@ -91,6 +84,12 @@ extract_results <- function(method, response, full_results = TRUE, flatten = TRU
         'arcgis' = response$candidates
      ))
     
+    # Formatted address for mapquest
+    if (method == 'mapquest'){
+      frmt_address <- format_address(results,
+                                     c('street', paste0('adminArea', seq(6, 1))))
+      results <- tibble::as_tibble(cbind(frmt_address, results))
+    }
     
     # add prefix to variable names that likely could be in our input dataset
     # to avoid variable name overlap
@@ -98,13 +97,6 @@ extract_results <- function(method, response, full_results = TRUE, flatten = TRU
       if (var %in% names(results)) {
         names(results)[names(results) == var] <- paste0(method, '_', var)
       }
-    }
-    
-    # Formatted address for mapquest
-    if (method == 'mapquest'){
-      frmt_address <- format_address(results,
-                                     c('street', paste0('adminArea', seq(6, 1))))
-      results <- tibble::as_tibble(cbind(frmt_address, results))
     }
     
     combined_results <- dplyr::bind_cols(lat_lng, results)
@@ -139,6 +131,8 @@ extract_reverse_results <- function(method, response, full_results = TRUE, flatt
   # NOTE - the reverse_geo() function takes the output of this function and renames the 
   # address column
   
+  # For methods without a limit **API** parameter...
+  # limit nrows in results to limit if limit is not NULL.
   if (method == 'google') {
     rows_to_return <- min(nrow(response$results), limit)
   }

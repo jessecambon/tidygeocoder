@@ -14,8 +14,7 @@ test_that("Check API Parameter Reference Dataset", {
 
 # check that batch functions all exist and have a batch_limit default value
 test_that('check batch function maps', {
-  #  exists('batch_geocodio', where = asNamespace('tidygeocoder'), mode = 'function')
-  
+
   for (method in names(tidygeocoder:::batch_func_map)) {
     # label to include in error message so we know which method failed
     method_label = paste0('method = "', method, '"', ' ')
@@ -164,11 +163,5 @@ test_that("Test Miscellaneous Functions", {
   na_vals <- tidygeocoder:::get_na_value('lat', 'long', rows = num_rows)
   expect_true(tibble::is_tibble(na_vals))
   expect_true(nrow(na_vals) == num_rows)
-  
-  # check that rename_and_bind_cols function can handle data frames with duplicate
-  # column names
-  # a <- data.frame(x=1)
-  # b <- data.frame(x=1, x=2, check.names = FALSE)
-  # expect_true(is.data.frame(tidygeocoder:::rename_and_bind_cols(a, b)))
   
 })

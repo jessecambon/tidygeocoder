@@ -14,6 +14,37 @@ methods_to_test <- all_methods
 
 library(tidygeocoder)
 library(dplyr)
+library(tibble)
+
+## Functions -----------------------------------------------------------------
+
+# check forward geocoder results
+check_forward_geocoding_results <- function(method, result, lat_name = 'lat', long_name = 'long') {
+  # label to include in error message so we know which method failed
+  method_label = paste0('method = "', method, '"', ' ')
+  
+  # check that a tibble is returned
+  expect_true(is_tibble(result))
+  
+  # check column names
+  expect_equal(names(result)[1:3], c('address', lat_name, long_name), label = method_label)
+  
+  # check address column (input)
+  expect_false(any(is.na(result[['address']])), label = method_label)
+  expect_true(all(is.character(result[['address']])), label = method_label)
+  
+  # check that all lat long values are numeric
+  expect_true(all(is.numeric(result[[lat_name]])), label = method_label)
+  expect_true(all(is.numeric(result[[long_name]])), label = method_label)
+  
+  # check that no results were NA
+  expect_false(any(is.na(result[[lat_name]])), label = method_label)
+  expect_false(any(is.na(result[[long_name]])), label = method_label)
+}
+
+## -----------------------------------------------------------------------------------
+
+
 
 # This test uses the census batch geocoder but it should apply to all methods
 test_that("test forward batch limit", {
@@ -30,7 +61,7 @@ test_that("test forward batch limit", {
                    batch_limit = 5, batch_limit_error = FALSE))
   
   # check that a 1 row dataframe is returned
-  expect_true(is.data.frame(result1))
+  expect_true(is_tibble(result1))
   expect_equal(nrow(result1), length(sample_addresses))
   
   # check address
@@ -52,25 +83,16 @@ test_that("test single forward geocoding", {
     # label to include in error message so we know which method failed
     method_label = paste0('method = "', method, '"', ' ')
     
-    result1 <- geo(sample_address, lat = lattt, long = longgg, method = method, full_results = TRUE)
+    expect_true(is_tibble(result1 <- geo(sample_address, lat = lattt, long = longgg, 
+                   method = method, full_results = TRUE, limit = 1)), label = method_label)
     
-    # check column names
-    expect_equal(names(result1)[1:3], c('address', 'lattt', 'longgg'), label = method_label)
+    check_forward_geocoding_results(method, result1, lat_name = 'lattt', long_name = 'longgg')
     
-    # check that a 1 row dataframe is returned
-    expect_true(is.data.frame(result1), label = method_label)
+    # check number of rows
     expect_equal(nrow(result1), 1, label = method_label)
     
-    # check address
+    # check address content
     expect_equal(result1$address, sample_address, label = method_label)
-    
-    # check lat long datatype
-    expect_true(is.numeric(result1$lattt), label = method_label)
-    expect_true(is.numeric(result1$longgg), label = method_label)
-    
-    # check that results were not NA
-    expect_false(is.na(result1$lattt), label = method_label)
-    expect_false(is.na(result1$longgg), label = method_label)
   }
 })
 
@@ -89,25 +111,41 @@ test_that("test forward batch geocoding", {
     # label to include in error message so we know which method failed
     method_label = paste0('method = "', method, '"', ' ')
     
-    result1 <- geo(sample_addresses, method = method, lat = lattt, long = longgg, mode = 'batch', full_results = TRUE)
+    result1 <- geo(sample_addresses, method = method, lat = lattt, long = longgg, 
+                   mode = 'batch', full_results = TRUE, limit = 1)
     
-    # check column names
-    expect_equal(names(result1)[1:3], c('address', 'lattt', 'longgg'))
+    check_forward_geocoding_results(method, result1, lat_name = 'lattt', long_name = 'longgg')
     
-    # check that a 1 row dataframe is returned
-    expect_true(is.data.frame(result1))
+    # check number of rows 
     expect_equal(nrow(result1), length(sample_addresses), label = method_label)
     
-    # check address
+    # check address content
     expect_equal(result1$address, sample_addresses, label = method_label)
+  }
+})
+
+test_that("check forward geocoding limit", {
+  test_address <- "Paris"
+  
+  for (method in methods_to_test[!methods_to_test %in% c('census')]) {
+    print(paste0('forward geocoding limit: ', method))
+    null_limit_results <- geo(test_address, method = method, mode = 'single', full_results = TRUE, limit = NULL)
+    check_forward_geocoding_results(method, null_limit_results)
     
-    # check that all lat long values are numeric
-    expect_true(all(is.numeric(result1$lattt)), label = method_label)
-    expect_true(all(is.numeric(result1$longgg)), label = method_label)
+    high_limit_results <- geo(test_address, method = method, mode = 'single', full_results = TRUE, limit = 50)
+    check_forward_geocoding_results(method, high_limit_results)
+  }
+  
+  if ('census' %in% methods_to_test) {
+    print(paste0('forward geocoding limit: ', 'census'))
+    census_test_address <- '10 Main St NY, NY'
     
-    # check that no results were NA
-    expect_false(any(is.na(result1$lattt)), label = method_label)
-    expect_false(any(is.na(result1$longgg)), label = method_label)
+    # test census separately
+    census_null_limit_results <- geo(census_test_address, method = 'census', mode = 'single', full_results = TRUE, limit = NULL)
+    check_forward_geocoding_results(method, census_null_limit_results)
+    
+    census_high_limit_results <- geo(census_test_address, method = 'census', mode = 'single', full_results = TRUE, limit = 50)
+    check_forward_geocoding_results(method, census_high_limit_results)
   }
 })
 
@@ -129,7 +167,7 @@ test_that("test reverse single geocoding", {
     expect_equal(names(result1)[1:3], c('lat', 'long', 'addr'), label = method_label)
     
     # check that a 1 row dataframe is returned
-    expect_true(is.data.frame(result1), label = method_label)
+    expect_true(is_tibble(result1), label = method_label)
     expect_equal(nrow(result1), 1, label = method_label)
     
     # check lat long
@@ -166,7 +204,7 @@ test_that("test reverse batch geocoding", {
     expect_equal(names(result1)[1:3], c('lat', 'long', 'addr'), label = method_label)
     
     # check that a 1 row dataframe is returned
-    expect_true(is.data.frame(result1), label = method_label)
+    expect_true(is_tibble(result1), label = method_label)
     expect_equal(nrow(result1), length(sample_lats), label = method_label)
     
     # check lat long
@@ -213,7 +251,7 @@ test_that("test error catching", {
     
     # for methods requiring an api key, passing an invalid key
     # should cause an error
-    for (method in setdiff(methods_to_test, c('osm', 'census', 'arcgis'))) {
+    for (method in tidygeocoder::api_key_reference[['method']]) {
       if (method != "bing"){
         test_error_catching(method, list(api_key = 'invalid')) 
       } else {

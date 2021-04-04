@@ -6,7 +6,7 @@ template:
       index_name: tidygeocoder
 reference:
 - title: Geocoding functions
-  desc: These are the main functions to call for geocoding
+  desc: The main functions to call for geocoding
   contents:
   - geocode
   - geo 
