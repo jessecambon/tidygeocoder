@@ -12,6 +12,9 @@ methods_to_test <- all_methods
 # methods_to_test <- c('iq', 'census', 'osm', 'geocodio')
 ###########################################################
 
+# exclude methods with no reverse geocoding capabilities
+reverse_methods <- methods_to_test[!methods_to_test %in% tidygeocoder:::pkg.globals$no_reverse_methods]
+
 library(tidygeocoder)
 library(dplyr)
 library(tibble)
@@ -24,7 +27,7 @@ check_forward_geocoding_results <- function(method, result, lat_name = 'lat', lo
   method_label = paste0('method = "', method, '"', ' ')
   
   # check that a tibble is returned
-  expect_true(is_tibble(result))
+  expect_true(is_tibble(result), label = method_label)
   
   # check column names
   expect_equal(names(result)[1:3], c('address', lat_name, long_name), label = method_label)
@@ -40,6 +43,29 @@ check_forward_geocoding_results <- function(method, result, lat_name = 'lat', lo
   # check that no results were NA
   expect_false(any(is.na(result[[lat_name]])), label = method_label)
   expect_false(any(is.na(result[[long_name]])), label = method_label)
+}
+
+check_reverse_geocoding_results <- function(method, result, address_name = 'address', lat_name = 'lat', long_name = 'long') {
+  # label to include in error message so we know which method failed
+  method_label = paste0('method = "', method, '"', ' ')
+  
+  # check that a tibble is returned
+  expect_true(is_tibble(result), label = method_label)
+  
+  # check column names
+  expect_equal(names(result)[1:3], c('lat', 'long', address_name), label = method_label)
+  
+  # check lat long
+  expect_true(all(is.numeric(result[[lat_name]])), label = method_label)
+  expect_true(all(is.numeric(result[[long_name]])), label = method_label)
+  expect_false(any(is.na(result[[lat_name]])), label = method_label)
+  expect_false(any(is.na(result[[long_name]])), label = method_label)
+  
+  # check address datatypes
+  expect_true(all(is.character(result[[address_name]])), label = method_label)
+  
+  # check that addresses returned are not NA
+  expect_false(any(is.na(result[[address_name]])), label = method_label)
 }
 
 ## -----------------------------------------------------------------------------------
@@ -153,32 +179,14 @@ test_that("test reverse single geocoding", {
   sample_lat <- 38.8792 
   sample_long <- -76.9818
   
-  # Currently census is the only method that doesn't support reverse geocoding
-  reverse_methods <- methods_to_test[!methods_to_test %in% c('census')]
-  
   for (method in reverse_methods) {
     # label to include in error message so we know which method failed
     method_label = paste0('method = "', method, '"', ' ')
     
     print(paste0('Reverse single queries: ', method))
-    result1 <- reverse_geo(lat = sample_lat, long = sample_long, address = addr, method = method, full_results = TRUE)
+    result <- reverse_geo(lat = sample_lat, long = sample_long, address = addr, method = method, full_results = TRUE)
     
-    # check column names
-    expect_equal(names(result1)[1:3], c('lat', 'long', 'addr'), label = method_label)
-    
-    # check that a 1 row dataframe is returned
-    expect_true(is_tibble(result1), label = method_label)
-    expect_equal(nrow(result1), 1, label = method_label)
-    
-    # check lat long
-    expect_equal(result1$lat, sample_lat, label = method_label)
-    expect_equal(result1$long, sample_long, label = method_label)
-    
-    # check address datatype
-    expect_true(is.character(result1$addr), label = method_label)
-    
-    # check that address returned was not NA
-    expect_false(is.na(result1$addr), label = method_label)
+    check_reverse_geocoding_results(method, result, address_name = 'addr')
   }
 })
 
@@ -197,25 +205,14 @@ test_that("test reverse batch geocoding", {
     method_label = paste0('method = "', method, '"', ' ')
     
     print(paste0('Reverse batch queries: ', method))
-    result1 <- reverse_geo(lat = sample_lats, long = sample_longs, mode = 'batch',
+    result <- reverse_geo(lat = sample_lats, long = sample_longs, mode = 'batch',
                     address = addr, method = method, full_results = TRUE)
     
-    # check column names
-    expect_equal(names(result1)[1:3], c('lat', 'long', 'addr'), label = method_label)
+    check_reverse_geocoding_results(method, result, address_name = 'addr')
     
-    # check that a 1 row dataframe is returned
-    expect_true(is_tibble(result1), label = method_label)
-    expect_equal(nrow(result1), length(sample_lats), label = method_label)
+    # check number of rows
+    expect_equal(nrow(result), length(sample_lats), label = method_label)
     
-    # check lat long
-    expect_equal(result1$lat, sample_lats, label = method_label)
-    expect_equal(result1$long, sample_longs, label = method_label)
-    
-    # check address datatypes
-    expect_true(all(is.character(result1$addr)), label = method_label)
-    
-    # check that addresses returned are not NA
-    expect_false(any(is.na(result1$addr)), label = method_label)
   }
 })
 
