@@ -6,11 +6,12 @@
 # get all method names
 all_methods <- unique(tidygeocoder::api_parameter_reference[['method']])
 
-### Select which methods you want to test #################
-# Note that batch geocoding with 'here' can be slow 
-methods_to_test <- all_methods
-# methods_to_test <- c('iq', 'census', 'osm', 'geocodio')
-###########################################################
+### Select which methods you want to test ################################################
+methods_to_test <- all_methods 
+
+# Uncomment this line to EXCLUDE methods with slow geocoder services
+methods_to_test <- setdiff(all_methods, tidygeocoder:::pkg.globals$single_first_methods)
+#############################################################################################
 
 # exclude methods with no reverse geocoding capabilities
 reverse_methods <- methods_to_test[!methods_to_test %in% tidygeocoder:::pkg.globals$no_reverse_methods]

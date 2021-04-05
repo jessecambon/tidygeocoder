@@ -3,10 +3,10 @@
 #' Extract forward geocoding results 
 #' 
 #' @description
-#' Parses the output of the \code{\link{query_api}} function for single
+#' Parses the output of the [query_api] function for single
 #' address geocoding (ie. not batch geocoding).
 #' Latitude and longitude are extracted into the first two columns
-#' of the returned dataframe.  Refer to \code{\link{query_api}} for example
+#' of the returned dataframe.  Refer to  [query_api] for example
 #' usage.
 #' 
 #' @param method method name
@@ -16,7 +16,7 @@
 #' @param flatten if TRUE then flatten any nested dataframe content
 #' @param limit only used for 'google' and 'census' methods. Limits number of results per address.
 #' @return geocoder results in tibble format 
-#' @seealso \code{\link{get_api_query}} \code{\link{query_api}} \code{\link{geo}}
+#' @seealso [get_api_query] [query_api] [geo]
 #' @export 
 extract_results <- function(method, response, full_results = TRUE, flatten = TRUE, limit = 1) {
   # NOTE - the geo() function takes the output of this function and renames the 
@@ -112,20 +112,20 @@ extract_results <- function(method, response, full_results = TRUE, flatten = TRU
 #' Extract reverse geocoding results 
 #' 
 #' @description
-#' Parses the output of the \code{\link{query_api}} function for reverse geoocding.
+#' Parses the output of the [query_api] function for reverse geoocding.
 #' The address is extracted into the first column
 #' of the returned dataframe. This function is not used for batch 
-#' geocoded results. Refer to \code{\link{query_api}} for example
+#' geocoded results. Refer to [query_api] for example
 #' usage.
 #' 
 #' @param method method name
-#' @param response  content from the geocoder service (returned by the \code{\link{query_api}} function)
+#' @param response  content from the geocoder service (returned by the [query_api] function)
 #' @param full_results if TRUE then the full results (not just an address column)
 #'   will be returned.
 #' @param flatten if TRUE then flatten any nested dataframe content
 #' @param limit only used for method = 'google'. Limits number of results per coordinate.
 #' @return geocoder results in tibble format 
-#' @seealso \code{\link{get_api_query}} \code{\link{query_api}} \code{\link{reverse_geo}}
+#' @seealso [get_api_query] [query_api] [reverse_geo]
 #' @export 
 extract_reverse_results <- function(method, response, full_results = TRUE, flatten = TRUE, limit = 1) {
   # NOTE - the reverse_geo() function takes the output of this function and renames the 

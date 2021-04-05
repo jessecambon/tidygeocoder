@@ -22,8 +22,10 @@ query_api(
 
 \item{mode}{\itemize{
 \item \code{"single"} : geocode a single address (all methods)
+\itemize{
 \item \code{"list"} : batch geocode a list of addresses (geocodio)
 \item \code{"file"} : batch geocode a file of addresses (census)
+}
 }}
 
 \item{batch_file}{a csv file of addresses to upload (census)}
@@ -41,7 +43,7 @@ should be 'json' for geocodio and 'multipart' for census}
 a named list containing the response content (\code{content}) and the HTTP request status (\code{status})
 }
 \description{
-The \code{\link{get_api_query}} function can create queries for this
+The \link{get_api_query} function can create queries for this
 function to execute.
 }
 \examples{
@@ -61,5 +63,5 @@ extract_reverse_results('osm', jsonlite::fromJSON(raw2$content))
 
 }
 \seealso{
-\code{\link{get_api_query}} \code{\link{extract_results}} \code{\link{geo}}
+\link{get_api_query} \link{extract_results} \link{extract_reverse_results} \link{geo} \link{reverse_geo}
 }

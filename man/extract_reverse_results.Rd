@@ -15,7 +15,7 @@ extract_reverse_results(
 \arguments{
 \item{method}{method name}
 
-\item{response}{content from the geocoder service (returned by the \code{\link{query_api}} function)}
+\item{response}{content from the geocoder service (returned by the \link{query_api} function)}
 
 \item{full_results}{if TRUE then the full results (not just an address column)
 will be returned.}
@@ -28,12 +28,12 @@ will be returned.}
 geocoder results in tibble format
 }
 \description{
-Parses the output of the \code{\link{query_api}} function for reverse geoocding.
+Parses the output of the \link{query_api} function for reverse geoocding.
 The address is extracted into the first column
 of the returned dataframe. This function is not used for batch
-geocoded results. Refer to \code{\link{query_api}} for example
+geocoded results. Refer to \link{query_api} for example
 usage.
 }
 \seealso{
-\code{\link{get_api_query}} \code{\link{query_api}} \code{\link{reverse_geo}}
+\link{get_api_query} \link{query_api} \link{reverse_geo}
 }
