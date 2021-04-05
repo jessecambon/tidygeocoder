@@ -7,7 +7,7 @@
 all_methods <- unique(tidygeocoder::api_parameter_reference[['method']])
 
 ### Select which methods you want to test ################################################
-methods_to_test <- all_methods 
+#methods_to_test <- all_methods 
 
 # Uncomment this line to EXCLUDE methods with slow geocoder services
 methods_to_test <- setdiff(all_methods, tidygeocoder:::pkg.globals$single_first_methods)
@@ -23,19 +23,23 @@ library(tibble)
 ## Functions -----------------------------------------------------------------
 
 # check forward geocoder results
-check_forward_geocoding_results <- function(method, result, lat_name = 'lat', long_name = 'long') {
+check_forward_geocoding_results <- function(method, result, lat_name = 'lat', long_name = 'long', return_addresses = TRUE) {
   # label to include in error message so we know which method failed
   method_label = paste0('method = "', method, '"', ' ')
   
   # check that a tibble is returned
   expect_true(is_tibble(result), label = method_label)
   
-  # check column names
-  expect_equal(names(result)[1:3], c('address', lat_name, long_name), label = method_label)
+  expected_col_names <- if (return_addresses == TRUE) c('address', lat_name, long_name) else c(lat_name, long_name)
   
-  # check address column (input)
-  expect_false(any(is.na(result[['address']])), label = method_label)
-  expect_true(all(is.character(result[['address']])), label = method_label)
+  # check column names
+  expect_equal(names(result)[1:length(expected_col_names)], expected_col_names, label = method_label)
+  
+  if (return_addresses == TRUE) {
+    # check address column (input)
+    expect_false(any(is.na(result[['address']])), label = method_label)
+    expect_true(all(is.character(result[['address']])), label = method_label)
+  }
   
   # check that all lat long values are numeric
   expect_true(all(is.numeric(result[[lat_name]])), label = method_label)
@@ -46,27 +50,54 @@ check_forward_geocoding_results <- function(method, result, lat_name = 'lat', lo
   expect_false(any(is.na(result[[long_name]])), label = method_label)
 }
 
-check_reverse_geocoding_results <- function(method, result, address_name = 'address', lat_name = 'lat', long_name = 'long') {
+check_reverse_geocoding_results <- function(method, result, address_name = 'address', lat_name = 'lat', long_name = 'long', return_coords = TRUE) {
   # label to include in error message so we know which method failed
   method_label = paste0('method = "', method, '"', ' ')
   
   # check that a tibble is returned
   expect_true(is_tibble(result), label = method_label)
   
+  expected_col_names <- if (return_coords == TRUE) c('lat', 'long', address_name) else c(address_name)
+  
   # check column names
-  expect_equal(names(result)[1:3], c('lat', 'long', address_name), label = method_label)
+  expect_equal(names(result)[1:length(expected_col_names)], expected_col_names, label = method_label)
   
   # check lat long
-  expect_true(all(is.numeric(result[[lat_name]])), label = method_label)
-  expect_true(all(is.numeric(result[[long_name]])), label = method_label)
-  expect_false(any(is.na(result[[lat_name]])), label = method_label)
-  expect_false(any(is.na(result[[long_name]])), label = method_label)
+  if (return_coords == TRUE) {
+    expect_true(all(is.numeric(result[[lat_name]])), label = method_label)
+    expect_true(all(is.numeric(result[[long_name]])), label = method_label)
+    expect_false(any(is.na(result[[lat_name]])), label = method_label)
+    expect_false(any(is.na(result[[long_name]])), label = method_label)
+  }
   
   # check address datatypes
   expect_true(all(is.character(result[[address_name]])), label = method_label)
   
   # check that addresses returned are not NA
   expect_false(any(is.na(result[[address_name]])), label = method_label)
+}
+
+# test error catching for a single method
+test_error_catching <- function(method, generic_args = list(), custom_args = list()) {
+  
+  # Error messages in a loop that iterates through methods
+  # will not show the method unless you use a label
+  # ie. we want to know which method failed
+  method_label = paste0('method = "', method, '"', ' ')
+  
+  print(paste0('Invalid query handling: ', method))
+  
+  # We expect a warning because the query is invalid
+  expect_warning(query_response <- query_api(tidygeocoder:::get_api_url(method), 
+                                             query_parameters = tidygeocoder::get_api_query(method, generic_args, custom_args)),
+                 label = method_label)
+  
+  # HTTP query should not be valid
+  expect_true(200 != query_response$status, label = method_label)
+  
+  # Check to make sure an error message is extracted
+  expect_message(tidygeocoder:::extract_errors_from_results(method, query_response$content, FALSE),
+                 label = method_label)
 }
 
 ## -----------------------------------------------------------------------------------
@@ -154,40 +185,98 @@ test_that("test forward batch geocoding", {
 test_that("check forward geocoding limit", {
   test_address <- "Paris"
   
+  test_addresses <- c('Paris', 'London')
+  
   for (method in methods_to_test[!methods_to_test %in% c('census')]) {
     print(paste0('forward geocoding limit: ', method))
-    null_limit_results <- geo(test_address, method = method, mode = 'single', full_results = TRUE, limit = NULL)
+    
+    # label to include in error message so we know which method failed
+    method_label = paste0('method = "', method, '"', ' ')
+    
+    ## Test single address geocoding
+    expect_true(is_tibble(null_limit_results <- geo(test_address, method = method, 
+                    mode = 'single', full_results = TRUE, limit = NULL)), 
+                label = method_label)
     check_forward_geocoding_results(method, null_limit_results)
     
-    high_limit_results <- geo(test_address, method = method, mode = 'single', full_results = TRUE, limit = 50)
+    expect_true(is_tibble(high_limit_results <- geo(test_address, method = method, 
+                      mode = 'single', full_results = TRUE, limit = 50)),
+                label = method_label)
     check_forward_geocoding_results(method, high_limit_results)
+    
+    ## Test batch geocoding
+    expect_true(is_tibble(batch_null_limit_results <- geo(test_addresses, method = method, mode = 'batch', 
+                                    full_results = TRUE, limit = NULL, return_addresses = FALSE)),
+                label = method_label)
+    check_forward_geocoding_results(method, batch_null_limit_results, return_addresses = FALSE)
+    
+    expect_true(is_tibble(batch_high_limit_results <- geo(test_addresses, method = method, mode = 'batch', 
+                                full_results = TRUE, limit = 50, return_addresses = FALSE)),
+      label = method_label)
+    check_forward_geocoding_results(method, batch_high_limit_results, return_addresses = FALSE)
+    
+    
   }
   
+  # test census separately
   if ('census' %in% methods_to_test) {
     print(paste0('forward geocoding limit: ', 'census'))
     census_test_address <- '10 Main St NY, NY'
+    census_test_addresses <- c(census_test_address, '100 Main St, Louisville, KY')
     
-    # test census separately
-    census_null_limit_results <- geo(census_test_address, method = 'census', mode = 'single', full_results = TRUE, limit = NULL)
+    method_label = 'method = "census"'
+  
+    expect_true(is_tibble(census_null_limit_results <- geo(census_test_address, method = 'census', 
+              mode = 'single', full_results = TRUE, limit = NULL)),
+              label = method_label)
+    
     check_forward_geocoding_results(method, census_null_limit_results)
     
-    census_high_limit_results <- geo(census_test_address, method = 'census', mode = 'single', full_results = TRUE, limit = 50)
+    expect_true(is_tibble(census_high_limit_results <- geo(census_test_address, method = 'census', 
+            mode = 'single', full_results = TRUE, limit = 50)),
+            label = method_label)
+    
     check_forward_geocoding_results(method, census_high_limit_results)
+    
+    expect_true(is_tibble(census_batch_null_limit_results <- geo(census_test_address, method = 'census', 
+                mode = 'batch', full_results = TRUE, limit = NULL)),
+                label = method_label)
+    
+    expect_true(is_tibble(census_batch_high_limit_results <- geo(census_test_address, method = 'census', 
+                mode = 'batch', full_results = TRUE, limit = 50)),
+                label = method_label)
   }
 })
 
 test_that("test reverse single geocoding", {
   sample_lat <- 38.8792 
   sample_long <- -76.9818
+  sample_lats <- c(38.89770, 41.87886)
+  sample_longs <- c(-77.03655, -87.63592)
   
   for (method in reverse_methods) {
     # label to include in error message so we know which method failed
     method_label = paste0('method = "', method, '"', ' ')
     
     print(paste0('Reverse single queries: ', method))
-    result <- reverse_geo(lat = sample_lat, long = sample_long, address = addr, method = method, full_results = TRUE)
+    expect_true(is_tibble(result <- reverse_geo(lat = sample_lat, long = sample_long, address = addr,
+                          method = method, full_results = TRUE)),
+                label = method_label)
     
     check_reverse_geocoding_results(method, result, address_name = 'addr')
+    
+    # Limit check
+    expect_true(is_tibble(limit_null <- reverse_geo(lat = sample_lats, long = sample_longs, mode = 'single',
+                method = method, full_results = TRUE, limit = NULL, return_coords = FALSE)),
+                label = method_label)
+    
+    check_reverse_geocoding_results(method, limit_null, return_coords = FALSE)
+    
+    expect_true(is_tibble(high_limit <- reverse_geo(lat = sample_lats, long = sample_longs, mode = 'single',
+                method = method, full_results = TRUE, limit = 35, return_coords = FALSE)),
+                label = method_label)
+    
+    check_reverse_geocoding_results(method, high_limit, return_coords = FALSE)
   }
 })
 
@@ -216,29 +305,6 @@ test_that("test reverse batch geocoding", {
     
   }
 })
-
-# test error catching for a single method
-test_error_catching <- function(method, generic_args = list(), custom_args = list()) {
-  
-  # Error messages in a loop that iterates through methods
-  # will not show the method unless you use a label
-  # ie. we want to know which method failed
-  method_label = paste0('method = "', method, '"', ' ')
-  
-  print(paste0('Invalid query handling: ', method))
-  
-  # We expect a warning because the query is invalid
-  expect_warning(query_response <- query_api(tidygeocoder:::get_api_url(method), 
-      query_parameters = tidygeocoder::get_api_query(method, generic_args, custom_args)),
-        label = method_label)
-  
-  # HTTP query should not be valid
-  expect_true(200 != query_response$status, label = method_label)
-
-  # Check to make sure an error message is extracted
-  expect_message(tidygeocoder:::extract_errors_from_results(method, query_response$content, FALSE),
-                 label = method_label)
-}
 
 # Pass an invalid query to each service and make sure
 # error messages are caught

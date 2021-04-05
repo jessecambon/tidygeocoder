@@ -150,6 +150,11 @@ geo <- function(address = NULL,
   
   check_common_args('geo', mode, limit, batch_limit, min_time)
   
+  if (mode == 'batch' && (!method %in% names(batch_func_map))) {
+    stop(paste0('The "', method, '" does not have a batch geocoding function.') , call. = FALSE)
+  }
+  
+  
   if (!(method %in% c('cascade', method_services))) {
     stop('Invalid method argument. See ?geo', call. = FALSE)
   } 
