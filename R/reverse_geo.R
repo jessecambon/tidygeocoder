@@ -185,7 +185,7 @@ reverse_geo <- function(lat, long, method = 'osm', address = address, limit = 1,
   if ((num_unique_coords > 1) || (mode == 'batch')) {
     if (verbose == TRUE) message('Executing batch geocoding...\n')
     
-    if (is.null(limit) || (limit != 1 && return_coords == TRUE)) {
+    if ((is.null(limit) || (limit != 1)) && return_coords == TRUE) {
       stop('For batch geocoding (more than one coordinate per query) the limit argument must 
     be 1 (the default) OR the return_coords argument must be FALSE. Possible solutions:
     1) Set the mode argument to "single" to force single (not batch) geocoding 

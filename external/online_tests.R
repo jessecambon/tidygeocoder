@@ -7,10 +7,14 @@
 all_methods <- unique(tidygeocoder::api_parameter_reference[['method']])
 
 ### Select which methods you want to test ################################################
+
+# Uncomment this line to test ALL methods
 #methods_to_test <- all_methods 
 
 # Uncomment this line to EXCLUDE methods with slow geocoder services
-methods_to_test <- setdiff(all_methods, tidygeocoder:::pkg.globals$single_first_methods)
+#methods_to_test <- setdiff(all_methods, tidygeocoder:::pkg.globals$single_first_methods)
+
+methods_to_test <- setdiff(all_methods, c('here', 'mapbox', 'bing'))
 #############################################################################################
 
 # exclude methods with no reverse geocoding capabilities
@@ -163,12 +167,16 @@ test_that("test forward batch geocoding", {
     "233 S Wacker Dr, Chicago, IL 60606"
   )
   
+  test_addresses <- c('Paris', 'London') # for limit tests
+  
   for (method in batch_methods_to_test) {
     print(paste0('Forward batch queries: ', method))
     
     # label to include in error message so we know which method failed
     method_label = paste0('method = "', method, '"', ' ')
     
+    
+    ## test limit = 1 batch geocoding  -----------------------------------------
     result1 <- geo(sample_addresses, method = method, lat = lattt, long = longgg, 
                    mode = 'batch', full_results = TRUE, limit = 1)
     
@@ -179,10 +187,36 @@ test_that("test forward batch geocoding", {
     
     # check address content
     expect_equal(result1$address, sample_addresses, label = method_label)
+    
+    ## Test limit !=1 batch geocoding -------------------------------------------
+    if (method != 'census') {
+      expect_true(is_tibble(batch_null_limit_results <- geo(test_addresses, method = method, mode = 'batch', 
+                                                            full_results = TRUE, limit = NULL, return_addresses = FALSE)),
+                  label = method_label)
+      check_forward_geocoding_results(method, batch_null_limit_results, return_addresses = FALSE)
+      
+      expect_true(is_tibble(batch_high_limit_results <- geo(test_addresses, method = method, mode = 'batch', 
+                                                            full_results = TRUE, limit = 50, return_addresses = FALSE)),
+                  label = method_label)
+      check_forward_geocoding_results(method, batch_high_limit_results, return_addresses = FALSE)
+    }
+    
+    # do a separate test for the census batch geocoder -----------------------------
+    if (method == 'census') {
+      census_test_addresses <- c('10 Main St NY, NY', '100 Main St, Louisville, KY')
+      
+      expect_true(is_tibble(census_batch_null_limit_results <- geo(census_test_addresses, method = 'census', 
+                  return_addresses = FALSE, mode = 'batch', full_results = TRUE, limit = NULL)),
+                  label = method_label)
+      
+      expect_true(is_tibble(census_batch_high_limit_results <- geo(census_test_addresses, method = 'census', 
+                  return_addresses = FALSE, mode = 'batch', full_results = TRUE, limit = 5)),
+                  label = method_label)
+    }
   }
 })
 
-test_that("check forward geocoding limit", {
+test_that("check single forward geocoding limit", {
   test_address <- "Paris"
   
   test_addresses <- c('Paris', 'London')
@@ -204,47 +238,17 @@ test_that("check forward geocoding limit", {
                 label = method_label)
     check_forward_geocoding_results(method, high_limit_results)
     
-    ## Test batch geocoding
-    expect_true(is_tibble(batch_null_limit_results <- geo(test_addresses, method = method, mode = 'batch', 
-                                    full_results = TRUE, limit = NULL, return_addresses = FALSE)),
-                label = method_label)
-    check_forward_geocoding_results(method, batch_null_limit_results, return_addresses = FALSE)
-    
-    expect_true(is_tibble(batch_high_limit_results <- geo(test_addresses, method = method, mode = 'batch', 
-                                full_results = TRUE, limit = 50, return_addresses = FALSE)),
-      label = method_label)
-    check_forward_geocoding_results(method, batch_high_limit_results, return_addresses = FALSE)
-    
-    
-  }
-  
-  # test census separately
-  if ('census' %in% methods_to_test) {
-    print(paste0('forward geocoding limit: ', 'census'))
-    census_test_address <- '10 Main St NY, NY'
-    census_test_addresses <- c(census_test_address, '100 Main St, Louisville, KY')
-    
-    method_label = 'method = "census"'
-  
-    expect_true(is_tibble(census_null_limit_results <- geo(census_test_address, method = 'census', 
-              mode = 'single', full_results = TRUE, limit = NULL)),
-              label = method_label)
-    
-    check_forward_geocoding_results(method, census_null_limit_results)
-    
-    expect_true(is_tibble(census_high_limit_results <- geo(census_test_address, method = 'census', 
-            mode = 'single', full_results = TRUE, limit = 50)),
-            label = method_label)
-    
-    check_forward_geocoding_results(method, census_high_limit_results)
-    
-    expect_true(is_tibble(census_batch_null_limit_results <- geo(census_test_address, method = 'census', 
-                mode = 'batch', full_results = TRUE, limit = NULL)),
-                label = method_label)
-    
-    expect_true(is_tibble(census_batch_high_limit_results <- geo(census_test_address, method = 'census', 
-                mode = 'batch', full_results = TRUE, limit = 50)),
-                label = method_label)
+    if (method == 'census') {
+      census_test_address <- '10 Main St NY, NY'
+
+      expect_true(is_tibble(census_null_limit_results <- geo(census_test_address, method = 'census', 
+                                                             mode = 'single', full_results = TRUE, limit = NULL)),
+                  label = method_label)
+      
+      expect_true(is_tibble(census_high_limit_results <- geo(census_test_address, method = 'census', 
+                                                             mode = 'single', full_results = TRUE, limit = 50)),
+                  label = method_label)
+    }
   }
 })
 
@@ -264,6 +268,7 @@ test_that("test reverse single geocoding", {
                 label = method_label)
     
     check_reverse_geocoding_results(method, result, address_name = 'addr')
+    
     
     # Limit check
     expect_true(is_tibble(limit_null <- reverse_geo(lat = sample_lats, long = sample_longs, mode = 'single',
@@ -302,6 +307,19 @@ test_that("test reverse batch geocoding", {
     
     # check number of rows
     expect_equal(nrow(result), length(sample_lats), label = method_label)
+    
+    # Limit check
+    expect_true(is_tibble(limit_null <- reverse_geo(lat = sample_lats, long = sample_longs, mode = 'batch',
+                method = method, full_results = TRUE, limit = NULL, return_coords = FALSE)),
+                label = method_label)
+    
+    check_reverse_geocoding_results(method, limit_null, return_coords = FALSE)
+    
+    expect_true(is_tibble(high_limit <- reverse_geo(lat = sample_lats, long = sample_longs, mode = 'batch',
+                method = method, full_results = TRUE, limit = 35, return_coords = FALSE)),
+                label = method_label)
+    
+    check_reverse_geocoding_results(method, high_limit, return_coords = FALSE)
     
   }
 })

@@ -154,13 +154,18 @@ geo <- function(address = NULL,
     stop(paste0('The "', method, '" does not have a batch geocoding function.') , call. = FALSE)
   }
   
-  
   if (!(method %in% c('cascade', method_services))) {
     stop('Invalid method argument. See ?geo', call. = FALSE)
   } 
   
   if (!(cascade_order[1] %in% method_services) || !(cascade_order[2] %in% method_services) || (length(cascade_order) != 2) || !(is.character(cascade_order))) {
     stop('Invalid cascade_order argument. See ?geo', call. = FALSE)
+  }
+  
+  
+  if (method == 'cascade' && mode == 'batch' && (length(intersect(cascade_order, names(batch_func_map)) != 2))) {
+    stop("To use method = 'cascade' and mode = 'batch', both methods specified in cascade_order
+          must have batch geocoding capabilities. See geo?")
   }
   
   if (!(return_type %in% c('geographies', 'locations'))) {
