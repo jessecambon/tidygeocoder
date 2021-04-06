@@ -6,6 +6,8 @@
 -   Added support for the [HERE](https://developer.here.com/products/geocoding-and-search) ([#74](https://github.com/jessecambon/tidygeocoder/issues/74)), [Mapbox](https://docs.mapbox.com/api/search/) ([#71](https://github.com/jessecambon/tidygeocoder/issues/71)), [MapQuest](https://developer.mapquest.com/documentation/geocoding-api/) ([#85](https://github.com/jessecambon/tidygeocoder/issues/85)),  [TomTom](https://developer.tomtom.com/search-api/search-api-documentation/geocoding) ([#76](https://github.com/jessecambon/tidygeocoder/issues/76)), [Bing](https://docs.microsoft.com/en-us/bingmaps/rest-services/locations/) ([#92](https://github.com/jessecambon/tidygeocoder/issues/92)), and [ArcGis](https://developers.arcgis.com/rest/geocode/api-reference/overview-world-geocoding-service.htm) ([#98](https://github.com/jessecambon/tidygeocoder/issues/98)) geocoder services (thanks [@dieghernan](https://github.com/dieghernan)). Note that currently the batch geocoding capability for the Mapbox service is not implemented ([#73](https://github.com/jessecambon/tidygeocoder/issues/73)).
 -   The `limit` argument can now be used with the 'google' and 'census' methods to control the number of results returned. These two services do not have limit arguments in their APIs so the limit is applied after the results are returned.
 -   `batch_limit` is now automatically set according to the specified geocoder service unless otherwise specified.
+- Changed default `method` to `"osm"` (Nominatim) for the `geo()` function (it was previously `"census"`).
+- The `geo_<method>` functions are now deprecated.
 
 ### Other Changes
 -   Added new `return_input` argument to `geocode()` and `reverse_geocode()` to provide more flexibility when using dataframes as inputs in geocoder queries.
@@ -17,6 +19,7 @@
 -   The `query_api()` function now returns a named list which contains the response content (`content`) and the HTTP status code (`status`). The `geo()` and `reverse_geo()` functions now use the HTTP status code directly to determine if a response is valid.
 -   Added [external tests](https://github.com/jessecambon/tidygeocoder/blob/main/external_tests/online_tests.R) to more thoroughly test the package with live queries (internal package tests don't run queries).
 -   Added functions to generate package documentation from built-in datasets (ex. the methods documentation in `geo()` and `reverse_geo()`).
+-   Converted package documentation from standard roxygen syntax to Markdown.
 
 # tidygeocoder 1.0.2
 

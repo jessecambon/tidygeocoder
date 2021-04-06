@@ -9,12 +9,12 @@ all_methods <- unique(tidygeocoder::api_parameter_reference[['method']])
 ### Select which methods you want to test ################################################
 
 # Uncomment this line to test ALL methods
-#methods_to_test <- all_methods 
+methods_to_test <- all_methods 
 
 # Uncomment this line to EXCLUDE methods with slow geocoder services
 #methods_to_test <- setdiff(all_methods, tidygeocoder:::pkg.globals$single_first_methods)
 
-methods_to_test <- setdiff(all_methods, c('here', 'mapbox', 'bing'))
+#methods_to_test <- setdiff(all_methods, c('here', 'mapbox', 'bing'))
 #############################################################################################
 
 # exclude methods with no reverse geocoding capabilities

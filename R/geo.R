@@ -114,7 +114,7 @@ batch_func_map <- list(
 #' @export
 geo <- function(address = NULL, 
     street = NULL, city = NULL, county = NULL, state = NULL, postalcode = NULL, country = NULL,
-    method = 'census', cascade_order = c('census', 'osm'), lat = lat, long = long, limit = 1, 
+    method = 'osm', cascade_order = c('census', 'osm'), lat = lat, long = long, limit = 1, 
     min_time = NULL, api_url = NULL, timeout = 20,
     mode = '', full_results = FALSE, unique_only = FALSE, return_addresses = TRUE, 
     flatten = TRUE, batch_limit = NULL, batch_limit_error = TRUE, verbose = FALSE, no_query = FALSE, 

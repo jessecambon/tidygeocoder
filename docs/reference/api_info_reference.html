@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Construct a geocoder API query — get_api_query • tidygeocoder</title>
+<title>Geocoder service links and info — api_info_reference • tidygeocoder</title>
 
 
 <!-- jquery -->
@@ -45,13 +45,8 @@
 
 
 
-<meta property="og:title" content="Construct a geocoder API query — get_api_query" />
-<meta property="og:description" content="The geocoder API query is created using universal &quot;generic&quot; parameters
-and optional api-specific &quot;custom&quot; parameters. Generic parameters
-are converted into api parameters using the  api_parameter_reference
-dataset.
-The query_api function executes the queries created
-by this function." />
+<meta property="og:title" content="Geocoder service links and info — api_info_reference" />
+<meta property="og:description" content="Geocoder service links and info" />
 
 
 
@@ -146,75 +141,30 @@ by this function." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Construct a geocoder API query</h1>
-    <small class="dont-index">Source: <a href='https://github.com/jessecambon/tidygeocoder/blob/master/R/query_factory.R'><code>R/query_factory.R</code></a></small>
-    <div class="hidden name"><code>get_api_query.Rd</code></div>
+    <h1>Geocoder service links and info</h1>
+    <small class="dont-index">Source: <a href='https://github.com/jessecambon/tidygeocoder/blob/master/R/data.R'><code>R/data.R</code></a></small>
+    <div class="hidden name"><code>api_info_reference.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>The geocoder API query is created using universal "generic" parameters
-and optional api-specific "custom" parameters. Generic parameters
-are converted into api parameters using the  <a href='api_parameter_reference.html'>api_parameter_reference</a>
-dataset.</p>
-<p>The <a href='query_api.html'>query_api</a> function executes the queries created
-by this function.</p>
+    <p>Geocoder service links and info</p>
     </div>
 
-    <pre class="usage"><span class='fu'>get_api_query</span><span class='op'>(</span><span class='va'>method</span>, generic_parameters <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='op'>)</span>, custom_parameters <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='va'>api_info_reference</span></pre>
 
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
-    <table class="ref-arguments">
-    <colgroup><col class="name" /><col class="desc" /></colgroup>
-    <tr>
-      <th>method</th>
-      <td><p>method name (ie. 'census')</p></td>
-    </tr>
-    <tr>
-      <th>generic_parameters</th>
-      <td><p>universal 'generic' parameters</p></td>
-    </tr>
-    <tr>
-      <th>custom_parameters</th>
-      <td><p>custom api-specific parameters</p></td>
-    </tr>
-    </table>
 
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+    <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
 
-    <p>API parameters as a named list</p>
-    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+    <p>A tibble dataframe</p><dl>
+<dt>method</dt><dd><p>Geocoder service name</p></dd>
+<dt>method_display_name</dt><dd><p>Geocoder service display name</p></dd>
+<dt>site_url</dt><dd><p>Link to the main site of the geocoder service</p></dd>
+<dt>api_documentation_url</dt><dd><p>Link to API documentation</p></dd>
+<dt>api_usage_policy_url</dt><dd><p>Link to the usage policy</p></dd>
 
-    <div class='dont-index'><p><a href='query_api.html'>query_api</a> <a href='api_parameter_reference.html'>api_parameter_reference</a> <a href='geo.html'>geo</a> <a href='reverse_geo.html'>reverse_geo</a></p></div>
+</dl>
 
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>get_api_query</span><span class='op'>(</span><span class='st'>"osm"</span>, <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>address <span class='op'>=</span> <span class='st'>'Hanoi, Vietnam'</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; $q
-#&gt; [1] "Hanoi, Vietnam"
-#&gt; 
-#&gt; $format
-#&gt; [1] "json"
-#&gt; </div><div class='input'>
-<span class='fu'>get_api_query</span><span class='op'>(</span><span class='st'>"census"</span>, <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>street <span class='op'>=</span> <span class='st'>'11 Wall St'</span>, city <span class='op'>=</span> <span class='st'>"NY"</span>, state <span class='op'>=</span> <span class='st'>'NY'</span><span class='op'>)</span>,
-  <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>benchmark <span class='op'>=</span> <span class='st'>"Public_AR_Census2010"</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; $street
-#&gt; [1] "11 Wall St"
-#&gt; 
-#&gt; $city
-#&gt; [1] "NY"
-#&gt; 
-#&gt; $state
-#&gt; [1] "NY"
-#&gt; 
-#&gt; $benchmark
-#&gt; [1] "Public_AR_Census2010"
-#&gt; 
-#&gt; $format
-#&gt; [1] "json"
-#&gt; 
-#&gt; $vintage
-#&gt; [1] "Current_Current"
-#&gt; </div><div class='input'>
-</div></pre>
+
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

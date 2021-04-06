@@ -19,12 +19,11 @@ get_key <- function(method) {
 get_min_query_time <- function(method) {
   
   # Get min_time from min_time_reference. If method not found then default to 0
-  min_time <- if (method %in% names(tidygeocoder::min_time_reference)) {
-    get_setting_value(tidygeocoder::min_time_reference, method, 'min_time')
+  if (method %in% tidygeocoder::min_time_reference[['method']]) {
+    min_time <- get_setting_value(tidygeocoder::min_time_reference, method, 'min_time')
   } else {
-    0
+    min_time <- 0
   }
-  
   return(min_time)
 }
 

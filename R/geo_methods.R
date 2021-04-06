@@ -1,8 +1,10 @@
-#' Convenience functions for calling the \code{\link{geo}} function
+#' Convenience functions for calling the `geo` function
 #' with a specified method
 #' 
+#' `r lifecycle::badge("deprecated")`
+#' 
 #' @export
-#' @param ... arguments to be passed to the \code{\link{geo}} function
+#' @param ... arguments to be passed to the `geo` function
 geo_census <- function(...) geo(method = 'census', ...)
   
 #'@rdname geo_census
@@ -50,7 +52,7 @@ geo_bing <- function(...) geo(method = 'bing', ...)
 geo_arcgis <- function(...) geo(method = 'arcgis', ...)
 
 
-#' Convenience function for calling the \code{\link{geo}} function
+#' Convenience function for calling the `geo` function
 #' with method = 'cascade'
 #' 
 #' @param ... arguments passed from and to the \code{\link{geo}} function

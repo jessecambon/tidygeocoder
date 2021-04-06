@@ -23,8 +23,8 @@ with each geocoder service's usage policies.
 \details{
 Links to the usage policies of each geocoder service are below:
 \itemize{
-\item \href{NA}{US Census}
 \item \href{https://operations.osmfoundation.org/policies/nominatim/}{Nominatim}
+\item \href{https://www.census.gov/programs-surveys/geography/technical-documentation/complete-technical-documentation/census-geocoder.html}{US Census}
 \item \href{https://developers.arcgis.com/rest/geocode/api-reference/geocoding-free-vs-paid.htm}{ArcGIS}
 \item \href{https://www.geocod.io/pricing/}{Geocodio}
 \item \href{https://locationiq.com/pricing}{Location IQ}

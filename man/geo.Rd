@@ -12,7 +12,7 @@ geo(
   state = NULL,
   postalcode = NULL,
   country = NULL,
-  method = "census",
+  method = "osm",
   cascade_order = c("census", "osm"),
   lat = lat,
   long = long,
@@ -61,8 +61,8 @@ and \link{batch_limit_reference} for more information.
 To add an API key for use, run \code{usethis::edit_r_environ()}. This will open
 your .Renviron file for editing. (ex. add the line `GEOCODIO_API_KEY='YourAPIKeyHere')
 \itemize{
-\item \code{"census"}: \href{https://geocoding.geo.census.gov/}{US Census} geocoder service. Geographic coverage is limited to the United States. Batch geocoding is supported.
 \item \code{"osm"}: \href{https://nominatim.org}{Nominatim} geocoder service.
+\item \code{"census"}: \href{https://geocoding.geo.census.gov/}{US Census} geocoder service. Geographic coverage is limited to the United States. Batch geocoding is supported.
 \item \code{"arcgis"}: \href{https://developers.arcgis.com/rest/geocode/api-reference/overview-world-geocoding-service.htm}{ArcGIS} geocoder service.
 \item \code{"geocodio"}: \href{https://www.geocod.io/}{Geocodio} geocoder service. Geographic coverage is limited to the United States and Canada. An API key must be stored in "GEOCODIO_API_KEY". Batch geocoding is supported.
 \item \code{"iq"}: \href{https://locationiq.com/}{Location IQ} geocoder service. An API key must be stored in "LOCATIONIQ_API_KEY".

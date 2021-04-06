@@ -2,7 +2,7 @@
 % Please edit documentation in R/geo_methods.R
 \name{geo_cascade}
 \alias{geo_cascade}
-\title{Convenience function for calling the \code{\link{geo}} function
+\title{Convenience function for calling the \code{geo} function
 with method = 'cascade'}
 \usage{
 geo_cascade(..., cascade_order = c("census", "osm"))
@@ -15,6 +15,6 @@ in the order in which the geocoder services will be attempted
 (ie. \code{c('census', 'geocodio')})}
 }
 \description{
-Convenience function for calling the \code{\link{geo}} function
+Convenience function for calling the \code{geo} function
 with method = 'cascade'
 }
