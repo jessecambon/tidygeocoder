@@ -9,8 +9,9 @@ reverse_geocode(
   lat,
   long,
   address = address,
+  return_input = TRUE,
   limit = 1,
-  return_coords = FALSE,
+  return_coords = NULL,
   unique_only = FALSE,
   ...
 )
@@ -24,19 +25,21 @@ reverse_geocode(
 
 \item{address}{address column name (output data). Can be quoted or unquoted (ie. addr or 'addr').}
 
-\item{limit}{maximum number of results to return per coordinate. For many geocoder services
-the maximum value for the limit parameter is 100. Pass \code{limit = NULL} to use
+\item{return_input}{if TRUE then return input dataset with geocoder results. If
+FALSE only the geocoder results will be included.}
+
+\item{limit}{maximum number of results to return per input coordinate. For many geocoder services
+the maximum value of the limit parameter is 100. Pass \code{limit = NULL} to use
 the default \code{limit} value of the selected geocoder service.
 For batch geocoding, limit must be set to 1 (default) if \code{return_coords = TRUE}
-To use \code{limit > 1} or \code{limit = NULL} either \code{return_coords} or \code{unique_only} must be set to TRUE.
+To use \code{limit > 1} or \code{limit = NULL} set return_input to FALSE.
 Refer to \link{api_parameter_reference} for more details.}
 
-\item{return_coords}{if TRUE then only the geocoder results and input coordinate data will be returned.
-if FALSE then the input dataset's columns will also be included.}
+\item{return_coords}{if TRUE return input coordinates. Defaults to TRUE if return_input is
+FALSE and FALSE if return_input is TRUE. This is passed to the reverse_geo() function.}
 
-\item{unique_only}{if TRUE then only unique coordinates and results will be returned.
-The input dataframe's format is not preserved. Coordinates will also be returned if
-TRUE (overrides return_coords argument).}
+\item{unique_only}{if TRUE then only unique results will be returned and
+return_input will be set to FALSE.}
 
 \item{...}{arguments passed to the \link{reverse_geo} function}
 }

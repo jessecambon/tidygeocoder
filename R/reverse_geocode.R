@@ -13,12 +13,10 @@
 #' @param lat latitude column name (input data). Can be quoted or unquoted (ie. lat or 'lat').
 #' @param long longitude column name (input data). Can be quoted or unquoted (ie. long or 'long').
 #' @param address address column name (output data). Can be quoted or unquoted (ie. addr or 'addr').
+#' @inheritParams geocode
 #' @param limit `r get_limit_documentation(reverse = TRUE, df_input = TRUE)`
-#' @param return_coords if TRUE then only the geocoder results and input coordinate data will be returned.
-#'   if FALSE then the input dataset's columns will also be included.
-#' @param unique_only if TRUE then only unique coordinates and results will be returned. 
-#'   The input dataframe's format is not preserved. Coordinates will also be returned if 
-#'   TRUE (overrides return_coords argument).
+#' @param return_coords if TRUE return input coordinates. Defaults to TRUE if return_input is 
+#'    FALSE and FALSE if return_input is TRUE. This is passed to the reverse_geo() function.
 #' @param ... arguments passed to the [reverse_geo] function
 #' @inherit geo return
 #'
@@ -39,7 +37,7 @@
 #' }
 #' @seealso [reverse_geo]
 #' @export
-reverse_geocode <- function(.tbl, lat, long, address = address, limit = 1, return_coords = FALSE, unique_only = FALSE, ...) {
+reverse_geocode <- function(.tbl, lat, long, address = address, return_input = TRUE, limit = 1, return_coords = NULL, unique_only = FALSE, ...) {
   
   # Non-standard evaluation --------------------------------------------------------------
   # Quote unquoted vars without double quoting quoted vars
@@ -48,7 +46,12 @@ reverse_geocode <- function(.tbl, lat, long, address = address, limit = 1, retur
   long <- rm_quote(deparse(substitute(long)))
   address <- rm_quote(deparse(substitute(address)))
   
-  if (unique_only == TRUE) return_coords <- TRUE
+  stopifnot(is.logical(return_input), is.logical(unique_only), is.null(return_coords) || is.logical(return_coords))
+  
+  if (unique_only == TRUE) return_input <- FALSE
+  
+  # if return_addresses is NULL (default) then set based on return_input
+  if (is.null(return_coords)) return_coords <- if (return_input == TRUE) FALSE else TRUE
   
   # capture all function arguments including default values as a named list
   all_args <- as.list(environment())
@@ -58,8 +61,8 @@ reverse_geocode <- function(.tbl, lat, long, address = address, limit = 1, retur
   }
   
   # This check prevents a address-results misalignment issue https://github.com/jessecambon/tidygeocoder/issues/88
-  if ((is.null(limit) || limit != 1) && return_coords == FALSE && unique_only == FALSE) {
-    stop('To use limit > 1 or limit = NULL, set either return_coords or unique_only to TRUE.')
+  if ((is.null(limit) || limit != 1) && return_input == TRUE) {
+    stop('To use limit > 1 or limit = NULL, set return_input to FALSE.')
   }
   
   # convert .tbl to tibble if it isn't one already
@@ -77,13 +80,14 @@ reverse_geocode <- function(.tbl, lat, long, address = address, limit = 1, retur
   }
   
   # Arguments to pass to reverse_geo()
+  # remove any arguments specific to geocode() that reverse_geo() doesn't have
   reverse_geo_args <- c(coord_parameters, 
-                all_args[!names(all_args) %in% c('.tbl', 'lat', 'long')], list(...))
+                all_args[!names(all_args) %in% c('.tbl', 'lat', 'long', 'return_input')], list(...))
   
   # Pass addresses to the reverse_geo function
   results <- do.call(reverse_geo, reverse_geo_args)
   
-  if (unique_only == TRUE | return_coords == TRUE) {
+  if (return_input == FALSE) {
     return(results)
   } else {
     # cbind the original dataframe to the coordinates and convert to tibble

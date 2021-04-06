@@ -54,8 +54,8 @@ your .Renviron file for editing. (ex. add the line `GEOCODIO_API_KEY='YourAPIKey
 
 \item{address}{name of the address column (in the output data)}
 
-\item{limit}{maximum number of results to return per coordinate. For many geocoder services
-the maximum value for the limit parameter is 100. Pass \code{limit = NULL} to use
+\item{limit}{maximum number of results to return per input coordinate. For many geocoder services
+the maximum value of the limit parameter is 100. Pass \code{limit = NULL} to use
 the default \code{limit} value of the selected geocoder service.
 For batch geocoding, limit must be set to 1 (default) if \code{return_coords = TRUE}
 Refer to \link{api_parameter_reference} for more details.}

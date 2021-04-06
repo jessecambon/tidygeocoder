@@ -12,7 +12,6 @@
 # ie create_comma_list(c('eggs', 'cheese'), wrap = '"')  ->  "eggs" and "cheese"
 
 create_comma_list <- function(v, wrap = "") {
-  
   # wrap each element in quotes
   if (wrap != "") {
     v <- sapply(v, function(x) paste0(c(wrap, x, wrap), collapse = ''), USE.NAMES = FALSE)
@@ -32,7 +31,6 @@ create_comma_list <- function(v, wrap = "") {
 # get replaceable coordinate/address terms
 get_coord_address_terms <- function(reverse) {
   terms <- list()
-  
   if (reverse == TRUE) {
     terms$input_singular <- 'coordinate'
     terms$input_plural <- 'coordinates'
@@ -128,14 +126,14 @@ get_limit_documentation <- function(reverse, df_input) {
   terms <- get_coord_address_terms(reverse)
 
   main <- c(
-    paste0(c("maximum number of results to return per ", terms$input_singular, ". For many geocoder services"), collapse = ''),
-    "the maximum value for the limit parameter is 100. Pass `limit = NULL` to use",
+    paste0(c("maximum number of results to return per input ", terms$input_singular, ". For many geocoder services"), collapse = ''),
+    "the maximum value of the limit parameter is 100. Pass `limit = NULL` to use",
     "the default `limit` value of the selected geocoder service.",
     paste0(c("For batch geocoding, limit must be set to 1 (default) if `", terms$return_arg, " = TRUE`"), collapse = '')
   )
   
   append <- if (df_input == FALSE) c() else {
-    paste0(c("To use `limit > 1` or `limit = NULL` either `", terms$return_arg, "` or `unique_only` must be set to TRUE."), collapse = '')
+    paste0(c("To use `limit > 1` or `limit = NULL` set return_input to FALSE."), collapse = '')
   }
   
   return(c(main, append, "Refer to [api_parameter_reference] for more details."))

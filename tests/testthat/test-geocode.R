@@ -166,16 +166,16 @@ test_that("Test limit related error handling", {
   expect_true(geo(no_query = TRUE, method = 'geocodio', address = 'xyz', mode = 'batch', limit = 5, return_addresses = FALSE) %>% is_tibble())
   
   # geocode()
-  expect_error(geocode(addr_input, address = addr, no_query = TRUE, method = 'osm', return_addresses = TRUE, limit = 5))
-  expect_error(geocode(addr_input, address = addr, no_query = TRUE, method = 'osm', return_addresses = TRUE, limit = NULL))
-  expect_true(geocode(addr_input, address = addr, no_query = TRUE, method = 'osm', return_addresses = FALSE) %>% is_tibble())
-  expect_true(geocode(addr_input, address = addr, no_query = TRUE, method = 'osm', unique_only = FALSE) %>% is_tibble())
+  expect_error(geocode(addr_input, address = addr, no_query = TRUE, method = 'osm', limit = 5, return_input = TRUE))
+  expect_error(geocode(addr_input, address = addr, no_query = TRUE, method = 'osm', limit = NULL, return_input = TRUE))
+  expect_true(is_tibble(geocode(addr_input, address = addr, no_query = TRUE, method = 'osm', return_input = TRUE)))
+  expect_true(is_tibble(geocode(addr_input, address = addr, no_query = TRUE, method = 'osm', unique_only = TRUE)))
   
   # reverse_geocode()
-  expect_error(everse_geocode(coord_input, lat = lat, long = long, no_query = TRUE, method = 'osm', return_coords = TRUE, limit = 5))
-  expect_error(everse_geocode(coord_input, lat = lat, long = long, no_query = TRUE, method = 'osm', return_coords = TRUE, limit = NULL))
-  expect_true(reverse_geocode(coord_input, lat = lat, long = long, no_query = TRUE, method = 'osm', return_coords = FALSE) %>% is_tibble())
-  expect_true(reverse_geocode(coord_input, lat = lat, long = long, no_query = TRUE, method = 'osm', unique_only = FALSE) %>% is_tibble())
+  expect_error(reverse_geocode(coord_input, lat = lat, long = long, no_query = TRUE, method = 'osm', return_input = TRUE, limit = 5))
+  expect_error(reverse_geocode(coord_input, lat = lat, long = long, no_query = TRUE, method = 'osm', return_input = TRUE, limit = NULL))
+  expect_true(reverse_geocode(coord_input, lat = lat, long = long, no_query = TRUE, method = 'osm', return_input = FALSE) %>% is_tibble())
+  expect_true(reverse_geocode(coord_input, lat = lat, long = long, no_query = TRUE, method = 'osm', unique_only = TRUE) %>% is_tibble())
   
 })
 

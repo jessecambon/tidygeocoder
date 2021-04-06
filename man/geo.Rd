@@ -88,8 +88,8 @@ in the order in which the geocoder services will be attempted for \code{method =
 
 \item{long}{longitude column name. Can be quoted or unquoted (ie. long or 'long').}
 
-\item{limit}{maximum number of results to return per address. For many geocoder services
-the maximum value for the limit parameter is 100. Pass \code{limit = NULL} to use
+\item{limit}{maximum number of results to return per input address. For many geocoder services
+the maximum value of the limit parameter is 100. Pass \code{limit = NULL} to use
 the default \code{limit} value of the selected geocoder service.
 For batch geocoding, limit must be set to 1 (default) if \code{return_addresses = TRUE}
 Refer to \link{api_parameter_reference} for more details.}

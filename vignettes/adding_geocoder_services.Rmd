@@ -15,7 +15,9 @@ This page documents how to add support for a new geocoder service to the package
 
 ## Introduction
 
-The two core functions in the package are [geo()](https://github.com/jessecambon/tidygeocoder/blob/master/R/geo.R) and [reverse_geo()](https://github.com/jessecambon/tidygeocoder/blob/master/R/reverse_geo.R). They both have a similar layout, but `geo()` is for forward geocoding while `reverse_geo()` is for reverse geocoding. Both take inputs (either addresses or coordinates) and call other functions as needed to deduplicate the inputs and perform geocoding queries. Key parameters and settings for geocoding are stored for easy access and display in in-built datasets which are documented below.
+The two core functions to focus on in the package are [geo()](https://github.com/jessecambon/tidygeocoder/blob/master/R/geo.R) and [reverse_geo()](https://github.com/jessecambon/tidygeocoder/blob/master/R/reverse_geo.R). These functions have a very similar layout, but `geo()` is for forward geocoding while `reverse_geo()` is for reverse geocoding. The `geocode()` and `reverse_geocode()` functions extract input data and pass it to the `geo()` and `reverse_geo()` functions respectively. 
+
+Both the `geo()` and `reverse_geo()` functions take inputs (either addresses or coordinates) and call other functions as needed to deduplicate the inputs, pause to comply with API usage rate policies, and execute geocoding queries. Key parameters and settings for geocoding are stored for easy access and display in built-in datasets which are documented below.
 
 ## Files to Update
 
@@ -66,5 +68,5 @@ These files don't necessarily need to be updated. However, you might need to mak
 
 * Test out the new method with `verbose = TRUE` to make sure it behaves as expected. You can reference tests available [the 'sandbox' folder](https://github.com/jessecambon/tidygeocoder/tree/master/sandbox) for reference. 
 * Run `devtools::check()` to make sure the package still passes all tests and the vignette runs properly. To only run the package tests use `devtools::test()`, but note these tests do not query the geocoder services to avoid external dependencies.
-* Run [external_tests/online_tests.R](https://github.com/jessecambon/tidygeocoder/blob/master/external_tests/online_tests.R) which will test making queries to the geocoder services. These tests are not included internally because they require API keys which would not exist on all systems and are dependent on the geocoder services being online at that the time of the test.
-* Run the commands detailed in [cran-comments.md](https://github.com/jessecambon/tidygeocoder/blob/master/cran-comments.md) to test the package on other environments.
+* Run [external_tests/online_tests.R](https://github.com/jessecambon/tidygeocoder/blob/master/external_tests/online_tests.R) to test making queries to the geocoder services. These tests are not included in the internal package tests (`devtools::test()`) because they require API keys which would not exist on all systems and are dependent on the geocoder services being online at that the time of the test.
+* Run the commands detailed in [cran-comments.md](https://github.com/jessecambon/tidygeocoder/blob/master/cran-comments.md) to test the package on other environments. Note that these tests should also be included in the automated GitHub actions tests for pull requests.

@@ -26,8 +26,13 @@
 #' 
 #' @param lat latitude column name. Can be quoted or unquoted (ie. lat or 'lat').
 #' @param long longitude column name. Can be quoted or unquoted (ie. long or 'long').
+#' @param return_input if TRUE then return input dataset with geocoder results. If
+#'   FALSE only the geocoder results will be included.
+#' @param return_addresses if TRUE return addresses. Defaults to TRUE if return_input is FALSE
+#'   and FALSE if return_input is TRUE. This is passed to the geo() function.
+#' @param unique_only if TRUE then only unique results will be returned and 
+#'   return_input will be set to FALSE.
 #' @param limit `r get_limit_documentation(reverse = FALSE, df_input = TRUE)`
-#' @inheritParams geo
 #' @param ... arguments passed to the [geo] function
 #' @inherit geo return
 #'
@@ -49,7 +54,7 @@
 #' @export
 geocode <- function(.tbl, address = NULL, street = NULL, city = NULL, county = NULL, 
                     state = NULL, postalcode = NULL, country = NULL,
-                    lat = lat, long = long, limit = 1, return_addresses = FALSE, unique_only = FALSE, ...) {
+                    lat = lat, long = long, return_input = TRUE, limit = 1, return_addresses = NULL, unique_only = FALSE, ...) {
   
   # Non-standard evaluation --------------------------------------------------------------
   # Quote unquoted vars without double quoting quoted vars
@@ -64,7 +69,12 @@ geocode <- function(.tbl, address = NULL, street = NULL, city = NULL, county = N
   lat <- rm_quote(deparse(substitute(lat)))
   long <- rm_quote(deparse(substitute(long)))
   
-  if (unique_only == TRUE) return_addresses <- TRUE
+  stopifnot(is.logical(return_input), is.logical(unique_only), is.null(return_addresses) || is.logical(return_addresses))
+  
+  if (unique_only == TRUE) return_input <- FALSE
+  
+  # if return_addresses is NULL (default) then set based on return_input
+  if (is.null(return_addresses)) return_addresses <- if (return_input == TRUE) FALSE else TRUE
   
   # capture all function arguments including default values as a named list
   all_args <- as.list(environment())
@@ -74,8 +84,8 @@ geocode <- function(.tbl, address = NULL, street = NULL, city = NULL, county = N
   }
   
   # This check prevents a address-results misalignment issue https://github.com/jessecambon/tidygeocoder/issues/88
-  if ((is.null(limit) || limit != 1) && return_addresses == FALSE && unique_only == FALSE) {
-    stop('To use limit > 1 or limit = NULL, set either return_addresses or unique_only to TRUE.')
+  if ((is.null(limit) || limit != 1) && return_input == TRUE) {
+    stop('To use limit > 1 or limit = NULL set return_input to FALSE.')
   }
   
   # convert .tbl to tibble if it isn't one already
@@ -96,13 +106,14 @@ geocode <- function(.tbl, address = NULL, street = NULL, city = NULL, county = N
   }
   
   # Arguments to pass to geo()
+  # remove any arguments specific to geocode() that geo() doesn't have
   geo_args <- c(addr_parameters, 
-      all_args[!names(all_args) %in% c('.tbl', pkg.globals$address_arg_names)], list(...))
+      all_args[!names(all_args) %in% c('.tbl', 'return_input', pkg.globals$address_arg_names)], list(...))
   
   # Pass addresses to the geo function
   results <- do.call(geo, geo_args)
   
-  if (unique_only == TRUE | return_addresses == TRUE) {
+  if (return_input == FALSE) {
     return(results)
   } else {
     # cbind the original dataframe to the coordinates and convert to tibble
