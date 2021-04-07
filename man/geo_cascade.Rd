@@ -8,13 +8,12 @@ with method = 'cascade'}
 geo_cascade(..., cascade_order = c("census", "osm"))
 }
 \arguments{
-\item{...}{arguments passed from and to the \code{\link{geo}} function}
+\item{...}{arguments passed from and to the \code{geo} function}
 
 \item{cascade_order}{a vector with two character values for the method argument
 in the order in which the geocoder services will be attempted
 (ie. \code{c('census', 'geocodio')})}
 }
 \description{
-Convenience function for calling the \code{geo} function
-with method = 'cascade'
+\ifelse{html}{\figure{lifecycle-deprecated.svg}{options: alt='Deprecated lifecycle'}}{\strong{Deprecated}}
 }

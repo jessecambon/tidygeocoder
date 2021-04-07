@@ -55,10 +55,14 @@ geo_arcgis <- function(...) geo(method = 'arcgis', ...)
 #' Convenience function for calling the `geo` function
 #' with method = 'cascade'
 #' 
-#' @param ... arguments passed from and to the \code{\link{geo}} function
+#' @description 
+#' 
+#' `r lifecycle::badge("deprecated")`
+#' 
+#' @param ... arguments passed from and to the `geo` function
 #' @param cascade_order a vector with two character values for the method argument 
 #'  in the order in which the geocoder services will be attempted
-#'  (ie. \code{c('census', 'geocodio')})
+#'  (ie. `c('census', 'geocodio')`)
 #' @export
 geo_cascade <- function(..., cascade_order = c('census', 'osm')) {
   # Note for both attempts we disable unique_only so as to keep the 
