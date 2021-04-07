@@ -139,19 +139,31 @@ geo <- function(address = NULL,
   # Check parameter arguments --------------------------------------------------------
 
   # Check argument inputs
-  stopifnot(is.logical(verbose), is.logical(no_query), is.logical(flatten), is.logical(param_error),
+  stopifnot(
+    # check address inputs. allowing numeric for all of them is conservative
+    is.null(address) || is.character(address) || is.numeric(address) || is.na(address),
+    is.null(street) || is.character(street) || is.numeric(street) || is.na(street),
+    is.null(city) || is.character(city) || is.numeric(city) || is.na(city),
+    is.null(county) || is.character(county) || is.numeric(county) || is.na(county),
+    is.null(state) || is.character(state) || is.numeric(state) || is.na(state),
+    is.null(postalcode) || is.character(postalcode) || is.numeric(postalcode) || is.na(postalcode),
+    is.null(country) || is.character(country) || is.numeric(country) || is.na(country),    
+    
+    # check other arguments
+    is.logical(verbose), is.logical(no_query), is.logical(flatten), is.logical(param_error),
             is.logical(full_results), is.logical(unique_only), is.logical(return_addresses),
             is.logical(batch_limit_error), 
             is.numeric(timeout),timeout >= 0, 
             is.list(custom_query),
             is.logical(mapbox_permanent), 
             is.null(here_request_id) || is.character(here_request_id),
-            is.logical(mapquest_open))
+            is.logical(mapquest_open)
+    )
   
   check_common_args('geo', mode, limit, batch_limit, min_time)
   
   if (mode == 'batch' && (!method %in% names(batch_func_map))) {
-    stop(paste0('The "', method, '" does not have a batch geocoding function.') , call. = FALSE)
+    stop(paste0('The "', method, '" method does not have a batch geocoding function. See ?geo') , call. = FALSE)
   }
   
   if (!(method %in% c('cascade', method_services))) {
@@ -234,7 +246,7 @@ geo <- function(address = NULL,
     if (full_results == TRUE) stop("full_results = TRUE cannot be used with the cascade method.", call. = FALSE)
     if (is.null(limit) || limit != 1) stop("limit argument must be 1 (default) to use the cascade method.", call. = FALSE)
     
-    return(do.call(geo_cascade, 
+    return(do.call(cascade_geocoding, 
                 c(all_args[!names(all_args) %in% c('method', 'param_error', 'batch_limit_error')],
                 list(batch_limit_error = FALSE, param_error = FALSE))))
   }
@@ -244,6 +256,7 @@ geo <- function(address = NULL,
   
   # Google and Census services have a special limit passthrough to the extract_results function even though limit is not
   # a legal API parameter
+  # currently this error message is defunct since all methods either have a limit argument or a passthrough
   if ((is.null(limit) || limit != 1) && (!('limit' %in% legal_parameters) && (!method %in% pkg.globals$limit_passthru_methods))) {
     illegal_limit_message <- paste0('The limit parameter must be set to 1 (the default) because the "',  method,'" ',
                                     'method API service does not support a limit argument.\n\n',
@@ -263,6 +276,8 @@ geo <- function(address = NULL,
     mode <- 'single'
   }
   
+  # Single address geocoding is used if the method has no batch function or if 
+  # mode = 'single' was specified
   if ((num_unique_addresses > 1) && ((!(method %in% names(batch_func_map))) || (mode == 'single'))) {
       if (verbose == TRUE) message('Executing single address geocoding...\n')
       
@@ -357,6 +372,7 @@ geo <- function(address = NULL,
     if (verbose == TRUE) {
       batch_time_elapsed <- get_seconds_elapsed(start_time)
       print_time("Query completed in", batch_time_elapsed)
+      message('') # line break
     }
     
     # map the raw results back to the original addresses that were passed if there are duplicates
@@ -435,7 +451,7 @@ geo <- function(address = NULL,
   
   # Make sure the proper amount of time has elapsed for the query per min_time
   pause_until(start_time, min_time, debug = verbose) 
-  if (verbose == TRUE) message() # insert ending line break if verbose
+  if (verbose == TRUE) message('') # insert ending line break if verbose
   
   return(unpackage_inputs(address_pack, results, unique_only, return_addresses))
 }

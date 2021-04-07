@@ -226,7 +226,6 @@ display_named_list <- function(named_list) {
     }
     message(paste0(var, ' : "', named_list[var], '"'))
   }
-  message('')
 }
 
 # Displays query URL and parameters

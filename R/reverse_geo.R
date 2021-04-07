@@ -123,7 +123,7 @@ reverse_geo <- function(lat, long, method = 'osm', address = address, limit = 1,
   } 
   
   if (mode == 'batch' && (!method %in% names(reverse_batch_func_map))) {
-    stop(paste0('The "', method, '" does not have a batch geocoding function.') , call. = FALSE)
+    stop(paste0('The "', method, '" method does not have a batch geocoding function. See ?reverse_geo') , call. = FALSE)
   }
   
   if (length(lat) != length(long)) stop('Lengths of lat and long must be equal.', call. = FALSE)

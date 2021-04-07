@@ -45,4 +45,6 @@ geo_arcgis(...)
 }
 \description{
 \ifelse{html}{\figure{lifecycle-deprecated.svg}{options: alt='Deprecated lifecycle'}}{\strong{Deprecated}}
+
+Use the \link{geo} function directly instead.
 }

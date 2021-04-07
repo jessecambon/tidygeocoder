@@ -148,9 +148,9 @@ test_that("Test API Query Creation Functions", {
         tidygeocoder:::create_api_parameter(method, 'address', address_val)))
     }
     
-    expect_message(display_named_list(default_q))
-    expect_message(display_named_list(custom_q))
-    expect_message(display_named_list(address_q))
+    if (length(default_q) > 0) expect_message(display_named_list(default_q), label = method_label)
+    expect_message(display_named_list(custom_q), label = method_label)
+    if (length(address_q) > 0) expect_message(display_named_list(address_q), label = method_label)
   }
 })
 

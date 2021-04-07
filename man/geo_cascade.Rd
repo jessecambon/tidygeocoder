@@ -2,7 +2,7 @@
 % Please edit documentation in R/geo_methods.R
 \name{geo_cascade}
 \alias{geo_cascade}
-\title{Convenience function for calling the \code{geo} function
+\title{Convenience function for calling the \link{geo} function
 with method = 'cascade'}
 \usage{
 geo_cascade(..., cascade_order = c("census", "osm"))
@@ -16,4 +16,6 @@ in the order in which the geocoder services will be attempted
 }
 \description{
 \ifelse{html}{\figure{lifecycle-deprecated.svg}{options: alt='Deprecated lifecycle'}}{\strong{Deprecated}}
+
+Use the \link{geo} function directly instead.
 }

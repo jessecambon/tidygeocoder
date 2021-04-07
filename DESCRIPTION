@@ -35,7 +35,8 @@ Imports:
     tibble,
     dplyr,
     httr,
-    jsonlite
+    jsonlite,
+    lifecycle
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.1 
 Suggests: 

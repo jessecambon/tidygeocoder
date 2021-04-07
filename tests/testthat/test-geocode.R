@@ -56,8 +56,8 @@ test_that("geocode null/empty addresses", {
   }
   
   # check cascade method separately
-  expect_identical(names(geo_cascade(" ", return_addresses = FALSE, no_query = TRUE)), 
-                   c('lat', 'long', 'geo_method'))
+  #expect_identical(names(geo(" ", method = 'cascade', return_addresses = FALSE, no_query = TRUE)), 
+  #                 c('lat', 'long', 'geo_method'))
   
   # Test batch limit detection and error/warning toggling
   expect_error(geo(address = as.character(seq(1, 10)), 
