@@ -148,7 +148,7 @@ get_mode_documentation <- function(reverse) {
       paste0(c("geocoding (one ", terms$input_singular, " per query). If not specified then batch geocoding will"), collapse = ''),
       paste0(c("be used if available (given method selected) when multiple ", terms$input_plural, " are"), collapse = ''),
       paste0(c("provided; otherwise single address geocoding will be used. For ", 
-            create_comma_list(pkg.globals$single_first_methods), " the"), collapse = ''),
+            create_comma_list(pkg.globals$single_first_methods, wrap = '"'), " the"), collapse = ''),
       "batch mode should be explicitly specified with `mode = 'batch'`."
       )
   )
@@ -161,10 +161,10 @@ get_method_documentation <- function(reverse) {
   all_methods <- tidygeocoder::api_info_reference[['method']]
   
   method_intro <- c(
-    "the geocoder service to be used. Refer to [api_parameter_reference], [min_time_reference],",
+    'the geocoder service to be used. Refer to [api_parameter_reference], [min_time_reference],",
     "and [batch_limit_reference] for more information.",
     "To add an API key for use, run `usethis::edit_r_environ()`. This will open",
-    "your .Renviron file for editing. (ex. add the line `GEOCODIO_API_KEY='YourAPIKeyHere')"
+    "your .Renviron file for editing. (ex. add the line `GEOCODIO_API_KEY="YourAPIKeyHere")`'
     )
   
   # if reverse geocoding then exclude methods that don't support reverse geocoding

@@ -190,7 +190,7 @@ citation('tidygeocoder')
 </br>
 
 <blockquote> 
-```{r, comment = ''}
+```{r, comment = '', echo = FALSE}
 citation('tidygeocoder')
 ```
 </blockquote>

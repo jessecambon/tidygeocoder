@@ -158,7 +158,8 @@
 <li>The <code>limit</code> argument can now be used with the ‘google’ and ‘census’ methods to control the number of results returned. These two services do not have limit arguments in their APIs so the limit is applied after the results are returned.</li>
 <li>
 <code>batch_limit</code> is now automatically set according to the specified geocoder service unless otherwise specified.</li>
-<li>Changed default <code>method</code> to “osm” (Nominatim).</li>
+<li>Changed default <code>method</code> to <code>"osm"</code> (Nominatim) for the <code><a href="../reference/geo.html">geo()</a></code> function (it was previously <code>"census"</code>).</li>
+<li>The <code>geo_&lt;method&gt;</code> functions are now deprecated.</li>
 </ul>
 </div>
 <div id="other-changes" class="section level3">
@@ -176,6 +177,7 @@
 <li>The <code><a href="../reference/query_api.html">query_api()</a></code> function now returns a named list which contains the response content (<code>content</code>) and the HTTP status code (<code>status</code>). The <code><a href="../reference/geo.html">geo()</a></code> and <code><a href="../reference/reverse_geo.html">reverse_geo()</a></code> functions now use the HTTP status code directly to determine if a response is valid.</li>
 <li>Added <a href="https://github.com/jessecambon/tidygeocoder/blob/main/external_tests/online_tests.R">external tests</a> to more thoroughly test the package with live queries (internal package tests don’t run queries).</li>
 <li>Added functions to generate package documentation from built-in datasets (ex. the methods documentation in <code><a href="../reference/geo.html">geo()</a></code> and <code><a href="../reference/reverse_geo.html">reverse_geo()</a></code>).</li>
+<li>Converted package documentation from standard roxygen syntax to Markdown.</li>
 </ul>
 </div>
 </div>

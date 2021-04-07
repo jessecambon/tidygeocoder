@@ -155,20 +155,20 @@
 </tr></thead>
 <tbody>
 <tr class="odd">
-<td align="left"><a href="https://geocoding.geo.census.gov/">US Census</a></td>
-<td align="left"><code>census</code></td>
-<td align="left"></td>
-<td align="left">✅</td>
-<td align="left"></td>
-<td align="left"><a href="https://www.census.gov/programs-surveys/geography/technical-documentation/complete-technical-documentation/census-geocoder.html">docs</a></td>
-</tr>
-<tr class="even">
 <td align="left"><a href="https://nominatim.org">Nominatim</a></td>
 <td align="left"><code>osm</code></td>
 <td align="left"></td>
 <td align="left"></td>
 <td align="left">1 query per second</td>
 <td align="left"><a href="https://nominatim.org/release-docs/develop/api/Search/">docs</a></td>
+</tr>
+<tr class="even">
+<td align="left"><a href="https://geocoding.geo.census.gov/">US Census</a></td>
+<td align="left"><code>census</code></td>
+<td align="left"></td>
+<td align="left">✅</td>
+<td align="left"></td>
+<td align="left"><a href="https://www.census.gov/programs-surveys/geography/technical-documentation/complete-technical-documentation/census-geocoder.html">docs</a></td>
 </tr>
 <tr class="odd">
 <td align="left"><a href="https://developers.arcgis.com/rest/geocode/api-reference/overview-world-geocoding-service.htm">ArcGIS</a></td>
@@ -593,25 +593,23 @@
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/citation.html">citation</a></span><span class="op">(</span><span class="st">'tidygeocoder'</span><span class="op">)</span></code></pre></div>
 <p></p>
 <blockquote>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">citation</span>(<span class="st">'tidygeocoder'</span>)</span>
+<div class="sourceCode" id="cb9"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>To cite tidygeocoder <span class="cf">in</span> publications use<span class="sc">:</span></span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>To cite tidygeocoder <span class="cf">in</span> publications use<span class="sc">:</span></span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>  Jesse Cambon, Christopher <span class="fu">Belanger</span> (<span class="dv">2021</span>). tidygeocoder<span class="sc">:</span> Geocoding</span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>  Made <span class="fu">Easy</span> (version <span class="dv">1</span>.<span class="fl">0.2</span>). DOI<span class="sc">:</span> <span class="fl">10.5281</span><span class="sc">/</span>zenodo.<span class="fl">4448251.</span> URL<span class="sc">:</span></span>
-<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>  https<span class="sc">:</span><span class="er">//</span>CRAN.R<span class="sc">-</span>project.org<span class="sc">/</span>package<span class="ot">=</span>tidygeocoder</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  Jesse Cambon, Christopher <span class="fu">Belanger</span> (<span class="dv">2021</span>). tidygeocoder<span class="sc">:</span> Geocoding</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  Made <span class="fu">Easy</span> (version <span class="dv">1</span>.<span class="fl">0.2</span>). DOI<span class="sc">:</span> <span class="fl">10.5281</span><span class="sc">/</span>zenodo.<span class="fl">4448251.</span> URL<span class="sc">:</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>  https<span class="sc">:</span><span class="er">//</span>CRAN.R<span class="sc">-</span>project.org<span class="sc">/</span>package<span class="ot">=</span>tidygeocoder</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>A BibTeX entry <span class="cf">for</span> LaTeX users is</span>
 <span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>A BibTeX entry <span class="cf">for</span> LaTeX users is</span>
-<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>  <span class="sc">@</span>Misc{,</span>
-<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>    title <span class="ot">=</span> {tidygeocoder<span class="sc">:</span> Geocoding Made Easy},</span>
-<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>    author <span class="ot">=</span> {Jesse Cambon and Christopher Belanger},</span>
-<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>    year <span class="ot">=</span> {<span class="dv">2021</span>},</span>
-<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>    publisher <span class="ot">=</span> {Zenodo},</span>
-<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>    note <span class="ot">=</span> {R package version <span class="dv">1</span>.<span class="fl">0.2</span>},</span>
-<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>    url <span class="ot">=</span> {https<span class="sc">:</span><span class="er">//</span>CRAN.R<span class="sc">-</span>project.org<span class="sc">/</span>package<span class="ot">=</span>tidygeocoder},</span>
-<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a>    doi <span class="ot">=</span> {<span class="fl">10.5281</span><span class="sc">/</span>zenodo<span class="fl">.4448251</span>},</span>
-<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a>  }</span></code></pre></div>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>  <span class="sc">@</span>Misc{,</span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>    title <span class="ot">=</span> {tidygeocoder<span class="sc">:</span> Geocoding Made Easy},</span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>    author <span class="ot">=</span> {Jesse Cambon and Christopher Belanger},</span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>    year <span class="ot">=</span> {<span class="dv">2021</span>},</span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>    publisher <span class="ot">=</span> {Zenodo},</span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>    note <span class="ot">=</span> {R package version <span class="dv">1</span>.<span class="fl">0.2</span>},</span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>    url <span class="ot">=</span> {https<span class="sc">:</span><span class="er">//</span>CRAN.R<span class="sc">-</span>project.org<span class="sc">/</span>package<span class="ot">=</span>tidygeocoder},</span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>    doi <span class="ot">=</span> {<span class="fl">10.5281</span><span class="sc">/</span>zenodo<span class="fl">.4448251</span>},</span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>  }</span></code></pre></div>
 </blockquote>
 <p>Or refer to the <a href="https://jessecambon.github.io/tidygeocoder/authors.html">citation page</a>.</p>
 </div>

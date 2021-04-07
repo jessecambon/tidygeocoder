@@ -34,10 +34,10 @@ reverse_geo(
 
 \item{long}{longitude values (input data)}
 
-\item{method}{the geocoder service to be used. Refer to \link{api_parameter_reference}, \link{min_time_reference},
-and \link{batch_limit_reference} for more information.
-To add an API key for use, run \code{usethis::edit_r_environ()}. This will open
-your .Renviron file for editing. (ex. add the line `GEOCODIO_API_KEY='YourAPIKeyHere')
+\item{method}{the geocoder service to be used. Refer to \link{api_parameter_reference}, \link{min_time_reference},",
+"and \link{batch_limit_reference} for more information.",
+"To add an API key for use, run \code{usethis::edit_r_environ()}. This will open",
+"your .Renviron file for editing. (ex. add the line \verb{GEOCODIO_API_KEY="YourAPIKeyHere")}
 \itemize{
 \item \code{"osm"}: \href{https://nominatim.org}{Nominatim} geocoder service.
 \item \code{"arcgis"}: \href{https://developers.arcgis.com/rest/geocode/api-reference/overview-world-geocoding-service.htm}{ArcGIS} geocoder service.
@@ -71,7 +71,7 @@ This parameter can be used to specify a local Nominatim server, for instance.}
 \item{mode}{set to 'batch' to force batch geocoding or 'single' to force single coordinate
 geocoding (one coordinate per query). If not specified then batch geocoding will
 be used if available (given method selected) when multiple coordinates are
-provided; otherwise single address geocoding will be used. For here and bing the
+provided; otherwise single address geocoding will be used. For "here" and "bing" the
 batch mode should be explicitly specified with \code{mode = 'batch'}.}
 
 \item{full_results}{returns all data from the geocoder service if TRUE.

@@ -84,8 +84,8 @@ and to each service’s API documentation for more details.
 
 | Service                                                                                                 | Method     | API Key Required | Batch Geocoding | Usage Limitations                   | API Documentation                                                                                                                       |
 |:--------------------------------------------------------------------------------------------------------|:-----------|:-----------------|:----------------|:------------------------------------|:----------------------------------------------------------------------------------------------------------------------------------------|
-| [US Census](https://geocoding.geo.census.gov/)                                                          | `census`   |                  | ✅               |                                     | [docs](https://www.census.gov/programs-surveys/geography/technical-documentation/complete-technical-documentation/census-geocoder.html) |
 | [Nominatim](https://nominatim.org)                                                                      | `osm`      |                  |                 | 1 query per second                  | [docs](https://nominatim.org/release-docs/develop/api/Search/)                                                                          |
+| [US Census](https://geocoding.geo.census.gov/)                                                          | `census`   |                  | ✅               |                                     | [docs](https://www.census.gov/programs-surveys/geography/technical-documentation/complete-technical-documentation/census-geocoder.html) |
 | [ArcGIS](https://developers.arcgis.com/rest/geocode/api-reference/overview-world-geocoding-service.htm) | `arcgis`   |                  |                 |                                     | [docs](https://developers.arcgis.com/rest/geocode/api-reference/overview-world-geocoding-service.htm)                                   |
 | [Geocodio](https://www.geocod.io/)                                                                      | `geocodio` | ✅                | ✅               | 1000 queries per minute (free tier) | [docs](https://www.geocod.io/docs/)                                                                                                     |
 | [Location IQ](https://locationiq.com/)                                                                  | `iq`       | ✅                |                 | 2 queries per second (free tier)    | [docs](https://locationiq.com/docs)                                                                                                     |
@@ -249,27 +249,24 @@ citation('tidygeocoder')
 
 <blockquote>
 
-``` r
-citation('tidygeocoder')
 
-To cite tidygeocoder in publications use:
+    To cite tidygeocoder in publications use:
 
-  Jesse Cambon, Christopher Belanger (2021). tidygeocoder: Geocoding
-  Made Easy (version 1.0.2). DOI: 10.5281/zenodo.4448251. URL:
-  https://CRAN.R-project.org/package=tidygeocoder
+      Jesse Cambon, Christopher Belanger (2021). tidygeocoder: Geocoding
+      Made Easy (version 1.0.2). DOI: 10.5281/zenodo.4448251. URL:
+      https://CRAN.R-project.org/package=tidygeocoder
 
-A BibTeX entry for LaTeX users is
+    A BibTeX entry for LaTeX users is
 
-  @Misc{,
-    title = {tidygeocoder: Geocoding Made Easy},
-    author = {Jesse Cambon and Christopher Belanger},
-    year = {2021},
-    publisher = {Zenodo},
-    note = {R package version 1.0.2},
-    url = {https://CRAN.R-project.org/package=tidygeocoder},
-    doi = {10.5281/zenodo.4448251},
-  }
-```
+      @Misc{,
+        title = {tidygeocoder: Geocoding Made Easy},
+        author = {Jesse Cambon and Christopher Belanger},
+        year = {2021},
+        publisher = {Zenodo},
+        note = {R package version 1.0.2},
+        url = {https://CRAN.R-project.org/package=tidygeocoder},
+        doi = {10.5281/zenodo.4448251},
+      }
 
 </blockquote>
 
