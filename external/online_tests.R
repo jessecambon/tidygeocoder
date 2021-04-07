@@ -1,12 +1,10 @@
 ## These tests query the geocoder services and require API keys to be installed
 ## so they are kept separate from the internal package tests (tests folder)
 
-## IMPORTANT: edit 'methods_to_test' to only include methods you have API keys for
-
 # get all method names
 all_methods <- unique(tidygeocoder::api_parameter_reference[['method']])
 
-### Select which methods you want to test ################################################
+### IMPORTANT: Select which methods you want to test #########################################
 
 # Uncomment this line to test ALL methods
 methods_to_test <- all_methods 
@@ -15,6 +13,7 @@ methods_to_test <- all_methods
 #methods_to_test <- setdiff(all_methods, tidygeocoder:::pkg.globals$single_first_methods)
 
 #methods_to_test <- setdiff(all_methods, c('here', 'mapbox', 'bing'))
+
 #############################################################################################
 
 # exclude methods with no reverse geocoding capabilities
