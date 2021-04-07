@@ -138,7 +138,7 @@
 <span class="co">#&gt; benchmark : "Public_AR_Current"</span>
 <span class="co">#&gt; vintage : "Current_Current"</span>
 <span class="co">#&gt; </span>
-<span class="co">#&gt; Query completed in: 2.7 seconds</span></code></pre></div>
+<span class="co">#&gt; Query completed in: 2.6 seconds</span></code></pre></div>
 <table class="table">
 <thead><tr class="header">
 <th align="left">singlelineaddress</th>
@@ -467,16 +467,29 @@
 <span class="va">duplicates_geocoded</span> <span class="op">&lt;-</span> <span class="va">duplicate_addrs</span> <span class="op">%&gt;%</span>
   <span class="fu"><a href="../reference/geocode.html">geocode</a></span><span class="op">(</span><span class="va">singlelineaddress</span>, verbose <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
 <span class="co">#&gt; Number of Unique Addresses: 2</span>
-<span class="co">#&gt; Executing batch geocoding...</span>
-<span class="co">#&gt; Batch limit: 10,000</span>
-<span class="co">#&gt; Passing 2 addresses to the census batch geocoder</span>
-<span class="co">#&gt; Querying API URL: https://geocoding.geo.census.gov/geocoder/locations/addressbatch</span>
+<span class="co">#&gt; Executing single address geocoding...</span>
+<span class="co">#&gt; Number of Unique Addresses: 1</span>
+<span class="co">#&gt; Querying API URL: https://nominatim.openstreetmap.org/search</span>
 <span class="co">#&gt; Passing the following parameters to the API:</span>
+<span class="co">#&gt; q : "11 Wall St, NY, NY"</span>
+<span class="co">#&gt; limit : "1"</span>
 <span class="co">#&gt; format : "json"</span>
-<span class="co">#&gt; benchmark : "Public_AR_Current"</span>
-<span class="co">#&gt; vintage : "Current_Current"</span>
 <span class="co">#&gt; </span>
-<span class="co">#&gt; Query completed in: 1.2 seconds</span></code></pre></div>
+<span class="co">#&gt; HTTP Status Code: 200</span>
+<span class="co">#&gt; Query completed in: 0.8 seconds</span>
+<span class="co">#&gt; Total query time (including sleep): 1 seconds</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Number of Unique Addresses: 1</span>
+<span class="co">#&gt; Querying API URL: https://nominatim.openstreetmap.org/search</span>
+<span class="co">#&gt; Passing the following parameters to the API:</span>
+<span class="co">#&gt; q : "600 Peachtree Street NE, Atlanta, Georgia"</span>
+<span class="co">#&gt; limit : "1"</span>
+<span class="co">#&gt; format : "json"</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; HTTP Status Code: 200</span>
+<span class="co">#&gt; Query completed in: 0.2 seconds</span>
+<span class="co">#&gt; Total query time (including sleep): 1 seconds</span>
+<span class="co">#&gt; </span></code></pre></div>
 <table class="table">
 <thead><tr class="header">
 <th align="left">singlelineaddress</th>
@@ -486,23 +499,23 @@
 <tbody>
 <tr class="odd">
 <td align="left">11 Wall St, NY, NY</td>
-<td align="right">40.70747</td>
-<td align="right">-74.01122</td>
+<td align="right">40.90805</td>
+<td align="right">-73.01708</td>
 </tr>
 <tr class="even">
 <td align="left">600 Peachtree Street NE, Atlanta, Georgia</td>
-<td align="right">33.77085</td>
-<td align="right">-84.38505</td>
+<td align="right">33.77086</td>
+<td align="right">-84.38614</td>
 </tr>
 <tr class="odd">
 <td align="left">11 Wall St, NY, NY</td>
-<td align="right">40.70747</td>
-<td align="right">-74.01122</td>
+<td align="right">40.90805</td>
+<td align="right">-73.01708</td>
 </tr>
 <tr class="even">
 <td align="left">600 Peachtree Street NE, Atlanta, Georgia</td>
-<td align="right">33.77085</td>
-<td align="right">-84.38505</td>
+<td align="right">33.77086</td>
+<td align="right">-84.38614</td>
 </tr>
 <tr class="odd">
 <td align="left">NA</td>
@@ -534,13 +547,13 @@
 <tbody>
 <tr class="odd">
 <td align="left">11 Wall St, NY, NY</td>
-<td align="right">40.70747</td>
-<td align="right">-74.01122</td>
+<td align="right">40.90805</td>
+<td align="right">-73.01708</td>
 </tr>
 <tr class="even">
 <td align="left">600 Peachtree Street NE, Atlanta, Georgia</td>
-<td align="right">33.77085</td>
-<td align="right">-84.38505</td>
+<td align="right">33.77086</td>
+<td align="right">-84.38614</td>
 </tr>
 </tbody>
 </table>
@@ -582,7 +595,8 @@
 <span class="co">#&gt; format : "json"</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; HTTP Status Code: 200</span>
-<span class="co">#&gt; Query completed in: 0.2 seconds</span>
+<span class="co">#&gt; Query completed in: 0.1 seconds</span>
+<span class="co">#&gt; Total query time (including sleep): 1 seconds</span>
 <span class="co">#&gt; </span>
 
 <span class="fu"><a href="https://tibble.tidyverse.org/reference/glimpse.html">glimpse</a></span><span class="op">(</span><span class="va">cairo_geo</span><span class="op">)</span>

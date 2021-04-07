@@ -28,12 +28,12 @@ will be returned.}
 geocoder results in tibble format
 }
 \description{
-Parses the output of the \code{\link{query_api}} function for single
+Parses the output of the \link{query_api} function for single
 address geocoding (ie. not batch geocoding).
 Latitude and longitude are extracted into the first two columns
-of the returned dataframe.  Refer to \code{\link{query_api}} for example
+of the returned dataframe.  Refer to  \link{query_api} for example
 usage.
 }
 \seealso{
-\code{\link{get_api_query}} \code{\link{query_api}} \code{\link{geo}}
+\link{get_api_query} \link{query_api} \link{geo}
 }

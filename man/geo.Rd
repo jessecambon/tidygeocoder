@@ -12,7 +12,7 @@ geo(
   state = NULL,
   postalcode = NULL,
   country = NULL,
-  method = "census",
+  method = "osm",
   cascade_order = c("census", "osm"),
   lat = lat,
   long = long,
@@ -56,13 +56,13 @@ Do not combine with the address component arguments below
 
 \item{country}{country (ie. 'Japan')}
 
-\item{method}{the geocoder service to be used. Refer to \link{api_parameter_reference}, \link{min_time_reference},
-and \link{batch_limit_reference} for more information.
-To add an API key for use, run \code{usethis::edit_r_environ()}. This will open
-your .Renviron file for editing. (ex. add the line `GEOCODIO_API_KEY='YourAPIKeyHere')
+\item{method}{the geocoder service to be used. Refer to \link{api_parameter_reference}, \link{min_time_reference},",
+"and \link{batch_limit_reference} for more information.",
+"To add an API key for use, run \code{usethis::edit_r_environ()}. This will open",
+"your .Renviron file for editing. (ex. add the line \verb{GEOCODIO_API_KEY="YourAPIKeyHere")}
 \itemize{
-\item \code{"census"}: \href{https://geocoding.geo.census.gov/}{US Census} geocoder service. Geographic coverage is limited to the United States. Batch geocoding is supported.
 \item \code{"osm"}: \href{https://nominatim.org}{Nominatim} geocoder service.
+\item \code{"census"}: \href{https://geocoding.geo.census.gov/}{US Census} geocoder service. Geographic coverage is limited to the United States. Batch geocoding is supported.
 \item \code{"arcgis"}: \href{https://developers.arcgis.com/rest/geocode/api-reference/overview-world-geocoding-service.htm}{ArcGIS} geocoder service.
 \item \code{"geocodio"}: \href{https://www.geocod.io/}{Geocodio} geocoder service. Geographic coverage is limited to the United States and Canada. An API key must be stored in "GEOCODIO_API_KEY". Batch geocoding is supported.
 \item \code{"iq"}: \href{https://locationiq.com/}{Location IQ} geocoder service. An API key must be stored in "LOCATIONIQ_API_KEY".
@@ -88,8 +88,8 @@ in the order in which the geocoder services will be attempted for \code{method =
 
 \item{long}{longitude column name. Can be quoted or unquoted (ie. long or 'long').}
 
-\item{limit}{maximum number of results to return per address. For many geocoder services
-the maximum value for the limit parameter is 100. Pass \code{limit = NULL} to use
+\item{limit}{maximum number of results to return per input address. For many geocoder services
+the maximum value of the limit parameter is 100. Pass \code{limit = NULL} to use
 the default \code{limit} value of the selected geocoder service.
 For batch geocoding, limit must be set to 1 (default) if \code{return_addresses = TRUE}
 Refer to \link{api_parameter_reference} for more details.}
@@ -105,7 +105,7 @@ This parameter can be used to specify a local Nominatim server, for instance.}
 \item{mode}{set to 'batch' to force batch geocoding or 'single' to force single address
 geocoding (one address per query). If not specified then batch geocoding will
 be used if available (given method selected) when multiple addresses are
-provided; otherwise single address geocoding will be used. For here and bing the
+provided; otherwise single address geocoding will be used. For "here" and "bing" the
 batch mode should be explicitly specified with \code{mode = 'batch'}.}
 
 \item{full_results}{returns all data from the geocoder service if TRUE.

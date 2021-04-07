@@ -19,9 +19,7 @@ options(tibble.print_min = 5, tibble.print_max = 5)
 # tidygeocoder <a href='https://jessecambon.github.io/tidygeocoder/'><img src="man/figures/tidygeocoder_hex.png" align="right" height="139"/></a>
 
 <!-- badges: start -->
-
-[![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active) [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/jessecambon/tidygeocoder/blob/master/LICENSE.md) [![CRAN](https://www.r-pkg.org/badges/version/tidygeocoder)](https://cran.r-project.org/package=tidygeocoder) [![CRAN Total Downloads](http://cranlogs.r-pkg.org/badges/grand-total/tidygeocoder)](https://CRAN.R-project.org/package=tidygeocoder) [![CRAN Downloads Per Month](http://cranlogs.r-pkg.org/badges/tidygeocoder)](https://cran.r-project.org/package=tidygeocoder) [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.4448251.svg)](https://doi.org/10.5281/zenodo.4448251) <!--[![Github Stars](https://img.shields.io/github/stars/jessecambon/tidygeocoder?style=social&label=Github)](https://github.com/jessecambon/tidygeocoder) -->
-
+[![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active) [![Lifecycle: stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://lifecycle.r-lib.org/articles/stages.html#stable) [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/jessecambon/tidygeocoder/blob/master/LICENSE.md) [![CRAN](https://www.r-pkg.org/badges/version/tidygeocoder)](https://cran.r-project.org/package=tidygeocoder) [![CRAN Total Downloads](http://cranlogs.r-pkg.org/badges/grand-total/tidygeocoder)](https://CRAN.R-project.org/package=tidygeocoder) [![CRAN Downloads Per Month](http://cranlogs.r-pkg.org/badges/tidygeocoder)](https://cran.r-project.org/package=tidygeocoder) [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.4448251.svg)](https://doi.org/10.5281/zenodo.4448251) 
 <!-- badges: end -->
 
 ## Introduction
@@ -30,7 +28,7 @@ Tidygeocoder makes getting data from geocoder services easy. A unified interface
 
 **Features:**
 
-- Both **forward geocoding** (addresses -> coordinates) and **reverse geocoding** (coordinates -> addresses) are supported. 
+- Both **forward geocoding** (addresses ⮕ coordinates) and **reverse geocoding** (coordinates ⮕ addresses) are supported. 
 - **Batch geocoding** (geocoding multiple addresses or coordinates in a single query) is used by default if supported by the geocoder service when multiple inputs (addresses or coordinates) are provided (with some noted exceptions for services with slower batch geocoding).
 - Duplicate, missing/NA, and blank input data is handled elegantly - only unique inputs are submitted in queries to geocoder services, but the rows in the original data are preserved by default.
 
@@ -51,17 +49,18 @@ install.packages('tidygeocoder')
 Alternatively, you can install the latest development version from GitHub:
 
 ```{r, eval=F}
-if(!require(devtools)) install.packages("devtools")
 devtools::install_github("jessecambon/tidygeocoder")
 ```
 
 ## Geocoder Services
 
-The supported geocoder services are shown in the table below. Refer to the website for each geocoder service for the most up-to-date details on costs, capabilities, and usage limitations.
+The supported geocoder services are shown in the table below. The "method" is used to specify the geocoder service in tidygeocoder functions such as `geo()` and `reverse_geo()`. Refer to the [API Reference page](https://jessecambon.github.io/tidygeocoder/articles/api_reference.html) and to each service's API documentation for more details.
 
 
-```{r, echo = FALSE, message = FALSE, warning = FALSE}
+```{r, echo = FALSE, message = FALSE, warning = FALSE, output = 'asis'}
 library(dplyr)
+
+check_mark <- "\U2705" #unicode character for heavy white check mark
 
 geocoder_summary_table <-
   tidygeocoder::api_info_reference %>%
@@ -69,16 +68,17 @@ geocoder_summary_table <-
       service = paste0(
         '[', method_display_name, '](', site_url, ')'
       ),
-      batch_geocoding = ifelse(method %in% names(tidygeocoder:::batch_func_map), 'X', ''),
-      api_key_required = ifelse(method %in% tidygeocoder::api_key_reference[['method']], 'X', ''),
+      batch_geocoding = ifelse(method %in% names(tidygeocoder:::batch_func_map), check_mark, ''),
+      api_key_required = ifelse(method %in% tidygeocoder::api_key_reference[['method']], check_mark, ''),
       api_documentation = paste0(
         '[docs](', api_documentation_url, ')'
       )
     ) %>%
     left_join(tidygeocoder::min_time_reference %>% select(method, description), by = 'method') %>%
     select(service, method, api_key_required, batch_geocoding, usage_limitations = description, api_documentation) %>%
-    mutate(across(method, function(x) stringr::str_c('`', x, '`'))) # format method column
-
+    mutate(across(method, function(x) stringr::str_c('`', x, '`'))) %>% # format method column
+    tidyr::replace_na(list(usage_limitations = ''))
+  
 # Format column names
 colnames(geocoder_summary_table) <- colnames(geocoder_summary_table) %>%
   stringr::str_replace_all('_', ' ') %>%
@@ -91,8 +91,9 @@ geocoder_summary_table %>%
 
 **Highlights:**
 
--   The US Census service is limited to the United States while Geocodio is limited to the US and Canada.
--   The Census and Nominatim (OSM) services are free and do not require an API key.
+-   The US Census service does not support reverse geocoding and is limited to the United States.
+-   Geocodio is limited to the United States and Canada.
+-   The Census and Nominatim ("osm") services are free and do not require an API key.
 -   ArcGIS can be used for free without an API key, but some features require a paid subscription and API key.
 -   The Geocodio, Location IQ, OpenCage, Mapbox, HERE, TomTom, MapQuest, and Bing are commercial services that offer free tiers.
 -   The Google service has no free tier and [bills per query](https://developers.google.com/maps/documentation/geocoding/usage-and-billing).
@@ -100,7 +101,6 @@ geocoder_summary_table %>%
 **Notes:**
 
 -   The US Census service supports street-level addresses only (ie. "11 Wall St New York, NY" is OK but "New York, NY" is not).
--   The Census service does not support reverse geocoding.
 -   The Mapbox service is capable of performing batch geocoding when using the [permanent endpoint](https://docs.mapbox.com/api/search/geocoding/#batch-geocoding), but this capability is not currently implemented in tidygeocoder. If you'd like to add this capability to the package see [issue \#73](https://github.com/jessecambon/tidygeocoder/issues/73).
 -   The ArcGIS service is capable of performing [batch geocoding](https://developers.arcgis.com/rest/geocode/api-reference/geocoding-geocode-addresses.htm) but this capability is not currently implemented in tidygeocoder. If you'd like to add this capability see [#102](https://github.com/jessecambon/tidygeocoder/issues/102).
 -   For the ArcGIS service, an API Key is not strictly required if the service is used for search capabilities only (see [Free vs. paid operations](https://developers.arcgis.com/rest/geocode/api-reference/geocoding-free-vs-paid.htm)). It is possible to include an API Key on the request via the `custom_query` parameter:
@@ -190,7 +190,7 @@ citation('tidygeocoder')
 </br>
 
 <blockquote> 
-```{r, echo = FALSE, comment = ''}
+```{r, comment = '', echo = FALSE}
 citation('tidygeocoder')
 ```
 </blockquote>

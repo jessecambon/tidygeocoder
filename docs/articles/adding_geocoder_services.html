@@ -14,7 +14,7 @@
 <script src="../pkgdown.js"></script><!-- docsearch --><script src="../docsearch.js"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/docsearch.js/2.6.3/docsearch.min.css" integrity="sha256-QOSRU/ra9ActyXkIBbiIB144aDBdtvXBcNc3OTNuX/Q=" crossorigin="anonymous">
 <link href="../docsearch.css" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/jquery.mark.min.js" integrity="sha256-4HLtjeVgH0eIB3aZ9mLYF6E8oU5chNdjU6p6rrXpl9U=" crossorigin="anonymous"></script><meta property="og:title" content="Adding a Geocoder Service">
-<meta property="og:description" content="Refer to this page on how to add support for a geocoder service to the package.
+<meta property="og:description" content="Refer to this page for instructions on how to add support for a geocoder service to tidygeocoder.
 ">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
@@ -109,6 +109,12 @@
     
 <p>This page documents how to add support for a new geocoder service to the package. Required changes are organized by file. If anything isn’t clear, feel free to <a href="https://github.com/jessecambon/tidygeocoder/issues">file an issue</a>.</p>
 <p><strong>Base all changes on the main branch</strong>.</p>
+<div id="introduction" class="section level2">
+<h2 class="hasAnchor">
+<a href="#introduction" class="anchor"></a>Introduction</h2>
+<p>The two core functions to focus on in the package are <a href="https://github.com/jessecambon/tidygeocoder/blob/master/R/geo.R">geo()</a> and <a href="https://github.com/jessecambon/tidygeocoder/blob/master/R/reverse_geo.R">reverse_geo()</a>. These functions have a very similar layout, but <code><a href="../reference/geo.html">geo()</a></code> is for forward geocoding while <code><a href="../reference/reverse_geo.html">reverse_geo()</a></code> is for reverse geocoding. The <code><a href="../reference/geocode.html">geocode()</a></code> and <code><a href="../reference/reverse_geocode.html">reverse_geocode()</a></code> functions extract input data and pass it to the <code><a href="../reference/geo.html">geo()</a></code> and <code><a href="../reference/reverse_geo.html">reverse_geo()</a></code> functions respectively.</p>
+<p>Both the <code><a href="../reference/geo.html">geo()</a></code> and <code><a href="../reference/reverse_geo.html">reverse_geo()</a></code> functions take inputs (either addresses or coordinates) and call other functions as needed to deduplicate the inputs, pause to comply with API usage rate policies, and execute geocoding queries. Key parameters and settings for geocoding are stored for easy access and display in built-in datasets which are documented below.</p>
+</div>
 <div id="files-to-update" class="section level2">
 <h2 class="hasAnchor">
 <a href="#files-to-update" class="anchor"></a>Files to Update</h2>
@@ -221,8 +227,8 @@
 <ul>
 <li>Test out the new method with <code>verbose = TRUE</code> to make sure it behaves as expected. You can reference tests available <a href="https://github.com/jessecambon/tidygeocoder/tree/master/sandbox">the ‘sandbox’ folder</a> for reference.</li>
 <li>Run <code><a href="https://devtools.r-lib.org//reference/check.html">devtools::check()</a></code> to make sure the package still passes all tests and the vignette runs properly. To only run the package tests use <code><a href="https://devtools.r-lib.org//reference/test.html">devtools::test()</a></code>, but note these tests do not query the geocoder services to avoid external dependencies.</li>
-<li>Run <a href="https://github.com/jessecambon/tidygeocoder/blob/master/external_tests/online_tests.R">external_tests/online_tests.R</a> which will test making queries to the geocoder services. These tests are not included internally because they require API keys which would not exist on all systems and are dependent on the geocoder services being online at that the time of the test.</li>
-<li>Run the commands detailed in <a href="https://github.com/jessecambon/tidygeocoder/blob/master/cran-comments.md">cran-comments.md</a> to test the package on other environments.</li>
+<li>Run <a href="https://github.com/jessecambon/tidygeocoder/blob/master/external_tests/online_tests.R">external_tests/online_tests.R</a> to test making queries to the geocoder services. These tests are not included in the internal package tests (<code><a href="https://devtools.r-lib.org//reference/test.html">devtools::test()</a></code>) because they require API keys which would not exist on all systems and are dependent on the geocoder services being online at that the time of the test.</li>
+<li>Run the commands detailed in <a href="https://github.com/jessecambon/tidygeocoder/blob/master/cran-comments.md">cran-comments.md</a> to test the package on other environments. Note that these tests should also be included in the automated GitHub actions tests for pull requests.</li>
 </ul>
 </div>
   </div>

@@ -19,12 +19,11 @@ get_key <- function(method) {
 get_min_query_time <- function(method) {
   
   # Get min_time from min_time_reference. If method not found then default to 0
-  min_time <- if (method %in% names(tidygeocoder::min_time_reference)) {
-    get_setting_value(tidygeocoder::min_time_reference, method, 'min_time')
+  if (method %in% tidygeocoder::min_time_reference[['method']]) {
+    min_time <- get_setting_value(tidygeocoder::min_time_reference, method, 'min_time')
   } else {
-    0
+    min_time <- 0
   }
-  
   return(min_time)
 }
 
@@ -62,10 +61,10 @@ create_api_parameter <- function(method_name, param_name, value) {
 #' @description 
 #' The geocoder API query is created using universal "generic" parameters
 #' and optional api-specific "custom" parameters. Generic parameters
-#' are converted into api parameters using the  \code{\link{api_parameter_reference}} 
+#' are converted into api parameters using the  [api_parameter_reference] 
 #' dataset. 
 #' 
-#' The \code{\link{query_api}} function executes the queries created 
+#' The [query_api] function executes the queries created 
 #' by this function.
 #'  
 #' @param method method name (ie. 'census')
@@ -78,7 +77,7 @@ create_api_parameter <- function(method_name, param_name, value) {
 #' get_api_query("census", list(street = '11 Wall St', city = "NY", state = 'NY'),
 #'   list(benchmark = "Public_AR_Census2010"))
 #'
-#' @seealso \code{\link{query_api}} \code{\link{geo}} \code{\link{api_parameter_reference}} 
+#' @seealso [query_api] [api_parameter_reference] [geo] [reverse_geo]
 #' @export
 get_api_query <- function(method, generic_parameters = list(), custom_parameters = list() ) {
   api_ref <- tidygeocoder::api_parameter_reference
@@ -133,24 +132,22 @@ get_api_query <- function(method, generic_parameters = list(), custom_parameters
 #' Execute a geocoder API query
 #' 
 #' @description
-#' The \code{\link{get_api_query}} function can create queries for this
+#' The [get_api_query] function can create queries for this
 #' function to execute.  
 #' 
 #' @param api_url Base URL of the API. query parameters are appended to this
 #' @param query_parameters api query parameters in the form of a named list
 #' @param mode 
-#' \itemize{
-#'     \item \code{"single"} : geocode a single address (all methods)
-#'     \item \code{"list"} : batch geocode a list of addresses (geocodio)
-#'     \item \code{"file"} : batch geocode a file of addresses (census)
-#' }
+#'     - `"single"` : geocode a single address (all methods)
+#'     - `"list"` : batch geocode a list of addresses (geocodio)
+#'     - `"file"` : batch geocode a file of addresses (census)
 #' @param batch_file a csv file of addresses to upload (census)
 #' @param input_list a list of addresses or latitude, longitude coordinates for batch geocoding (geocodio)
 #' should be 'json' for geocodio and 'multipart' for census 
 #' @param content_encoding Encoding to be used for parsing content
 #' @param timeout timeout in minutes
 #' @param method if 'mapquest' then the query status code is changed appropriately
-#' @return a named list containing the response content (\code{content}) and the HTTP request status (\code{status})
+#' @return a named list containing the response content (`content`) and the HTTP request status (`status`)
 #' @examples
 #' \donttest{
 #' raw1 <- query_api("http://nominatim.openstreetmap.org/search", 
@@ -166,7 +163,7 @@ get_api_query <- function(method, generic_parameters = list(), custom_parameters
 #' extract_reverse_results('osm', jsonlite::fromJSON(raw2$content))
 #' }
 #' 
-#' @seealso \code{\link{get_api_query}} \code{\link{extract_results}} \code{\link{geo}}
+#' @seealso [get_api_query] [extract_results] [extract_reverse_results] [geo] [reverse_geo]
 #' @export 
 query_api <- function(api_url, query_parameters, mode = 'single', 
           batch_file = NULL, input_list = NULL, content_encoding = 'UTF-8', timeout = 20, method = '') {

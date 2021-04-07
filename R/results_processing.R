@@ -3,10 +3,10 @@
 #' Extract forward geocoding results 
 #' 
 #' @description
-#' Parses the output of the \code{\link{query_api}} function for single
+#' Parses the output of the [query_api] function for single
 #' address geocoding (ie. not batch geocoding).
 #' Latitude and longitude are extracted into the first two columns
-#' of the returned dataframe.  Refer to \code{\link{query_api}} for example
+#' of the returned dataframe.  Refer to  [query_api] for example
 #' usage.
 #' 
 #' @param method method name
@@ -16,29 +16,23 @@
 #' @param flatten if TRUE then flatten any nested dataframe content
 #' @param limit only used for 'google' and 'census' methods. Limits number of results per address.
 #' @return geocoder results in tibble format 
-#' @seealso \code{\link{get_api_query}} \code{\link{query_api}} \code{\link{geo}}
+#' @seealso [get_api_query] [query_api] [geo]
 #' @export 
 extract_results <- function(method, response, full_results = TRUE, flatten = TRUE, limit = 1) {
   # NOTE - the geo() function takes the output of this function and renames the 
   # latitude and longitude columns
-  
-  if (method == 'google') {
-    rows_to_return <- min(nrow(response$results), limit)
-  } else if (method == 'census') {
-    rows_to_return <- min(nrow(response$result$addressMatches$coordinates), limit)
-  }
   
   NA_result <- get_na_value('lat', 'long', 1)
   
   # extract latitude and longitude as a dataframe
   # latitude should be first column and longitude should be second column (column names don't matter here, just position)
   lat_lng <- switch(method,
-      'census' = response$result$addressMatches$coordinates[c('y','x')][1:rows_to_return, ],
+      'census' = response$result$addressMatches$coordinates[c('y','x')],
       'osm' = response[c('lat', 'lon')],
       'iq' = response[c('lat', 'lon')],
       'geocodio' = response$results$location[c('lat', 'lng')],
       # note the application of the limit argument for google
-      'google' = response$results$geometry$location[c('lat','lng')][1:rows_to_return, ],
+      'google' = response$results$geometry$location[c('lat','lng')],
       'opencage' = response$results$geometry[c('lat', 'lng')],
       'mapbox' = data.frame(
         'lat' = response$features$center[[1]][2],
@@ -47,24 +41,21 @@ extract_results <- function(method, response, full_results = TRUE, flatten = TRU
       'here' = response$items$position[c('lat','lng')],
       'tomtom' = response$results$position[c('lat', 'lon')],
       'mapquest' = response$results$locations[[1]]$latLng[c('lat','lng')],
-      'bing' = data.frame(
-        'lat' = response$resourceSets$resources[[1]]$point$coordinates[[1]][1],
-        'long' = response$resourceSets$resources[[1]]$point$coordinates[[1]][2]
-      ),
+      'bing' = as.data.frame(matrix(unlist(response$resourceSets$resources[[1]]$point$coordinates), 
+            ncol = 2, byrow = TRUE), col.names = c('lat', 'long')),
       'arcgis' = response$candidates$location[c('y', 'x')]
   )
   
   # Return NA if data is not empty or not valid (cannot be turned into a dataframe)
-  if (is.null(names(lat_lng)) | all(sapply(lat_lng, is.null)) | length(lat_lng) == 0) return(NA_result)
+  if (is.null(names(lat_lng)) || all(sapply(lat_lng, is.null)) || length(lat_lng) == 0) return(NA_result)
+  if (nrow(lat_lng) == 0 || ncol(lat_lng) != 2) return(NA_result)
   
-  if (nrow(lat_lng) == 0 | ncol(lat_lng) != 2) return(NA_result)
   
-  # Extract results for Bing
-  if (method == 'bing') {
-    lat_lng <- as.data.frame(
-      matrix(unlist(response$resourceSets$resources[[1]]$point$coordinates), ncol = 2, byrow=TRUE),
-      col.names = c('lat', 'lng')
-    )
+  # For methods without a limit **API** parameter...
+  # limit nrows in results to limit if limit is not NULL.
+  if (method %in% c('census', 'google')) {
+    rows_to_return <- min(limit, nrow(lat_lng))
+    lat_lng <- lat_lng[1:rows_to_return, ]
   }
   
   # convert to numeric format. sapply is used because there could be multiple coordinates returned
@@ -91,6 +82,12 @@ extract_results <- function(method, response, full_results = TRUE, flatten = TRU
         'arcgis' = response$candidates
      ))
     
+    # Formatted address for mapquest
+    if (method == 'mapquest'){
+      frmt_address <- format_address(results,
+                                     c('street', paste0('adminArea', seq(6, 1))))
+      results <- tibble::as_tibble(cbind(frmt_address, results))
+    }
     
     # add prefix to variable names that likely could be in our input dataset
     # to avoid variable name overlap
@@ -98,13 +95,6 @@ extract_results <- function(method, response, full_results = TRUE, flatten = TRU
       if (var %in% names(results)) {
         names(results)[names(results) == var] <- paste0(method, '_', var)
       }
-    }
-    
-    # Formatted address for mapquest
-    if (method == 'mapquest'){
-      frmt_address <- format_address(results,
-                                     c('street', paste0('adminArea', seq(6, 1))))
-      results <- tibble::as_tibble(cbind(frmt_address, results))
     }
     
     combined_results <- dplyr::bind_cols(lat_lng, results)
@@ -120,25 +110,27 @@ extract_results <- function(method, response, full_results = TRUE, flatten = TRU
 #' Extract reverse geocoding results 
 #' 
 #' @description
-#' Parses the output of the \code{\link{query_api}} function for reverse geoocding.
+#' Parses the output of the [query_api] function for reverse geoocding.
 #' The address is extracted into the first column
 #' of the returned dataframe. This function is not used for batch 
-#' geocoded results. Refer to \code{\link{query_api}} for example
+#' geocoded results. Refer to [query_api] for example
 #' usage.
 #' 
 #' @param method method name
-#' @param response  content from the geocoder service (returned by the \code{\link{query_api}} function)
+#' @param response  content from the geocoder service (returned by the [query_api] function)
 #' @param full_results if TRUE then the full results (not just an address column)
 #'   will be returned.
 #' @param flatten if TRUE then flatten any nested dataframe content
 #' @param limit only used for method = 'google'. Limits number of results per coordinate.
 #' @return geocoder results in tibble format 
-#' @seealso \code{\link{get_api_query}} \code{\link{query_api}} \code{\link{reverse_geo}}
+#' @seealso [get_api_query] [query_api] [reverse_geo]
 #' @export 
 extract_reverse_results <- function(method, response, full_results = TRUE, flatten = TRUE, limit = 1) {
   # NOTE - the reverse_geo() function takes the output of this function and renames the 
   # address column
   
+  # For methods without a limit **API** parameter...
+  # limit nrows in results to limit if limit is not NULL.
   if (method == 'google') {
     rows_to_return <- min(nrow(response$results), limit)
   }

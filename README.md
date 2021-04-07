@@ -8,6 +8,8 @@
 [![Project Status: Active – The project has reached a stable, usable
 state and is being actively
 developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
+[![Lifecycle:
+stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://lifecycle.r-lib.org/articles/stages.html#stable)
 [![License:
 MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/jessecambon/tidygeocoder/blob/master/LICENSE.md)
 [![CRAN](https://www.r-pkg.org/badges/version/tidygeocoder)](https://cran.r-project.org/package=tidygeocoder)
@@ -16,8 +18,6 @@ Downloads](http://cranlogs.r-pkg.org/badges/grand-total/tidygeocoder)](https://C
 [![CRAN Downloads Per
 Month](http://cranlogs.r-pkg.org/badges/tidygeocoder)](https://cran.r-project.org/package=tidygeocoder)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.4448251.svg)](https://doi.org/10.5281/zenodo.4448251)
-<!--[![Github Stars](https://img.shields.io/github/stars/jessecambon/tidygeocoder?style=social&label=Github)](https://github.com/jessecambon/tidygeocoder) -->
-
 <!-- badges: end -->
 
 ## Introduction
@@ -29,8 +29,8 @@ results are returned in [tibble](https://tibble.tidyverse.org/)
 
 **Features:**
 
--   Both **forward geocoding** (addresses -&gt; coordinates) and
-    **reverse geocoding** (coordinates -&gt; addresses) are supported.
+-   Both **forward geocoding** (addresses ⮕ coordinates) and **reverse
+    geocoding** (coordinates ⮕ addresses) are supported.
 -   **Batch geocoding** (geocoding multiple addresses or coordinates in
     a single query) is used by default if supported by the geocoder
     service when multiple inputs (addresses or coordinates) are provided
@@ -70,37 +70,40 @@ Alternatively, you can install the latest development version from
 GitHub:
 
 ``` r
-if(!require(devtools)) install.packages("devtools")
 devtools::install_github("jessecambon/tidygeocoder")
 ```
 
 ## Geocoder Services
 
-The supported geocoder services are shown in the table below. Refer to
-the website for each geocoder service for the most up-to-date details on
-costs, capabilities, and usage limitations.
+The supported geocoder services are shown in the table below. The
+“method” is used to specify the geocoder service in tidygeocoder
+functions such as `geo()` and `reverse_geo()`. Refer to the [API
+Reference
+page](https://jessecambon.github.io/tidygeocoder/articles/api_reference.html)
+and to each service’s API documentation for more details.
 
 | Service                                                                                                 | Method     | API Key Required | Batch Geocoding | Usage Limitations                   | API Documentation                                                                                                                       |
 |:--------------------------------------------------------------------------------------------------------|:-----------|:-----------------|:----------------|:------------------------------------|:----------------------------------------------------------------------------------------------------------------------------------------|
-| [US Census](https://geocoding.geo.census.gov/)                                                          | `census`   |                  | X               | NA                                  | [docs](https://www.census.gov/programs-surveys/geography/technical-documentation/complete-technical-documentation/census-geocoder.html) |
 | [Nominatim](https://nominatim.org)                                                                      | `osm`      |                  |                 | 1 query per second                  | [docs](https://nominatim.org/release-docs/develop/api/Search/)                                                                          |
-| [ArcGIS](https://developers.arcgis.com/rest/geocode/api-reference/overview-world-geocoding-service.htm) | `arcgis`   |                  |                 | NA                                  | [docs](https://developers.arcgis.com/rest/geocode/api-reference/overview-world-geocoding-service.htm)                                   |
-| [Geocodio](https://www.geocod.io/)                                                                      | `geocodio` | X                | X               | 1000 queries per minute (free tier) | [docs](https://www.geocod.io/docs/)                                                                                                     |
-| [Location IQ](https://locationiq.com/)                                                                  | `iq`       | X                |                 | 2 queries per second (free tier)    | [docs](https://locationiq.com/docs)                                                                                                     |
-| [Google](https://developers.google.com/maps/documentation/geocoding/overview)                           | `google`   | X                |                 | 50 queries per second               | [docs](https://developers.google.com/maps/documentation/geocoding/overview)                                                             |
-| [OpenCage](https://opencagedata.com)                                                                    | `opencage` | X                |                 | 1 query/second                      | [docs](https://opencagedata.com/api)                                                                                                    |
-| [Mapbox](https://docs.mapbox.com/api/search/)                                                           | `mapbox`   | X                |                 | 600 queries per minute (free tier)  | [docs](https://docs.mapbox.com/api/search/geocoding/)                                                                                   |
-| [HERE](https://developer.here.com/products/geocoding-and-search)                                        | `here`     | X                | X               | 5 queries per second (free tier)    | [docs](https://developer.here.com/documentation/geocoding-search-api/dev_guide/index.html)                                              |
-| [TomTom](https://developer.tomtom.com/search-api/search-api-documentation/geocoding)                    | `tomtom`   | X                | X               | 5 queries per second (free tier)    | [docs](https://developer.tomtom.com/search-api/search-api-documentation-geocoding/geocode)                                              |
-| [MapQuest](https://developer.mapquest.com/documentation/geocoding-api/)                                 | `mapquest` | X                | X               | NA                                  | [docs](https://developer.mapquest.com/documentation/geocoding-api/)                                                                     |
-| [Bing](https://docs.microsoft.com/en-us/bingmaps/rest-services/locations/)                              | `bing`     | X                | X               | NA                                  | [docs](https://docs.microsoft.com/en-us/bingmaps/rest-services/locations/)                                                              |
+| [US Census](https://geocoding.geo.census.gov/)                                                          | `census`   |                  | ✅               |                                     | [docs](https://www.census.gov/programs-surveys/geography/technical-documentation/complete-technical-documentation/census-geocoder.html) |
+| [ArcGIS](https://developers.arcgis.com/rest/geocode/api-reference/overview-world-geocoding-service.htm) | `arcgis`   |                  |                 |                                     | [docs](https://developers.arcgis.com/rest/geocode/api-reference/overview-world-geocoding-service.htm)                                   |
+| [Geocodio](https://www.geocod.io/)                                                                      | `geocodio` | ✅                | ✅               | 1000 queries per minute (free tier) | [docs](https://www.geocod.io/docs/)                                                                                                     |
+| [Location IQ](https://locationiq.com/)                                                                  | `iq`       | ✅                |                 | 2 queries per second (free tier)    | [docs](https://locationiq.com/docs)                                                                                                     |
+| [Google](https://developers.google.com/maps/documentation/geocoding/overview)                           | `google`   | ✅                |                 | 50 queries per second               | [docs](https://developers.google.com/maps/documentation/geocoding/overview)                                                             |
+| [OpenCage](https://opencagedata.com)                                                                    | `opencage` | ✅                |                 | 1 query/second                      | [docs](https://opencagedata.com/api)                                                                                                    |
+| [Mapbox](https://docs.mapbox.com/api/search/)                                                           | `mapbox`   | ✅                |                 | 600 queries per minute (free tier)  | [docs](https://docs.mapbox.com/api/search/geocoding/)                                                                                   |
+| [HERE](https://developer.here.com/products/geocoding-and-search)                                        | `here`     | ✅                | ✅               | 5 queries per second (free tier)    | [docs](https://developer.here.com/documentation/geocoding-search-api/dev_guide/index.html)                                              |
+| [TomTom](https://developer.tomtom.com/search-api/search-api-documentation/geocoding)                    | `tomtom`   | ✅                | ✅               | 5 queries per second (free tier)    | [docs](https://developer.tomtom.com/search-api/search-api-documentation-geocoding/geocode)                                              |
+| [MapQuest](https://developer.mapquest.com/documentation/geocoding-api/)                                 | `mapquest` | ✅                | ✅               |                                     | [docs](https://developer.mapquest.com/documentation/geocoding-api/)                                                                     |
+| [Bing](https://docs.microsoft.com/en-us/bingmaps/rest-services/locations/)                              | `bing`     | ✅                | ✅               |                                     | [docs](https://docs.microsoft.com/en-us/bingmaps/rest-services/locations/)                                                              |
 
 **Highlights:**
 
--   The US Census service is limited to the United States while Geocodio
-    is limited to the US and Canada.
--   The Census and Nominatim (OSM) services are free and do not require
-    an API key.
+-   The US Census service does not support reverse geocoding and is
+    limited to the United States.
+-   Geocodio is limited to the United States and Canada.
+-   The Census and Nominatim (“osm”) services are free and do not
+    require an API key.
 -   ArcGIS can be used for free without an API key, but some features
     require a paid subscription and API key.
 -   The Geocodio, Location IQ, OpenCage, Mapbox, HERE, TomTom, MapQuest,
@@ -112,7 +115,6 @@ costs, capabilities, and usage limitations.
 
 -   The US Census service supports street-level addresses only (ie. “11
     Wall St New York, NY” is OK but “New York, NY” is not).
--   The Census service does not support reverse geocoding.
 -   The Mapbox service is capable of performing batch geocoding when
     using the [permanent
     endpoint](https://docs.mapbox.com/api/search/geocoding/#batch-geocoding),

@@ -15,8 +15,9 @@ geocode(
   country = NULL,
   lat = lat,
   long = long,
+  return_input = TRUE,
   limit = 1,
-  return_addresses = FALSE,
+  return_addresses = NULL,
   unique_only = FALSE,
   ...
 )
@@ -43,18 +44,21 @@ address component arguments (street, city, county, state, postalcode, country)}
 
 \item{long}{longitude column name. Can be quoted or unquoted (ie. long or 'long').}
 
-\item{limit}{maximum number of results to return per address. For many geocoder services
-the maximum value for the limit parameter is 100. Pass \code{limit = NULL} to use
+\item{return_input}{if TRUE then return input dataset with geocoder results. If
+FALSE only the geocoder results will be included.}
+
+\item{limit}{maximum number of results to return per input address. For many geocoder services
+the maximum value of the limit parameter is 100. Pass \code{limit = NULL} to use
 the default \code{limit} value of the selected geocoder service.
 For batch geocoding, limit must be set to 1 (default) if \code{return_addresses = TRUE}
-To use \code{limit > 1} or \code{limit = NULL} either \code{return_addresses} or \code{unique_only} must be set to TRUE.
+To use \code{limit > 1} or \code{limit = NULL} set return_input to FALSE.
 Refer to \link{api_parameter_reference} for more details.}
 
-\item{return_addresses}{return input addresses with results if TRUE. Note that
-most services return the input addresses with \code{full_results = TRUE} and setting
-return_addresses to FALSE does not prevent this.}
+\item{return_addresses}{if TRUE return addresses. Defaults to TRUE if return_input is FALSE
+and FALSE if return_input is TRUE. This is passed to the geo() function.}
 
-\item{unique_only}{only return results for unique inputs if TRUE}
+\item{unique_only}{if TRUE then only unique results will be returned and
+return_input will be set to FALSE.}
 
 \item{...}{arguments passed to the \link{geo} function}
 }
@@ -78,18 +82,18 @@ both acceptable).
 \examples{
 \donttest{
 library(dplyr)
-sample_addresses[1:2,] \%>\% geocode(addr)
+sample_addresses[1:2, ] \%>\% geocode(addr)
 
-louisville[1:2,] \%>\% geocode(street = street, city = city, state = state,
+louisville[1:2, ] \%>\% geocode(street = street, city = city, state = state,
   postalcode = zip)
 
-sample_addresses[8:9,] \%>\% geocode(addr, method = 'osm',
+sample_addresses[8:9, ] \%>\% geocode(addr, method = 'osm',
   lat = 'lattes', long = 'longos')
 
-sample_addresses[4:5,] \%>\% geocode(addr, method = 'cascade',
+sample_addresses[4:5, ] \%>\% geocode(addr, method = 'cascade',
   lat = latitude, long = longitude)
 }
 }
 \seealso{
-\code{\link{geo}}
+\link{geo}
 }

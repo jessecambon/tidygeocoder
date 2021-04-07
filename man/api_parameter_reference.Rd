@@ -42,8 +42,8 @@ Also reference \code{vignette("tidygeocoder")} for more details on constructing 
 \details{
 The API documentation for each service is linked to below:
 \itemize{
-\item \href{https://www.census.gov/programs-surveys/geography/technical-documentation/complete-technical-documentation/census-geocoder.html}{US Census}
 \item \href{https://nominatim.org/release-docs/develop/api/Search/}{Nominatim}
+\item \href{https://www.census.gov/programs-surveys/geography/technical-documentation/complete-technical-documentation/census-geocoder.html}{US Census}
 \item \href{https://developers.arcgis.com/rest/geocode/api-reference/overview-world-geocoding-service.htm}{ArcGIS}
 \item \href{https://www.geocod.io/docs/}{Geocodio}
 \item \href{https://locationiq.com/docs}{Location IQ}

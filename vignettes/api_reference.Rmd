@@ -20,13 +20,11 @@ library(gt)
 library(dplyr)
 ```
 
-This page displays the built-in datasets that are used in the tidygeocoder package to set parameters and settings for geocoder queries.
+This page displays the built-in datasets that are used in the tidygeocoder package to set parameters and settings for geocoder queries. Refer to [the table on the home page](https://jessecambon.github.io/tidygeocoder/#geocoder-services) for a summary of the supported geocoder services.
 
 ## API Parameters
 
-The `api_parameter_reference` maps geocoder service API parameters to a common set of "generic" parameters. The `generic_name` is the universal parameter named shared between services while `api_name` is the name of the parameter for the specified service (`method`). 
-
-Note that the input parameters (latitude and longitude) for reverse geocoding are not contained in this dataset and are instead handled directly by the `reverse_geo()` function. Refer to `?api_parameter_reference` for more details and links to the API documentation for each geocoder service.
+The `api_parameter_reference` maps geocoder service API parameters to a common set of "generic" parameters. Refer to `?api_parameter_reference` for more details.
 
 ```{r, echo = FALSE}
 api_parameter_reference %>% 

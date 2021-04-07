@@ -13,7 +13,7 @@
 \alias{geo_mapquest}
 \alias{geo_bing}
 \alias{geo_arcgis}
-\title{Convenience functions for calling the \code{\link{geo}} function
+\title{Convenience functions for calling the \code{geo} function
 with a specified method}
 \usage{
 geo_census(...)
@@ -41,9 +41,8 @@ geo_bing(...)
 geo_arcgis(...)
 }
 \arguments{
-\item{...}{arguments to be passed to the \code{\link{geo}} function}
+\item{...}{arguments to be passed to the \code{geo} function}
 }
 \description{
-Convenience functions for calling the \code{\link{geo}} function
-with a specified method
+\ifelse{html}{\figure{lifecycle-deprecated.svg}{options: alt='Deprecated lifecycle'}}{\strong{Deprecated}}
 }

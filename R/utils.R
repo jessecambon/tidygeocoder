@@ -58,7 +58,7 @@ print_time <- function(text, num_seconds) {
 }
 
 # Use Sys.sleep() to pause until a certain amount of time has elapsed
-pause_until <- function(start_time, min_time, debug=FALSE) {
+pause_until <- function(start_time, min_time, debug = FALSE) {
   ## Make sure the proper amount of time has elapsed for the query per min_time
   seconds_elapsed <- get_seconds_elapsed(start_time)
   if (debug == TRUE) print_time("Query completed in", seconds_elapsed)
