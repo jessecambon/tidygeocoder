@@ -23,6 +23,8 @@
 #' @examples
 #' \donttest{
 #' library(tibble)
+#' library(dplyr)
+#' 
 #' reverse_geocode(
 #'   tibble(
 #'     latitude = c(38.895865, 43.6534817),
@@ -34,6 +36,16 @@
 #'   full_results = TRUE,
 #'   verbose = TRUE
 #' )
+#' 
+#' louisville %>% head(5) %>% 
+#'   reverse_geocode(lat = latitude, long = longitude, 
+#'   method = 'arcgis', full_results = TRUE, verbose = TRUE)
+#' 
+#' louisville %>% head(2) %>% 
+#'   reverse_geocode(lat = latitude, long = longitude,  
+#'   method = 'osm', verbose = TRUE,
+#'   limit = 5, return_input = FALSE)
+#' 
 #' }
 #' @seealso [reverse_geo]
 #' @export
