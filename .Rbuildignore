@@ -15,4 +15,5 @@
 ^CRAN-RELEASE$
 ^.github$
 ^external$
-^vignettes/api_reference\.Rmd$
+^vignettes/geocoder_services\.Rmd$
+^vignettes/developer_notes\.Rmd$

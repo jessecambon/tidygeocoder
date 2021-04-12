@@ -1,5 +1,7 @@
 ## Test geocoding functionality without making any API calls
 
+library(tibble)
+
 # get all method names
 all_methods <- unique(tidygeocoder::api_parameter_reference[['method']])
 
