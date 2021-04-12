@@ -1,3 +1,5 @@
+home:
+  strip_header: true
 url: https://jessecambon.github.io/tidygeocoder
 template:
   params:
@@ -33,6 +35,23 @@ reference:
   - query_api
   - extract_results
   - extract_reverse_results
+navbar:
+  type: default
+  left:
+    - text: "Articles"
+      menu: 
+      -  text: Getting Started
+         href: articles/tidygeocoder.html
+      -  text: Geocoder Services
+         href: articles/geocoder_services.html
+      -  text: Developer Notes
+         href: articles/developer_notes.html
+    - text: Reference
+      href: reference/index.html
+    - text: News
+      href: news/index.html
+development:
+  version_tooltip: "Development version"
 authors:
   Jesse Cambon:
     href: https://jessecambon.github.io

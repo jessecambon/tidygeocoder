@@ -1,23 +1,65 @@
 ---
-title: "Adding a Geocoder Service"
+title: "Developer Notes"
 output: rmarkdown::html_vignette
 description: >
-  Refer to this page for instructions on how to add support for a geocoder service to tidygeocoder.
+  Documentation for developers including how to add support for an additional geocoder service
 vignette: >
-  %\VignetteIndexEntry{Adding a Geocoder Service}
+  %\VignetteIndexEntry{Developer Notes}
   %\VignetteEngine{knitr::rmarkdown}
   \usepackage[utf8]{inputenc}
 ---
 
-This page documents how to add support for a new geocoder service to the package. Required changes are organized by file. If anything isn't clear, feel free to [file an issue](https://github.com/jessecambon/tidygeocoder/issues).
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+options(tibble.print_min = 5, tibble.print_max = 5)
 
-**Base all changes on the main branch**.
+library(dplyr)
+library(tidygeocoder)
+```
 
-## Introduction
+This page contains documentation for those wishing to contribute to the package and instructions on how to add support for a new geocoder service.
+
+# General Developer Notes
 
 The two core functions to focus on in the package are [geo()](https://github.com/jessecambon/tidygeocoder/blob/master/R/geo.R) and [reverse_geo()](https://github.com/jessecambon/tidygeocoder/blob/master/R/reverse_geo.R). These functions have a very similar layout, but `geo()` is for forward geocoding while `reverse_geo()` is for reverse geocoding. The `geocode()` and `reverse_geocode()` functions extract input data and pass it to the `geo()` and `reverse_geo()` functions respectively. 
 
-Both the `geo()` and `reverse_geo()` functions take inputs (either addresses or coordinates) and call other functions as needed to deduplicate the inputs, pause to comply with API usage rate policies, and execute geocoding queries. Key parameters and settings for geocoding are stored for easy access and display in built-in datasets which are documented below.
+Both the `geo()` and `reverse_geo()` functions take inputs (either addresses or coordinates) and call other functions as needed to deduplicate the inputs, pause to comply with API usage rate policies, and execute geocoding queries. Key parameters and settings for geocoding are stored for easy access and display in built-in datasets. 
+
+Consider this query:
+
+```{r}
+library(dplyr)
+library(tidygeocoder)
+
+df <- tibble(
+  id = c(1, 2, 1),
+  locations = c('tokyo', 'madrid', 'tokyo')
+  )
+
+df %>%
+  geocode(address = locations, method = 'osm', full_results = TRUE, verbose = TRUE)
+```
+
+Here is what is going on behind the scenes:
+
+- The `geocode()` function extracts the address data from the input dataframe and passes it to the `geo()` function.
+- The `geo()` function looks for unique inputs and prepares them for geocoding. In this case, there is one duplicate input so we only have two unique inputs.
+- The `geo()` function must figure out whether to use perform *single address geocoding* (1 address per query) or *batch geocoding* (multiple addresses per query). In this case the specified Nominatim ('osm') geocoder service does not have a batch geocoding function so single address geocoding is used.
+- Because single address geocoding is used, the `geo()` function is called once for each input to geocode all addresses (twice in this case) and the results are combined. If batch geocoding was used then the appropriate batch geocoding function would be called based on the geocoder service specified.
+- Because the specified geocoder service has a usage limit, the rate of querying is limited accordingly. This behaviour can be modified with the `min_time` argument.
+- Since the input data was deduplicated, the results must be aligned to the original inputs (which contained duplicates) so that the original data structure is preserved. Alternatively, if you only want to return unique results, you can specify `unique_only = TRUE`.
+- This combined data is returned by `geo()` to the `geocode()` function. The `geocode()` function then combines the returned data with the original dataset. 
+
+Refer to the notes below on adding a geocoder service for documentation on the code structure.
+
+# Adding a New Geocoder Service
+
+This section documents how to add support for a new geocoder service to the package. Required changes are organized by file. If anything isn't clear, feel free to [file an issue](https://github.com/jessecambon/tidygeocoder/issues).
+
+**Base all changes on the main branch**.
 
 ## Files to Update
 

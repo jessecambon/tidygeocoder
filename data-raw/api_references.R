@@ -21,7 +21,7 @@ min_time_reference <- tibble::tribble(
   "geocodio",  60/1000,      "1000 queries per minute (free tier)",
   "iq",        1/2,          "2 queries per second (free tier)",
   "google",    1/50,         "50 queries per second",
-  "opencage",  1,            "1 query/second",
+  "opencage",  1,            "1 query per second",
   "mapbox",    60/600,       "600 queries per minute (free tier)",
   "tomtom",    1/5,          "5 queries per second (free tier)",
   "here",      1/5,          "5 queries per second (free tier)",

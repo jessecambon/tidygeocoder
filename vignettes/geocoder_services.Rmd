@@ -1,0 +1,148 @@
+---
+title: "Geocoder Services"
+output: rmarkdown::html_vignette
+description: >
+  Documentation on the supported geocoder services and their query parameters and settings
+vignette: >
+  %\VignetteIndexEntry{Geocoder Services}
+  %\VignetteEngine{knitr::rmarkdown}
+  \usepackage[utf8]{inputenc}
+---
+
+```{r, echo = FALSE, message = FALSE}
+knitr::opts_chunk$set(collapse = T, comment = "#>")
+options(tibble.print_min = 4L, tibble.print_max = 4L)
+set.seed(42)
+
+library(DT)
+library(tidygeocoder)
+library(gt)
+library(dplyr)
+```
+
+This page documents the supported geocoder services and also displays the built-in datasets the package uses to set query parameters and settings.
+
+## Overview
+
+The supported geocoder services are shown in the table below along with if they require an API key and support batch geocoding. The "method" is used to specify the geocoder service in tidygeocoder functions such as `geo()` and `reverse_geo()`. Refer to each service's API documentation for more details.
+
+
+```{r, echo = FALSE, message = FALSE, warning = FALSE, output = 'asis'}
+library(dplyr)
+
+check_mark <- "\U2705" #unicode character for heavy white check mark
+
+geocoder_summary_table <-
+  tidygeocoder::api_info_reference %>%
+    mutate(
+      service = paste0(
+        '[', method_display_name, '](', site_url, ')'
+      ),
+      batch_geocoding = ifelse(method %in% names(tidygeocoder:::batch_func_map), check_mark, ''),
+      api_key_required = ifelse(method %in% tidygeocoder::api_key_reference[['method']], check_mark, ''),
+      api_documentation = paste0(
+        '[docs](', api_documentation_url, ')'
+      )
+    ) %>%
+    left_join(tidygeocoder::min_time_reference %>% select(method, description), by = 'method') %>%
+    select(service, method, api_key_required, batch_geocoding, usage_limitations = description, api_documentation) %>%
+    mutate(across(method, function(x) stringr::str_c('`', x, '`'))) %>% # format method column
+    tidyr::replace_na(list(usage_limitations = ''))
+  
+# Format column names
+colnames(geocoder_summary_table) <- colnames(geocoder_summary_table) %>%
+  stringr::str_replace_all('_', ' ') %>%
+  stringr::str_to_title() %>%
+  stringr::str_replace_all('Api', 'API')
+
+geocoder_summary_table %>%
+  knitr::kable()
+```
+
+**Highlights:**
+
+-   The US Census service does not support reverse geocoding and is limited to the United States.
+-   Geocodio is limited to the United States and Canada.
+-   The Census and Nominatim ("osm") services are free and do not require an API key.
+-   ArcGIS can be used for free without an API key, but some features require a paid subscription and API key.
+-   The Geocodio, Location IQ, OpenCage, Mapbox, HERE, TomTom, MapQuest, and Bing are commercial services that offer free tiers.
+-   The Google service has no free tier and [bills per query](https://developers.google.com/maps/documentation/geocoding/usage-and-billing).
+
+**Notes:**
+
+-   The US Census service supports street-level addresses only (ie. "11 Wall St New York, NY" is OK but "New York, NY" is not).
+-   The Mapbox service is capable of performing batch geocoding when using the [permanent endpoint](https://docs.mapbox.com/api/search/geocoding/#batch-geocoding), but this capability is not currently implemented in tidygeocoder. If you'd like to add this capability to the package see [issue \#73](https://github.com/jessecambon/tidygeocoder/issues/73).
+-   The ArcGIS service is capable of performing [batch geocoding](https://developers.arcgis.com/rest/geocode/api-reference/geocoding-geocode-addresses.htm) but this capability is not currently implemented in tidygeocoder. If you'd like to add this capability see [#102](https://github.com/jessecambon/tidygeocoder/issues/102).
+-   For the ArcGIS service, an API Key is not strictly required if the service is used for search capabilities only (see [Free vs. paid operations](https://developers.arcgis.com/rest/geocode/api-reference/geocoding-free-vs-paid.htm)). It is possible to include an API Key on the request via the `custom_query` parameter:
+
+``` r
+tidygeocoder::geo(address = "New York, USA", method = "arcgis",
+  custom_query = list(token = "<API_KEY>"))
+```
+
+## Usage Notes
+
+- When used in batch mode, the **US Census** geocoder will return NA data when there are multiple results available for an address. The expectation is that you would see that a "Tie" is indicated and use single address geocoding to return the results for these addresses. See [#87](https://github.com/jessecambon/tidygeocoder/issues/87) for details.
+- When performing reverse geocoding, the **Mapbox** service requires a `types` parameter to be set if `limit > 1`. See [#104](https://github.com/jessecambon/tidygeocoder/issues/104).
+
+## API Parameters
+
+The `api_parameter_reference` maps the API parameters for each geocoder service to a common set of "generic" parameters. The `generic_name` below is the generic parameter name while the `api_name` is the parameter name for the specified geocoder service (`method`). Refer to `?api_parameter_reference` for more details.
+
+```{r, echo = FALSE}
+api_parameter_reference %>% 
+  mutate(across(c(method, generic_name, api_name), as.factor)) %>%
+  datatable(filter = 'top', rownames = FALSE, 
+  options = list(
+    lengthMenu = c(5, 10, 15, 20, nrow(.)),
+    pageLength = 10,
+    autoWidth = TRUE)
+  )
+```
+
+## Minimum Time Per Query
+
+The minimum time (in seconds) required per query to comply with the usage limitations is stored in the `min_time_reference` dataset. See `?min_time_reference`.
+
+```{r, echo = FALSE}
+min_time_reference %>%
+  gt() %>%
+  opt_table_outline() %>%
+  opt_table_lines() %>%
+  tab_options(column_labels.font.weight = 'bold')
+```
+
+## Batch Query Limits
+
+The maximum number of inputs (geographic coordinates or addresses) per batch query is stored in the `batch_limit_reference` dataset. See `?batch_limit_reference`.
+
+```{r, echo = FALSE}
+batch_limit_reference %>%
+  gt() %>%
+  fmt_number(columns = 'batch_limit', decimals = 0) %>%
+  opt_table_outline() %>%
+  opt_table_lines() %>%
+  tab_options(column_labels.font.weight = 'bold')
+```
+
+## API Key Retrieval 
+
+API keys are retrieved from environmental variables. The name of the environmental variable used for each service is stored in the `api_key_reference` dataset. See `?api_key_reference`.
+
+```{r, echo = FALSE}
+api_key_reference %>%
+  gt() %>%
+  opt_table_outline() %>%
+  opt_table_lines() %>%
+  tab_options(column_labels.font.weight = 'bold')
+```
+
+<!-- https://bookdown.org/yihui/rmarkdown-cookbook/results-asis.html -->
+
+## API Usage Policies
+
+Links to the usage policies for each geocoder service:
+
+```{r, echo = FALSE, results = 'asis'}
+cat(tidygeocoder:::get_api_usage_bullets(), sep = '\n')
+```
