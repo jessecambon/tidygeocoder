@@ -137,17 +137,17 @@ get_api_query <- function(method, generic_parameters = list(), custom_parameters
 #' 
 #' @param api_url Base URL of the API. query parameters are appended to this
 #' @param query_parameters api query parameters in the form of a named list
-#' @param mode
-#'     - `"single"` : geocode a single address (all methods)
-#'     - `"list"` : batch geocode a list of addresses (geocodio)
-#'     - `"file"` : batch geocode a file of addresses (census)
+#' @param mode determines the type of query to execute
+#' 
+#'     - "single": geocode a single input (all methods)
+#'     - "list": batch geocode a list of inputs (ex. geocodio)
+#'     - "file": batch geocode a file of inputs (ex. census)
 #'     
-#' @param batch_file a csv file of addresses to upload (census)
-#' @param input_list a list of addresses or latitude, longitude coordinates for batch geocoding (geocodio)
-#' should be 'json' for geocodio and 'multipart' for census 
+#' @param batch_file a csv file of input data to upload (for `mode = 'file'`)
+#' @param input_list a list of input data (for `mode = 'list'`)
 #' @param content_encoding Encoding to be used for parsing content
 #' @param timeout timeout in minutes
-#' @param method if 'mapquest' then the query status code is changed appropriately
+#' @param method if 'mapquest' or 'arcgis' then the query status code is changed appropriately
 #' @return a named list containing the response content (`content`) and the HTTP request status (`status`)
 #' @examples
 #' \donttest{
@@ -179,7 +179,6 @@ query_api <- function(api_url, query_parameters, mode = 'single',
    )
   
   httr::warn_for_status(response)
-  
   content <- httr::content(response, as = 'text', encoding = content_encoding)
   
   # MapQuest exception on GET
@@ -209,7 +208,10 @@ query_api <- function(api_url, query_parameters, mode = 'single',
     return(list(content = content, status = status_code))
   }
   
-  return(list(content = content, status = httr::status_code(response)))
+  return(list(
+      content = content, 
+      status = httr::status_code(response)
+    ))
 }
 
 # Functions for displaying API queries (when verbose = TRUE) ----------------------
@@ -265,7 +267,6 @@ add_common_generic_parameters <- function(generic_query, method, no_query, limit
     if (no_query == TRUE) generic_query[['api_key']] <- 'xxxxxxxxxx'
     else generic_query[['api_key']] <- get_key(method)
   }
-  
   # add limit parameter
   if (!is.null(limit)) generic_query[['limit']] <- limit
   

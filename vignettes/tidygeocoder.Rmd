@@ -81,7 +81,6 @@ cascade1 <- addr_comp1 %>% geocode(street = street, state = st, city = cty,
 knitr::kable(cascade1)
 ```
 
-
 To return the full geocoder service results (not just latitude and longitude), specify `full_results = TRUE`. Additionally, for the Census geocoder you can get fields for geographies such as Census tracts by specifying `return_type = 'geographies'`. Be sure to use `full_results = TRUE` with `return_type = 'geographies'` in order to allow the Census geography columns to be returned.
 
 ```{r}
@@ -189,7 +188,7 @@ knitr::kable(noquery1)
 
 Here are some additional usage notes for the `geocode()`, `geo()`, `reverse_geocode()`, and `reverse_geo()` functions:
 
-* To specify a custom geocoder API URL, use the `api_url` argument. Alternatively, the `iq_region` and `geocodio_v` arguments are helper functions for customizing the API URL. 
-* If not specified manually, the `min_time` argument will default to a value based on the maximum query rate of the given geocoder service. If you are using a local Nominatim server or have a commercial geocoder plan that has less restrictive usage limits then you can manually set `min_time` to a lower valuer (such as 0).
-* By default batch geocoding will be used if available when more than one address is provided, otherwise single address geocoding will be used. To override this default, use the `mode` argument.
-* For the `reverse_geocode()` and `geocode()` functions, the `return_input` argument can be used to toggle if the input dataset is included in the returned dataframe.
+- To specify a custom geocoder API URL, use the `api_url` argument. Alternatively, the `iq_region` and `geocodio_v` arguments are helper functions for customizing the API URL. 
+- If not specified manually, the `min_time` argument will default to a value based on the maximum query rate of the given geocoder service. If you are using a local Nominatim server or have a commercial geocoder plan that has less restrictive usage limits then you can manually set `min_time` to a lower valuer (such as 0).
+- By default batch geocoding will be used if available when more than one address is provided, otherwise single address geocoding will be used. To override this default, use the `mode` argument.
+- For the `reverse_geocode()` and `geocode()` functions, the `return_input` argument can be used to toggle if the input dataset is included in the returned dataframe.

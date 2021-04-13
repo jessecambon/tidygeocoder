@@ -59,7 +59,8 @@ package_addresses <- function(address = NULL,
   # package all non-NULL address arguments into a named list
   combined_addr <- as.list(environment())
   combined_addr[sapply(combined_addr, is.null)] <- NULL # remove NULL items
-  # apply trimws to non-NA values (trimws will turn NA into 'NA' character value otherwise)
+  # apply trimws to non-NA values 
+  # (trimws converts to character so it turns NA into the 'NA' character value)
   combined_addr <- lapply(combined_addr, function(x) ifelse(is.na(x), NA, trimws(x)))
   
   arg_names <- names(combined_addr)

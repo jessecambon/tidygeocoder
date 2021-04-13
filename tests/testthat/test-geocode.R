@@ -93,6 +93,10 @@ test_that("Test geo() and reverse_geo() error handling", {
   expect_error(reverse_geo(no_query = TRUE, lat = c(1,5), long = 2))
   
   
+  # should not allow batch geocoding with a method that doesn't have batch geocoding
+  expect_error(geo('yz', no_query = TRUE, mode = 'batch', method = 'osm'))
+  expect_error(reverse_geo(lat = 1, long = 2, no_query = TRUE, mode = 'batch', method = 'osm'))
+  
   # invalid parameters for the census service (country and limit != 1)
   expect_error(geo('yz', no_query = TRUE, country = 'abc', method = 'census'))
 

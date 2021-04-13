@@ -125,9 +125,11 @@ check_common_args <- function(fun_name, mode, limit, batch_limit, min_time) {
 
 # check the data type of an address argument
 # should not be a matrix, class, or dataframe for instance
+# allow factor since it could be coerced to a datatype by address handler function
+# allow numeric for zip codes etc.
 check_address_argument_datatype <- function(arg, arg_name) {
   # 
-  if (!(is.null(arg) || is.character(arg) || is.numeric(arg) || is.na(arg))) {
+  if (!(is.null(arg) || is.character(arg) || is.numeric(arg) || is.na(arg) || is.factor(arg))) {
     stop(paste0('Improper datatype for ', arg_name, '. See ?geo'), call. = FALSE)
   }
 }
