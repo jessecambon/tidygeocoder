@@ -131,25 +131,21 @@ geo <- function(address = NULL,
   # IMPORTANT: make sure to put this statement before any other variables are defined in the function
   all_args <- as.list(environment())
   
-  # Reference Variables ------------------------------------------------------------
-  
   # All legal methods (besides 'cascade')
   method_services <- unique(tidygeocoder::api_parameter_reference[['method']])
 
   # Check parameter arguments --------------------------------------------------------
 
   # Check argument inputs
+  check_address_argument_datatype(address, 'address')
+  check_address_argument_datatype(street, 'street')
+  check_address_argument_datatype(city, 'city')
+  check_address_argument_datatype(county, 'county')
+  check_address_argument_datatype(state, 'state')
+  check_address_argument_datatype(postalcode, 'postalcode')
+  check_address_argument_datatype(country, 'country')
+  
   stopifnot(
-    # check address inputs. allowing numeric for all of them is conservative
-    is.null(address) || is.character(address) || is.numeric(address) || is.na(address),
-    is.null(street) || is.character(street) || is.numeric(street) || is.na(street),
-    is.null(city) || is.character(city) || is.numeric(city) || is.na(city),
-    is.null(county) || is.character(county) || is.numeric(county) || is.na(county),
-    is.null(state) || is.character(state) || is.numeric(state) || is.na(state),
-    is.null(postalcode) || is.character(postalcode) || is.numeric(postalcode) || is.na(postalcode),
-    is.null(country) || is.character(country) || is.numeric(country) || is.na(country),    
-    
-    # check other arguments
     is.logical(verbose), is.logical(no_query), is.logical(flatten), is.logical(param_error),
             is.logical(full_results), is.logical(unique_only), is.logical(return_addresses),
             is.logical(batch_limit_error), 
@@ -174,10 +170,9 @@ geo <- function(address = NULL,
     stop('Invalid cascade_order argument. See ?geo', call. = FALSE)
   }
   
-  
   if (method == 'cascade' && mode == 'batch' && (length(intersect(cascade_order, names(batch_func_map)) != 2))) {
     stop("To use method = 'cascade' and mode = 'batch', both methods specified in cascade_order
-          must have batch geocoding capabilities. See geo?")
+          must have batch geocoding capabilities. See ?geo")
   }
   
   if (!(return_type %in% c('geographies', 'locations'))) {

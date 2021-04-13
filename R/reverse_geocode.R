@@ -37,14 +37,14 @@
 #'   verbose = TRUE
 #' )
 #' 
-#' louisville %>% head(5) %>% 
+#' louisville %>% head(3) %>% 
 #'   reverse_geocode(lat = latitude, long = longitude, 
 #'   method = 'arcgis', full_results = TRUE, verbose = TRUE)
 #' 
 #' louisville %>% head(2) %>% 
 #'   reverse_geocode(lat = latitude, long = longitude,  
 #'   method = 'osm', verbose = TRUE,
-#'   limit = 5, return_input = FALSE)
+#'   limit = 2, return_input = FALSE)
 #' 
 #' }
 #' @seealso [reverse_geo]

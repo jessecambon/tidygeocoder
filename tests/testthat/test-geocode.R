@@ -10,7 +10,7 @@ test_that("geocode default colnames", {
   result <- tibble::tibble(addr = NA) %>%
     geocode(addr, no_query = TRUE)
   
-  expect_identical(colnames(result), c('addr','lat','long'))
+  expect_identical(colnames(result), c('addr', 'lat', 'long'))
   expect_equal(nrow(result), 1) # result should have one row
 })
 

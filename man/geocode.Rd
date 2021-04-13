@@ -82,16 +82,21 @@ both acceptable).
 \examples{
 \donttest{
 library(dplyr)
-sample_addresses[1:2, ] \%>\% geocode(addr)
+sample_addresses \%>\% slice(1:2) \%>\%
+ geocode(addr, method = 'arcgis')
 
-louisville[1:2, ] \%>\% geocode(street = street, city = city, state = state,
-  postalcode = zip)
+louisville \%>\% head(2) \%>\%
+ geocode(street = street, city = city, state = state,
+  postalcode = zip, method = 'census', full_results = TRUE)
 
-sample_addresses[8:9, ] \%>\% geocode(addr, method = 'osm',
-  lat = 'lattes', long = 'longos')
+sample_addresses \%>\% slice(8:9) \%>\%
+ geocode(addr, method = 'osm', limit = 2,
+  return_input = FALSE, full_results = TRUE)
 
-sample_addresses[4:5, ] \%>\% geocode(addr, method = 'cascade',
-  lat = latitude, long = longitude)
+sample_addresses \%>\% slice(4:5) \%>\%
+ geocode(addr, method = 'arcgis',
+  lat = latitude, long = longitude,
+  full_results = TRUE)
 }
 }
 \seealso{

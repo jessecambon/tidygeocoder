@@ -122,3 +122,12 @@ check_common_args <- function(fun_name, mode, limit, batch_limit, min_time) {
     stop(paste0('min_time must be NULL or >= 0. See ?', fun_name), call. = FALSE)
   }  
 }
+
+# check the data type of an address argument
+# should not be a matrix, class, or dataframe for instance
+check_address_argument_datatype <- function(arg, arg_name) {
+  # 
+  if (!(is.null(arg) || is.character(arg) || is.numeric(arg) || is.na(arg))) {
+    stop(paste0('Improper datatype for ', arg_name, '. See ?geo'), call. = FALSE)
+  }
+}

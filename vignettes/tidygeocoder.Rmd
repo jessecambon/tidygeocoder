@@ -159,7 +159,7 @@ knitr::kable(uniqueonly1)
 
 ## Customizing Queries
 
-The `limit` argument can be specified to allow multiple results (rows) per input if available. The maximum value for the `limit` argument is often 100 for geocoder services.
+The `limit` argument can be specified to allow multiple results (rows) per input if available. The maximum value for the `limit` argument is often 100 for geocoder services. To use the default `limit` value for the selected geocoder service you can use `limit = NULL` which will prevent the limit parameter from being included in the query.
 
 ```{r}
 geo_limit <- geo(c('Lima, Peru', 'Cairo, Egypt'), method = 'osm', 
@@ -192,3 +192,4 @@ Here are some additional usage notes for the `geocode()`, `geo()`, `reverse_geoc
 * To specify a custom geocoder API URL, use the `api_url` argument. Alternatively, the `iq_region` and `geocodio_v` arguments are helper functions for customizing the API URL. 
 * If not specified manually, the `min_time` argument will default to a value based on the maximum query rate of the given geocoder service. If you are using a local Nominatim server or have a commercial geocoder plan that has less restrictive usage limits then you can manually set `min_time` to a lower valuer (such as 0).
 * By default batch geocoding will be used if available when more than one address is provided, otherwise single address geocoding will be used. To override this default, use the `mode` argument.
+* For the `reverse_geocode()` and `geocode()` functions, the `return_input` argument can be used to toggle if the input dataset is included in the returned dataframe.
