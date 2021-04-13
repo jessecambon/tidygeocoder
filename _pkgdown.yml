@@ -1,5 +1,5 @@
 home:
-  strip_header: true
+  strip_header: false
 url: https://jessecambon.github.io/tidygeocoder
 template:
   params:
@@ -51,7 +51,7 @@ navbar:
     - text: News
       href: news/index.html
 development:
-  version_tooltip: "Development version"
+  mode: auto
 authors:
   Jesse Cambon:
     href: https://jessecambon.github.io

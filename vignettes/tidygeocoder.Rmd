@@ -1,10 +1,10 @@
 ---
-title: "Introduction to tidygeocoder"
+title: "Getting Started"
 output: rmarkdown::html_vignette
 description: >
   Start here if this is your first time using tidygeocder.
 vignette: >
-  %\VignetteIndexEntry{Introduction to tidygeocoder}
+  %\VignetteIndexEntry{Getting Started}
   %\VignetteEngine{knitr::rmarkdown}
   \usepackage[utf8]{inputenc}
 ---

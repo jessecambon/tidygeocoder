@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file directly and reknit -->
 
-# tidygeocoder <a href='https://jessecambon.github.io/tidygeocoder/'><img src="man/figures/tidygeocoder_hex.png" align="right" height="139"/></a>
+# tidygeocoder<a href='https://jessecambon.github.io/tidygeocoder/'><img src="man/figures/tidygeocoder_hex.png" align="right" height="130px"/></a>
 
 <!-- badges: start -->
 
@@ -20,13 +20,15 @@ Month](http://cranlogs.r-pkg.org/badges/tidygeocoder)](https://cran.r-project.or
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.4448251.svg)](https://doi.org/10.5281/zenodo.4448251)
 <!-- badges: end -->
 
-</br>
-
 Tidygeocoder makes getting data from geocoder services easy. A unified
 high-level interface is provided for the [supported geocoder
 services](https://jessecambon.github.io/tidygeocoder/articles/geocoder_services.html)
 and results are returned in [tibble](https://tibble.tidyverse.org/)
-(dataframe) format.
+(dataframe) format. For details see the usage example below, the
+[Getting Started
+Vignette](https://jessecambon.github.io/tidygeocoder/articles/tidygeocoder.html),
+and [blog posts on
+tidygeocoder](https://jessecambon.github.io/tag/tidygeocoder).
 
 **Features:**
 
@@ -40,25 +42,8 @@ and results are returned in [tibble](https://tibble.tidyverse.org/)
 -   Duplicate, NA, and blank input data is handled elegantly - only
     unique inputs are submitted in geocoder queries, but the rows in the
     original data are preserved by default.
-
-**References:**
-
--   [Blog posts on
-    tidygeocoder](https://jessecambon.github.io/tag/tidygeocoder) for
-    updates on releases and additional usage examples. In particular
-    [this
-    post](https://jessecambon.github.io/2020/07/15/tidygeocoder-1-0-0.html)
-    and [this
-    post](https://jessecambon.github.io/2019/11/11/tidygeocoder-demo.html)
-    demonstrate some relevant mapping workflows.
--   [Getting Started
-    Vignette](https://jessecambon.github.io/tidygeocoder/articles/tidygeocoder.html)
-    for more detailed and comprehensive usage examples.
--   [Geocoder
-    Services](https://jessecambon.github.io/tidygeocoder/articles/geocoder_services.html)
-    for documentation on the supported geocoder services and the
-    built-in datasets that are used by tidygeocoder to set key
-    parameters and settings for queries.
+-   The usage limits of geocoder services are respected by pausing to
+    slow down the rate of querying as necessary.
 
 ## Installation
 

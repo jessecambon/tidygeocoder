@@ -112,6 +112,13 @@ min_time_reference %>%
   tab_options(column_labels.font.weight = 'bold')
 ```
 
+<!-- https://bookdown.org/yihui/rmarkdown-cookbook/results-asis.html -->
+Links to the usage policies for each geocoder service:
+
+```{r, echo = FALSE, results = 'asis'}
+cat(tidygeocoder:::get_api_usage_bullets(), sep = '\n')
+```
+
 ## Batch Query Limits
 
 The maximum number of inputs (geographic coordinates or addresses) per batch query is stored in the `batch_limit_reference` dataset. See `?batch_limit_reference`.
@@ -135,14 +142,4 @@ api_key_reference %>%
   opt_table_outline() %>%
   opt_table_lines() %>%
   tab_options(column_labels.font.weight = 'bold')
-```
-
-<!-- https://bookdown.org/yihui/rmarkdown-cookbook/results-asis.html -->
-
-## API Usage Policies
-
-Links to the usage policies for each geocoder service:
-
-```{r, echo = FALSE, results = 'asis'}
-cat(tidygeocoder:::get_api_usage_bullets(), sep = '\n')
 ```

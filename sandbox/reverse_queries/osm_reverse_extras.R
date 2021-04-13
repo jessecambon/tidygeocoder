@@ -42,7 +42,7 @@ response <- jsonlite::fromJSON(httr::content(soup, as = 'text', encoding = "UTF-
 results_full <- tidygeocoder:::extract_reverse_results('osm', response)
 
 
-test <- dplyr::bind_cols(tibble::as_tibble(response[!(names(response) %in% c('display_name', 'boundingbox', 'address'))]), 
+test <- dplyr::bind_cols(response[!(names(response) %in% c('display_name', 'boundingbox', 'address'))], 
               tibble::as_tibble(response[['address']]), tibble::tibble(boundingbox = list(response$boundingbox)))
 
 

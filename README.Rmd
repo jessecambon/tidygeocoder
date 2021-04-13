@@ -16,27 +16,20 @@ knitr::opts_chunk$set(
 options(tibble.print_min = 5, tibble.print_max = 5)
 ```
 
-# tidygeocoder <a href='https://jessecambon.github.io/tidygeocoder/'><img src="man/figures/tidygeocoder_hex.png" align="right" height="139"/></a>
+# tidygeocoder<a href='https://jessecambon.github.io/tidygeocoder/'><img src="man/figures/tidygeocoder_hex.png" align="right" height="130px"/></a>
 
 <!-- badges: start -->
 [![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active) [![Lifecycle: stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://lifecycle.r-lib.org/articles/stages.html#stable) [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/jessecambon/tidygeocoder/blob/master/LICENSE.md) [![CRAN](https://www.r-pkg.org/badges/version/tidygeocoder)](https://cran.r-project.org/package=tidygeocoder) [![CRAN Total Downloads](http://cranlogs.r-pkg.org/badges/grand-total/tidygeocoder)](https://CRAN.R-project.org/package=tidygeocoder) [![CRAN Downloads Per Month](http://cranlogs.r-pkg.org/badges/tidygeocoder)](https://cran.r-project.org/package=tidygeocoder) [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.4448251.svg)](https://doi.org/10.5281/zenodo.4448251) 
 <!-- badges: end -->
 
-</br>
-
-Tidygeocoder makes getting data from geocoder services easy. A unified high-level interface is provided for the [supported geocoder services](https://jessecambon.github.io/tidygeocoder/articles/geocoder_services.html) and results are returned in [tibble](https://tibble.tidyverse.org/) (dataframe) format. 
+Tidygeocoder makes getting data from geocoder services easy. A unified high-level interface is provided for the [supported geocoder services](https://jessecambon.github.io/tidygeocoder/articles/geocoder_services.html) and results are returned in [tibble](https://tibble.tidyverse.org/) (dataframe) format. For details see the usage example below, the [Getting Started Vignette](https://jessecambon.github.io/tidygeocoder/articles/tidygeocoder.html), and [blog posts on tidygeocoder](https://jessecambon.github.io/tag/tidygeocoder).
 
 **Features:**
 
 - Both **forward geocoding** (addresses ⮕ coordinates) and **reverse geocoding** (coordinates ⮕ addresses) are supported. 
 - **Batch geocoding** (geocoding multiple addresses or coordinates in a single query) is used by default if supported by the geocoder service when multiple inputs (addresses or coordinates) are provided (with some noted exceptions for services with slower batch geocoding).
-- Duplicate, NA, and blank input data is handled elegantly - only unique inputs are submitted in geocoder queries, but the rows in the original data are preserved by default.
-
-**References:**
-
--   [Blog posts on tidygeocoder](https://jessecambon.github.io/tag/tidygeocoder) for updates on releases and additional usage examples. In particular [this post](https://jessecambon.github.io/2020/07/15/tidygeocoder-1-0-0.html) and [this post](https://jessecambon.github.io/2019/11/11/tidygeocoder-demo.html) demonstrate some relevant mapping workflows.
--   [Getting Started Vignette](https://jessecambon.github.io/tidygeocoder/articles/tidygeocoder.html) for more detailed and comprehensive usage examples.
--   [Geocoder Services](https://jessecambon.github.io/tidygeocoder/articles/geocoder_services.html) for documentation on the supported geocoder services and the built-in datasets that are used by tidygeocoder to set key parameters and settings for  queries.
+- Duplicate, NA, and blank input data is handled elegantly; only unique inputs are submitted in queries, but the rows in the original data are preserved by default.
+- The usage limits of geocoder services are respected by pausing to slow down the rate of querying as necessary.
 
 ## Installation
 
