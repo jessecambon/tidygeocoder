@@ -22,7 +22,7 @@ reference:
   - louisville
   - sample_addresses
 - title: Reference Datasets
-  desc: Datasets used to set parameters and settings for geocoder queries
+  desc: Datasets used for geocoder queries and documentation
   contents:
   - api_parameter_reference
   - min_time_reference

@@ -74,7 +74,7 @@ get_coord_parameters <- function(custom_query, method, lat, long) {
 #' If FALSE then only a single address column will be returned from the geocoder service.
 #' @param return_coords return input coordinates with results if TRUE. Note that
 #'    most services return the input coordinates with `full_results = TRUE` and setting
-#'    return_addresses to FALSE does not prevent this.
+#'    `return_coords` to FALSE does not prevent this.
 #' @param batch_limit `r get_batch_limit_documentation(reverse = TRUE)`
 #' @param here_request_id This parameter would return a previous HERE batch job,
 #'   identified by its RequestID. The RequestID of a batch job is displayed 

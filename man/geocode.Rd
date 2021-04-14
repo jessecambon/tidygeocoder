@@ -44,18 +44,18 @@ address component arguments (street, city, county, state, postalcode, country)}
 
 \item{long}{longitude column name. Can be quoted or unquoted (ie. long or 'long').}
 
-\item{return_input}{if TRUE then return input dataset with geocoder results. If
-FALSE only the geocoder results will be included.}
+\item{return_input}{if TRUE then the input dataset will be combined with the geocoder query results
+and returned. If FALSE only the geocoder results will be returned.}
 
 \item{limit}{maximum number of results to return per input address. For many geocoder services
 the maximum value of the limit parameter is 100. Pass \code{limit = NULL} to use
 the default \code{limit} value of the selected geocoder service.
-For batch geocoding, limit must be set to 1 (default) if \code{return_addresses = TRUE}
+For batch geocoding, limit must be set to 1 (default) if \code{return_addresses = TRUE}.
 To use \code{limit > 1} or \code{limit = NULL} set return_input to FALSE.
 Refer to \link{api_parameter_reference} for more details.}
 
-\item{return_addresses}{if TRUE return addresses. Defaults to TRUE if return_input is FALSE
-and FALSE if return_input is TRUE. This is passed to the geo() function.}
+\item{return_addresses}{if TRUE return input addresses. Defaults to TRUE if \code{return_input} is FALSE
+and FALSE if \code{return_input} is TRUE. This argument is passed to the \code{geo()} function.}
 
 \item{unique_only}{if TRUE then only unique results will be returned and
 return_input will be set to FALSE.}

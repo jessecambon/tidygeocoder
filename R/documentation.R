@@ -100,12 +100,37 @@ get_method_bullet <- function(method) {
 }
 
 
+# Returns methods documentation
+# reverse = TRUE if reverse geocoding, FALSE if forward geocoding
+get_method_documentation <- function(reverse) {
+  all_methods <- tidygeocoder::api_info_reference[['method']]
+  
+  method_intro <- paste0(c(
+    "the geocoder service to be used. Refer to [api_parameter_reference], [min_time_reference],",
+    "and [batch_limit_reference] for more information.",
+    "API keys are loaded from environmental variables. Run `usethis::edit_r_environ()` to open",
+    'your .Renviron file and add an API key as an environmental variable (ex. add the line `GEOCODIO_API_KEY="YourAPIKeyHere").`'
+  ), collapse = ' ')
+  
+  # if reverse geocoding then exclude methods that don't support reverse geocoding
+  methods_to_list <- if (reverse == TRUE) {
+    setdiff(all_methods, pkg.globals$no_reverse_methods)
+  } else all_methods
+  
+  return(
+    c(
+      method_intro,
+      sapply(methods_to_list, get_method_bullet, USE.NAMES = FALSE)
+    )
+  )
+}
+
 get_batch_limit_documentation <- function(reverse) {
   terms <- get_coord_address_terms(reverse)
   return(
     c(
       paste0(c("limit to the number of ", terms$input_plural, " in a batch geocoding query."), collapse = ''),
-      "Set to the value specified in [batch_limit_reference] unless otherwise specified."
+      "Defaults to the value in [batch_limit_reference] if not specified."
     )
   )
 }
@@ -129,7 +154,7 @@ get_limit_documentation <- function(reverse, df_input) {
     paste0(c("maximum number of results to return per input ", terms$input_singular, ". For many geocoder services"), collapse = ''),
     "the maximum value of the limit parameter is 100. Pass `limit = NULL` to use",
     "the default `limit` value of the selected geocoder service.",
-    paste0(c("For batch geocoding, limit must be set to 1 (default) if `", terms$return_arg, " = TRUE`"), collapse = '')
+    paste0(c("For batch geocoding, limit must be set to 1 (default) if `", terms$return_arg, " = TRUE`."), collapse = '')
   )
   
   append <- if (df_input == FALSE) c() else {
@@ -151,31 +176,5 @@ get_mode_documentation <- function(reverse) {
             create_comma_list(pkg.globals$single_first_methods, wrap = '"'), " the"), collapse = ''),
       "batch mode should be explicitly specified with `mode = 'batch'`."
       )
-  )
-}
-
-
-# Returns methods documentation
-# reverse = TRUE if reverse geocoding, FALSE if forward geocoding
-get_method_documentation <- function(reverse) {
-  all_methods <- tidygeocoder::api_info_reference[['method']]
-  
-  method_intro <- c(
-    'the geocoder service to be used. Refer to [api_parameter_reference], [min_time_reference],",
-    "and [batch_limit_reference] for more information.",
-    "To add an API key for use, run `usethis::edit_r_environ()`. This will open",
-    "your .Renviron file for editing. (ex. add the line `GEOCODIO_API_KEY="YourAPIKeyHere")`'
-    )
-  
-  # if reverse geocoding then exclude methods that don't support reverse geocoding
-  methods_to_list <- if (reverse == TRUE) {
-    setdiff(all_methods, pkg.globals$no_reverse_methods)
-  } else all_methods
-  
-  return(
-    c(
-      method_intro,
-      sapply(methods_to_list, get_method_bullet, USE.NAMES = FALSE)
-    )
   )
 }

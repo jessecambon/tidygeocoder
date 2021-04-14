@@ -26,10 +26,10 @@
 #' 
 #' @param lat latitude column name. Can be quoted or unquoted (ie. lat or 'lat').
 #' @param long longitude column name. Can be quoted or unquoted (ie. long or 'long').
-#' @param return_input if TRUE then return input dataset with geocoder results. If
-#'   FALSE only the geocoder results will be included.
-#' @param return_addresses if TRUE return addresses. Defaults to TRUE if return_input is FALSE
-#'   and FALSE if return_input is TRUE. This is passed to the geo() function.
+#' @param return_input if TRUE then the input dataset will be combined with the geocoder query results 
+#'   and returned. If FALSE only the geocoder results will be returned.
+#' @param return_addresses if TRUE return input addresses. Defaults to TRUE if `return_input` is FALSE
+#'   and FALSE if `return_input` is TRUE. This argument is passed to the `geo()` function.
 #' @param unique_only if TRUE then only unique results will be returned and 
 #'   return_input will be set to FALSE.
 #' @param limit `r get_limit_documentation(reverse = FALSE, df_input = TRUE)`

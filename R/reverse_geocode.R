@@ -15,8 +15,8 @@
 #' @param address address column name (output data). Can be quoted or unquoted (ie. addr or 'addr').
 #' @inheritParams geocode
 #' @param limit `r get_limit_documentation(reverse = TRUE, df_input = TRUE)`
-#' @param return_coords if TRUE return input coordinates. Defaults to TRUE if return_input is 
-#'    FALSE and FALSE if return_input is TRUE. This is passed to the reverse_geo() function.
+#' @param return_coords if TRUE return input coordinates. Defaults to TRUE if `return_input` is 
+#'    FALSE and FALSE if `return_input` is TRUE. This argument is passed to the `reverse_geo()` function.
 #' @param ... arguments passed to the [reverse_geo] function
 #' @inherit geo return
 #'
@@ -25,21 +25,20 @@
 #' library(tibble)
 #' library(dplyr)
 #' 
-#' reverse_geocode(
-#'   tibble(
+#' tibble(
 #'     latitude = c(38.895865, 43.6534817),
 #'     longitude = c(-77.0307713,-79.3839347)
-#'   ),
-#'   lat = latitude,
-#'   long = longitude,
-#'   method = 'osm',
-#'   full_results = TRUE,
-#'   verbose = TRUE
-#' )
+#'   ) %>%
+#'   reverse_geocode(
+#'     lat = latitude,
+#'     long = longitude,
+#'     method = 'osm',
+#'     full_results = TRUE
+#'   )
 #' 
 #' louisville %>% head(3) %>% 
 #'   reverse_geocode(lat = latitude, long = longitude, 
-#'   method = 'arcgis', full_results = TRUE, verbose = TRUE)
+#'   method = 'arcgis')
 #' 
 #' louisville %>% head(2) %>% 
 #'   reverse_geocode(lat = latitude, long = longitude,  

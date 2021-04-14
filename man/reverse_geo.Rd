@@ -34,10 +34,7 @@ reverse_geo(
 
 \item{long}{longitude values (input data)}
 
-\item{method}{the geocoder service to be used. Refer to \link{api_parameter_reference}, \link{min_time_reference},",
-"and \link{batch_limit_reference} for more information.",
-"To add an API key for use, run \code{usethis::edit_r_environ()}. This will open",
-"your .Renviron file for editing. (ex. add the line \verb{GEOCODIO_API_KEY="YourAPIKeyHere")}
+\item{method}{the geocoder service to be used. Refer to \link{api_parameter_reference}, \link{min_time_reference}, and \link{batch_limit_reference} for more information. API keys are loaded from environmental variables. Run \code{usethis::edit_r_environ()} to open your .Renviron file and add an API key as an environmental variable (ex. add the line \verb{GEOCODIO_API_KEY="YourAPIKeyHere").}
 \itemize{
 \item \code{"osm"}: \href{https://nominatim.org}{Nominatim} geocoder service.
 \item \code{"arcgis"}: \href{https://developers.arcgis.com/rest/geocode/api-reference/overview-world-geocoding-service.htm}{ArcGIS} geocoder service.
@@ -57,7 +54,7 @@ reverse_geo(
 \item{limit}{maximum number of results to return per input coordinate. For many geocoder services
 the maximum value of the limit parameter is 100. Pass \code{limit = NULL} to use
 the default \code{limit} value of the selected geocoder service.
-For batch geocoding, limit must be set to 1 (default) if \code{return_coords = TRUE}
+For batch geocoding, limit must be set to 1 (default) if \code{return_coords = TRUE}.
 Refer to \link{api_parameter_reference} for more details.}
 
 \item{min_time}{minimum amount of time for a query to take (in seconds). If NULL
@@ -81,14 +78,14 @@ If FALSE then only a single address column will be returned from the geocoder se
 
 \item{return_coords}{return input coordinates with results if TRUE. Note that
 most services return the input coordinates with \code{full_results = TRUE} and setting
-return_addresses to FALSE does not prevent this.}
+\code{return_coords} to FALSE does not prevent this.}
 
 \item{flatten}{if TRUE then any nested dataframes in results are flattened if possible.
 Note that in some cases results are flattened regardless such as for
 Geocodio batch geocoding.}
 
 \item{batch_limit}{limit to the number of coordinates in a batch geocoding query.
-Set to the value specified in \link{batch_limit_reference} unless otherwise specified.}
+Defaults to the value in \link{batch_limit_reference} if not specified.}
 
 \item{verbose}{if TRUE then detailed logs are output to the console}
 

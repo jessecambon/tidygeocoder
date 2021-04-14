@@ -13,8 +13,8 @@
 \alias{geo_mapquest}
 \alias{geo_bing}
 \alias{geo_arcgis}
-\title{Convenience functions for calling the \code{geo} function
-with a specified method}
+\alias{geo_cascade}
+\title{Convenience functions for calling \code{geo()}}
 \usage{
 geo_census(...)
 
@@ -39,11 +39,15 @@ geo_mapquest(...)
 geo_bing(...)
 
 geo_arcgis(...)
+
+geo_cascade(...)
 }
 \arguments{
 \item{...}{arguments to be passed to the \code{geo} function}
 }
 \description{
+The \code{method} for \code{geo()} is specified in the function name.
+
 \ifelse{html}{\figure{lifecycle-deprecated.svg}{options: alt='Deprecated lifecycle'}}{\strong{Deprecated}}
 
 Use the \link{geo} function directly instead.
