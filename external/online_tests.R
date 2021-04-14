@@ -14,7 +14,8 @@ methods_to_test <- all_methods
 
 #methods_to_test <- setdiff(all_methods, c('here', 'mapbox', 'bing'))
 
-#############################################################################################
+##############################################################################################
+
 
 # exclude methods with no reverse geocoding capabilities
 reverse_methods <- methods_to_test[!methods_to_test %in% tidygeocoder:::pkg.globals$no_reverse_methods]
@@ -276,6 +277,7 @@ test_that("test reverse single geocoding", {
     
     check_reverse_geocoding_results(method, limit_null, return_coords = FALSE)
     
+    # expect this to fail with Mapbox: https://github.com/jessecambon/tidygeocoder/issues/104
     expect_true(is_tibble(high_limit <- reverse_geo(lat = sample_lats, long = sample_longs, mode = 'single',
                 method = method, full_results = TRUE, limit = 35, return_coords = FALSE)),
                 label = method_label)

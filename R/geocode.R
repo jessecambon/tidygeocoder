@@ -26,10 +26,10 @@
 #' 
 #' @param lat latitude column name. Can be quoted or unquoted (ie. lat or 'lat').
 #' @param long longitude column name. Can be quoted or unquoted (ie. long or 'long').
-#' @param return_input if TRUE then return input dataset with geocoder results. If
-#'   FALSE only the geocoder results will be included.
-#' @param return_addresses if TRUE return addresses. Defaults to TRUE if return_input is FALSE
-#'   and FALSE if return_input is TRUE. This is passed to the geo() function.
+#' @param return_input if TRUE then the input dataset will be combined with the geocoder query results 
+#'   and returned. If FALSE only the geocoder results will be returned.
+#' @param return_addresses if TRUE return input addresses. Defaults to TRUE if `return_input` is FALSE
+#'   and FALSE if `return_input` is TRUE. This argument is passed to the `geo()` function.
 #' @param unique_only if TRUE then only unique results will be returned and 
 #'   return_input will be set to FALSE.
 #' @param limit `r get_limit_documentation(reverse = FALSE, df_input = TRUE)`
@@ -39,16 +39,21 @@
 #' @examples
 #' \donttest{
 #' library(dplyr)
-#' sample_addresses[1:2, ] %>% geocode(addr)
-#' 
-#' louisville[1:2, ] %>% geocode(street = street, city = city, state = state,
-#'   postalcode = zip)
-#' 
-#' sample_addresses[8:9, ] %>% geocode(addr, method = 'osm',
-#'   lat = 'lattes', long = 'longos')
+#' sample_addresses %>% slice(1:2) %>%
+#'  geocode(addr, method = 'arcgis')
 #'
-#' sample_addresses[4:5, ] %>% geocode(addr, method = 'cascade',
-#'   lat = latitude, long = longitude)
+#' louisville %>% head(2) %>%
+#'  geocode(street = street, city = city, state = state,
+#'   postalcode = zip, method = 'census', full_results = TRUE)
+#'
+#' sample_addresses %>% slice(8:9) %>%
+#'  geocode(addr, method = 'osm', limit = 2,
+#'   return_input = FALSE, full_results = TRUE)
+#'
+#' sample_addresses %>% slice(4:5) %>%
+#'  geocode(addr, method = 'arcgis',
+#'   lat = latitude, long = longitude,
+#'   full_results = TRUE)
 #' }
 #' @seealso [geo]
 #' @export

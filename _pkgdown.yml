@@ -1,5 +1,5 @@
 home:
-  strip_header: true
+  strip_header: false
 url: https://jessecambon.github.io/tidygeocoder
 template:
   params:
@@ -14,27 +14,28 @@ reference:
   - geo 
   - reverse_geocode
   - reverse_geo
-- title: Convenience functions for forward geocoding
-  contents:
-  - starts_with("geo_")
-- title: Data
-  contents:
-  - louisville
-  - sample_addresses
 - title: Reference Datasets
-  desc: Datasets used to set parameters and settings for geocoder queries
+  desc: Datasets used for geocoder queries and documentation
   contents:
   - api_parameter_reference
   - min_time_reference
   - batch_limit_reference
   - api_key_reference
   - api_info_reference
+- title: Data
+  contents:
+  - louisville
+  - sample_addresses
 - title: Utility Functions
   contents:
   - get_api_query
   - query_api
   - extract_results
   - extract_reverse_results
+- title: Deprecated Functions
+  desc: Use `geo()` instead.
+  contents:
+  - starts_with("geo_")
 navbar:
   type: default
   left:
@@ -50,8 +51,6 @@ navbar:
       href: reference/index.html
     - text: News
       href: news/index.html
-development:
-  version_tooltip: "Development version"
 authors:
   Jesse Cambon:
     href: https://jessecambon.github.io

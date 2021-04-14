@@ -20,11 +20,9 @@ library(gt)
 library(dplyr)
 ```
 
-This page documents the supported geocoder services and also displays the built-in datasets the package uses to set query parameters and settings.
-
 ## Overview
 
-The supported geocoder services are shown in the table below along with if they require an API key and support batch geocoding. The "method" is used to specify the geocoder service in tidygeocoder functions such as `geo()` and `reverse_geo()`. Refer to each service's API documentation for more details.
+The supported geocoder services are shown in the table below along with if they require an API key, if they support batch geocoding, and if there are usage rate limitations. The "method" is used to specify the geocoder service in tidygeocoder functions such as `geo()` and `reverse_geo()`. Refer to each service's API documentation for more details.
 
 
 ```{r, echo = FALSE, message = FALSE, warning = FALSE, output = 'asis'}
@@ -84,6 +82,7 @@ tidygeocoder::geo(address = "New York, USA", method = "arcgis",
 
 - When used in batch mode, the **US Census** geocoder will return NA data when there are multiple results available for an address. The expectation is that you would see that a "Tie" is indicated and use single address geocoding to return the results for these addresses. See [#87](https://github.com/jessecambon/tidygeocoder/issues/87) for details.
 - When performing reverse geocoding, the **Mapbox** service requires a `types` parameter to be set if `limit > 1`. See [#104](https://github.com/jessecambon/tidygeocoder/issues/104).
+- The **Bing** batch geocoder does not use the `limit` parameter ([#106](https://github.com/jessecambon/tidygeocoder/issues/106)).
 
 ## API Parameters
 
@@ -112,6 +111,13 @@ min_time_reference %>%
   tab_options(column_labels.font.weight = 'bold')
 ```
 
+<!-- https://bookdown.org/yihui/rmarkdown-cookbook/results-asis.html -->
+Links to the usage policies for each geocoder service:
+
+```{r, echo = FALSE, results = 'asis'}
+cat(tidygeocoder:::get_api_usage_bullets(), sep = '\n')
+```
+
 ## Batch Query Limits
 
 The maximum number of inputs (geographic coordinates or addresses) per batch query is stored in the `batch_limit_reference` dataset. See `?batch_limit_reference`.
@@ -135,14 +141,4 @@ api_key_reference %>%
   opt_table_outline() %>%
   opt_table_lines() %>%
   tab_options(column_labels.font.weight = 'bold')
-```
-
-<!-- https://bookdown.org/yihui/rmarkdown-cookbook/results-asis.html -->
-
-## API Usage Policies
-
-Links to the usage policies for each geocoder service:
-
-```{r, echo = FALSE, results = 'asis'}
-cat(tidygeocoder:::get_api_usage_bullets(), sep = '\n')
 ```

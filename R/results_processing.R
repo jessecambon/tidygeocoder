@@ -168,10 +168,8 @@ extract_reverse_results <- function(method, response, full_results = TRUE, flatt
   # extract other results (besides single line address)
   if (full_results == TRUE) {
     tibble::as_tibble(results <- switch(method,
-        'osm' = cbind(response[!(names(response) %in% c('display_name', 'boundingbox', 'address'))], 
-                      tibble::as_tibble(response[['address']]), tibble::tibble(boundingbox = list(response$boundingbox))),
-        'iq' =  cbind(response[!(names(response) %in% c('display_name', 'boundingbox', 'address'))], 
-                      tibble::as_tibble(response[['address']]), tibble::tibble(boundingbox = list(response$boundingbox))),
+        'osm' = extract_osm_reverse_full(response),
+        'iq' =  extract_osm_reverse_full(response),
         'geocodio' = response$results[!names(response$results) %in% c('formatted_address')],
         # note the application of the limit argument for google
         'google' = response$results[1:rows_to_return, ][!names(response$results) %in% c('formatted_address')], 

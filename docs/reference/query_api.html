@@ -79,7 +79,7 @@ function to execute." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">tidygeocoder</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Development version">1.0.2.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.2.9000</span>
       </span>
     </div>
 
@@ -170,21 +170,18 @@ function to execute.</p>
     </tr>
     <tr>
       <th>mode</th>
-      <td><ul>
-<li><p><code>"single"</code> : geocode a single address (all methods)</p><ul>
-<li><p><code>"list"</code> : batch geocode a list of addresses (geocodio)</p></li>
-<li><p><code>"file"</code> : batch geocode a file of addresses (census)</p></li>
-</ul></li>
-</ul></td>
+      <td><p>determines the type of query to execute</p><pre>- "single": geocode a single input (all methods)
+- "list": batch geocode a list of inputs (ex. geocodio)
+- "file": batch geocode a file of inputs (ex. census)
+</pre></td>
     </tr>
     <tr>
       <th>batch_file</th>
-      <td><p>a csv file of addresses to upload (census)</p></td>
+      <td><p>a csv file of input data to upload (for <code>mode = 'file'</code>)</p></td>
     </tr>
     <tr>
       <th>input_list</th>
-      <td><p>a list of addresses or latitude, longitude coordinates for batch geocoding (geocodio)
-should be 'json' for geocodio and 'multipart' for census</p></td>
+      <td><p>a list of input data (for <code>mode = 'list'</code>)</p></td>
     </tr>
     <tr>
       <th>content_encoding</th>
@@ -196,7 +193,7 @@ should be 'json' for geocodio and 'multipart' for census</p></td>
     </tr>
     <tr>
       <th>method</th>
-      <td><p>if 'mapquest' then the query status code is changed appropriately</p></td>
+      <td><p>if 'mapquest' or 'arcgis' then the query status code is changed appropriately</p></td>
     </tr>
     </table>
 

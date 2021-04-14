@@ -34,7 +34,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">tidygeocoder</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Development version">1.0.2.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.2.9000</span>
       </span>
     </div>
 
@@ -107,11 +107,10 @@
 
     
     
-<p>This page documents the supported geocoder services and also displays the built-in datasets the package uses to set query parameters and settings.</p>
 <div id="overview" class="section level2">
 <h2 class="hasAnchor">
 <a href="#overview" class="anchor"></a>Overview</h2>
-<p>The supported geocoder services are shown in the table below along with if they require an API key and support batch geocoding. The “method” is used to specify the geocoder service in tidygeocoder functions such as <code><a href="../reference/geo.html">geo()</a></code> and <code><a href="../reference/reverse_geo.html">reverse_geo()</a></code>. Refer to each service’s API documentation for more details.</p>
+<p>The supported geocoder services are shown in the table below along with if they require an API key, if they support batch geocoding, and if there are usage rate limitations. The “method” is used to specify the geocoder service in tidygeocoder functions such as <code><a href="../reference/geo.html">geo()</a></code> and <code><a href="../reference/reverse_geo.html">reverse_geo()</a></code>. Refer to each service’s API documentation for more details.</p>
 <table class="table">
 <colgroup>
 <col width="32%">
@@ -254,6 +253,7 @@
 <ul>
 <li>When used in batch mode, the <strong>US Census</strong> geocoder will return NA data when there are multiple results available for an address. The expectation is that you would see that a “Tie” is indicated and use single address geocoding to return the results for these addresses. See <a href="https://github.com/jessecambon/tidygeocoder/issues/87">#87</a> for details.</li>
 <li>When performing reverse geocoding, the <strong>Mapbox</strong> service requires a <code>types</code> parameter to be set if <code>limit &gt; 1</code>. See <a href="https://github.com/jessecambon/tidygeocoder/issues/104">#104</a>.</li>
+<li>The <strong>Bing</strong> batch geocoder does not use the <code>limit</code> parameter (<a href="https://github.com/jessecambon/tidygeocoder/issues/106">#106</a>).</li>
 </ul>
 </div>
 <div id="api-parameters" class="section level2">
@@ -652,6 +652,22 @@
     </tr>
 </tbody>
 </table></div>
+<!-- https://bookdown.org/yihui/rmarkdown-cookbook/results-asis.html -->
+<p>Links to the usage policies for each geocoder service:</p>
+<ul>
+<li><a href="https://operations.osmfoundation.org/policies/nominatim/">Nominatim</a></li>
+<li><a href="https://www.census.gov/programs-surveys/geography/technical-documentation/complete-technical-documentation/census-geocoder.html">US Census</a></li>
+<li><a href="https://developers.arcgis.com/rest/geocode/api-reference/geocoding-free-vs-paid.htm">ArcGIS</a></li>
+<li><a href="https://www.geocod.io/pricing/">Geocodio</a></li>
+<li><a href="https://locationiq.com/pricing">Location IQ</a></li>
+<li><a href="https://developers.google.com/maps/documentation/geocoding/usage-and-billing">Google</a></li>
+<li><a href="https://opencagedata.com/pricing">OpenCage</a></li>
+<li><a href="https://www.mapbox.com/pricing/-search">Mapbox</a></li>
+<li><a href="https://developer.here.com/pricing">HERE</a></li>
+<li><a href="https://developer.tomtom.com/store/maps-api">TomTom</a></li>
+<li><a href="https://developer.mapquest.com/plans">MapQuest</a></li>
+<li><a href="https://docs.microsoft.com/en-us/bingmaps/spatial-data-services/geocode-and-data-source-limits">Bing</a></li>
+</ul>
 </div>
 <div id="batch-query-limits" class="section level2">
 <h2 class="hasAnchor">
@@ -1410,26 +1426,6 @@
     </tr>
 </tbody>
 </table></div>
-<!-- https://bookdown.org/yihui/rmarkdown-cookbook/results-asis.html -->
-</div>
-<div id="api-usage-policies" class="section level2">
-<h2 class="hasAnchor">
-<a href="#api-usage-policies" class="anchor"></a>API Usage Policies</h2>
-<p>Links to the usage policies for each geocoder service:</p>
-<ul>
-<li><a href="https://operations.osmfoundation.org/policies/nominatim/">Nominatim</a></li>
-<li><a href="https://www.census.gov/programs-surveys/geography/technical-documentation/complete-technical-documentation/census-geocoder.html">US Census</a></li>
-<li><a href="https://developers.arcgis.com/rest/geocode/api-reference/geocoding-free-vs-paid.htm">ArcGIS</a></li>
-<li><a href="https://www.geocod.io/pricing/">Geocodio</a></li>
-<li><a href="https://locationiq.com/pricing">Location IQ</a></li>
-<li><a href="https://developers.google.com/maps/documentation/geocoding/usage-and-billing">Google</a></li>
-<li><a href="https://opencagedata.com/pricing">OpenCage</a></li>
-<li><a href="https://www.mapbox.com/pricing/-search">Mapbox</a></li>
-<li><a href="https://developer.here.com/pricing">HERE</a></li>
-<li><a href="https://developer.tomtom.com/store/maps-api">TomTom</a></li>
-<li><a href="https://developer.mapquest.com/plans">MapQuest</a></li>
-<li><a href="https://docs.microsoft.com/en-us/bingmaps/spatial-data-services/geocode-and-data-source-limits">Bing</a></li>
-</ul>
 </div>
   </div>
 

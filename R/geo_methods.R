@@ -1,7 +1,6 @@
-#' Convenience functions for calling the `geo` function
-#' with a specified method
+#' Convenience functions for calling `geo()`
 #' 
-#' @description
+#' @description The `method` for `geo()` is specified in the function name.
 #' 
 #' `r lifecycle::badge("deprecated")`
 #' 
@@ -91,24 +90,11 @@ geo_arcgis <- function(...) {
   return(geo(method = 'arcgis', ...))
 }
 
-
-#' Convenience function for calling the [geo] function
-#' with method = 'cascade'
-#' 
-#' @description 
-#' 
-#' `r lifecycle::badge("deprecated")`
-#' 
-#' Use the [geo] function directly instead.
-#' 
-#' @param ... arguments passed from and to the `geo` function
-#' @param cascade_order a vector with two character values for the method argument 
-#'  in the order in which the geocoder services will be attempted
-#'  (ie. `c('census', 'geocodio')`)
+#' @rdname geo_census
 #' @export
-geo_cascade <- function(..., cascade_order = c('census', 'osm')) {
+geo_cascade <- function(...) {
   lifecycle::deprecate_warn("1.0.3", "geo_cascade()", "geo()")
-  return(cascade_geocoding(..., cascade_order))
+  return(geo(method = 'cascade', ...))
 }
 
 

@@ -20,24 +20,20 @@ query_api(
 
 \item{query_parameters}{api query parameters in the form of a named list}
 
-\item{mode}{\itemize{
-\item \code{"single"} : geocode a single address (all methods)
-\itemize{
-\item \code{"list"} : batch geocode a list of addresses (geocodio)
-\item \code{"file"} : batch geocode a file of addresses (census)
-}
+\item{mode}{determines the type of query to execute\preformatted{- "single": geocode a single input (all methods)
+- "list": batch geocode a list of inputs (ex. geocodio)
+- "file": batch geocode a file of inputs (ex. census)
 }}
 
-\item{batch_file}{a csv file of addresses to upload (census)}
+\item{batch_file}{a csv file of input data to upload (for \code{mode = 'file'})}
 
-\item{input_list}{a list of addresses or latitude, longitude coordinates for batch geocoding (geocodio)
-should be 'json' for geocodio and 'multipart' for census}
+\item{input_list}{a list of input data (for \code{mode = 'list'})}
 
 \item{content_encoding}{Encoding to be used for parsing content}
 
 \item{timeout}{timeout in minutes}
 
-\item{method}{if 'mapquest' then the query status code is changed appropriately}
+\item{method}{if 'mapquest' or 'arcgis' then the query status code is changed appropriately}
 }
 \value{
 a named list containing the response content (\code{content}) and the HTTP request status (\code{status})

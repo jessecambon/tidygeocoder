@@ -25,18 +25,18 @@ reverse_geocode(
 
 \item{address}{address column name (output data). Can be quoted or unquoted (ie. addr or 'addr').}
 
-\item{return_input}{if TRUE then return input dataset with geocoder results. If
-FALSE only the geocoder results will be included.}
+\item{return_input}{if TRUE then the input dataset will be combined with the geocoder query results
+and returned. If FALSE only the geocoder results will be returned.}
 
 \item{limit}{maximum number of results to return per input coordinate. For many geocoder services
 the maximum value of the limit parameter is 100. Pass \code{limit = NULL} to use
 the default \code{limit} value of the selected geocoder service.
-For batch geocoding, limit must be set to 1 (default) if \code{return_coords = TRUE}
+For batch geocoding, limit must be set to 1 (default) if \code{return_coords = TRUE}.
 To use \code{limit > 1} or \code{limit = NULL} set return_input to FALSE.
 Refer to \link{api_parameter_reference} for more details.}
 
-\item{return_coords}{if TRUE return input coordinates. Defaults to TRUE if return_input is
-FALSE and FALSE if return_input is TRUE. This is passed to the reverse_geo() function.}
+\item{return_coords}{if TRUE return input coordinates. Defaults to TRUE if \code{return_input} is
+FALSE and FALSE if \code{return_input} is TRUE. This argument is passed to the \code{reverse_geo()} function.}
 
 \item{unique_only}{if TRUE then only unique results will be returned and
 return_input will be set to FALSE.}
@@ -60,26 +60,25 @@ on possible arguments.
 library(tibble)
 library(dplyr)
 
-reverse_geocode(
-  tibble(
+tibble(
     latitude = c(38.895865, 43.6534817),
     longitude = c(-77.0307713,-79.3839347)
-  ),
-  lat = latitude,
-  long = longitude,
-  method = 'osm',
-  full_results = TRUE,
-  verbose = TRUE
-)
+  ) \%>\%
+  reverse_geocode(
+    lat = latitude,
+    long = longitude,
+    method = 'osm',
+    full_results = TRUE
+  )
 
-louisville \%>\% head(5) \%>\% 
+louisville \%>\% head(3) \%>\% 
   reverse_geocode(lat = latitude, long = longitude, 
-  method = 'arcgis', full_results = TRUE, verbose = TRUE)
+  method = 'arcgis')
 
 louisville \%>\% head(2) \%>\% 
   reverse_geocode(lat = latitude, long = longitude,  
   method = 'osm', verbose = TRUE,
-  limit = 5, return_input = FALSE)
+  limit = 2, return_input = FALSE)
 
 }
 }

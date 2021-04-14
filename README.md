@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file directly and reknit -->
 
-# tidygeocoder <a href='https://jessecambon.github.io/tidygeocoder/'><img src="man/figures/tidygeocoder_hex.png" align="right" height="139"/></a>
+# tidygeocoder<a href='https://jessecambon.github.io/tidygeocoder/'><img src="man/figures/tidygeocoder_hex.png" align="right" height="130px"/></a>
 
 <!-- badges: start -->
 
@@ -10,6 +10,8 @@ state and is being actively
 developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
 [![Lifecycle:
 stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://lifecycle.r-lib.org/articles/stages.html#stable)
+[![R Build
+Status](https://github.com/jessecambon/tidygeocoder/workflows/R-CMD-check/badge.svg)](https://github.com/jessecambon/tidygeocoder/actions?workflow=R-CMD-check)
 [![License:
 MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/jessecambon/tidygeocoder/blob/master/LICENSE.md)
 [![CRAN](https://www.r-pkg.org/badges/version/tidygeocoder)](https://cran.r-project.org/package=tidygeocoder)
@@ -20,13 +22,15 @@ Month](http://cranlogs.r-pkg.org/badges/tidygeocoder)](https://cran.r-project.or
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.4448251.svg)](https://doi.org/10.5281/zenodo.4448251)
 <!-- badges: end -->
 
-</br>
-
 Tidygeocoder makes getting data from geocoder services easy. A unified
 high-level interface is provided for the [supported geocoder
 services](https://jessecambon.github.io/tidygeocoder/articles/geocoder_services.html)
 and results are returned in [tibble](https://tibble.tidyverse.org/)
-(dataframe) format.
+(dataframe) format. For details see the usage example below, the
+[Getting Started
+Vignette](https://jessecambon.github.io/tidygeocoder/articles/tidygeocoder.html),
+and [blog posts on
+tidygeocoder](https://jessecambon.github.io/tag/tidygeocoder).
 
 **Features:**
 
@@ -37,28 +41,11 @@ and results are returned in [tibble](https://tibble.tidyverse.org/)
     service when multiple inputs (addresses or coordinates) are provided
     (with some noted exceptions for services with slower batch
     geocoding).
--   Duplicate, NA, and blank input data is handled elegantly - only
-    unique inputs are submitted in geocoder queries, but the rows in the
-    original data are preserved by default.
-
-**References:**
-
--   [Blog posts on
-    tidygeocoder](https://jessecambon.github.io/tag/tidygeocoder) for
-    updates on releases and additional usage examples. In particular
-    [this
-    post](https://jessecambon.github.io/2020/07/15/tidygeocoder-1-0-0.html)
-    and [this
-    post](https://jessecambon.github.io/2019/11/11/tidygeocoder-demo.html)
-    demonstrate some relevant mapping workflows.
--   [Getting Started
-    Vignette](https://jessecambon.github.io/tidygeocoder/articles/tidygeocoder.html)
-    for more detailed and comprehensive usage examples.
--   [Geocoder
-    Services](https://jessecambon.github.io/tidygeocoder/articles/geocoder_services.html)
-    for documentation on the supported geocoder services and the
-    built-in datasets that are used by tidygeocoder to set key
-    parameters and settings for queries.
+-   Duplicate, NA, and blank input data is handled elegantly; only
+    unique inputs are submitted in queries, but the rows in the original
+    data are preserved by default.
+-   The rate of querying is automatically slowed in order to comply with
+    API usage policies.
 
 ## Installation
 
@@ -168,6 +155,19 @@ For further documentation, refer to the [Getting Started
 Vignette](https://jessecambon.github.io/tidygeocoder/articles/tidygeocoder.html)
 and the [function
 documentation](https://jessecambon.github.io/tidygeocoder/reference/index.html).
+
+## In the Wild
+
+A few articles that use tidygeocoder in their code:
+
+-   [Exercises: Spatial Data Wrangling with
+    sf](http://www2.stat.duke.edu/courses/Spring21/sta323.001/exercises/lec_12.html)
+-   [Mapping a network of women in
+    demography](https://www.monicaalexander.com/posts/2021-21-02-mapping/)
+-   [Road Routing in
+    R](https://www.jla-data.net/eng/routing-in-r-context/)
+-   [Mapping Texas Ports With
+    R](https://www.sharpsightlabs.com/blog/mapping-texas-ports-with-r-part1/)
 
 ## Contributing
 

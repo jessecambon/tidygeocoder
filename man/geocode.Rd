@@ -44,18 +44,18 @@ address component arguments (street, city, county, state, postalcode, country)}
 
 \item{long}{longitude column name. Can be quoted or unquoted (ie. long or 'long').}
 
-\item{return_input}{if TRUE then return input dataset with geocoder results. If
-FALSE only the geocoder results will be included.}
+\item{return_input}{if TRUE then the input dataset will be combined with the geocoder query results
+and returned. If FALSE only the geocoder results will be returned.}
 
 \item{limit}{maximum number of results to return per input address. For many geocoder services
 the maximum value of the limit parameter is 100. Pass \code{limit = NULL} to use
 the default \code{limit} value of the selected geocoder service.
-For batch geocoding, limit must be set to 1 (default) if \code{return_addresses = TRUE}
+For batch geocoding, limit must be set to 1 (default) if \code{return_addresses = TRUE}.
 To use \code{limit > 1} or \code{limit = NULL} set return_input to FALSE.
 Refer to \link{api_parameter_reference} for more details.}
 
-\item{return_addresses}{if TRUE return addresses. Defaults to TRUE if return_input is FALSE
-and FALSE if return_input is TRUE. This is passed to the geo() function.}
+\item{return_addresses}{if TRUE return input addresses. Defaults to TRUE if \code{return_input} is FALSE
+and FALSE if \code{return_input} is TRUE. This argument is passed to the \code{geo()} function.}
 
 \item{unique_only}{if TRUE then only unique results will be returned and
 return_input will be set to FALSE.}
@@ -82,16 +82,21 @@ both acceptable).
 \examples{
 \donttest{
 library(dplyr)
-sample_addresses[1:2, ] \%>\% geocode(addr)
+sample_addresses \%>\% slice(1:2) \%>\%
+ geocode(addr, method = 'arcgis')
 
-louisville[1:2, ] \%>\% geocode(street = street, city = city, state = state,
-  postalcode = zip)
+louisville \%>\% head(2) \%>\%
+ geocode(street = street, city = city, state = state,
+  postalcode = zip, method = 'census', full_results = TRUE)
 
-sample_addresses[8:9, ] \%>\% geocode(addr, method = 'osm',
-  lat = 'lattes', long = 'longos')
+sample_addresses \%>\% slice(8:9) \%>\%
+ geocode(addr, method = 'osm', limit = 2,
+  return_input = FALSE, full_results = TRUE)
 
-sample_addresses[4:5, ] \%>\% geocode(addr, method = 'cascade',
-  lat = latitude, long = longitude)
+sample_addresses \%>\% slice(4:5) \%>\%
+ geocode(addr, method = 'arcgis',
+  lat = latitude, long = longitude,
+  full_results = TRUE)
 }
 }
 \seealso{
