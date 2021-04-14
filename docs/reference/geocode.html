@@ -226,22 +226,22 @@ address component arguments (street, city, county, state, postalcode, country)</
     </tr>
     <tr>
       <th>return_input</th>
-      <td><p>if TRUE then return input dataset with geocoder results. If
-FALSE only the geocoder results will be included.</p></td>
+      <td><p>if TRUE then the input dataset will be combined with the geocoder query results
+and returned. If FALSE only the geocoder results will be returned.</p></td>
     </tr>
     <tr>
       <th>limit</th>
       <td><p>maximum number of results to return per input address. For many geocoder services
 the maximum value of the limit parameter is 100. Pass <code>limit = NULL</code> to use
 the default <code>limit</code> value of the selected geocoder service.
-For batch geocoding, limit must be set to 1 (default) if <code>return_addresses = TRUE</code>
+For batch geocoding, limit must be set to 1 (default) if <code>return_addresses = TRUE</code>.
 To use <code>limit &gt; 1</code> or <code>limit = NULL</code> set return_input to FALSE.
 Refer to <a href='api_parameter_reference.html'>api_parameter_reference</a> for more details.</p></td>
     </tr>
     <tr>
       <th>return_addresses</th>
-      <td><p>if TRUE return addresses. Defaults to TRUE if return_input is FALSE
-and FALSE if return_input is TRUE. This is passed to the geo() function.</p></td>
+      <td><p>if TRUE return input addresses. Defaults to TRUE if <code>return_input</code> is FALSE
+and FALSE if <code>return_input</code> is TRUE. This argument is passed to the <code><a href='geo.html'>geo()</a></code> function.</p></td>
     </tr>
     <tr>
       <th>unique_only</th>

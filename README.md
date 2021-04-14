@@ -10,6 +10,8 @@ state and is being actively
 developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
 [![Lifecycle:
 stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://lifecycle.r-lib.org/articles/stages.html#stable)
+[![R Build
+Status](https://github.com/jessecambon/tidygeocoder/workflows/R-CMD-check/badge.svg)](https://github.com/jessecambon/tidygeocoder/actions?workflow=R-CMD-check)
 [![License:
 MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/jessecambon/tidygeocoder/blob/master/LICENSE.md)
 [![CRAN](https://www.r-pkg.org/badges/version/tidygeocoder)](https://cran.r-project.org/package=tidygeocoder)
@@ -42,8 +44,8 @@ tidygeocoder](https://jessecambon.github.io/tag/tidygeocoder).
 -   Duplicate, NA, and blank input data is handled elegantly; only
     unique inputs are submitted in queries, but the rows in the original
     data are preserved by default.
--   The usage limits of geocoder services are respected by pausing to
-    slow down the rate of querying as necessary.
+-   The rate of querying is automatically slowed in order to comply with
+    API usage policies.
 
 ## Installation
 
@@ -153,6 +155,19 @@ For further documentation, refer to the [Getting Started
 Vignette](https://jessecambon.github.io/tidygeocoder/articles/tidygeocoder.html)
 and the [function
 documentation](https://jessecambon.github.io/tidygeocoder/reference/index.html).
+
+## In the Wild
+
+A few articles that use tidygeocoder in their code:
+
+-   [Exercises: Spatial Data Wrangling with
+    sf](http://www2.stat.duke.edu/courses/Spring21/sta323.001/exercises/lec_12.html)
+-   [Mapping a network of women in
+    demography](https://www.monicaalexander.com/posts/2021-21-02-mapping/)
+-   [Road Routing in
+    R](https://www.jla-data.net/eng/routing-in-r-context/)
+-   [Mapping Texas Ports With
+    R](https://www.sharpsightlabs.com/blog/mapping-texas-ports-with-r-part1/)
 
 ## Contributing
 

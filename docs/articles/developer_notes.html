@@ -101,12 +101,12 @@
 
     
     
-<p>This page contains documentation for those wishing to contribute to the package and instructions on how to add support for a new geocoder service.</p>
-<div id="general-developer-notes" class="section level1">
-<h1 class="hasAnchor">
-<a href="#general-developer-notes" class="anchor"></a>General Developer Notes</h1>
-<p>The two core functions to focus on in the package are <a href="https://github.com/jessecambon/tidygeocoder/blob/master/R/geo.R">geo()</a> and <a href="https://github.com/jessecambon/tidygeocoder/blob/master/R/reverse_geo.R">reverse_geo()</a>. These functions have a very similar layout, but <code><a href="../reference/geo.html">geo()</a></code> is for forward geocoding while <code><a href="../reference/reverse_geo.html">reverse_geo()</a></code> is for reverse geocoding. The <code><a href="../reference/geocode.html">geocode()</a></code> and <code><a href="../reference/reverse_geocode.html">reverse_geocode()</a></code> functions extract input data and pass it to the <code><a href="../reference/geo.html">geo()</a></code> and <code><a href="../reference/reverse_geo.html">reverse_geo()</a></code> functions respectively.</p>
-<p>Both the <code><a href="../reference/geo.html">geo()</a></code> and <code><a href="../reference/reverse_geo.html">reverse_geo()</a></code> functions take inputs (either addresses or coordinates) and call other functions as needed to deduplicate the inputs, pause to comply with API usage rate policies, and execute geocoding queries. Key parameters and settings for geocoding are stored for easy access and display in built-in datasets.</p>
+<p>This page contains documentation relevant for those wishing to contribute to the package and specific instructions for how to add support for a new geocoder service.</p>
+<div id="introduction" class="section level2">
+<h2 class="hasAnchor">
+<a href="#introduction" class="anchor"></a>Introduction</h2>
+<p>The two core functions to focus on in the package are <a href="https://github.com/jessecambon/tidygeocoder/blob/master/R/geo.R">geo()</a> and <a href="https://github.com/jessecambon/tidygeocoder/blob/master/R/reverse_geo.R">reverse_geo()</a>. These functions have very similar layouts, but <code><a href="../reference/geo.html">geo()</a></code> is for forward geocoding while <code><a href="../reference/reverse_geo.html">reverse_geo()</a></code> is for reverse geocoding. The <code><a href="../reference/geocode.html">geocode()</a></code> and <code><a href="../reference/reverse_geocode.html">reverse_geocode()</a></code> functions only extract input data from a dataframe and pass it to the <code><a href="../reference/geo.html">geo()</a></code> and <code><a href="../reference/reverse_geo.html">reverse_geo()</a></code> functions respectively for geocoding.</p>
+<p>Both the <code><a href="../reference/geo.html">geo()</a></code> and <code><a href="../reference/reverse_geo.html">reverse_geo()</a></code> functions take inputs (either addresses or coordinates) and call other functions as needed to deduplicate the inputs, pause to comply with API usage rate policies, and execute queries. Key parameters and settings for geocoding are stored for easy access and display in built-in datasets.</p>
 <p>Consider this query:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org">dplyr</a></span><span class="op">)</span>
@@ -155,11 +155,11 @@
 <li>The <code><a href="../reference/geo.html">geo()</a></code> function looks for unique inputs and prepares them for geocoding. In this case, there is one duplicate input so we only have two unique inputs.</li>
 <li>The <code><a href="../reference/geo.html">geo()</a></code> function must figure out whether to use perform <em>single address geocoding</em> (1 address per query) or <em>batch geocoding</em> (multiple addresses per query). In this case the specified Nominatim (‘osm’) geocoder service does not have a batch geocoding function so single address geocoding is used.</li>
 <li>Because single address geocoding is used, the <code><a href="../reference/geo.html">geo()</a></code> function is called once for each input to geocode all addresses (twice in this case) and the results are combined. If batch geocoding was used then the appropriate batch geocoding function would be called based on the geocoder service specified.</li>
-<li>Because the specified geocoder service has a usage limit, the rate of querying is limited accordingly. This behaviour can be modified with the <code>min_time</code> argument.</li>
+<li>Because the specified geocoder service has a usage limit, the rate of querying is limited accordingly. By default this is based on the <code>min_time_reference</code> dataset. This behaviour can be modified with the <code>min_time</code> argument.</li>
 <li>Since the input data was deduplicated, the results must be aligned to the original inputs (which contained duplicates) so that the original data structure is preserved. Alternatively, if you only want to return unique results, you can specify <code>unique_only = TRUE</code>.</li>
 <li>This combined data is returned by <code><a href="../reference/geo.html">geo()</a></code> to the <code><a href="../reference/geocode.html">geocode()</a></code> function. The <code><a href="../reference/geocode.html">geocode()</a></code> function then combines the returned data with the original dataset.</li>
 </ul>
-<p>Refer to the notes below on adding a geocoder service for documentation on the code structure.</p>
+<p>Refer to the notes below on adding a geocoder service for more specific documentation on the code structure.</p>
 </div>
 <div id="adding-a-new-geocoder-service" class="section level1">
 <h1 class="hasAnchor">

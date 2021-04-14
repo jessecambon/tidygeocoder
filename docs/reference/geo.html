@@ -234,10 +234,7 @@ Do not combine with the address component arguments below
     </tr>
     <tr>
       <th>method</th>
-      <td><p>the geocoder service to be used. Refer to <a href='api_parameter_reference.html'>api_parameter_reference</a>, <a href='min_time_reference.html'>min_time_reference</a>,",
-"and <a href='batch_limit_reference.html'>batch_limit_reference</a> for more information.",
-"To add an API key for use, run <code><a href='https://usethis.r-lib.org/reference/edit.html'>usethis::edit_r_environ()</a></code>. This will open",
-"your .Renviron file for editing. (ex. add the line <code>GEOCODIO_API_KEY="YourAPIKeyHere")</code></p><ul>
+      <td><p>the geocoder service to be used. Refer to <a href='api_parameter_reference.html'>api_parameter_reference</a>, <a href='min_time_reference.html'>min_time_reference</a>, and <a href='batch_limit_reference.html'>batch_limit_reference</a> for more information. API keys are loaded from environmental variables. Run <code><a href='https://usethis.r-lib.org/reference/edit.html'>usethis::edit_r_environ()</a></code> to open your .Renviron file and add an API key as an environmental variable (ex. add the line <code>GEOCODIO_API_KEY="YourAPIKeyHere").</code></p><ul>
 <li><p><code>"osm"</code>: <a href='https://nominatim.org'>Nominatim</a> geocoder service.</p></li>
 <li><p><code>"census"</code>: <a href='https://geocoding.geo.census.gov/'>US Census</a> geocoder service. Geographic coverage is limited to the United States. Batch geocoding is supported.</p></li>
 <li><p><code>"arcgis"</code>: <a href='https://developers.arcgis.com/rest/geocode/api-reference/overview-world-geocoding-service.htm'>ArcGIS</a> geocoder service.</p></li>
@@ -276,7 +273,7 @@ in the order in which the geocoder services will be attempted for <code>method =
       <td><p>maximum number of results to return per input address. For many geocoder services
 the maximum value of the limit parameter is 100. Pass <code>limit = NULL</code> to use
 the default <code>limit</code> value of the selected geocoder service.
-For batch geocoding, limit must be set to 1 (default) if <code>return_addresses = TRUE</code>
+For batch geocoding, limit must be set to 1 (default) if <code>return_addresses = TRUE</code>.
 Refer to <a href='api_parameter_reference.html'>api_parameter_reference</a> for more details.</p></td>
     </tr>
     <tr>
@@ -325,7 +322,7 @@ Geocodio batch geocoding.</p></td>
     <tr>
       <th>batch_limit</th>
       <td><p>limit to the number of addresses in a batch geocoding query.
-Set to the value specified in <a href='batch_limit_reference.html'>batch_limit_reference</a> unless otherwise specified.</p></td>
+Defaults to the value in <a href='batch_limit_reference.html'>batch_limit_reference</a> if not specified.</p></td>
     </tr>
     <tr>
       <th>batch_limit_error</th>

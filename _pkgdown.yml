@@ -14,13 +14,6 @@ reference:
   - geo 
   - reverse_geocode
   - reverse_geo
-- title: Convenience functions for forward geocoding
-  contents:
-  - starts_with("geo_")
-- title: Data
-  contents:
-  - louisville
-  - sample_addresses
 - title: Reference Datasets
   desc: Datasets used for geocoder queries and documentation
   contents:
@@ -29,12 +22,20 @@ reference:
   - batch_limit_reference
   - api_key_reference
   - api_info_reference
+- title: Data
+  contents:
+  - louisville
+  - sample_addresses
 - title: Utility Functions
   contents:
   - get_api_query
   - query_api
   - extract_results
   - extract_reverse_results
+- title: Deprecated Functions
+  desc: Use `geo()` instead.
+  contents:
+  - starts_with("geo_")
 navbar:
   type: default
   left:
