@@ -39,9 +39,9 @@ tidygeocoder](https://jessecambon.github.io/tag/tidygeocoder).
     service when multiple inputs (addresses or coordinates) are provided
     (with some noted exceptions for services with slower batch
     geocoding).
--   Duplicate, NA, and blank input data is handled elegantly - only
-    unique inputs are submitted in geocoder queries, but the rows in the
-    original data are preserved by default.
+-   Duplicate, NA, and blank input data is handled elegantly; only
+    unique inputs are submitted in queries, but the rows in the original
+    data are preserved by default.
 -   The usage limits of geocoder services are respected by pausing to
     slow down the rate of querying as necessary.
 

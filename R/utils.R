@@ -133,3 +133,17 @@ check_address_argument_datatype <- function(arg, arg_name) {
     stop(paste0('Improper datatype for ', arg_name, '. See ?geo'), call. = FALSE)
   }
 }
+
+
+## function for extracting everything except the single line 
+## address from the reverse geocoding results of osm and iq
+extract_osm_reverse_full <- function(response) {
+  a <- response[!(names(response) %in% c('display_name', 'boundingbox', 'address'))]
+  a[sapply(a, function(x) length(x) == 0)] <- NULL # get rid of empty lists
+  b <- tibble::as_tibble(response[['address']])
+  c <- tibble::tibble(boundingbox = list(response$boundingbox))
+  
+  return(
+    tibble::as_tibble(dplyr::bind_cols(as.data.frame(a), b, c))
+  )
+}

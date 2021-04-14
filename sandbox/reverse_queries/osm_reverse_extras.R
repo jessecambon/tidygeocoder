@@ -1,6 +1,6 @@
-num_coords <- 5
+num_coords <- 10
 
-set.seed(42)
+set.seed(103)
 
 lat_limits <- c(40.40857, 40.42585)
 long_limits <- c(-3.72472, -3.66983)
@@ -18,13 +18,12 @@ random_longs <- runif(
 )
 
 
-
 url_base  <- 'https://nominatim.openstreetmap.org/reverse'
 
 
 soup <- httr::GET(url = url_base, 
-                  query = list(lat = random_lats[1], 
-                               lon = random_longs[1],
+                  query = list(lat = random_lats[3], 
+                               lon = random_longs[3],
                               namedetails = 1,
                               addressdetails = 1,
                               extratags = 1,
@@ -39,11 +38,19 @@ response <- jsonlite::fromJSON(httr::content(soup, as = 'text', encoding = "UTF-
 #       tibble::as_tibble(response[['address']]), tibble::tibble(boundingbox = list(response$boundingbox))) 
 
 
-results_full <- tidygeocoder:::extract_reverse_results('osm', response)
+r#esults_full <- tidygeocoder:::extract_reverse_results('osm', response)
 
 
-test <- dplyr::bind_cols(response[!(names(response) %in% c('display_name', 'boundingbox', 'address'))], 
-              tibble::as_tibble(response[['address']]), tibble::tibble(boundingbox = list(response$boundingbox)))
+a <- response[!(names(response) %in% c('display_name', 'boundingbox', 'address'))]
+a[sapply(a, function(x) length(x) == 0)] <- NULL # get rid of empty lists
+
+b <- tibble::as_tibble(response[['address']])
+c <- tibble::tibble(boundingbox = list(response$boundingbox))
+
+
+combi <- tibble::as_tibble(dplyr::bind_cols(as.data.frame(a), b, c))
+  
+test <- tidygeocoder:::extract_osm_reverse_full(response)
 
 
 #f_address <- raw_results$display_name

@@ -50,8 +50,6 @@ navbar:
       href: reference/index.html
     - text: News
       href: news/index.html
-development:
-  mode: auto
 authors:
   Jesse Cambon:
     href: https://jessecambon.github.io

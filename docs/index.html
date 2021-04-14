@@ -33,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">tidygeocoder</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Development version">1.0.2.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.2.9000</span>
       </span>
     </div>
 
@@ -89,27 +89,20 @@
 
       </header><div class="row">
   <div class="contents col-md-9">
-<div id="tidygeocoder-" class="section level1">
-
+<div id="tidygeocoder" class="section level1">
+<div class="page-header"><h1 class="hasAnchor">
+<a href="#tidygeocoder" class="anchor"></a>tidygeocoder<a href="https://jessecambon.github.io/tidygeocoder/"><img src="reference/figures/tidygeocoder_hex.png" align="right" height="130px"></a>
+</h1></div>
 <!-- badges: start -->
 
-<p></p>
-<p>Tidygeocoder makes getting data from geocoder services easy. A unified high-level interface is provided for the <a href="https://jessecambon.github.io/tidygeocoder/articles/geocoder_services.html">supported geocoder services</a> and results are returned in <a href="https://tibble.tidyverse.org/">tibble</a> (dataframe) format.</p>
+<p>Tidygeocoder makes getting data from geocoder services easy. A unified high-level interface is provided for the <a href="https://jessecambon.github.io/tidygeocoder/articles/geocoder_services.html">supported geocoder services</a> and results are returned in <a href="https://tibble.tidyverse.org/">tibble</a> (dataframe) format. For details see the usage example below, the <a href="https://jessecambon.github.io/tidygeocoder/articles/tidygeocoder.html">Getting Started Vignette</a>, and <a href="https://jessecambon.github.io/tag/tidygeocoder">blog posts on tidygeocoder</a>.</p>
 <p><strong>Features:</strong></p>
 <ul>
 <li>Both <strong>forward geocoding</strong> (addresses ⮕ coordinates) and <strong>reverse geocoding</strong> (coordinates ⮕ addresses) are supported.</li>
 <li>
 <strong>Batch geocoding</strong> (geocoding multiple addresses or coordinates in a single query) is used by default if supported by the geocoder service when multiple inputs (addresses or coordinates) are provided (with some noted exceptions for services with slower batch geocoding).</li>
 <li>Duplicate, NA, and blank input data is handled elegantly - only unique inputs are submitted in geocoder queries, but the rows in the original data are preserved by default.</li>
-</ul>
-<p><strong>References:</strong></p>
-<ul>
-<li>
-<a href="https://jessecambon.github.io/tag/tidygeocoder">Blog posts on tidygeocoder</a> for updates on releases and additional usage examples. In particular <a href="https://jessecambon.github.io/2020/07/15/tidygeocoder-1-0-0.html">this post</a> and <a href="https://jessecambon.github.io/2019/11/11/tidygeocoder-demo.html">this post</a> demonstrate some relevant mapping workflows.</li>
-<li>
-<a href="https://jessecambon.github.io/tidygeocoder/articles/tidygeocoder.html">Getting Started Vignette</a> for more detailed and comprehensive usage examples.</li>
-<li>
-<a href="https://jessecambon.github.io/tidygeocoder/articles/geocoder_services.html">Geocoder Services</a> for documentation on the supported geocoder services and the built-in datasets that are used by tidygeocoder to set key parameters and settings for queries.</li>
+<li>The usage limits of geocoder services are respected by pausing to slow down the rate of querying as necessary.</li>
 </ul>
 <div id="installation" class="section level2">
 <h2 class="hasAnchor">

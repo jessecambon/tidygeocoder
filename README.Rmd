@@ -29,7 +29,7 @@ Tidygeocoder makes getting data from geocoder services easy. A unified high-leve
 - Both **forward geocoding** (addresses ⮕ coordinates) and **reverse geocoding** (coordinates ⮕ addresses) are supported. 
 - **Batch geocoding** (geocoding multiple addresses or coordinates in a single query) is used by default if supported by the geocoder service when multiple inputs (addresses or coordinates) are provided (with some noted exceptions for services with slower batch geocoding).
 - Duplicate, NA, and blank input data is handled elegantly; only unique inputs are submitted in queries, but the rows in the original data are preserved by default.
-- The usage limits of geocoder services are respected by pausing to slow down the rate of querying as necessary.
+- The rate of querying is automatically slowed in order to comply with API usage policies.
 
 ## Installation
 
