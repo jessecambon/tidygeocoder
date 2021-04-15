@@ -29,14 +29,16 @@ options(tibble.print_min = 5, tibble.print_max = 5)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.4448251.svg)](https://doi.org/10.5281/zenodo.4448251) 
 <!-- badges: end -->
 
-Tidygeocoder makes getting data from geocoder services easy. A unified high-level interface is provided for the [supported geocoder services](https://jessecambon.github.io/tidygeocoder/articles/geocoder_services.html) and results are returned in [tibble](https://tibble.tidyverse.org/) (dataframe) format. For details see the usage example below, the [Getting Started Vignette](https://jessecambon.github.io/tidygeocoder/articles/tidygeocoder.html), and [blog posts on tidygeocoder](https://jessecambon.github.io/tag/tidygeocoder).
+Tidygeocoder makes getting data from geocoder services easy. A unified high-level interface is provided for the [supported geocoder services](https://jessecambon.github.io/tidygeocoder/articles/geocoder_services.html) and results are returned in [tibble](https://tibble.tidyverse.org/) (dataframe) format. 
 
 **Features:**
 
 - Both **forward geocoding** (addresses ⮕ coordinates) and **reverse geocoding** (coordinates ⮕ addresses) are supported. 
 - **Batch geocoding** (geocoding multiple addresses or coordinates in a single query) is used by default if supported by the geocoder service when multiple inputs (addresses or coordinates) are provided (with some noted exceptions for services with slower batch geocoding).
 - Duplicate, NA, and blank input data is handled elegantly; only unique inputs are submitted in queries, but the rows in the original data are preserved by default.
-- The rate of querying is automatically slowed in order to comply with API usage policies.
+- The maximum rate of querying is automatically set according to the usage policies of the selected geocoder service.
+
+In addition to the usage examples below, see the [Getting Started Vignette](https://jessecambon.github.io/tidygeocoder/articles/tidygeocoder.html) and [blog posts on tidygeocoder](https://jessecambon.github.io/tag/tidygeocoder).
 
 ## Installation
 
@@ -54,7 +56,7 @@ devtools::install_github("jessecambon/tidygeocoder")
 
 ## Usage
 
-In this example we will geocode a few addresses using the `geocode()` function and plot them on a map with ggplot.
+In this first example we will geocode a few addresses using the `geocode()` function and plot them on a map with ggplot.
 
 ```{r, warning = F, message = F}
 library(dplyr)
@@ -74,7 +76,7 @@ lat_longs <- some_addresses %>%
   geocode(addr, method = 'osm', lat = latitude , long = longitude)
 ```
 
-The `geocode()` function attaches latitude and longitude columns to our input dataset of addresses. The [Nominatim ("osm")](https://nominatim.org/) geocoder is used here, but other services can be specified with the `method` argument. See the `geo()` function documentation for details.
+The `geocode()` function geocodes addresses contained in a dataframe. The [Nominatim ("osm")](https://nominatim.org/) geocoder service is used here, but other services can be specified with the `method` argument. See the `geo()` function documentation for details.
 
 ```{r, echo = FALSE}
 knitr::kable(lat_longs)
@@ -93,7 +95,7 @@ ggplot(lat_longs, aes(longitude, latitude), color = "grey99") +
   theme_void()
 ```
 
-To return the full results from a geocoder service (not just latitude and longitude) you can use `full_results = TRUE`. Additionally, for the Census geocoder you can use `return_type = 'geographies'` to return geography columns (state, county, Census tract, and Census block).
+To return the full results from a geocoder service (not just latitude and longitude) you can use `full_results = TRUE`. Additionally, for the Census geocoder `return_type = 'geographies'` will return geography columns (state, county, Census tract, and Census block).
 
 ```{r}
 full <- some_addresses %>%
@@ -105,7 +107,7 @@ full <- some_addresses %>%
 knitr::kable(full)
 ```
 
-To perform **reverse geocoding** (obtaining addresses from latitude and longitude coordinates), we can use the `reverse_geocode()` function. The arguments are similar to the `geocode()` function, but we now are specifying the latitude and longitude columns in our dataset with the `lat` and `long` arguments. The single line address is returned in a column named by the `address` argument. See the `reverse_geo()` function documentation for more details on reverse geocoding.
+To perform **reverse geocoding** (obtaining addresses from geographic coordinates), we can use the `reverse_geocode()` function. The arguments are similar to the `geocode()` function, but now we specify the input data columns with the `lat` and `long` arguments. The single line address is returned in a column named by the `address` argument. See the `reverse_geo()` function documentation for more details on reverse geocoding.
 
 ```{r}
 rev1 <- lat_longs %>%
@@ -117,11 +119,9 @@ rev1 <- lat_longs %>%
 knitr::kable(rev1)
 ```
 
-For further documentation, refer to the [Getting Started Vignette](https://jessecambon.github.io/tidygeocoder/articles/tidygeocoder.html) and the [function documentation](https://jessecambon.github.io/tidygeocoder/reference/index.html).
-
 ## In the Wild
 
-A few articles that use tidygeocoder in their code:
+For inspiration, here are a few articles (with code) that leverage tidygeocoder:
 
 - [Exercises: Spatial Data Wrangling with sf](http://www2.stat.duke.edu/courses/Spring21/sta323.001/exercises/lec_12.html)
 - [Mapping a network of women in demography](https://www.monicaalexander.com/posts/2021-21-02-mapping/)
@@ -130,7 +130,7 @@ A few articles that use tidygeocoder in their code:
 
 ## Contributing
 
-Contributions to the tidygeocoder package are welcome. File [an issue](https://github.com/jessecambon/tidygeocoder/issues) for bug fixes or suggested features. If you would like to add support for a new geocoder service, reference [the developer notes](https://jessecambon.github.io/tidygeocoder/articles/developer_notes.html) for instructions.
+Contributions to the tidygeocoder package are welcome. File [an issue](https://github.com/jessecambon/tidygeocoder/issues) for bug fixes or suggested features. If you would like to contribute code such as adding support for a new geocoder service, reference the [developer notes](https://jessecambon.github.io/tidygeocoder/articles/developer_notes.html) for instructions and documentation.
 
 ## Citing tidygeocoder
 

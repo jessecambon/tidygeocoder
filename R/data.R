@@ -76,9 +76,10 @@
 
 #' Minimum time required per query
 #' 
-#' The [geo] and [reverse_geo] functions use this value to
-#' slow down the rate of querying if necessary to comply
-#' with each geocoder service's usage policies.
+#' The [geo] and [reverse_geo] functions use this dataset
+#' to set the default maximum query rate for each geocoder service.
+#' This rate is based on the usage restriction policies for the 
+#' geocoder services.
 #'
 #' @format A tibble dataframe
 #' \describe{
