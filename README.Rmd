@@ -19,22 +19,23 @@ options(tibble.print_min = 5, tibble.print_max = 5)
 # tidygeocoder<a href='https://jessecambon.github.io/tidygeocoder/'><img src="man/figures/tidygeocoder_hex.png" align="right" height="139px"/></a>
 
 <!-- badges: start -->
-[![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active) 
-[![Lifecycle: stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://lifecycle.r-lib.org/articles/stages.html#stable) 
+[![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
+[![Lifecycle: stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://lifecycle.r-lib.org/articles/stages.html#stable)
 [![R Build Status](https://github.com/jessecambon/tidygeocoder/workflows/R-CMD-check/badge.svg)](https://github.com/jessecambon/tidygeocoder/actions?workflow=R-CMD-check)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/jessecambon/tidygeocoder/blob/master/LICENSE.md) 
-[![CRAN](https://www.r-pkg.org/badges/version/tidygeocoder)](https://cran.r-project.org/package=tidygeocoder) 
-[![CRAN Total Downloads](http://cranlogs.r-pkg.org/badges/grand-total/tidygeocoder)](https://CRAN.R-project.org/package=tidygeocoder) 
-[![CRAN Downloads Per Month](http://cranlogs.r-pkg.org/badges/tidygeocoder)](https://cran.r-project.org/package=tidygeocoder) 
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.4448251.svg)](https://doi.org/10.5281/zenodo.4448251) 
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/jessecambon/tidygeocoder/blob/master/LICENSE.md)
+[![CRAN](https://www.r-pkg.org/badges/version/tidygeocoder)](https://cran.r-project.org/package=tidygeocoder)
+[![CRAN Total Downloads](http://cranlogs.r-pkg.org/badges/grand-total/tidygeocoder)](https://CRAN.R-project.org/package=tidygeocoder)
+[![CRAN Downloads Per Month](http://cranlogs.r-pkg.org/badges/tidygeocoder)](https://cran.r-project.org/package=tidygeocoder)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.4448251.svg)](https://doi.org/10.5281/zenodo.4448251)
 <!-- badges: end -->
 
-Tidygeocoder makes getting data from geocoder services easy. A unified high-level interface is provided for the [supported geocoder services](https://jessecambon.github.io/tidygeocoder/articles/geocoder_services.html) and results are returned in [tibble](https://tibble.tidyverse.org/) (dataframe) format. 
+Tidygeocoder makes getting data from geocoder services easy. A unified high-level interface is provided for a selection of [supported geocoder services](https://jessecambon.github.io/tidygeocoder/articles/geocoder_services.html).
 
 **Features:**
 
-- Both **forward geocoding** (addresses ⮕ coordinates) and **reverse geocoding** (coordinates ⮕ addresses) are supported. 
-- **Batch geocoding** (geocoding multiple addresses or coordinates in a single query) is used by default if supported by the geocoder service when multiple inputs (addresses or coordinates) are provided (with some noted exceptions for services with slower batch geocoding).
+- Supports both forward geocoding (addresses ⮕ coordinates) and reverse geocoding (coordinates ⮕ addresses).
+- Results are returned in [tibble](https://tibble.tidyverse.org/) (dataframe) format.
+- Batch geocoding (geocoding multiple addresses or coordinates in a single query) is automatically used if applicable.
 - Duplicate, NA, and blank input data is handled elegantly; only unique inputs are submitted in queries, but the rows in the original data are preserved by default.
 - The maximum rate of querying is automatically set according to the usage policies of the selected geocoder service.
 
@@ -90,8 +91,8 @@ library(maps)
 library(ggrepel)
 
 ggplot(lat_longs, aes(longitude, latitude), color = "grey99") +
-  borders("state") + geom_point() + 
-  geom_label_repel(aes(label = name)) + 
+  borders("state") + geom_point() +
+  geom_label_repel(aes(label = name)) +
   theme_void()
 ```
 
@@ -99,7 +100,7 @@ To return the full results from a geocoder service (not just latitude and longit
 
 ```{r}
 full <- some_addresses %>%
-  geocode(addr, method = 'census', full_results = TRUE, 
+  geocode(addr, method = 'census', full_results = TRUE,
           return_type = 'geographies')
 ```
 
@@ -140,7 +141,7 @@ citation('tidygeocoder')
 
 </br>
 
-<blockquote> 
+<blockquote>
 ```{r, comment = '', echo = FALSE}
 citation('tidygeocoder')
 ```

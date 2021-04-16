@@ -23,20 +23,17 @@ Month](http://cranlogs.r-pkg.org/badges/tidygeocoder)](https://cran.r-project.or
 <!-- badges: end -->
 
 Tidygeocoder makes getting data from geocoder services easy. A unified
-high-level interface is provided for the [supported geocoder
-services](https://jessecambon.github.io/tidygeocoder/articles/geocoder_services.html)
-and results are returned in [tibble](https://tibble.tidyverse.org/)
-(dataframe) format.
+high-level interface is provided for a selection of [supported geocoder
+services](https://jessecambon.github.io/tidygeocoder/articles/geocoder_services.html).
 
 **Features:**
 
--   Both **forward geocoding** (addresses ⮕ coordinates) and **reverse
-    geocoding** (coordinates ⮕ addresses) are supported.
--   **Batch geocoding** (geocoding multiple addresses or coordinates in
-    a single query) is used by default if supported by the geocoder
-    service when multiple inputs (addresses or coordinates) are provided
-    (with some noted exceptions for services with slower batch
-    geocoding).
+-   Supports both forward geocoding (addresses ⮕ coordinates) and
+    reverse geocoding (coordinates ⮕ addresses).
+-   Results are returned in [tibble](https://tibble.tidyverse.org/)
+    (dataframe) format.
+-   Batch geocoding (geocoding multiple addresses or coordinates in a
+    single query) is automatically used if applicable.
 -   Duplicate, NA, and blank input data is handled elegantly; only
     unique inputs are submitted in queries, but the rows in the original
     data are preserved by default.
@@ -107,8 +104,8 @@ library(maps)
 library(ggrepel)
 
 ggplot(lat_longs, aes(longitude, latitude), color = "grey99") +
-  borders("state") + geom_point() + 
-  geom_label_repel(aes(label = name)) + 
+  borders("state") + geom_point() +
+  geom_label_repel(aes(label = name)) +
   theme_void()
 ```
 
@@ -121,7 +118,7 @@ columns (state, county, Census tract, and Census block).
 
 ``` r
 full <- some_addresses %>%
-  geocode(addr, method = 'census', full_results = TRUE, 
+  geocode(addr, method = 'census', full_results = TRUE,
           return_type = 'geographies')
 ```
 

@@ -16,7 +16,7 @@ batch_func_map <- list(
 #' @description
 #' Geocodes addresses given as character values. The [geocode]
 #' function utilizes this function on addresses contained in dataframes.
-#' See example usage in `vignette("tidygeocoder")`` 
+#' See example usage in `vignette("tidygeocoder")`.
 #' 
 #' Note that not all geocoder services support certain address component 
 #' parameters. For example, the Census geocoder only covers the United States 

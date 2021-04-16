@@ -95,7 +95,7 @@
 #' 
 "min_time_reference"
 
-#' API Key Environmental Variables
+#' API key environmental variables
 #' 
 #' @details API keys are obtained from environmental variables.
 #'   The name of the environmental variable used for each service 

@@ -167,7 +167,7 @@ tibble (dataframe)
 \description{
 Geocodes addresses given as character values. The \link{geocode}
 function utilizes this function on addresses contained in dataframes.
-See example usage in `vignette("tidygeocoder")``
+See example usage in \code{vignette("tidygeocoder")}.
 
 Note that not all geocoder services support certain address component
 parameters. For example, the Census geocoder only covers the United States

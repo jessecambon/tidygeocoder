@@ -3,7 +3,7 @@
 \docType{data}
 \name{api_key_reference}
 \alias{api_key_reference}
-\title{API Key Environmental Variables}
+\title{API key environmental variables}
 \format{
 A tibble dataframe
 \describe{
@@ -15,7 +15,7 @@ A tibble dataframe
 api_key_reference
 }
 \description{
-API Key Environmental Variables
+API key environmental variables
 }
 \details{
 API keys are obtained from environmental variables.
