@@ -1,4 +1,4 @@
-#' Some sample addresses for testing
+#' Sample addresses for testing
 #'
 #' @format A tibble dataframe with single line addresses
 #' \describe{
@@ -63,7 +63,7 @@
 #' 
 "api_parameter_reference"
 
-#' Limits for batch sizes
+#' Geocoding batch size limit for each service.
 #'
 #' @format A tibble dataframe
 #' \describe{
@@ -77,9 +77,9 @@
 #' Minimum time required per query
 #' 
 #' The [geo] and [reverse_geo] functions use this dataset
-#' to set the default maximum query rate for each geocoder service.
-#' This rate is based on the usage restriction policies for the 
-#' geocoder services.
+#' to set the maximum query rate for each geocoder service.
+#' This rate is based on the usage restriction policies for 
+#' each geocoder service.
 #'
 #' @format A tibble dataframe
 #' \describe{
@@ -87,9 +87,7 @@
 #'  \item{min_time}{The minimum number of seconds required per query to comply with usage restrictions}
 #'  \item{description}{A description of the usage rate restriction}
 #' }
-#' @details 
-#' 
-#' Links to the usage policies of each geocoder service are below:
+#' @details Links to the usage policies of each geocoder service are below:
 #' 
 #' `r get_api_usage_bullets()`
 #' 
@@ -98,6 +96,10 @@
 "min_time_reference"
 
 #' API Key Environmental Variables
+#' 
+#' @details API keys are obtained from environmental variables.
+#'   The name of the environmental variable used for each service 
+#'   is stored in this dataset.
 #'
 #' @format A tibble dataframe
 #' \describe{
@@ -109,7 +111,7 @@
 #' 
 "api_key_reference"
 
-#' Geocoder service links and info
+#' Geocoder service links and information
 #'
 #' @format A tibble dataframe
 #' \describe{

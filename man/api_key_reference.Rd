@@ -17,6 +17,11 @@ api_key_reference
 \description{
 API Key Environmental Variables
 }
+\details{
+API keys are obtained from environmental variables.
+The name of the environmental variable used for each service
+is stored in this dataset.
+}
 \seealso{
 \link{geo} \link{reverse_geo}
 }

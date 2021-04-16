@@ -17,9 +17,9 @@ min_time_reference
 }
 \description{
 The \link{geo} and \link{reverse_geo} functions use this dataset
-to set the default maximum query rate for each geocoder service.
-This rate is based on the usage restriction policies for the
-geocoder services.
+to set the maximum query rate for each geocoder service.
+This rate is based on the usage restriction policies for
+each geocoder service.
 }
 \details{
 Links to the usage policies of each geocoder service are below:
