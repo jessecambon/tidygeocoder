@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Geocoding Made Easy • tidygeocoder</title>
-<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous">
+<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script><!-- Bootstrap --><link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.4.0/cosmo/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script><!-- bootstrap-toc --><link rel="stylesheet" href="bootstrap-toc.css">
 <script src="bootstrap-toc.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
@@ -91,19 +91,20 @@
   <div class="contents col-md-9">
 <div id="tidygeocoder" class="section level1">
 <div class="page-header"><h1 class="hasAnchor">
-<a href="#tidygeocoder" class="anchor"></a>tidygeocoder<a href="https://jessecambon.github.io/tidygeocoder/"><img src="reference/figures/tidygeocoder_hex.png" align="right" height="130px"></a>
+<a href="#tidygeocoder" class="anchor"></a>tidygeocoder<a href="https://jessecambon.github.io/tidygeocoder/"><img src="reference/figures/tidygeocoder_hex.png" align="right" height="139px"></a>
 </h1></div>
 <!-- badges: start -->
 
-<p>Tidygeocoder makes getting data from geocoder services easy. A unified high-level interface is provided for the <a href="https://jessecambon.github.io/tidygeocoder/articles/geocoder_services.html">supported geocoder services</a> and results are returned in <a href="https://tibble.tidyverse.org/">tibble</a> (dataframe) format. For details see the usage example below, the <a href="https://jessecambon.github.io/tidygeocoder/articles/tidygeocoder.html">Getting Started Vignette</a>, and <a href="https://jessecambon.github.io/tag/tidygeocoder">blog posts on tidygeocoder</a>.</p>
+<p>Tidygeocoder makes getting data from geocoder services easy. A unified high-level interface is provided for the <a href="https://jessecambon.github.io/tidygeocoder/articles/geocoder_services.html">supported geocoder services</a> and results are returned in <a href="https://tibble.tidyverse.org/">tibble</a> (dataframe) format.</p>
 <p><strong>Features:</strong></p>
 <ul>
 <li>Both <strong>forward geocoding</strong> (addresses ⮕ coordinates) and <strong>reverse geocoding</strong> (coordinates ⮕ addresses) are supported.</li>
 <li>
 <strong>Batch geocoding</strong> (geocoding multiple addresses or coordinates in a single query) is used by default if supported by the geocoder service when multiple inputs (addresses or coordinates) are provided (with some noted exceptions for services with slower batch geocoding).</li>
 <li>Duplicate, NA, and blank input data is handled elegantly; only unique inputs are submitted in queries, but the rows in the original data are preserved by default.</li>
-<li>The rate of querying is automatically slowed in order to comply with API usage policies.</li>
+<li>The maximum rate of querying is automatically set according to the usage policies of the selected geocoder service.</li>
 </ul>
+<p>In addition to the usage examples below, see the <a href="https://jessecambon.github.io/tidygeocoder/articles/tidygeocoder.html">Getting Started Vignette</a> and <a href="https://jessecambon.github.io/tag/tidygeocoder">blog posts on tidygeocoder</a>.</p>
 <div id="installation" class="section level2">
 <h2 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h2>
@@ -117,7 +118,7 @@
 <div id="usage" class="section level2">
 <h2 class="hasAnchor">
 <a href="#usage" class="anchor"></a>Usage</h2>
-<p>In this example we will geocode a few addresses using the <code><a href="reference/geocode.html">geocode()</a></code> function and plot them on a map with ggplot.</p>
+<p>In this first example we will geocode a few addresses using the <code><a href="reference/geocode.html">geocode()</a></code> function and plot them on a map with ggplot.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org">dplyr</a></span><span class="op">)</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tibble.tidyverse.org/">tibble</a></span><span class="op">)</span>
@@ -134,7 +135,7 @@
 <span class="co"># geocode the addresses</span>
 <span class="va">lat_longs</span> <span class="op">&lt;-</span> <span class="va">some_addresses</span> <span class="op">%&gt;%</span>
   <span class="fu"><a href="reference/geocode.html">geocode</a></span><span class="op">(</span><span class="va">addr</span>, method <span class="op">=</span> <span class="st">'osm'</span>, lat <span class="op">=</span> <span class="va">latitude</span> , long <span class="op">=</span> <span class="va">longitude</span><span class="op">)</span></code></pre></div>
-<p>The <code><a href="reference/geocode.html">geocode()</a></code> function attaches latitude and longitude columns to our input dataset of addresses. The <a href="https://nominatim.org/">Nominatim (“osm”)</a> geocoder is used here, but other services can be specified with the <code>method</code> argument. See the <code><a href="reference/geo.html">geo()</a></code> function documentation for details.</p>
+<p>The <code><a href="reference/geocode.html">geocode()</a></code> function geocodes addresses contained in a dataframe. The <a href="https://nominatim.org/">Nominatim (“osm”)</a> geocoder service is used here, but other services can be specified with the <code>method</code> argument. See the <code><a href="reference/geo.html">geo()</a></code> function documentation for details.</p>
 <table class="table">
 <colgroup>
 <col width="25%">
@@ -180,7 +181,7 @@
   <span class="fu"><a href="https://rdrr.io/pkg/ggrepel/man/geom_text_repel.html">geom_label_repel</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>label <span class="op">=</span> <span class="va">name</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> 
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_void</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <p><img src="reference/figures/README-usamap-1.png" style="display: block; margin: auto;"></p>
-<p>To return the full results from a geocoder service (not just latitude and longitude) you can use <code>full_results = TRUE</code>. Additionally, for the Census geocoder you can use <code>return_type = 'geographies'</code> to return geography columns (state, county, Census tract, and Census block).</p>
+<p>To return the full results from a geocoder service (not just latitude and longitude) you can use <code>full_results = TRUE</code>. Additionally, for the Census geocoder <code>return_type = 'geographies'</code> will return geography columns (state, county, Census tract, and Census block).</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">full</span> <span class="op">&lt;-</span> <span class="va">some_addresses</span> <span class="op">%&gt;%</span>
   <span class="fu"><a href="reference/geocode.html">geocode</a></span><span class="op">(</span><span class="va">addr</span>, method <span class="op">=</span> <span class="st">'census'</span>, full_results <span class="op">=</span> <span class="cn">TRUE</span>, 
@@ -274,7 +275,7 @@
 </tr>
 </tbody>
 </table>
-<p>To perform <strong>reverse geocoding</strong> (obtaining addresses from latitude and longitude coordinates), we can use the <code><a href="reference/reverse_geocode.html">reverse_geocode()</a></code> function. The arguments are similar to the <code><a href="reference/geocode.html">geocode()</a></code> function, but we now are specifying the latitude and longitude columns in our dataset with the <code>lat</code> and <code>long</code> arguments. The single line address is returned in a column named by the <code>address</code> argument. See the <code><a href="reference/reverse_geo.html">reverse_geo()</a></code> function documentation for more details on reverse geocoding.</p>
+<p>To perform <strong>reverse geocoding</strong> (obtaining addresses from geographic coordinates), we can use the <code><a href="reference/reverse_geocode.html">reverse_geocode()</a></code> function. The arguments are similar to the <code><a href="reference/geocode.html">geocode()</a></code> function, but now we specify the input data columns with the <code>lat</code> and <code>long</code> arguments. The single line address is returned in a column named by the <code>address</code> argument. See the <code><a href="reference/reverse_geo.html">reverse_geo()</a></code> function documentation for more details on reverse geocoding.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">rev1</span> <span class="op">&lt;-</span> <span class="va">lat_longs</span> <span class="op">%&gt;%</span>
   <span class="fu"><a href="reference/reverse_geocode.html">reverse_geocode</a></span><span class="op">(</span>lat <span class="op">=</span> <span class="va">latitude</span>, long <span class="op">=</span> <span class="va">longitude</span>, method <span class="op">=</span> <span class="st">'osm'</span>,
@@ -285,14 +286,14 @@
 <col width="6%">
 <col width="1%">
 <col width="1%">
-<col width="22%">
+<col width="24%">
 <col width="1%">
 <col width="11%">
 <col width="1%">
 <col width="1%">
 <col width="3%">
 <col width="3%">
-<col width="2%">
+<col width="1%">
 <col width="2%">
 <col width="4%">
 <col width="2%">
@@ -304,8 +305,8 @@
 <col width="3%">
 <col width="3%">
 <col width="2%">
-<col width="1%">
 <col width="2%">
+<col width="1%">
 </colgroup>
 <thead><tr class="header">
 <th align="left">name</th>
@@ -330,9 +331,9 @@
 <th align="left">boundingbox</th>
 <th align="left">tourism</th>
 <th align="left">neighbourhood</th>
+<th align="left">county</th>
 <th align="left">building</th>
 <th align="left">suburb</th>
-<th align="left">county</th>
 </tr></thead>
 <tbody>
 <tr class="odd">
@@ -368,7 +369,7 @@
 <td align="left">600 Montgomery St, San Francisco, CA 94111</td>
 <td align="right">37.79520</td>
 <td align="right">-122.40279</td>
-<td align="left">Transamerica Pyramid, 600, Montgomery Street, Financial District, San Francisco, San Francisco City and County, California, 94111, United States</td>
+<td align="left">Transamerica Pyramid, 600, Montgomery Street, Financial District, San Francisco, San Francisco City and County, San Francisco, California, 94111, United States</td>
 <td align="right">95364489</td>
 <td align="left">Data © OpenStreetMap contributors, ODbL 1.0. <a href="https://osm.org/copyright" class="uri">https://osm.org/copyright</a>
 </td>
@@ -387,7 +388,7 @@
 <td align="left">37.7948854 , 37.7954472 , -122.4031399, -122.4024317</td>
 <td align="left">Transamerica Pyramid</td>
 <td align="left">Financial District</td>
-<td align="left">NA</td>
+<td align="left">San Francisco</td>
 <td align="left">NA</td>
 <td align="left">NA</td>
 </tr>
@@ -415,18 +416,17 @@
 <td align="left">41.8785389 , 41.8791932 , -87.6363362, -87.6354746</td>
 <td align="left">NA</td>
 <td align="left">Printer’s Row</td>
+<td align="left">Cook County</td>
 <td align="left">Willis Tower</td>
 <td align="left">Loop</td>
-<td align="left">Cook County</td>
 </tr>
 </tbody>
 </table>
-<p>For further documentation, refer to the <a href="https://jessecambon.github.io/tidygeocoder/articles/tidygeocoder.html">Getting Started Vignette</a> and the <a href="https://jessecambon.github.io/tidygeocoder/reference/index.html">function documentation</a>.</p>
 </div>
 <div id="in-the-wild" class="section level2">
 <h2 class="hasAnchor">
 <a href="#in-the-wild" class="anchor"></a>In the Wild</h2>
-<p>A few articles that use tidygeocoder in their code:</p>
+<p>For inspiration, here are a few articles (with code) that leverage tidygeocoder:</p>
 <ul>
 <li><a href="http://www2.stat.duke.edu/courses/Spring21/sta323.001/exercises/lec_12.html">Exercises: Spatial Data Wrangling with sf</a></li>
 <li><a href="https://www.monicaalexander.com/posts/2021-21-02-mapping/">Mapping a network of women in demography</a></li>
@@ -437,7 +437,7 @@
 <div id="contributing" class="section level2">
 <h2 class="hasAnchor">
 <a href="#contributing" class="anchor"></a>Contributing</h2>
-<p>Contributions to the tidygeocoder package are welcome. File <a href="https://github.com/jessecambon/tidygeocoder/issues">an issue</a> for bug fixes or suggested features. If you would like to add support for a new geocoder service, reference <a href="https://jessecambon.github.io/tidygeocoder/articles/developer_notes.html">the developer notes</a> for instructions.</p>
+<p>Contributions to the tidygeocoder package are welcome. File <a href="https://github.com/jessecambon/tidygeocoder/issues">an issue</a> for bug fixes or suggested features. If you would like to contribute code such as adding support for a new geocoder service, reference the <a href="https://jessecambon.github.io/tidygeocoder/articles/developer_notes.html">developer notes</a> for instructions and documentation.</p>
 </div>
 <div id="citing-tidygeocoder" class="section level2">
 <h2 class="hasAnchor">

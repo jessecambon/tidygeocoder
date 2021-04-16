@@ -16,9 +16,10 @@ A tibble dataframe
 min_time_reference
 }
 \description{
-The \link{geo} and \link{reverse_geo} functions use this value to
-slow down the rate of querying if necessary to comply
-with each geocoder service's usage policies.
+The \link{geo} and \link{reverse_geo} functions use this dataset
+to set the default maximum query rate for each geocoder service.
+This rate is based on the usage restriction policies for the
+geocoder services.
 }
 \details{
 Links to the usage policies of each geocoder service are below:

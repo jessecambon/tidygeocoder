@@ -15,14 +15,14 @@ extract_results(
 \arguments{
 \item{method}{method name}
 
-\item{response}{content from the geocoder service (returned by the \code{\link{query_api}} function)}
+\item{response}{content from the geocoder service (returned by the \link{query_api} function)}
 
 \item{full_results}{if TRUE then the full results (not just latitude and longitude)
 will be returned.}
 
 \item{flatten}{if TRUE then flatten any nested dataframe content}
 
-\item{limit}{only used for 'google' and 'census' methods. Limits number of results per address.}
+\item{limit}{only used for "census" and "google" methods. Limits number of results per address.}
 }
 \value{
 geocoder results in tibble format

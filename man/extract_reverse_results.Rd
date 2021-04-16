@@ -22,7 +22,8 @@ will be returned.}
 
 \item{flatten}{if TRUE then flatten any nested dataframe content}
 
-\item{limit}{only used for method = 'google'. Limits number of results per coordinate.}
+\item{limit}{only used for the "google"
+method(s). Limits number of results per coordinate.}
 }
 \value{
 geocoder results in tibble format

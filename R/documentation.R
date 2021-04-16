@@ -47,6 +47,7 @@ get_coord_address_terms <- function(reverse) {
 
 
 # produce markdown list of api documentation urls
+# not currently used
 get_api_doc_bullets <- function() {
   return(
     paste0(
@@ -77,26 +78,26 @@ get_method_bullet <- function(method) {
   # if an API key is required list environmental variable
   api_requirements <- ifelse(
     method %in% tidygeocoder::api_key_reference[['method']],
-    paste0(' An API key must be stored in "', 
+    paste0('An API key must be stored in "', 
            get_setting_value(tidygeocoder::api_key_reference, method, 'env_var'), '".'), 
   ''
   )
   
   # specify geographic limits if there are any.
   geographic_limits <- ifelse(method %in% names(pkg.globals$geographic_limitations),
-    paste0(' Geographic coverage is limited to the ', pkg.globals$geographic_limitations[[method]], '.'), 
+    paste0('Geographic coverage is limited to the ', pkg.globals$geographic_limitations[[method]], '.'), 
     ''
   )
 
   # note if batch geocoding needs to be manually specified
   batch_capabilities <- if (method %in% tidygeocoder::batch_limit_reference[['method']]) {
-    ifelse(method %in% names(pkg.globals$single_first_methods), 
-        ' Batch geocoding is supported, but must be explicitly called with `mode = "batch"`.',
-        ' Batch geocoding is supported.'
+    ifelse(method %in% pkg.globals$single_first_methods, 
+        'Batch geocoding is supported, but must be explicitly called with `mode = "batch"`.',
+        'Batch geocoding is supported.'
     )
   } else ''
 
-  return(paste0(bullet_intro, geographic_limits, api_requirements, batch_capabilities))
+  return(paste0(c(bullet_intro, geographic_limits, api_requirements, batch_capabilities), collapse = ' '))
 }
 
 
@@ -109,7 +110,7 @@ get_method_documentation <- function(reverse) {
     "the geocoder service to be used. Refer to [api_parameter_reference], [min_time_reference],",
     "and [batch_limit_reference] for more information.",
     "API keys are loaded from environmental variables. Run `usethis::edit_r_environ()` to open",
-    'your .Renviron file and add an API key as an environmental variable (ex. add the line `GEOCODIO_API_KEY="YourAPIKeyHere").`'
+    'your .Renviron file and add an API key as an environmental variable. For example, add the line `GEOCODIO_API_KEY="YourAPIKeyHere"`.'
   ), collapse = ' ')
   
   # if reverse geocoding then exclude methods that don't support reverse geocoding
@@ -172,8 +173,8 @@ get_mode_documentation <- function(reverse) {
       paste0(c("set to 'batch' to force batch geocoding or 'single' to force single ", terms$input_singular), collapse = ''),
       paste0(c("geocoding (one ", terms$input_singular, " per query). If not specified then batch geocoding will"), collapse = ''),
       paste0(c("be used if available (given method selected) when multiple ", terms$input_plural, " are"), collapse = ''),
-      paste0(c("provided; otherwise single address geocoding will be used. For ", 
-            create_comma_list(pkg.globals$single_first_methods, wrap = '"'), " the"), collapse = ''),
+      paste0(c("provided; otherwise single address geocoding will be used. For the ", 
+            create_comma_list(pkg.globals$single_first_methods, wrap = '"'), " methods the"), collapse = ''),
       "batch mode should be explicitly specified with `mode = 'batch'`."
       )
   )
