@@ -149,7 +149,7 @@ geo <- function(address = NULL,
     is.logical(verbose), is.logical(no_query), is.logical(flatten), is.logical(param_error),
             is.logical(full_results), is.logical(unique_only), is.logical(return_addresses),
             is.logical(batch_limit_error), 
-            is.numeric(timeout),timeout >= 0, 
+            is.numeric(timeout), timeout >= 0, 
             is.list(custom_query),
             is.logical(mapbox_permanent), 
             is.null(here_request_id) || is.character(here_request_id),
@@ -252,14 +252,14 @@ geo <- function(address = NULL,
   # Google and Census services have a special limit passthrough to the extract_results function even though limit is not
   # a legal API parameter
   # currently this error message is defunct since all methods either have a limit argument or a passthrough
-  if ((is.null(limit) || limit != 1) && (!('limit' %in% legal_parameters) && (!method %in% pkg.globals$limit_passthru_methods))) {
-    illegal_limit_message <- paste0('The limit parameter must be set to 1 (the default) because the "',  method,'" ',
-                                    'method API service does not support a limit argument.\n\n',
-                                    'See ?api_parameter_reference for more details.')
-    
-    if (param_error == TRUE) stop(illegal_limit_message, call. = FALSE)
-    else if (verbose == TRUE) warning(illegal_limit_message, call. = FALSE)
-  }
+  # if ((is.null(limit) || limit != 1) && (!('limit' %in% legal_parameters) && (!method %in% pkg.globals$limit_passthru_methods))) {
+  #   illegal_limit_message <- paste0('The limit parameter must be set to 1 (the default) because the "',  method,'" ',
+  #                                   'method API service does not support a limit argument.\n\n',
+  #                                   'See ?api_parameter_reference for more details.')
+  #   
+  #   if (param_error == TRUE) stop(illegal_limit_message, call. = FALSE)
+  #   else if (verbose == TRUE) warning(illegal_limit_message, call. = FALSE)
+  # }
   
   # Single Address geocoding -------------------------------------------------------------
   # If there are multiple addresses and we are using a method without a batch geocoder function 
