@@ -2,7 +2,7 @@
 title: "Regression Testing"
 ---
 
-Regression testing. Make sure to cover geocodio, google, and iq since those methods aren't covered in the vignettes.
+Regression testing. Make sure to cover services with API keys since those methods aren't covered in the vignette
 
 ```{r setup}
 library(tibble)
@@ -19,10 +19,12 @@ sample2 <- tibble(street = c('1600 Pennsylvania Ave NW', '11 Wall Street', ''),
 ```
 
 
+
+test batch limit
+
 ```{r, error = TRUE}
-# test batch limit
 sample1 %>%
-  geocode(address, verbose = F, batch_limit = 1)
+  geocode(address, method = 'census', verbose = FALSE, batch_limit = 1)
 ```
 
 
@@ -243,6 +245,7 @@ geocode_tomtom1 <- sample1 %>%
     method = 'tomtom',
     mode = 'single',
     full_results = TRUE,
+    return_input = FALSE,
     verbose = TRUE,
     limit = 3
   )
@@ -251,7 +254,6 @@ geocode_tomtom1
 
 
 ```{r}
-
 geocode_tomtom2 <- sample1 %>%
   geocode(
     address = address,
@@ -265,7 +267,6 @@ geocode_tomtom2
 # Check mapquest
 
 ```{r}
-
 louisville_mapquest <- louisville %>%
   mutate(st = street) %>%
   select(st, latitude, longitude) %>%
@@ -293,6 +294,7 @@ geocode_mapquest1 <- sample1 %>%
     address = addr,
     method = 'mapquest',
     mode = 'single',
+    return_input = FALSE,
     full_results = TRUE,
     verbose = TRUE,
     limit = 3
@@ -302,7 +304,6 @@ geocode_mapquest1
 
 
 ```{r}
-
 geocode_mapquest2 <- sample1 %>%
   geocode(
     address = address,
@@ -340,6 +341,7 @@ geocode_bing1 <- sample1 %>%
     address = addr,
     method = 'bing',
     mode = 'single',
+    return_input = FALSE,
     full_results = TRUE,
     verbose = TRUE,
     limit = 3
@@ -363,13 +365,14 @@ geocode_bing2
 # Check arcgis
 
 ```{r}
-
 louisville_arcgis <- louisville %>%
+  sample_n(10) %>%
   mutate(full = paste0(street, ", Louisville")) %>%
   geocode(
     address = full,
     method = 'arcgis',
     full_results = TRUE,
+    verbose = TRUE,
     custom_query = list(
       outFields = "*"
       )) %>%

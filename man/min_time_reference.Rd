@@ -37,7 +37,8 @@ Links to the usage policies of each geocoder service are below:
 \item \href{https://developer.mapquest.com/plans}{MapQuest}
 \item \href{https://docs.microsoft.com/en-us/bingmaps/spatial-data-services/geocode-and-data-source-limits}{Bing}
 }
-
-#' @seealso \link{geo} \link{reverse_geo}
+}
+\seealso{
+\link{geo} \link{reverse_geo}
 }
 \keyword{datasets}

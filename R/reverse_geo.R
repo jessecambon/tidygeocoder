@@ -212,7 +212,7 @@ reverse_geo <- function(lat, long, method = 'osm', address = address, limit = 1,
     
     # Enforce batch limit if needed
     if (num_unique_coords > batch_limit) {
-      stop(paste0(format(num_unique_coords, big.mark = ','), ' unique coordinates found which exceeds the batch limit of',
+      stop(paste0(format(num_unique_coords, big.mark = ','), ' unique coordinates found which exceeds the batch limit of ',
             format(batch_limit, big.mark = ','), '.'), call. = FALSE)
     }
     

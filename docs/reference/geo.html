@@ -247,7 +247,7 @@ Do not combine with the address component arguments below
 <li><p><code>"tomtom"</code>: <a href='https://developer.tomtom.com/search-api/search-api-documentation/geocoding'>TomTom</a> geocoder service.  An API key must be stored in "TOMTOM_API_KEY". Batch geocoding is supported.</p></li>
 <li><p><code>"mapquest"</code>: <a href='https://developer.mapquest.com/documentation/geocoding-api/'>MapQuest</a> geocoder service.  An API key must be stored in "MAPQUEST_API_KEY". Batch geocoding is supported.</p></li>
 <li><p><code>"bing"</code>: <a href='https://docs.microsoft.com/en-us/bingmaps/rest-services/locations/'>Bing</a> geocoder service.  An API key must be stored in "BINGMAPS_API_KEY". Batch geocoding is supported, but must be explicitly called with <code>mode = "batch"</code>.</p></li>
-<li><p><code>"cascade"</code> : Attempts to use one geocoder service and then uses
+<li><p><code>"cascade"</code> : First uses one geocoder service and then uses
 a second geocoder service if the first service didn't return results.
 The services and order is specified by the cascade_order argument.
 Note that this is not compatible with <code>full_results = TRUE</code> as geocoder
@@ -258,15 +258,15 @@ services have different columns that they return.</p></li>
       <th>cascade_order</th>
       <td><p>a vector with two character values for the method argument
 in the order in which the geocoder services will be attempted for <code>method = "cascade"</code>
-(ie. <code><a href='https://rdrr.io/r/base/c.html'>c('census', 'geocodio')</a></code>)</p></td>
+(ie. <code><a href='https://rdrr.io/r/base/c.html'>c("census", "geocodio")</a></code>)</p></td>
     </tr>
     <tr>
       <th>lat</th>
-      <td><p>latitude column name. Can be quoted or unquoted (ie. lat or 'lat').</p></td>
+      <td><p>latitude column name. Can be quoted or unquoted (ie. lat or "lat").</p></td>
     </tr>
     <tr>
       <th>long</th>
-      <td><p>longitude column name. Can be quoted or unquoted (ie. long or 'long').</p></td>
+      <td><p>longitude column name. Can be quoted or unquoted (ie. long or "long").</p></td>
     </tr>
     <tr>
       <th>limit</th>
@@ -335,7 +335,8 @@ Defaults to the value in <a href='batch_limit_reference.html'>batch_limit_refere
     </tr>
     <tr>
       <th>no_query</th>
-      <td><p>if TRUE then no queries are sent to the geocoder and verbose is set to TRUE</p></td>
+      <td><p>if TRUE then no queries are sent to the geocoder service and verbose is set to TRUE.
+Used for testing.</p></td>
     </tr>
     <tr>
       <th>custom_query</th>
@@ -344,7 +345,7 @@ Defaults to the value in <a href='batch_limit_reference.html'>batch_limit_refere
     </tr>
     <tr>
       <th>return_type</th>
-      <td><p>only used when <code>method = 'census'</code>. Two possible values:</p><ul>
+      <td><p>only used when <code>method = "census"</code>. Two possible values:</p><ul>
 <li><p><code>"locations"</code> (default)</p></li>
 <li><p><code>"geographies"</code>: returns additional geography columns.
 See the Census geocoder API documentation for more details.</p></li>
@@ -352,18 +353,17 @@ See the Census geocoder API documentation for more details.</p></li>
     </tr>
     <tr>
       <th>iq_region</th>
-      <td><p>'us' (default) or 'eu'. Used for establishing API URL for the 'iq' method.</p></td>
+      <td><p>"us" (default) or "eu". Used for establishing the API URL for the "iq" method.</p></td>
     </tr>
     <tr>
       <th>geocodio_v</th>
-      <td><p>version of geocodio API. Used for establishing API URL
-for the 'geocodio' method.</p></td>
+      <td><p>version of geocodio API. Used for establishing the API URL
+for the "geocodio" method.</p></td>
     </tr>
     <tr>
       <th>param_error</th>
-      <td><p>if TRUE then an error will be thrown if certain parameters are invalid for the selected geocoder
-service (method). The parameters checked are limit, address, street, city, county, state, postalcode, and country.
-If <code>method = 'cascade'</code> then no errors will be thrown.</p></td>
+      <td><p>if TRUE then an error will be thrown if any address parameters are used that are
+invalid for the selected service (<code>method</code>). If <code>method = "cascade"</code> then no errors will be thrown.</p></td>
     </tr>
     <tr>
       <th>mapbox_permanent</th>
@@ -428,7 +428,7 @@ endpoint, that relies solely on data contributed to OpenStreetMap.</p></td>
 
       <footer>
       <div class="copyright">
-  <p>Developed by <a href='https://jessecambon.github.io'>Jesse Cambon</a>, <a href='https://github.com/dieghernan'>Diego Hernangómez</a>, Christopher Belanger, Daniel Possenriede.</p>
+  <p>Developed by <a href='https://jessecambon.github.io'>Jesse Cambon</a>, <a href='https://github.com/dieghernan'>Diego Hernangómez</a>, <a href='https://github.com/chris31415926535'>Christopher Belanger</a>, <a href='https://github.com/dpprdan'>Daniel Possenriede</a>.</p>
 </div>
 
 <div class="pkgdown">

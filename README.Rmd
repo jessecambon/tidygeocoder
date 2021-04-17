@@ -77,7 +77,7 @@ lat_longs <- some_addresses %>%
   geocode(addr, method = 'osm', lat = latitude , long = longitude)
 ```
 
-The `geocode()` function geocodes addresses contained in a dataframe. The [Nominatim ("osm")](https://nominatim.org/) geocoder service is used here, but other services can be specified with the `method` argument. See the `geo()` function documentation for details.
+The `geocode()` function geocodes addresses contained in a dataframe. The [Nominatim ("osm")](https://nominatim.org/) geocoder service is used here, but other services can be specified with the `method` argument. Only latitude and longitude are returned from the geocoder service in this example, but `full_results = TRUE` can be used to return all of the data from the geocoder service. See the `geo()` function documentation for details. 
 
 ```{r, echo = FALSE}
 knitr::kable(lat_longs)
@@ -96,28 +96,17 @@ ggplot(lat_longs, aes(longitude, latitude), color = "grey99") +
   theme_void()
 ```
 
-To return the full results from a geocoder service (not just latitude and longitude) you can use `full_results = TRUE`. Additionally, for the Census geocoder `return_type = 'geographies'` will return geography columns (state, county, Census tract, and Census block).
+To perform reverse geocoding (obtaining addresses from geographic coordinates), we can use the `reverse_geocode()` function. The arguments are similar to the `geocode()` function, but now we specify the input data columns with the `lat` and `long` arguments. The latitude and longitude used are from the geocoder query above. The single line address is returned in a column named by the `address` argument and all columns from the geocoder service are returned because `full_results = TRUE`. See the `reverse_geo()` function documentation for more details.
 
 ```{r}
-full <- some_addresses %>%
-  geocode(addr, method = 'census', full_results = TRUE,
-          return_type = 'geographies')
-```
-
-```{r, echo = FALSE}
-knitr::kable(full)
-```
-
-To perform **reverse geocoding** (obtaining addresses from geographic coordinates), we can use the `reverse_geocode()` function. The arguments are similar to the `geocode()` function, but now we specify the input data columns with the `lat` and `long` arguments. The single line address is returned in a column named by the `address` argument. See the `reverse_geo()` function documentation for more details on reverse geocoding.
-
-```{r}
-rev1 <- lat_longs %>%
+reverse <- lat_longs %>%
+  select(-addr) %>%
   reverse_geocode(lat = latitude, long = longitude, method = 'osm',
                   address = address_found, full_results = TRUE)
 ```
 
 ```{r, echo = FALSE}
-knitr::kable(rev1)
+knitr::kable(reverse)
 ```
 
 ## In the Wild
@@ -134,6 +123,8 @@ For inspiration, here are a few articles (with code) that leverage tidygeocoder:
 Contributions to the tidygeocoder package are welcome. File [an issue](https://github.com/jessecambon/tidygeocoder/issues) for bug fixes or suggested features. If you would like to contribute code such as adding support for a new geocoder service, reference the [developer notes](https://jessecambon.github.io/tidygeocoder/articles/developer_notes.html) for instructions and documentation.
 
 ## Citing tidygeocoder
+
+Use the `citation()` function:
 
 ``` r
 citation('tidygeocoder')

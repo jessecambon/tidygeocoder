@@ -22,7 +22,7 @@ library(dplyr)
 
 ## Overview
 
-The supported geocoder services are shown in the table below along with if they require an API key, if they support batch geocoding, and if there are usage rate limitations. The "method" is used to specify the geocoder service in tidygeocoder functions such as `geo()` and `reverse_geo()`. Refer to each service's API documentation for more details.
+The supported geocoder services are shown in the table below. The `method` is used to select the geocoder service in tidygeocoder functions such as `geo()` and `reverse_geo()`. Refer to each service's API documentation for more details.
 
 
 ```{r, echo = FALSE, message = FALSE, warning = FALSE, output = 'asis'}

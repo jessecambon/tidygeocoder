@@ -26,20 +26,22 @@ library(tibble)
 library(dplyr)
 library(tidygeocoder)
 
-address_single <- tibble(singlelineaddress = c('11 Wall St, NY, NY', 
-                    '600 Peachtree Street NE, Atlanta, Georgia'))
+address_single <- tibble(singlelineaddress = c(
+  "11 Wall St, NY, NY",
+  "600 Peachtree Street NE, Atlanta, Georgia"
+))
 address_components <- tribble(
-  ~street                      , ~cty,               ~st,
-  '11 Wall St',                  'NY',               'NY',
-  '600 Peachtree Street NE',     'Atlanta',          'GA'
+  ~street, ~cty, ~st,
+  "11 Wall St", "NY", "NY",
+  "600 Peachtree Street NE", "Atlanta", "GA"
 )
 ```
 
 You can use the `address` argument to specify single-line addresses. Note that when multiple addresses are provided, the batch geocoding functionality of the Census geocoder service is used. Additionally, `verbose = TRUE` displays logs to the console.
 
 ```{r}
-census_s1 <- address_single %>% 
-  geocode(address = singlelineaddress, method = 'census', verbose = TRUE)
+census_s1 <- address_single %>%
+  geocode(address = singlelineaddress, method = "census", verbose = TRUE)
 ```
 
 ```{r, echo = FALSE}
@@ -49,18 +51,20 @@ knitr::kable(census_s1)
 Alternatively you can run the same query with the `geo()` function by passing the address values from the dataframe directly. In either `geo()` or `geocode()`, the `lat` and `long` arguments are used to name the resulting latitude and longitude fields. Here the `method` argument is used to specify the "osm" (Nominatim) geocoder service. Refer to the `geo()` function documentation for the possible values of the `method` argument.
 
 ```{r}
-census_s2 <- geo(address = address_single$singlelineaddress, method = 'osm', 
-    lat = latitude, long = longitude)
+osm_s1 <- geo(
+  address = address_single$singlelineaddress, method = "osm",
+  lat = latitude, long = longitude
+)
 ```
 ```{r, echo = FALSE}
-knitr::kable(census_s2)
+knitr::kable(osm_s1)
 ```
 
 Instead of single-line addresses, you can use any combination of the following arguments to specify your addresses: `street`, `city`, `state`, `county`, `postalcode`, and `country`. 
 
 ```{r}
-census_c1 <- address_components %>% 
-  geocode(street = street, city = cty, state = st, method = 'census')
+census_c1 <- address_components %>%
+  geocode(street = street, city = cty, state = st, method = "census")
 ```
 ```{r, echo = FALSE}
 knitr::kable(census_c1)
@@ -70,11 +74,18 @@ knitr::kable(census_c1)
 The `cascade` method first tries to use one geocoder service and then again attempts to geocode addresses that were not found using a second geocoder service. By default it first uses the Census Geocoder and then OSM, but you can specify any two methods you want (in order) with the `cascade_order` argument.
 
 ```{r}
-addr_comp1 <- address_components %>% 
-  bind_rows(tibble(cty = c('Toronto', 'Tokyo'), country = c('Canada', 'Japan')))
+addr_comp1 <- address_components %>%
+  bind_rows(
+    tibble(
+      cty = c("Toronto", "Tokyo"), 
+      country = c("Canada", "Japan")
+    )
+  )
 
-cascade1 <- addr_comp1 %>% geocode(street = street, state = st, city = cty,
-                       country = country, method = 'cascade')
+cascade1 <- addr_comp1 %>% geocode(
+  street = street, state = st, city = cty,
+  country = country, method = "cascade"
+)
 ```
 
 ```{r, echo = FALSE}
@@ -84,8 +95,10 @@ knitr::kable(cascade1)
 To return the full geocoder service results (not just latitude and longitude), specify `full_results = TRUE`. Additionally, for the Census geocoder you can get fields for geographies such as Census tracts by specifying `return_type = 'geographies'`. Be sure to use `full_results = TRUE` with `return_type = 'geographies'` in order to allow the Census geography columns to be returned.
 
 ```{r}
-census_full1 <- address_single %>% geocode(address = singlelineaddress, 
-      method = 'census', full_results = TRUE, return_type = 'geographies')
+census_full1 <- address_single %>% geocode(
+  address = singlelineaddress,
+  method = "census", full_results = TRUE, return_type = "geographies"
+)
 ```
 
 ```{r, echo = FALSE}
@@ -95,7 +108,7 @@ knitr::kable(census_full1)
 As mentioned earlier, the `geocode()` function passes addresses in dataframes to the `geo()` function for geocoding so we can also directly use the `geo()` function in a similar way:
 
 ```{r}
-salz <- geo('Salzburg, Austria', method = 'osm', full_results = TRUE)
+salz <- geo("Salzburg, Austria", method = "osm", full_results = TRUE)
 ```
 
 ```{r, echo = FALSE}
@@ -106,14 +119,16 @@ knitr::kable(salz)
 
 For reverse geocoding you'll use `reverse_geocode()` instead of `geocode()` and `reverse_geo()` instead of `geo()`. Note that the reverse geocoding functions are structured very similarly to the forward geocoding functions and share many of the same arguments (`method`, `limit`, `full_results`, etc.). For reverse geocoding you will provide latitude and longitude coordinates as inputs and the location's address will be returned by the geocoder service. 
 
-We can use `reverse_geocode()` to geocode latitude and longitude coordinates contained in a data frame. The `lat` and `long` arguments specify the columns that contain the latitude and longitude data. The `address` argument can be used to specify the single line address column name that is returned from the geocoder. Just as with forward geocoding, the `method` argument is used to specify the geocoder service.
+Below, the `reverse_geocode()` function is used to geocode coordinates in a dataframe. The `lat` and `long` arguments specify the columns that contain the latitude and longitude data. The `address` argument can be used to specify the single line address column name that is returned from the geocoder. Just as with forward geocoding, the `method` argument is used to specify the geocoder service.
 
 ```{r}
-lat_longs1 <- tibble(latitude = c(38.895865, 43.6534817), 
-                longitude = c(-77.0307713, -79.3839347))
+lat_longs1 <- tibble(
+  latitude = c(38.895865, 43.6534817),
+  longitude = c(-77.0307713, -79.3839347)
+)
 
 rev1 <- lat_longs1 %>%
-  reverse_geocode(lat = latitude, long = longitude, address = addr, method = 'osm')
+  reverse_geocode(lat = latitude, long = longitude, address = addr, method = "osm")
 ```
 
 ```{r, echo = FALSE}
@@ -123,16 +138,22 @@ knitr::kable(rev1)
 The same query can also be performed by passing the latitude and longitudes directly to the `reverse_geo()` function. Here we will use `full_results = TRUE` so that the full results are returned (not just the single line address column).
 
 ```{r}
-rev2 <- reverse_geo(lat = lat_longs1$latitude, long = lat_longs1$longitude,
-                  method = 'osm', full_results = TRUE)
+rev2 <- reverse_geo(
+  lat = lat_longs1$latitude,
+  long = lat_longs1$longitude,
+  method = "osm",
+  full_results = TRUE
+)
+
 glimpse(rev2)
 ```
 
 ## Working With Messy Data
 
-Only unique input data (either addresses or coordinates) is passed to geocoder services even if your data contains duplicates. Missing/NA and blank inputs are excluded from queries. Also latitudes and longitudes are limited to the range of possible values. Below is an example of how duplicate and missing data is handled by tidygeocoder. As the console messages shows, only the two unique addresses are passed to the geocoder service.
+Only unique input data (either addresses or coordinates) is passed to geocoder services even if your data contains duplicates. NA and blank inputs are excluded from queries. Input latitudes and longitudes are also limited to the range of possible values. Below is an example of how duplicate and missing data is handled by tidygeocoder. As the console messages shows, only the two unique addresses are passed to the geocoder service.
 
 ```{r}
+# create a dataset with duplicate and NA addresses
 duplicate_addrs <- address_single %>%
   bind_rows(address_single) %>%
   bind_rows(tibble(singlelineaddress = rep(NA, 3)))
@@ -145,7 +166,7 @@ duplicates_geocoded <- duplicate_addrs %>%
 knitr::kable(duplicates_geocoded)
 ```
 
-As shown above, duplicates will not be removed from your results by default. However, you can return only unique results by using `unique_only = TRUE`. Note that passing `unique_only = TRUE` to `geocode()` or `reverse_geocode()` will result in the original dataframe format (including column names) to be discarded in favor of the standard field names (ie. "address", "city", "state", 'lat, 'long', etc.).
+As shown above, duplicates will not be removed from your results by default. However, you can return only unique results by using `unique_only = TRUE`. Note that passing `unique_only = TRUE` to `geocode()` or `reverse_geocode()` will result in the original dataframe format (including column names) to be discarded in favor of the standard field names (ie. "address", 'lat, 'long', etc.).
 
 ```{r}
 uniqueonly1 <- duplicate_addrs %>%
@@ -155,14 +176,16 @@ uniqueonly1 <- duplicate_addrs %>%
 knitr::kable(uniqueonly1)
 ```
 
-
 ## Customizing Queries
 
 The `limit` argument can be specified to allow multiple results (rows) per input if available. The maximum value for the `limit` argument is often 100 for geocoder services. To use the default `limit` value for the selected geocoder service you can use `limit = NULL` which will prevent the limit parameter from being included in the query.
 
 ```{r}
-geo_limit <- geo(c('Lima, Peru', 'Cairo, Egypt'), method = 'osm', 
-    limit = 3, full_results = TRUE)
+geo_limit <- geo(
+  c("Lima, Peru", "Cairo, Egypt"),
+  method = "osm",
+  limit = 3, full_results = TRUE
+)
 
 glimpse(geo_limit)
 ```
@@ -170,8 +193,10 @@ glimpse(geo_limit)
 To directly specify specific API parameters for a given `method` you can use the `custom_query` parameter. For example, [the Nominatim (OSM) geocoder has a 'polygon_geojson' argument](https://nominatim.org/release-docs/develop/api/Details/#parameters) that can be used to return GeoJSON geometry content. To pass this parameter you can insert it with a named list using the `custom_query` argument:
 
 ```{r}
-cairo_geo <- geo('Cairo, Egypt', method = 'osm', full_results = TRUE,
-    custom_query = list(polygon_geojson = 1), verbose = TRUE)
+cairo_geo <- geo("Cairo, Egypt",
+  method = "osm", full_results = TRUE,
+  custom_query = list(polygon_geojson = 1), verbose = TRUE
+)
 
 glimpse(cairo_geo)
 ```
@@ -179,16 +204,19 @@ glimpse(cairo_geo)
 To test a query without sending any data to a geocoder service, you can use `no_query = TRUE` (NA results are returned).
 
 ```{r}
-noquery1 <- geo(c('Vancouver, Canada', 'Las Vegas, NV'), no_query = TRUE, 
-    method = 'osm')
+noquery1 <- geo(c("Vancouver, Canada", "Las Vegas, NV"),
+  no_query = TRUE,
+  method = "osm"
+)
 ```
 ```{r, echo = FALSE}
 knitr::kable(noquery1)
 ```
 
-Here are some additional usage notes for the `geocode()`, `geo()`, `reverse_geocode()`, and `reverse_geo()` functions:
+Additional usage notes for the `geocode()`, `geo()`, `reverse_geocode()`, and `reverse_geo()` functions:
 
 - To specify a custom geocoder API URL, use the `api_url` argument. Alternatively, the `iq_region` and `geocodio_v` arguments are helper functions for customizing the API URL. 
 - If not specified manually, the `min_time` argument will default to a value based on the maximum query rate of the given geocoder service. If you are using a local Nominatim server or have a commercial geocoder plan that has less restrictive usage limits then you can manually set `min_time` to a lower valuer (such as 0).
 - By default batch geocoding will be used if available when more than one address is provided, otherwise single address geocoding will be used. To override this default, use the `mode` argument.
+- The `return_addresses` and `return_coords` parameters (for forward and reverse geocoding respectively) can be used to toggle whether the input addresses or coordinates are returned. Setting these parameters to `FALSE` is necessary to use batch geocoding if `limit` is greater than 1 or NULL. 
 - For the `reverse_geocode()` and `geocode()` functions, the `return_input` argument can be used to toggle if the input dataset is included in the returned dataframe.

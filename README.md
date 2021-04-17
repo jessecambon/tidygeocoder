@@ -87,7 +87,10 @@ lat_longs <- some_addresses %>%
 The `geocode()` function geocodes addresses contained in a dataframe.
 The [Nominatim (“osm”)](https://nominatim.org/) geocoder service is used
 here, but other services can be specified with the `method` argument.
-See the `geo()` function documentation for details.
+Only latitude and longitude are returned from the geocoder service in
+this example, but `full_results = TRUE` can be used to return all of the
+data from the geocoder service. See the `geo()` function documentation
+for details.
 
 | name                 | addr                                       | latitude |  longitude |
 |:---------------------|:-------------------------------------------|---------:|-----------:|
@@ -111,42 +114,28 @@ ggplot(lat_longs, aes(longitude, latitude), color = "grey99") +
 
 <img src="man/figures/README-usamap-1.png" style="display: block; margin: auto;" />
 
-To return the full results from a geocoder service (not just latitude
-and longitude) you can use `full_results = TRUE`. Additionally, for the
-Census geocoder `return_type = 'geographies'` will return geography
-columns (state, county, Census tract, and Census block).
-
-``` r
-full <- some_addresses %>%
-  geocode(addr, method = 'census', full_results = TRUE,
-          return_type = 'geographies')
-```
-
-| name                 | addr                                       |      lat |       long |  id | input\_address                                  | match\_indicator | match\_type | matched\_address                                | tiger\_line\_id | tiger\_side | state\_fips | county\_fips | census\_tract | census\_block |
-|:---------------------|:-------------------------------------------|---------:|-----------:|----:|:------------------------------------------------|:-----------------|:------------|:------------------------------------------------|:----------------|:------------|:------------|:-------------|:--------------|:--------------|
-| White House          | 1600 Pennsylvania Ave NW, Washington, DC   | 38.89875 |  -77.03535 |   1 | 1600 Pennsylvania Ave NW, Washington, DC, , ,   | Match            | Exact       | 1600 PENNSYLVANIA AVE NW, WASHINGTON, DC, 20500 | 76225813        | L           | 11          | 001          | 980000        | 1034          |
-| Transamerica Pyramid | 600 Montgomery St, San Francisco, CA 94111 | 37.79470 | -122.40314 |   2 | 600 Montgomery St, San Francisco, CA 94111, , , | Match            | Exact       | 600 MONTGOMERY ST, SAN FRANCISCO, CA, 94111     | 192281262       | R           | 06          | 075          | 061101        | 2014          |
-| Willis Tower         | 233 S Wacker Dr, Chicago, IL 60606         | 41.87851 |  -87.63666 |   3 | 233 S Wacker Dr, Chicago, IL 60606, , ,         | Match            | Exact       | 233 S WACKER DR, CHICAGO, IL, 60606             | 112050003       | L           | 17          | 031          | 839100        | 2008          |
-
-To perform **reverse geocoding** (obtaining addresses from geographic
+To perform reverse geocoding (obtaining addresses from geographic
 coordinates), we can use the `reverse_geocode()` function. The arguments
 are similar to the `geocode()` function, but now we specify the input
-data columns with the `lat` and `long` arguments. The single line
-address is returned in a column named by the `address` argument. See the
-`reverse_geo()` function documentation for more details on reverse
-geocoding.
+data columns with the `lat` and `long` arguments. The latitude and
+longitude used are from the geocoder query above. The single line
+address is returned in a column named by the `address` argument and all
+columns from the geocoder service are returned because
+`full_results = TRUE`. See the `reverse_geo()` function documentation
+for more details.
 
 ``` r
-rev1 <- lat_longs %>%
+reverse <- lat_longs %>%
+  select(-addr) %>%
   reverse_geocode(lat = latitude, long = longitude, method = 'osm',
                   address = address_found, full_results = TRUE)
 ```
 
-| name                 | addr                                       | latitude |  longitude | address\_found                                                                                                                                                  | place\_id | licence                                                                  | osm\_type |   osm\_id | osm\_lat           | osm\_lon            | historic    | house\_number | road                          | city          | state                | postcode | country       | country\_code | boundingbox                                          | tourism              | neighbourhood      | county        | building     | suburb |
-|:---------------------|:-------------------------------------------|---------:|-----------:|:----------------------------------------------------------------------------------------------------------------------------------------------------------------|----------:|:-------------------------------------------------------------------------|:----------|----------:|:-------------------|:--------------------|:------------|:--------------|:------------------------------|:--------------|:---------------------|:---------|:--------------|:--------------|:-----------------------------------------------------|:---------------------|:-------------------|:--------------|:-------------|:-------|
-| White House          | 1600 Pennsylvania Ave NW, Washington, DC   | 38.89770 |  -77.03655 | White House, 1600, Pennsylvania Avenue Northwest, Washington, District of Columbia, 20500, United States                                                        | 147370893 | Data © OpenStreetMap contributors, ODbL 1.0. <https://osm.org/copyright> | way       | 238241022 | 38.897699700000004 | -77.03655315        | White House | 1600          | Pennsylvania Avenue Northwest | Washington    | District of Columbia | 20500    | United States | us            | 38.8974908 , 38.897911 , -77.0368537, -77.0362519    | NA                   | NA                 | NA            | NA           | NA     |
-| Transamerica Pyramid | 600 Montgomery St, San Francisco, CA 94111 | 37.79520 | -122.40279 | Transamerica Pyramid, 600, Montgomery Street, Financial District, San Francisco, San Francisco City and County, San Francisco, California, 94111, United States |  95364489 | Data © OpenStreetMap contributors, ODbL 1.0. <https://osm.org/copyright> | way       |  24222973 | 37.795200550000004 | -122.40279267840137 | NA          | 600           | Montgomery Street             | San Francisco | California           | 94111    | United States | us            | 37.7948854 , 37.7954472 , -122.4031399, -122.4024317 | Transamerica Pyramid | Financial District | San Francisco | NA           | NA     |
-| Willis Tower         | 233 S Wacker Dr, Chicago, IL 60606         | 41.87887 |  -87.63591 | Willis Tower, 233, South Wacker Drive, Printer’s Row, Loop, Chicago, Cook County, Illinois, 60606, United States                                                | 103673983 | Data © OpenStreetMap contributors, ODbL 1.0. <https://osm.org/copyright> | way       |  58528804 | 41.878871700000005 | -87.63590893936448  | NA          | 233           | South Wacker Drive            | Chicago       | Illinois             | 60606    | United States | us            | 41.8785389 , 41.8791932 , -87.6363362, -87.6354746   | NA                   | Printer’s Row      | Cook County   | Willis Tower | Loop   |
+| name                 | latitude |  longitude | address\_found                                                                                                                                                  | place\_id | licence                                                                  | osm\_type |   osm\_id | osm\_lat           | osm\_lon            | historic    | house\_number | road                          | city          | state                | postcode | country       | country\_code | boundingbox                                          | tourism              | neighbourhood      | county        | building     | suburb |
+|:---------------------|---------:|-----------:|:----------------------------------------------------------------------------------------------------------------------------------------------------------------|----------:|:-------------------------------------------------------------------------|:----------|----------:|:-------------------|:--------------------|:------------|:--------------|:------------------------------|:--------------|:---------------------|:---------|:--------------|:--------------|:-----------------------------------------------------|:---------------------|:-------------------|:--------------|:-------------|:-------|
+| White House          | 38.89770 |  -77.03655 | White House, 1600, Pennsylvania Avenue Northwest, Washington, District of Columbia, 20500, United States                                                        | 147370893 | Data © OpenStreetMap contributors, ODbL 1.0. <https://osm.org/copyright> | way       | 238241022 | 38.897699700000004 | -77.03655315        | White House | 1600          | Pennsylvania Avenue Northwest | Washington    | District of Columbia | 20500    | United States | us            | 38.8974908 , 38.897911 , -77.0368537, -77.0362519    | NA                   | NA                 | NA            | NA           | NA     |
+| Transamerica Pyramid | 37.79520 | -122.40279 | Transamerica Pyramid, 600, Montgomery Street, Financial District, San Francisco, San Francisco City and County, San Francisco, California, 94111, United States |  95364489 | Data © OpenStreetMap contributors, ODbL 1.0. <https://osm.org/copyright> | way       |  24222973 | 37.795200550000004 | -122.40279267840137 | NA          | 600           | Montgomery Street             | San Francisco | California           | 94111    | United States | us            | 37.7948854 , 37.7954472 , -122.4031399, -122.4024317 | Transamerica Pyramid | Financial District | San Francisco | NA           | NA     |
+| Willis Tower         | 41.87887 |  -87.63591 | Willis Tower, 233, South Wacker Drive, Printer’s Row, Loop, Chicago, Cook County, Illinois, 60606, United States                                                | 103673983 | Data © OpenStreetMap contributors, ODbL 1.0. <https://osm.org/copyright> | way       |  58528804 | 41.878871700000005 | -87.63590893936448  | NA          | 233           | South Wacker Drive            | Chicago       | Illinois             | 60606    | United States | us            | 41.8785389 , 41.8791932 , -87.6363362, -87.6354746   | NA                   | Printer’s Row      | Cook County   | Willis Tower | Loop   |
 
 ## In the Wild
 
@@ -172,6 +161,8 @@ notes](https://jessecambon.github.io/tidygeocoder/articles/developer_notes.html)
 for instructions and documentation.
 
 ## Citing tidygeocoder
+
+Use the `citation()` function:
 
 ``` r
 citation('tidygeocoder')

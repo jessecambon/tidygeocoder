@@ -15,12 +15,10 @@ A tibble dataframe
 api_key_reference
 }
 \description{
-API key environmental variables
-}
-\details{
 API keys are obtained from environmental variables.
-The name of the environmental variable used for each service
-is stored in this dataset.
+The \link{geo} and \link{reverse_geo} functions use this dataset
+to know which environmental variable to use for
+each geocoder service.
 }
 \seealso{
 \link{geo} \link{reverse_geo}

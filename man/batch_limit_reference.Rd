@@ -3,7 +3,7 @@
 \docType{data}
 \name{batch_limit_reference}
 \alias{batch_limit_reference}
-\title{Geocoding batch size limit for each service.}
+\title{Geocoding batch size limits}
 \format{
 A tibble dataframe
 \describe{
@@ -15,7 +15,8 @@ A tibble dataframe
 batch_limit_reference
 }
 \description{
-Geocoding batch size limit for each service.
+The \link{geo} and \link{reverse_geo} functions use this dataset to set the
+maximum batch query size for each service.
 }
 \seealso{
 \link{geo} \link{reverse_geo}

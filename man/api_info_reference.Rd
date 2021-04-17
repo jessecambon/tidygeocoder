@@ -18,6 +18,6 @@ A tibble dataframe
 api_info_reference
 }
 \description{
-Geocoder service links and information
+This dataset is used for generating package documentation.
 }
 \keyword{datasets}

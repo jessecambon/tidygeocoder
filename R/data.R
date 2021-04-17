@@ -30,7 +30,7 @@
 #' 
 #' The `generic_name` column is a universal parameter name that is shared between services.
 #' The `api_name` column is the parameter name for the given geocoder service specified by the
-#'`method` column. When `generic_name` is missing 
+#' `method` column. When `generic_name` is missing 
 #' this means the parameter is specific to that geocoder service.
 #' 
 #' While the `r create_comma_list(pkg.globals$limit_passthru_methods, wrap ='"')` services do not have a `limit`
@@ -41,7 +41,7 @@
 #' Note that some geocoder services only use the `limit` argument for forward geocoding.
 #' Refer to API documentation of each service for more information.
 #'  
-#' Reference the documentation for `geo` and `reverse_geo`  for more information. 
+#' Reference the documentation for [geo] and [reverse_geo] for more information. 
 #' Also reference `vignette("tidygeocoder")` for more details on constructing API queries.
 #'
 #' @format A tibble dataframe
@@ -63,7 +63,10 @@
 #' 
 "api_parameter_reference"
 
-#' Geocoding batch size limit for each service.
+#' Geocoding batch size limits
+#' 
+#' The [geo] and [reverse_geo] functions use this dataset to set the
+#' maximum batch query size for each service.
 #'
 #' @format A tibble dataframe
 #' \describe{
@@ -91,15 +94,16 @@
 #' 
 #' `r get_api_usage_bullets()`
 #' 
-#' #' @seealso [geo] [reverse_geo]
+#' @seealso [geo] [reverse_geo]
 #' 
 "min_time_reference"
 
 #' API key environmental variables
 #' 
-#' @details API keys are obtained from environmental variables.
-#'   The name of the environmental variable used for each service 
-#'   is stored in this dataset.
+#' API keys are obtained from environmental variables.
+#' The [geo] and [reverse_geo] functions use this dataset
+#' to know which environmental variable to use for
+#' each geocoder service.
 #'
 #' @format A tibble dataframe
 #' \describe{
@@ -107,11 +111,13 @@
 #'  \item{env_var}{Environmental variable name}
 #' }
 #' 
-#' @seealso [geo] [reverse_geo] 
+#' @seealso [geo] [reverse_geo]
 #' 
 "api_key_reference"
 
 #' Geocoder service links and information
+#' 
+#' This dataset is used for generating package documentation.
 #'
 #' @format A tibble dataframe
 #' \describe{

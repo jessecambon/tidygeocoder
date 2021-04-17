@@ -36,7 +36,7 @@ number of results per input.
 Note that some geocoder services only use the \code{limit} argument for forward geocoding.
 Refer to API documentation of each service for more information.
 
-Reference the documentation for \code{geo} and \code{reverse_geo}  for more information.
+Reference the documentation for \link{geo} and \link{reverse_geo} for more information.
 Also reference \code{vignette("tidygeocoder")} for more details on constructing API queries.
 }
 \details{
