@@ -1,4 +1,6 @@
 # http://r-pkgs.had.co.nz/inst.html#inst-citation
+# https://github.com/cran/glmnet/blob/master/inst/CITATION
+# 
 # https://zenodo.org/record/3981510#.XzS95nVKiV5
 
 ## Update these variables as needed ######################
@@ -7,11 +9,11 @@ tidygeocoder_doi <- "10.5281/zenodo.4686074"
 version_note <- "R package version 1.0.3"
 year <- "2021"
 
-author_list <- c(
-    person("Jesse", "Cambon"), 
-    person("Diego", "Hernangómez"),
-    person("Christopher", "Belanger"),
-    person("Daniel", "Possenriede")
+author_list <- personList(
+    as.person("Jesse Cambon"), 
+    as.person("Diego Hernangómez"),
+    as.person("Christopher Belanger"),
+    as.person("Daniel Possenriede")
     )
     
 title <- "tidygeocoder: Geocoding Made Easy"
