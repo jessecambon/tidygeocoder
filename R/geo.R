@@ -246,21 +246,6 @@ geo <- function(address = NULL,
                 list(batch_limit_error = FALSE, param_error = FALSE))))
   }
   
-  # determine if an illegal limit parameter value was used (ie. if limit !=1
-  # then the method API must have a limit parameter)
-  
-  # Google and Census services have a special limit passthrough to the extract_results function even though limit is not
-  # a legal API parameter
-  # currently this error message is defunct since all methods either have a limit argument or a passthrough
-  # if ((is.null(limit) || limit != 1) && (!('limit' %in% legal_parameters) && (!method %in% pkg.globals$limit_passthru_methods))) {
-  #   illegal_limit_message <- paste0('The limit parameter must be set to 1 (the default) because the "',  method,'" ',
-  #                                   'method API service does not support a limit argument.\n\n',
-  #                                   'See ?api_parameter_reference for more details.')
-  #   
-  #   if (param_error == TRUE) stop(illegal_limit_message, call. = FALSE)
-  #   else if (verbose == TRUE) warning(illegal_limit_message, call. = FALSE)
-  # }
-  
   # Single Address geocoding -------------------------------------------------------------
   # If there are multiple addresses and we are using a method without a batch geocoder function 
   # OR the user has explicitly specified single address geocoding then call the 
