@@ -47,7 +47,6 @@ get_coord_address_terms <- function(reverse) {
 
 
 # produce markdown list of api documentation urls
-# not currently used
 get_api_doc_bullets <- function() {
   return(
     paste0(

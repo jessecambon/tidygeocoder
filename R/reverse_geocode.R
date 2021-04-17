@@ -68,13 +68,11 @@ reverse_geocode <- function(.tbl, lat, long, address = address, return_input = T
   all_args <- as.list(environment())
   
   if (!(is.data.frame(.tbl))) {
-    stop('.tbl is not a dataframe. See ?reverse_geocode')
+    stop('.tbl is not a dataframe. See ?reverse_geocode', call. = FALSE)
   }
   
   # This check prevents a address-results misalignment issue https://github.com/jessecambon/tidygeocoder/issues/88
-  if ((is.null(limit) || limit != 1) && return_input == TRUE) {
-    stop('To use limit > 1 or limit = NULL, set return_input to FALSE.')
-  }
+  check_limit_return_input(limit, return_input)
   
   # convert .tbl to tibble if it isn't one already
   .tbl <- tibble::as_tibble(.tbl)
@@ -85,7 +83,7 @@ reverse_geocode <- function(.tbl, lat, long, address = address, return_input = T
   for (var in c('lat', 'long')) {
       # throw error if the an address parameter doesn't specify a column in the dataset
       if (!(all_args[[var]] %in% colnames(.tbl))) {
-        stop(paste0('"', all_args[[var]], '" is not a column name in the input dataset.'))
+        stop(paste0('"', all_args[[var]], '" is not a column name in the input dataset.'), call. = FALSE)
       }
       coord_parameters[[var]] <- .tbl[[all_args[[var]]]]
   }

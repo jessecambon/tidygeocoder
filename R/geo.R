@@ -39,7 +39,7 @@ batch_func_map <- list(
 #' @param country country (ie. 'Japan')
 #' 
 #' @param method `r get_method_documentation(reverse = FALSE)`
-#'  - `"cascade"` : Attempts to use one geocoder service and then uses
+#'  - `"cascade"` : First uses one geocoder service and then uses
 #'     a second geocoder service if the first service didn't return results.
 #'     The services and order is specified by the cascade_order argument. 
 #'     Note that this is not compatible with `full_results = TRUE` as geocoder
@@ -47,9 +47,9 @@ batch_func_map <- list(
 #' 
 #' @param cascade_order a vector with two character values for the method argument 
 #'  in the order in which the geocoder services will be attempted for `method = "cascade"`
-#'  (ie. `c('census', 'geocodio')`)
-#' @param lat latitude column name. Can be quoted or unquoted (ie. lat or 'lat').
-#' @param long longitude column name. Can be quoted or unquoted (ie. long or 'long').
+#'  (ie. `c("census", "geocodio")`)
+#' @param lat latitude column name. Can be quoted or unquoted (ie. lat or "lat").
+#' @param long longitude column name. Can be quoted or unquoted (ie. long or "long").
 #' @param limit `r get_limit_documentation(reverse = FALSE, df_input = FALSE)`
 #' @param min_time minimum amount of time for a query to take (in seconds). If NULL
 #' then min_time will be set to the default value specified in [min_time_reference].
@@ -72,20 +72,20 @@ batch_func_map <- list(
 #' @param batch_limit  `r get_batch_limit_documentation(reverse = FALSE)`
 #' @param batch_limit_error `r get_batch_limit_error_documentation(reverse = FALSE)`
 #' @param verbose if TRUE then detailed logs are output to the console
-#' @param no_query if TRUE then no queries are sent to the geocoder and verbose is set to TRUE
+#' @param no_query if TRUE then no queries are sent to the geocoder service and verbose is set to TRUE.
+#'    Used for testing.
 
 #' @param custom_query API-specific parameters to be used, passed as a named list 
 #'  (ie. `list(extratags = 1)`.
-#' @param return_type only used when `method = 'census'`. Two possible values: 
+#' @param return_type only used when `method = "census"`. Two possible values: 
 #'   - `"locations"` (default)
 #'   - `"geographies"`: returns additional geography columns. 
 #'   See the Census geocoder API documentation for more details.
-#' @param iq_region 'us' (default) or 'eu'. Used for establishing API URL for the 'iq' method.
-#' @param geocodio_v version of geocodio API. Used for establishing API URL
-#'   for the 'geocodio' method.
-#' @param param_error if TRUE then an error will be thrown if certain parameters are invalid for the selected geocoder
-#'   service (method). The parameters checked are limit, address, street, city, county, state, postalcode, and country.
-#'   If `method = 'cascade'` then no errors will be thrown.
+#' @param iq_region "us" (default) or "eu". Used for establishing the API URL for the "iq" method.
+#' @param geocodio_v version of geocodio API. Used for establishing the API URL
+#'   for the "geocodio" method.
+#' @param param_error if TRUE then an error will be thrown if any address parameters are used that are
+#'   invalid for the selected service (`method`). If `method = "cascade"` then no errors will be thrown.
 #' @param mapbox_permanent if TRUE then the `mapbox.places-permanent`
 #'   endpoint would be used. Note that this option should be used only if you 
 #'   have applied for a permanent account. Unsuccessful requests made by an 

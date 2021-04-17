@@ -89,15 +89,16 @@ Defaults to the value in \link{batch_limit_reference} if not specified.}
 
 \item{verbose}{if TRUE then detailed logs are output to the console}
 
-\item{no_query}{if TRUE then no queries are sent to the geocoder and verbose is set to TRUE}
+\item{no_query}{if TRUE then no queries are sent to the geocoder service and verbose is set to TRUE.
+Used for testing.}
 
 \item{custom_query}{API-specific parameters to be used, passed as a named list
 (ie. \code{list(extratags = 1)}.}
 
-\item{iq_region}{'us' (default) or 'eu'. Used for establishing API URL for the 'iq' method.}
+\item{iq_region}{"us" (default) or "eu". Used for establishing the API URL for the "iq" method.}
 
-\item{geocodio_v}{version of geocodio API. Used for establishing API URL
-for the 'geocodio' method.}
+\item{geocodio_v}{version of geocodio API. Used for establishing the API URL
+for the "geocodio" method.}
 
 \item{mapbox_permanent}{if TRUE then the \code{mapbox.places-permanent}
 endpoint would be used. Note that this option should be used only if you
@@ -131,8 +132,11 @@ API queries.
 \donttest{
  reverse_geo(lat = 38.895865, long = -77.0307713, method = 'osm', verbose = TRUE)
  
- reverse_geo(lat = c(38.895865, 43.6534817, 300), 
- long = c(-77.0307713, -79.3839347, 600), method = 'osm', full_results = TRUE, verbose = TRUE)
+ reverse_geo(
+   lat = c(38.895865, 43.6534817, 300), 
+   long = c(-77.0307713, -79.3839347, 600),
+   method = 'osm', full_results = TRUE, verbose = TRUE
+ )
  
 }
 }

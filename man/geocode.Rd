@@ -71,7 +71,7 @@ the results from a specified geocoder service in a dataframe format using the
 \link{geo} function. See example usage in \code{vignette("tidygeocoder")}.
 
 This function passes all additional parameters (\code{...}) to the
-\code{\link{geo}} function, so you can refer to its documentation for more details
+\link{geo} function, so you can refer to its documentation for more details
 on possible arguments.
 
 Note that the arguments used for specifying address columns (address,

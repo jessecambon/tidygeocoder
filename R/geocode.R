@@ -6,7 +6,7 @@
 #' [geo] function. See example usage in `vignette("tidygeocoder")`.
 #' 
 #' This function passes all additional parameters (`...`) to the 
-#' \code{\link{geo}} function, so you can refer to its documentation for more details
+#' [geo] function, so you can refer to its documentation for more details
 #' on possible arguments.
 #' 
 #' Note that the arguments used for specifying address columns (address, 
@@ -85,13 +85,11 @@ geocode <- function(.tbl, address = NULL, street = NULL, city = NULL, county = N
   all_args <- as.list(environment())
 
   if (!(is.data.frame(.tbl))) {
-    stop('.tbl is not a dataframe. See ?geocode')
+    stop('.tbl is not a dataframe. See ?geocode', call. = FALSE)
   }
   
   # This check prevents a address-results misalignment issue https://github.com/jessecambon/tidygeocoder/issues/88
-  if ((is.null(limit) || limit != 1) && return_input == TRUE) {
-    stop('To use limit > 1 or limit = NULL set return_input to FALSE.')
-  }
+  check_limit_return_input(limit, return_input)
   
   # convert .tbl to tibble if it isn't one already
   .tbl <- tibble::as_tibble(.tbl)
@@ -104,7 +102,7 @@ geocode <- function(.tbl, address = NULL, street = NULL, city = NULL, county = N
       
       # throw error if the an address parameter doesn't specify a column in the dataset
       if (!(all_args[[var]] %in% colnames(.tbl))) {
-        stop(paste0('"', all_args[[var]], '" is not a column name in the input dataset.'))
+        stop(paste0('"', all_args[[var]], '" is not a column name in the input dataset.'), call. = FALSE)
       }
       addr_parameters[[var]] <- .tbl[[all_args[[var]]]]
     }
