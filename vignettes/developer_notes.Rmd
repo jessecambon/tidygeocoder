@@ -24,7 +24,7 @@ This page contains documentation relevant for those wishing to contribute to the
 
 ## Introduction
 
-The two core functions to focus on in the package are [geo()](https://github.com/jessecambon/tidygeocoder/blob/master/R/geo.R) and [reverse_geo()](https://github.com/jessecambon/tidygeocoder/blob/master/R/reverse_geo.R). These functions have very similar layouts, but `geo()` is for forward geocoding while `reverse_geo()` is for reverse geocoding. The `geocode()` and `reverse_geocode()` functions only extract input data from a dataframe and pass it to the `geo()` and `reverse_geo()` functions respectively for geocoding.
+The two core functions to focus on in the package are [geo()](https://github.com/jessecambon/tidygeocoder/blob/main/R/geo.R) and [reverse_geo()](https://github.com/jessecambon/tidygeocoder/blob/main/R/reverse_geo.R). These functions have very similar layouts, but `geo()` is for forward geocoding while `reverse_geo()` is for reverse geocoding. The `geocode()` and `reverse_geocode()` functions only extract input data from a dataframe and pass it to the `geo()` and `reverse_geo()` functions respectively for geocoding.
 
 Both the `geo()` and `reverse_geo()` functions take inputs (either addresses or coordinates) and call other functions as needed to deduplicate the inputs, pause to comply with API usage rate policies, and execute queries. Key parameters and settings for geocoding are stored for easy access and display in built-in datasets. 
 
@@ -63,52 +63,52 @@ This section documents how to add support for a new geocoder service to the pack
 
 ## Files to Update
 
-* **[R/api_url.R](https://github.com/jessecambon/tidygeocoder/blob/master/R/api_url.R)**
+* **[R/api_url.R](https://github.com/jessecambon/tidygeocoder/blob/main/R/api_url.R)**
     * Add a standalone function for obtaining the API URL and update the `get_api_url()` function accordingly. If arguments need to be added to the `get_api_url()` function, make sure to adjust the calls to this function in the `geo()` and `reverse_geo()` functions accordingly.
-* **[data-raw/api_parameter_reference.R](https://github.com/jessecambon/tidygeocoder/blob/master/data-raw/api_parameter_reference.R)**
+* **[data-raw/api_parameter_reference.R](https://github.com/jessecambon/tidygeocoder/blob/main/data-raw/api_parameter_reference.R)**
     * Add rows to the [api_parameter_reference](https://jessecambon.github.io/tidygeocoder/articles/tidygeocoder.html#api-reference) dataset to include the geocoder service. Each service is referred to by a short name in the `method` column (which is how the service is specified in the `geo()` and `geocode()` functions). The `generic_name` column has the universal parameter name that is used across geocoder services (ie. "address", "limit", etc.) while the `api_name` column stores the parameter names that are specific to the geocoder service. 
     * Note that there is no need to include parameters that are only used for reverse geocoding or parameters that have no equivalent in other geocoding services (ie. there is no `generic_name`) **unless** the parameters are required. Parameters can always be passed to services directly with the `custom_query` argument in `geo()` or `reverse_geo()`. 
-* **[data-raw/api_references.R](https://github.com/jessecambon/tidygeocoder/blob/master/data-raw/api_references.R)**
+* **[data-raw/api_references.R](https://github.com/jessecambon/tidygeocoder/blob/main/data-raw/api_references.R)**
    * Add a row to `min_time_reference` with the minimum time each query should take (in seconds) according to the geocoder service's free tier usage restrictions.
    * Add a row to `api_key_reference` if the service requires an API key.
    * If the service you are adding has batch geocoding capabilities, add the maximum batch size (as a row) to `batch_limit_reference`.
    * Add a row to `api_info_reference` with links to the service's website, documentation, and usage policy.
-* **[R/results_processing.R](https://github.com/jessecambon/tidygeocoder/blob/master/R/results_processing.R)**
+* **[R/results_processing.R](https://github.com/jessecambon/tidygeocoder/blob/main/R/results_processing.R)**
     * Update the `extract_results()` function which is used for parsing single addresses (ie. not batch geocoding). You can see examples of how I've tested out parsing the results of geocoder services [here](https://github.com/jessecambon/tidygeocoder/tree/master/sandbox/query_debugging).
     * In a similar fashion, update the `extract_reverse_results()` function for reverse geocoding.
     * Update the `extract_errors_from_results()` function to extract error messages for invalid queries.
-* **[R/geo.R](https://github.com/jessecambon/tidygeocoder/blob/master/R/geo.R)**
+* **[R/geo.R](https://github.com/jessecambon/tidygeocoder/blob/main/R/geo.R)**
     * If you added a batch geocoding function, you'll need to add it to the named list `batch_func_map` so that the `geo()` function knows it is associated with your method.
     * Add the new method to the `geo()` documentation.
-* **[R/batch_geocoding.R](https://github.com/jessecambon/tidygeocoder/blob/master/R/batch_geocoding.R)**
+* **[R/batch_geocoding.R](https://github.com/jessecambon/tidygeocoder/blob/main/R/batch_geocoding.R)**
     * If the service supports batch geocoding then add a function for this capability. These functions are called from `geo()`.
-* **[R/reverse_geo.R](https://github.com/jessecambon/tidygeocoder/blob/master/R/reverse_geo.R)**
+* **[R/reverse_geo.R](https://github.com/jessecambon/tidygeocoder/blob/main/R/reverse_geo.R)**
     * Update the `get_coord_parameters()` function based on how the service passed latitude and longitude coordinates for reverse geocoding.
-    * If the service supports reverse batch geocoding then add a new function in [R/reverse_batch_geocoding.R](https://github.com/jessecambon/tidygeocoder/blob/master/R/reverse_batch_geocoding.R) and add it to the `reverse_batch_func_map` named list.
-* **[R/geo_methods.R](https://github.com/jessecambon/tidygeocoder/blob/master/R/geo_methods.R)**
-    * Add a new `geo_<method>()` convenience function to [R/geo_methods.R](https://github.com/jessecambon/tidygeocoder/blob/master/R/geo_methods.R).
+    * If the service supports reverse batch geocoding then add a new function in [R/reverse_batch_geocoding.R](https://github.com/jessecambon/tidygeocoder/blob/main/R/reverse_batch_geocoding.R) and add it to the `reverse_batch_func_map` named list.
+* **[R/geo_methods.R](https://github.com/jessecambon/tidygeocoder/blob/main/R/geo_methods.R)**
+    * Add a new `geo_<method>()` convenience function to [R/geo_methods.R](https://github.com/jessecambon/tidygeocoder/blob/main/R/geo_methods.R).
 * If applicable, add new tests to the scripts in the [tests directory](https://github.com/jessecambon/tidygeocoder/tree/master/tests/testthat) for the method. Note that tests should avoid making a HTTP query (ie. use `no_query = TRUE` in the `geo()` and `geocode()` functions.
-* **[R/global_variables.R](https://github.com/jessecambon/tidygeocoder/blob/master/R/global_variables.R)**
+* **[R/global_variables.R](https://github.com/jessecambon/tidygeocoder/blob/main/R/global_variables.R)**
     * If applicable, add your service to one of the global variables. 
 
 ## Other Files
 
 These files don't necessarily need to be updated. However, you might need to make changes to these files if the service you are implementing requires some non-standard workarounds. 
 
-* **[R/query_factory.R](https://github.com/jessecambon/tidygeocoder/blob/master/R/query_factory.R)**
+* **[R/query_factory.R](https://github.com/jessecambon/tidygeocoder/blob/main/R/query_factory.R)**
     * Houses the functions used to create and execute API queries.
-* **[R/documentation.R](https://github.com/jessecambon/tidygeocoder/blob/master/R/documentation.R)**
+* **[R/documentation.R](https://github.com/jessecambon/tidygeocoder/blob/main/R/documentation.R)**
     * Functions for producing rmarkdown package documentation.
-* **[R/data.R](https://github.com/jessecambon/tidygeocoder/blob/master/R/data.R)**
+* **[R/data.R](https://github.com/jessecambon/tidygeocoder/blob/main/R/data.R)**
     * Documentation for in-built datasets.
-* **[R/utils.R](https://github.com/jessecambon/tidygeocoder/blob/master/R/utils.R)**
+* **[R/utils.R](https://github.com/jessecambon/tidygeocoder/blob/main/R/utils.R)**
     * Common utility functions.
-* **[R/input_handling.R](https://github.com/jessecambon/tidygeocoder/blob/master/R/input_handling.R)**
+* **[R/input_handling.R](https://github.com/jessecambon/tidygeocoder/blob/main/R/input_handling.R)**
     * Handles the deduplication of input data.
 
 ## Testing
 
 * Test out the new method with `verbose = TRUE` to make sure it behaves as expected. You can reference tests available [the 'sandbox' folder](https://github.com/jessecambon/tidygeocoder/tree/master/sandbox) for reference. 
 * Run `devtools::check()` to make sure the package still passes all tests and the vignette runs properly. To only run the package tests use `devtools::test()`, but note these tests do not query the geocoder services to avoid external dependencies.
-* Run [external_tests/online_tests.R](https://github.com/jessecambon/tidygeocoder/blob/master/external_tests/online_tests.R) to test making queries to the geocoder services. These tests are not included in the internal package tests (`devtools::test()`) because they require API keys which would not exist on all systems and are dependent on the geocoder services being online at that the time of the test.
-* Run the commands detailed in [cran-comments.md](https://github.com/jessecambon/tidygeocoder/blob/master/cran-comments.md) to test the package on other environments. Note that these tests should also be included in the automated GitHub actions tests for pull requests.
+* Run [external_tests/online_tests.R](https://github.com/jessecambon/tidygeocoder/blob/main/external_tests/online_tests.R) to test making queries to the geocoder services. These tests are not included in the internal package tests (`devtools::test()`) because they require API keys which would not exist on all systems and are dependent on the geocoder services being online at that the time of the test.
+* Run the commands detailed in [cran-comments.md](https://github.com/jessecambon/tidygeocoder/blob/main/cran-comments.md) to test the package on other environments. Note that these tests should also be included in the automated GitHub actions tests for pull requests.

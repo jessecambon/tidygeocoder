@@ -184,20 +184,21 @@ citation('tidygeocoder')
 
     To cite tidygeocoder in publications use:
 
-      Jesse Cambon, Christopher Belanger (2021). tidygeocoder: Geocoding
-      Made Easy (version 1.0.2). DOI: 10.5281/zenodo.4448251. URL:
-      https://CRAN.R-project.org/package=tidygeocoder
+      Jesse Cambon, Diego Hernangómez, Christopher Belanger, Daniel
+      Possenriede (2021). tidygeocoder: Geocoding Made Easy. R package
+      version 1.0.3. DOI: 10.5281/zenodo.4686074. URL:
+      https://CRAN.R-project.org/package=tidygeocoder.
 
     A BibTeX entry for LaTeX users is
 
       @Misc{,
         title = {tidygeocoder: Geocoding Made Easy},
-        author = {Jesse Cambon and Christopher Belanger},
+        author = {Jesse Cambon and Diego Hernangómez and Christopher Belanger and Daniel Possenriede},
         year = {2021},
         publisher = {Zenodo},
-        note = {R package version 1.0.2},
+        note = {R package version 1.0.3},
         url = {https://CRAN.R-project.org/package=tidygeocoder},
-        doi = {10.5281/zenodo.4448251},
+        doi = {10.5281/zenodo.4686074},
       }
 
 </blockquote>
