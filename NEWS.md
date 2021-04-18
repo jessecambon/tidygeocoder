@@ -20,7 +20,7 @@
 - If the number of unique addresses or coordinates exceeds the batch query limit then an error is thrown by default. For forward geocoding, this behavior can be toggled with the new `batch_limit_query` argument in the `geo()` function and `batch_limit_query` is set to FALSE if using the "cascade" method. When `batch_limit_query` is FALSE then the batch query is limited to the batch limit and executed. In the past, all batch queries that exceeded the batch query limit would be limited to the batch limit and no error was thrown.
 - The `address_list` argument of `query_api()` has been renamed to `input_list` to reflect that it is used for both forward and reverse queries when using the Geocodio service for batch geocoding.
 - The `query_api()` function now returns a named list which contains the response content (`content`) and the HTTP status code (`status`). The `geo()` and `reverse_geo()` functions now use the HTTP status code directly to determine if a response is valid.
-- Added [external tests](https://github.com/jessecambon/tidygeocoder/blob/main/external_tests/online_tests.R) to more thoroughly test the package with live queries (internal package tests don't run queries).
+- Added [external tests](https://github.com/jessecambon/tidygeocoder/blob/main/external/online_tests.R) to more thoroughly test the package with live queries (internal package tests don't run queries).
 - Added functions to generate package documentation from built-in datasets (ex. the methods documentation in `geo()` and `reverse_geo()`).
 - Converted package documentation from standard roxygen syntax to Markdown.
 
