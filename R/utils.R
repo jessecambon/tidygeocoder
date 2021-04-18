@@ -142,7 +142,6 @@ check_limit_return_input <- function(limit, return_input) {
   }
 }
 
-
 ## function for extracting everything except the single line 
 ## address from the reverse geocoding results of osm and iq
 extract_osm_reverse_full <- function(response) {

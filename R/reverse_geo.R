@@ -57,6 +57,10 @@ get_coord_parameters <- function(custom_query, method, lat, long) {
 #' longitudes must be between -180 and 180. Invalid values will not be sent to the geocoder service. 
 #' The [reverse_geocode] function utilizes this function on coordinates contained in dataframes.
 #' See example usage in `vignette("tidygeocoder")`.
+#' 
+#' Refer to [api_parameter_reference],
+#' [min_time_reference], and [batch_limit_reference] for more details on 
+#' geocoder service parameters and usage. 
 #'
 #' This function uses the [get_api_query], [query_api], and
 #' [extract_reverse_results] functions to create, execute, and parse geocoder

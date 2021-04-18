@@ -51,6 +51,9 @@ Latitude and longitude inputs are limited to possible values. Latitudes must be 
 longitudes must be between -180 and 180. Invalid values will not be sent to the geocoder service.
 The reverse_geocode function utilizes this function on coordinates contained in dataframes.
 See example usage in vignette(&quot;tidygeocoder&quot;).
+Refer to api_parameter_reference,
+min_time_reference, and batch_limit_reference for more details on
+geocoder service parameters and usage.
 This function uses the get_api_query, query_api, and
 extract_reverse_results functions to create, execute, and parse geocoder
 API queries." />
@@ -153,6 +156,9 @@ Latitude and longitude inputs are limited to possible values. Latitudes must be 
 longitudes must be between -180 and 180. Invalid values will not be sent to the geocoder service.
 The <a href='reverse_geocode.html'>reverse_geocode</a> function utilizes this function on coordinates contained in dataframes.
 See example usage in <code><a href='../articles/tidygeocoder.html'>vignette("tidygeocoder")</a></code>.</p>
+<p>Refer to <a href='api_parameter_reference.html'>api_parameter_reference</a>,
+<a href='min_time_reference.html'>min_time_reference</a>, and <a href='batch_limit_reference.html'>batch_limit_reference</a> for more details on
+geocoder service parameters and usage.</p>
 <p>This function uses the <a href='get_api_query.html'>get_api_query</a>, <a href='query_api.html'>query_api</a>, and
 <a href='extract_reverse_results.html'>extract_reverse_results</a> functions to create, execute, and parse geocoder
 API queries.</p>
@@ -196,7 +202,7 @@ API queries.</p>
     </tr>
     <tr>
       <th>method</th>
-      <td><p>the geocoder service to be used. Refer to <a href='api_parameter_reference.html'>api_parameter_reference</a>, <a href='min_time_reference.html'>min_time_reference</a>, and <a href='batch_limit_reference.html'>batch_limit_reference</a> for more information. API keys are loaded from environmental variables. Run <code><a href='https://usethis.r-lib.org/reference/edit.html'>usethis::edit_r_environ()</a></code> to open your .Renviron file and add an API key as an environmental variable. For example, add the line <code>GEOCODIO_API_KEY="YourAPIKeyHere"</code>.</p><ul>
+      <td><p>the geocoder service to be used. API keys are loaded from environmental variables. Run <code><a href='https://usethis.r-lib.org/reference/edit.html'>usethis::edit_r_environ()</a></code> to open your .Renviron file and add an API key as an environmental variable. For example, add the line <code>GEOCODIO_API_KEY="YourAPIKeyHere"</code>.</p><ul>
 <li><p><code>"osm"</code>: <a href='https://nominatim.org'>Nominatim</a> geocoder service.</p></li>
 <li><p><code>"arcgis"</code>: <a href='https://developers.arcgis.com/rest/geocode/api-reference/overview-world-geocoding-service.htm'>ArcGIS</a> geocoder service.</p></li>
 <li><p><code>"geocodio"</code>: <a href='https://www.geocod.io/'>Geocodio</a> geocoder service. Geographic coverage is limited to the United States and Canada. An API key must be stored in "GEOCODIO_API_KEY". Batch geocoding is supported.</p></li>

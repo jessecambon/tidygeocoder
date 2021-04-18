@@ -34,7 +34,7 @@ reverse_geo(
 
 \item{long}{longitude values (input data)}
 
-\item{method}{the geocoder service to be used. Refer to \link{api_parameter_reference}, \link{min_time_reference}, and \link{batch_limit_reference} for more information. API keys are loaded from environmental variables. Run \code{usethis::edit_r_environ()} to open your .Renviron file and add an API key as an environmental variable. For example, add the line \code{GEOCODIO_API_KEY="YourAPIKeyHere"}.
+\item{method}{the geocoder service to be used. API keys are loaded from environmental variables. Run \code{usethis::edit_r_environ()} to open your .Renviron file and add an API key as an environmental variable. For example, add the line \code{GEOCODIO_API_KEY="YourAPIKeyHere"}.
 \itemize{
 \item \code{"osm"}: \href{https://nominatim.org}{Nominatim} geocoder service.
 \item \code{"arcgis"}: \href{https://developers.arcgis.com/rest/geocode/api-reference/overview-world-geocoding-service.htm}{ArcGIS} geocoder service.
@@ -123,6 +123,10 @@ Latitude and longitude inputs are limited to possible values. Latitudes must be 
 longitudes must be between -180 and 180. Invalid values will not be sent to the geocoder service.
 The \link{reverse_geocode} function utilizes this function on coordinates contained in dataframes.
 See example usage in \code{vignette("tidygeocoder")}.
+
+Refer to \link{api_parameter_reference},
+\link{min_time_reference}, and \link{batch_limit_reference} for more details on
+geocoder service parameters and usage.
 
 This function uses the \link{get_api_query}, \link{query_api}, and
 \link{extract_reverse_results} functions to create, execute, and parse geocoder

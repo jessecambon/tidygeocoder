@@ -20,7 +20,9 @@ batch_func_map <- list(
 #' 
 #' Note that not all geocoder services support certain address component 
 #' parameters. For example, the Census geocoder only covers the United States 
-#' and does not have a "country" parameter. Refer to [api_parameter_reference],
+#' and does not have a "country" parameter. 
+#' 
+#' Refer to [api_parameter_reference],
 #' [min_time_reference], and [batch_limit_reference] for more details on 
 #' geocoder service parameters and usage. 
 #' 

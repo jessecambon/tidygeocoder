@@ -56,7 +56,7 @@ Do not combine with the address component arguments below
 
 \item{country}{country (ie. 'Japan')}
 
-\item{method}{the geocoder service to be used. Refer to \link{api_parameter_reference}, \link{min_time_reference}, and \link{batch_limit_reference} for more information. API keys are loaded from environmental variables. Run \code{usethis::edit_r_environ()} to open your .Renviron file and add an API key as an environmental variable. For example, add the line \code{GEOCODIO_API_KEY="YourAPIKeyHere"}.
+\item{method}{the geocoder service to be used. API keys are loaded from environmental variables. Run \code{usethis::edit_r_environ()} to open your .Renviron file and add an API key as an environmental variable. For example, add the line \code{GEOCODIO_API_KEY="YourAPIKeyHere"}.
 \itemize{
 \item \code{"osm"}: \href{https://nominatim.org}{Nominatim} geocoder service.
 \item \code{"census"}: \href{https://geocoding.geo.census.gov/}{US Census} geocoder service. Geographic coverage is limited to the United States.  Batch geocoding is supported.
@@ -171,7 +171,9 @@ See example usage in \code{vignette("tidygeocoder")}.
 
 Note that not all geocoder services support certain address component
 parameters. For example, the Census geocoder only covers the United States
-and does not have a "country" parameter. Refer to \link{api_parameter_reference},
+and does not have a "country" parameter.
+
+Refer to \link{api_parameter_reference},
 \link{min_time_reference}, and \link{batch_limit_reference} for more details on
 geocoder service parameters and usage.
 
