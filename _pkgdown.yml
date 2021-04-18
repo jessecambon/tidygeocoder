@@ -40,12 +40,12 @@ reference:
 navbar:
   type: default
   left:
+    -  text: Geocoder Services
+       href: articles/geocoder_services.html
     - text: "Articles"
       menu: 
       -  text: Getting Started
          href: articles/tidygeocoder.html
-      -  text: Geocoder Services
-         href: articles/geocoder_services.html
       -  text: Developer Notes
          href: articles/developer_notes.html
     - text: Reference

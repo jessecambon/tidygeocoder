@@ -95,7 +95,10 @@ API queries." />
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
-        <li class="dropdown">
+        <li>
+  <a href="../articles/geocoder_services.html">Geocoder Services</a>
+</li>
+<li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
     Articles
      
@@ -104,9 +107,6 @@ API queries." />
   <ul class="dropdown-menu" role="menu">
     <li>
       <a href="../articles/tidygeocoder.html">Getting Started</a>
-    </li>
-    <li>
-      <a href="../articles/geocoder_services.html">Geocoder Services</a>
     </li>
     <li>
       <a href="../articles/developer_notes.html">Developer Notes</a>
@@ -237,18 +237,18 @@ Do not combine with the address component arguments below
     <tr>
       <th>method</th>
       <td><p>the geocoder service to be used. API keys are loaded from environmental variables. Run <code><a href='https://usethis.r-lib.org/reference/edit.html'>usethis::edit_r_environ()</a></code> to open your .Renviron file and add an API key as an environmental variable. For example, add the line <code>GEOCODIO_API_KEY="YourAPIKeyHere"</code>.</p><ul>
-<li><p><code>"osm"</code>: <a href='https://nominatim.org'>Nominatim</a> geocoder service.</p></li>
-<li><p><code>"census"</code>: <a href='https://geocoding.geo.census.gov/'>US Census</a> geocoder service. Geographic coverage is limited to the United States.  Batch geocoding is supported.</p></li>
-<li><p><code>"arcgis"</code>: <a href='https://developers.arcgis.com/rest/geocode/api-reference/overview-world-geocoding-service.htm'>ArcGIS</a> geocoder service.</p></li>
-<li><p><code>"geocodio"</code>: <a href='https://www.geocod.io/'>Geocodio</a> geocoder service. Geographic coverage is limited to the United States and Canada. An API key must be stored in "GEOCODIO_API_KEY". Batch geocoding is supported.</p></li>
-<li><p><code>"iq"</code>: <a href='https://locationiq.com/'>Location IQ</a> geocoder service.  An API key must be stored in "LOCATIONIQ_API_KEY".</p></li>
-<li><p><code>"google"</code>: <a href='https://developers.google.com/maps/documentation/geocoding/overview'>Google</a> geocoder service.  An API key must be stored in "GOOGLEGEOCODE_API_KEY".</p></li>
-<li><p><code>"opencage"</code>: <a href='https://opencagedata.com'>OpenCage</a> geocoder service.  An API key must be stored in "OPENCAGE_KEY".</p></li>
-<li><p><code>"mapbox"</code>: <a href='https://docs.mapbox.com/api/search/'>Mapbox</a> geocoder service.  An API key must be stored in "MAPBOX_API_KEY".</p></li>
-<li><p><code>"here"</code>: <a href='https://developer.here.com/products/geocoding-and-search'>HERE</a> geocoder service.  An API key must be stored in "HERE_API_KEY". Batch geocoding is supported, but must be explicitly called with <code>mode = "batch"</code>.</p></li>
-<li><p><code>"tomtom"</code>: <a href='https://developer.tomtom.com/search-api/search-api-documentation/geocoding'>TomTom</a> geocoder service.  An API key must be stored in "TOMTOM_API_KEY". Batch geocoding is supported.</p></li>
-<li><p><code>"mapquest"</code>: <a href='https://developer.mapquest.com/documentation/geocoding-api/'>MapQuest</a> geocoder service.  An API key must be stored in "MAPQUEST_API_KEY". Batch geocoding is supported.</p></li>
-<li><p><code>"bing"</code>: <a href='https://docs.microsoft.com/en-us/bingmaps/rest-services/locations/'>Bing</a> geocoder service.  An API key must be stored in "BINGMAPS_API_KEY". Batch geocoding is supported, but must be explicitly called with <code>mode = "batch"</code>.</p></li>
+<li><p><code>"osm"</code>: <a href='https://nominatim.org'>Nominatim</a>.</p></li>
+<li><p><code>"census"</code>: <a href='https://geocoding.geo.census.gov/'>US Census</a>. Geographic coverage is limited to the United States.  Batch geocoding is supported.</p></li>
+<li><p><code>"arcgis"</code>: <a href='https://developers.arcgis.com/rest/geocode/api-reference/overview-world-geocoding-service.htm'>ArcGIS</a>.</p></li>
+<li><p><code>"geocodio"</code>: <a href='https://www.geocod.io/'>Geocodio</a>. Geographic coverage is limited to the United States and Canada. An API key must be stored in "GEOCODIO_API_KEY". Batch geocoding is supported.</p></li>
+<li><p><code>"iq"</code>: <a href='https://locationiq.com/'>Location IQ</a>.  An API key must be stored in "LOCATIONIQ_API_KEY".</p></li>
+<li><p><code>"google"</code>: <a href='https://developers.google.com/maps/documentation/geocoding/overview'>Google</a>.  An API key must be stored in "GOOGLEGEOCODE_API_KEY".</p></li>
+<li><p><code>"opencage"</code>: <a href='https://opencagedata.com'>OpenCage</a>.  An API key must be stored in "OPENCAGE_KEY".</p></li>
+<li><p><code>"mapbox"</code>: <a href='https://docs.mapbox.com/api/search/'>Mapbox</a>.  An API key must be stored in "MAPBOX_API_KEY".</p></li>
+<li><p><code>"here"</code>: <a href='https://developer.here.com/products/geocoding-and-search'>HERE</a>.  An API key must be stored in "HERE_API_KEY". Batch geocoding is supported, but must be explicitly called with <code>mode = "batch"</code>.</p></li>
+<li><p><code>"tomtom"</code>: <a href='https://developer.tomtom.com/search-api/search-api-documentation/geocoding'>TomTom</a>.  An API key must be stored in "TOMTOM_API_KEY". Batch geocoding is supported.</p></li>
+<li><p><code>"mapquest"</code>: <a href='https://developer.mapquest.com/documentation/geocoding-api/'>MapQuest</a>.  An API key must be stored in "MAPQUEST_API_KEY". Batch geocoding is supported.</p></li>
+<li><p><code>"bing"</code>: <a href='https://docs.microsoft.com/en-us/bingmaps/rest-services/locations/'>Bing</a>.  An API key must be stored in "BINGMAPS_API_KEY". Batch geocoding is supported, but must be explicitly called with <code>mode = "batch"</code>.</p></li>
 <li><p><code>"cascade"</code> : First uses one geocoder service and then uses
 a second geocoder service if the first service didn't return results.
 The services and order is specified by the cascade_order argument.

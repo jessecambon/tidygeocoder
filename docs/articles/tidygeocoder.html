@@ -40,6 +40,9 @@
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
+<li>
+  <a href="../articles/geocoder_services.html">Geocoder Services</a>
+</li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
     Articles
@@ -49,9 +52,6 @@
   <ul class="dropdown-menu" role="menu">
 <li>
       <a href="../articles/tidygeocoder.html">Getting Started</a>
-    </li>
-    <li>
-      <a href="../articles/geocoder_services.html">Geocoder Services</a>
     </li>
     <li>
       <a href="../articles/developer_notes.html">Developer Notes</a>
@@ -101,8 +101,12 @@
 
     
     
-<p>Tidygeocoder provides a unified interface for performing both forward and reverse geocoding queries with a variety of geocoder services. In <strong>forward geocoding</strong> you provide an address to the geocoder service and you get latitude and longitude coordinates in return. In <strong>reverse geocoding</strong> you provide the latitude and longitude and the geocoder service will return that location’s address. In both cases, other data about the location can be provided by the geocoder service.</p>
+<div id="introduction" class="section level2">
+<h2 class="hasAnchor">
+<a href="#introduction" class="anchor"></a>Introduction</h2>
+<p>Tidygeocoder provides a unified interface for performing both forward and reverse geocoding queries with a variety of geocoder services. In forward geocoding you provide an address to the geocoder service and you get latitude and longitude coordinates in return. In reverse geocoding you provide the latitude and longitude and the geocoder service will return that location’s address. In both cases, other data about the location can be provided by the geocoder service.</p>
 <p>The <code><a href="../reference/geocode.html">geocode()</a></code> and <code><a href="../reference/geo.html">geo()</a></code> functions are for forward geocoding while the <code><a href="../reference/reverse_geocode.html">reverse_geocode()</a></code> and <code><a href="../reference/reverse_geo.html">reverse_geo()</a></code> functions perform reverse geocoding. The <code><a href="../reference/geocode.html">geocode()</a></code> and <code><a href="../reference/reverse_geocode.html">reverse_geocode()</a></code> functions extract either addresses (forward geocoding) or coordinates (reverse geocoding) from the input dataframe and pass this data to the <code><a href="../reference/geo.html">geo()</a></code> and <code><a href="../reference/reverse_geo.html">reverse_geo()</a></code> functions respectively which execute the geocoding queries. All extra arguments (<code>...</code>) given to the <code><a href="../reference/geocode.html">geocode()</a></code> and passed to <code><a href="../reference/geo.html">geo()</a></code> and extra arguments given to <code><a href="../reference/reverse_geocode.html">reverse_geocode()</a></code> are passed to <code><a href="../reference/reverse_geo.html">reverse_geo()</a></code>.</p>
+</div>
 <div id="forward-geocoding" class="section level2">
 <h2 class="hasAnchor">
 <a href="#forward-geocoding" class="anchor"></a>Forward Geocoding</h2>
@@ -133,7 +137,7 @@
 <span class="co">#&gt; format : "json"</span>
 <span class="co">#&gt; benchmark : "Public_AR_Current"</span>
 <span class="co">#&gt; vintage : "Current_Current"</span>
-<span class="co">#&gt; Query completed in: 1.5 seconds</span>
+<span class="co">#&gt; Query completed in: 1.2 seconds</span>
 <span class="co">#&gt; </span></code></pre></div>
 <table class="table">
 <thead><tr class="header">
@@ -490,7 +494,7 @@
 <span class="co">#&gt; limit : "1"</span>
 <span class="co">#&gt; format : "json"</span>
 <span class="co">#&gt; HTTP Status Code: 200</span>
-<span class="co">#&gt; Query completed in: 0.7 seconds</span>
+<span class="co">#&gt; Query completed in: 0.2 seconds</span>
 <span class="co">#&gt; Total query time (including sleep): 1 seconds</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; Number of Unique Addresses: 1</span>
@@ -612,7 +616,7 @@
 <span class="co">#&gt; polygon_geojson : "1"</span>
 <span class="co">#&gt; format : "json"</span>
 <span class="co">#&gt; HTTP Status Code: 200</span>
-<span class="co">#&gt; Query completed in: 0.2 seconds</span>
+<span class="co">#&gt; Query completed in: 0.1 seconds</span>
 <span class="co">#&gt; Total query time (including sleep): 1 seconds</span>
 <span class="co">#&gt; </span>
 
@@ -638,22 +642,22 @@
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">noquery1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/geo.html">geo</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Vancouver, Canada"</span>, <span class="st">"Las Vegas, NV"</span><span class="op">)</span>,
   no_query <span class="op">=</span> <span class="cn">TRUE</span>,
-  method <span class="op">=</span> <span class="st">"osm"</span>
+  method <span class="op">=</span> <span class="st">"arcgis"</span>
 <span class="op">)</span>
 <span class="co">#&gt; Number of Unique Addresses: 2</span>
 <span class="co">#&gt; Executing single address geocoding...</span>
 <span class="co">#&gt; Number of Unique Addresses: 1</span>
-<span class="co">#&gt; Querying API URL: https://nominatim.openstreetmap.org/search</span>
+<span class="co">#&gt; Querying API URL: https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/findAddressCandidates</span>
 <span class="co">#&gt; Passing the following parameters to the API:</span>
-<span class="co">#&gt; q : "Vancouver, Canada"</span>
-<span class="co">#&gt; limit : "1"</span>
-<span class="co">#&gt; format : "json"</span>
+<span class="co">#&gt; SingleLine : "Vancouver, Canada"</span>
+<span class="co">#&gt; maxLocations : "1"</span>
+<span class="co">#&gt; f : "json"</span>
 <span class="co">#&gt; Number of Unique Addresses: 1</span>
-<span class="co">#&gt; Querying API URL: https://nominatim.openstreetmap.org/search</span>
+<span class="co">#&gt; Querying API URL: https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/findAddressCandidates</span>
 <span class="co">#&gt; Passing the following parameters to the API:</span>
-<span class="co">#&gt; q : "Las Vegas, NV"</span>
-<span class="co">#&gt; limit : "1"</span>
-<span class="co">#&gt; format : "json"</span></code></pre></div>
+<span class="co">#&gt; SingleLine : "Las Vegas, NV"</span>
+<span class="co">#&gt; maxLocations : "1"</span>
+<span class="co">#&gt; f : "json"</span></code></pre></div>
 <table class="table">
 <thead><tr class="header">
 <th align="left">address</th>

@@ -29,12 +29,12 @@ options(tibble.print_min = 5, tibble.print_max = 5)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.4448251.svg)](https://doi.org/10.5281/zenodo.4448251)
 <!-- badges: end -->
 
-Tidygeocoder makes getting data from geocoder services easy. A unified high-level interface is provided for a selection of [supported geocoder services](https://jessecambon.github.io/tidygeocoder/articles/geocoder_services.html).
+Tidygeocoder makes getting data from geocoder services easy. A unified high-level interface is provided for a selection of [supported geocoder services](https://jessecambon.github.io/tidygeocoder/articles/geocoder_services.html) and results are returned in [tibble](https://tibble.tidyverse.org/) (dataframe) format.
 
 **Features:**
 
-- Supports both forward geocoding (addresses ⮕ coordinates) and reverse geocoding (coordinates ⮕ addresses).
-- Results are returned in [tibble](https://tibble.tidyverse.org/) (dataframe) format.
+- Forward geocoding (addresses ⮕ coordinates)
+- Reverse geocoding (coordinates ⮕ addresses)
 - Batch geocoding (geocoding multiple addresses or coordinates in a single query) is automatically used if applicable.
 - Duplicate, NA, and blank input data is handled elegantly; only unique inputs are submitted in queries, but the rows in the original data are preserved by default.
 - The maximum rate of querying is automatically set according to the usage policies of the selected geocoder service.
@@ -77,7 +77,7 @@ lat_longs <- some_addresses %>%
   geocode(addr, method = 'osm', lat = latitude , long = longitude)
 ```
 
-The `geocode()` function geocodes addresses contained in a dataframe. The [Nominatim ("osm")](https://nominatim.org/) geocoder service is used here, but other services can be specified with the `method` argument. Only latitude and longitude are returned from the geocoder service in this example, but `full_results = TRUE` can be used to return all of the data from the geocoder service. See the `geo()` function documentation for details. 
+The `geocode()` function geocodes addresses contained in a dataframe. The [Nominatim ("osm")](https://nominatim.org/) geocoder service is used here, but other services can be specified with the `method` argument. Only latitude and longitude are returned from the geocoder service in this example, but `full_results = TRUE` can be used to return all of the data from the geocoder service. See the `geo()` function documentation for details.
 
 ```{r, echo = FALSE}
 knitr::kable(lat_longs)
@@ -96,7 +96,7 @@ ggplot(lat_longs, aes(longitude, latitude), color = "grey99") +
   theme_void()
 ```
 
-To perform reverse geocoding (obtaining addresses from geographic coordinates), we can use the `reverse_geocode()` function. The arguments are similar to the `geocode()` function, but now we specify the input data columns with the `lat` and `long` arguments. The latitude and longitude used are from the geocoder query above. The single line address is returned in a column named by the `address` argument and all columns from the geocoder service are returned because `full_results = TRUE`. See the `reverse_geo()` function documentation for more details.
+To perform reverse geocoding (obtaining addresses from geographic coordinates), we can use the `reverse_geocode()` function. The arguments are similar to the `geocode()` function, but now we specify the input data columns with the `lat` and `long` arguments. The dataset used here is from the geocoder query above. The single line address is returned in a column named by the `address` argument and all columns from the geocoder service are returned because `full_results = TRUE`. See the `reverse_geo()` function documentation for more details.
 
 ```{r}
 reverse <- lat_longs %>%
@@ -113,10 +113,10 @@ knitr::kable(reverse)
 
 For inspiration, here are a few articles (with code) that leverage tidygeocoder:
 
-- [Exercises: Spatial Data Wrangling with sf](http://www2.stat.duke.edu/courses/Spring21/sta323.001/exercises/lec_12.html)
-- [Mapping a network of women in demography](https://www.monicaalexander.com/posts/2021-21-02-mapping/)
-- [Road Routing in R](https://www.jla-data.net/eng/routing-in-r-context/)
-- [Mapping Texas Ports With R](https://www.sharpsightlabs.com/blog/mapping-texas-ports-with-r-part1/)
+- [Exercises: Spatial Data Wrangling with sf](http://www2.stat.duke.edu/courses/Spring21/sta323.001/exercises/lec_12.html) - part of a [statistical computing course](http://www2.stat.duke.edu/courses/Spring21/sta323.001/) at Duke.
+- [Mapping a network of women in demography](https://www.monicaalexander.com/posts/2021-21-02-mapping/) - using rvest and tidygeocoder to map Google Scholar data.
+- [Road Routing in R](https://www.jla-data.net/eng/routing-in-r-context/) - demonstration of three different routing APIs.
+- [Mapping Texas Ports With R](https://www.sharpsightlabs.com/blog/mapping-texas-ports-with-r-part1/) - mapping the Texas coast with rnaturalearth and sf.
 
 ## Contributing
 

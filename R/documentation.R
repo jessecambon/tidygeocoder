@@ -72,7 +72,7 @@ get_method_bullet <- function(method) {
   info <- as.list(tidygeocoder::api_info_reference[which(tidygeocoder::api_info_reference[['method']] == method) ,])
   
   bullet_intro <- paste0("- ", '`"', method, '"`: [', info[['method_display_name']], '](',
-     info[['site_url']], ') geocoder service.')
+     info[['site_url']], ').')
   
   # if an API key is required list environmental variable
   api_requirements <- ifelse(

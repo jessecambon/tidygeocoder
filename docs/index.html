@@ -39,6 +39,9 @@
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
+<li>
+  <a href="articles/geocoder_services.html">Geocoder Services</a>
+</li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
     Articles
@@ -48,9 +51,6 @@
   <ul class="dropdown-menu" role="menu">
 <li>
       <a href="articles/tidygeocoder.html">Getting Started</a>
-    </li>
-    <li>
-      <a href="articles/geocoder_services.html">Geocoder Services</a>
     </li>
     <li>
       <a href="articles/developer_notes.html">Developer Notes</a>
@@ -95,11 +95,11 @@
 </h1></div>
 <!-- badges: start -->
 
-<p>Tidygeocoder makes getting data from geocoder services easy. A unified high-level interface is provided for a selection of <a href="https://jessecambon.github.io/tidygeocoder/articles/geocoder_services.html">supported geocoder services</a>.</p>
+<p>Tidygeocoder makes getting data from geocoder services easy. A unified high-level interface is provided for a selection of <a href="https://jessecambon.github.io/tidygeocoder/articles/geocoder_services.html">supported geocoder services</a> and results are returned in <a href="https://tibble.tidyverse.org/">tibble</a> (dataframe) format.</p>
 <p><strong>Features:</strong></p>
 <ul>
-<li>Supports both forward geocoding (addresses ⮕ coordinates) and reverse geocoding (coordinates ⮕ addresses).</li>
-<li>Results are returned in <a href="https://tibble.tidyverse.org/">tibble</a> (dataframe) format.</li>
+<li>Forward geocoding (addresses ⮕ coordinates)</li>
+<li>Reverse geocoding (coordinates ⮕ addresses)</li>
 <li>Batch geocoding (geocoding multiple addresses or coordinates in a single query) is automatically used if applicable.</li>
 <li>Duplicate, NA, and blank input data is handled elegantly; only unique inputs are submitted in queries, but the rows in the original data are preserved by default.</li>
 <li>The maximum rate of querying is automatically set according to the usage policies of the selected geocoder service.</li>
@@ -181,7 +181,7 @@
   <span class="fu"><a href="https://rdrr.io/pkg/ggrepel/man/geom_text_repel.html">geom_label_repel</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>label <span class="op">=</span> <span class="va">name</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_void</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <p><img src="reference/figures/README-usamap-1.png" style="display: block; margin: auto;"></p>
-<p>To perform reverse geocoding (obtaining addresses from geographic coordinates), we can use the <code><a href="reference/reverse_geocode.html">reverse_geocode()</a></code> function. The arguments are similar to the <code><a href="reference/geocode.html">geocode()</a></code> function, but now we specify the input data columns with the <code>lat</code> and <code>long</code> arguments. The latitude and longitude used are from the geocoder query above. The single line address is returned in a column named by the <code>address</code> argument and all columns from the geocoder service are returned because <code>full_results = TRUE</code>. See the <code><a href="reference/reverse_geo.html">reverse_geo()</a></code> function documentation for more details.</p>
+<p>To perform reverse geocoding (obtaining addresses from geographic coordinates), we can use the <code><a href="reference/reverse_geocode.html">reverse_geocode()</a></code> function. The arguments are similar to the <code><a href="reference/geocode.html">geocode()</a></code> function, but now we specify the input data columns with the <code>lat</code> and <code>long</code> arguments. The dataset used here is from the geocoder query above. The single line address is returned in a column named by the <code>address</code> argument and all columns from the geocoder service are returned because <code>full_results = TRUE</code>. See the <code><a href="reference/reverse_geo.html">reverse_geo()</a></code> function documentation for more details.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">reverse</span> <span class="op">&lt;-</span> <span class="va">lat_longs</span> <span class="op">%&gt;%</span>
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="op">-</span><span class="va">addr</span><span class="op">)</span> <span class="op">%&gt;%</span>
@@ -330,10 +330,14 @@
 <a href="#in-the-wild" class="anchor"></a>In the Wild</h2>
 <p>For inspiration, here are a few articles (with code) that leverage tidygeocoder:</p>
 <ul>
-<li><a href="http://www2.stat.duke.edu/courses/Spring21/sta323.001/exercises/lec_12.html">Exercises: Spatial Data Wrangling with sf</a></li>
-<li><a href="https://www.monicaalexander.com/posts/2021-21-02-mapping/">Mapping a network of women in demography</a></li>
-<li><a href="https://www.jla-data.net/eng/routing-in-r-context/">Road Routing in R</a></li>
-<li><a href="https://www.sharpsightlabs.com/blog/mapping-texas-ports-with-r-part1/">Mapping Texas Ports With R</a></li>
+<li>
+<a href="http://www2.stat.duke.edu/courses/Spring21/sta323.001/exercises/lec_12.html">Exercises: Spatial Data Wrangling with sf</a> - part of a <a href="http://www2.stat.duke.edu/courses/Spring21/sta323.001/">statistical computing course</a> at Duke.</li>
+<li>
+<a href="https://www.monicaalexander.com/posts/2021-21-02-mapping/">Mapping a network of women in demography</a> - using rvest and tidygeocoder to map Google Scholar data.</li>
+<li>
+<a href="https://www.jla-data.net/eng/routing-in-r-context/">Road Routing in R</a> - demonstration of three different routing APIs.</li>
+<li>
+<a href="https://www.sharpsightlabs.com/blog/mapping-texas-ports-with-r-part1/">Mapping Texas Ports With R</a> - mapping the Texas coast with rnaturalearth and sf.</li>
 </ul>
 </div>
 <div id="contributing" class="section level2">

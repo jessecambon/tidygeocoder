@@ -40,6 +40,9 @@
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
+<li>
+  <a href="../articles/geocoder_services.html">Geocoder Services</a>
+</li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
     Articles
@@ -49,9 +52,6 @@
   <ul class="dropdown-menu" role="menu">
 <li>
       <a href="../articles/tidygeocoder.html">Getting Started</a>
-    </li>
-    <li>
-      <a href="../articles/geocoder_services.html">Geocoder Services</a>
     </li>
     <li>
       <a href="../articles/developer_notes.html">Developer Notes</a>
@@ -128,7 +128,7 @@
 <span class="co">#&gt; limit : "1"</span>
 <span class="co">#&gt; format : "json"</span>
 <span class="co">#&gt; HTTP Status Code: 200</span>
-<span class="co">#&gt; Query completed in: 0.5 seconds</span>
+<span class="co">#&gt; Query completed in: 0.4 seconds</span>
 <span class="co">#&gt; Total query time (including sleep): 1 seconds</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; Number of Unique Addresses: 1</span>
@@ -138,7 +138,7 @@
 <span class="co">#&gt; limit : "1"</span>
 <span class="co">#&gt; format : "json"</span>
 <span class="co">#&gt; HTTP Status Code: 200</span>
-<span class="co">#&gt; Query completed in: 0.2 seconds</span>
+<span class="co">#&gt; Query completed in: 0.1 seconds</span>
 <span class="co">#&gt; Total query time (including sleep): 1 seconds</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; # A tibble: 3 x 14</span>
@@ -153,9 +153,9 @@
 <ul>
 <li>The <code><a href="../reference/geocode.html">geocode()</a></code> function extracts the address data from the input dataframe and passes it to the <code><a href="../reference/geo.html">geo()</a></code> function.</li>
 <li>The <code><a href="../reference/geo.html">geo()</a></code> function looks for unique inputs and prepares them for geocoding. In this case, there is one duplicate input so we only have two unique inputs.</li>
-<li>The <code><a href="../reference/geo.html">geo()</a></code> function must figure out whether to use perform <em>single address geocoding</em> (1 address per query) or <em>batch geocoding</em> (multiple addresses per query). In this case the specified Nominatim (‘osm’) geocoder service does not have a batch geocoding function so single address geocoding is used.</li>
+<li>The <code><a href="../reference/geo.html">geo()</a></code> function must figure out whether to use perform <em>single address geocoding</em> (1 address per query) or <em>batch geocoding</em> (multiple addresses per query). In this case the specified Nominatim (“osm”) geocoder service does not have a batch geocoding function so single address geocoding is used.</li>
 <li>Because single address geocoding is used, the <code><a href="../reference/geo.html">geo()</a></code> function is called once for each input to geocode all addresses (twice in this case) and the results are combined. If batch geocoding was used then the appropriate batch geocoding function would be called based on the geocoder service specified.</li>
-<li>Because the specified geocoder service has a usage limit, the rate of querying is limited accordingly. By default this is based on the <code>min_time_reference</code> dataset. This behaviour can be modified with the <code>min_time</code> argument.</li>
+<li>Because the specified geocoder service has a usage limit, the rate of querying is limited accordingly. By default this is based on the <code>min_time_reference</code> dataset. This behavior can be modified with the <code>min_time</code> argument.</li>
 <li>Since the input data was deduplicated, the results must be aligned to the original inputs (which contained duplicates) so that the original data structure is preserved. Alternatively, if you only want to return unique results, you can specify <code>unique_only = TRUE</code>.</li>
 <li>This combined data is returned by <code><a href="../reference/geo.html">geo()</a></code> to the <code><a href="../reference/geocode.html">geocode()</a></code> function. The <code><a href="../reference/geocode.html">geocode()</a></code> function then combines the returned data with the original dataset.</li>
 </ul>

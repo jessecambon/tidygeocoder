@@ -58,18 +58,18 @@ Do not combine with the address component arguments below
 
 \item{method}{the geocoder service to be used. API keys are loaded from environmental variables. Run \code{usethis::edit_r_environ()} to open your .Renviron file and add an API key as an environmental variable. For example, add the line \code{GEOCODIO_API_KEY="YourAPIKeyHere"}.
 \itemize{
-\item \code{"osm"}: \href{https://nominatim.org}{Nominatim} geocoder service.
-\item \code{"census"}: \href{https://geocoding.geo.census.gov/}{US Census} geocoder service. Geographic coverage is limited to the United States.  Batch geocoding is supported.
-\item \code{"arcgis"}: \href{https://developers.arcgis.com/rest/geocode/api-reference/overview-world-geocoding-service.htm}{ArcGIS} geocoder service.
-\item \code{"geocodio"}: \href{https://www.geocod.io/}{Geocodio} geocoder service. Geographic coverage is limited to the United States and Canada. An API key must be stored in "GEOCODIO_API_KEY". Batch geocoding is supported.
-\item \code{"iq"}: \href{https://locationiq.com/}{Location IQ} geocoder service.  An API key must be stored in "LOCATIONIQ_API_KEY".
-\item \code{"google"}: \href{https://developers.google.com/maps/documentation/geocoding/overview}{Google} geocoder service.  An API key must be stored in "GOOGLEGEOCODE_API_KEY".
-\item \code{"opencage"}: \href{https://opencagedata.com}{OpenCage} geocoder service.  An API key must be stored in "OPENCAGE_KEY".
-\item \code{"mapbox"}: \href{https://docs.mapbox.com/api/search/}{Mapbox} geocoder service.  An API key must be stored in "MAPBOX_API_KEY".
-\item \code{"here"}: \href{https://developer.here.com/products/geocoding-and-search}{HERE} geocoder service.  An API key must be stored in "HERE_API_KEY". Batch geocoding is supported, but must be explicitly called with \code{mode = "batch"}.
-\item \code{"tomtom"}: \href{https://developer.tomtom.com/search-api/search-api-documentation/geocoding}{TomTom} geocoder service.  An API key must be stored in "TOMTOM_API_KEY". Batch geocoding is supported.
-\item \code{"mapquest"}: \href{https://developer.mapquest.com/documentation/geocoding-api/}{MapQuest} geocoder service.  An API key must be stored in "MAPQUEST_API_KEY". Batch geocoding is supported.
-\item \code{"bing"}: \href{https://docs.microsoft.com/en-us/bingmaps/rest-services/locations/}{Bing} geocoder service.  An API key must be stored in "BINGMAPS_API_KEY". Batch geocoding is supported, but must be explicitly called with \code{mode = "batch"}.
+\item \code{"osm"}: \href{https://nominatim.org}{Nominatim}.
+\item \code{"census"}: \href{https://geocoding.geo.census.gov/}{US Census}. Geographic coverage is limited to the United States.  Batch geocoding is supported.
+\item \code{"arcgis"}: \href{https://developers.arcgis.com/rest/geocode/api-reference/overview-world-geocoding-service.htm}{ArcGIS}.
+\item \code{"geocodio"}: \href{https://www.geocod.io/}{Geocodio}. Geographic coverage is limited to the United States and Canada. An API key must be stored in "GEOCODIO_API_KEY". Batch geocoding is supported.
+\item \code{"iq"}: \href{https://locationiq.com/}{Location IQ}.  An API key must be stored in "LOCATIONIQ_API_KEY".
+\item \code{"google"}: \href{https://developers.google.com/maps/documentation/geocoding/overview}{Google}.  An API key must be stored in "GOOGLEGEOCODE_API_KEY".
+\item \code{"opencage"}: \href{https://opencagedata.com}{OpenCage}.  An API key must be stored in "OPENCAGE_KEY".
+\item \code{"mapbox"}: \href{https://docs.mapbox.com/api/search/}{Mapbox}.  An API key must be stored in "MAPBOX_API_KEY".
+\item \code{"here"}: \href{https://developer.here.com/products/geocoding-and-search}{HERE}.  An API key must be stored in "HERE_API_KEY". Batch geocoding is supported, but must be explicitly called with \code{mode = "batch"}.
+\item \code{"tomtom"}: \href{https://developer.tomtom.com/search-api/search-api-documentation/geocoding}{TomTom}.  An API key must be stored in "TOMTOM_API_KEY". Batch geocoding is supported.
+\item \code{"mapquest"}: \href{https://developer.mapquest.com/documentation/geocoding-api/}{MapQuest}.  An API key must be stored in "MAPQUEST_API_KEY". Batch geocoding is supported.
+\item \code{"bing"}: \href{https://docs.microsoft.com/en-us/bingmaps/rest-services/locations/}{Bing}.  An API key must be stored in "BINGMAPS_API_KEY". Batch geocoding is supported, but must be explicitly called with \code{mode = "batch"}.
 \item \code{"cascade"} : First uses one geocoder service and then uses
 a second geocoder service if the first service didn't return results.
 The services and order is specified by the cascade_order argument.

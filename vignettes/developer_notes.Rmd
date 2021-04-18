@@ -47,9 +47,9 @@ Here is what is going on behind the scenes:
 
 - The `geocode()` function extracts the address data from the input dataframe and passes it to the `geo()` function.
 - The `geo()` function looks for unique inputs and prepares them for geocoding. In this case, there is one duplicate input so we only have two unique inputs.
-- The `geo()` function must figure out whether to use perform *single address geocoding* (1 address per query) or *batch geocoding* (multiple addresses per query). In this case the specified Nominatim ('osm') geocoder service does not have a batch geocoding function so single address geocoding is used.
+- The `geo()` function must figure out whether to use perform *single address geocoding* (1 address per query) or *batch geocoding* (multiple addresses per query). In this case the specified Nominatim ("osm") geocoder service does not have a batch geocoding function so single address geocoding is used.
 - Because single address geocoding is used, the `geo()` function is called once for each input to geocode all addresses (twice in this case) and the results are combined. If batch geocoding was used then the appropriate batch geocoding function would be called based on the geocoder service specified.
-- Because the specified geocoder service has a usage limit, the rate of querying is limited accordingly. By default this is based on the `min_time_reference` dataset. This behaviour can be modified with the `min_time` argument.
+- Because the specified geocoder service has a usage limit, the rate of querying is limited accordingly. By default this is based on the `min_time_reference` dataset. This behavior can be modified with the `min_time` argument.
 - Since the input data was deduplicated, the results must be aligned to the original inputs (which contained duplicates) so that the original data structure is preserved. Alternatively, if you only want to return unique results, you can specify `unique_only = TRUE`.
 - This combined data is returned by `geo()` to the `geocode()` function. The `geocode()` function then combines the returned data with the original dataset. 
 
