@@ -137,7 +137,7 @@
 <span class="co">#&gt; format : "json"</span>
 <span class="co">#&gt; benchmark : "Public_AR_Current"</span>
 <span class="co">#&gt; vintage : "Current_Current"</span>
-<span class="co">#&gt; Query completed in: 1.8 seconds</span>
+<span class="co">#&gt; Query completed in: 1.4 seconds</span>
 <span class="co">#&gt; </span></code></pre></div>
 <table class="table">
 <thead><tr class="header">
@@ -350,30 +350,33 @@
 </tbody>
 </table>
 <p>As mentioned earlier, the <code><a href="../reference/geocode.html">geocode()</a></code> function passes addresses in dataframes to the <code><a href="../reference/geo.html">geo()</a></code> function for geocoding so we can also directly use the <code><a href="../reference/geo.html">geo()</a></code> function in a similar way:</p>
+<!-- 
+Removing the licence column is done just to prevent a note from 
+occurring in automated CRAN checks for an improper/old link.
+-->
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">salz</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/geo.html">geo</a></span><span class="op">(</span><span class="st">"Salzburg, Austria"</span>, method <span class="op">=</span> <span class="st">"osm"</span>, full_results <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="va">salz</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/geo.html">geo</a></span><span class="op">(</span><span class="st">"Salzburg, Austria"</span>, method <span class="op">=</span> <span class="st">"osm"</span>, full_results <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op">%&gt;%</span>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="op">-</span><span class="va">licence</span><span class="op">)</span></code></pre></div>
 <table class="table">
 <colgroup>
+<col width="7%">
+<col width="3%">
+<col width="3%">
+<col width="3%">
+<col width="3%">
+<col width="2%">
+<col width="18%">
+<col width="10%">
+<col width="3%">
 <col width="5%">
-<col width="2%">
-<col width="2%">
-<col width="3%">
-<col width="21%">
-<col width="2%">
-<col width="2%">
-<col width="14%">
-<col width="8%">
-<col width="2%">
 <col width="4%">
-<col width="3%">
-<col width="26%">
+<col width="33%">
 </colgroup>
 <thead><tr class="header">
 <th align="left">address</th>
 <th align="right">lat</th>
 <th align="right">long</th>
 <th align="right">place_id</th>
-<th align="left">licence</th>
 <th align="left">osm_type</th>
 <th align="right">osm_id</th>
 <th align="left">boundingbox</th>
@@ -388,8 +391,6 @@
 <td align="right">47.79813</td>
 <td align="right">13.04648</td>
 <td align="right">257918086</td>
-<td align="left">Data © OpenStreetMap contributors, ODbL 1.0. <a href="https://osm.org/copyright" class="uri">https://osm.org/copyright</a>
-</td>
 <td align="left">relation</td>
 <td align="right">86538</td>
 <td align="left">47.7512115, 47.8543925, 12.9856478, 13.1272842</td>
@@ -616,7 +617,7 @@
 <span class="co">#&gt; polygon_geojson : "1"</span>
 <span class="co">#&gt; format : "json"</span>
 <span class="co">#&gt; HTTP Status Code: 200</span>
-<span class="co">#&gt; Query completed in: 0.1 seconds</span>
+<span class="co">#&gt; Query completed in: 0.2 seconds</span>
 <span class="co">#&gt; Total query time (including sleep): 1 seconds</span>
 <span class="co">#&gt; </span>
 

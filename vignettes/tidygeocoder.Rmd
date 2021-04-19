@@ -109,8 +109,13 @@ knitr::kable(census_full1)
 
 As mentioned earlier, the `geocode()` function passes addresses in dataframes to the `geo()` function for geocoding so we can also directly use the `geo()` function in a similar way:
 
+<!-- 
+Removing the licence column is done just to prevent a note from 
+occurring in automated CRAN checks for an improper/old link.
+-->
 ```{r}
-salz <- geo("Salzburg, Austria", method = "osm", full_results = TRUE)
+salz <- geo("Salzburg, Austria", method = "osm", full_results = TRUE) %>%
+  select(-licence)
 ```
 
 ```{r, echo = FALSE}
