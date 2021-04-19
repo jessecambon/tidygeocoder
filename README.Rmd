@@ -98,11 +98,15 @@ ggplot(lat_longs, aes(longitude, latitude), color = "grey99") +
 
 To perform reverse geocoding (obtaining addresses from geographic coordinates), we can use the `reverse_geocode()` function. The arguments are similar to the `geocode()` function, but now we specify the input data columns with the `lat` and `long` arguments. The dataset used here is from the geocoder query above. The single line address is returned in a column named by the `address` argument and all columns from the geocoder service are returned because `full_results = TRUE`. See the `reverse_geo()` function documentation for more details.
 
+<!-- 
+Removing the licence column is done just to prevent a note from 
+occurring in automated CRAN checks for an improper/old link.
+-->
 ```{r}
 reverse <- lat_longs %>%
-  select(-addr) %>%
   reverse_geocode(lat = latitude, long = longitude, method = 'osm',
-                  address = address_found, full_results = TRUE)
+                  address = address_found, full_results = TRUE) %>%
+  select(-addr, -licence)
 ```
 
 ```{r, echo = FALSE}

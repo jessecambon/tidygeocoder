@@ -182,33 +182,36 @@
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_void</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <p><img src="reference/figures/README-usamap-1.png" style="display: block; margin: auto;"></p>
 <p>To perform reverse geocoding (obtaining addresses from geographic coordinates), we can use the <code><a href="reference/reverse_geocode.html">reverse_geocode()</a></code> function. The arguments are similar to the <code><a href="reference/geocode.html">geocode()</a></code> function, but now we specify the input data columns with the <code>lat</code> and <code>long</code> arguments. The dataset used here is from the geocoder query above. The single line address is returned in a column named by the <code>address</code> argument and all columns from the geocoder service are returned because <code>full_results = TRUE</code>. See the <code><a href="reference/reverse_geo.html">reverse_geo()</a></code> function documentation for more details.</p>
+<!-- 
+Removing the licence column is done just to prevent a note from 
+occurring in automated CRAN checks for an improper/old link.
+-->
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">reverse</span> <span class="op">&lt;-</span> <span class="va">lat_longs</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="op">-</span><span class="va">addr</span><span class="op">)</span> <span class="op">%&gt;%</span>
   <span class="fu"><a href="reference/reverse_geocode.html">reverse_geocode</a></span><span class="op">(</span>lat <span class="op">=</span> <span class="va">latitude</span>, long <span class="op">=</span> <span class="va">longitude</span>, method <span class="op">=</span> <span class="st">'osm'</span>,
-                  address <span class="op">=</span> <span class="va">address_found</span>, full_results <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
+                  address <span class="op">=</span> <span class="va">address_found</span>, full_results <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op">%&gt;%</span>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="op">-</span><span class="va">addr</span>, <span class="op">-</span><span class="va">licence</span><span class="op">)</span></code></pre></div>
 <table class="table">
 <colgroup>
-<col width="3%">
+<col width="4%">
 <col width="1%">
-<col width="1%">
-<col width="25%">
-<col width="1%">
-<col width="11%">
-<col width="1%">
-<col width="1%">
+<col width="2%">
+<col width="29%">
+<col width="2%">
+<col width="2%">
+<col width="2%">
 <col width="3%">
 <col width="3%">
 <col width="2%">
+<col width="2%">
+<col width="5%">
 <col width="2%">
 <col width="4%">
-<col width="2%">
-<col width="3%">
 <col width="1%">
 <col width="2%">
 <col width="2%">
-<col width="8%">
-<col width="3%">
+<col width="9%">
+<col width="4%">
 <col width="3%">
 <col width="2%">
 <col width="2%">
@@ -220,7 +223,6 @@
 <th align="right">longitude</th>
 <th align="left">address_found</th>
 <th align="right">place_id</th>
-<th align="left">licence</th>
 <th align="left">osm_type</th>
 <th align="right">osm_id</th>
 <th align="left">osm_lat</th>
@@ -247,8 +249,6 @@
 <td align="right">-77.03655</td>
 <td align="left">White House, 1600, Pennsylvania Avenue Northwest, Washington, District of Columbia, 20500, United States</td>
 <td align="right">147370893</td>
-<td align="left">Data © OpenStreetMap contributors, ODbL 1.0. <a href="https://osm.org/copyright" class="uri">https://osm.org/copyright</a>
-</td>
 <td align="left">way</td>
 <td align="right">238241022</td>
 <td align="left">38.897699700000004</td>
@@ -274,8 +274,6 @@
 <td align="right">-122.40279</td>
 <td align="left">Transamerica Pyramid, 600, Montgomery Street, Financial District, San Francisco, San Francisco City and County, San Francisco, California, 94111, United States</td>
 <td align="right">95364489</td>
-<td align="left">Data © OpenStreetMap contributors, ODbL 1.0. <a href="https://osm.org/copyright" class="uri">https://osm.org/copyright</a>
-</td>
 <td align="left">way</td>
 <td align="right">24222973</td>
 <td align="left">37.795200550000004</td>
@@ -301,8 +299,6 @@
 <td align="right">-87.63591</td>
 <td align="left">Willis Tower, 233, South Wacker Drive, Printer’s Row, Loop, Chicago, Cook County, Illinois, 60606, United States</td>
 <td align="right">103673983</td>
-<td align="left">Data © OpenStreetMap contributors, ODbL 1.0. <a href="https://osm.org/copyright" class="uri">https://osm.org/copyright</a>
-</td>
 <td align="left">way</td>
 <td align="right">58528804</td>
 <td align="left">41.878871700000005</td>
