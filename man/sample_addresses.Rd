@@ -3,7 +3,7 @@
 \docType{data}
 \name{sample_addresses}
 \alias{sample_addresses}
-\title{Some sample addresses for testing}
+\title{Sample addresses for testing}
 \format{
 A tibble dataframe with single line addresses
 \describe{
@@ -15,6 +15,6 @@ A tibble dataframe with single line addresses
 sample_addresses
 }
 \description{
-Some sample addresses for testing
+Sample addresses for testing
 }
 \keyword{datasets}

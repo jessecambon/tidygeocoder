@@ -22,12 +22,11 @@ library(dplyr)
 
 ## Overview
 
-The supported geocoder services are shown in the table below along with if they require an API key, if they support batch geocoding, and if there are usage rate limitations. The "method" is used to specify the geocoder service in tidygeocoder functions such as `geo()` and `reverse_geo()`. Refer to each service's API documentation for more details.
+The supported geocoder services are shown in the table below. The `method` is used to select the geocoder service in tidygeocoder functions such as `geo()` and `reverse_geo()`. Refer to each service's API documentation for more details.
 
 
 ```{r, echo = FALSE, message = FALSE, warning = FALSE, output = 'asis'}
 library(dplyr)
-
 check_mark <- "\U2705" #unicode character for heavy white check mark
 
 geocoder_summary_table <-
@@ -99,9 +98,21 @@ api_parameter_reference %>%
   )
 ```
 
+## API Key Retrieval
+
+API keys are retrieved from environmental variables. The name of the environmental variable used for each service is stored in the `api_key_reference` dataset. See `?api_key_reference`.
+
+```{r, echo = FALSE}
+api_key_reference %>%
+  gt() %>%
+  opt_table_outline() %>%
+  opt_table_lines() %>%
+  tab_options(column_labels.font.weight = 'bold')
+```
+
 ## Minimum Time Per Query
 
-The minimum time (in seconds) required per query to comply with the usage limitations is stored in the `min_time_reference` dataset. See `?min_time_reference`.
+The minimum time (in seconds) required per query to comply with the usage limitations policies of each geocoder service is stored in the `min_time_reference` dataset. See `?min_time_reference`.
 
 ```{r, echo = FALSE}
 min_time_reference %>%
@@ -118,26 +129,14 @@ Links to the usage policies for each geocoder service:
 cat(tidygeocoder:::get_api_usage_bullets(), sep = '\n')
 ```
 
-## Batch Query Limits
+## Batch Query Size Limits
 
-The maximum number of inputs (geographic coordinates or addresses) per batch query is stored in the `batch_limit_reference` dataset. See `?batch_limit_reference`.
+The maximum number of inputs (geographic coordinates or addresses) per batch query for each geocoder service is stored in the `batch_limit_reference` dataset. See `?batch_limit_reference`.
 
 ```{r, echo = FALSE}
 batch_limit_reference %>%
   gt() %>%
   fmt_number(columns = 'batch_limit', decimals = 0) %>%
-  opt_table_outline() %>%
-  opt_table_lines() %>%
-  tab_options(column_labels.font.weight = 'bold')
-```
-
-## API Key Retrieval 
-
-API keys are retrieved from environmental variables. The name of the environmental variable used for each service is stored in the `api_key_reference` dataset. See `?api_key_reference`.
-
-```{r, echo = FALSE}
-api_key_reference %>%
-  gt() %>%
   opt_table_outline() %>%
   opt_table_lines() %>%
   tab_options(column_labels.font.weight = 'bold')

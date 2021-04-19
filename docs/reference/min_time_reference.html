@@ -47,9 +47,9 @@
 
 <meta property="og:title" content="Minimum time required per query — min_time_reference" />
 <meta property="og:description" content="The geo and reverse_geo functions use this dataset
-to set the default maximum query rate for each geocoder service.
-This rate is based on the usage restriction policies for the
-geocoder services." />
+to set the maximum query rate for each geocoder service.
+This rate is based on the usage restriction policies for
+each geocoder service." />
 
 
 
@@ -81,13 +81,16 @@ geocoder services." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">tidygeocoder</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.2.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.3</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
-        <li class="dropdown">
+        <li>
+  <a href="../articles/geocoder_services.html">Geocoder Services</a>
+</li>
+<li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
     Articles
      
@@ -96,9 +99,6 @@ geocoder services." />
   <ul class="dropdown-menu" role="menu">
     <li>
       <a href="../articles/tidygeocoder.html">Getting Started</a>
-    </li>
-    <li>
-      <a href="../articles/geocoder_services.html">Geocoder Services</a>
     </li>
     <li>
       <a href="../articles/developer_notes.html">Developer Notes</a>
@@ -145,9 +145,9 @@ geocoder services." />
 
     <div class="ref-description">
     <p>The <a href='geo.html'>geo</a> and <a href='reverse_geo.html'>reverse_geo</a> functions use this dataset
-to set the default maximum query rate for each geocoder service.
-This rate is based on the usage restriction policies for the
-geocoder services.</p>
+to set the maximum query rate for each geocoder service.
+This rate is based on the usage restriction policies for
+each geocoder service.</p>
     </div>
 
     <pre class="usage"><span class='va'>min_time_reference</span></pre>
@@ -172,14 +172,16 @@ geocoder services.</p>
 <li><p><a href='https://locationiq.com/pricing'>Location IQ</a></p></li>
 <li><p><a href='https://developers.google.com/maps/documentation/geocoding/usage-and-billing'>Google</a></p></li>
 <li><p><a href='https://opencagedata.com/pricing'>OpenCage</a></p></li>
-<li><p><a href='https://www.mapbox.com/pricing/-search'>Mapbox</a></p></li>
+<li><p><a href='https://www.mapbox.com/pricing/'>Mapbox</a></p></li>
 <li><p><a href='https://developer.here.com/pricing'>HERE</a></p></li>
 <li><p><a href='https://developer.tomtom.com/store/maps-api'>TomTom</a></p></li>
 <li><p><a href='https://developer.mapquest.com/plans'>MapQuest</a></p></li>
 <li><p><a href='https://docs.microsoft.com/en-us/bingmaps/spatial-data-services/geocode-and-data-source-limits'>Bing</a></p></li>
 </ul>
 
-<p>#' @seealso <a href='geo.html'>geo</a> <a href='reverse_geo.html'>reverse_geo</a></p>
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <div class='dont-index'><p><a href='geo.html'>geo</a> <a href='reverse_geo.html'>reverse_geo</a></p></div>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
@@ -192,7 +194,7 @@ geocoder services.</p>
 
       <footer>
       <div class="copyright">
-  <p>Developed by <a href='https://jessecambon.github.io'>Jesse Cambon</a>, <a href='https://github.com/dieghernan'>Diego Hernangómez</a>, Christopher Belanger, Daniel Possenriede.</p>
+  <p>Developed by <a href='https://jessecambon.github.io'>Jesse Cambon</a>, <a href='https://github.com/dieghernan'>Diego Hernangómez</a>, <a href='https://github.com/chris31415926535'>Christopher Belanger</a>, <a href='https://github.com/dpprdan'>Daniel Possenriede</a>.</p>
 </div>
 
 <div class="pkgdown">

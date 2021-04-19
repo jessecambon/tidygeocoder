@@ -53,7 +53,7 @@ api_info_reference <- tibble::tribble(
   "iq",       "Location IQ", "https://locationiq.com/", "https://locationiq.com/docs", "https://locationiq.com/pricing",
   "google",   "Google", "https://developers.google.com/maps/documentation/geocoding/overview", "https://developers.google.com/maps/documentation/geocoding/overview", "https://developers.google.com/maps/documentation/geocoding/usage-and-billing",
   "opencage", "OpenCage", "https://opencagedata.com", "https://opencagedata.com/api", "https://opencagedata.com/pricing",
-  "mapbox",   "Mapbox", "https://docs.mapbox.com/api/search/", "https://docs.mapbox.com/api/search/geocoding/", "https://www.mapbox.com/pricing/-search",
+  "mapbox",   "Mapbox", "https://docs.mapbox.com/api/search/", "https://docs.mapbox.com/api/search/geocoding/", "https://www.mapbox.com/pricing/",
   "here",     "HERE", "https://developer.here.com/products/geocoding-and-search", "https://developer.here.com/documentation/geocoding-search-api/dev_guide/index.html", "https://developer.here.com/pricing",
   "tomtom",   "TomTom", "https://developer.tomtom.com/search-api/search-api-documentation/geocoding", "https://developer.tomtom.com/search-api/search-api-documentation-geocoding/geocode", "https://developer.tomtom.com/store/maps-api",
   "mapquest", "MapQuest", "https://developer.mapquest.com/documentation/geocoding-api/", "https://developer.mapquest.com/documentation/geocoding-api/", "https://developer.mapquest.com/plans",

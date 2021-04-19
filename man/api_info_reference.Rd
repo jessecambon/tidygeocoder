@@ -3,7 +3,7 @@
 \docType{data}
 \name{api_info_reference}
 \alias{api_info_reference}
-\title{Geocoder service links and info}
+\title{Geocoder service links and information}
 \format{
 A tibble dataframe
 \describe{
@@ -18,6 +18,6 @@ A tibble dataframe
 api_info_reference
 }
 \description{
-Geocoder service links and info
+This dataset is used for generating package documentation.
 }
 \keyword{datasets}

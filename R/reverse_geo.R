@@ -57,6 +57,10 @@ get_coord_parameters <- function(custom_query, method, lat, long) {
 #' longitudes must be between -180 and 180. Invalid values will not be sent to the geocoder service. 
 #' The [reverse_geocode] function utilizes this function on coordinates contained in dataframes.
 #' See example usage in `vignette("tidygeocoder")`.
+#' 
+#' Refer to [api_parameter_reference],
+#' [min_time_reference], and [batch_limit_reference] for more details on 
+#' geocoder service parameters and usage. 
 #'
 #' This function uses the [get_api_query], [query_api], and
 #' [extract_reverse_results] functions to create, execute, and parse geocoder
@@ -88,8 +92,11 @@ get_coord_parameters <- function(custom_query, method, lat, long) {
 #' \donttest{
 #'  reverse_geo(lat = 38.895865, long = -77.0307713, method = 'osm', verbose = TRUE)
 #'  
-#'  reverse_geo(lat = c(38.895865, 43.6534817, 300), 
-#'  long = c(-77.0307713, -79.3839347, 600), method = 'osm', full_results = TRUE, verbose = TRUE)
+#'  reverse_geo(
+#'    lat = c(38.895865, 43.6534817, 300), 
+#'    long = c(-77.0307713, -79.3839347, 600),
+#'    method = 'osm', full_results = TRUE, verbose = TRUE
+#'  )
 #'  
 #' }
 #' @seealso [reverse_geocode] [api_parameter_reference] [min_time_reference] [batch_limit_reference]
@@ -209,7 +216,7 @@ reverse_geo <- function(lat, long, method = 'osm', address = address, limit = 1,
     
     # Enforce batch limit if needed
     if (num_unique_coords > batch_limit) {
-      stop(paste0(format(num_unique_coords, big.mark = ','), ' unique coordinates found which exceeds the batch limit of',
+      stop(paste0(format(num_unique_coords, big.mark = ','), ' unique coordinates found which exceeds the batch limit of ',
             format(batch_limit, big.mark = ','), '.'), call. = FALSE)
     }
     

@@ -3,7 +3,7 @@
 \docType{data}
 \name{api_key_reference}
 \alias{api_key_reference}
-\title{API Key Environmental Variables}
+\title{API key environmental variables}
 \format{
 A tibble dataframe
 \describe{
@@ -15,7 +15,10 @@ A tibble dataframe
 api_key_reference
 }
 \description{
-API Key Environmental Variables
+API keys are obtained from environmental variables.
+The \link{geo} and \link{reverse_geo} functions use this dataset
+to know which environmental variable to use for
+each geocoder service.
 }
 \seealso{
 \link{geo} \link{reverse_geo}

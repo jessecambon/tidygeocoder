@@ -34,12 +34,15 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">tidygeocoder</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.2.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.3</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
+<li>
+  <a href="../articles/geocoder_services.html">Geocoder Services</a>
+</li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
     Articles
@@ -49,9 +52,6 @@
   <ul class="dropdown-menu" role="menu">
 <li>
       <a href="../articles/tidygeocoder.html">Getting Started</a>
-    </li>
-    <li>
-      <a href="../articles/geocoder_services.html">Geocoder Services</a>
     </li>
     <li>
       <a href="../articles/developer_notes.html">Developer Notes</a>
@@ -110,7 +110,7 @@
 <div id="overview" class="section level2">
 <h2 class="hasAnchor">
 <a href="#overview" class="anchor"></a>Overview</h2>
-<p>The supported geocoder services are shown in the table below along with if they require an API key, if they support batch geocoding, and if there are usage rate limitations. The “method” is used to specify the geocoder service in tidygeocoder functions such as <code><a href="../reference/geo.html">geo()</a></code> and <code><a href="../reference/reverse_geo.html">reverse_geo()</a></code>. Refer to each service’s API documentation for more details.</p>
+<p>The supported geocoder services are shown in the table below. The <code>method</code> is used to select the geocoder service in tidygeocoder functions such as <code><a href="../reference/geo.html">geo()</a></code> and <code><a href="../reference/reverse_geo.html">reverse_geo()</a></code>. Refer to each service’s API documentation for more details.</p>
 <table class="table">
 <colgroup>
 <col width="32%">
@@ -263,10 +263,10 @@
 <div id="htmlwidget-30e4409849e39179307f" style="width:100%;height:auto;" class="datatables html-widget"></div>
 <script type="application/json" data-for="htmlwidget-30e4409849e39179307f">{"x":{"filter":"top","filterHTML":"<tr>\n  <td data-type=\"factor\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"width: 100%; display: none;\">\n      <select multiple=\"multiple\" style=\"width: 100%;\" data-options=\"[&quot;arcgis&quot;,&quot;bing&quot;,&quot;census&quot;,&quot;geocodio&quot;,&quot;google&quot;,&quot;here&quot;,&quot;iq&quot;,&quot;mapbox&quot;,&quot;mapquest&quot;,&quot;opencage&quot;,&quot;osm&quot;,&quot;tomtom&quot;]\"><\/select>\n    <\/div>\n  <\/td>\n  <td data-type=\"factor\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"width: 100%; display: none;\">\n      <select multiple=\"multiple\" style=\"width: 100%;\" data-options=\"[&quot;address&quot;,&quot;api_key&quot;,&quot;city&quot;,&quot;country&quot;,&quot;county&quot;,&quot;format&quot;,&quot;limit&quot;,&quot;postalcode&quot;,&quot;state&quot;,&quot;street&quot;]\"><\/select>\n    <\/div>\n  <\/td>\n  <td data-type=\"factor\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"width: 100%; display: none;\">\n      <select multiple=\"multiple\" style=\"width: 100%;\" data-options=\"[&quot;access_token&quot;,&quot;address&quot;,&quot;api_key&quot;,&quot;apiKey&quot;,&quot;benchmark&quot;,&quot;city&quot;,&quot;country&quot;,&quot;county&quot;,&quot;f&quot;,&quot;format&quot;,&quot;key&quot;,&quot;limit&quot;,&quot;location&quot;,&quot;maxLocations&quot;,&quot;maxResults&quot;,&quot;postal_code&quot;,&quot;postalcode&quot;,&quot;q&quot;,&quot;query&quot;,&quot;search_text&quot;,&quot;SingleLine&quot;,&quot;state&quot;,&quot;street&quot;,&quot;vintage&quot;,&quot;zip&quot;]\"><\/select>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"logical\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"width: 100%; display: none;\">\n      <select multiple=\"multiple\" style=\"width: 100%;\" data-options=\"[&quot;true&quot;,&quot;false&quot;]\"><\/select>\n    <\/div>\n  <\/td>\n<\/tr>","data":[["census","census","census","census","census","census","census","census","osm","osm","osm","osm","osm","osm","osm","osm","osm","iq","iq","iq","iq","iq","iq","iq","iq","iq","iq","geocodio","geocodio","geocodio","geocodio","geocodio","geocodio","geocodio","geocodio","google","google","opencage","opencage","opencage","mapbox","mapbox","mapbox","here","here","here","tomtom","tomtom","tomtom","mapquest","mapquest","mapquest","bing","bing","bing","arcgis","arcgis","arcgis"],["format",null,null,"address","street","city","state","postalcode","format","limit","address","street","city","county","state","postalcode","country","api_key","format","limit","address","street","city","county","state","postalcode","country","api_key","limit","address","street","city","state","postalcode","country","api_key","address","api_key","address","limit","api_key","address","limit","api_key","address","limit","api_key","address","limit","api_key","address","limit","api_key","address","limit","address","limit","format"],["format","benchmark","vintage","address","street","city","state","zip","format","limit","q","street","city","county","state","postalcode","country","key","format","limit","q","street","city","county","state","postalcode","country","api_key","limit","q","street","city","state","postal_code","country","key","address","key","q","limit","access_token","search_text","limit","apiKey","q","limit","key","query","limit","key","location","maxResults","key","q","maxResults","SingleLine","maxLocations","f"],["json","Public_AR_Current","Current_Current",null,null,null,null,null,"json","1",null,null,null,null,null,null,null,null,"json","1",null,null,null,null,null,null,null,null,"1",null,null,null,null,null,null,null,null,null,null,"1",null,null,"1",null,null,"1",null,null,"1",null,null,"1",null,null,"1",null,"1","json"],[true,true,true,false,false,false,false,false,true,false,false,false,false,false,false,false,false,true,true,false,false,false,false,false,false,false,false,true,false,false,false,false,false,false,false,true,true,true,true,false,true,true,false,true,true,false,true,true,false,true,true,false,true,true,false,false,false,true]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>method<\/th>\n      <th>generic_name<\/th>\n      <th>api_name<\/th>\n      <th>default_value<\/th>\n      <th>required<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"lengthMenu":[5,10,15,20,58],"pageLength":10,"autoWidth":true,"order":[],"orderClasses":false,"orderCellsTop":true}},"evals":[],"jsHooks":[]}</script>
 </div>
-<div id="minimum-time-per-query" class="section level2">
+<div id="api-key-retrieval" class="section level2">
 <h2 class="hasAnchor">
-<a href="#minimum-time-per-query" class="anchor"></a>Minimum Time Per Query</h2>
-<p>The minimum time (in seconds) required per query to comply with the usage limitations is stored in the <code>min_time_reference</code> dataset. See <code><a href="../reference/min_time_reference.html">?min_time_reference</a></code>.</p>
+<a href="#api-key-retrieval" class="anchor"></a>API Key Retrieval</h2>
+<p>API keys are retrieved from environmental variables. The name of the environmental variable used for each service is stored in the <code>api_key_reference</code> dataset. See <code><a href="../reference/api_key_reference.html">?api_key_reference</a></code>.</p>
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
@@ -606,73 +606,52 @@
 <div id="qeayjdrzqo" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;"><table class="table gt_table">
 <thead class="gt_col_headings"><tr>
 <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1">method</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">min_time</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1">description</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1">env_var</th>
     </tr></thead>
 <tbody class="gt_table_body">
 <tr>
-<td class="gt_row gt_left">osm</td>
-      <td class="gt_row gt_right">1.00</td>
-      <td class="gt_row gt_left">1 query per second</td>
-    </tr>
-<tr>
 <td class="gt_row gt_left">geocodio</td>
-      <td class="gt_row gt_right">0.06</td>
-      <td class="gt_row gt_left">1000 queries per minute (free tier)</td>
+      <td class="gt_row gt_left">GEOCODIO_API_KEY</td>
     </tr>
 <tr>
 <td class="gt_row gt_left">iq</td>
-      <td class="gt_row gt_right">0.50</td>
-      <td class="gt_row gt_left">2 queries per second (free tier)</td>
+      <td class="gt_row gt_left">LOCATIONIQ_API_KEY</td>
     </tr>
 <tr>
 <td class="gt_row gt_left">google</td>
-      <td class="gt_row gt_right">0.02</td>
-      <td class="gt_row gt_left">50 queries per second</td>
+      <td class="gt_row gt_left">GOOGLEGEOCODE_API_KEY</td>
     </tr>
 <tr>
 <td class="gt_row gt_left">opencage</td>
-      <td class="gt_row gt_right">1.00</td>
-      <td class="gt_row gt_left">1 query per second</td>
+      <td class="gt_row gt_left">OPENCAGE_KEY</td>
     </tr>
 <tr>
 <td class="gt_row gt_left">mapbox</td>
-      <td class="gt_row gt_right">0.10</td>
-      <td class="gt_row gt_left">600 queries per minute (free tier)</td>
-    </tr>
-<tr>
-<td class="gt_row gt_left">tomtom</td>
-      <td class="gt_row gt_right">0.20</td>
-      <td class="gt_row gt_left">5 queries per second (free tier)</td>
+      <td class="gt_row gt_left">MAPBOX_API_KEY</td>
     </tr>
 <tr>
 <td class="gt_row gt_left">here</td>
-      <td class="gt_row gt_right">0.20</td>
-      <td class="gt_row gt_left">5 queries per second (free tier)</td>
+      <td class="gt_row gt_left">HERE_API_KEY</td>
+    </tr>
+<tr>
+<td class="gt_row gt_left">tomtom</td>
+      <td class="gt_row gt_left">TOMTOM_API_KEY</td>
+    </tr>
+<tr>
+<td class="gt_row gt_left">mapquest</td>
+      <td class="gt_row gt_left">MAPQUEST_API_KEY</td>
+    </tr>
+<tr>
+<td class="gt_row gt_left">bing</td>
+      <td class="gt_row gt_left">BINGMAPS_API_KEY</td>
     </tr>
 </tbody>
 </table></div>
-<!-- https://bookdown.org/yihui/rmarkdown-cookbook/results-asis.html -->
-<p>Links to the usage policies for each geocoder service:</p>
-<ul>
-<li><a href="https://operations.osmfoundation.org/policies/nominatim/">Nominatim</a></li>
-<li><a href="https://www.census.gov/programs-surveys/geography/technical-documentation/complete-technical-documentation/census-geocoder.html">US Census</a></li>
-<li><a href="https://developers.arcgis.com/rest/geocode/api-reference/geocoding-free-vs-paid.htm">ArcGIS</a></li>
-<li><a href="https://www.geocod.io/pricing/">Geocodio</a></li>
-<li><a href="https://locationiq.com/pricing">Location IQ</a></li>
-<li><a href="https://developers.google.com/maps/documentation/geocoding/usage-and-billing">Google</a></li>
-<li><a href="https://opencagedata.com/pricing">OpenCage</a></li>
-<li><a href="https://www.mapbox.com/pricing/-search">Mapbox</a></li>
-<li><a href="https://developer.here.com/pricing">HERE</a></li>
-<li><a href="https://developer.tomtom.com/store/maps-api">TomTom</a></li>
-<li><a href="https://developer.mapquest.com/plans">MapQuest</a></li>
-<li><a href="https://docs.microsoft.com/en-us/bingmaps/spatial-data-services/geocode-and-data-source-limits">Bing</a></li>
-</ul>
 </div>
-<div id="batch-query-limits" class="section level2">
+<div id="minimum-time-per-query" class="section level2">
 <h2 class="hasAnchor">
-<a href="#batch-query-limits" class="anchor"></a>Batch Query Limits</h2>
-<p>The maximum number of inputs (geographic coordinates or addresses) per batch query is stored in the <code>batch_limit_reference</code> dataset. See <code><a href="../reference/batch_limit_reference.html">?batch_limit_reference</a></code>.</p>
+<a href="#minimum-time-per-query" class="anchor"></a>Minimum Time Per Query</h2>
+<p>The minimum time (in seconds) required per query to comply with the usage limitations policies of each geocoder service is stored in the <code>min_time_reference</code> dataset. See <code><a href="../reference/min_time_reference.html">?min_time_reference</a></code>.</p>
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
@@ -1012,40 +991,73 @@
 <div id="xgdyentzro" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;"><table class="table gt_table">
 <thead class="gt_col_headings"><tr>
 <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1">method</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">batch_limit</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">min_time</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1">description</th>
     </tr></thead>
 <tbody class="gt_table_body">
 <tr>
-<td class="gt_row gt_left">census</td>
-      <td class="gt_row gt_right">10,000</td>
+<td class="gt_row gt_left">osm</td>
+      <td class="gt_row gt_right">1.00</td>
+      <td class="gt_row gt_left">1 query per second</td>
     </tr>
 <tr>
 <td class="gt_row gt_left">geocodio</td>
-      <td class="gt_row gt_right">10,000</td>
+      <td class="gt_row gt_right">0.06</td>
+      <td class="gt_row gt_left">1000 queries per minute (free tier)</td>
+    </tr>
+<tr>
+<td class="gt_row gt_left">iq</td>
+      <td class="gt_row gt_right">0.50</td>
+      <td class="gt_row gt_left">2 queries per second (free tier)</td>
+    </tr>
+<tr>
+<td class="gt_row gt_left">google</td>
+      <td class="gt_row gt_right">0.02</td>
+      <td class="gt_row gt_left">50 queries per second</td>
+    </tr>
+<tr>
+<td class="gt_row gt_left">opencage</td>
+      <td class="gt_row gt_right">1.00</td>
+      <td class="gt_row gt_left">1 query per second</td>
+    </tr>
+<tr>
+<td class="gt_row gt_left">mapbox</td>
+      <td class="gt_row gt_right">0.10</td>
+      <td class="gt_row gt_left">600 queries per minute (free tier)</td>
     </tr>
 <tr>
 <td class="gt_row gt_left">tomtom</td>
-      <td class="gt_row gt_right">10,000</td>
+      <td class="gt_row gt_right">0.20</td>
+      <td class="gt_row gt_left">5 queries per second (free tier)</td>
     </tr>
 <tr>
 <td class="gt_row gt_left">here</td>
-      <td class="gt_row gt_right">1,000,000</td>
-    </tr>
-<tr>
-<td class="gt_row gt_left">mapquest</td>
-      <td class="gt_row gt_right">100</td>
-    </tr>
-<tr>
-<td class="gt_row gt_left">bing</td>
-      <td class="gt_row gt_right">50</td>
+      <td class="gt_row gt_right">0.20</td>
+      <td class="gt_row gt_left">5 queries per second (free tier)</td>
     </tr>
 </tbody>
 </table></div>
+<!-- https://bookdown.org/yihui/rmarkdown-cookbook/results-asis.html -->
+<p>Links to the usage policies for each geocoder service:</p>
+<ul>
+<li><a href="https://operations.osmfoundation.org/policies/nominatim/">Nominatim</a></li>
+<li><a href="https://www.census.gov/programs-surveys/geography/technical-documentation/complete-technical-documentation/census-geocoder.html">US Census</a></li>
+<li><a href="https://developers.arcgis.com/rest/geocode/api-reference/geocoding-free-vs-paid.htm">ArcGIS</a></li>
+<li><a href="https://www.geocod.io/pricing/">Geocodio</a></li>
+<li><a href="https://locationiq.com/pricing">Location IQ</a></li>
+<li><a href="https://developers.google.com/maps/documentation/geocoding/usage-and-billing">Google</a></li>
+<li><a href="https://opencagedata.com/pricing">OpenCage</a></li>
+<li><a href="https://www.mapbox.com/pricing/">Mapbox</a></li>
+<li><a href="https://developer.here.com/pricing">HERE</a></li>
+<li><a href="https://developer.tomtom.com/store/maps-api">TomTom</a></li>
+<li><a href="https://developer.mapquest.com/plans">MapQuest</a></li>
+<li><a href="https://docs.microsoft.com/en-us/bingmaps/spatial-data-services/geocode-and-data-source-limits">Bing</a></li>
+</ul>
 </div>
-<div id="api-key-retrieval" class="section level2">
+<div id="batch-query-size-limits" class="section level2">
 <h2 class="hasAnchor">
-<a href="#api-key-retrieval" class="anchor"></a>API Key Retrieval</h2>
-<p>API keys are retrieved from environmental variables. The name of the environmental variable used for each service is stored in the <code>api_key_reference</code> dataset. See <code><a href="../reference/api_key_reference.html">?api_key_reference</a></code>.</p>
+<a href="#batch-query-size-limits" class="anchor"></a>Batch Query Size Limits</h2>
+<p>The maximum number of inputs (geographic coordinates or addresses) per batch query for each geocoder service is stored in the <code>batch_limit_reference</code> dataset. See <code><a href="../reference/batch_limit_reference.html">?batch_limit_reference</a></code>.</p>
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
@@ -1385,44 +1397,32 @@
 <div id="ciydemetbh" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;"><table class="table gt_table">
 <thead class="gt_col_headings"><tr>
 <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1">method</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1">env_var</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">batch_limit</th>
     </tr></thead>
 <tbody class="gt_table_body">
 <tr>
+<td class="gt_row gt_left">census</td>
+      <td class="gt_row gt_right">10,000</td>
+    </tr>
+<tr>
 <td class="gt_row gt_left">geocodio</td>
-      <td class="gt_row gt_left">GEOCODIO_API_KEY</td>
-    </tr>
-<tr>
-<td class="gt_row gt_left">iq</td>
-      <td class="gt_row gt_left">LOCATIONIQ_API_KEY</td>
-    </tr>
-<tr>
-<td class="gt_row gt_left">google</td>
-      <td class="gt_row gt_left">GOOGLEGEOCODE_API_KEY</td>
-    </tr>
-<tr>
-<td class="gt_row gt_left">opencage</td>
-      <td class="gt_row gt_left">OPENCAGE_KEY</td>
-    </tr>
-<tr>
-<td class="gt_row gt_left">mapbox</td>
-      <td class="gt_row gt_left">MAPBOX_API_KEY</td>
-    </tr>
-<tr>
-<td class="gt_row gt_left">here</td>
-      <td class="gt_row gt_left">HERE_API_KEY</td>
+      <td class="gt_row gt_right">10,000</td>
     </tr>
 <tr>
 <td class="gt_row gt_left">tomtom</td>
-      <td class="gt_row gt_left">TOMTOM_API_KEY</td>
+      <td class="gt_row gt_right">10,000</td>
+    </tr>
+<tr>
+<td class="gt_row gt_left">here</td>
+      <td class="gt_row gt_right">1,000,000</td>
     </tr>
 <tr>
 <td class="gt_row gt_left">mapquest</td>
-      <td class="gt_row gt_left">MAPQUEST_API_KEY</td>
+      <td class="gt_row gt_right">100</td>
     </tr>
 <tr>
 <td class="gt_row gt_left">bing</td>
-      <td class="gt_row gt_left">BINGMAPS_API_KEY</td>
+      <td class="gt_row gt_right">50</td>
     </tr>
 </tbody>
 </table></div>
@@ -1440,7 +1440,7 @@
 
 
       <footer><div class="copyright">
-  <p>Developed by <a href="https://jessecambon.github.io">Jesse Cambon</a>, <a href="https://github.com/dieghernan">Diego Hernangómez</a>, Christopher Belanger, Daniel Possenriede.</p>
+  <p>Developed by <a href="https://jessecambon.github.io">Jesse Cambon</a>, <a href="https://github.com/dieghernan">Diego Hernangómez</a>, <a href="https://github.com/chris31415926535">Christopher Belanger</a>, <a href="https://github.com/dpprdan">Daniel Possenriede</a>.</p>
 </div>
 
 <div class="pkgdown">

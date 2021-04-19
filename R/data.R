@@ -1,4 +1,4 @@
-#' Some sample addresses for testing
+#' Sample addresses for testing
 #'
 #' @format A tibble dataframe with single line addresses
 #' \describe{
@@ -16,7 +16,7 @@
 #'  \item{state}{state}
 #'  \item{zip}{zip code}
 #' }
-#' @source Downloaded from [http://results.openaddresses.io/sources/us/ky/jefferson](OpenAddresses.io)
+#' @source Downloaded from [OpenAddresses.io](https://results.openaddresses.io/sources/us/ky/jefferson)
 #'  on June 1st 2020
 "louisville"
 
@@ -30,7 +30,7 @@
 #' 
 #' The `generic_name` column is a universal parameter name that is shared between services.
 #' The `api_name` column is the parameter name for the given geocoder service specified by the
-#'`method` column. When `generic_name` is missing 
+#' `method` column. When `generic_name` is missing 
 #' this means the parameter is specific to that geocoder service.
 #' 
 #' While the `r create_comma_list(pkg.globals$limit_passthru_methods, wrap ='"')` services do not have a `limit`
@@ -41,7 +41,7 @@
 #' Note that some geocoder services only use the `limit` argument for forward geocoding.
 #' Refer to API documentation of each service for more information.
 #'  
-#' Reference the documentation for `geo` and `reverse_geo`  for more information. 
+#' Reference the documentation for [geo] and [reverse_geo] for more information. 
 #' Also reference `vignette("tidygeocoder")` for more details on constructing API queries.
 #'
 #' @format A tibble dataframe
@@ -63,7 +63,10 @@
 #' 
 "api_parameter_reference"
 
-#' Limits for batch sizes
+#' Geocoding batch size limits
+#' 
+#' The [geo] and [reverse_geo] functions use this dataset to set the
+#' maximum batch query size for each service.
 #'
 #' @format A tibble dataframe
 #' \describe{
@@ -77,9 +80,9 @@
 #' Minimum time required per query
 #' 
 #' The [geo] and [reverse_geo] functions use this dataset
-#' to set the default maximum query rate for each geocoder service.
-#' This rate is based on the usage restriction policies for the 
-#' geocoder services.
+#' to set the maximum query rate for each geocoder service.
+#' This rate is based on the usage restriction policies for 
+#' each geocoder service.
 #'
 #' @format A tibble dataframe
 #' \describe{
@@ -87,17 +90,20 @@
 #'  \item{min_time}{The minimum number of seconds required per query to comply with usage restrictions}
 #'  \item{description}{A description of the usage rate restriction}
 #' }
-#' @details 
-#' 
-#' Links to the usage policies of each geocoder service are below:
+#' @details Links to the usage policies of each geocoder service are below:
 #' 
 #' `r get_api_usage_bullets()`
 #' 
-#' #' @seealso [geo] [reverse_geo]
+#' @seealso [geo] [reverse_geo]
 #' 
 "min_time_reference"
 
-#' API Key Environmental Variables
+#' API key environmental variables
+#' 
+#' API keys are obtained from environmental variables.
+#' The [geo] and [reverse_geo] functions use this dataset
+#' to know which environmental variable to use for
+#' each geocoder service.
 #'
 #' @format A tibble dataframe
 #' \describe{
@@ -105,11 +111,13 @@
 #'  \item{env_var}{Environmental variable name}
 #' }
 #' 
-#' @seealso [geo] [reverse_geo] 
+#' @seealso [geo] [reverse_geo]
 #' 
 "api_key_reference"
 
-#' Geocoder service links and info
+#' Geocoder service links and information
+#' 
+#' This dataset is used for generating package documentation.
 #'
 #' @format A tibble dataframe
 #' \describe{

@@ -47,7 +47,6 @@ get_coord_address_terms <- function(reverse) {
 
 
 # produce markdown list of api documentation urls
-# not currently used
 get_api_doc_bullets <- function() {
   return(
     paste0(
@@ -73,7 +72,7 @@ get_method_bullet <- function(method) {
   info <- as.list(tidygeocoder::api_info_reference[which(tidygeocoder::api_info_reference[['method']] == method) ,])
   
   bullet_intro <- paste0("- ", '`"', method, '"`: [', info[['method_display_name']], '](',
-     info[['site_url']], ') geocoder service.')
+     info[['site_url']], ').')
   
   # if an API key is required list environmental variable
   api_requirements <- ifelse(
@@ -107,8 +106,7 @@ get_method_documentation <- function(reverse) {
   all_methods <- tidygeocoder::api_info_reference[['method']]
   
   method_intro <- paste0(c(
-    "the geocoder service to be used. Refer to [api_parameter_reference], [min_time_reference],",
-    "and [batch_limit_reference] for more information.",
+    "the geocoder service to be used.", 
     "API keys are loaded from environmental variables. Run `usethis::edit_r_environ()` to open",
     'your .Renviron file and add an API key as an environmental variable. For example, add the line `GEOCODIO_API_KEY="YourAPIKeyHere"`.'
   ), collapse = ' ')

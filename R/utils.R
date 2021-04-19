@@ -134,6 +134,13 @@ check_address_argument_datatype <- function(arg, arg_name) {
   }
 }
 
+# This check prevents a address-results misalignment issue https://github.com/jessecambon/tidygeocoder/issues/88
+# used in geocode() and reverse_geocode()
+check_limit_return_input <- function(limit, return_input) {
+  if ((is.null(limit) || limit != 1) && return_input == TRUE) {
+    stop('To use limit > 1 or limit = NULL, set return_input to FALSE.', call. = FALSE)
+  }
+}
 
 ## function for extracting everything except the single line 
 ## address from the reverse geocoding results of osm and iq

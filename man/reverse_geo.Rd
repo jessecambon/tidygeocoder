@@ -34,19 +34,19 @@ reverse_geo(
 
 \item{long}{longitude values (input data)}
 
-\item{method}{the geocoder service to be used. Refer to \link{api_parameter_reference}, \link{min_time_reference}, and \link{batch_limit_reference} for more information. API keys are loaded from environmental variables. Run \code{usethis::edit_r_environ()} to open your .Renviron file and add an API key as an environmental variable. For example, add the line \code{GEOCODIO_API_KEY="YourAPIKeyHere"}.
+\item{method}{the geocoder service to be used. API keys are loaded from environmental variables. Run \code{usethis::edit_r_environ()} to open your .Renviron file and add an API key as an environmental variable. For example, add the line \code{GEOCODIO_API_KEY="YourAPIKeyHere"}.
 \itemize{
-\item \code{"osm"}: \href{https://nominatim.org}{Nominatim} geocoder service.
-\item \code{"arcgis"}: \href{https://developers.arcgis.com/rest/geocode/api-reference/overview-world-geocoding-service.htm}{ArcGIS} geocoder service.
-\item \code{"geocodio"}: \href{https://www.geocod.io/}{Geocodio} geocoder service. Geographic coverage is limited to the United States and Canada. An API key must be stored in "GEOCODIO_API_KEY". Batch geocoding is supported.
-\item \code{"iq"}: \href{https://locationiq.com/}{Location IQ} geocoder service.  An API key must be stored in "LOCATIONIQ_API_KEY".
-\item \code{"google"}: \href{https://developers.google.com/maps/documentation/geocoding/overview}{Google} geocoder service.  An API key must be stored in "GOOGLEGEOCODE_API_KEY".
-\item \code{"opencage"}: \href{https://opencagedata.com}{OpenCage} geocoder service.  An API key must be stored in "OPENCAGE_KEY".
-\item \code{"mapbox"}: \href{https://docs.mapbox.com/api/search/}{Mapbox} geocoder service.  An API key must be stored in "MAPBOX_API_KEY".
-\item \code{"here"}: \href{https://developer.here.com/products/geocoding-and-search}{HERE} geocoder service.  An API key must be stored in "HERE_API_KEY". Batch geocoding is supported, but must be explicitly called with \code{mode = "batch"}.
-\item \code{"tomtom"}: \href{https://developer.tomtom.com/search-api/search-api-documentation/geocoding}{TomTom} geocoder service.  An API key must be stored in "TOMTOM_API_KEY". Batch geocoding is supported.
-\item \code{"mapquest"}: \href{https://developer.mapquest.com/documentation/geocoding-api/}{MapQuest} geocoder service.  An API key must be stored in "MAPQUEST_API_KEY". Batch geocoding is supported.
-\item \code{"bing"}: \href{https://docs.microsoft.com/en-us/bingmaps/rest-services/locations/}{Bing} geocoder service.  An API key must be stored in "BINGMAPS_API_KEY". Batch geocoding is supported, but must be explicitly called with \code{mode = "batch"}.
+\item \code{"osm"}: \href{https://nominatim.org}{Nominatim}.
+\item \code{"arcgis"}: \href{https://developers.arcgis.com/rest/geocode/api-reference/overview-world-geocoding-service.htm}{ArcGIS}.
+\item \code{"geocodio"}: \href{https://www.geocod.io/}{Geocodio}. Geographic coverage is limited to the United States and Canada. An API key must be stored in "GEOCODIO_API_KEY". Batch geocoding is supported.
+\item \code{"iq"}: \href{https://locationiq.com/}{Location IQ}.  An API key must be stored in "LOCATIONIQ_API_KEY".
+\item \code{"google"}: \href{https://developers.google.com/maps/documentation/geocoding/overview}{Google}.  An API key must be stored in "GOOGLEGEOCODE_API_KEY".
+\item \code{"opencage"}: \href{https://opencagedata.com}{OpenCage}.  An API key must be stored in "OPENCAGE_KEY".
+\item \code{"mapbox"}: \href{https://docs.mapbox.com/api/search/}{Mapbox}.  An API key must be stored in "MAPBOX_API_KEY".
+\item \code{"here"}: \href{https://developer.here.com/products/geocoding-and-search}{HERE}.  An API key must be stored in "HERE_API_KEY". Batch geocoding is supported, but must be explicitly called with \code{mode = "batch"}.
+\item \code{"tomtom"}: \href{https://developer.tomtom.com/search-api/search-api-documentation/geocoding}{TomTom}.  An API key must be stored in "TOMTOM_API_KEY". Batch geocoding is supported.
+\item \code{"mapquest"}: \href{https://developer.mapquest.com/documentation/geocoding-api/}{MapQuest}.  An API key must be stored in "MAPQUEST_API_KEY". Batch geocoding is supported.
+\item \code{"bing"}: \href{https://docs.microsoft.com/en-us/bingmaps/rest-services/locations/}{Bing}.  An API key must be stored in "BINGMAPS_API_KEY". Batch geocoding is supported, but must be explicitly called with \code{mode = "batch"}.
 }}
 
 \item{address}{name of the address column (in the output data)}
@@ -89,15 +89,16 @@ Defaults to the value in \link{batch_limit_reference} if not specified.}
 
 \item{verbose}{if TRUE then detailed logs are output to the console}
 
-\item{no_query}{if TRUE then no queries are sent to the geocoder and verbose is set to TRUE}
+\item{no_query}{if TRUE then no queries are sent to the geocoder service and verbose is set to TRUE.
+Used for testing.}
 
 \item{custom_query}{API-specific parameters to be used, passed as a named list
 (ie. \code{list(extratags = 1)}.}
 
-\item{iq_region}{'us' (default) or 'eu'. Used for establishing API URL for the 'iq' method.}
+\item{iq_region}{"us" (default) or "eu". Used for establishing the API URL for the "iq" method.}
 
-\item{geocodio_v}{version of geocodio API. Used for establishing API URL
-for the 'geocodio' method.}
+\item{geocodio_v}{version of geocodio API. Used for establishing the API URL
+for the "geocodio" method.}
 
 \item{mapbox_permanent}{if TRUE then the \code{mapbox.places-permanent}
 endpoint would be used. Note that this option should be used only if you
@@ -123,6 +124,10 @@ longitudes must be between -180 and 180. Invalid values will not be sent to the 
 The \link{reverse_geocode} function utilizes this function on coordinates contained in dataframes.
 See example usage in \code{vignette("tidygeocoder")}.
 
+Refer to \link{api_parameter_reference},
+\link{min_time_reference}, and \link{batch_limit_reference} for more details on
+geocoder service parameters and usage.
+
 This function uses the \link{get_api_query}, \link{query_api}, and
 \link{extract_reverse_results} functions to create, execute, and parse geocoder
 API queries.
@@ -131,8 +136,11 @@ API queries.
 \donttest{
  reverse_geo(lat = 38.895865, long = -77.0307713, method = 'osm', verbose = TRUE)
  
- reverse_geo(lat = c(38.895865, 43.6534817, 300), 
- long = c(-77.0307713, -79.3839347, 600), method = 'osm', full_results = TRUE, verbose = TRUE)
+ reverse_geo(
+   lat = c(38.895865, 43.6534817, 300), 
+   long = c(-77.0307713, -79.3839347, 600),
+   method = 'osm', full_results = TRUE, verbose = TRUE
+ )
  
 }
 }

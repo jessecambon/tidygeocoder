@@ -33,12 +33,15 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">tidygeocoder</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.2.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.3</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
+<li>
+  <a href="articles/geocoder_services.html">Geocoder Services</a>
+</li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
     Articles
@@ -48,9 +51,6 @@
   <ul class="dropdown-menu" role="menu">
 <li>
       <a href="articles/tidygeocoder.html">Getting Started</a>
-    </li>
-    <li>
-      <a href="articles/geocoder_services.html">Geocoder Services</a>
     </li>
     <li>
       <a href="articles/developer_notes.html">Developer Notes</a>
@@ -95,12 +95,12 @@
 </h1></div>
 <!-- badges: start -->
 
-<p>Tidygeocoder makes getting data from geocoder services easy. A unified high-level interface is provided for the <a href="https://jessecambon.github.io/tidygeocoder/articles/geocoder_services.html">supported geocoder services</a> and results are returned in <a href="https://tibble.tidyverse.org/">tibble</a> (dataframe) format.</p>
+<p>Tidygeocoder makes getting data from geocoder services easy. A unified high-level interface is provided for a selection of <a href="https://jessecambon.github.io/tidygeocoder/articles/geocoder_services.html">supported geocoder services</a> and results are returned in <a href="https://tibble.tidyverse.org/">tibble</a> (dataframe) format.</p>
 <p><strong>Features:</strong></p>
 <ul>
-<li>Both <strong>forward geocoding</strong> (addresses ⮕ coordinates) and <strong>reverse geocoding</strong> (coordinates ⮕ addresses) are supported.</li>
-<li>
-<strong>Batch geocoding</strong> (geocoding multiple addresses or coordinates in a single query) is used by default if supported by the geocoder service when multiple inputs (addresses or coordinates) are provided (with some noted exceptions for services with slower batch geocoding).</li>
+<li>Forward geocoding (addresses ⮕ coordinates)</li>
+<li>Reverse geocoding (coordinates ⮕ addresses)</li>
+<li>Batch geocoding (geocoding multiple addresses or coordinates in a single query) is automatically used if applicable.</li>
 <li>Duplicate, NA, and blank input data is handled elegantly; only unique inputs are submitted in queries, but the rows in the original data are preserved by default.</li>
 <li>The maximum rate of querying is automatically set according to the usage policies of the selected geocoder service.</li>
 </ul>
@@ -135,7 +135,7 @@
 <span class="co"># geocode the addresses</span>
 <span class="va">lat_longs</span> <span class="op">&lt;-</span> <span class="va">some_addresses</span> <span class="op">%&gt;%</span>
   <span class="fu"><a href="reference/geocode.html">geocode</a></span><span class="op">(</span><span class="va">addr</span>, method <span class="op">=</span> <span class="st">'osm'</span>, lat <span class="op">=</span> <span class="va">latitude</span> , long <span class="op">=</span> <span class="va">longitude</span><span class="op">)</span></code></pre></div>
-<p>The <code><a href="reference/geocode.html">geocode()</a></code> function geocodes addresses contained in a dataframe. The <a href="https://nominatim.org/">Nominatim (“osm”)</a> geocoder service is used here, but other services can be specified with the <code>method</code> argument. See the <code><a href="reference/geo.html">geo()</a></code> function documentation for details.</p>
+<p>The <code><a href="reference/geocode.html">geocode()</a></code> function geocodes addresses contained in a dataframe. The <a href="https://nominatim.org/">Nominatim (“osm”)</a> geocoder service is used here, but other services can be specified with the <code>method</code> argument. Only latitude and longitude are returned from the geocoder service in this example, but <code>full_results = TRUE</code> can be used to return all of the data from the geocoder service. See the <code><a href="reference/geo.html">geo()</a></code> function documentation for details.</p>
 <table class="table">
 <colgroup>
 <col width="25%">
@@ -177,132 +177,41 @@
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/slowkow/ggrepel">ggrepel</a></span><span class="op">)</span>
 
 <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">lat_longs</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span><span class="va">longitude</span>, <span class="va">latitude</span><span class="op">)</span>, color <span class="op">=</span> <span class="st">"grey99"</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/borders.html">borders</a></span><span class="op">(</span><span class="st">"state"</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> 
-  <span class="fu"><a href="https://rdrr.io/pkg/ggrepel/man/geom_text_repel.html">geom_label_repel</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>label <span class="op">=</span> <span class="va">name</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> 
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/borders.html">borders</a></span><span class="op">(</span><span class="st">"state"</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://rdrr.io/pkg/ggrepel/man/geom_text_repel.html">geom_label_repel</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>label <span class="op">=</span> <span class="va">name</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_void</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <p><img src="reference/figures/README-usamap-1.png" style="display: block; margin: auto;"></p>
-<p>To return the full results from a geocoder service (not just latitude and longitude) you can use <code>full_results = TRUE</code>. Additionally, for the Census geocoder <code>return_type = 'geographies'</code> will return geography columns (state, county, Census tract, and Census block).</p>
+<p>To perform reverse geocoding (obtaining addresses from geographic coordinates), we can use the <code><a href="reference/reverse_geocode.html">reverse_geocode()</a></code> function. The arguments are similar to the <code><a href="reference/geocode.html">geocode()</a></code> function, but now we specify the input data columns with the <code>lat</code> and <code>long</code> arguments. The dataset used here is from the geocoder query above. The single line address is returned in a column named by the <code>address</code> argument and all columns from the geocoder service are returned because <code>full_results = TRUE</code>. See the <code><a href="reference/reverse_geo.html">reverse_geo()</a></code> function documentation for more details.</p>
+<!-- 
+Removing the licence column is done just to prevent a note from 
+occurring in automated CRAN checks for an improper/old link.
+-->
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">full</span> <span class="op">&lt;-</span> <span class="va">some_addresses</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="reference/geocode.html">geocode</a></span><span class="op">(</span><span class="va">addr</span>, method <span class="op">=</span> <span class="st">'census'</span>, full_results <span class="op">=</span> <span class="cn">TRUE</span>, 
-          return_type <span class="op">=</span> <span class="st">'geographies'</span><span class="op">)</span></code></pre></div>
-<table class="table">
-<colgroup>
-<col width="7%">
-<col width="14%">
-<col width="3%">
-<col width="3%">
-<col width="1%">
-<col width="15%">
-<col width="5%">
-<col width="4%">
-<col width="15%">
-<col width="5%">
-<col width="4%">
-<col width="4%">
-<col width="4%">
-<col width="4%">
-<col width="4%">
-</colgroup>
-<thead><tr class="header">
-<th align="left">name</th>
-<th align="left">addr</th>
-<th align="right">lat</th>
-<th align="right">long</th>
-<th align="right">id</th>
-<th align="left">input_address</th>
-<th align="left">match_indicator</th>
-<th align="left">match_type</th>
-<th align="left">matched_address</th>
-<th align="left">tiger_line_id</th>
-<th align="left">tiger_side</th>
-<th align="left">state_fips</th>
-<th align="left">county_fips</th>
-<th align="left">census_tract</th>
-<th align="left">census_block</th>
-</tr></thead>
-<tbody>
-<tr class="odd">
-<td align="left">White House</td>
-<td align="left">1600 Pennsylvania Ave NW, Washington, DC</td>
-<td align="right">38.89875</td>
-<td align="right">-77.03535</td>
-<td align="right">1</td>
-<td align="left">1600 Pennsylvania Ave NW, Washington, DC, , ,</td>
-<td align="left">Match</td>
-<td align="left">Exact</td>
-<td align="left">1600 PENNSYLVANIA AVE NW, WASHINGTON, DC, 20500</td>
-<td align="left">76225813</td>
-<td align="left">L</td>
-<td align="left">11</td>
-<td align="left">001</td>
-<td align="left">980000</td>
-<td align="left">1034</td>
-</tr>
-<tr class="even">
-<td align="left">Transamerica Pyramid</td>
-<td align="left">600 Montgomery St, San Francisco, CA 94111</td>
-<td align="right">37.79470</td>
-<td align="right">-122.40314</td>
-<td align="right">2</td>
-<td align="left">600 Montgomery St, San Francisco, CA 94111, , ,</td>
-<td align="left">Match</td>
-<td align="left">Exact</td>
-<td align="left">600 MONTGOMERY ST, SAN FRANCISCO, CA, 94111</td>
-<td align="left">192281262</td>
-<td align="left">R</td>
-<td align="left">06</td>
-<td align="left">075</td>
-<td align="left">061101</td>
-<td align="left">2014</td>
-</tr>
-<tr class="odd">
-<td align="left">Willis Tower</td>
-<td align="left">233 S Wacker Dr, Chicago, IL 60606</td>
-<td align="right">41.87851</td>
-<td align="right">-87.63666</td>
-<td align="right">3</td>
-<td align="left">233 S Wacker Dr, Chicago, IL 60606, , ,</td>
-<td align="left">Match</td>
-<td align="left">Exact</td>
-<td align="left">233 S WACKER DR, CHICAGO, IL, 60606</td>
-<td align="left">112050003</td>
-<td align="left">L</td>
-<td align="left">17</td>
-<td align="left">031</td>
-<td align="left">839100</td>
-<td align="left">2008</td>
-</tr>
-</tbody>
-</table>
-<p>To perform <strong>reverse geocoding</strong> (obtaining addresses from geographic coordinates), we can use the <code><a href="reference/reverse_geocode.html">reverse_geocode()</a></code> function. The arguments are similar to the <code><a href="reference/geocode.html">geocode()</a></code> function, but now we specify the input data columns with the <code>lat</code> and <code>long</code> arguments. The single line address is returned in a column named by the <code>address</code> argument. See the <code><a href="reference/reverse_geo.html">reverse_geo()</a></code> function documentation for more details on reverse geocoding.</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">rev1</span> <span class="op">&lt;-</span> <span class="va">lat_longs</span> <span class="op">%&gt;%</span>
+<code class="sourceCode R"><span class="va">reverse</span> <span class="op">&lt;-</span> <span class="va">lat_longs</span> <span class="op">%&gt;%</span>
   <span class="fu"><a href="reference/reverse_geocode.html">reverse_geocode</a></span><span class="op">(</span>lat <span class="op">=</span> <span class="va">latitude</span>, long <span class="op">=</span> <span class="va">longitude</span>, method <span class="op">=</span> <span class="st">'osm'</span>,
-                  address <span class="op">=</span> <span class="va">address_found</span>, full_results <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
+                  address <span class="op">=</span> <span class="va">address_found</span>, full_results <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op">%&gt;%</span>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="op">-</span><span class="va">addr</span>, <span class="op">-</span><span class="va">licence</span><span class="op">)</span></code></pre></div>
 <table class="table">
 <colgroup>
-<col width="3%">
-<col width="6%">
+<col width="4%">
 <col width="1%">
-<col width="1%">
-<col width="24%">
-<col width="1%">
-<col width="11%">
-<col width="1%">
-<col width="1%">
+<col width="2%">
+<col width="29%">
+<col width="2%">
+<col width="2%">
+<col width="2%">
 <col width="3%">
 <col width="3%">
-<col width="1%">
+<col width="2%">
+<col width="2%">
+<col width="5%">
 <col width="2%">
 <col width="4%">
-<col width="2%">
-<col width="3%">
 <col width="1%">
 <col width="2%">
 <col width="2%">
-<col width="8%">
-<col width="3%">
+<col width="9%">
+<col width="4%">
 <col width="3%">
 <col width="2%">
 <col width="2%">
@@ -310,12 +219,10 @@
 </colgroup>
 <thead><tr class="header">
 <th align="left">name</th>
-<th align="left">addr</th>
 <th align="right">latitude</th>
 <th align="right">longitude</th>
 <th align="left">address_found</th>
 <th align="right">place_id</th>
-<th align="left">licence</th>
 <th align="left">osm_type</th>
 <th align="right">osm_id</th>
 <th align="left">osm_lat</th>
@@ -338,13 +245,10 @@
 <tbody>
 <tr class="odd">
 <td align="left">White House</td>
-<td align="left">1600 Pennsylvania Ave NW, Washington, DC</td>
 <td align="right">38.89770</td>
 <td align="right">-77.03655</td>
 <td align="left">White House, 1600, Pennsylvania Avenue Northwest, Washington, District of Columbia, 20500, United States</td>
 <td align="right">147370893</td>
-<td align="left">Data © OpenStreetMap contributors, ODbL 1.0. <a href="https://osm.org/copyright" class="uri">https://osm.org/copyright</a>
-</td>
 <td align="left">way</td>
 <td align="right">238241022</td>
 <td align="left">38.897699700000004</td>
@@ -366,13 +270,10 @@
 </tr>
 <tr class="even">
 <td align="left">Transamerica Pyramid</td>
-<td align="left">600 Montgomery St, San Francisco, CA 94111</td>
 <td align="right">37.79520</td>
 <td align="right">-122.40279</td>
 <td align="left">Transamerica Pyramid, 600, Montgomery Street, Financial District, San Francisco, San Francisco City and County, San Francisco, California, 94111, United States</td>
 <td align="right">95364489</td>
-<td align="left">Data © OpenStreetMap contributors, ODbL 1.0. <a href="https://osm.org/copyright" class="uri">https://osm.org/copyright</a>
-</td>
 <td align="left">way</td>
 <td align="right">24222973</td>
 <td align="left">37.795200550000004</td>
@@ -394,13 +295,10 @@
 </tr>
 <tr class="odd">
 <td align="left">Willis Tower</td>
-<td align="left">233 S Wacker Dr, Chicago, IL 60606</td>
 <td align="right">41.87887</td>
 <td align="right">-87.63591</td>
 <td align="left">Willis Tower, 233, South Wacker Drive, Printer’s Row, Loop, Chicago, Cook County, Illinois, 60606, United States</td>
 <td align="right">103673983</td>
-<td align="left">Data © OpenStreetMap contributors, ODbL 1.0. <a href="https://osm.org/copyright" class="uri">https://osm.org/copyright</a>
-</td>
 <td align="left">way</td>
 <td align="right">58528804</td>
 <td align="left">41.878871700000005</td>
@@ -428,10 +326,14 @@
 <a href="#in-the-wild" class="anchor"></a>In the Wild</h2>
 <p>For inspiration, here are a few articles (with code) that leverage tidygeocoder:</p>
 <ul>
-<li><a href="http://www2.stat.duke.edu/courses/Spring21/sta323.001/exercises/lec_12.html">Exercises: Spatial Data Wrangling with sf</a></li>
-<li><a href="https://www.monicaalexander.com/posts/2021-21-02-mapping/">Mapping a network of women in demography</a></li>
-<li><a href="https://www.jla-data.net/eng/routing-in-r-context/">Road Routing in R</a></li>
-<li><a href="https://www.sharpsightlabs.com/blog/mapping-texas-ports-with-r-part1/">Mapping Texas Ports With R</a></li>
+<li>
+<a href="http://www2.stat.duke.edu/courses/Spring21/sta323.001/exercises/lec_12.html">Exercises: Spatial Data Wrangling with sf</a> - part of a <a href="http://www2.stat.duke.edu/courses/Spring21/sta323.001/">statistical computing course</a> at Duke.</li>
+<li>
+<a href="https://www.monicaalexander.com/posts/2021-21-02-mapping/">Mapping a network of women in demography</a> - using rvest and tidygeocoder to map Google Scholar data.</li>
+<li>
+<a href="https://www.jla-data.net/eng/routing-in-r-context/">Road Routing in R</a> - demonstration of three different routing APIs.</li>
+<li>
+<a href="https://www.sharpsightlabs.com/blog/mapping-texas-ports-with-r-part1/">Mapping Texas Ports With R</a> - mapping the Texas coast with rnaturalearth and sf.</li>
 </ul>
 </div>
 <div id="contributing" class="section level2">
@@ -442,27 +344,29 @@
 <div id="citing-tidygeocoder" class="section level2">
 <h2 class="hasAnchor">
 <a href="#citing-tidygeocoder" class="anchor"></a>Citing tidygeocoder</h2>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<p>Use the <code><a href="https://rdrr.io/r/utils/citation.html">citation()</a></code> function:</p>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/citation.html">citation</a></span><span class="op">(</span><span class="st">'tidygeocoder'</span><span class="op">)</span></code></pre></div>
 <p></p>
 <blockquote>
-<div class="sourceCode" id="cb8"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>To cite tidygeocoder <span class="cf">in</span> publications use<span class="sc">:</span></span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  Jesse Cambon, Christopher <span class="fu">Belanger</span> (<span class="dv">2021</span>). tidygeocoder<span class="sc">:</span> Geocoding</span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  Made <span class="fu">Easy</span> (version <span class="dv">1</span>.<span class="fl">0.2</span>). DOI<span class="sc">:</span> <span class="fl">10.5281</span><span class="sc">/</span>zenodo.<span class="fl">4448251.</span> URL<span class="sc">:</span></span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>  https<span class="sc">:</span><span class="er">//</span>CRAN.R<span class="sc">-</span>project.org<span class="sc">/</span>package<span class="ot">=</span>tidygeocoder</span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>A BibTeX entry <span class="cf">for</span> LaTeX users is</span>
-<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>  <span class="sc">@</span>Misc{,</span>
-<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>    title <span class="ot">=</span> {tidygeocoder<span class="sc">:</span> Geocoding Made Easy},</span>
-<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>    author <span class="ot">=</span> {Jesse Cambon and Christopher Belanger},</span>
-<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>    year <span class="ot">=</span> {<span class="dv">2021</span>},</span>
-<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>    publisher <span class="ot">=</span> {Zenodo},</span>
-<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>    note <span class="ot">=</span> {R package version <span class="dv">1</span>.<span class="fl">0.2</span>},</span>
-<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>    url <span class="ot">=</span> {https<span class="sc">:</span><span class="er">//</span>CRAN.R<span class="sc">-</span>project.org<span class="sc">/</span>package<span class="ot">=</span>tidygeocoder},</span>
-<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>    doi <span class="ot">=</span> {<span class="fl">10.5281</span><span class="sc">/</span>zenodo<span class="fl">.4448251</span>},</span>
-<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>  }</span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>To cite tidygeocoder <span class="cf">in</span> publications use<span class="sc">:</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  Jesse Cambon, Diego Hernangómez, Christopher Belanger, Daniel</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">Possenriede</span> (<span class="dv">2021</span>). tidygeocoder<span class="sc">:</span> Geocoding Made Easy. R package</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  version <span class="dv">1</span>.<span class="dv">0</span>.<span class="fl">3.</span> DOI<span class="sc">:</span> <span class="fl">10.5281</span><span class="sc">/</span>zenodo.<span class="fl">4686074.</span> URL<span class="sc">:</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>  https<span class="sc">:</span><span class="er">//</span>CRAN.R<span class="sc">-</span>project.org<span class="sc">/</span>package<span class="ot">=</span>tidygeocoder.</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>A BibTeX entry <span class="cf">for</span> LaTeX users is</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>  <span class="sc">@</span>Misc{,</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>    title <span class="ot">=</span> {tidygeocoder<span class="sc">:</span> Geocoding Made Easy},</span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>    author <span class="ot">=</span> {Jesse Cambon and Diego Hernangómez and Christopher Belanger and Daniel Possenriede},</span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>    year <span class="ot">=</span> {<span class="dv">2021</span>},</span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>    publisher <span class="ot">=</span> {Zenodo},</span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>    note <span class="ot">=</span> {R package version <span class="dv">1</span>.<span class="fl">0.3</span>},</span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>    url <span class="ot">=</span> {https<span class="sc">:</span><span class="er">//</span>CRAN.R<span class="sc">-</span>project.org<span class="sc">/</span>package<span class="ot">=</span>tidygeocoder},</span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>    doi <span class="ot">=</span> {<span class="fl">10.5281</span><span class="sc">/</span>zenodo<span class="fl">.4686074</span>},</span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>  }</span></code></pre></div>
 </blockquote>
 <p>Or refer to the <a href="https://jessecambon.github.io/tidygeocoder/authors.html">citation page</a>.</p>
 </div>
@@ -501,8 +405,10 @@
 <a href="https://jessecambon.github.io">Jesse Cambon</a> <br><small class="roles"> Author, maintainer </small> <a href="https://orcid.org/0000-0001-6854-1514" target="orcid.widget" aria-label="ORCID"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
 <li>
 <a href="https://github.com/dieghernan">Diego Hernangómez</a> <br><small class="roles"> Author </small> <a href="https://orcid.org/0000-0001-8457-4658" target="orcid.widget" aria-label="ORCID"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
-<li>Christopher Belanger <br><small class="roles"> Author </small>  </li>
-<li>Daniel Possenriede <br><small class="roles"> Author </small> <a href="https://orcid.org/0000-0002-6738-9845" target="orcid.widget" aria-label="ORCID"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
+<li>
+<a href="https://github.com/chris31415926535">Christopher Belanger</a> <br><small class="roles"> Author </small>  </li>
+<li>
+<a href="https://github.com/dpprdan">Daniel Possenriede</a> <br><small class="roles"> Author </small> <a href="https://orcid.org/0000-0002-6738-9845" target="orcid.widget" aria-label="ORCID"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
 </ul>
 </div>
 
@@ -524,7 +430,7 @@
 
 
       <footer><div class="copyright">
-  <p>Developed by <a href="https://jessecambon.github.io">Jesse Cambon</a>, <a href="https://github.com/dieghernan">Diego Hernangómez</a>, Christopher Belanger, Daniel Possenriede.</p>
+  <p>Developed by <a href="https://jessecambon.github.io">Jesse Cambon</a>, <a href="https://github.com/dieghernan">Diego Hernangómez</a>, <a href="https://github.com/chris31415926535">Christopher Belanger</a>, <a href="https://github.com/dpprdan">Daniel Possenriede</a>.</p>
 </div>
 
 <div class="pkgdown">

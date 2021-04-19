@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>API Key Environmental Variables — api_key_reference • tidygeocoder</title>
+<title>API key environmental variables — api_key_reference • tidygeocoder</title>
 
 
 <!-- jquery -->
@@ -45,8 +45,11 @@
 
 
 
-<meta property="og:title" content="API Key Environmental Variables — api_key_reference" />
-<meta property="og:description" content="API Key Environmental Variables" />
+<meta property="og:title" content="API key environmental variables — api_key_reference" />
+<meta property="og:description" content="API keys are obtained from environmental variables.
+The geo and reverse_geo functions use this dataset
+to know which environmental variable to use for
+each geocoder service." />
 
 
 
@@ -78,13 +81,16 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">tidygeocoder</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.2.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.3</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
-        <li class="dropdown">
+        <li>
+  <a href="../articles/geocoder_services.html">Geocoder Services</a>
+</li>
+<li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
     Articles
      
@@ -93,9 +99,6 @@
   <ul class="dropdown-menu" role="menu">
     <li>
       <a href="../articles/tidygeocoder.html">Getting Started</a>
-    </li>
-    <li>
-      <a href="../articles/geocoder_services.html">Geocoder Services</a>
     </li>
     <li>
       <a href="../articles/developer_notes.html">Developer Notes</a>
@@ -135,13 +138,16 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>API Key Environmental Variables</h1>
+    <h1>API key environmental variables</h1>
     <small class="dont-index">Source: <a href='https://github.com/jessecambon/tidygeocoder/blob/master/R/data.R'><code>R/data.R</code></a></small>
     <div class="hidden name"><code>api_key_reference.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>API Key Environmental Variables</p>
+    <p>API keys are obtained from environmental variables.
+The <a href='geo.html'>geo</a> and <a href='reverse_geo.html'>reverse_geo</a> functions use this dataset
+to know which environmental variable to use for
+each geocoder service.</p>
     </div>
 
     <pre class="usage"><span class='va'>api_key_reference</span></pre>
@@ -170,7 +176,7 @@
 
       <footer>
       <div class="copyright">
-  <p>Developed by <a href='https://jessecambon.github.io'>Jesse Cambon</a>, <a href='https://github.com/dieghernan'>Diego Hernangómez</a>, Christopher Belanger, Daniel Possenriede.</p>
+  <p>Developed by <a href='https://jessecambon.github.io'>Jesse Cambon</a>, <a href='https://github.com/dieghernan'>Diego Hernangómez</a>, <a href='https://github.com/chris31415926535'>Christopher Belanger</a>, <a href='https://github.com/dpprdan'>Daniel Possenriede</a>.</p>
 </div>
 
 <div class="pkgdown">

@@ -17,9 +17,9 @@ min_time_reference
 }
 \description{
 The \link{geo} and \link{reverse_geo} functions use this dataset
-to set the default maximum query rate for each geocoder service.
-This rate is based on the usage restriction policies for the
-geocoder services.
+to set the maximum query rate for each geocoder service.
+This rate is based on the usage restriction policies for
+each geocoder service.
 }
 \details{
 Links to the usage policies of each geocoder service are below:
@@ -31,13 +31,14 @@ Links to the usage policies of each geocoder service are below:
 \item \href{https://locationiq.com/pricing}{Location IQ}
 \item \href{https://developers.google.com/maps/documentation/geocoding/usage-and-billing}{Google}
 \item \href{https://opencagedata.com/pricing}{OpenCage}
-\item \href{https://www.mapbox.com/pricing/-search}{Mapbox}
+\item \href{https://www.mapbox.com/pricing/}{Mapbox}
 \item \href{https://developer.here.com/pricing}{HERE}
 \item \href{https://developer.tomtom.com/store/maps-api}{TomTom}
 \item \href{https://developer.mapquest.com/plans}{MapQuest}
 \item \href{https://docs.microsoft.com/en-us/bingmaps/spatial-data-services/geocode-and-data-source-limits}{Bing}
 }
-
-#' @seealso \link{geo} \link{reverse_geo}
+}
+\seealso{
+\link{geo} \link{reverse_geo}
 }
 \keyword{datasets}
