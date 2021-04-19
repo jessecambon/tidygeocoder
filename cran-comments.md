@@ -13,6 +13,7 @@
 
 - RE the NOTE, the DOI is reserved and will become active once released.
 - Per request, fixed improper link in man/louisville.Rd
+- Updated DESCRIPTION to attmept to fix WARNING in CRAN RE vignette rebuilding
 
 ## New Features
 
