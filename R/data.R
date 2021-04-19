@@ -16,7 +16,7 @@
 #'  \item{state}{state}
 #'  \item{zip}{zip code}
 #' }
-#' @source Downloaded from [http://results.openaddresses.io/sources/us/ky/jefferson](OpenAddresses.io)
+#' @source Downloaded from [OpenAddresses.io](https://results.openaddresses.io/sources/us/ky/jefferson)
 #'  on June 1st 2020
 "louisville"
 
