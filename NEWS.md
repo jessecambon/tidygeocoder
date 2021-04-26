@@ -1,3 +1,8 @@
+# tidygeocoder (development version)
+
+- Fix a bug on Bing forward geocoding `geo()` when no results are found ([#112](https://github.com/jessecambon/tidygeocoder/issues/112)). Now an empty 
+result (instead an error) is thrown.
+
 # tidygeocoder 1.0.3
 
 ### New Features

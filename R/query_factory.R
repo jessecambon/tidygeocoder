@@ -208,6 +208,22 @@ query_api <- function(api_url, query_parameters, mode = 'single',
     return(list(content = content, status = status_code))
   }
   
+  # Bing exception Issue #112
+  
+  if (mode == 'single' && method == "bing" && httr::status_code(response) == 200) {
+    raw_results <- jsonlite::fromJSON(content)
+    status_code <- 200
+
+    n_results <- raw_results$resourceSets$estimatedTotal
+
+    if (n_results == 0) {
+      status_code <- 404
+    }
+
+    httr::warn_for_status(status_code)
+    return(list(content = content, status = status_code))
+  }
+
   return(list(
       content = content, 
       status = httr::status_code(response)
