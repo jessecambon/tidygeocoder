@@ -23,6 +23,7 @@ reverse_methods <- methods_to_test[!methods_to_test %in% tidygeocoder:::pkg.glob
 library(tidygeocoder)
 library(dplyr)
 library(tibble)
+library(testthat)
 
 ## Functions -----------------------------------------------------------------
 
@@ -155,6 +156,11 @@ test_that("test single forward geocoding", {
     
     # check address content
     expect_equal(result1$address, sample_address, label = method_label)
+    
+    # check geocoding a result that will not be found. ignore warnings
+    # (bing returns 404 for this)
+    suppressWarnings(na_result1 <- geo('asdfghjkl', full_results = TRUE, limit = 1, method = method))
+    expect_true(is_tibble(na_result1), label = method_label)    
   }
 })
 

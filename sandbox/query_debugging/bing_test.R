@@ -94,7 +94,7 @@ tidygeocoder::geo(
 
 # NUll result
 tidygeocoder::geo(
-  address = "xxxxxxxxxxxxxxxxxxxx",
+  address = "asdfghjkl",
   verbose = TRUE,
   lat = "latitude",
   long = "longitude",
