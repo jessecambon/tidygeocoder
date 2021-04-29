@@ -82,6 +82,12 @@ check_reverse_geocoding_results <- function(method, result, address_name = 'addr
   expect_false(any(is.na(result[[address_name]])), label = method_label)
 }
 
+
+## -----------------------------------------------------------------------------------
+
+## -----------------------------------------------------------------------------------
+
+
 # test error catching for a single method
 test_error_catching <- function(method, generic_args = list(), custom_args = list()) {
   
@@ -104,9 +110,6 @@ test_error_catching <- function(method, generic_args = list(), custom_args = lis
   expect_message(tidygeocoder:::extract_errors_from_results(method, query_response$content, FALSE),
                  label = method_label)
 }
-
-## -----------------------------------------------------------------------------------
-
 
 
 # This test uses the census batch geocoder but it should apply to all methods
@@ -157,10 +160,11 @@ test_that("test single forward geocoding", {
     # check address content
     expect_equal(result1$address, sample_address, label = method_label)
     
-    # check geocoding a result that will not be found. ignore warnings
-    # (bing returns 404 for this)
-    suppressWarnings(na_result1 <- geo('asdfghjkl', full_results = TRUE, limit = 1, method = method))
-    expect_true(is_tibble(na_result1), label = method_label)    
+    # check geocoding a result that will not be found.
+    # see https://github.com/jessecambon/tidygeocoder/issues/112
+    # iq gives a warning
+    expect_true(is_tibble(na_result1 <- geo('asdfghjkl', full_results = TRUE, limit = 1, method = method)),
+                label = method_label)
   }
 })
 

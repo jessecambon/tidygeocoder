@@ -41,8 +41,7 @@ extract_results <- function(method, response, full_results = TRUE, flatten = TRU
       'here' = response$items$position[c('lat','lng')],
       'tomtom' = response$results$position[c('lat', 'lon')],
       'mapquest' = response$results$locations[[1]]$latLng[c('lat','lng')],
-      'bing' = as.data.frame(matrix(unlist(response$resourceSets$resources[[1]]$point$coordinates), 
-            ncol = 2, byrow = TRUE), col.names = c('lat', 'long')),
+      'bing' = extract_bing_latlng(response),
       'arcgis' = response$candidates$location[c('y', 'x')]
   )
   
