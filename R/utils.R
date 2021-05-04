@@ -154,3 +154,16 @@ extract_osm_reverse_full <- function(response) {
     tibble::as_tibble(dplyr::bind_cols(as.data.frame(a), b, c))
   )
 }
+
+# note issue #112: https://github.com/jessecambon/tidygeocoder/issues/112
+extract_bing_latlng <- function(response) {
+  
+  # if no rows are found then return an empty data frame so NA results will be returned
+  if (length(response$resourceSets$resources[[1]]) == 0) return(data.frame())
+  
+  # otherwise extract the latitude and longitude
+  latlng <- as.data.frame(matrix(unlist(response$resourceSets$resources[[1]]$point$coordinates), 
+                                 ncol = 2, byrow = TRUE), col.names = c('lat', 'long'))
+  
+  return(latlng)
+}
