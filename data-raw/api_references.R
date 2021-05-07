@@ -25,6 +25,7 @@ min_time_reference <- tibble::tribble(
   "mapbox",    60/600,       "600 queries per minute (free tier)",
   "tomtom",    1/5,          "5 queries per second (free tier)",
   "here",      1/5,          "5 queries per second (free tier)",
+  "geoapify",  1/5,          "5 queries per second (free tier)",
 )
 
 
@@ -41,6 +42,7 @@ api_key_reference <- tibble::tribble(
   'tomtom',    "TOMTOM_API_KEY",
   'mapquest',  "MAPQUEST_API_KEY",
   'bing',      "BINGMAPS_API_KEY",
+  'geoapify',  "GEOAPIFY_KEY",
 )
 
 
@@ -58,6 +60,7 @@ api_info_reference <- tibble::tribble(
   "tomtom",   "TomTom", "https://developer.tomtom.com/search-api/search-api-documentation/geocoding", "https://developer.tomtom.com/search-api/search-api-documentation-geocoding/geocode", "https://developer.tomtom.com/store/maps-api",
   "mapquest", "MapQuest", "https://developer.mapquest.com/documentation/geocoding-api/", "https://developer.mapquest.com/documentation/geocoding-api/", "https://developer.mapquest.com/plans",
   "bing",     "Bing", "https://docs.microsoft.com/en-us/bingmaps/rest-services/locations/", "https://docs.microsoft.com/en-us/bingmaps/rest-services/locations/", "https://docs.microsoft.com/en-us/bingmaps/spatial-data-services/geocode-and-data-source-limits",
+  "geoapify", "Geoapify", "https://www.geoapify.com/geocoding-api", "https://apidocs.geoapify.com/docs/geocoding/api/", "https://www.geoapify.com/term-and-conditions",
 )
 
 usethis::use_data(batch_limit_reference, overwrite = TRUE)

@@ -48,7 +48,7 @@ geo_cascade(...)
 \description{
 The \code{method} for \code{geo()} is specified in the function name.
 
-\ifelse{html}{\figure{lifecycle-deprecated.svg}{options: alt='Deprecated lifecycle'}}{\strong{Deprecated}}
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
 
 Use the \link{geo} function directly instead.
 }
