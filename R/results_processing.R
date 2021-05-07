@@ -167,7 +167,7 @@ extract_reverse_results <- function(method, response, full_results = TRUE, flatt
   
   # extract other results (besides single line address)
   if (full_results == TRUE) {
-    tibble::as_tibble(results <- switch(method,
+    results <- tibble::as_tibble(switch(method,
         'osm' = extract_osm_reverse_full(response),
         'iq' =  extract_osm_reverse_full(response),
         'geocodio' = response$results[!names(response$results) %in% c('formatted_address')],
