@@ -64,7 +64,7 @@ geocoder_summary_table %>%
 -   Geocodio is limited to the United States and Canada.
 -   The Census and Nominatim ("osm") services are free and do not require an API key.
 -   ArcGIS can be used for free without an API key, but some features require a paid subscription and API key.
--   The Geocodio, Location IQ, OpenCage, Mapbox, HERE, TomTom, MapQuest, and Bing are commercial services that offer free tiers.
+-   Geoapify, Geocodio, Location IQ, OpenCage, Mapbox, HERE, TomTom, MapQuest, and Bing are commercial services that offer free tiers.
 -   The Google service has no free tier and [bills per query](https://developers.google.com/maps/documentation/geocoding/usage-and-billing).
 
 **Other Notes:**
