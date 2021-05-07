@@ -99,7 +99,7 @@ extract_results <- function(method, response, full_results = TRUE, flatten = TRU
     
     # add prefix to variable names that likely could be in our input dataset
     # to avoid variable name overlap
-    for (var in c('address')) {
+    for (var in c('address', 'street', 'city', 'county', 'state', 'postalcode', 'postcode', 'country')) {
       if (var %in% names(results)) {
         names(results)[names(results) == var] <- paste0(method, '_', var)
       }
