@@ -109,7 +109,7 @@ extract_results <- function(method, response, full_results = TRUE, flatten = TRU
 #' Extract reverse geocoding results 
 #' 
 #' @description
-#' Parses the output of the [query_api] function for reverse geoocding.
+#' Parses the output of the [query_api] function for reverse geoocoding.
 #' The address is extracted into the first column
 #' of the returned dataframe. This function is not used for batch 
 #' geocoded results. Refer to [query_api] for example
