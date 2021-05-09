@@ -29,7 +29,7 @@ method(s). Limits number of results per coordinate.}
 geocoder results in tibble format
 }
 \description{
-Parses the output of the \link{query_api} function for reverse geoocding.
+Parses the output of the \link{query_api} function for reverse geoocoding.
 The address is extracted into the first column
 of the returned dataframe. This function is not used for batch
 geocoded results. Refer to \link{query_api} for example
