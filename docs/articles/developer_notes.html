@@ -157,7 +157,7 @@
 <span class="co">#&gt; limit : "1"</span>
 <span class="co">#&gt; format : "json"</span>
 <span class="co">#&gt; HTTP Status Code: 200</span>
-<span class="co">#&gt; Query completed in: 0.4 seconds</span>
+<span class="co">#&gt; Query completed in: 0.3 seconds</span>
 <span class="co">#&gt; Total query time (including sleep): 1 seconds</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; Number of Unique Addresses: 1</span>
@@ -222,17 +222,9 @@
 </ul>
 </li>
 <li>
-<strong><a href="https://github.com/jessecambon/tidygeocoder/blob/main/R/results_processing.R">R/results_processing.R</a></strong>
-<ul>
-<li>Update the <code><a href="../reference/extract_results.html">extract_results()</a></code> function which is used for parsing single addresses (ie. not batch geocoding). You can see examples of how I’ve tested out parsing the results of geocoder services <a href="https://github.com/jessecambon/tidygeocoder/tree/main/sandbox/query_debugging">here</a>.</li>
-<li>In a similar fashion, update the <code><a href="../reference/extract_reverse_results.html">extract_reverse_results()</a></code> function for reverse geocoding.</li>
-<li>Update the <code>extract_errors_from_results()</code> function to extract error messages for invalid queries.</li>
-</ul>
-</li>
-<li>
 <strong><a href="https://github.com/jessecambon/tidygeocoder/blob/main/R/geo.R">R/geo.R</a></strong>
 <ul>
-<li>If the service supports reverse batch geocoding then add a new function in <strong><a href="https://github.com/jessecambon/tidygeocoder/blob/main/R/batch_geocoding.R">R/batch_geocoding.R</a></strong> and add it to the <code>batch_func_map</code> named list.</li>
+<li>If the service supports batch geocoding then add a new function in <strong><a href="https://github.com/jessecambon/tidygeocoder/blob/main/R/batch_geocoding.R">R/batch_geocoding.R</a></strong> and add it to the <code>batch_func_map</code> named list.</li>
 </ul>
 </li>
 <li>
@@ -240,6 +232,14 @@
 <ul>
 <li>Update the <code>get_coord_parameters()</code> function based on how the service passed latitude and longitude coordinates for reverse geocoding.</li>
 <li>If the service supports reverse batch geocoding then add a new function in <strong><a href="https://github.com/jessecambon/tidygeocoder/blob/main/R/reverse_batch_geocoding.R">R/reverse_batch_geocoding.R</a></strong> and add it to the <code>reverse_batch_func_map</code> named list.</li>
+</ul>
+</li>
+<li>
+<strong><a href="https://github.com/jessecambon/tidygeocoder/blob/main/R/results_processing.R">R/results_processing.R</a></strong>
+<ul>
+<li>Update the <code><a href="../reference/extract_results.html">extract_results()</a></code> function which is used for parsing single addresses (ie. not batch geocoding). You can see examples of how I’ve tested out parsing the results of geocoder services <a href="https://github.com/jessecambon/tidygeocoder/tree/main/sandbox/query_debugging">here</a>.</li>
+<li>In a similar fashion, update the <code><a href="../reference/extract_reverse_results.html">extract_reverse_results()</a></code> function for reverse geocoding.</li>
+<li>Update the <code>extract_errors_from_results()</code> function to extract error messages for invalid queries.</li>
 </ul>
 </li>
 <li>
