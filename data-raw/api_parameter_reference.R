@@ -123,6 +123,19 @@ api_parameter_reference <- tibble::tribble(
   'arcgis', 'address',    'SingleLine',   NA,                  FALSE,  
   'arcgis', 'limit',      'maxLocations', '1',                 FALSE,
   'arcgis', 'format',     'f',            'json',              TRUE,
+
+  ########################### geoapify #################################
+  # geoapify returns geojson by default
+  # geoapify requires an api_key
+  
+  'geoapify', 'api_key',    'apiKey',      NA,                  TRUE,
+  'geoapify', 'address',    'text',        NA,                  FALSE,  
+  'geoapify', 'street',     'street',      NA,                  FALSE,
+  'geoapify', 'city',       'city',        NA,                  FALSE,
+  'geoapify', 'state',      'state',       NA,                  FALSE,
+  'geoapify', 'postalcode', 'postcode',    NA,                  FALSE,
+  'geoapify', 'country',    'country',     NA,                  FALSE,
+  'geoapify', 'limit',      'limit',       '1',                 FALSE,
 )
 
 usethis::use_data(api_parameter_reference, overwrite = TRUE)

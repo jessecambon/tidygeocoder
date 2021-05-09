@@ -19,7 +19,7 @@ reverse_batch_func_map <- list(
 # method. Parameters are placed into the 'custom_query' variable which is a named list
 # that is passed directly to the API service.
 get_coord_parameters <- function(custom_query, method, lat, long) {
-  if (method %in% c('osm', 'iq')) {
+  if (method %in% c('osm', 'iq', 'geoapify')) {
     custom_query[['lat']] <- lat
     custom_query[['lon']] <- long
   } else if (method %in% c('geocodio', 'opencage')) {

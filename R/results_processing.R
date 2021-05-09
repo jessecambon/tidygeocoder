@@ -42,7 +42,11 @@ extract_results <- function(method, response, full_results = TRUE, flatten = TRU
       'tomtom' = response$results$position[c('lat', 'lon')],
       'mapquest' = response$results$locations[[1]]$latLng[c('lat','lng')],
       'bing' = extract_bing_latlng(response),
-      'arcgis' = response$candidates$location[c('y', 'x')]
+      'arcgis' = response$candidates$location[c('y', 'x')],
+      'geoapify' = data.frame(
+        lat = response$features$geometry$coordinates[[1]][2], 
+        lon = response$features$geometry$coordinates[[1]][1]
+      ) # geoapify returns GeoJSON
   )
   
   # Return NA if data is not empty or not valid (cannot be turned into a dataframe)
@@ -78,7 +82,12 @@ extract_results <- function(method, response, full_results = TRUE, flatten = TRU
         'tomtom' = response$results,
         'mapquest' = response$results$locations[[1]],
         'bing' = response$resourceSets$resources[[1]],
-        'arcgis' = response$candidates
+        'arcgis' = response$candidates,
+        'geoapify' = 
+          cbind(
+            response$features$properties[!names(response$features$properties) %in% c('lat', 'lon')],
+            tibble::as_tibble(c(bbox = list(response$features$bbox)))
+          )
      ))
     
     # Formatted address for mapquest
@@ -90,7 +99,7 @@ extract_results <- function(method, response, full_results = TRUE, flatten = TRU
     
     # add prefix to variable names that likely could be in our input dataset
     # to avoid variable name overlap
-    for (var in c('address')) {
+    for (var in c('address', 'street', 'city', 'county', 'state', 'postalcode', 'postcode', 'country')) {
       if (var %in% names(results)) {
         names(results)[names(results) == var] <- paste0(method, '_', var)
       }
@@ -151,7 +160,8 @@ extract_reverse_results <- function(method, response, full_results = TRUE, flatt
       'mapquest' = format_address(response$results$locations[[1]],
                                   c('street', paste0('adminArea', seq(6, 1)))),
       'bing' = response$resourceSets$resources[[1]]['name'],
-      'arcgis' = response$address['LongLabel']
+      'arcgis' = response$address['LongLabel'],
+      'geoapify' = response$features$properties['formatted']
   )
   
   # Return NA if data is not empty or not valid (cannot be turned into a dataframe)
@@ -179,7 +189,8 @@ extract_reverse_results <- function(method, response, full_results = TRUE, flatt
         'tomtom' = response$addresses,
         'mapquest' = response$results$locations[[1]],
         'bing' = response$resourceSets$resources[[1]][names(response$resourceSets$resources[[1]]) != 'name'],
-        'arcgis' = response$address[names(response$address) != 'LongLabel']
+        'arcgis' = response$address[names(response$address) != 'LongLabel'],
+        'geoapify' = response$features$properties[names(response$features$properties) != 'formatted']
     ))
     
     
@@ -268,5 +279,6 @@ extract_errors_from_results <- function(method, response, verbose) {
     else if (method == 'arcgis'){
       if ("error" %in% names(raw_results)) message(paste0('Error: ', raw_results$error$message, collapse = "\n"))
     }
+    else if (method == 'geoapify') message('Error: ', paste(raw_results$error, raw_results$message, sep = ", "))
   }
 }
