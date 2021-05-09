@@ -54,6 +54,7 @@ The API documentation for each service is linked to below:
 \item \href{https://developer.tomtom.com/search-api/search-api-documentation-geocoding/geocode}{TomTom}
 \item \href{https://developer.mapquest.com/documentation/geocoding-api/}{MapQuest}
 \item \href{https://docs.microsoft.com/en-us/bingmaps/rest-services/locations/}{Bing}
+\item \href{https://apidocs.geoapify.com/docs/geocoding/api/}{Geoapify}
 }
 }
 \seealso{

@@ -22,7 +22,7 @@ library(dplyr)
 
 ## Overview
 
-The supported geocoder services are shown in the table below. The `method` is used to select the geocoder service in tidygeocoder functions such as `geo()` and `reverse_geo()`. The usage rate limitations are listed for the free tier of the service when applicable and many services have faster rates available with paid plans. 
+The supported geocoder services are shown in the table below. The `method` is used to select the geocoder service in tidygeocoder functions such as `geo()` and `reverse_geo()`. The usage rate limitations are listed for the free tier of the service when applicable and many services have faster rates available with paid plans.
 
 Also note that there are many other considerations when selecting a geocoder service such as if the service uses open source data with permissive licensing or if there are restrictions on how you can use the data provided by the service. Refer to each service's documentation for details.
 
@@ -64,7 +64,7 @@ geocoder_summary_table %>%
 -   Geocodio is limited to the United States and Canada.
 -   The Census and Nominatim ("osm") services are free and do not require an API key.
 -   ArcGIS can be used for free without an API key, but some features require a paid subscription and API key.
--   The Geocodio, Location IQ, OpenCage, Mapbox, HERE, TomTom, MapQuest, and Bing are commercial services that offer free tiers.
+-   Geoapify, Geocodio, Location IQ, OpenCage, Mapbox, HERE, TomTom, MapQuest, and Bing are commercial services that offer free tiers.
 -   The Google service has no free tier and [bills per query](https://developers.google.com/maps/documentation/geocoding/usage-and-billing).
 
 **Other Notes:**

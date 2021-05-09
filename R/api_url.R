@@ -21,6 +21,7 @@ get_api_url <- function(method, reverse = FALSE, return_type = 'locations',
                     "mapquest" = get_mapquest_url(mapquest_open, reverse = reverse),
                     "bing" = get_bing_url(),
                     "arcgis" = get_arcgis_url(reverse = reverse),
+                    "geoapify" = get_geoapify_url(reverse = reverse)
   )
   
   if (length(api_url) == 0) stop('API URL not found', call. = FALSE)
@@ -85,4 +86,9 @@ get_bing_url <- function() {
 get_arcgis_url <- function(reverse = FALSE) {
   if (reverse == TRUE) return('https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/reverseGeocode')
   else return('https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/findAddressCandidates')
+}
+
+get_geoapify_url <- function(reverse = FALSE) {
+  endpoint <- if (reverse) 'reverse' else 'search'
+  return(paste0('https://api.geoapify.com/v1/geocode/', endpoint))
 }

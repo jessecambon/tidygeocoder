@@ -36,6 +36,7 @@ Links to the usage policies of each geocoder service are below:
 \item \href{https://developer.tomtom.com/store/maps-api}{TomTom}
 \item \href{https://developer.mapquest.com/plans}{MapQuest}
 \item \href{https://docs.microsoft.com/en-us/bingmaps/spatial-data-services/geocode-and-data-source-limits}{Bing}
+\item \href{https://www.geoapify.com/term-and-conditions}{Geoapify}
 }
 }
 \seealso{
