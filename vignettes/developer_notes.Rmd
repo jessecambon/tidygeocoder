@@ -102,10 +102,13 @@ These files don't necessarily need to be updated. However, you might need to mak
     * Common utility functions.
 * **[R/input_handling.R](https://github.com/jessecambon/tidygeocoder/blob/main/R/input_handling.R)**
     * Handles the deduplication of input data.
+* **[external/create_logo.Rmd](https://github.com/jessecambon/tidygeocoder/blob/main/external/create_logo.Rmd)**
+    * Create the package logo
 
 ## Testing
 
 * Test out the new method with `verbose = TRUE` to make sure it behaves as expected. You can reference tests available [the 'sandbox' folder](https://github.com/jessecambon/tidygeocoder/tree/master/sandbox) for reference. 
 * Run `devtools::check()` to make sure the package still passes all tests and the vignette runs properly. To only run the package tests use `devtools::test()`, but note these tests do not query the geocoder services to avoid external dependencies.
-* Run **[external_tests/online_tests.R](https://github.com/jessecambon/tidygeocoder/blob/main/external_tests/online_tests.R)** to test making queries to the geocoder services. These tests are not included in the internal package tests (`devtools::test()`) because they require API keys which would not exist on all systems and are dependent on the geocoder services being online at that the time of the test.
+* Run **[external/online_tests.R](https://github.com/jessecambon/tidygeocoder/blob/main/external/online_tests.R)** to test making queries to the geocoder services. These tests are not included in the internal package tests (`devtools::test()`) because they require API keys which would not exist on all systems and are dependent on the geocoder services being online at that the time of the test.
 * Run the commands detailed in **[cran-comments.md](https://github.com/jessecambon/tidygeocoder/blob/main/cran-comments.md)** to test the package on other environments. Note that these tests should also be included in the automated GitHub actions tests for pull requests.
+* When prepping for a release, use `urlchecker::url_check()` to check all package URLs.

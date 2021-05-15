@@ -1,6 +1,5 @@
 ---
 title: "Operation Logo"
-output: github_document
 ---
 
 Create the package hex sticker
@@ -11,19 +10,22 @@ https://github.com/GuangchuangYu/hexSticker
 
 
 ```{r setup}
-library(ggplot2)
+library(tidyverse)
+library(showtext)
 library(sf)
 library(rnaturalearth)
 library(rnaturalearthdata)
 library(rgeos)
-library(tidyverse)
 library(hexSticker)
+library(here)
 ```
 
 ```{r}
 world_coastlines <- ne_coastline(scale = 'medium', returnclass = 'sf')
+
 #crs <- "+proj=robin +ellps=WGS84 +lat_0=20 +lon_0=30"
 #crs <- "+proj=aeqd +lat_0=0 +lon_0=0 +x_0=0 +y_0=0 +ellps=WGS84 +datum=WGS84 +units=m +no_defs"
+
 sphere <- st_graticule(ndiscr = 10000, margin = 10e-6) %>%
   st_transform(crs = 3035) %>%
   st_convex_hull() %>%
@@ -31,33 +33,35 @@ sphere <- st_graticule(ndiscr = 10000, margin = 10e-6) %>%
 ```
 
 
-Make the plot
+Make the globeplot
 
 ```{r}
 globe_background <- ggplot()  +
   geom_sf(data = sphere, color = 'black', size = 0.23, fill = 'white') +
   geom_sf(data = world_coastlines, color = "black", size = 0.15) +
   theme_void() + theme_transparent()
-globe_background + theme(panel.background = element_rect(fill = 'steelblue'))
+globe_background + theme(panel.background = element_rect(fill = 'black'))
 ```
 
 
 
 ## Create Hex
 
-```{r}
-font_name <- "Open Sans"
+Load google font http://www.google.com/fonts
 
-library(showtext)
-## Loading Google fonts (http://www.google.com/fonts)
+```{r}
+# Load google font http://www.google.com/fonts
+
+# candidate fonts: Crete Round; Encode Sans Semi Expanded
+
+font_name <- "Encode Sans Semi Expanded"
 font_add_google(font_name)
-```
 
+# Save and plot hex 
 
-```{r}
 s <- sticker(globe_background,
     package = "tidygeocoder", p_size = 18, s_x = 1, s_y = .7, s_width = 1.1, s_height = 1.1, p_family = font_name,
-    h_color = 'dimgrey', h_fill = 'steelblue3', p_color = 'white', filename = here::here("man/figures/tidygeocoder_hex.png"))
+    h_color = 'dimgrey', h_fill = 'black', p_color = 'white', filename = here("man/figures/tidygeocoder_hex.png"))
+
 plot(s)
-#filename ="logo.png"
 ```
