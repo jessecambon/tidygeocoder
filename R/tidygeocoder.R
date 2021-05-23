@@ -5,8 +5,8 @@
 #' Refer to the documentation on the `method` argument in the [geo] and [reverse_geo] functions
 #' for more details on the available geocoder services. Also see `vignette("tidygeocoder")`
 #' for example usage.
-
+#' 
 #' @keywords internal
-"_PACKAGE"
-
+#'
 #' @importFrom rlang %||%
+"_PACKAGE"
