@@ -86,7 +86,7 @@ extract_results <- function(method, response, full_results = TRUE, flatten = TRU
         'geoapify' = 
           cbind(
             response$features$properties[!names(response$features$properties) %in% c('lat', 'lon')],
-            tibble::as_tibble(c(bbox = list(response$features$bbox)))
+            tibble::as_tibble(c(bbox = list(response$features$bbox %||% list(NA_real_))))
           )
      ))
     
