@@ -103,7 +103,7 @@ These files don't necessarily need to be updated. However, you might need to mak
 * **[R/input_handling.R](https://github.com/jessecambon/tidygeocoder/blob/main/R/input_handling.R)**
     * Handles the deduplication of input data.
 * **[external/create_logo.Rmd](https://github.com/jessecambon/tidygeocoder/blob/main/external/create_logo.Rmd)**
-    * Create the package logo
+    * Create the package logo.
 
 ## Testing
 
