@@ -27,7 +27,7 @@ Useful links:
 Authors:
 \itemize{
   \item Diego Hernangómez \email{diego.hernangomezherrero@gmail.com} (\href{https://orcid.org/0000-0001-8457-4658}{ORCID})
-  \item Christopher Belanger \email{christopher.a.belanger@gmail.com}
+  \item Christopher Belanger \email{christopher.a.belanger@gmail.com} (\href{https://orcid.org/0000-0003-2070-5721}{ORCID})
   \item Daniel Possenriede \email{possenriede+r@gmail.com} (\href{https://orcid.org/0000-0002-6738-9845}{ORCID})
 }
 

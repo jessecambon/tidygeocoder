@@ -148,6 +148,9 @@ tidygeocoder:
     part of a [statistical computing
     course](http://www2.stat.duke.edu/courses/Spring21/sta323.001/) at
     Duke.
+-   [Geocoding the Minard
+    Map](https://www.jla-data.net/eng/minard-map-tidygeocoder/) -
+    recreating a famous infographic with geocoding.
 -   [Mapping a network of women in
     demography](https://www.monicaalexander.com/posts/2021-21-02-mapping/) -
     using rvest and tidygeocoder to map Google Scholar data.
