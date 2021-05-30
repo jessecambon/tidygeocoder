@@ -117,6 +117,7 @@ knitr::kable(reverse)
 For inspiration, here are a few articles (with code) that leverage tidygeocoder:
 
 - [Exercises: Spatial Data Wrangling with sf](http://www2.stat.duke.edu/courses/Spring21/sta323.001/exercises/lec_12.html) - part of a [statistical computing course](http://www2.stat.duke.edu/courses/Spring21/sta323.001/) at Duke.
+- [Geocoding the Minard Map](https://www.jla-data.net/eng/minard-map-tidygeocoder/) - recreating a famous infographic with geocoding.
 - [Mapping a network of women in demography](https://www.monicaalexander.com/posts/2021-21-02-mapping/) - using rvest and tidygeocoder to map Google Scholar data.
 - [Road Routing in R](https://www.jla-data.net/eng/routing-in-r-context/) - demonstration of three different routing APIs.
 - [Mapping Texas Ports With R](https://www.sharpsightlabs.com/blog/mapping-texas-ports-with-r-part1/) - mapping the Texas coast with rnaturalearth and sf.
