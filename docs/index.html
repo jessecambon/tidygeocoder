@@ -124,14 +124,14 @@
 </h1></div>
 <!-- badges: start -->
 
-<p>Tidygeocoder makes getting data from geocoder services easy. A unified high-level interface is provided for a selection of <a href="https://jessecambon.github.io/tidygeocoder/articles/geocoder_services.html">supported geocoder services</a> and results are returned in <a href="https://tibble.tidyverse.org/">tibble</a> (dataframe) format.</p>
+<p>Tidygeocoder makes getting data from geocoding services easy. A unified high-level interface is provided for a selection of <a href="https://jessecambon.github.io/tidygeocoder/articles/geocoder_services.html">supported geocoding services</a> and results are returned in <a href="https://tibble.tidyverse.org/">tibble</a> (dataframe) format.</p>
 <p><strong>Features:</strong></p>
 <ul>
 <li>Forward geocoding (addresses ⮕ coordinates)</li>
 <li>Reverse geocoding (coordinates ⮕ addresses)</li>
 <li>Batch geocoding (geocoding multiple addresses or coordinates in a single query) is automatically used if applicable.</li>
 <li>Duplicate, NA, and blank input data is handled elegantly; only unique inputs are submitted in queries, but the rows in the original data are preserved by default.</li>
-<li>The maximum rate of querying is automatically set according to the usage policies of the selected geocoder service.</li>
+<li>The maximum rate of querying is automatically set according to the usage policies of the selected geocoding service.</li>
 </ul>
 <p>In addition to the usage examples below, see the <a href="https://jessecambon.github.io/tidygeocoder/articles/tidygeocoder.html">Getting Started Vignette</a> and <a href="https://jessecambon.github.io/tag/tidygeocoder">blog posts on tidygeocoder</a>.</p>
 <div id="installation" class="section level2">
@@ -164,7 +164,7 @@
 <span class="co"># geocode the addresses</span>
 <span class="va">lat_longs</span> <span class="op">&lt;-</span> <span class="va">some_addresses</span> <span class="op">%&gt;%</span>
   <span class="fu"><a href="reference/geocode.html">geocode</a></span><span class="op">(</span><span class="va">addr</span>, method <span class="op">=</span> <span class="st">'osm'</span>, lat <span class="op">=</span> <span class="va">latitude</span> , long <span class="op">=</span> <span class="va">longitude</span><span class="op">)</span></code></pre></div>
-<p>The <code><a href="reference/geocode.html">geocode()</a></code> function geocodes addresses contained in a dataframe. The <a href="https://nominatim.org/">Nominatim (“osm”)</a> geocoder service is used here, but other services can be specified with the <code>method</code> argument. Only latitude and longitude are returned from the geocoder service in this example, but <code>full_results = TRUE</code> can be used to return all of the data from the geocoder service. See the <code><a href="reference/geo.html">geo()</a></code> function documentation for details.</p>
+<p>The <code><a href="reference/geocode.html">geocode()</a></code> function geocodes addresses contained in a dataframe. The <a href="https://nominatim.org/">Nominatim (“osm”)</a> geocoding service is used here, but other services can be specified with the <code>method</code> argument. Only latitude and longitude are returned from the geocoding service in this example, but <code>full_results = TRUE</code> can be used to return all of the data from the geocoding service. See the <code><a href="reference/geo.html">geo()</a></code> function documentation for details.</p>
 <table class="table">
 <colgroup>
 <col width="25%">
@@ -210,7 +210,7 @@
   <span class="fu"><a href="https://rdrr.io/pkg/ggrepel/man/geom_text_repel.html">geom_label_repel</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>label <span class="op">=</span> <span class="va">name</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_void</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <p><img src="reference/figures/README-usamap-1.png" style="display: block; margin: auto;"></p>
-<p>To perform reverse geocoding (obtaining addresses from geographic coordinates), we can use the <code><a href="reference/reverse_geocode.html">reverse_geocode()</a></code> function. The arguments are similar to the <code><a href="reference/geocode.html">geocode()</a></code> function, but now we specify the input data columns with the <code>lat</code> and <code>long</code> arguments. The dataset used here is from the geocoder query above. The single line address is returned in a column named by the <code>address</code> argument and all columns from the geocoder service are returned because <code>full_results = TRUE</code>. See the <code><a href="reference/reverse_geo.html">reverse_geo()</a></code> function documentation for more details.</p>
+<p>To perform reverse geocoding (obtaining addresses from geographic coordinates), we can use the <code><a href="reference/reverse_geocode.html">reverse_geocode()</a></code> function. The arguments are similar to the <code><a href="reference/geocode.html">geocode()</a></code> function, but now we specify the input data columns with the <code>lat</code> and <code>long</code> arguments. The dataset used here is from the geocoder query above. The single line address is returned in a column named by the <code>address</code> argument and all columns from the geocoding service are returned because <code>full_results = TRUE</code>. See the <code><a href="reference/reverse_geo.html">reverse_geo()</a></code> function documentation for more details.</p>
 <!-- 
 Removing the licence column is done just to prevent a note from 
 occurring in automated CRAN checks for an improper/old link.
@@ -256,7 +256,7 @@ occurring in automated CRAN checks for an improper/old link.
 <th align="right">osm_id</th>
 <th align="left">osm_lat</th>
 <th align="left">osm_lon</th>
-<th align="left">historic</th>
+<th align="left">office</th>
 <th align="left">house_number</th>
 <th align="left">road</th>
 <th align="left">city</th>
@@ -277,7 +277,7 @@ occurring in automated CRAN checks for an improper/old link.
 <td align="right">38.89770</td>
 <td align="right">-77.03655</td>
 <td align="left">White House, 1600, Pennsylvania Avenue Northwest, Washington, District of Columbia, 20500, United States</td>
-<td align="right">147370893</td>
+<td align="right">147370996</td>
 <td align="left">way</td>
 <td align="right">238241022</td>
 <td align="left">38.897699700000004</td>
@@ -358,6 +358,8 @@ occurring in automated CRAN checks for an improper/old link.
 <li>
 <a href="http://www2.stat.duke.edu/courses/Spring21/sta323.001/exercises/lec_12.html">Exercises: Spatial Data Wrangling with sf</a> - part of a <a href="http://www2.stat.duke.edu/courses/Spring21/sta323.001/">statistical computing course</a> at Duke.</li>
 <li>
+<a href="https://www.jla-data.net/eng/minard-map-tidygeocoder/">Geocoding the Minard Map</a> - recreating a famous infographic with geocoding.</li>
+<li>
 <a href="https://www.monicaalexander.com/posts/2021-21-02-mapping/">Mapping a network of women in demography</a> - using rvest and tidygeocoder to map Google Scholar data.</li>
 <li>
 <a href="https://www.jla-data.net/eng/routing-in-r-context/">Road Routing in R</a> - demonstration of three different routing APIs.</li>
@@ -368,7 +370,7 @@ occurring in automated CRAN checks for an improper/old link.
 <div id="contributing" class="section level2">
 <h2 class="hasAnchor">
 <a href="#contributing" class="anchor"></a>Contributing</h2>
-<p>Contributions to the tidygeocoder package are welcome. File <a href="https://github.com/jessecambon/tidygeocoder/issues">an issue</a> for bug fixes or suggested features. If you would like to contribute code such as adding support for a new geocoder service, reference the <a href="https://jessecambon.github.io/tidygeocoder/articles/developer_notes.html">developer notes</a> for instructions and documentation.</p>
+<p>Contributions to the tidygeocoder package are welcome. File <a href="https://github.com/jessecambon/tidygeocoder/issues">an issue</a> for bug fixes or suggested features. If you would like to contribute code such as adding support for a new geocoding service, reference the <a href="https://jessecambon.github.io/tidygeocoder/articles/developer_notes.html">developer notes</a> for instructions and documentation.</p>
 </div>
 <div id="citing-tidygeocoder" class="section level2">
 <h2 class="hasAnchor">
@@ -435,7 +437,7 @@ occurring in automated CRAN checks for an improper/old link.
 <li>
 <a href="https://github.com/dieghernan">Diego Hernangómez</a> <br><small class="roles"> Author </small> <a href="https://orcid.org/0000-0001-8457-4658" target="orcid.widget" aria-label="ORCID"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
 <li>
-<a href="https://github.com/chris31415926535">Christopher Belanger</a> <br><small class="roles"> Author </small>  </li>
+<a href="https://github.com/chris31415926535">Christopher Belanger</a> <br><small class="roles"> Author </small> <a href="https://orcid.org/0000-0003-2070-5721" target="orcid.widget" aria-label="ORCID"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
 <li>
 <a href="https://github.com/dpprdan">Daniel Possenriede</a> <br><small class="roles"> Author </small> <a href="https://orcid.org/0000-0002-6738-9845" target="orcid.widget" aria-label="ORCID"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
 </ul>

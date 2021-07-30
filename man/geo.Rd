@@ -71,15 +71,15 @@ Do not combine with the address component arguments below
 \item \code{"mapquest"}: \href{https://developer.mapquest.com/documentation/geocoding-api/}{MapQuest}.  An API key must be stored in "MAPQUEST_API_KEY". Batch geocoding is supported.
 \item \code{"bing"}: \href{https://docs.microsoft.com/en-us/bingmaps/rest-services/locations/}{Bing}.  An API key must be stored in "BINGMAPS_API_KEY". Batch geocoding is supported, but must be explicitly called with \code{mode = "batch"}.
 \item \code{"geoapify"}: \href{https://www.geoapify.com/geocoding-api}{Geoapify}.  An API key must be stored in "GEOAPIFY_KEY".
-\item \code{"cascade"} : First uses one geocoder service and then uses
-a second geocoder service if the first service didn't return results.
+\item \code{"cascade"} : First uses one geocoding service and then uses
+a second geocoding service if the first service didn't return results.
 The services and order is specified by the cascade_order argument.
 Note that this is not compatible with \code{full_results = TRUE} as geocoder
 services have different columns that they return.
 }}
 
 \item{cascade_order}{a vector with two character values for the method argument
-in the order in which the geocoder services will be attempted for \code{method = "cascade"}
+in the order in which the geocoding services will be attempted for \code{method = "cascade"}
 (ie. \code{c("census", "geocodio")})}
 
 \item{lat}{latitude column name. Can be quoted or unquoted (ie. lat or "lat").}
@@ -106,8 +106,8 @@ be used if available (given method selected) when multiple addresses are
 provided; otherwise single address geocoding will be used. For the "here" and "bing" methods the
 batch mode should be explicitly specified with \code{mode = 'batch'}.}
 
-\item{full_results}{returns all data from the geocoder service if TRUE.
-If FALSE then only longitude and latitude are returned from the geocoder service.}
+\item{full_results}{returns all data from the geocoding service if TRUE.
+If FALSE then only longitude and latitude are returned from the geocoding service.}
 
 \item{unique_only}{only return results for unique inputs if TRUE}
 
@@ -127,7 +127,7 @@ Defaults to the value in \link{batch_limit_reference} if not specified.}
 
 \item{verbose}{if TRUE then detailed logs are output to the console}
 
-\item{no_query}{if TRUE then no queries are sent to the geocoder service and verbose is set to TRUE.
+\item{no_query}{if TRUE then no queries are sent to the geocoding service and verbose is set to TRUE.
 Used for testing.}
 
 \item{custom_query}{API-specific parameters to be used, passed as a named list
@@ -170,13 +170,13 @@ Geocodes addresses given as character values. The \link{geocode}
 function utilizes this function on addresses contained in dataframes.
 See example usage in \code{vignette("tidygeocoder")}.
 
-Note that not all geocoder services support certain address component
+Note that not all geocoding services support certain address component
 parameters. For example, the Census geocoder only covers the United States
 and does not have a "country" parameter.
 
 Refer to \link{api_parameter_reference},
 \link{min_time_reference}, and \link{batch_limit_reference} for more details on
-geocoder service parameters and usage.
+geocoding service parameters and usage.
 
 This function uses the \link{get_api_query}, \link{query_api}, and
 \link{extract_results} functions to create, execute, and parse geocoder

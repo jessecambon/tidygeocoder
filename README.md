@@ -19,8 +19,8 @@ Month](http://cranlogs.r-pkg.org/badges/tidygeocoder)](https://cran.r-project.or
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.4686074.svg)](https://doi.org/10.5281/zenodo.4686074)
 <!-- badges: end -->
 
-Tidygeocoder makes getting data from geocoder services easy. A unified
-high-level interface is provided for a selection of [supported geocoder
+Tidygeocoder makes getting data from geocoding services easy. A unified
+high-level interface is provided for a selection of [supported geocoding
 services](https://jessecambon.github.io/tidygeocoder/articles/geocoder_services.html)
 and results are returned in [tibble](https://tibble.tidyverse.org/)
 (dataframe) format.
@@ -35,7 +35,7 @@ and results are returned in [tibble](https://tibble.tidyverse.org/)
     unique inputs are submitted in queries, but the rows in the original
     data are preserved by default.
 -   The maximum rate of querying is automatically set according to the
-    usage policies of the selected geocoder service.
+    usage policies of the selected geocoding service.
 
 In addition to the usage examples below, see the [Getting Started
 Vignette](https://jessecambon.github.io/tidygeocoder/articles/tidygeocoder.html)
@@ -82,12 +82,12 @@ lat_longs <- some_addresses %>%
 ```
 
 The `geocode()` function geocodes addresses contained in a dataframe.
-The [Nominatim (“osm”)](https://nominatim.org/) geocoder service is used
-here, but other services can be specified with the `method` argument.
-Only latitude and longitude are returned from the geocoder service in
-this example, but `full_results = TRUE` can be used to return all of the
-data from the geocoder service. See the `geo()` function documentation
-for details.
+The [Nominatim (“osm”)](https://nominatim.org/) geocoding service is
+used here, but other services can be specified with the `method`
+argument. Only latitude and longitude are returned from the geocoding
+service in this example, but `full_results = TRUE` can be used to return
+all of the data from the geocoding service. See the `geo()` function
+documentation for details.
 
 | name                 | addr                                       | latitude |  longitude |
 |:---------------------|:-------------------------------------------|---------:|-----------:|
@@ -117,7 +117,7 @@ are similar to the `geocode()` function, but now we specify the input
 data columns with the `lat` and `long` arguments. The dataset used here
 is from the geocoder query above. The single line address is returned in
 a column named by the `address` argument and all columns from the
-geocoder service are returned because `full_results = TRUE`. See the
+geocoding service are returned because `full_results = TRUE`. See the
 `reverse_geo()` function documentation for more details.
 
 <!-- 
@@ -132,9 +132,9 @@ reverse <- lat_longs %>%
   select(-addr, -licence)
 ```
 
-| name                 | latitude |  longitude | address\_found                                                                                                                                         | place\_id | osm\_type |   osm\_id | osm\_lat           | osm\_lon            | historic    | house\_number | road                          | city          | state                | postcode | country       | country\_code | boundingbox                                          | tourism              | neighbourhood | county        | building     | suburb |
+| name                 | latitude |  longitude | address\_found                                                                                                                                         | place\_id | osm\_type |   osm\_id | osm\_lat           | osm\_lon            | office      | house\_number | road                          | city          | state                | postcode | country       | country\_code | boundingbox                                          | tourism              | neighbourhood | county        | building     | suburb |
 |:---------------------|---------:|-----------:|:-------------------------------------------------------------------------------------------------------------------------------------------------------|----------:|:----------|----------:|:-------------------|:--------------------|:------------|:--------------|:------------------------------|:--------------|:---------------------|:---------|:--------------|:--------------|:-----------------------------------------------------|:---------------------|:--------------|:--------------|:-------------|:-------|
-| White House          | 38.89770 |  -77.03655 | White House, 1600, Pennsylvania Avenue Northwest, Washington, District of Columbia, 20500, United States                                               | 147370893 | way       | 238241022 | 38.897699700000004 | -77.03655315        | White House | 1600          | Pennsylvania Avenue Northwest | Washington    | District of Columbia | 20500    | United States | us            | 38.8974908 , 38.897911 , -77.0368537, -77.0362519    | NA                   | NA            | NA            | NA           | NA     |
+| White House          | 38.89770 |  -77.03655 | White House, 1600, Pennsylvania Avenue Northwest, Washington, District of Columbia, 20500, United States                                               | 147370996 | way       | 238241022 | 38.897699700000004 | -77.03655315        | White House | 1600          | Pennsylvania Avenue Northwest | Washington    | District of Columbia | 20500    | United States | us            | 38.8974908 , 38.897911 , -77.0368537, -77.0362519    | NA                   | NA            | NA            | NA           | NA     |
 | Transamerica Pyramid | 37.79520 | -122.40279 | Transamerica Pyramid, 600, Montgomery Street, Chinatown, San Francisco, San Francisco City and County, San Francisco, California, 94111, United States |  95364489 | way       |  24222973 | 37.795200550000004 | -122.40279267840137 | NA          | 600           | Montgomery Street             | San Francisco | California           | 94111    | United States | us            | 37.7948854 , 37.7954472 , -122.4031399, -122.4024317 | Transamerica Pyramid | Chinatown     | San Francisco | NA           | NA     |
 | Willis Tower         | 41.87887 |  -87.63591 | Willis Tower, 233, South Wacker Drive, Printer’s Row, Loop, Chicago, Cook County, Illinois, 60606, United States                                       | 103673983 | way       |  58528804 | 41.878871700000005 | -87.63590893936448  | NA          | 233           | South Wacker Drive            | Chicago       | Illinois             | 60606    | United States | us            | 41.8785389 , 41.8791932 , -87.6363362, -87.6354746   | NA                   | Printer’s Row | Cook County   | Willis Tower | Loop   |
 
@@ -166,7 +166,7 @@ tidygeocoder:
 Contributions to the tidygeocoder package are welcome. File [an
 issue](https://github.com/jessecambon/tidygeocoder/issues) for bug fixes
 or suggested features. If you would like to contribute code such as
-adding support for a new geocoder service, reference the [developer
+adding support for a new geocoding service, reference the [developer
 notes](https://jessecambon.github.io/tidygeocoder/articles/developer_notes.html)
 for instructions and documentation.
 

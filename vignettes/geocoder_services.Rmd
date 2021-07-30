@@ -1,10 +1,10 @@
 ---
-title: "Geocoder Services"
+title: "Geocoding Services"
 output: rmarkdown::html_vignette
 description: >
-  Documentation on the supported geocoder services and their query parameters and settings
+  Documentation on the supported geocoding services and their query parameters and settings
 vignette: >
-  %\VignetteIndexEntry{Geocoder Services}
+  %\VignetteIndexEntry{Geocoding Services}
   %\VignetteEngine{knitr::rmarkdown}
   \usepackage[utf8]{inputenc}
 ---
@@ -22,9 +22,9 @@ library(dplyr)
 
 ## Overview
 
-The supported geocoder services are shown in the table below. The `method` is used to select the geocoder service in tidygeocoder functions such as `geo()` and `reverse_geo()`. The usage rate limitations are listed for the free tier of the service when applicable and many services have faster rates available with paid plans.
+The supported geocoding services are shown in the table below. The `method` is used to select the geocoding service in tidygeocoder functions such as `geo()` and `reverse_geo()`. The usage rate limitations are listed for the free tier of the service when applicable and many services have faster rates available with paid plans.
 
-Also note that there are many other considerations when selecting a geocoder service such as if the service uses open source data with permissive licensing or if there are restrictions on how you can use the data provided by the service. Refer to each service's documentation for details.
+Also note that there are many other considerations when selecting a geocoding service such as if the service uses open source data with permissive licensing or if there are restrictions on how you can use the data provided by the service. Refer to each service's documentation for details.
 
 
 ```{r, echo = FALSE, message = FALSE, warning = FALSE, output = 'asis'}
@@ -87,7 +87,7 @@ tidygeocoder::geo(address = "New York, USA", method = "arcgis",
 
 ## API Parameters
 
-The `api_parameter_reference` maps the API parameters for each geocoder service to a common set of "generic" parameters. The `generic_name` below is the generic parameter name while the `api_name` is the parameter name for the specified geocoder service (`method`). Refer to `?api_parameter_reference` for more details.
+The `api_parameter_reference` maps the API parameters for each geocoding service to a common set of "generic" parameters. The `generic_name` below is the generic parameter name while the `api_name` is the parameter name for the specified geocoding service (`method`). Refer to `?api_parameter_reference` for more details.
 
 ```{r, echo = FALSE}
 api_parameter_reference %>% 
@@ -114,7 +114,7 @@ api_key_reference %>%
 
 ## Minimum Time Per Query
 
-The minimum time (in seconds) required per query to comply with the usage limitations policies of each geocoder service is stored in the `min_time_reference` dataset. See `?min_time_reference`.
+The minimum time (in seconds) required per query to comply with the usage limitations policies of each geocoding service is stored in the `min_time_reference` dataset. See `?min_time_reference`.
 
 ```{r, echo = FALSE}
 min_time_reference %>%
@@ -125,7 +125,7 @@ min_time_reference %>%
 ```
 
 <!-- https://bookdown.org/yihui/rmarkdown-cookbook/results-asis.html -->
-Links to the usage policies for each geocoder service:
+Links to the usage policies for each geocoding service:
 
 ```{r, echo = FALSE, results = 'asis'}
 cat(tidygeocoder:::get_api_usage_bullets(), sep = '\n')
@@ -133,7 +133,7 @@ cat(tidygeocoder:::get_api_usage_bullets(), sep = '\n')
 
 ## Batch Query Size Limits
 
-The maximum number of inputs (geographic coordinates or addresses) per batch query for each geocoder service is stored in the `batch_limit_reference` dataset. See `?batch_limit_reference`.
+The maximum number of inputs (geographic coordinates or addresses) per batch query for each geocoding service is stored in the `batch_limit_reference` dataset. See `?batch_limit_reference`.
 
 ```{r, echo = FALSE}
 batch_limit_reference %>%

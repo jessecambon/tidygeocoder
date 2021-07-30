@@ -18,13 +18,13 @@ batch_func_map <- list(
 #' function utilizes this function on addresses contained in dataframes.
 #' See example usage in `vignette("tidygeocoder")`.
 #' 
-#' Note that not all geocoder services support certain address component 
+#' Note that not all geocoding services support certain address component 
 #' parameters. For example, the Census geocoder only covers the United States 
 #' and does not have a "country" parameter. 
 #' 
 #' Refer to [api_parameter_reference],
 #' [min_time_reference], and [batch_limit_reference] for more details on 
-#' geocoder service parameters and usage. 
+#' geocoding service parameters and usage. 
 #' 
 #' This function uses the [get_api_query], [query_api], and
 #' [extract_results] functions to create, execute, and parse geocoder
@@ -41,14 +41,14 @@ batch_func_map <- list(
 #' @param country country (ie. 'Japan')
 #' 
 #' @param method `r get_method_documentation(reverse = FALSE)`
-#'  - `"cascade"` : First uses one geocoder service and then uses
-#'     a second geocoder service if the first service didn't return results.
+#'  - `"cascade"` : First uses one geocoding service and then uses
+#'     a second geocoding service if the first service didn't return results.
 #'     The services and order is specified by the cascade_order argument. 
 #'     Note that this is not compatible with `full_results = TRUE` as geocoder
 #'     services have different columns that they return.
 #' 
 #' @param cascade_order a vector with two character values for the method argument 
-#'  in the order in which the geocoder services will be attempted for `method = "cascade"`
+#'  in the order in which the geocoding services will be attempted for `method = "cascade"`
 #'  (ie. `c("census", "geocodio")`)
 #' @param lat latitude column name. Can be quoted or unquoted (ie. lat or "lat").
 #' @param long longitude column name. Can be quoted or unquoted (ie. long or "long").
@@ -61,8 +61,8 @@ batch_func_map <- list(
 #' 
 #' @param mode `r get_mode_documentation(reverse = FALSE)`
 
-#' @param full_results returns all data from the geocoder service if TRUE. 
-#' If FALSE then only longitude and latitude are returned from the geocoder service.
+#' @param full_results returns all data from the geocoding service if TRUE. 
+#' If FALSE then only longitude and latitude are returned from the geocoding service.
 #' @param unique_only only return results for unique inputs if TRUE
 #' @param return_addresses return input addresses with results if TRUE. Note that
 #'    most services return the input addresses with `full_results = TRUE` and setting
@@ -74,7 +74,7 @@ batch_func_map <- list(
 #' @param batch_limit  `r get_batch_limit_documentation(reverse = FALSE)`
 #' @param batch_limit_error `r get_batch_limit_error_documentation(reverse = FALSE)`
 #' @param verbose if TRUE then detailed logs are output to the console
-#' @param no_query if TRUE then no queries are sent to the geocoder service and verbose is set to TRUE.
+#' @param no_query if TRUE then no queries are sent to the geocoding service and verbose is set to TRUE.
 #'    Used for testing.
 
 #' @param custom_query API-specific parameters to be used, passed as a named list 
@@ -253,7 +253,7 @@ geo <- function(address = NULL,
   # OR the user has explicitly specified single address geocoding then call the 
   # single address geocoder in a loop (ie. recursively call this function)
   
-  # Exception for geocoder services that should default to single instead of batch
+  # Exception for geocoding services that should default to single instead of batch
   if (method %in% pkg.globals$single_first_methods && mode != 'batch' ){
     mode <- 'single'
   }
