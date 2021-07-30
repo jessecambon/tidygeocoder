@@ -54,13 +54,13 @@ get_coord_parameters <- function(custom_query, method, lat, long) {
 #' @description
 #' Reverse geocodes geographic coordinates (latitude and longitude) given as numeric values. 
 #' Latitude and longitude inputs are limited to possible values. Latitudes must be between -90 and 90 and
-#' longitudes must be between -180 and 180. Invalid values will not be sent to the geocoder service. 
+#' longitudes must be between -180 and 180. Invalid values will not be sent to the geocoding service. 
 #' The [reverse_geocode] function utilizes this function on coordinates contained in dataframes.
 #' See example usage in `vignette("tidygeocoder")`.
 #' 
 #' Refer to [api_parameter_reference],
 #' [min_time_reference], and [batch_limit_reference] for more details on 
-#' geocoder service parameters and usage. 
+#' geocoding service parameters and usage. 
 #'
 #' This function uses the [get_api_query], [query_api], and
 #' [extract_reverse_results] functions to create, execute, and parse geocoder
@@ -74,8 +74,8 @@ get_coord_parameters <- function(custom_query, method, lat, long) {
 #' @param limit `r get_limit_documentation(reverse = TRUE, df_input = FALSE)`
 #' 
 #' @param mode `r get_mode_documentation(reverse = TRUE)`
-#' @param full_results returns all data from the geocoder service if TRUE. 
-#' If FALSE then only a single address column will be returned from the geocoder service.
+#' @param full_results returns all data from the geocoding service if TRUE. 
+#' If FALSE then only a single address column will be returned from the geocoding service.
 #' @param return_coords return input coordinates with results if TRUE. Note that
 #'    most services return the input coordinates with `full_results = TRUE` and setting
 #'    `return_coords` to FALSE does not prevent this.
@@ -157,7 +157,7 @@ reverse_geo <- function(lat, long, method = 'osm', address = address, limit = 1,
     return(unpackage_inputs(coord_pack, NA_value, unique_only, return_coords))
   }
   
-  # Exception for geocoder services that should default to single instead of batch
+  # Exception for geocoding services that should default to single instead of batch
   if (method %in% pkg.globals$single_first_methods && mode != 'batch' ){
     mode <- 'single'
   }

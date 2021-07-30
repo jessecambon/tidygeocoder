@@ -247,24 +247,50 @@ function to execute.</p>
 <span class='fu'><a href='extract_results.html'>extract_results</a></span><span class='op'>(</span><span class='st'>'osm'</span>, <span class='fu'>jsonlite</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/jsonlite/man/fromJSON.html'>fromJSON</a></span><span class='op'>(</span><span class='va'>raw1</span><span class='op'>$</span><span class='va'>content</span><span class='op'>)</span><span class='op'>)</span>
 </div><div class='output co'>#&gt;        lat      lon  place_id
 #&gt; 1 21.02945 105.8544 309312568
+#&gt; 2 20.99176 105.7968 235888882
+#&gt; 3 21.03667 105.7827 257198423
+#&gt; 4 21.02930 105.8572  55046555
+#&gt; 5 21.03665 105.7827  83738781
 #&gt;                                                                  licence
 #&gt; 1 Data © OpenStreetMap contributors, ODbL 1.0. https://osm.org/copyright
-#&gt;   osm_type  osm_id                                      boundingbox
-#&gt; 1 relation 1903516 20.5645154, 21.3852777, 105.2848986, 106.0200725
-#&gt;       display_name    class           type importance
-#&gt; 1 Hà Nội, Việt Nam boundary administrative  0.6282962
+#&gt; 2 Data © OpenStreetMap contributors, ODbL 1.0. https://osm.org/copyright
+#&gt; 3 Data © OpenStreetMap contributors, ODbL 1.0. https://osm.org/copyright
+#&gt; 4 Data © OpenStreetMap contributors, ODbL 1.0. https://osm.org/copyright
+#&gt; 5 Data © OpenStreetMap contributors, ODbL 1.0. https://osm.org/copyright
+#&gt;   osm_type     osm_id                                      boundingbox
+#&gt; 1 relation    1903516 20.5645154, 21.3852777, 105.2848986, 106.0200725
+#&gt; 2      way  736412443  20.9907136, 20.9928221, 105.795787, 105.7978094
+#&gt; 3      way  872332878  21.0365605, 21.0367753, 105.7821469, 105.783248
+#&gt; 4     node 4747249104   21.029253, 21.029353, 105.8571969, 105.8572969
+#&gt; 5     node 8124813874   21.036605, 21.036705, 105.7826401, 105.7827401
+#&gt;                                                                                                                         display_name
+#&gt; 1                                                                                                                   Hà Nội, Việt Nam
+#&gt; 2                   Đại học quốc gia Hà Nội, 182, Đường Lương Thế Vinh, Phường Trung Văn, Quận Nam Từ Liêm, Hà Nội, 120001, Việt Nam
+#&gt; 3                                        Đại học Quốc gia Hà Nội, Đường Xuân Thủy, Cầu Giấy, Quận Cầu Giấy, Hà Nội, 122000, Việt Nam
+#&gt; 4 Đại sứ quán Đan Mạch tại Hà Nội, Việt Nam, 194, Đường Trần Quang Khải, Phường Lý Thái Tổ, Quận Hoàn Kiếm, Hà Nội, 110905, Việt Nam
+#&gt; 5                                        Đại học Quốc gia Hà Nội, Đường Xuân Thủy, Cầu Giấy, Quận Cầu Giấy, Hà Nội, 122000, Việt Nam
+#&gt;      class           type importance
+#&gt; 1 boundary administrative  0.6282962
+#&gt; 2  amenity     university  0.3945655
+#&gt; 3  railway        station  0.0010000
+#&gt; 4   office     diplomatic  0.0010000
+#&gt; 5  railway           stop  0.0010000
 #&gt;                                                                                    icon
-#&gt; 1 https://nominatim.openstreetmap.org/ui/mapicons//poi_boundary_administrative.p.20.png</div><div class='input'>
+#&gt; 1 https://nominatim.openstreetmap.org/ui/mapicons//poi_boundary_administrative.p.20.png
+#&gt; 2        https://nominatim.openstreetmap.org/ui/mapicons//education_university.p.20.png
+#&gt; 3    https://nominatim.openstreetmap.org/ui/mapicons//transport_train_station2.p.20.png
+#&gt; 4                                                                                  &lt;NA&gt;
+#&gt; 5                                                                                  &lt;NA&gt;</div><div class='input'>
 <span class='va'>raw2</span> <span class='op'>&lt;-</span> <span class='fu'>query_api</span><span class='op'>(</span><span class='st'>"http://nominatim.openstreetmap.org/reverse"</span>, 
    <span class='fu'><a href='get_api_query.html'>get_api_query</a></span><span class='op'>(</span><span class='st'>"osm"</span>, custom_parameters <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>lat <span class='op'>=</span> <span class='fl'>38.895865</span>, lon <span class='op'>=</span> <span class='op'>-</span><span class='fl'>77.0307713</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>
    
 <span class='fu'><a href='extract_reverse_results.html'>extract_reverse_results</a></span><span class='op'>(</span><span class='st'>'osm'</span>, <span class='fu'>jsonlite</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/jsonlite/man/fromJSON.html'>fromJSON</a></span><span class='op'>(</span><span class='va'>raw2</span><span class='op'>$</span><span class='va'>content</span><span class='op'>)</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 1 x 15</span><span>
-#&gt;   display_name place_id licence osm_type osm_id osm_lat osm_lon tourism road 
-#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>           </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>     </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>
-#&gt; </span><span style='color: #BCBCBC;'>1</span><span> L’Enfant's …   3.02</span><span style='color: #949494;'>e</span><span>8 Data ©… way      9.00</span><span style='color: #949494;'>e</span><span>8 38.895… -77.03… L’Enfa… Penn…
-#&gt; </span><span style='color: #949494;'># … with 6 more variables: city </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span style='color: #949494;'>, state </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span style='color: #949494;'>, postcode </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span style='color: #949494;'>,</span><span>
-#&gt; </span><span style='color: #949494;'>#   country </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span style='color: #949494;'>, country_code </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span style='color: #949494;'>, boundingbox </span><span style='color: #949494;font-style: italic;'>&lt;list&gt;</span><span></div><div class='input'><span class='co'># }</span>
+#&gt;   display_name   place_id licence  osm_type osm_id osm_lat osm_lon tourism road 
+#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>             </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>    </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>     </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>
+#&gt; </span><span style='color: #BCBCBC;'>1</span><span> L’Enfant's pl…   3.02</span><span style='color: #949494;'>e</span><span>8 Data © … way      9.00</span><span style='color: #949494;'>e</span><span>8 38.895… -77.03… L’Enfa… Penn…
+#&gt; </span><span style='color: #949494;'># … with 6 more variables: city &lt;chr&gt;, state &lt;chr&gt;, postcode &lt;chr&gt;,</span><span>
+#&gt; </span><span style='color: #949494;'>#   country &lt;chr&gt;, country_code &lt;chr&gt;, boundingbox &lt;list&gt;</span><span></div><div class='input'><span class='co'># }</span>
 
 </div></span></pre>
   </div>

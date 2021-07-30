@@ -49,12 +49,12 @@
 <meta property="og:description" content="Geocodes addresses given as character values. The geocode
 function utilizes this function on addresses contained in dataframes.
 See example usage in vignette(&quot;tidygeocoder&quot;).
-Note that not all geocoder services support certain address component
+Note that not all geocoding services support certain address component
 parameters. For example, the Census geocoder only covers the United States
 and does not have a &quot;country&quot; parameter.
 Refer to api_parameter_reference,
 min_time_reference, and batch_limit_reference for more details on
-geocoder service parameters and usage.
+geocoding service parameters and usage.
 This function uses the get_api_query, query_api, and
 extract_results functions to create, execute, and parse geocoder
 API queries." />
@@ -188,12 +188,12 @@ API queries." />
     <p>Geocodes addresses given as character values. The <a href='geocode.html'>geocode</a>
 function utilizes this function on addresses contained in dataframes.
 See example usage in <code><a href='../articles/tidygeocoder.html'>vignette("tidygeocoder")</a></code>.</p>
-<p>Note that not all geocoder services support certain address component
+<p>Note that not all geocoding services support certain address component
 parameters. For example, the Census geocoder only covers the United States
 and does not have a "country" parameter.</p>
 <p>Refer to <a href='api_parameter_reference.html'>api_parameter_reference</a>,
 <a href='min_time_reference.html'>min_time_reference</a>, and <a href='batch_limit_reference.html'>batch_limit_reference</a> for more details on
-geocoder service parameters and usage.</p>
+geocoding service parameters and usage.</p>
 <p>This function uses the <a href='get_api_query.html'>get_api_query</a>, <a href='query_api.html'>query_api</a>, and
 <a href='extract_results.html'>extract_results</a> functions to create, execute, and parse geocoder
 API queries.</p>
@@ -283,8 +283,8 @@ Do not combine with the address component arguments below
 <li><p><code>"mapquest"</code>: <a href='https://developer.mapquest.com/documentation/geocoding-api/'>MapQuest</a>.  An API key must be stored in "MAPQUEST_API_KEY". Batch geocoding is supported.</p></li>
 <li><p><code>"bing"</code>: <a href='https://docs.microsoft.com/en-us/bingmaps/rest-services/locations/'>Bing</a>.  An API key must be stored in "BINGMAPS_API_KEY". Batch geocoding is supported, but must be explicitly called with <code>mode = "batch"</code>.</p></li>
 <li><p><code>"geoapify"</code>: <a href='https://www.geoapify.com/geocoding-api'>Geoapify</a>.  An API key must be stored in "GEOAPIFY_KEY".</p></li>
-<li><p><code>"cascade"</code> : First uses one geocoder service and then uses
-a second geocoder service if the first service didn't return results.
+<li><p><code>"cascade"</code> : First uses one geocoding service and then uses
+a second geocoding service if the first service didn't return results.
 The services and order is specified by the cascade_order argument.
 Note that this is not compatible with <code>full_results = TRUE</code> as geocoder
 services have different columns that they return.</p></li>
@@ -293,7 +293,7 @@ services have different columns that they return.</p></li>
     <tr>
       <th>cascade_order</th>
       <td><p>a vector with two character values for the method argument
-in the order in which the geocoder services will be attempted for <code>method = "cascade"</code>
+in the order in which the geocoding services will be attempted for <code>method = "cascade"</code>
 (ie. <code><a href='https://rdrr.io/r/base/c.html'>c("census", "geocodio")</a></code>)</p></td>
     </tr>
     <tr>
@@ -336,8 +336,8 @@ batch mode should be explicitly specified with <code>mode = 'batch'</code>.</p><
     </tr>
     <tr>
       <th>full_results</th>
-      <td><p>returns all data from the geocoder service if TRUE.
-If FALSE then only longitude and latitude are returned from the geocoder service.</p></td>
+      <td><p>returns all data from the geocoding service if TRUE.
+If FALSE then only longitude and latitude are returned from the geocoding service.</p></td>
     </tr>
     <tr>
       <th>unique_only</th>
@@ -371,7 +371,7 @@ Defaults to the value in <a href='batch_limit_reference.html'>batch_limit_refere
     </tr>
     <tr>
       <th>no_query</th>
-      <td><p>if TRUE then no queries are sent to the geocoder service and verbose is set to TRUE.
+      <td><p>if TRUE then no queries are sent to the geocoding service and verbose is set to TRUE.
 Used for testing.</p></td>
     </tr>
     <tr>

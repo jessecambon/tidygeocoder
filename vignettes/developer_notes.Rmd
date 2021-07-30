@@ -2,7 +2,7 @@
 title: "Developer Notes"
 output: rmarkdown::html_vignette
 description: >
-  Documentation for developers including how to add support for an additional geocoder service
+  Documentation for developers including how to add support for an additional geocoding service
 vignette: >
   %\VignetteIndexEntry{Developer Notes}
   %\VignetteEngine{knitr::rmarkdown}
@@ -20,7 +20,7 @@ library(dplyr)
 library(tidygeocoder)
 ```
 
-This page contains documentation relevant for those wishing to contribute to the package and specific instructions for how to add support for a new geocoder service.
+This page contains documentation relevant for those wishing to contribute to the package and specific instructions for how to add support for a new geocoding service.
 
 ## Introduction
 
@@ -47,17 +47,17 @@ Here is what is going on behind the scenes:
 
 - The `geocode()` function extracts the address data from the input dataframe and passes it to the `geo()` function.
 - The `geo()` function looks for unique inputs and prepares them for geocoding. In this case, there is one duplicate input so we only have two unique inputs.
-- The `geo()` function must figure out whether to use perform *single address geocoding* (1 address per query) or *batch geocoding* (multiple addresses per query). In this case the specified Nominatim ("osm") geocoder service does not have a batch geocoding function so single address geocoding is used.
-- Because single address geocoding is used, the `geo()` function is called once for each input to geocode all addresses (twice in this case) and the results are combined. If batch geocoding was used then the appropriate batch geocoding function would be called based on the geocoder service specified.
-- Because the specified geocoder service has a usage limit, the rate of querying is limited accordingly. By default this is based on the `min_time_reference` dataset. This behavior can be modified with the `min_time` argument.
+- The `geo()` function must figure out whether to use *single address geocoding* (1 address per query) or *batch geocoding* (multiple addresses per query). In this case the specified Nominatim ("osm") geocoding service does not have a batch geocoding function so single address geocoding is used.
+- Because single address geocoding is used, the `geo()` function is called once for each input to geocode all addresses (twice in this case) and the results are combined. If batch geocoding was used then the appropriate batch geocoding function would be called based on the geocoding service specified.
+- Because the specified geocoding service has a usage limit, the rate of querying is limited accordingly. By default this is based on the `min_time_reference` dataset. This behavior can be modified with the `min_time` argument.
 - Since the input data was deduplicated, the results must be aligned to the original inputs (which contained duplicates) so that the original data structure is preserved. Alternatively, if you only want to return unique results, you can specify `unique_only = TRUE`.
 - This combined data is returned by `geo()` to the `geocode()` function. The `geocode()` function then combines the returned data with the original dataset. 
 
-Refer to the notes below on adding a geocoder service for more specific documentation on the code structure.
+Refer to the notes below on adding a geocoding service for more specific documentation on the code structure.
 
-# Adding a New Geocoder Service
+# Adding a New Geocoding Service
 
-This section documents how to add support for a new geocoder service to the package. Required changes are organized by file. If anything isn't clear, feel free to [file an issue](https://github.com/jessecambon/tidygeocoder/issues).
+This section documents how to add support for a new geocoding service to the package. Required changes are organized by file. If anything isn't clear, feel free to [file an issue](https://github.com/jessecambon/tidygeocoder/issues).
 
 **Base all changes on the main branch**.
 
@@ -66,10 +66,10 @@ This section documents how to add support for a new geocoder service to the pack
 * **[R/api_url.R](https://github.com/jessecambon/tidygeocoder/blob/main/R/api_url.R)**
     * Add a standalone function for obtaining the API URL and update the `get_api_url()` function accordingly. If arguments need to be added to the `get_api_url()` function, make sure to adjust the calls to this function in the `geo()` and `reverse_geo()` functions accordingly.
 * **[data-raw/api_parameter_reference.R](https://github.com/jessecambon/tidygeocoder/blob/main/data-raw/api_parameter_reference.R)**
-    * Add rows to the [api_parameter_reference](https://jessecambon.github.io/tidygeocoder/articles/tidygeocoder.html#api-reference) dataset to include the geocoder service. Each service is referred to by a short name in the `method` column (which is how the service is specified in the `geo()` and `geocode()` functions). The `generic_name` column has the universal parameter name that is used across geocoder services (ie. "address", "limit", etc.) while the `api_name` column stores the parameter names that are specific to the geocoder service. 
+    * Add rows to the [api_parameter_reference](https://jessecambon.github.io/tidygeocoder/articles/tidygeocoder.html#api-reference) dataset to include the geocoding service. Each service is referred to by a short name in the `method` column (which is how the service is specified in the `geo()` and `geocode()` functions). The `generic_name` column has the universal parameter name that is used across geocoding services (ie. "address", "limit", etc.) while the `api_name` column stores the parameter names that are specific to the geocoding service. 
     * Note that there is no need to include parameters that are only used for reverse geocoding or parameters that have no equivalent in other geocoding services (ie. there is no `generic_name`) **unless** the parameters are required. Parameters can always be passed to services directly with the `custom_query` argument in `geo()` or `reverse_geo()`. 
 * **[data-raw/api_references.R](https://github.com/jessecambon/tidygeocoder/blob/main/data-raw/api_references.R)**
-   * Add a row to `min_time_reference` with the minimum time each query should take (in seconds) according to the geocoder service's free tier usage restrictions.
+   * Add a row to `min_time_reference` with the minimum time each query should take (in seconds) according to the geocoding service's free tier usage restrictions.
    * Add a row to `api_key_reference` if the service requires an API key.
    * If the service you are adding has batch geocoding capabilities, add the maximum batch size (as a row) to `batch_limit_reference`.
    * Add a row to `api_info_reference` with links to the service's website, documentation, and usage policy.
@@ -79,7 +79,7 @@ This section documents how to add support for a new geocoder service to the pack
     * Update the `get_coord_parameters()` function based on how the service passed latitude and longitude coordinates for reverse geocoding.
     * If the service supports reverse batch geocoding then add a new function in **[R/reverse_batch_geocoding.R](https://github.com/jessecambon/tidygeocoder/blob/main/R/reverse_batch_geocoding.R)** and add it to the `reverse_batch_func_map` named list.
 * **[R/results_processing.R](https://github.com/jessecambon/tidygeocoder/blob/main/R/results_processing.R)**
-    * Update the `extract_results()` function which is used for parsing single addresses (ie. not batch geocoding). You can see examples of how I've tested out parsing the results of geocoder services [here](https://github.com/jessecambon/tidygeocoder/tree/main/sandbox/query_debugging).
+    * Update the `extract_results()` function which is used for parsing single addresses (ie. not batch geocoding). You can see examples of how I've tested out parsing the results of geocoding services [here](https://github.com/jessecambon/tidygeocoder/tree/main/sandbox/query_debugging).
     * In a similar fashion, update the `extract_reverse_results()` function for reverse geocoding.
     * Update the `extract_errors_from_results()` function to extract error messages for invalid queries.
 * **[R/geo_methods.R](https://github.com/jessecambon/tidygeocoder/blob/main/R/geo_methods.R)**
@@ -108,7 +108,7 @@ These files don't necessarily need to be updated. However, you might need to mak
 ## Testing
 
 * Test out the new method with `verbose = TRUE` to make sure it behaves as expected. You can reference tests available [the 'sandbox' folder](https://github.com/jessecambon/tidygeocoder/tree/master/sandbox) for reference. 
-* Run `devtools::check()` to make sure the package still passes all tests and the vignette runs properly. To only run the package tests use `devtools::test()`, but note these tests do not query the geocoder services to avoid external dependencies.
-* Run **[external/online_tests.R](https://github.com/jessecambon/tidygeocoder/blob/main/external/online_tests.R)** to test making queries to the geocoder services. These tests are not included in the internal package tests (`devtools::test()`) because they require API keys which would not exist on all systems and are dependent on the geocoder services being online at that the time of the test.
+* Run `devtools::check()` to make sure the package still passes all tests and the vignette runs properly. To only run the package tests use `devtools::test()`, but note these tests do not query the geocoding services to avoid external dependencies.
+* Run **[external/online_tests.R](https://github.com/jessecambon/tidygeocoder/blob/main/external/online_tests.R)** to test making queries to the geocoding services. These tests are not included in the internal package tests (`devtools::test()`) because they require API keys which would not exist on all systems and are dependent on the geocoding services being online at that the time of the test.
 * Run the commands detailed in **[cran-comments.md](https://github.com/jessecambon/tidygeocoder/blob/main/cran-comments.md)** to test the package on other environments. Note that these tests should also be included in the automated GitHub actions tests for pull requests.
 * When prepping for a release, use `urlchecker::url_check()` to check all package URLs.

@@ -72,8 +72,8 @@ be used if available (given method selected) when multiple coordinates are
 provided; otherwise single address geocoding will be used. For the "here" and "bing" methods the
 batch mode should be explicitly specified with \code{mode = 'batch'}.}
 
-\item{full_results}{returns all data from the geocoder service if TRUE.
-If FALSE then only a single address column will be returned from the geocoder service.}
+\item{full_results}{returns all data from the geocoding service if TRUE.
+If FALSE then only a single address column will be returned from the geocoding service.}
 
 \item{unique_only}{only return results for unique inputs if TRUE}
 
@@ -90,7 +90,7 @@ Defaults to the value in \link{batch_limit_reference} if not specified.}
 
 \item{verbose}{if TRUE then detailed logs are output to the console}
 
-\item{no_query}{if TRUE then no queries are sent to the geocoder service and verbose is set to TRUE.
+\item{no_query}{if TRUE then no queries are sent to the geocoding service and verbose is set to TRUE.
 Used for testing.}
 
 \item{custom_query}{API-specific parameters to be used, passed as a named list
@@ -121,13 +121,13 @@ tibble (dataframe)
 \description{
 Reverse geocodes geographic coordinates (latitude and longitude) given as numeric values.
 Latitude and longitude inputs are limited to possible values. Latitudes must be between -90 and 90 and
-longitudes must be between -180 and 180. Invalid values will not be sent to the geocoder service.
+longitudes must be between -180 and 180. Invalid values will not be sent to the geocoding service.
 The \link{reverse_geocode} function utilizes this function on coordinates contained in dataframes.
 See example usage in \code{vignette("tidygeocoder")}.
 
 Refer to \link{api_parameter_reference},
 \link{min_time_reference}, and \link{batch_limit_reference} for more details on
-geocoder service parameters and usage.
+geocoding service parameters and usage.
 
 This function uses the \link{get_api_query}, \link{query_api}, and
 \link{extract_reverse_results} functions to create, execute, and parse geocoder

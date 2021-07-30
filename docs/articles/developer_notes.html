@@ -14,7 +14,7 @@
 <script src="../pkgdown.js"></script><!-- docsearch --><script src="../docsearch.js"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/docsearch.js/2.6.3/docsearch.min.css" integrity="sha256-QOSRU/ra9ActyXkIBbiIB144aDBdtvXBcNc3OTNuX/Q=" crossorigin="anonymous">
 <link href="../docsearch.css" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/jquery.mark.min.js" integrity="sha256-4HLtjeVgH0eIB3aZ9mLYF6E8oU5chNdjU6p6rrXpl9U=" crossorigin="anonymous"></script><meta property="og:title" content="Developer Notes">
-<meta property="og:description" content="Documentation for developers including how to add support for an additional geocoder service
+<meta property="og:description" content="Documentation for developers including how to add support for an additional geocoding service
 ">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
@@ -117,7 +117,7 @@
 
       
 
-      </header><script src="developer_notes_files/header-attrs-2.6/header-attrs.js"></script><div class="row">
+      </header><script src="developer_notes_files/header-attrs-2.8/header-attrs.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Developer Notes</h1>
@@ -130,7 +130,7 @@
 
     
     
-<p>This page contains documentation relevant for those wishing to contribute to the package and specific instructions for how to add support for a new geocoder service.</p>
+<p>This page contains documentation relevant for those wishing to contribute to the package and specific instructions for how to add support for a new geocoding service.</p>
 <div id="introduction" class="section level2">
 <h2 class="hasAnchor">
 <a href="#introduction" class="anchor"></a>Introduction</h2>
@@ -157,7 +157,7 @@
 <span class="co">#&gt; limit : "1"</span>
 <span class="co">#&gt; format : "json"</span>
 <span class="co">#&gt; HTTP Status Code: 200</span>
-<span class="co">#&gt; Query completed in: 0.6 seconds</span>
+<span class="co">#&gt; Query completed in: 0.4 seconds</span>
 <span class="co">#&gt; Total query time (including sleep): 1 seconds</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; Number of Unique Addresses: 1</span>
@@ -171,29 +171,29 @@
 <span class="co">#&gt; Total query time (including sleep): 1 seconds</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; # A tibble: 3 x 14</span>
-<span class="co">#&gt;      id locations   lat   long place_id licence osm_type osm_id boundingbox</span>
-<span class="co">#&gt;   &lt;dbl&gt; &lt;chr&gt;     &lt;dbl&gt;  &lt;dbl&gt;    &lt;int&gt; &lt;chr&gt;   &lt;chr&gt;     &lt;int&gt; &lt;list&gt;     </span>
-<span class="co">#&gt; 1     1 tokyo      35.7 140.     2.59e8 Data ©… relation 1.54e6 &lt;chr [4]&gt;  </span>
-<span class="co">#&gt; 2     2 madrid     40.4  -3.70   2.59e8 Data ©… relation 5.33e6 &lt;chr [4]&gt;  </span>
-<span class="co">#&gt; 3     1 tokyo      35.7 140.     2.59e8 Data ©… relation 1.54e6 &lt;chr [4]&gt;  </span>
+<span class="co">#&gt;      id locations   lat   long  place_id licence     osm_type osm_id boundingbox</span>
+<span class="co">#&gt;   &lt;dbl&gt; &lt;chr&gt;     &lt;dbl&gt;  &lt;dbl&gt;     &lt;int&gt; &lt;chr&gt;       &lt;chr&gt;     &lt;int&gt; &lt;list&gt;     </span>
+<span class="co">#&gt; 1     1 tokyo      35.7 140.   258605795 Data © Ope… relation 1.54e6 &lt;chr [4]&gt;  </span>
+<span class="co">#&gt; 2     2 madrid     40.4  -3.70 258787188 Data © Ope… relation 5.33e6 &lt;chr [4]&gt;  </span>
+<span class="co">#&gt; 3     1 tokyo      35.7 140.   258605795 Data © Ope… relation 1.54e6 &lt;chr [4]&gt;  </span>
 <span class="co">#&gt; # … with 5 more variables: display_name &lt;chr&gt;, class &lt;chr&gt;, type &lt;chr&gt;,</span>
 <span class="co">#&gt; #   importance &lt;dbl&gt;, icon &lt;chr&gt;</span></code></pre></div>
 <p>Here is what is going on behind the scenes:</p>
 <ul>
 <li>The <code><a href="../reference/geocode.html">geocode()</a></code> function extracts the address data from the input dataframe and passes it to the <code><a href="../reference/geo.html">geo()</a></code> function.</li>
 <li>The <code><a href="../reference/geo.html">geo()</a></code> function looks for unique inputs and prepares them for geocoding. In this case, there is one duplicate input so we only have two unique inputs.</li>
-<li>The <code><a href="../reference/geo.html">geo()</a></code> function must figure out whether to use perform <em>single address geocoding</em> (1 address per query) or <em>batch geocoding</em> (multiple addresses per query). In this case the specified Nominatim (“osm”) geocoder service does not have a batch geocoding function so single address geocoding is used.</li>
-<li>Because single address geocoding is used, the <code><a href="../reference/geo.html">geo()</a></code> function is called once for each input to geocode all addresses (twice in this case) and the results are combined. If batch geocoding was used then the appropriate batch geocoding function would be called based on the geocoder service specified.</li>
-<li>Because the specified geocoder service has a usage limit, the rate of querying is limited accordingly. By default this is based on the <code>min_time_reference</code> dataset. This behavior can be modified with the <code>min_time</code> argument.</li>
+<li>The <code><a href="../reference/geo.html">geo()</a></code> function must figure out whether to use <em>single address geocoding</em> (1 address per query) or <em>batch geocoding</em> (multiple addresses per query). In this case the specified Nominatim (“osm”) geocoding service does not have a batch geocoding function so single address geocoding is used.</li>
+<li>Because single address geocoding is used, the <code><a href="../reference/geo.html">geo()</a></code> function is called once for each input to geocode all addresses (twice in this case) and the results are combined. If batch geocoding was used then the appropriate batch geocoding function would be called based on the geocoding service specified.</li>
+<li>Because the specified geocoding service has a usage limit, the rate of querying is limited accordingly. By default this is based on the <code>min_time_reference</code> dataset. This behavior can be modified with the <code>min_time</code> argument.</li>
 <li>Since the input data was deduplicated, the results must be aligned to the original inputs (which contained duplicates) so that the original data structure is preserved. Alternatively, if you only want to return unique results, you can specify <code>unique_only = TRUE</code>.</li>
 <li>This combined data is returned by <code><a href="../reference/geo.html">geo()</a></code> to the <code><a href="../reference/geocode.html">geocode()</a></code> function. The <code><a href="../reference/geocode.html">geocode()</a></code> function then combines the returned data with the original dataset.</li>
 </ul>
-<p>Refer to the notes below on adding a geocoder service for more specific documentation on the code structure.</p>
+<p>Refer to the notes below on adding a geocoding service for more specific documentation on the code structure.</p>
 </div>
-<div id="adding-a-new-geocoder-service" class="section level1">
+<div id="adding-a-new-geocoding-service" class="section level1">
 <h1 class="hasAnchor">
-<a href="#adding-a-new-geocoder-service" class="anchor"></a>Adding a New Geocoder Service</h1>
-<p>This section documents how to add support for a new geocoder service to the package. Required changes are organized by file. If anything isn’t clear, feel free to <a href="https://github.com/jessecambon/tidygeocoder/issues">file an issue</a>.</p>
+<a href="#adding-a-new-geocoding-service" class="anchor"></a>Adding a New Geocoding Service</h1>
+<p>This section documents how to add support for a new geocoding service to the package. Required changes are organized by file. If anything isn’t clear, feel free to <a href="https://github.com/jessecambon/tidygeocoder/issues">file an issue</a>.</p>
 <p><strong>Base all changes on the main branch</strong>.</p>
 <div id="files-to-update" class="section level2">
 <h2 class="hasAnchor">
@@ -208,14 +208,14 @@
 <li>
 <strong><a href="https://github.com/jessecambon/tidygeocoder/blob/main/data-raw/api_parameter_reference.R">data-raw/api_parameter_reference.R</a></strong>
 <ul>
-<li>Add rows to the <a href="https://jessecambon.github.io/tidygeocoder/articles/tidygeocoder.html#api-reference">api_parameter_reference</a> dataset to include the geocoder service. Each service is referred to by a short name in the <code>method</code> column (which is how the service is specified in the <code><a href="../reference/geo.html">geo()</a></code> and <code><a href="../reference/geocode.html">geocode()</a></code> functions). The <code>generic_name</code> column has the universal parameter name that is used across geocoder services (ie. “address”, “limit”, etc.) while the <code>api_name</code> column stores the parameter names that are specific to the geocoder service.</li>
+<li>Add rows to the <a href="https://jessecambon.github.io/tidygeocoder/articles/tidygeocoder.html#api-reference">api_parameter_reference</a> dataset to include the geocoding service. Each service is referred to by a short name in the <code>method</code> column (which is how the service is specified in the <code><a href="../reference/geo.html">geo()</a></code> and <code><a href="../reference/geocode.html">geocode()</a></code> functions). The <code>generic_name</code> column has the universal parameter name that is used across geocoding services (ie. “address”, “limit”, etc.) while the <code>api_name</code> column stores the parameter names that are specific to the geocoding service.</li>
 <li>Note that there is no need to include parameters that are only used for reverse geocoding or parameters that have no equivalent in other geocoding services (ie. there is no <code>generic_name</code>) <strong>unless</strong> the parameters are required. Parameters can always be passed to services directly with the <code>custom_query</code> argument in <code><a href="../reference/geo.html">geo()</a></code> or <code><a href="../reference/reverse_geo.html">reverse_geo()</a></code>.</li>
 </ul>
 </li>
 <li>
 <strong><a href="https://github.com/jessecambon/tidygeocoder/blob/main/data-raw/api_references.R">data-raw/api_references.R</a></strong>
 <ul>
-<li>Add a row to <code>min_time_reference</code> with the minimum time each query should take (in seconds) according to the geocoder service’s free tier usage restrictions.</li>
+<li>Add a row to <code>min_time_reference</code> with the minimum time each query should take (in seconds) according to the geocoding service’s free tier usage restrictions.</li>
 <li>Add a row to <code>api_key_reference</code> if the service requires an API key.</li>
 <li>If the service you are adding has batch geocoding capabilities, add the maximum batch size (as a row) to <code>batch_limit_reference</code>.</li>
 <li>Add a row to <code>api_info_reference</code> with links to the service’s website, documentation, and usage policy.</li>
@@ -237,7 +237,7 @@
 <li>
 <strong><a href="https://github.com/jessecambon/tidygeocoder/blob/main/R/results_processing.R">R/results_processing.R</a></strong>
 <ul>
-<li>Update the <code><a href="../reference/extract_results.html">extract_results()</a></code> function which is used for parsing single addresses (ie. not batch geocoding). You can see examples of how I’ve tested out parsing the results of geocoder services <a href="https://github.com/jessecambon/tidygeocoder/tree/main/sandbox/query_debugging">here</a>.</li>
+<li>Update the <code><a href="../reference/extract_results.html">extract_results()</a></code> function which is used for parsing single addresses (ie. not batch geocoding). You can see examples of how I’ve tested out parsing the results of geocoding services <a href="https://github.com/jessecambon/tidygeocoder/tree/main/sandbox/query_debugging">here</a>.</li>
 <li>In a similar fashion, update the <code><a href="../reference/extract_reverse_results.html">extract_reverse_results()</a></code> function for reverse geocoding.</li>
 <li>Update the <code>extract_errors_from_results()</code> function to extract error messages for invalid queries.</li>
 </ul>
@@ -295,7 +295,7 @@
 <li>
 <strong><a href="https://github.com/jessecambon/tidygeocoder/blob/main/external/create_logo.Rmd">external/create_logo.Rmd</a></strong>
 <ul>
-<li>Create the package logo</li>
+<li>Create the package logo.</li>
 </ul>
 </li>
 </ul>
@@ -305,10 +305,10 @@
 <a href="#testing" class="anchor"></a>Testing</h2>
 <ul>
 <li>Test out the new method with <code>verbose = TRUE</code> to make sure it behaves as expected. You can reference tests available <a href="https://github.com/jessecambon/tidygeocoder/tree/master/sandbox">the ‘sandbox’ folder</a> for reference.</li>
-<li>Run <code><a href="https://devtools.r-lib.org//reference/check.html">devtools::check()</a></code> to make sure the package still passes all tests and the vignette runs properly. To only run the package tests use <code><a href="https://devtools.r-lib.org//reference/test.html">devtools::test()</a></code>, but note these tests do not query the geocoder services to avoid external dependencies.</li>
-<li>Run <strong><a href="https://github.com/jessecambon/tidygeocoder/blob/main/external/online_tests.R">external/online_tests.R</a></strong> to test making queries to the geocoder services. These tests are not included in the internal package tests (<code><a href="https://devtools.r-lib.org//reference/test.html">devtools::test()</a></code>) because they require API keys which would not exist on all systems and are dependent on the geocoder services being online at that the time of the test.</li>
+<li>Run <code><a href="https://devtools.r-lib.org//reference/check.html">devtools::check()</a></code> to make sure the package still passes all tests and the vignette runs properly. To only run the package tests use <code><a href="https://devtools.r-lib.org//reference/test.html">devtools::test()</a></code>, but note these tests do not query the geocoding services to avoid external dependencies.</li>
+<li>Run <strong><a href="https://github.com/jessecambon/tidygeocoder/blob/main/external/online_tests.R">external/online_tests.R</a></strong> to test making queries to the geocoding services. These tests are not included in the internal package tests (<code><a href="https://devtools.r-lib.org//reference/test.html">devtools::test()</a></code>) because they require API keys which would not exist on all systems and are dependent on the geocoding services being online at that the time of the test.</li>
 <li>Run the commands detailed in <strong><a href="https://github.com/jessecambon/tidygeocoder/blob/main/cran-comments.md">cran-comments.md</a></strong> to test the package on other environments. Note that these tests should also be included in the automated GitHub actions tests for pull requests.</li>
-<li>When prepping for a release, use <code><a href="https://rdrr.io/pkg/urlchecker/man/url_check.html">urlchecker::url_check()</a></code> to check all package URLs.</li>
+<li>When prepping for a release, use <code>urlchecker::url_check()</code> to check all package URLs.</li>
 </ul>
 </div>
 </div>
