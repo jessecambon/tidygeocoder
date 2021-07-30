@@ -47,7 +47,7 @@
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
 <li>
-  <a href="../articles/geocoder_services.html">Geocoder Services</a>
+  <a href="../articles/geocoder_services.html">Geocoding Services</a>
 </li>
 <li>
   <a href="../reference/index.html">Reference</a>
@@ -212,7 +212,7 @@
 <td align="left"><code>opencage</code></td>
 <td align="left">✅</td>
 <td align="left"></td>
-<td align="left">1 query per second</td>
+<td align="left">1 query per second (free tier)</td>
 <td align="left"><a href="https://opencagedata.com/api">docs</a></td>
 </tr>
 <tr class="even">
@@ -255,6 +255,14 @@
 <td align="left"></td>
 <td align="left"><a href="https://docs.microsoft.com/en-us/bingmaps/rest-services/locations/">docs</a></td>
 </tr>
+<tr class="odd">
+<td align="left"><a href="https://www.geoapify.com/geocoding-api">Geoapify</a></td>
+<td align="left"><code>geoapify</code></td>
+<td align="left">✅</td>
+<td align="left"></td>
+<td align="left">5 queries per second (free tier)</td>
+<td align="left"><a href="https://apidocs.geoapify.com/docs/geocoding/api/">docs</a></td>
+</tr>
 </tbody>
 </table>
 <p><strong>Highlights:</strong></p>
@@ -291,7 +299,7 @@
 <a href="#api-parameters" class="anchor"></a>API Parameters</h2>
 <p>The <code>api_parameter_reference</code> maps the API parameters for each geocoding service to a common set of “generic” parameters. The <code>generic_name</code> below is the generic parameter name while the <code>api_name</code> is the parameter name for the specified geocoding service (<code>method</code>). Refer to <code><a href="../reference/api_parameter_reference.html">?api_parameter_reference</a></code> for more details.</p>
 <div id="htmlwidget-30e4409849e39179307f" style="width:100%;height:auto;" class="datatables html-widget"></div>
-<script type="application/json" data-for="htmlwidget-30e4409849e39179307f">{"x":{"filter":"top","filterHTML":"<tr>\n  <td data-type=\"factor\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"width: 100%; display: none;\">\n      <select multiple=\"multiple\" style=\"width: 100%;\" data-options=\"[&quot;arcgis&quot;,&quot;bing&quot;,&quot;census&quot;,&quot;geocodio&quot;,&quot;google&quot;,&quot;here&quot;,&quot;iq&quot;,&quot;mapbox&quot;,&quot;mapquest&quot;,&quot;opencage&quot;,&quot;osm&quot;,&quot;tomtom&quot;]\"><\/select>\n    <\/div>\n  <\/td>\n  <td data-type=\"factor\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"width: 100%; display: none;\">\n      <select multiple=\"multiple\" style=\"width: 100%;\" data-options=\"[&quot;address&quot;,&quot;api_key&quot;,&quot;city&quot;,&quot;country&quot;,&quot;county&quot;,&quot;format&quot;,&quot;limit&quot;,&quot;postalcode&quot;,&quot;state&quot;,&quot;street&quot;]\"><\/select>\n    <\/div>\n  <\/td>\n  <td data-type=\"factor\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"width: 100%; display: none;\">\n      <select multiple=\"multiple\" style=\"width: 100%;\" data-options=\"[&quot;access_token&quot;,&quot;address&quot;,&quot;api_key&quot;,&quot;apiKey&quot;,&quot;benchmark&quot;,&quot;city&quot;,&quot;country&quot;,&quot;county&quot;,&quot;f&quot;,&quot;format&quot;,&quot;key&quot;,&quot;limit&quot;,&quot;location&quot;,&quot;maxLocations&quot;,&quot;maxResults&quot;,&quot;postal_code&quot;,&quot;postalcode&quot;,&quot;q&quot;,&quot;query&quot;,&quot;search_text&quot;,&quot;SingleLine&quot;,&quot;state&quot;,&quot;street&quot;,&quot;vintage&quot;,&quot;zip&quot;]\"><\/select>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"logical\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"width: 100%; display: none;\">\n      <select multiple=\"multiple\" style=\"width: 100%;\" data-options=\"[&quot;true&quot;,&quot;false&quot;]\"><\/select>\n    <\/div>\n  <\/td>\n<\/tr>","data":[["census","census","census","census","census","census","census","census","osm","osm","osm","osm","osm","osm","osm","osm","osm","iq","iq","iq","iq","iq","iq","iq","iq","iq","iq","geocodio","geocodio","geocodio","geocodio","geocodio","geocodio","geocodio","geocodio","google","google","opencage","opencage","opencage","mapbox","mapbox","mapbox","here","here","here","tomtom","tomtom","tomtom","mapquest","mapquest","mapquest","bing","bing","bing","arcgis","arcgis","arcgis"],["format",null,null,"address","street","city","state","postalcode","format","limit","address","street","city","county","state","postalcode","country","api_key","format","limit","address","street","city","county","state","postalcode","country","api_key","limit","address","street","city","state","postalcode","country","api_key","address","api_key","address","limit","api_key","address","limit","api_key","address","limit","api_key","address","limit","api_key","address","limit","api_key","address","limit","address","limit","format"],["format","benchmark","vintage","address","street","city","state","zip","format","limit","q","street","city","county","state","postalcode","country","key","format","limit","q","street","city","county","state","postalcode","country","api_key","limit","q","street","city","state","postal_code","country","key","address","key","q","limit","access_token","search_text","limit","apiKey","q","limit","key","query","limit","key","location","maxResults","key","q","maxResults","SingleLine","maxLocations","f"],["json","Public_AR_Current","Current_Current",null,null,null,null,null,"json","1",null,null,null,null,null,null,null,null,"json","1",null,null,null,null,null,null,null,null,"1",null,null,null,null,null,null,null,null,null,null,"1",null,null,"1",null,null,"1",null,null,"1",null,null,"1",null,null,"1",null,"1","json"],[true,true,true,false,false,false,false,false,true,false,false,false,false,false,false,false,false,true,true,false,false,false,false,false,false,false,false,true,false,false,false,false,false,false,false,true,true,true,true,false,true,true,false,true,true,false,true,true,false,true,true,false,true,true,false,false,false,true]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>method<\/th>\n      <th>generic_name<\/th>\n      <th>api_name<\/th>\n      <th>default_value<\/th>\n      <th>required<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"lengthMenu":[5,10,15,20,58],"pageLength":10,"autoWidth":true,"order":[],"orderClasses":false,"orderCellsTop":true}},"evals":[],"jsHooks":[]}</script>
+<script type="application/json" data-for="htmlwidget-30e4409849e39179307f">{"x":{"filter":"top","filterHTML":"<tr>\n  <td data-type=\"factor\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"width: 100%; display: none;\">\n      <select multiple=\"multiple\" style=\"width: 100%;\" data-options=\"[&quot;arcgis&quot;,&quot;bing&quot;,&quot;census&quot;,&quot;geoapify&quot;,&quot;geocodio&quot;,&quot;google&quot;,&quot;here&quot;,&quot;iq&quot;,&quot;mapbox&quot;,&quot;mapquest&quot;,&quot;opencage&quot;,&quot;osm&quot;,&quot;tomtom&quot;]\"><\/select>\n    <\/div>\n  <\/td>\n  <td data-type=\"factor\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"width: 100%; display: none;\">\n      <select multiple=\"multiple\" style=\"width: 100%;\" data-options=\"[&quot;address&quot;,&quot;api_key&quot;,&quot;city&quot;,&quot;country&quot;,&quot;county&quot;,&quot;format&quot;,&quot;limit&quot;,&quot;postalcode&quot;,&quot;state&quot;,&quot;street&quot;]\"><\/select>\n    <\/div>\n  <\/td>\n  <td data-type=\"factor\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"width: 100%; display: none;\">\n      <select multiple=\"multiple\" style=\"width: 100%;\" data-options=\"[&quot;access_token&quot;,&quot;address&quot;,&quot;api_key&quot;,&quot;apiKey&quot;,&quot;benchmark&quot;,&quot;city&quot;,&quot;country&quot;,&quot;county&quot;,&quot;f&quot;,&quot;format&quot;,&quot;key&quot;,&quot;limit&quot;,&quot;location&quot;,&quot;maxLocations&quot;,&quot;maxResults&quot;,&quot;postal_code&quot;,&quot;postalcode&quot;,&quot;postcode&quot;,&quot;q&quot;,&quot;query&quot;,&quot;search_text&quot;,&quot;SingleLine&quot;,&quot;state&quot;,&quot;street&quot;,&quot;text&quot;,&quot;vintage&quot;,&quot;zip&quot;]\"><\/select>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"logical\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"width: 100%; display: none;\">\n      <select multiple=\"multiple\" style=\"width: 100%;\" data-options=\"[&quot;true&quot;,&quot;false&quot;]\"><\/select>\n    <\/div>\n  <\/td>\n<\/tr>","data":[["census","census","census","census","census","census","census","census","osm","osm","osm","osm","osm","osm","osm","osm","osm","iq","iq","iq","iq","iq","iq","iq","iq","iq","iq","geocodio","geocodio","geocodio","geocodio","geocodio","geocodio","geocodio","geocodio","google","google","opencage","opencage","opencage","mapbox","mapbox","mapbox","here","here","here","tomtom","tomtom","tomtom","mapquest","mapquest","mapquest","bing","bing","bing","arcgis","arcgis","arcgis","geoapify","geoapify","geoapify","geoapify","geoapify","geoapify","geoapify","geoapify"],["format",null,null,"address","street","city","state","postalcode","format","limit","address","street","city","county","state","postalcode","country","api_key","format","limit","address","street","city","county","state","postalcode","country","api_key","limit","address","street","city","state","postalcode","country","api_key","address","api_key","address","limit","api_key","address","limit","api_key","address","limit","api_key","address","limit","api_key","address","limit","api_key","address","limit","address","limit","format","api_key","address","street","city","state","postalcode","country","limit"],["format","benchmark","vintage","address","street","city","state","zip","format","limit","q","street","city","county","state","postalcode","country","key","format","limit","q","street","city","county","state","postalcode","country","api_key","limit","q","street","city","state","postal_code","country","key","address","key","q","limit","access_token","search_text","limit","apiKey","q","limit","key","query","limit","key","location","maxResults","key","q","maxResults","SingleLine","maxLocations","f","apiKey","text","street","city","state","postcode","country","limit"],["json","Public_AR_Current","Current_Current",null,null,null,null,null,"json","1",null,null,null,null,null,null,null,null,"json","1",null,null,null,null,null,null,null,null,"1",null,null,null,null,null,null,null,null,null,null,"1",null,null,"1",null,null,"1",null,null,"1",null,null,"1",null,null,"1",null,"1","json",null,null,null,null,null,null,null,"1"],[true,true,true,false,false,false,false,false,true,false,false,false,false,false,false,false,false,true,true,false,false,false,false,false,false,false,false,true,false,false,false,false,false,false,false,true,true,true,true,false,true,true,false,true,true,false,true,true,false,true,true,false,true,true,false,false,false,true,true,false,false,false,false,false,false,false]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>method<\/th>\n      <th>generic_name<\/th>\n      <th>api_name<\/th>\n      <th>default_value<\/th>\n      <th>required<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"lengthMenu":[5,10,15,20,66],"pageLength":10,"autoWidth":true,"order":[],"orderClasses":false,"orderCellsTop":true}},"evals":[],"jsHooks":[]}</script>
 </div>
 <div id="api-key-retrieval" class="section level2">
 <h2 class="hasAnchor">
@@ -677,6 +685,10 @@
 <td class="gt_row gt_left">bing</td>
 <td class="gt_row gt_left">BINGMAPS_API_KEY</td>
 </tr>
+<tr>
+<td class="gt_row gt_left">geoapify</td>
+<td class="gt_row gt_left">GEOAPIFY_KEY</td>
+</tr>
 </tbody>
 </table>
 </div>
@@ -1053,7 +1065,7 @@
 <tr>
 <td class="gt_row gt_left">opencage</td>
 <td class="gt_row gt_right">1.00</td>
-<td class="gt_row gt_left">1 query per second</td>
+<td class="gt_row gt_left">1 query per second (free tier)</td>
 </tr>
 <tr>
 <td class="gt_row gt_left">mapbox</td>
@@ -1067,6 +1079,11 @@
 </tr>
 <tr>
 <td class="gt_row gt_left">here</td>
+<td class="gt_row gt_right">0.20</td>
+<td class="gt_row gt_left">5 queries per second (free tier)</td>
+</tr>
+<tr>
+<td class="gt_row gt_left">geoapify</td>
 <td class="gt_row gt_right">0.20</td>
 <td class="gt_row gt_left">5 queries per second (free tier)</td>
 </tr>
@@ -1088,6 +1105,7 @@
 <li><a href="https://developer.tomtom.com/store/maps-api">TomTom</a></li>
 <li><a href="https://developer.mapquest.com/plans">MapQuest</a></li>
 <li><a href="https://docs.microsoft.com/en-us/bingmaps/spatial-data-services/geocode-and-data-source-limits">Bing</a></li>
+<li><a href="https://www.geoapify.com/term-and-conditions">Geoapify</a></li>
 </ul>
 </div>
 <div id="batch-query-size-limits" class="section level2">

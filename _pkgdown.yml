@@ -43,7 +43,7 @@ navbar:
   components:
     home: ~
     intro:
-      text: Geocoder Services
+      text: Geocoding Services
       href: articles/geocoder_services.html
     articles:
       text: Articles
