@@ -28,9 +28,9 @@ reverse_geocode(
 \item{return_input}{if TRUE then the input dataset will be combined with the geocoder query results
 and returned. If FALSE only the geocoder results will be returned.}
 
-\item{limit}{maximum number of results to return per input coordinate. For many geocoder services
+\item{limit}{maximum number of results to return per input coordinate. For many geocoding services
 the maximum value of the limit parameter is 100. Pass \code{limit = NULL} to use
-the default \code{limit} value of the selected geocoder service.
+the default \code{limit} value of the selected geocoding service.
 For batch geocoding, limit must be set to 1 (default) if \code{return_coords = TRUE}.
 To use \code{limit > 1} or \code{limit = NULL} set return_input to FALSE.
 Refer to \link{api_parameter_reference} for more details.}
