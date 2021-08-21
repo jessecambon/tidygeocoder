@@ -2,6 +2,7 @@
 
 - Added support for the [Geoapify](https://www.geoapify.com/) service (thanks [@dpprdan](https://github.com/dpprdan)). This service supports batch geocoding, but this capability is currently not implemented in tidygeocoder (see [#119](https://github.com/jessecambon/tidygeocoder/issues/119)).
 - Fixed a bug for Bing forward geocoding `geo()` when no results are found ([#112](https://github.com/jessecambon/tidygeocoder/issues/112)).
+- Fixed a bug when reverse geocoding when passing a set of exclusively duplicate coordinates (1 unique coordinate) ([#129](https://github.com/jessecambon/tidygeocoder/issues/129)). 
 
 # tidygeocoder 1.0.3
 
