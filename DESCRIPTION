@@ -35,8 +35,7 @@ Imports:
     dplyr,
     httr,
     jsonlite,
-    lifecycle,
-    progressr
+    lifecycle
 Suggests: 
     knitr,
     rmarkdown,

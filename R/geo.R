@@ -193,7 +193,7 @@ geo <- function(address = NULL,
   num_unique_addresses <- nrow(address_pack$unique) # unique addresses
   NA_value <- get_na_value(lat, long, rows = num_unique_addresses) # filler result to return if needed
   
-  if (verbose == TRUE) message(paste0('Number of Unique Addresses: ', num_unique_addresses))
+  if (verbose == TRUE) message(paste0('\nNumber of Unique Addresses: ', num_unique_addresses))
   
   # If no valid/non-blank addresses are passed then return NA
   if (num_unique_addresses == 1 && all(is.na(address_pack$unique))) {
@@ -275,12 +275,8 @@ geo <- function(address = NULL,
       )
       
       # Geocode each address individually by recalling this function with mapply
-      if (progress_bar == TRUE) {
-        handlers(global = TRUE)
-        pb <- progressr::progressor(along = single_addr_args$address)
-        progressr::with_progress(
-          list_coords <- do.call(mapply, single_addr_args)
-        )
+      if (progress_bar == TRUE && requireNamespace("pbapply", quietly = TRUE)) {
+        list_coords <- do.call(pbapply::pbmapply, single_addr_args)
       } else {
         list_coords <- do.call(mapply, single_addr_args)
       }
@@ -443,10 +439,6 @@ geo <- function(address = NULL,
   # Make sure the proper amount of time has elapsed for the query per min_time
   pause_until(start_time, min_time, debug = verbose) 
   if (verbose == TRUE) message('') # insert ending line break if verbose
-  
-  if (progress_bar == TRUE) {
-    pb(sprintf("x=%g", x))
-  }
   
   return(unpackage_inputs(address_pack, results, unique_only, return_addresses))
 }
