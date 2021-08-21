@@ -55,6 +55,7 @@ batch_func_map <- list(
 #' @param limit `r get_limit_documentation(reverse = FALSE, df_input = FALSE)`
 #' @param min_time minimum amount of time for a query to take (in seconds). If NULL
 #' then min_time will be set to the default value specified in [min_time_reference].
+#' @param progress_bar if TRUE then a progress bar will be displayed.
 #' @param api_url custom API URL. If specified, the default API URL will be overridden.
 #'  This parameter can be used to specify a local Nominatim server, for instance.
 #' @param timeout query timeout (in minutes)
@@ -117,7 +118,7 @@ batch_func_map <- list(
 geo <- function(address = NULL, 
     street = NULL, city = NULL, county = NULL, state = NULL, postalcode = NULL, country = NULL,
     method = 'osm', cascade_order = c('census', 'osm'), lat = lat, long = long, limit = 1, 
-    min_time = NULL, api_url = NULL, timeout = 20,
+    min_time = NULL, progress_bar = TRUE, api_url = NULL, timeout = 20,
     mode = '', full_results = FALSE, unique_only = FALSE, return_addresses = TRUE, 
     flatten = TRUE, batch_limit = NULL, batch_limit_error = TRUE, verbose = FALSE, no_query = FALSE, 
     custom_query = list(), return_type = 'locations', iq_region = 'us', geocodio_v = 1.6, 
@@ -150,7 +151,7 @@ geo <- function(address = NULL,
   stopifnot(
     is.logical(verbose), is.logical(no_query), is.logical(flatten), is.logical(param_error),
             is.logical(full_results), is.logical(unique_only), is.logical(return_addresses),
-            is.logical(batch_limit_error), 
+            is.logical(batch_limit_error), is.logical(progress_bar),
             is.numeric(timeout), timeout >= 0, 
             is.list(custom_query),
             is.logical(mapbox_permanent), 
@@ -274,7 +275,15 @@ geo <- function(address = NULL,
       )
       
       # Geocode each address individually by recalling this function with mapply
-      list_coords <- do.call(mapply, single_addr_args)
+      if (progress_bar == TRUE) {
+        handlers(global = TRUE)
+        pb <- progressr::progressor(along = single_addr_args$address)
+        progressr::with_progress(
+          list_coords <- do.call(mapply, single_addr_args)
+        )
+      } else {
+        list_coords <- do.call(mapply, single_addr_args)
+      }
       # rbind the list of tibble dataframes together
       stacked_results <- dplyr::bind_rows(list_coords)
       
@@ -434,6 +443,10 @@ geo <- function(address = NULL,
   # Make sure the proper amount of time has elapsed for the query per min_time
   pause_until(start_time, min_time, debug = verbose) 
   if (verbose == TRUE) message('') # insert ending line break if verbose
+  
+  if (progress_bar == TRUE) {
+    pb(sprintf("x=%g", x))
+  }
   
   return(unpackage_inputs(address_pack, results, unique_only, return_addresses))
 }
