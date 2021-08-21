@@ -252,7 +252,12 @@ reverse_geo <- function(lat, long, method = 'osm', address = address, limit = 1,
   generic_query <- list()
   
   # Create parameters for lat, long coordinates
-  custom_query <- get_coord_parameters(custom_query, method, lat, long)
+  custom_query <- get_coord_parameters(
+    custom_query, 
+    method,
+    coord_pack$unique$lat,
+    coord_pack$unique$long
+    )
   
   # Set API URL (if not already set) ----------------------------------------
   if (is.null(api_url)) {
