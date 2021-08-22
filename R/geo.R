@@ -11,6 +11,13 @@ batch_func_map <- list(
   bing = batch_bing
 )
 
+# call geo function with progress bar
+progress_geo <- function(pb = NULL, ...) {
+  results <- geo(...)
+  if (!is.null(pb)) pb$tick()
+  return(results)
+}
+
 #' Geocode addresses
 #' 
 #' @description
@@ -259,27 +266,41 @@ geo <- function(address = NULL,
     mode <- 'single'
   }
   
+  # construct arguments for a single address query
+  # note that non-address related fields go to the MoreArgs argument of mapply
+  # since we aren't iterating through them
+  single_addr_args <- c(
+    list(FUN = progress_geo), 
+    as.list(address_pack$unique),
+    list(MoreArgs = all_args[!names(all_args) %in% pkg.globals$address_arg_names],
+         USE.NAMES = FALSE, SIMPLIFY = FALSE)
+  )
+  
   # Single address geocoding is used if the method has no batch function or if 
   # mode = 'single' was specified
   if ((num_unique_addresses > 1) && ((!(method %in% names(batch_func_map))) || (mode == 'single'))) {
       if (verbose == TRUE) message('Executing single address geocoding...\n')
       
-      # construct arguments for a single address query
-      # note that non-address related fields go to the MoreArgs argument of mapply
-      # since we aren't iterating through them
-      single_addr_args <- c(
-        list(FUN = geo), 
-        as.list(address_pack$unique),
-        list(MoreArgs = all_args[!names(all_args) %in% pkg.globals$address_arg_names],
-          USE.NAMES = FALSE, SIMPLIFY = FALSE)
-      )
-      
       # Geocode each address individually by recalling this function with mapply
-      if (progress_bar == TRUE && requireNamespace("pbapply", quietly = TRUE)) {
-        list_coords <- do.call(pbapply::pbmapply, single_addr_args)
-      } else {
-        list_coords <- do.call(mapply, single_addr_args)
-      }
+      if (progress_bar == TRUE && requireNamespace("progress", quietly = TRUE)) {
+        
+        # initiate progress bar
+        pb <- progress::progress_bar$new(
+          format = "[:bar] Queries Completed: :current/:total (:percent) Time Elapsed: :elapsed",
+          clear = FALSE,
+          total = num_unique_addresses,
+          show_after = 0
+          )
+        
+        pb$tick(0) # start progress bar
+        
+        # add progress bar to query
+        single_addr_args$MoreArgs$pb <- pb
+      } 
+      
+      # execute queries in a sequence
+      list_coords <- do.call(mapply, single_addr_args)
+      
       # rbind the list of tibble dataframes together
       stacked_results <- dplyr::bind_rows(list_coords)
       
