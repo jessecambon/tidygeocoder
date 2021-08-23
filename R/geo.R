@@ -63,6 +63,7 @@ progress_geo <- function(pb = NULL, ...) {
 #' @param min_time minimum amount of time for a query to take (in seconds). If NULL
 #' then min_time will be set to the default value specified in [min_time_reference].
 #' @param progress_bar if TRUE then a progress bar will be displayed.
+#' @param quiet if TRUE then priority console messages.
 #' @param api_url custom API URL. If specified, the default API URL will be overridden.
 #'  This parameter can be used to specify a local Nominatim server, for instance.
 #' @param timeout query timeout (in minutes)
@@ -125,7 +126,7 @@ progress_geo <- function(pb = NULL, ...) {
 geo <- function(address = NULL, 
     street = NULL, city = NULL, county = NULL, state = NULL, postalcode = NULL, country = NULL,
     method = 'osm', cascade_order = c('census', 'osm'), lat = lat, long = long, limit = 1, 
-    min_time = NULL, progress_bar = TRUE, api_url = NULL, timeout = 20,
+    min_time = NULL, progress_bar = TRUE, quiet = FALSE, api_url = NULL, timeout = 20,
     mode = '', full_results = FALSE, unique_only = FALSE, return_addresses = TRUE, 
     flatten = TRUE, batch_limit = NULL, batch_limit_error = TRUE, verbose = FALSE, no_query = FALSE, 
     custom_query = list(), return_type = 'locations', iq_region = 'us', geocodio_v = 1.6, 
@@ -140,6 +141,9 @@ geo <- function(address = NULL,
   # capture all function arguments including default values as a named list.
   # IMPORTANT: make sure to put this statement before any other variables are defined in the function
   all_args <- as.list(environment())
+  
+  # conditions for displaying a progress bar
+  display_progress_bar <- progress_bar == TRUE && show_progress()
   
   # All legal methods (besides 'cascade')
   method_services <- unique(tidygeocoder::api_parameter_reference[['method']])
@@ -158,7 +162,7 @@ geo <- function(address = NULL,
   stopifnot(
     is.logical(verbose), is.logical(no_query), is.logical(flatten), is.logical(param_error),
             is.logical(full_results), is.logical(unique_only), is.logical(return_addresses),
-            is.logical(batch_limit_error), is.logical(progress_bar),
+            is.logical(batch_limit_error), is.logical(progress_bar), is.logical(quiet),
             is.numeric(timeout), timeout >= 0, 
             is.list(custom_query),
             is.logical(mapbox_permanent), 
@@ -280,26 +284,34 @@ geo <- function(address = NULL,
   # mode = 'single' was specified
   if ((num_unique_addresses > 1) && ((!(method %in% names(batch_func_map))) || (mode == 'single'))) {
       if (verbose == TRUE) message('Executing single address geocoding...\n')
+    
+      if (quiet == FALSE) {
+        message(paste0('Passing ', 
+                       format(num_unique_addresses, big.mark = ','), 
+                       ' addresses to the ', method, ' single address geocoder'))
+      }
       
       # Geocode each address individually by recalling this function with mapply
-      if (progress_bar == TRUE && requireNamespace("progress", quietly = TRUE)) {
+      if (display_progress_bar == TRUE) {
         
-        # initiate progress bar
-        pb <- progress::progress_bar$new(
-          format = "[:bar] Queries Completed: :current/:total (:percent) Time Elapsed: :elapsed",
-          clear = FALSE,
-          total = num_unique_addresses,
-          show_after = 0
-          )
-        
-        pb$tick(0) # start progress bar
+        pb <- create_progress_bar(
+          "[:bar] Geocoding: :current/:total (:percent) Elapsed: :elapsed Remaining: :eta",
+          num_unique_addresses
+        )
         
         # add progress bar to query
         single_addr_args$MoreArgs$pb <- pb
       } 
       
-      # execute queries in a sequence
+      # execute queries in a sequence - progress bar is used if applicable
       list_coords <- do.call(mapply, single_addr_args)
+      
+      # if tell user how long batch query took if the progress bar hasn't already
+      if (quiet == FALSE && display_progress_bar == FALSE) {
+        time_elapsed <- get_seconds_elapsed(start_time)
+        print_time("Query completed in", time_elapsed)
+        message('') # line break
+      }
       
       # rbind the list of tibble dataframes together
       stacked_results <- dplyr::bind_rows(list_coords)
@@ -311,6 +323,7 @@ geo <- function(address = NULL,
       
   # Batch geocoding --------------------------------------------------------------------------
   if ((num_unique_addresses > 1) || (mode == 'batch')) {
+    
     if (verbose == TRUE) message('Executing batch geocoding...\n')
     
     if ((is.null(limit) || limit != 1) && return_addresses == TRUE) {
@@ -357,7 +370,7 @@ geo <- function(address = NULL,
       See the geo() function documentation for details.', call. = FALSE)
       }
 
-    if (verbose == TRUE) message(paste0('Passing ', 
+    if (quiet == FALSE) message(paste0('Passing ', 
       format(min(batch_limit, num_unique_addresses), big.mark = ','), 
                           ' addresses to the ', method, ' batch geocoder'))
     
@@ -377,7 +390,7 @@ geo <- function(address = NULL,
     }
     
     # if verbose = TRUE, tell user how long batch query took
-    if (verbose == TRUE) {
+    if (quiet == FALSE) {
       batch_time_elapsed <- get_seconds_elapsed(start_time)
       print_time("Query completed in", batch_time_elapsed)
       message('') # line break

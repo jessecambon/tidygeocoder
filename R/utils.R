@@ -167,3 +167,32 @@ extract_bing_latlng <- function(response) {
   
   return(latlng)
 }
+
+## Progress bars -----------------------------------------------------------------------------
+
+# Conditions for displaying a progress bar
+# For consistency/continuity, these are the same conditions 
+# that are used for the {readr} package
+show_progress <- function() {
+ # isTRUE(getOption("tidygeocoder.show_progress")) && # user disables progress bar
+    interactive() && # an interactive session
+    !isTRUE(getOption("rstudio.notebook.executing")) && # Not running in an RStudio notebook chunk
+    !isTRUE(getOption("knitr.in.progress")) # Not actively knitting a document
+}
+
+
+# create a progress bar using the {progress} package
+# format_text formats the progress bar and total_count is the total 
+# number of iterations for the progress bar (number of addresses or coordinates)
+create_progress_bar <- function(format_text, total_count) {
+  pb <- progress::progress_bar$new(
+    format = format_text,
+    clear = FALSE,
+    total = total_count,
+    show_after = 0
+  )
+  
+  pb$tick(0) # start progress bar
+  
+  return(pb)
+}
