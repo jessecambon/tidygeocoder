@@ -184,7 +184,10 @@ show_progress <- function() {
 # create a progress bar using the {progress} package
 # format_text formats the progress bar and total_count is the total 
 # number of iterations for the progress bar (number of addresses or coordinates)
-create_progress_bar <- function(format_text, total_count) {
+create_progress_bar <- function(
+  total_count,
+  format_text = "[:bar] :current/:total (:percent) Elapsed: :elapsed Remaining: :eta"
+  ) {
   pb <- progress::progress_bar$new(
     format = format_text,
     clear = FALSE,
@@ -195,4 +198,23 @@ create_progress_bar <- function(format_text, total_count) {
   pb$tick(0) # start progress bar
   
   return(pb)
+}
+
+# Create a message to tell user how many addresses/coordinates are getting sent
+# in a batch query and to what geocoding service
+# reverse = TRUE for reverse geocoding
+query_start_message <- function(method, num_inputs, reverse, batch, display_time = FALSE) {
+  
+  input_terms <- get_coord_address_terms(reverse)
+  
+  message(paste0('Passing ', 
+                 format(num_inputs, big.mark = ','), ' ', input_terms$input_plural,
+                 ' to the ', 
+                 # get proper name of the service
+                 get_setting_value(api_info_reference, method, 'method_display_name'), ' ',
+                 if (batch == TRUE) 'batch' else paste0('single ', input_terms$input_singular),
+                 ' geocoder', 
+                 # display time when query was sent (used for batch queries)
+                 if (display_time == TRUE) paste0(" - ", format(Sys.time(), "%I:%M %p")) else "")
+          )
 }
