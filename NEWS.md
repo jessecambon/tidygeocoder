@@ -2,6 +2,8 @@
 
 - Added support for the [Geoapify](https://www.geoapify.com/) service (thanks [@dpprdan](https://github.com/dpprdan)). This service supports batch geocoding, but this capability is currently not implemented in tidygeocoder (see [#119](https://github.com/jessecambon/tidygeocoder/issues/119)).
 - Fixed a bug for Bing forward geocoding `geo()` when no results are found ([#112](https://github.com/jessecambon/tidygeocoder/issues/112)).
+- Added progress bar for single address geocoding ([#38](https://github.com/jessecambon/tidygeocoder/issues/38)). It can be disabled with `progress_bar = FALSE` (a new parameter for the `geo()` function). 
+- Console messages for the number of addresses submitted, the method used, and the time elapsed are shown by default. These messages can be suppressed with `quiet = TRUE` (a new parameter of the `geo()` function.
 
 # tidygeocoder 1.0.3
 

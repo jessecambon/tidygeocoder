@@ -157,6 +157,7 @@
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">census_s1</span> <span class="op">&lt;-</span> <span class="va">address_single</span> <span class="op">%&gt;%</span>
   <span class="fu"><a href="../reference/geocode.html">geocode</a></span><span class="op">(</span>address <span class="op">=</span> <span class="va">singlelineaddress</span>, method <span class="op">=</span> <span class="st">"census"</span>, verbose <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
+<span class="co">#&gt; </span>
 <span class="co">#&gt; Number of Unique Addresses: 2</span>
 <span class="co">#&gt; Executing batch geocoding...</span>
 <span class="co">#&gt; Batch limit: 10,000</span>
@@ -166,7 +167,7 @@
 <span class="co">#&gt; format : "json"</span>
 <span class="co">#&gt; benchmark : "Public_AR_Current"</span>
 <span class="co">#&gt; vintage : "Current_Current"</span>
-<span class="co">#&gt; Query completed in: 1.6 seconds</span>
+<span class="co">#&gt; Query completed in: 3.6 seconds</span>
 <span class="co">#&gt; </span></code></pre></div>
 <table class="table">
 <thead><tr class="header">
@@ -192,7 +193,10 @@
 <code class="sourceCode R"><span class="va">osm_s1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/geo.html">geo</a></span><span class="op">(</span>
   address <span class="op">=</span> <span class="va">address_single</span><span class="op">$</span><span class="va">singlelineaddress</span>, method <span class="op">=</span> <span class="st">"osm"</span>,
   lat <span class="op">=</span> <span class="va">latitude</span>, long <span class="op">=</span> <span class="va">longitude</span>
-<span class="op">)</span></code></pre></div>
+<span class="op">)</span>
+<span class="co">#&gt; Passing 2 addresses to the osm single address geocoder</span>
+<span class="co">#&gt; Query completed in: 2 seconds</span>
+<span class="co">#&gt; </span></code></pre></div>
 <table class="table">
 <thead><tr class="header">
 <th align="left">address</th>
@@ -215,7 +219,10 @@
 <p>Instead of single-line addresses, you can use any combination of the following arguments to specify your addresses: <code>street</code>, <code>city</code>, <code>state</code>, <code>county</code>, <code>postalcode</code>, and <code>country</code>.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">census_c1</span> <span class="op">&lt;-</span> <span class="va">address_components</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="../reference/geocode.html">geocode</a></span><span class="op">(</span>street <span class="op">=</span> <span class="va">street</span>, city <span class="op">=</span> <span class="va">cty</span>, state <span class="op">=</span> <span class="va">st</span>, method <span class="op">=</span> <span class="st">"census"</span><span class="op">)</span></code></pre></div>
+  <span class="fu"><a href="../reference/geocode.html">geocode</a></span><span class="op">(</span>street <span class="op">=</span> <span class="va">street</span>, city <span class="op">=</span> <span class="va">cty</span>, state <span class="op">=</span> <span class="va">st</span>, method <span class="op">=</span> <span class="st">"census"</span><span class="op">)</span>
+<span class="co">#&gt; Passing 2 addresses to the census batch geocoder</span>
+<span class="co">#&gt; Query completed in: 5.3 seconds</span>
+<span class="co">#&gt; </span></code></pre></div>
 <table class="table">
 <thead><tr class="header">
 <th align="left">street</th>
@@ -254,7 +261,13 @@
 <span class="va">cascade1</span> <span class="op">&lt;-</span> <span class="va">addr_comp1</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/geocode.html">geocode</a></span><span class="op">(</span>
   street <span class="op">=</span> <span class="va">street</span>, state <span class="op">=</span> <span class="va">st</span>, city <span class="op">=</span> <span class="va">cty</span>,
   country <span class="op">=</span> <span class="va">country</span>, method <span class="op">=</span> <span class="st">"cascade"</span>
-<span class="op">)</span></code></pre></div>
+<span class="op">)</span>
+<span class="co">#&gt; Passing 4 addresses to the census batch geocoder</span>
+<span class="co">#&gt; Query completed in: 5.5 seconds</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Passing 2 addresses to the osm single address geocoder</span>
+<span class="co">#&gt; Query completed in: 2 seconds</span>
+<span class="co">#&gt; </span></code></pre></div>
 <table class="table">
 <thead><tr class="header">
 <th align="left">street</th>
@@ -309,7 +322,10 @@
 <code class="sourceCode R"><span class="va">census_full1</span> <span class="op">&lt;-</span> <span class="va">address_single</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/geocode.html">geocode</a></span><span class="op">(</span>
   address <span class="op">=</span> <span class="va">singlelineaddress</span>,
   method <span class="op">=</span> <span class="st">"census"</span>, full_results <span class="op">=</span> <span class="cn">TRUE</span>, return_type <span class="op">=</span> <span class="st">"geographies"</span>
-<span class="op">)</span></code></pre></div>
+<span class="op">)</span>
+<span class="co">#&gt; Passing 2 addresses to the census batch geocoder</span>
+<span class="co">#&gt; Query completed in: 3.8 seconds</span>
+<span class="co">#&gt; </span></code></pre></div>
 <table class="table">
 <colgroup>
 <col width="16%">
@@ -515,8 +531,11 @@ occurring in automated CRAN checks for an improper/old link.
 
 <span class="va">duplicates_geocoded</span> <span class="op">&lt;-</span> <span class="va">duplicate_addrs</span> <span class="op">%&gt;%</span>
   <span class="fu"><a href="../reference/geocode.html">geocode</a></span><span class="op">(</span><span class="va">singlelineaddress</span>, verbose <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
+<span class="co">#&gt; </span>
 <span class="co">#&gt; Number of Unique Addresses: 2</span>
 <span class="co">#&gt; Executing single address geocoding...</span>
+<span class="co">#&gt; Passing 2 addresses to the osm single address geocoder</span>
+<span class="co">#&gt; </span>
 <span class="co">#&gt; Number of Unique Addresses: 1</span>
 <span class="co">#&gt; Querying API URL: https://nominatim.openstreetmap.org/search</span>
 <span class="co">#&gt; Passing the following parameters to the API:</span>
@@ -524,8 +543,9 @@ occurring in automated CRAN checks for an improper/old link.
 <span class="co">#&gt; limit : "1"</span>
 <span class="co">#&gt; format : "json"</span>
 <span class="co">#&gt; HTTP Status Code: 200</span>
-<span class="co">#&gt; Query completed in: 0.2 seconds</span>
+<span class="co">#&gt; Query completed in: 0.3 seconds</span>
 <span class="co">#&gt; Total query time (including sleep): 1 seconds</span>
+<span class="co">#&gt; </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; Number of Unique Addresses: 1</span>
 <span class="co">#&gt; Querying API URL: https://nominatim.openstreetmap.org/search</span>
@@ -536,6 +556,8 @@ occurring in automated CRAN checks for an improper/old link.
 <span class="co">#&gt; HTTP Status Code: 200</span>
 <span class="co">#&gt; Query completed in: 0.2 seconds</span>
 <span class="co">#&gt; Total query time (including sleep): 1 seconds</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Query completed in: 2 seconds</span>
 <span class="co">#&gt; </span></code></pre></div>
 <table class="table">
 <thead><tr class="header">
@@ -584,7 +606,10 @@ occurring in automated CRAN checks for an improper/old link.
 <p>As shown above, duplicates will not be removed from your results by default. However, you can return only unique results by using <code>unique_only = TRUE</code>. Note that passing <code>unique_only = TRUE</code> to <code><a href="../reference/geocode.html">geocode()</a></code> or <code><a href="../reference/reverse_geocode.html">reverse_geocode()</a></code> will result in the original dataframe format (including column names) to be discarded in favor of the standard field names (ie. “address”, ‘lat, ’long’, etc.).</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">uniqueonly1</span> <span class="op">&lt;-</span> <span class="va">duplicate_addrs</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="../reference/geocode.html">geocode</a></span><span class="op">(</span><span class="va">singlelineaddress</span>, unique_only <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
+  <span class="fu"><a href="../reference/geocode.html">geocode</a></span><span class="op">(</span><span class="va">singlelineaddress</span>, unique_only <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
+<span class="co">#&gt; Passing 2 addresses to the osm single address geocoder</span>
+<span class="co">#&gt; Query completed in: 2 seconds</span>
+<span class="co">#&gt; </span></code></pre></div>
 <table class="table">
 <thead><tr class="header">
 <th align="left">address</th>
@@ -615,17 +640,20 @@ occurring in automated CRAN checks for an improper/old link.
   method <span class="op">=</span> <span class="st">"osm"</span>,
   limit <span class="op">=</span> <span class="fl">3</span>, full_results <span class="op">=</span> <span class="cn">TRUE</span>
 <span class="op">)</span>
+<span class="co">#&gt; Passing 2 addresses to the osm single address geocoder</span>
+<span class="co">#&gt; Query completed in: 2 seconds</span>
+<span class="co">#&gt; </span>
 
 <span class="fu"><a href="https://pillar.r-lib.org/reference/glimpse.html">glimpse</a></span><span class="op">(</span><span class="va">geo_limit</span><span class="op">)</span>
 <span class="co">#&gt; Rows: 6</span>
 <span class="co">#&gt; Columns: 13</span>
 <span class="co">#&gt; $ address      &lt;chr&gt; "Lima, Peru", "Lima, Peru", "Lima, Peru", "Cairo, Egypt",…</span>
 <span class="co">#&gt; $ lat          &lt;dbl&gt; -12.06211, -12.20011, -11.99997, 30.04439, 30.03325, 30.0…</span>
-<span class="co">#&gt; $ long         &lt;dbl&gt; -77.03653, -76.28506, -76.83322, 31.23573, 31.56216, 31.4…</span>
-<span class="co">#&gt; $ place_id     &lt;int&gt; 258244064, 258655931, 258306819, 258758158, 298971141, 24…</span>
+<span class="co">#&gt; $ long         &lt;dbl&gt; -77.03653, -76.28506, -76.83322, 31.23573, 31.56216, 31.9…</span>
+<span class="co">#&gt; $ place_id     &lt;int&gt; 258244064, 258655931, 258306819, 258758158, 298971141, 20…</span>
 <span class="co">#&gt; $ licence      &lt;chr&gt; "Data © OpenStreetMap contributors, ODbL 1.0. https://osm…</span>
 <span class="co">#&gt; $ osm_type     &lt;chr&gt; "relation", "relation", "relation", "relation", "relation…</span>
-<span class="co">#&gt; $ osm_id       &lt;int&gt; 1944756, 1944659, 1944670, 5466227, 4103336, 772012762</span>
+<span class="co">#&gt; $ osm_id       &lt;int&gt; 1944756, 1944659, 1944670, 5466227, 4103336, 544272017</span>
 <span class="co">#&gt; $ boundingbox  &lt;list&gt; &lt;"-12.0797663", "-12.0303496", "-77.0884555", "-77.001777…</span>
 <span class="co">#&gt; $ display_name &lt;chr&gt; "Lima, Lima Metropolitana, Lima, Perú", "Lima, Perú", "L…</span>
 <span class="co">#&gt; $ class        &lt;chr&gt; "boundary", "boundary", "boundary", "place", "boundary", …</span>
@@ -638,6 +666,7 @@ occurring in automated CRAN checks for an improper/old link.
   method <span class="op">=</span> <span class="st">"osm"</span>, full_results <span class="op">=</span> <span class="cn">TRUE</span>,
   custom_query <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>polygon_geojson <span class="op">=</span> <span class="fl">1</span><span class="op">)</span>, verbose <span class="op">=</span> <span class="cn">TRUE</span>
 <span class="op">)</span>
+<span class="co">#&gt; </span>
 <span class="co">#&gt; Number of Unique Addresses: 1</span>
 <span class="co">#&gt; Querying API URL: https://nominatim.openstreetmap.org/search</span>
 <span class="co">#&gt; Passing the following parameters to the API:</span>
@@ -646,7 +675,7 @@ occurring in automated CRAN checks for an improper/old link.
 <span class="co">#&gt; polygon_geojson : "1"</span>
 <span class="co">#&gt; format : "json"</span>
 <span class="co">#&gt; HTTP Status Code: 200</span>
-<span class="co">#&gt; Query completed in: 0.1 seconds</span>
+<span class="co">#&gt; Query completed in: 0.2 seconds</span>
 <span class="co">#&gt; Total query time (including sleep): 1 seconds</span>
 <span class="co">#&gt; </span>
 
@@ -674,20 +703,26 @@ occurring in automated CRAN checks for an improper/old link.
   no_query <span class="op">=</span> <span class="cn">TRUE</span>,
   method <span class="op">=</span> <span class="st">"arcgis"</span>
 <span class="op">)</span>
+<span class="co">#&gt; </span>
 <span class="co">#&gt; Number of Unique Addresses: 2</span>
 <span class="co">#&gt; Executing single address geocoding...</span>
+<span class="co">#&gt; Passing 2 addresses to the arcgis single address geocoder</span>
+<span class="co">#&gt; </span>
 <span class="co">#&gt; Number of Unique Addresses: 1</span>
 <span class="co">#&gt; Querying API URL: https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/findAddressCandidates</span>
 <span class="co">#&gt; Passing the following parameters to the API:</span>
 <span class="co">#&gt; SingleLine : "Vancouver, Canada"</span>
 <span class="co">#&gt; maxLocations : "1"</span>
 <span class="co">#&gt; f : "json"</span>
+<span class="co">#&gt; </span>
 <span class="co">#&gt; Number of Unique Addresses: 1</span>
 <span class="co">#&gt; Querying API URL: https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/findAddressCandidates</span>
 <span class="co">#&gt; Passing the following parameters to the API:</span>
 <span class="co">#&gt; SingleLine : "Las Vegas, NV"</span>
 <span class="co">#&gt; maxLocations : "1"</span>
-<span class="co">#&gt; f : "json"</span></code></pre></div>
+<span class="co">#&gt; f : "json"</span>
+<span class="co">#&gt; Query completed in: 0 seconds</span>
+<span class="co">#&gt; </span></code></pre></div>
 <table class="table">
 <thead><tr class="header">
 <th align="left">address</th>

@@ -178,6 +178,8 @@
 <ul>
 <li>Added support for the <a href="https://www.geoapify.com/">Geoapify</a> service (thanks <a href="https://github.com/dpprdan">@dpprdan</a>). This service supports batch geocoding, but this capability is currently not implemented in tidygeocoder (see <a href="https://github.com/jessecambon/tidygeocoder/issues/119"><a href='https://github.com/jessecambon/tidygeocoder/issues/119'>#119</a></a>).</li>
 <li>Fixed a bug for Bing forward geocoding <code><a href="../reference/geo.html">geo()</a></code> when no results are found (<a href="https://github.com/jessecambon/tidygeocoder/issues/112"><a href='https://github.com/jessecambon/tidygeocoder/issues/112'>#112</a></a>).</li>
+<li>Added progress bar for single address geocoding (<a href="https://github.com/jessecambon/tidygeocoder/issues/38"><a href='https://github.com/jessecambon/tidygeocoder/issues/38'>#38</a></a>). It can be disabled with <code>progress_bar = FALSE</code> (a new parameter for the <code><a href="../reference/geo.html">geo()</a></code> function).</li>
+<li>Console messages for the number of addresses submitted, the method used, and the time elapsed are shown by default. These messages can be suppressed with <code>quiet = TRUE</code> (a new parameter of the <code><a href="../reference/geo.html">geo()</a></code> function.</li>
 </ul>
 </div>
     <div id="tidygeocoder-103" class="section level1">
