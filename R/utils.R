@@ -99,6 +99,8 @@ format_address <- function(df, fields) {
 }
 
 
+# QA Checks --------------------------------------------------------------------------------------------------------------
+
 # check some arguments common to geo() and reverse_geo()
 # fun_name is the name of the function that calls this one
 check_common_args <- function(fun_name, mode, limit, batch_limit, min_time) {
@@ -142,6 +144,29 @@ check_limit_return_input <- function(limit, return_input) {
   }
 }
 
+# check for conflict between limit and return_coords/return_addresses argument in reverse_geo() and geo() 
+# return_input = return_coords (or return_addresses
+check_limit_for_batch <- function(limit, return_input, reverse) {
+  
+  input_terms <- get_coord_address_terms(reverse)
+  # name of return_input parameter
+  return_input_name <- if (reverse == TRUE) "return_coords" else "return_addresses"
+  function_name <- if (reverse == TRUE) "reverse_geo" else "geo"
+  
+  if ((is.null(limit) || limit != 1) && return_input == TRUE) {
+    stop(paste0('For batch geocoding (more than one ', input_terms$input_singular, 
+    ' per query) the limit argument must
+    be 1 (the default) OR the ', return_input_name, ' argument must be FALSE. Possible solutions:
+    1) Set the mode argument to "single" to force single (not batch) geocoding 
+    2) Set limit argument to 1 (ie. 1 result is returned per ',  input_terms$input_singular, ')
+    3) Set ', return_input_name, ' to FALSE
+    See ?', function_name, ' for details.'),
+    call. = FALSE)
+  }
+}
+
+# Misc -----------------------------------------------------------------------------------------
+
 ## function for extracting everything except the single line 
 ## address from the reverse geocoding results of osm and iq
 extract_osm_reverse_full <- function(response) {
@@ -168,12 +193,13 @@ extract_bing_latlng <- function(response) {
   return(latlng)
 }
 
+
 ## Progress bars -----------------------------------------------------------------------------
 
 # Conditions for displaying a progress bar
 # For consistency/continuity, these are the same conditions 
 # that are used for the {readr} package
-show_progress <- function() {
+show_progress_bar <- function() {
  # isTRUE(getOption("tidygeocoder.show_progress")) && # user disables progress bar
     interactive() && # an interactive session
     !isTRUE(getOption("rstudio.notebook.executing")) && # Not running in an RStudio notebook chunk

@@ -62,8 +62,12 @@ progress_geo <- function(pb = NULL, ...) {
 #' @param limit `r get_limit_documentation(reverse = FALSE, df_input = FALSE)`
 #' @param min_time minimum amount of time for a query to take (in seconds). If NULL
 #' then min_time will be set to the default value specified in [min_time_reference].
-#' @param progress_bar if TRUE then a progress bar will be displayed
-#' @param quiet if TRUE then priority console messages.
+#' @param progress_bar if TRUE then a progress bar will be displayed to track query
+#'   progress for single input geocoding (1 input per query). By default the progress bar
+#'   will not be shown for code executed when knitting R Markdown files or code within 
+#'   an RStudio notebook chunk.
+#' @param quiet if TRUE then important console messages on queries are displayed. Set
+#'   to FALSE to suppress these messages.
 #' @param api_url custom API URL. If specified, the default API URL will be overridden.
 #'  This parameter can be used to specify a local Nominatim server, for instance.
 #' @param timeout query timeout (in minutes)
@@ -126,7 +130,7 @@ progress_geo <- function(pb = NULL, ...) {
 geo <- function(address = NULL, 
     street = NULL, city = NULL, county = NULL, state = NULL, postalcode = NULL, country = NULL,
     method = 'osm', cascade_order = c('census', 'osm'), lat = lat, long = long, limit = 1, 
-    min_time = NULL, progress_bar = show_progress(), quiet = FALSE, api_url = NULL, timeout = 20,
+    min_time = NULL, progress_bar = show_progress_bar(), quiet = FALSE, api_url = NULL, timeout = 20,
     mode = '', full_results = FALSE, unique_only = FALSE, return_addresses = TRUE, 
     flatten = TRUE, batch_limit = NULL, batch_limit_error = TRUE, verbose = FALSE, no_query = FALSE, 
     custom_query = list(), return_type = 'locations', iq_region = 'us', geocodio_v = 1.6, 
@@ -321,14 +325,8 @@ geo <- function(address = NULL,
     
     if (verbose == TRUE) message('Executing batch geocoding...\n')
     
-    if ((is.null(limit) || limit != 1) && return_addresses == TRUE) {
-    stop('For batch geocoding (more than one address per query) the limit argument must 
-    be 1 (the default) OR the return_addresses argument must be FALSE. Possible solutions:
-    1) Set the mode argument to "single" to force single (not batch) geocoding 
-    2) Set limit argument to 1 (ie. 1 result is returned per address)
-    3) Set return_addresses to FALSE
-    See the geo() function documentation for details.', call. = FALSE)
-    }
+    # check for conflict between limit and return_addresses arguments
+    check_limit_for_batch(limit, return_addresses, reverse = FALSE)
     
     # set batch limit to default if not specified
     if (is.null(batch_limit)) batch_limit <- get_batch_limit(method)
@@ -365,6 +363,7 @@ geo <- function(address = NULL,
       See the geo() function documentation for details.', call. = FALSE)
       }
 
+    # Display message to user on the batch query
     if (quiet == FALSE) {
       query_start_message(
         method, 

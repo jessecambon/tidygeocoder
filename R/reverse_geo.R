@@ -1,8 +1,3 @@
-## References
-# google: https://developers.google.com/maps/documentation/geocoding/start
-# geocodio: https://www.geocod.io/docs/#reverse-geocoding
-# osm: https://nominatim.org/release-docs/latest/api/Reverse/
-# opencage: https://opencagedata.com/api
 
 ## IMPORTANT: All new REVERSE batch geocoding functions must be added to reverse_batch_func_map
 # the reverse_geo() function references this list to find reverse batch geocoding functions (reverse_batch_geocoding.R)
@@ -14,6 +9,14 @@ reverse_batch_func_map <- list(
   mapquest = reverse_batch_mapquest,
   bing = reverse_batch_bing
 )
+
+# call geo function with progress bar
+progress_reverse_geo <- function(pb = NULL, ...) {
+  results <- reverse_geo(...)
+  if (!is.null(pb)) pb$tick()
+  return(results)
+}
+
 
 # Create API parameters for a single set of coordinates (lat, long) based on the 
 # method. Parameters are placed into the 'custom_query' variable which is a named list
@@ -101,7 +104,8 @@ get_coord_parameters <- function(custom_query, method, lat, long) {
 #' }
 #' @seealso [reverse_geocode] [api_parameter_reference] [min_time_reference] [batch_limit_reference]
 #' @export
-reverse_geo <- function(lat, long, method = 'osm', address = address, limit = 1, min_time = NULL, api_url = NULL,  
+reverse_geo <- function(lat, long, method = 'osm', address = address, limit = 1, min_time = NULL, 
+    progress_bar = show_progress_bar(), quiet = FALSE, api_url = NULL,  
     timeout = 20, mode = '',  full_results = FALSE, unique_only = FALSE, return_coords = TRUE, flatten = TRUE, 
     batch_limit = NULL, verbose = FALSE, no_query = FALSE, custom_query = list(), iq_region = 'us', geocodio_v = 1.6,
     mapbox_permanent = FALSE, here_request_id = NULL, mapquest_open = FALSE) {
@@ -115,12 +119,16 @@ reverse_geo <- function(lat, long, method = 'osm', address = address, limit = 1,
   
   # Check argument inputs
   stopifnot(is.logical(verbose), is.logical(no_query), is.logical(flatten),
-      is.logical(full_results), is.logical(unique_only),
+      is.logical(full_results), is.logical(unique_only), is.logical(progress_bar), 
+      is.logical(quiet),
       is.list(custom_query), 
       is.logical(mapbox_permanent),
       is.null(here_request_id) || is.character(here_request_id),
       is.logical(mapquest_open)
   )
+  if (quiet == TRUE && verbose == TRUE) {
+    stop("quiet and verbose cannot both be TRUE. See ?reverse_geo")
+  }
   
   # Check method argument
   # Currently census is the only method that doesn't support reverse geocoding
@@ -158,25 +166,35 @@ reverse_geo <- function(lat, long, method = 'osm', address = address, limit = 1,
   }
   
   # Exception for geocoding services that should default to single instead of batch
-  if (method %in% pkg.globals$single_first_methods && mode != 'batch' ){
+  if (method %in% pkg.globals$single_first_methods && mode != 'batch'){
     mode <- 'single'
   }
   
   # Geocode coordinates one at a time in a loop -------------------------------------------------------
   if ((num_unique_coords > 1) & ((!(method %in% names(reverse_batch_func_map))) | (mode == 'single'))) {
     
-    if (verbose == TRUE) {
-      message('Executing single coordinate geocoding...\n')
-    }
-    
     # construct arguments for a single address query
     # note that non-lat/long related fields go to the MoreArgs argument of mapply
     # since we aren't iterating through them
     single_coord_args <- c(
-      list(FUN = reverse_geo, lat = coord_pack$unique$lat, long = coord_pack$unique$long),
+      list(FUN = progress_reverse_geo, lat = coord_pack$unique$lat, long = coord_pack$unique$long),
       list(MoreArgs = all_args[!names(all_args) %in% c('lat', 'long')],
            USE.NAMES = FALSE, SIMPLIFY = FALSE)
     )
+    
+    if (quiet == FALSE) {
+      query_start_message(method, num_unique_coords, reverse = TRUE, batch = FALSE)
+    }
+    
+    if (progress_bar == TRUE) {
+      
+      # intialize progress bar 
+      pb <- create_progress_bar(
+        num_unique_coords
+      )
+      # add progress bar object to query
+      single_coord_args$MoreArgs$pb <- pb
+    } 
     
     # Reverse geocode each coordinate individually by recalling this function with mapply
     list_coords <- do.call(mapply, single_coord_args)
@@ -192,14 +210,8 @@ reverse_geo <- function(lat, long, method = 'osm', address = address, limit = 1,
   if ((num_unique_coords > 1) || (mode == 'batch')) {
     if (verbose == TRUE) message('Executing batch geocoding...\n')
     
-    if ((is.null(limit) || (limit != 1)) && return_coords == TRUE) {
-      stop('For batch geocoding (more than one coordinate per query) the limit argument must 
-    be 1 (the default) OR the return_coords argument must be FALSE. Possible solutions:
-    1) Set the mode argument to "single" to force single (not batch) geocoding 
-    2) Set limit argument to 1 (ie. 1 result is returned per coordinate)
-    3) Set return_coords to FALSE
-    See the reverse_geo() function documentation for details.', call. = FALSE)
-    }
+    # check for conflict between limit and return_coords arguments
+    check_limit_for_batch(limit, return_coords, reverse = TRUE)
     
     # set batch limit to default if not specified
     if (is.null(batch_limit)) batch_limit <- get_batch_limit(method)
@@ -220,9 +232,16 @@ reverse_geo <- function(lat, long, method = 'osm', address = address, limit = 1,
             format(batch_limit, big.mark = ','), '.'), call. = FALSE)
     }
     
-    if (verbose == TRUE) message(paste0('Passing ', 
-                                        format(num_unique_coords, big.mark = ','), 
-                                        ' coordinates to the ', method, ' batch geocoder'))
+    # Display message to user on the batch query
+    if (quiet == FALSE) {
+      query_start_message(
+        method, 
+        num_unique_coords,
+        reverse = TRUE,
+        batch = TRUE,
+        display_time = TRUE
+      )
+    }
     
     # Convert our generic query parameters into parameters specific to our API (method)
     if (no_query == TRUE) return(unpackage_inputs(coord_pack, NA_value, 
@@ -234,10 +253,10 @@ reverse_geo <- function(lat, long, method = 'osm', address = address, limit = 1,
         c(list(lat = coord_pack$unique$lat, long = coord_pack$unique$long),
         all_args[!names(all_args) %in% c('lat', 'long')]))
     
-    # if verbose = TRUE, tell user how long batch query took
-    if (verbose == TRUE) {
-      batch_time_elapsed <- get_seconds_elapsed(start_time)
-      print_time("Query completed in", batch_time_elapsed)
+    # if verbose = FALSE, tell user how long batch query took
+    if (quiet == FALSE) {
+      print_time("Query completed in", get_seconds_elapsed(start_time))
+      message('')
     }
     
     # map the raw results back to the original lat,long inputs that were passed if there are duplicates
