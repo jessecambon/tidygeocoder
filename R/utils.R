@@ -110,8 +110,7 @@ check_verbose_quiet <- function(verbose, quiet, reverse) {
   }
 }
 
-# check method function --- to be implemented in geo() and reverse_geo()
-# needs to take batch function maps as input for now
+# check that method argument is valid
 check_method <- function(method, reverse, mode, batch_funcs, cascade_order = list()) {
   input_terms <- get_coord_address_terms(reverse)
   
