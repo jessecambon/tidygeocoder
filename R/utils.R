@@ -242,7 +242,6 @@ create_progress_bar <- function(
 # in a batch query and to what geocoding service
 # reverse = TRUE for reverse geocoding
 query_start_message <- function(method, num_inputs, reverse, batch, display_time = FALSE) {
-  
   input_terms <- get_coord_address_terms(reverse)
   
   message(paste0('Passing ', 

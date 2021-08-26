@@ -1,6 +1,6 @@
 ### Functions to produce documentation
 # Functions return a character vector with one element per line
-# to produce roxygen documention
+# to produce roxygen documentation
 # see: https://roxygen2.r-lib.org/articles/rd-formatting.html#dynamic-r-code 
 
 
