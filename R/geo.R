@@ -301,15 +301,14 @@ geo <- function(address = NULL,
         )
         # add progress bar object to query
         single_addr_args$MoreArgs$pb <- pb
-      } 
+      }
       
       # Geocode each address individually by recalling this function with mapply
       list_coords <- do.call(mapply, single_addr_args)
       
       # tell user how long the query took if the progress bar hasn't already
       if (quiet == FALSE && progress_bar == FALSE) {
-        print_time("Query completed in", get_seconds_elapsed(start_time))
-        message('') # line break
+        query_complete_message(start_time)
       }
       
       # rbind the list of tibble dataframes together
@@ -355,14 +354,9 @@ geo <- function(address = NULL,
       batch_unique_addresses <- address_pack$unique
     }
     
-    # HERE: If a previous job is requested return_addresses should be FALSE
-    # This is because the job won't send the addresses, but would recover the
-    # results of a previous request
-    if (method == 'here' && is.character(here_request_id) && return_addresses == TRUE) {
-      stop('HERE: When requesting a previous job via here_request_id, set return_addresses to FALSE.
-      See the geo() function documentation for details.', call. = FALSE)
-      }
-
+    if (method == 'here') check_here_return_input(here_request_id, return_addresses, reverse = FALSE)
+    
+    
     # Display message to user on the batch query
     if (quiet == FALSE) {
       query_start_message(
@@ -391,8 +385,7 @@ geo <- function(address = NULL,
     
     # if quiet = FALSE, tell user how long batch query took
     if (quiet == FALSE) {
-      print_time("Query completed in", get_seconds_elapsed(start_time))
-      message('') # line break
+      query_complete_message(start_time)
     }
     
     # map the raw results back to the original addresses that were passed if there are duplicates

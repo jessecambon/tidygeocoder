@@ -149,19 +149,31 @@ check_limit_return_input <- function(limit, return_input) {
 check_limit_for_batch <- function(limit, return_input, reverse) {
   
   input_terms <- get_coord_address_terms(reverse)
-  # name of return_input parameter
-  return_input_name <- if (reverse == TRUE) "return_coords" else "return_addresses"
-  function_name <- if (reverse == TRUE) "reverse_geo" else "geo"
   
   if ((is.null(limit) || limit != 1) && return_input == TRUE) {
     stop(paste0('For batch geocoding (more than one ', input_terms$input_singular, 
     ' per query) the limit argument must
-    be 1 (the default) OR the ', return_input_name, ' argument must be FALSE. Possible solutions:
+    be 1 (the default) OR the ', input_terms$return_arg, ' argument must be FALSE. Possible solutions:
     1) Set the mode argument to "single" to force single (not batch) geocoding 
     2) Set limit argument to 1 (ie. 1 result is returned per ',  input_terms$input_singular, ')
-    3) Set ', return_input_name, ' to FALSE
-    See ?', function_name, ' for details.'),
+    3) Set ', input_terms$return_arg, ' to FALSE
+    See ?', input_terms$base_func_name, ' for details.'),
     call. = FALSE)
+  }
+}
+
+
+# check for HERE method --- for use in geo() and reverse_geo()
+check_here_return_input <- function(here_request_id, return_input, reverse) {
+  
+  input_terms <- get_coord_address_terms(reverse)
+
+  # If a previous job is requested return_addresses should be FALSE
+  # This is because the job won't send the addresses, but would recover the
+  # results of a previous request
+  if (is.character(here_request_id) && return_input == TRUE) {
+    stop('HERE: When requesting a previous job via here_request_id, set ', input_terms$return_arg,
+    ' to FALSE. See ?', input_terms$base_func_name, ' for details.', call. = FALSE)
   }
 }
 
@@ -243,4 +255,10 @@ query_start_message <- function(method, num_inputs, reverse, batch, display_time
                  # display time when query was sent (used for batch queries)
                  if (display_time == TRUE) paste0(" - ", format(Sys.time(), "%I:%M %p")) else "")
           )
+}
+
+
+query_complete_message <- function(start_time) {
+  print_time("Query completed in", get_seconds_elapsed(start_time))
+  message('') # line break
 }

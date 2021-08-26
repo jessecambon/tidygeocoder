@@ -35,10 +35,12 @@ get_coord_address_terms <- function(reverse) {
     terms$input_singular <- 'coordinate'
     terms$input_plural <- 'coordinates'
     terms$return_arg <- "return_coords"
+    terms$base_func_name <- 'reverse_geo'
   } else {
     terms$input_singular <- 'address'
     terms$input_plural <- 'addresses'
     terms$return_arg <- "return_addresses"
+    terms$base_func_name <- 'geo'
   }
   return(terms)
 }

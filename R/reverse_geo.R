@@ -198,6 +198,12 @@ reverse_geo <- function(lat, long, method = 'osm', address = address, limit = 1,
     
     # Reverse geocode each coordinate individually by recalling this function with mapply
     list_coords <- do.call(mapply, single_coord_args)
+    
+    # tell user how long the query took if the progress bar hasn't already
+    if (quiet == FALSE && progress_bar == FALSE) {
+      query_complete_message(start_time)
+    }
+    
     # rbind the list of tibble dataframes together
     stacked_results <- dplyr::bind_rows(list_coords)
     
@@ -218,13 +224,7 @@ reverse_geo <- function(lat, long, method = 'osm', address = address, limit = 1,
     if (verbose == TRUE) message(paste0('Batch limit: ', 
                                         format(batch_limit, big.mark = ',')))
     
-    # HERE: If a previous job is requested return_coords should be FALSE
-    # This is because the job won't send the coords, but would recover the
-    # results of a previous request
-    if (method == 'here' && is.character(here_request_id) && return_coords == TRUE) {
-      stop('HERE: When requesting a previous job via here_request_id, set return_coords to FALSE.
-      See the geo() function documentation for details.', call. = FALSE)
-    }
+    if (method == 'here') check_here_return_input(here_request_id, return_coords, reverse = TRUE)
     
     # Enforce batch limit if needed
     if (num_unique_coords > batch_limit) {
@@ -255,8 +255,7 @@ reverse_geo <- function(lat, long, method = 'osm', address = address, limit = 1,
     
     # if verbose = FALSE, tell user how long batch query took
     if (quiet == FALSE) {
-      print_time("Query completed in", get_seconds_elapsed(start_time))
-      message('')
+      query_complete_message(start_time)
     }
     
     # map the raw results back to the original lat,long inputs that were passed if there are duplicates
