@@ -145,9 +145,6 @@ geo <- function(address = NULL,
   # capture all function arguments including default values as a named list.
   # IMPORTANT: make sure to put this statement before any other variables are defined in the function
   all_args <- as.list(environment())
-  
-  # All legal methods (besides 'cascade')
-  method_services <- unique(tidygeocoder::api_parameter_reference[['method']])
 
   # Check parameter arguments --------------------------------------------------------
 
@@ -171,28 +168,11 @@ geo <- function(address = NULL,
             is.logical(mapquest_open)
     )
   
-  if (quiet == TRUE && verbose == TRUE) {
-    stop("quiet and verbose cannot both be TRUE. See ?geo")
-  }
-  
+  check_verbose_quiet(verbose, quiet, reverse = FALSE)
+    
   check_common_args('geo', mode, limit, batch_limit, min_time)
   
-  if (mode == 'batch' && (!method %in% names(batch_func_map))) {
-    stop(paste0('The "', method, '" method does not have a batch geocoding function. See ?geo') , call. = FALSE)
-  }
-  
-  if (!(method %in% c('cascade', method_services))) {
-    stop('Invalid method argument. See ?geo', call. = FALSE)
-  } 
-  
-  if (!(cascade_order[1] %in% method_services) || !(cascade_order[2] %in% method_services) || (length(cascade_order) != 2) || !(is.character(cascade_order))) {
-    stop('Invalid cascade_order argument. See ?geo', call. = FALSE)
-  }
-  
-  if (method == 'cascade' && mode == 'batch' && (length(intersect(cascade_order, names(batch_func_map)) != 2))) {
-    stop("To use method = 'cascade' and mode = 'batch', both methods specified in cascade_order
-          must have batch geocoding capabilities. See ?geo")
-  }
+  check_method(method, reverse = FALSE, mode, batch_func_map, cascade_order = cascade_order)
   
   if (!(return_type %in% c('geographies', 'locations'))) {
     stop('Invalid return_type argument. See ?geo', call. = FALSE)

@@ -126,20 +126,11 @@ reverse_geo <- function(lat, long, method = 'osm', address = address, limit = 1,
       is.null(here_request_id) || is.character(here_request_id),
       is.logical(mapquest_open)
   )
-  if (quiet == TRUE && verbose == TRUE) {
-    stop("quiet and verbose cannot both be TRUE. See ?reverse_geo")
-  }
+  
+  check_verbose_quiet(verbose, quiet, reverse = FALSE)
   
   # Check method argument
-  # Currently census is the only method that doesn't support reverse geocoding
-  method_services <- unique(tidygeocoder::api_parameter_reference[['method']])
-  if (!(method %in% method_services[!method_services %in% pkg.globals$no_reverse_methods])) {
-    stop('Invalid method argument. See ?reverse_geo', call. = FALSE)
-  } 
-  
-  if (mode == 'batch' && (!method %in% names(reverse_batch_func_map))) {
-    stop(paste0('The "', method, '" method does not have a batch geocoding function. See ?reverse_geo') , call. = FALSE)
-  }
+  check_method(method, reverse = TRUE, mode, reverse_batch_func_map)
   
   if (length(lat) != length(long)) stop('Lengths of lat and long must be equal.', call. = FALSE)
   lat <- as.numeric(lat)
@@ -228,7 +219,8 @@ reverse_geo <- function(lat, long, method = 'osm', address = address, limit = 1,
     
     # Enforce batch limit if needed
     if (num_unique_coords > batch_limit) {
-      stop(paste0(format(num_unique_coords, big.mark = ','), ' unique coordinates found which exceeds the batch limit of ',
+      stop(paste0(format(num_unique_coords, big.mark = ','), 
+          ' unique coordinates found which exceeds the batch limit of ',
             format(batch_limit, big.mark = ','), '.'), call. = FALSE)
     }
     

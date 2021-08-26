@@ -100,7 +100,55 @@ format_address <- function(df, fields) {
 
 
 # QA Checks --------------------------------------------------------------------------------------------------------------
+# functions called by reverse_geo() and geo()
 
+check_verbose_quiet <- function(verbose, quiet, reverse) {
+  input_terms <- get_coord_address_terms(reverse)
+  
+  if (quiet == TRUE && verbose == TRUE) {
+    stop(paste0("quiet and verbose cannot both be TRUE. See ?", terms$base_func_name))
+  }
+}
+
+# check method function --- to be implemented in geo() and reverse_geo()
+# needs to take batch function maps as input for now
+check_method <- function(method, reverse, mode, batch_funcs, cascade_order = list()) {
+  input_terms <- get_coord_address_terms(reverse)
+  
+  # all possible methods
+  method_services <- unique(tidygeocoder::api_parameter_reference[['method']])
+  
+  # legal batch methods
+  batch_methods <- names(batch_funcs)
+  
+  # which methods are legal for single input queries
+    single_input_methods <- if (reverse == FALSE) {
+      c('cascade', method_services)
+    } else {
+    # remove methods that don't have a reverse mode (currently only 'census')
+    method_services[!method_services %in% pkg.globals$no_reverse_methods]
+  }
+    
+  if (mode == 'batch' && (!method %in% batch_methods)) {
+    stop(paste0('The "', method, '" method does not have a batch geocoding function. See ?', input_terms$base_func_name) , call. = FALSE)
+  }
+    
+  if (!(method %in% single_input_methods)) {
+    stop(paste0('Invalid method argument. See ?', input_terms$base_func_name), call. = FALSE)
+  } 
+  
+  # for geo() check cascade_order
+  if (reverse == FALSE) {
+    if (!(cascade_order[1] %in% method_services) || !(cascade_order[2] %in% method_services) || (length(cascade_order) != 2) || !(is.character(cascade_order))) {
+      stop('Invalid cascade_order argument. See ?geo', call. = FALSE)
+    }
+    if (method == 'cascade' && mode == 'batch' && (length(intersect(cascade_order, names(batch_funcs)) != 2))) {
+      stop("To use method = 'cascade' and mode = 'batch', both methods specified in cascade_order
+          must have batch geocoding capabilities. See ?geo")
+    }
+  }
+}
+ 
 # check some arguments common to geo() and reverse_geo()
 # fun_name is the name of the function that calls this one
 check_common_args <- function(fun_name, mode, limit, batch_limit, min_time) {
