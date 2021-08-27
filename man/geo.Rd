@@ -56,7 +56,7 @@ Do not combine with the address component arguments below
 
 \item{country}{country (ie. 'Japan')}
 
-\item{method}{the geocoder service to be used. API keys are loaded from environmental variables. Run \code{usethis::edit_r_environ()} to open your .Renviron file and add an API key as an environmental variable. For example, add the line \code{GEOCODIO_API_KEY="YourAPIKeyHere"}.
+\item{method}{the geocoding service to be used. API keys are loaded from environmental variables. Run \code{usethis::edit_r_environ()} to open your .Renviron file and add an API key as an environmental variable. For example, add the line \code{GEOCODIO_API_KEY="YourAPIKeyHere"}.
 \itemize{
 \item \code{"osm"}: \href{https://nominatim.org}{Nominatim}.
 \item \code{"census"}: \href{https://geocoding.geo.census.gov/}{US Census}. Geographic coverage is limited to the United States.  Batch geocoding is supported.
@@ -86,9 +86,9 @@ in the order in which the geocoding services will be attempted for \code{method 
 
 \item{long}{longitude column name. Can be quoted or unquoted (ie. long or "long").}
 
-\item{limit}{maximum number of results to return per input address. For many geocoder services
+\item{limit}{maximum number of results to return per input address. For many geocoding services
 the maximum value of the limit parameter is 100. Pass \code{limit = NULL} to use
-the default \code{limit} value of the selected geocoder service.
+the default \code{limit} value of the selected geocoding service.
 For batch geocoding, limit must be set to 1 (default) if \code{return_addresses = TRUE}.
 Refer to \link{api_parameter_reference} for more details.}
 

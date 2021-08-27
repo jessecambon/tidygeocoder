@@ -86,8 +86,10 @@ extract_results <- function(method, response, full_results = TRUE, flatten = TRU
         'geoapify' = 
           cbind(
             response$features$properties[!names(response$features$properties) %in% c('lat', 'lon')],
-            tibble::as_tibble(c(bbox = list(response$features$bbox)))
-          )
+            # bbox is not always returned. if it is null then return NA
+            tibble::as_tibble(c(bbox = list(
+              if (is.null(response$features$bbox)) list(NA_real_) else response$features$bbox
+              ))))
      ))
     
     # Formatted address for mapquest

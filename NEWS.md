@@ -4,6 +4,7 @@
 - Console messages for the number of inputs (addresses or coordinates) submitted, the geocoding service used, and the time elapsed are shown by default. These messages can be suppressed with `quiet = TRUE` (a new parameter for the `geo()` and `reverse_geo()` functions). The time the query was submitted is displayed for batch geocoding queries to help keep track of how much time has elapsed.
 - Added support for the [Geoapify](https://www.geoapify.com/) service (thanks [@dpprdan](https://github.com/dpprdan)). This service supports batch geocoding, but this capability is currently not implemented in tidygeocoder (see [#119](https://github.com/jessecambon/tidygeocoder/issues/119)).
 - Fixed a bug for Bing forward geocoding `geo()` when no results are found ([#112](https://github.com/jessecambon/tidygeocoder/issues/112)).
+- Fixed a bug when reverse geocoding when passing a set of exclusively duplicate coordinates (1 unique coordinate) ([#129](https://github.com/jessecambon/tidygeocoder/issues/129)). 
 
 # tidygeocoder 1.0.3
 
