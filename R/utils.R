@@ -121,20 +121,12 @@ check_method <- function(method, reverse, mode, batch_funcs, cascade_order = lis
   batch_methods <- names(batch_funcs)
   
   # which methods are legal for single input queries
-    single_input_methods <- if (reverse == FALSE) {
-      c('cascade', method_services)
-    } else {
-    # remove methods that don't have a reverse mode (currently only 'census')
-    method_services[!method_services %in% pkg.globals$no_reverse_methods]
+  single_input_methods <- if (reverse == FALSE) {
+    c('cascade', method_services)
+  } else {
+  # remove methods that don't have a reverse mode (currently only 'census')
+  method_services[!method_services %in% pkg.globals$no_reverse_methods]
   }
-    
-  if (mode == 'batch' && (!method %in% batch_methods)) {
-    stop(paste0('The "', method, '" method does not have a batch geocoding function. See ?', input_terms$base_func_name) , call. = FALSE)
-  }
-    
-  if (!(method %in% single_input_methods)) {
-    stop(paste0('Invalid method argument. See ?', input_terms$base_func_name), call. = FALSE)
-  } 
   
   # for geo() check cascade_order
   if (reverse == FALSE) {
@@ -143,9 +135,20 @@ check_method <- function(method, reverse, mode, batch_funcs, cascade_order = lis
     }
     if (method == 'cascade' && mode == 'batch' && (length(intersect(cascade_order, names(batch_funcs)) != 2))) {
       stop("To use method = 'cascade' and mode = 'batch', both methods specified in cascade_order
-          must have batch geocoding capabilities. See ?geo")
+          must have batch geocoding capabilities. See ?geo", call. = FALSE)
     }
   }
+    
+  if (mode == 'batch' && (!method %in% batch_methods)) {
+    stop(paste0('The "', method, '" method does not have a batch', 
+      if (reverse == TRUE) " reverse" else "",
+      ' geocoding function. See ?', input_terms$base_func_name) , call. = FALSE)
+  }
+    
+  if (!(method %in% single_input_methods)) {
+    stop(paste0('Invalid method argument. See ?', input_terms$base_func_name), call. = FALSE)
+  } 
+  
 }
  
 # check some arguments common to geo() and reverse_geo()
@@ -306,5 +309,4 @@ query_start_message <- function(method, num_inputs, reverse, batch, display_time
 
 query_complete_message <- function(start_time) {
   print_time("Query completed in", get_seconds_elapsed(start_time))
-  message('') # line break
 }

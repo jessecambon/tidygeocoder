@@ -58,8 +58,8 @@ devtools::install_github("jessecambon/tidygeocoder")
 
 In this first example we will geocode a few addresses using the `geocode()` function and plot them on a map with ggplot.
 
-```{r, warning = F, message = F}
-library(dplyr)
+```{r}
+library(dplyr, warn.conflicts = FALSE)
 library(tibble)
 library(tidygeocoder)
 
