@@ -47,9 +47,9 @@
 
 <meta property="og:title" content="Minimum time required per query — min_time_reference" />
 <meta property="og:description" content="The geo and reverse_geo functions use this dataset
-to set the maximum query rate for each geocoder service.
+to set the maximum query rate for each geocoding service.
 This rate is based on the usage restriction policies for
-each geocoder service." />
+each geocoding service." />
 
 
 
@@ -178,9 +178,9 @@ each geocoder service." />
 
     <div class="ref-description">
     <p>The <a href='geo.html'>geo</a> and <a href='reverse_geo.html'>reverse_geo</a> functions use this dataset
-to set the maximum query rate for each geocoder service.
+to set the maximum query rate for each geocoding service.
 This rate is based on the usage restriction policies for
-each geocoder service.</p>
+each geocoding service.</p>
     </div>
 
     <pre class="usage"><span class='va'>min_time_reference</span></pre>
@@ -189,7 +189,7 @@ each geocoder service.</p>
     <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
 
     <p>A tibble dataframe</p><dl>
-<dt>method</dt><dd><p>Geocoder service name</p></dd>
+<dt>method</dt><dd><p>Geocoding service name</p></dd>
 <dt>min_time</dt><dd><p>The minimum number of seconds required per query to comply with usage restrictions</p></dd>
 <dt>description</dt><dd><p>A description of the usage rate restriction</p></dd>
 
@@ -197,7 +197,7 @@ each geocoder service.</p>
 
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>Links to the usage policies of each geocoder service are below:</p><ul>
+    <p>Links to the usage policies of each geocoding service are below:</p><ul>
 <li><p><a href='https://operations.osmfoundation.org/policies/nominatim/'>Nominatim</a></p></li>
 <li><p><a href='https://www.census.gov/programs-surveys/geography/technical-documentation/complete-technical-documentation/census-geocoder.html'>US Census</a></p></li>
 <li><p><a href='https://developers.arcgis.com/rest/geocode/api-reference/geocoding-free-vs-paid.htm'>ArcGIS</a></p></li>

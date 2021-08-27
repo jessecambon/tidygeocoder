@@ -7,7 +7,7 @@
 \format{
 A tibble dataframe
 \describe{
-\item{method}{Geocoder service name}
+\item{method}{Geocoding service name}
 \item{batch_limit}{The maximum number of addresses or coordinates allowed per batch}
 }
 }

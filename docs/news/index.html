@@ -176,11 +176,11 @@
 <a href="#tidygeocoder-development-version" class="anchor"></a>tidygeocoder (development version)<small> Unreleased </small>
 </h1>
 <ul>
+<li>Added progress bar for single input geocoding (<a href="https://github.com/jessecambon/tidygeocoder/issues/38"><a href='https://github.com/jessecambon/tidygeocoder/issues/38'>#38</a></a>). It can be disabled with <code>progress_bar = FALSE</code> (a new parameter for the <code><a href="../reference/geo.html">geo()</a></code> and <code><a href="../reference/reverse_geo.html">reverse_geo()</a></code> functions). By default progress bars are displayed if the session is interactive and the code being run is not part of an RStudio Notebook chunk or R Markdown knitting process.</li>
+<li>Console messages for the number of inputs (addresses or coordinates) submitted, the geocoding service used, and the time elapsed are shown by default. These messages can be suppressed with <code>quiet = TRUE</code> (a new parameter for the <code><a href="../reference/geo.html">geo()</a></code> and <code><a href="../reference/reverse_geo.html">reverse_geo()</a></code> functions). The time the query was submitted is displayed for batch geocoding queries to help keep track of how much time has elapsed.</li>
 <li>Added support for the <a href="https://www.geoapify.com/">Geoapify</a> service (thanks <a href="https://github.com/dpprdan">@dpprdan</a>). This service supports batch geocoding, but this capability is currently not implemented in tidygeocoder (see <a href="https://github.com/jessecambon/tidygeocoder/issues/119"><a href='https://github.com/jessecambon/tidygeocoder/issues/119'>#119</a></a>).</li>
 <li>Fixed a bug for Bing forward geocoding <code><a href="../reference/geo.html">geo()</a></code> when no results are found (<a href="https://github.com/jessecambon/tidygeocoder/issues/112"><a href='https://github.com/jessecambon/tidygeocoder/issues/112'>#112</a></a>).</li>
-<li>Added progress bar for single address geocoding (<a href="https://github.com/jessecambon/tidygeocoder/issues/38"><a href='https://github.com/jessecambon/tidygeocoder/issues/38'>#38</a></a>). It can be disabled with <code>progress_bar = FALSE</code> (a new parameter for the <code><a href="../reference/geo.html">geo()</a></code> function).</li>
-<li>Console messages for the number of addresses submitted, the method used, and the time elapsed are shown by default. These messages can be suppressed with <code>quiet = TRUE</code> (a new parameter of the <code><a href="../reference/geo.html">geo()</a></code> function.</li>
-
+<li>Fixed a bug when reverse geocoding when passing a set of exclusively duplicate coordinates (1 unique coordinate) (<a href="https://github.com/jessecambon/tidygeocoder/issues/129"><a href='https://github.com/jessecambon/tidygeocoder/issues/129'>#129</a></a>).</li>
 </ul>
 </div>
     <div id="tidygeocoder-103" class="section level1">

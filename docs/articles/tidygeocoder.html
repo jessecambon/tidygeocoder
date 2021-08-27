@@ -161,16 +161,13 @@
 <span class="co">#&gt; Number of Unique Addresses: 2</span>
 <span class="co">#&gt; Executing batch geocoding...</span>
 <span class="co">#&gt; Batch limit: 10,000</span>
-<span class="co">#&gt; Passing 2 addresses to the US Census batch geocoder - 03:53 PM</span>
+<span class="co">#&gt; Passing 2 addresses to the US Census batch geocoder - 04:58 PM</span>
 <span class="co">#&gt; Querying API URL: https://geocoding.geo.census.gov/geocoder/locations/addressbatch</span>
 <span class="co">#&gt; Passing the following parameters to the API:</span>
 <span class="co">#&gt; format : "json"</span>
 <span class="co">#&gt; benchmark : "Public_AR_Current"</span>
 <span class="co">#&gt; vintage : "Current_Current"</span>
-
-<span class="co">#&gt; Query completed in: 1.5 seconds</span>
-
-<span class="co">#&gt; </span></code></pre></div>
+<span class="co">#&gt; Query completed in: 1.3 seconds</span></code></pre></div>
 <table class="table">
 <thead><tr class="header">
 <th align="left">singlelineaddress</th>
@@ -197,8 +194,7 @@
   lat <span class="op">=</span> <span class="va">latitude</span>, long <span class="op">=</span> <span class="va">longitude</span>
 <span class="op">)</span>
 <span class="co">#&gt; Passing 2 addresses to the Nominatim single address geocoder</span>
-<span class="co">#&gt; Query completed in: 2 seconds</span>
-<span class="co">#&gt; </span></code></pre></div>
+<span class="co">#&gt; Query completed in: 2 seconds</span></code></pre></div>
 <table class="table">
 <thead><tr class="header">
 <th align="left">address</th>
@@ -222,9 +218,8 @@
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">census_c1</span> <span class="op">&lt;-</span> <span class="va">address_components</span> <span class="op">%&gt;%</span>
   <span class="fu"><a href="../reference/geocode.html">geocode</a></span><span class="op">(</span>street <span class="op">=</span> <span class="va">street</span>, city <span class="op">=</span> <span class="va">cty</span>, state <span class="op">=</span> <span class="va">st</span>, method <span class="op">=</span> <span class="st">"census"</span><span class="op">)</span>
-<span class="co">#&gt; Passing 2 addresses to the US Census batch geocoder - 03:54 PM</span>
-<span class="co">#&gt; Query completed in: 2.5 seconds</span>
-<span class="co">#&gt; </span></code></pre></div>
+<span class="co">#&gt; Passing 2 addresses to the US Census batch geocoder - 04:58 PM</span>
+<span class="co">#&gt; Query completed in: 1.8 seconds</span></code></pre></div>
 <table class="table">
 <thead><tr class="header">
 <th align="left">street</th>
@@ -264,12 +259,10 @@
   street <span class="op">=</span> <span class="va">street</span>, state <span class="op">=</span> <span class="va">st</span>, city <span class="op">=</span> <span class="va">cty</span>,
   country <span class="op">=</span> <span class="va">country</span>, method <span class="op">=</span> <span class="st">"cascade"</span>
 <span class="op">)</span>
-<span class="co">#&gt; Passing 4 addresses to the US Census batch geocoder - 03:54 PM</span>
-<span class="co">#&gt; Query completed in: 2.4 seconds</span>
-<span class="co">#&gt; </span>
+<span class="co">#&gt; Passing 4 addresses to the US Census batch geocoder - 04:58 PM</span>
+<span class="co">#&gt; Query completed in: 2.2 seconds</span>
 <span class="co">#&gt; Passing 2 addresses to the Nominatim single address geocoder</span>
-<span class="co">#&gt; Query completed in: 2 seconds</span>
-<span class="co">#&gt; </span></code></pre></div>
+<span class="co">#&gt; Query completed in: 2 seconds</span></code></pre></div>
 <table class="table">
 <thead><tr class="header">
 <th align="left">street</th>
@@ -325,9 +318,8 @@
   address <span class="op">=</span> <span class="va">singlelineaddress</span>,
   method <span class="op">=</span> <span class="st">"census"</span>, full_results <span class="op">=</span> <span class="cn">TRUE</span>, return_type <span class="op">=</span> <span class="st">"geographies"</span>
 <span class="op">)</span>
-<span class="co">#&gt; Passing 2 addresses to the US Census batch geocoder - 03:54 PM</span>
-<span class="co">#&gt; Query completed in: 1.6 seconds</span>
-<span class="co">#&gt; </span></code></pre></div>
+<span class="co">#&gt; Passing 2 addresses to the US Census batch geocoder - 04:58 PM</span>
+<span class="co">#&gt; Query completed in: 1.3 seconds</span></code></pre></div>
 <table class="table">
 <colgroup>
 <col width="16%">
@@ -463,8 +455,7 @@ occurring in automated CRAN checks for an improper/old link.
 <span class="va">rev1</span> <span class="op">&lt;-</span> <span class="va">lat_longs1</span> <span class="op">%&gt;%</span>
   <span class="fu"><a href="../reference/reverse_geocode.html">reverse_geocode</a></span><span class="op">(</span>lat <span class="op">=</span> <span class="va">latitude</span>, long <span class="op">=</span> <span class="va">longitude</span>, address <span class="op">=</span> <span class="va">addr</span>, method <span class="op">=</span> <span class="st">"osm"</span><span class="op">)</span>
 <span class="co">#&gt; Passing 2 coordinates to the Nominatim single coordinate geocoder</span>
-<span class="co">#&gt; Query completed in: 2 seconds</span>
-<span class="co">#&gt; </span></code></pre></div>
+<span class="co">#&gt; Query completed in: 2 seconds</span></code></pre></div>
 <table class="table">
 <colgroup>
 <col width="5%">
@@ -499,7 +490,6 @@ occurring in automated CRAN checks for an improper/old link.
 <span class="op">)</span>
 <span class="co">#&gt; Passing 2 coordinates to the Nominatim single coordinate geocoder</span>
 <span class="co">#&gt; Query completed in: 2 seconds</span>
-<span class="co">#&gt; </span>
 
 <span class="fu"><a href="https://pillar.r-lib.org/reference/glimpse.html">glimpse</a></span><span class="op">(</span><span class="va">rev2</span><span class="op">)</span>
 <span class="co">#&gt; Rows: 2</span>
@@ -550,7 +540,7 @@ occurring in automated CRAN checks for an improper/old link.
 <span class="co">#&gt; limit : "1"</span>
 <span class="co">#&gt; format : "json"</span>
 <span class="co">#&gt; HTTP Status Code: 200</span>
-<span class="co">#&gt; Query completed in: 0.3 seconds</span>
+<span class="co">#&gt; Query completed in: 0.4 seconds</span>
 <span class="co">#&gt; Total query time (including sleep): 1 seconds</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; </span>
@@ -561,11 +551,10 @@ occurring in automated CRAN checks for an improper/old link.
 <span class="co">#&gt; limit : "1"</span>
 <span class="co">#&gt; format : "json"</span>
 <span class="co">#&gt; HTTP Status Code: 200</span>
-<span class="co">#&gt; Query completed in: 0.7 seconds</span>
+<span class="co">#&gt; Query completed in: 0.2 seconds</span>
 <span class="co">#&gt; Total query time (including sleep): 1 seconds</span>
 <span class="co">#&gt; </span>
-<span class="co">#&gt; Query completed in: 2 seconds</span>
-<span class="co">#&gt; </span></code></pre></div>
+<span class="co">#&gt; Query completed in: 2 seconds</span></code></pre></div>
 <table class="table">
 <thead><tr class="header">
 <th align="left">singlelineaddress</th>
@@ -615,8 +604,7 @@ occurring in automated CRAN checks for an improper/old link.
 <code class="sourceCode R"><span class="va">uniqueonly1</span> <span class="op">&lt;-</span> <span class="va">duplicate_addrs</span> <span class="op">%&gt;%</span>
   <span class="fu"><a href="../reference/geocode.html">geocode</a></span><span class="op">(</span><span class="va">singlelineaddress</span>, unique_only <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
 <span class="co">#&gt; Passing 2 addresses to the Nominatim single address geocoder</span>
-<span class="co">#&gt; Query completed in: 2 seconds</span>
-<span class="co">#&gt; </span></code></pre></div>
+<span class="co">#&gt; Query completed in: 2 seconds</span></code></pre></div>
 <table class="table">
 <thead><tr class="header">
 <th align="left">address</th>
@@ -649,7 +637,6 @@ occurring in automated CRAN checks for an improper/old link.
 <span class="op">)</span>
 <span class="co">#&gt; Passing 2 addresses to the Nominatim single address geocoder</span>
 <span class="co">#&gt; Query completed in: 2 seconds</span>
-<span class="co">#&gt; </span>
 
 <span class="fu"><a href="https://pillar.r-lib.org/reference/glimpse.html">glimpse</a></span><span class="op">(</span><span class="va">geo_limit</span><span class="op">)</span>
 <span class="co">#&gt; Rows: 6</span>
@@ -727,8 +714,7 @@ occurring in automated CRAN checks for an improper/old link.
 <span class="co">#&gt; SingleLine : "Las Vegas, NV"</span>
 <span class="co">#&gt; maxLocations : "1"</span>
 <span class="co">#&gt; f : "json"</span>
-<span class="co">#&gt; Query completed in: 0 seconds</span>
-<span class="co">#&gt; </span></code></pre></div>
+<span class="co">#&gt; Query completed in: 0 seconds</span></code></pre></div>
 <table class="table">
 <thead><tr class="header">
 <th align="left">address</th>
@@ -750,6 +736,8 @@ occurring in automated CRAN checks for an improper/old link.
 </table>
 <p>Additional usage notes for the <code><a href="../reference/geocode.html">geocode()</a></code>, <code><a href="../reference/geo.html">geo()</a></code>, <code><a href="../reference/reverse_geocode.html">reverse_geocode()</a></code>, and <code><a href="../reference/reverse_geo.html">reverse_geo()</a></code> functions:</p>
 <ul>
+<li>Set <code>quiet = TRUE</code> to silence console logs displayed by default (how many inputs were submitted, to what geocoding service, and the elapsed time).</li>
+<li>Use the <code>progress_bar</code> argument to control if a progress bar is displayed.</li>
 <li>To specify a custom geocoder API URL, use the <code>api_url</code> argument. Alternatively, the <code>iq_region</code> and <code>geocodio_v</code> arguments are helper functions for customizing the API URL.</li>
 <li>If not specified manually, the <code>min_time</code> argument will default to a value based on the maximum query rate of the given geocoding service. If you are using a local Nominatim server or have a commercial geocoder plan that has less restrictive usage limits then you can manually set <code>min_time</code> to a lower valuer (such as 0).</li>
 <li>The <code>mode</code> argument can be used to specify whether the batch geocoding or single address/coordinate geocoding should be used. By default batch geocoding will be used if available when more than one address or coordinate is provided (with some noted exceptions for slower batch geocoding services).</li>

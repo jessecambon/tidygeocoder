@@ -18,6 +18,8 @@ geo(
   long = long,
   limit = 1,
   min_time = NULL,
+  progress_bar = show_progress_bar(),
+  quiet = FALSE,
   api_url = NULL,
   timeout = 20,
   mode = "",
@@ -94,6 +96,14 @@ Refer to \link{api_parameter_reference} for more details.}
 
 \item{min_time}{minimum amount of time for a query to take (in seconds). If NULL
 then min_time will be set to the default value specified in \link{min_time_reference}.}
+
+\item{progress_bar}{if TRUE then a progress bar will be displayed to track query
+progress for single input geocoding (1 input per query). By default the progress bar
+will not be shown for code executed when knitting R Markdown files or code within
+an RStudio notebook chunk.}
+
+\item{quiet}{if TRUE then important console messages on queries are displayed. Set
+to FALSE to suppress these messages.}
 
 \item{api_url}{custom API URL. If specified, the default API URL will be overridden.
 This parameter can be used to specify a local Nominatim server, for instance.}

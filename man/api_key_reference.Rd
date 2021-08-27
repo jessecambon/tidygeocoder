@@ -7,7 +7,7 @@
 \format{
 A tibble dataframe
 \describe{
-\item{method}{Geocoder service name}
+\item{method}{Geocoding service name}
 \item{env_var}{Environmental variable name}
 }
 }
@@ -18,7 +18,7 @@ api_key_reference
 API keys are obtained from environmental variables.
 The \link{geo} and \link{reverse_geo} functions use this dataset
 to know which environmental variable to use for
-each geocoder service.
+each geocoding service.
 }
 \seealso{
 \link{geo} \link{reverse_geo}

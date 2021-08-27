@@ -81,7 +81,6 @@ lat_longs <- some_addresses %>%
   geocode(addr, method = 'osm', lat = latitude , long = longitude)
 #> Passing 3 addresses to the Nominatim single address geocoder
 #> Query completed in: 3 seconds
-#> 
 ```
 
 The `geocode()` function geocodes addresses contained in a dataframe.
@@ -135,7 +134,6 @@ reverse <- lat_longs %>%
   select(-addr, -licence)
 #> Passing 3 coordinates to the Nominatim single coordinate geocoder
 #> Query completed in: 3 seconds
-#> 
 ```
 
 | name                 | latitude |  longitude | address\_found                                                                                                                                         | place\_id | osm\_type |   osm\_id | osm\_lat           | osm\_lon            | office      | house\_number | road                          | city          | state                | postcode | country       | country\_code | boundingbox                                          | tourism              | neighbourhood | county        | building     | suburb |

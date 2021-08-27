@@ -3,15 +3,15 @@
 \docType{data}
 \name{api_parameter_reference}
 \alias{api_parameter_reference}
-\title{Geocoder service API parameter reference}
+\title{Geocoding service API parameter reference}
 \format{
 A tibble dataframe
 \describe{
-\item{method}{Geocoder service name}
+\item{method}{Geocoding service name}
 \item{generic_name}{Universal parameter name}
-\item{api_name}{Name of the parameter for the specified geocoder service}
+\item{api_name}{Name of the parameter for the specified geocoding service}
 \item{default_value}{Default value of the parameter}
-\item{required}{Is the parameter required by the specified geocoder service?}
+\item{required}{Is the parameter required by the specified geocoding service?}
 }
 }
 \usage{
@@ -19,21 +19,21 @@ api_parameter_reference
 }
 \description{
 This dataset contains the mapping that allows this package to use a
-universal syntax to specify parameters for different geocoder services.
+universal syntax to specify parameters for different geocoding services.
 Note that latitude and longitude input parameters for reverse geocoding
 are not in this dataset and are instead handled directly by the \link{reverse_geo} function.
 
 The \code{generic_name} column is a universal parameter name that is shared between services.
-The \code{api_name} column is the parameter name for the given geocoder service specified by the
+The \code{api_name} column is the parameter name for the given geocoding service specified by the
 \code{method} column. When \code{generic_name} is missing
-this means the parameter is specific to that geocoder service.
+this means the parameter is specific to that geocoding service.
 
 While the "census" and "google" services do not have a \code{limit}
 argument in their APIs, tidygeocoder provides a passthrough so you can still
 use the \code{limit} argument in \link{geo} and \link{reverse_geo} to limit the
 number of results per input.
 
-Note that some geocoder services only use the \code{limit} argument for forward geocoding.
+Note that some geocoding services only use the \code{limit} argument for forward geocoding.
 Refer to API documentation of each service for more information.
 
 Reference the documentation for \link{geo} and \link{reverse_geo} for more information.

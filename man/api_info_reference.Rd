@@ -3,13 +3,13 @@
 \docType{data}
 \name{api_info_reference}
 \alias{api_info_reference}
-\title{Geocoder service links and information}
+\title{Geocoding service links and information}
 \format{
 A tibble dataframe
 \describe{
-\item{method}{Geocoder service name}
-\item{method_display_name}{Geocoder service display name}
-\item{site_url}{Link to the main site of the geocoder service}
+\item{method}{Geocoding service name}
+\item{method_display_name}{Geocoding service display name}
+\item{site_url}{Link to the main site of the geocoding service}
 \item{api_documentation_url}{Link to API documentation}
 \item{api_usage_policy_url}{Link to the usage policy}
 }

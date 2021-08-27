@@ -7,7 +7,7 @@
 \format{
 A tibble dataframe
 \describe{
-\item{method}{Geocoder service name}
+\item{method}{Geocoding service name}
 \item{min_time}{The minimum number of seconds required per query to comply with usage restrictions}
 \item{description}{A description of the usage rate restriction}
 }
@@ -17,12 +17,12 @@ min_time_reference
 }
 \description{
 The \link{geo} and \link{reverse_geo} functions use this dataset
-to set the maximum query rate for each geocoder service.
+to set the maximum query rate for each geocoding service.
 This rate is based on the usage restriction policies for
-each geocoder service.
+each geocoding service.
 }
 \details{
-Links to the usage policies of each geocoder service are below:
+Links to the usage policies of each geocoding service are below:
 \itemize{
 \item \href{https://operations.osmfoundation.org/policies/nominatim/}{Nominatim}
 \item \href{https://www.census.gov/programs-surveys/geography/technical-documentation/complete-technical-documentation/census-geocoder.html}{US Census}
