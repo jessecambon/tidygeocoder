@@ -269,7 +269,7 @@ Do not combine with the address component arguments below
     </tr>
     <tr>
       <th>method</th>
-      <td><p>the geocoder service to be used. API keys are loaded from environmental variables. Run <code><a href='https://usethis.r-lib.org/reference/edit.html'>usethis::edit_r_environ()</a></code> to open your .Renviron file and add an API key as an environmental variable. For example, add the line <code>GEOCODIO_API_KEY="YourAPIKeyHere"</code>.</p><ul>
+      <td><p>the geocoding service to be used. API keys are loaded from environmental variables. Run <code><a href='https://usethis.r-lib.org/reference/edit.html'>usethis::edit_r_environ()</a></code> to open your .Renviron file and add an API key as an environmental variable. For example, add the line <code>GEOCODIO_API_KEY="YourAPIKeyHere"</code>.</p><ul>
 <li><p><code>"osm"</code>: <a href='https://nominatim.org'>Nominatim</a>.</p></li>
 <li><p><code>"census"</code>: <a href='https://geocoding.geo.census.gov/'>US Census</a>. Geographic coverage is limited to the United States.  Batch geocoding is supported.</p></li>
 <li><p><code>"arcgis"</code>: <a href='https://developers.arcgis.com/rest/geocode/api-reference/overview-world-geocoding-service.htm'>ArcGIS</a>.</p></li>
@@ -306,9 +306,9 @@ in the order in which the geocoding services will be attempted for <code>method 
     </tr>
     <tr>
       <th>limit</th>
-      <td><p>maximum number of results to return per input address. For many geocoder services
+      <td><p>maximum number of results to return per input address. For many geocoding services
 the maximum value of the limit parameter is 100. Pass <code>limit = NULL</code> to use
-the default <code>limit</code> value of the selected geocoder service.
+the default <code>limit</code> value of the selected geocoding service.
 For batch geocoding, limit must be set to 1 (default) if <code>return_addresses = TRUE</code>.
 Refer to <a href='api_parameter_reference.html'>api_parameter_reference</a> for more details.</p></td>
     </tr>

@@ -108,7 +108,7 @@ get_method_documentation <- function(reverse) {
   all_methods <- tidygeocoder::api_info_reference[['method']]
   
   method_intro <- paste0(c(
-    "the geocoder service to be used.", 
+    "the geocoding service to be used.", 
     "API keys are loaded from environmental variables. Run `usethis::edit_r_environ()` to open",
     'your .Renviron file and add an API key as an environmental variable. For example, add the line `GEOCODIO_API_KEY="YourAPIKeyHere"`.'
   ), collapse = ' ')
@@ -152,9 +152,9 @@ get_limit_documentation <- function(reverse, df_input) {
   terms <- get_coord_address_terms(reverse)
 
   main <- c(
-    paste0(c("maximum number of results to return per input ", terms$input_singular, ". For many geocoder services"), collapse = ''),
+    paste0(c("maximum number of results to return per input ", terms$input_singular, ". For many geocoding services"), collapse = ''),
     "the maximum value of the limit parameter is 100. Pass `limit = NULL` to use",
-    "the default `limit` value of the selected geocoder service.",
+    "the default `limit` value of the selected geocoding service.",
     paste0(c("For batch geocoding, limit must be set to 1 (default) if `", terms$return_arg, " = TRUE`."), collapse = '')
   )
   

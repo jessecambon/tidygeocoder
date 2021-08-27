@@ -34,7 +34,7 @@ reverse_geo(
 
 \item{long}{longitude values (input data)}
 
-\item{method}{the geocoder service to be used. API keys are loaded from environmental variables. Run \code{usethis::edit_r_environ()} to open your .Renviron file and add an API key as an environmental variable. For example, add the line \code{GEOCODIO_API_KEY="YourAPIKeyHere"}.
+\item{method}{the geocoding service to be used. API keys are loaded from environmental variables. Run \code{usethis::edit_r_environ()} to open your .Renviron file and add an API key as an environmental variable. For example, add the line \code{GEOCODIO_API_KEY="YourAPIKeyHere"}.
 \itemize{
 \item \code{"osm"}: \href{https://nominatim.org}{Nominatim}.
 \item \code{"arcgis"}: \href{https://developers.arcgis.com/rest/geocode/api-reference/overview-world-geocoding-service.htm}{ArcGIS}.
@@ -52,9 +52,9 @@ reverse_geo(
 
 \item{address}{name of the address column (in the output data)}
 
-\item{limit}{maximum number of results to return per input coordinate. For many geocoder services
+\item{limit}{maximum number of results to return per input coordinate. For many geocoding services
 the maximum value of the limit parameter is 100. Pass \code{limit = NULL} to use
-the default \code{limit} value of the selected geocoder service.
+the default \code{limit} value of the selected geocoding service.
 For batch geocoding, limit must be set to 1 (default) if \code{return_coords = TRUE}.
 Refer to \link{api_parameter_reference} for more details.}
 
