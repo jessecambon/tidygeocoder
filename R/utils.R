@@ -106,7 +106,7 @@ check_verbose_quiet <- function(verbose, quiet, reverse) {
   input_terms <- get_coord_address_terms(reverse)
   
   if (quiet == TRUE && verbose == TRUE) {
-    stop(paste0("quiet and verbose cannot both be TRUE. See ?", terms$base_func_name))
+    stop(paste0("quiet and verbose cannot both be TRUE. See ?", input_terms$base_func_name))
   }
 }
 
@@ -298,7 +298,7 @@ query_start_message <- function(method, num_inputs, reverse, batch, display_time
                  format(num_inputs, big.mark = ','), ' ', input_terms$input_plural,
                  ' to the ', 
                  # get proper name of the service
-                 get_setting_value(api_info_reference, method, 'method_display_name'), ' ',
+                 get_setting_value(tidygeocoder::api_info_reference, method, 'method_display_name'), ' ',
                  if (batch == TRUE) 'batch' else paste0('single ', input_terms$input_singular),
                  ' geocoder', 
                  # display time when query was sent (used for batch queries)
