@@ -264,9 +264,9 @@ and returned. If FALSE only the geocoder results will be returned.</p></td>
     </tr>
     <tr>
       <th>limit</th>
-      <td><p>maximum number of results to return per input address. For many geocoder services
+      <td><p>maximum number of results to return per input address. For many geocoding services
 the maximum value of the limit parameter is 100. Pass <code>limit = NULL</code> to use
-the default <code>limit</code> value of the selected geocoder service.
+the default <code>limit</code> value of the selected geocoding service.
 For batch geocoding, limit must be set to 1 (default) if <code>return_addresses = TRUE</code>.
 To use <code>limit &gt; 1</code> or <code>limit = NULL</code> set return_input to FALSE.
 Refer to <a href='api_parameter_reference.html'>api_parameter_reference</a> for more details.</p></td>
@@ -328,7 +328,7 @@ return_input will be set to FALSE.</p></td>
 #&gt; </span><span style='color: #BCBCBC;'>1</span><span> Istanbu…  41.0  29.0   1.84</span><span style='color: #949494;'>e</span><span>7 Data ©… node     1.88</span><span style='color: #949494;'>e</span><span>9 </span><span style='color: #949494;'>&lt;chr [4]&gt;</span><span>   İstanbul, F…
 #&gt; </span><span style='color: #BCBCBC;'>2</span><span> Istanbu…  41.1  29.1   2.58</span><span style='color: #949494;'>e</span><span>8 Data ©… relation 2.23</span><span style='color: #949494;'>e</span><span>5 </span><span style='color: #949494;'>&lt;chr [4]&gt;</span><span>   İstanbul, M…
 #&gt; </span><span style='color: #BCBCBC;'>3</span><span> Tokyo, …  35.7 140.    2.59</span><span style='color: #949494;'>e</span><span>8 Data ©… relation 1.54</span><span style='color: #949494;'>e</span><span>6 </span><span style='color: #949494;'>&lt;chr [4]&gt;</span><span>   東京都, 日本
-#&gt; </span><span style='color: #BCBCBC;'>4</span><span> Tokyo, …  35.7 140.    7.10</span><span style='color: #949494;'>e</span><span>7 Data ©… node     6.40</span><span style='color: #949494;'>e</span><span>9 </span><span style='color: #949494;'>&lt;chr [4]&gt;</span><span>   東京, 丸の… 
+#&gt; </span><span style='color: #BCBCBC;'>4</span><span> Tokyo, …  35.7 140.    7.01</span><span style='color: #949494;'>e</span><span>7 Data ©… node     6.40</span><span style='color: #949494;'>e</span><span>9 </span><span style='color: #949494;'>&lt;chr [4]&gt;</span><span>   東京, 鍛冶… 
 #&gt; </span><span style='color: #949494;'># … with 4 more variables: class &lt;chr&gt;, type &lt;chr&gt;, importance &lt;dbl&gt;,</span><span>
 #&gt; </span><span style='color: #949494;'>#   icon &lt;chr&gt;</span><span></div><div class='input'>
 <span class='va'>sample_addresses</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/slice.html'>slice</a></span><span class='op'>(</span><span class='fl'>4</span><span class='op'>:</span><span class='fl'>5</span><span class='op'>)</span> <span class='op'>%&gt;%</span>

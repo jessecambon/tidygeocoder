@@ -20,25 +20,25 @@
 #'  on June 1st 2020
 "louisville"
 
-#' Geocoder service API parameter reference
+#' Geocoding service API parameter reference
 #' 
 #' @description
 #' This dataset contains the mapping that allows this package to use a 
-#' universal syntax to specify parameters for different geocoder services. 
+#' universal syntax to specify parameters for different geocoding services. 
 #' Note that latitude and longitude input parameters for reverse geocoding
 #' are not in this dataset and are instead handled directly by the [reverse_geo] function.
 #' 
 #' The `generic_name` column is a universal parameter name that is shared between services.
-#' The `api_name` column is the parameter name for the given geocoder service specified by the
+#' The `api_name` column is the parameter name for the given geocoding service specified by the
 #' `method` column. When `generic_name` is missing 
-#' this means the parameter is specific to that geocoder service.
+#' this means the parameter is specific to that geocoding service.
 #' 
 #' While the `r create_comma_list(pkg.globals$limit_passthru_methods, wrap ='"')` services do not have a `limit`
 #' argument in their APIs, tidygeocoder provides a passthrough so you can still
 #' use the `limit` argument in [geo] and [reverse_geo] to limit the 
 #' number of results per input.
 #' 
-#' Note that some geocoder services only use the `limit` argument for forward geocoding.
+#' Note that some geocoding services only use the `limit` argument for forward geocoding.
 #' Refer to API documentation of each service for more information.
 #'  
 #' Reference the documentation for [geo] and [reverse_geo] for more information. 
@@ -46,11 +46,11 @@
 #'
 #' @format A tibble dataframe
 #' \describe{
-#'  \item{method}{Geocoder service name}
+#'  \item{method}{Geocoding service name}
 #'  \item{generic_name}{Universal parameter name}
-#'  \item{api_name}{Name of the parameter for the specified geocoder service}
+#'  \item{api_name}{Name of the parameter for the specified geocoding service}
 #'  \item{default_value}{Default value of the parameter}
-#'  \item{required}{Is the parameter required by the specified geocoder service?}
+#'  \item{required}{Is the parameter required by the specified geocoding service?}
 #' }
 #' 
 #' @details 
@@ -70,7 +70,7 @@
 #'
 #' @format A tibble dataframe
 #' \describe{
-#'  \item{method}{Geocoder service name}
+#'  \item{method}{Geocoding service name}
 #'  \item{batch_limit}{The maximum number of addresses or coordinates allowed per batch}
 #' }
 #' @seealso [geo] [reverse_geo] 
@@ -80,17 +80,17 @@
 #' Minimum time required per query
 #' 
 #' The [geo] and [reverse_geo] functions use this dataset
-#' to set the maximum query rate for each geocoder service.
+#' to set the maximum query rate for each geocoding service.
 #' This rate is based on the usage restriction policies for 
-#' each geocoder service.
+#' each geocoding service.
 #'
 #' @format A tibble dataframe
 #' \describe{
-#'  \item{method}{Geocoder service name}
+#'  \item{method}{Geocoding service name}
 #'  \item{min_time}{The minimum number of seconds required per query to comply with usage restrictions}
 #'  \item{description}{A description of the usage rate restriction}
 #' }
-#' @details Links to the usage policies of each geocoder service are below:
+#' @details Links to the usage policies of each geocoding service are below:
 #' 
 #' `r get_api_usage_bullets()`
 #' 
@@ -103,11 +103,11 @@
 #' API keys are obtained from environmental variables.
 #' The [geo] and [reverse_geo] functions use this dataset
 #' to know which environmental variable to use for
-#' each geocoder service.
+#' each geocoding service.
 #'
 #' @format A tibble dataframe
 #' \describe{
-#'  \item{method}{Geocoder service name}
+#'  \item{method}{Geocoding service name}
 #'  \item{env_var}{Environmental variable name}
 #' }
 #' 
@@ -115,15 +115,15 @@
 #' 
 "api_key_reference"
 
-#' Geocoder service links and information
+#' Geocoding service links and information
 #' 
 #' This dataset is used for generating package documentation.
 #'
 #' @format A tibble dataframe
 #' \describe{
-#'  \item{method}{Geocoder service name}
-#'  \item{method_display_name}{Geocoder service display name}
-#'  \item{site_url}{Link to the main site of the geocoder service}
+#'  \item{method}{Geocoding service name}
+#'  \item{method_display_name}{Geocoding service display name}
+#'  \item{site_url}{Link to the main site of the geocoding service}
 #'  \item{api_documentation_url}{Link to API documentation}
 #'  \item{api_usage_policy_url}{Link to the usage policy}
 #' }
