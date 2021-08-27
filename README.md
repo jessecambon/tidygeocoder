@@ -64,7 +64,7 @@ In this first example we will geocode a few addresses using the
 `geocode()` function and plot them on a map with ggplot.
 
 ``` r
-library(dplyr)
+library(dplyr, warn.conflicts = FALSE)
 library(tibble)
 library(tidygeocoder)
 
@@ -79,6 +79,9 @@ some_addresses <- tribble(
 # geocode the addresses
 lat_longs <- some_addresses %>%
   geocode(addr, method = 'osm', lat = latitude , long = longitude)
+#> Passing 3 addresses to the Nominatim single address geocoder
+#> Query completed in: 3 seconds
+#> 
 ```
 
 The `geocode()` function geocodes addresses contained in a dataframe.
@@ -130,6 +133,9 @@ reverse <- lat_longs %>%
   reverse_geocode(lat = latitude, long = longitude, method = 'osm',
                   address = address_found, full_results = TRUE) %>%
   select(-addr, -licence)
+#> Passing 3 coordinates to the Nominatim single coordinate geocoder
+#> Query completed in: 3 seconds
+#> 
 ```
 
 | name                 | latitude |  longitude | address\_found                                                                                                                                         | place\_id | osm\_type |   osm\_id | osm\_lat           | osm\_lon            | office      | house\_number | road                          | city          | state                | postcode | country       | country\_code | boundingbox                                          | tourism              | neighbourhood | county        | building     | suburb |

@@ -148,8 +148,10 @@
 
 <span class="va">df</span> <span class="op">%&gt;%</span>
   <span class="fu"><a href="../reference/geocode.html">geocode</a></span><span class="op">(</span>address <span class="op">=</span> <span class="va">locations</span>, method <span class="op">=</span> <span class="st">'osm'</span>, full_results <span class="op">=</span> <span class="cn">TRUE</span>, verbose <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
+<span class="co">#&gt; </span>
 <span class="co">#&gt; Number of Unique Addresses: 2</span>
-<span class="co">#&gt; Executing single address geocoding...</span>
+<span class="co">#&gt; Passing 2 addresses to the Nominatim single address geocoder</span>
+<span class="co">#&gt; </span>
 <span class="co">#&gt; Number of Unique Addresses: 1</span>
 <span class="co">#&gt; Querying API URL: https://nominatim.openstreetmap.org/search</span>
 <span class="co">#&gt; Passing the following parameters to the API:</span>
@@ -160,6 +162,7 @@
 <span class="co">#&gt; Query completed in: 0.4 seconds</span>
 <span class="co">#&gt; Total query time (including sleep): 1 seconds</span>
 <span class="co">#&gt; </span>
+<span class="co">#&gt; </span>
 <span class="co">#&gt; Number of Unique Addresses: 1</span>
 <span class="co">#&gt; Querying API URL: https://nominatim.openstreetmap.org/search</span>
 <span class="co">#&gt; Passing the following parameters to the API:</span>
@@ -169,6 +172,8 @@
 <span class="co">#&gt; HTTP Status Code: 200</span>
 <span class="co">#&gt; Query completed in: 0.2 seconds</span>
 <span class="co">#&gt; Total query time (including sleep): 1 seconds</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Query completed in: 2 seconds</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; # A tibble: 3 x 14</span>
 <span class="co">#&gt;      id locations   lat   long  place_id licence     osm_type osm_id boundingbox</span>

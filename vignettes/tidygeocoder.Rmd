@@ -222,6 +222,8 @@ knitr::kable(noquery1)
 
 Additional usage notes for the `geocode()`, `geo()`, `reverse_geocode()`, and `reverse_geo()` functions:
 
+- Set `quiet = TRUE` to silence console logs displayed by default (how many inputs were submitted, to what geocoding service, and the elapsed time). 
+- Use the `progress_bar` argument to control if a progress bar is displayed.
 - To specify a custom geocoder API URL, use the `api_url` argument. Alternatively, the `iq_region` and `geocodio_v` arguments are helper functions for customizing the API URL. 
 - If not specified manually, the `min_time` argument will default to a value based on the maximum query rate of the given geocoding service. If you are using a local Nominatim server or have a commercial geocoder plan that has less restrictive usage limits then you can manually set `min_time` to a lower valuer (such as 0).
 - The `mode` argument can be used to specify whether the batch geocoding or single address/coordinate geocoding should be used. By default batch geocoding will be used if available when more than one address or coordinate is provided (with some noted exceptions for slower batch geocoding services).

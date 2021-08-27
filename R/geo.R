@@ -11,6 +11,13 @@ batch_func_map <- list(
   bing = batch_bing
 )
 
+# call geo function with progress bar
+progress_geo <- function(pb = NULL, ...) {
+  results <- geo(...)
+  if (!is.null(pb)) pb$tick()
+  return(results)
+}
+
 #' Geocode addresses
 #' 
 #' @description
@@ -55,6 +62,12 @@ batch_func_map <- list(
 #' @param limit `r get_limit_documentation(reverse = FALSE, df_input = FALSE)`
 #' @param min_time minimum amount of time for a query to take (in seconds). If NULL
 #' then min_time will be set to the default value specified in [min_time_reference].
+#' @param progress_bar if TRUE then a progress bar will be displayed to track query
+#'   progress for single input geocoding (1 input per query). By default the progress bar
+#'   will not be shown for code executed when knitting R Markdown files or code within 
+#'   an RStudio notebook chunk.
+#' @param quiet if TRUE then important console messages on queries are displayed. Set
+#'   to FALSE to suppress these messages.
 #' @param api_url custom API URL. If specified, the default API URL will be overridden.
 #'  This parameter can be used to specify a local Nominatim server, for instance.
 #' @param timeout query timeout (in minutes)
@@ -117,7 +130,7 @@ batch_func_map <- list(
 geo <- function(address = NULL, 
     street = NULL, city = NULL, county = NULL, state = NULL, postalcode = NULL, country = NULL,
     method = 'osm', cascade_order = c('census', 'osm'), lat = lat, long = long, limit = 1, 
-    min_time = NULL, api_url = NULL, timeout = 20,
+    min_time = NULL, progress_bar = show_progress_bar(), quiet = FALSE, api_url = NULL, timeout = 20,
     mode = '', full_results = FALSE, unique_only = FALSE, return_addresses = TRUE, 
     flatten = TRUE, batch_limit = NULL, batch_limit_error = TRUE, verbose = FALSE, no_query = FALSE, 
     custom_query = list(), return_type = 'locations', iq_region = 'us', geocodio_v = 1.6, 
@@ -132,9 +145,6 @@ geo <- function(address = NULL,
   # capture all function arguments including default values as a named list.
   # IMPORTANT: make sure to put this statement before any other variables are defined in the function
   all_args <- as.list(environment())
-  
-  # All legal methods (besides 'cascade')
-  method_services <- unique(tidygeocoder::api_parameter_reference[['method']])
 
   # Check parameter arguments --------------------------------------------------------
 
@@ -150,7 +160,7 @@ geo <- function(address = NULL,
   stopifnot(
     is.logical(verbose), is.logical(no_query), is.logical(flatten), is.logical(param_error),
             is.logical(full_results), is.logical(unique_only), is.logical(return_addresses),
-            is.logical(batch_limit_error), 
+            is.logical(batch_limit_error), is.logical(progress_bar), is.logical(quiet),
             is.numeric(timeout), timeout >= 0, 
             is.list(custom_query),
             is.logical(mapbox_permanent), 
@@ -158,24 +168,11 @@ geo <- function(address = NULL,
             is.logical(mapquest_open)
     )
   
+  check_verbose_quiet(verbose, quiet, reverse = FALSE)
+    
   check_common_args('geo', mode, limit, batch_limit, min_time)
   
-  if (mode == 'batch' && (!method %in% names(batch_func_map))) {
-    stop(paste0('The "', method, '" method does not have a batch geocoding function. See ?geo') , call. = FALSE)
-  }
-  
-  if (!(method %in% c('cascade', method_services))) {
-    stop('Invalid method argument. See ?geo', call. = FALSE)
-  } 
-  
-  if (!(cascade_order[1] %in% method_services) || !(cascade_order[2] %in% method_services) || (length(cascade_order) != 2) || !(is.character(cascade_order))) {
-    stop('Invalid cascade_order argument. See ?geo', call. = FALSE)
-  }
-  
-  if (method == 'cascade' && mode == 'batch' && (length(intersect(cascade_order, names(batch_func_map)) != 2))) {
-    stop("To use method = 'cascade' and mode = 'batch', both methods specified in cascade_order
-          must have batch geocoding capabilities. See ?geo")
-  }
+  check_method(method, reverse = FALSE, mode, batch_func_map, cascade_order = cascade_order)
   
   if (!(return_type %in% c('geographies', 'locations'))) {
     stop('Invalid return_type argument. See ?geo', call. = FALSE)
@@ -192,7 +189,7 @@ geo <- function(address = NULL,
   num_unique_addresses <- nrow(address_pack$unique) # unique addresses
   NA_value <- get_na_value(lat, long, rows = num_unique_addresses) # filler result to return if needed
   
-  if (verbose == TRUE) message(paste0('Number of Unique Addresses: ', num_unique_addresses))
+  if (verbose == TRUE) message(paste0('\nNumber of Unique Addresses: ', num_unique_addresses))
   
   # If no valid/non-blank addresses are passed then return NA
   if (num_unique_addresses == 1 && all(is.na(address_pack$unique))) {
@@ -258,23 +255,42 @@ geo <- function(address = NULL,
     mode <- 'single'
   }
   
+  # construct arguments for a single address query
+  # note that non-address related fields go to the MoreArgs argument of mapply
+  # since we aren't iterating through them
+  single_addr_args <- c(
+    list(FUN = progress_geo), 
+    as.list(address_pack$unique),
+    list(MoreArgs = all_args[!names(all_args) %in% pkg.globals$address_arg_names],
+         USE.NAMES = FALSE, SIMPLIFY = FALSE)
+  )
+  
   # Single address geocoding is used if the method has no batch function or if 
   # mode = 'single' was specified
   if ((num_unique_addresses > 1) && ((!(method %in% names(batch_func_map))) || (mode == 'single'))) {
-      if (verbose == TRUE) message('Executing single address geocoding...\n')
+    
+      if (quiet == FALSE) {
+        query_start_message(method, num_unique_addresses, reverse = FALSE, batch = FALSE)
+      }
       
-      # construct arguments for a single address query
-      # note that non-address related fields go to the MoreArgs argument of mapply
-      # since we aren't iterating through them
-      single_addr_args <- c(
-        list(FUN = geo), 
-        as.list(address_pack$unique),
-        list(MoreArgs = all_args[!names(all_args) %in% pkg.globals$address_arg_names],
-          USE.NAMES = FALSE, SIMPLIFY = FALSE)
-      )
+      if (progress_bar == TRUE) {
+        
+        # intialize progress bar 
+        pb <- create_progress_bar(
+          num_unique_addresses
+        )
+        # add progress bar object to query
+        single_addr_args$MoreArgs$pb <- pb
+      }
       
       # Geocode each address individually by recalling this function with mapply
       list_coords <- do.call(mapply, single_addr_args)
+      
+      # tell user how long the query took if the progress bar hasn't already
+      if (quiet == FALSE && progress_bar == FALSE) {
+        query_complete_message(start_time)
+      }
+      
       # rbind the list of tibble dataframes together
       stacked_results <- dplyr::bind_rows(list_coords)
       
@@ -285,16 +301,11 @@ geo <- function(address = NULL,
       
   # Batch geocoding --------------------------------------------------------------------------
   if ((num_unique_addresses > 1) || (mode == 'batch')) {
+    
     if (verbose == TRUE) message('Executing batch geocoding...\n')
     
-    if ((is.null(limit) || limit != 1) && return_addresses == TRUE) {
-    stop('For batch geocoding (more than one address per query) the limit argument must 
-    be 1 (the default) OR the return_addresses argument must be FALSE. Possible solutions:
-    1) Set the mode argument to "single" to force single (not batch) geocoding 
-    2) Set limit argument to 1 (ie. 1 result is returned per address)
-    3) Set return_addresses to FALSE
-    See the geo() function documentation for details.', call. = FALSE)
-    }
+    # check for conflict between limit and return_addresses arguments
+    check_limit_for_batch(limit, return_addresses, reverse = FALSE)
     
     # set batch limit to default if not specified
     if (is.null(batch_limit)) batch_limit <- get_batch_limit(method)
@@ -323,18 +334,20 @@ geo <- function(address = NULL,
       batch_unique_addresses <- address_pack$unique
     }
     
-    # HERE: If a previous job is requested return_addresses should be FALSE
-    # This is because the job won't send the addresses, but would recover the
-    # results of a previous request
-    if (method == 'here' && is.character(here_request_id) && return_addresses == TRUE) {
-      stop('HERE: When requesting a previous job via here_request_id, set return_addresses to FALSE.
-      See the geo() function documentation for details.', call. = FALSE)
-      }
-
-    if (verbose == TRUE) message(paste0('Passing ', 
-      format(min(batch_limit, num_unique_addresses), big.mark = ','), 
-                          ' addresses to the ', method, ' batch geocoder'))
+    if (method == 'here') check_here_return_input(here_request_id, return_addresses, reverse = FALSE)
     
+    
+    # Display message to user on the batch query
+    if (quiet == FALSE) {
+      query_start_message(
+        method, 
+        min(batch_limit, num_unique_addresses),
+        reverse = FALSE,
+        batch = TRUE,
+        display_time = TRUE
+      )
+    }
+
     # return NA results if no_query == TRUE
     if (no_query == TRUE) return(unpackage_inputs(address_pack, NA_value, unique_only, return_addresses))
     
@@ -350,11 +363,9 @@ geo <- function(address = NULL,
       batch_results <- dplyr::bind_rows(batch_results, batch_filler)
     }
     
-    # if verbose = TRUE, tell user how long batch query took
-    if (verbose == TRUE) {
-      batch_time_elapsed <- get_seconds_elapsed(start_time)
-      print_time("Query completed in", batch_time_elapsed)
-      message('') # line break
+    # if quiet = FALSE, tell user how long batch query took
+    if (quiet == FALSE) {
+      query_complete_message(start_time)
     }
     
     # map the raw results back to the original addresses that were passed if there are duplicates

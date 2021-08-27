@@ -100,8 +100,8 @@ geo_cascade <- function(...) {
 
 
 
-## New private cascade geocoding function
-## called from geo()
+## private cascade geocoding function
+## called from geo() for method = 'cascade'
 cascade_geocoding <- function(..., cascade_order = c('census', 'osm')) {
   # Note for both attempts we disable unique_only so as to keep the 
   # input address lists in line with the dataframe output so we can
