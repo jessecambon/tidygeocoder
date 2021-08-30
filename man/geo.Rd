@@ -102,8 +102,8 @@ progress for single input geocoding (1 input per query). By default the progress
 will not be shown for code executed when knitting R Markdown files or code within
 an RStudio notebook chunk.}
 
-\item{quiet}{if TRUE then important console messages on queries are displayed. Set
-to FALSE to suppress these messages.}
+\item{quiet}{if FALSE then console messages that are displayed by default regarding
+queries will be suppressed}
 
 \item{api_url}{custom API URL. If specified, the default API URL will be overridden.
 This parameter can be used to specify a local Nominatim server, for instance.}

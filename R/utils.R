@@ -213,7 +213,7 @@ check_limit_for_batch <- function(limit, return_input, reverse) {
 }
 
 
-# check for HERE method --- for use in geo() and reverse_geo()
+# check for HERE method batch queries --- for use in geo() and reverse_geo()
 check_here_return_input <- function(here_request_id, return_input, reverse) {
   
   input_terms <- get_coord_address_terms(reverse)

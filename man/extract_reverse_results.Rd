@@ -15,7 +15,7 @@ extract_reverse_results(
 \arguments{
 \item{method}{method name}
 
-\item{response}{content from the geocoder service (returned by the \link{query_api} function)}
+\item{response}{content from the geocoding service (returned by the \link{query_api} function)}
 
 \item{full_results}{if TRUE then the full results (not just an address column)
 will be returned.}
@@ -26,7 +26,7 @@ will be returned.}
 method(s). Limits number of results per coordinate.}
 }
 \value{
-geocoder results in tibble format
+geocoding results in tibble format
 }
 \description{
 Parses the output of the \link{query_api} function for reverse geoocoding.

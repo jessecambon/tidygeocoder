@@ -1,4 +1,4 @@
-### Functions for extracting data or error messages from geocoder results
+### Functions for extracting data or error messages from geocoding results
 
 #' Extract forward geocoding results 
 #' 
@@ -10,12 +10,12 @@
 #' usage.
 #' 
 #' @param method method name
-#' @param response  content from the geocoder service (returned by the [query_api] function)
+#' @param response content from the geocoding service (returned by the [query_api] function)
 #' @param full_results if TRUE then the full results (not just latitude and longitude)
 #'   will be returned.
 #' @param flatten if TRUE then flatten any nested dataframe content
 #' @param limit only used for `r create_comma_list(pkg.globals$limit_passthru_methods, wrap = '"')` methods. Limits number of results per address.
-#' @return geocoder results in tibble format 
+#' @return geocoding results in tibble format 
 #' @seealso [get_api_query] [query_api] [geo]
 #' @export 
 extract_results <- function(method, response, full_results = TRUE, flatten = TRUE, limit = 1) {
@@ -127,13 +127,13 @@ extract_results <- function(method, response, full_results = TRUE, flatten = TRU
 #' usage.
 #' 
 #' @param method method name
-#' @param response  content from the geocoder service (returned by the [query_api] function)
+#' @param response  content from the geocoding service (returned by the [query_api] function)
 #' @param full_results if TRUE then the full results (not just an address column)
 #'   will be returned.
 #' @param flatten if TRUE then flatten any nested dataframe content
 #' @param limit only used for the `r create_comma_list(setdiff(pkg.globals$limit_passthru_methods, pkg.globals$no_reverse_methods), wrap = '"')`
 #'    method(s). Limits number of results per coordinate.
-#' @return geocoder results in tibble format 
+#' @return geocoding results in tibble format 
 #' @seealso [get_api_query] [query_api] [reverse_geo]
 #' @export 
 extract_reverse_results <- function(method, response, full_results = TRUE, flatten = TRUE, limit = 1) {

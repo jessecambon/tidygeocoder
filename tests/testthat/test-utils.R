@@ -142,7 +142,8 @@ test_that("Test API Query Creation Functions", {
     # adding to the default_q list
     expect_mapequal(custom_q, c(default_q, cust_arg_list))
     
-    # mapbox/tomtom address is removed from parameters and put into API URL so this test doesn't apply
+    # for mapbox/tomtom the address is removed from parameters and put 
+    # into the API URL so this test doesn't apply
     if (!method %in% c('mapbox', 'tomtom')) {
       expect_mapequal(address_q, c(default_q, 
         tidygeocoder:::create_api_parameter(method, 'address', address_val)))

@@ -24,7 +24,7 @@ Authors@R:
              role = "aut", 
              comment = c(ORCID = "0000-0002-6738-9845"))
              )
-Description: An intuitive interface for getting data from geocoder services. 
+Description: An intuitive interface for getting data from geocoding services. 
 License: MIT + file LICENSE
 URL: https://jessecambon.github.io/tidygeocoder/, 
     https://github.com/jessecambon/tidygeocoder

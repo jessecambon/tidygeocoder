@@ -56,19 +56,6 @@ test_that("geocode null/empty addresses", {
     expect_equal(nrow(result), nrow(NA_data), label = method_label) # check dataframe length
     
   }
-  
-  # check cascade method separately
-  #expect_identical(names(geo(" ", method = 'cascade', return_addresses = FALSE, no_query = TRUE)), 
-  #                 c('lat', 'long', 'geo_method'))
-  
-  # Test batch limit detection and error/warning toggling
-  expect_error(geo(address = as.character(seq(1, 10)), 
-                   method = 'census', batch_limit = 5, no_query = TRUE, batch_limit_error = TRUE))
-  expect_warning(geo(address = as.character(seq(1, 10)), 
-                     method = 'census', batch_limit = 5, no_query = TRUE, batch_limit_error = FALSE))
-   # batch_limit_error should revert to FALSE with method = 'cascade'
-  expect_warning(geo(address = as.character(seq(1, 10)), 
-                     method = 'cascade', batch_limit = 5, no_query = TRUE, batch_limit_error = TRUE))
 })
 
 test_that("Test geo() and reverse_geo() error handling", {
@@ -110,8 +97,30 @@ test_that("Test geo() and reverse_geo() error handling", {
   # invalid mapbox_permanent parameter
   expect_error(geo(no_query = TRUE, address = 'abc', mapbox_permanent = "AA"))
   
-  # invalid here_request_id  parameter
-  expect_error(geo(no_query = TRUE, address = 'abc', here_request_id  = 12345))
+  # invalid here_request_id parameter
+  expect_error(geo(no_query = TRUE, address = 'abc', method = 'here', here_request_id  = 12345))
+  expect_error(reverse_geo(no_query = TRUE, lat = 1, long = 2, method = 'here', here_request_id  = 12345))
+  
+  # here specific batch issue for here_request_id
+  expect_error(reverse_geo(no_query = TRUE, lat = c(0,1), long = c(0,0), 
+      method = 'here', here_request_id = 'asdf', return_coords = TRUE, mode = 'batch'))
+  expect_error(geo(no_query = TRUE, address = c('xyz', 'abc'),
+      method = 'here', here_request_id = 'asdf', return_addresses = TRUE, mode = 'batch'))
+  
+  
+  # Test batch limit detection and error/warning toggling - geo()
+  expect_error(geo(address = as.character(seq(1, 10)), 
+                   method = 'census', batch_limit = 5, no_query = TRUE, batch_limit_error = TRUE))
+  expect_warning(geo(address = as.character(seq(1, 10)), 
+                     method = 'census', batch_limit = 5, no_query = TRUE, batch_limit_error = FALSE))
+  # batch_limit_error should revert to FALSE with method = 'cascade'
+  expect_warning(geo(address = as.character(seq(1, 10)), 
+                     method = 'cascade', batch_limit = 5, no_query = TRUE, batch_limit_error = TRUE))
+  
+  # Test reverse_geo() batch limit handling
+  expect_error(reverse_geo(lat = c(1,2,3), long = c(0,0,0),
+                   method = 'geocodio', batch_limit = 2, no_query = TRUE))
+  
 })
 
 test_that("Test geocode() error handling", {
