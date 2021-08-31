@@ -112,6 +112,8 @@ progress_geo <- function(pb = NULL, ...) {
 #'   needs to be FALSE.
 #' @param mapquest_open if TRUE then MapQuest would use the Open Geocoding 
 #'   endpoint, that relies solely on data contributed to OpenStreetMap.
+#'   
+#' @param init internal use only. Set to TRUE for initial query and FALSE otherwise.
 #'    
 #' @return tibble (dataframe)
 #' @examples
@@ -135,7 +137,7 @@ geo <- function(address = NULL,
     flatten = TRUE, batch_limit = NULL, batch_limit_error = TRUE, verbose = FALSE, no_query = FALSE, 
     custom_query = list(), return_type = 'locations', iq_region = 'us', geocodio_v = 1.6, 
     param_error = TRUE, mapbox_permanent = FALSE, here_request_id = NULL,
-    mapquest_open = FALSE) {
+    mapquest_open = FALSE, init = TRUE) {
 
   # NSE - Quote unquoted vars without double quoting quoted vars
   # end result - all of these variables become character values
@@ -145,6 +147,9 @@ geo <- function(address = NULL,
   # capture all function arguments including default values as a named list.
   # IMPORTANT: make sure to put this statement before any other variables are defined in the function
   all_args <- as.list(environment())
+  if (method != 'cascade') {
+    all_args$init <- FALSE  # follow up queries are not the initial query
+  }
 
   # Check parameter arguments --------------------------------------------------------
 
@@ -169,9 +174,7 @@ geo <- function(address = NULL,
     )
   
   check_verbose_quiet(verbose, quiet, reverse = FALSE)
-    
   check_common_args('geo', mode, limit, batch_limit, min_time)
-  
   check_method(method, reverse = FALSE, mode, batch_func_map, cascade_order = cascade_order)
   
   if (!(return_type %in% c('geographies', 'locations'))) {
@@ -267,14 +270,13 @@ geo <- function(address = NULL,
   
   # Single address geocoding is used if the method has no batch function or if 
   # mode = 'single' was specified
-  if ((num_unique_addresses > 1) && ((!(method %in% names(batch_func_map))) || (mode == 'single'))) {
+  if ((init == TRUE) && ((!(method %in% names(batch_func_map))) || (mode == 'single'))) {
     
       if (quiet == FALSE) {
         query_start_message(method, num_unique_addresses, reverse = FALSE, batch = FALSE)
       }
       
       if (progress_bar == TRUE) {
-        
         # intialize progress bar 
         pb <- create_progress_bar(
           num_unique_addresses
@@ -300,7 +302,7 @@ geo <- function(address = NULL,
       }
       
   # Batch geocoding --------------------------------------------------------------------------
-  if ((num_unique_addresses > 1) || (mode == 'batch')) {
+  if ((init == TRUE) || (mode == 'batch')) {
     
     if (verbose == TRUE) message('Executing batch geocoding...\n')
     

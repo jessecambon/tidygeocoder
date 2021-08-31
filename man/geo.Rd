@@ -38,7 +38,8 @@ geo(
   param_error = TRUE,
   mapbox_permanent = FALSE,
   here_request_id = NULL,
-  mapquest_open = FALSE
+  mapquest_open = FALSE,
+  init = TRUE
 )
 }
 \arguments{
@@ -171,6 +172,8 @@ needs to be FALSE.}
 
 \item{mapquest_open}{if TRUE then MapQuest would use the Open Geocoding
 endpoint, that relies solely on data contributed to OpenStreetMap.}
+
+\item{init}{internal use only. Set to TRUE for initial query and FALSE otherwise.}
 }
 \value{
 tibble (dataframe)

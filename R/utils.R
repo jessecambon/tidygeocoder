@@ -295,7 +295,8 @@ query_start_message <- function(method, num_inputs, reverse, batch, display_time
   input_terms <- get_coord_address_terms(reverse)
   
   message(paste0('Passing ', 
-                 format(num_inputs, big.mark = ','), ' ', input_terms$input_plural,
+                 format(num_inputs, big.mark = ','), ' ', 
+                 if (num_inputs == 1) input_terms$input_singular else input_terms$input_plural,
                  ' to the ', 
                  # get proper name of the service
                  get_setting_value(tidygeocoder::api_info_reference, method, 'method_display_name'), ' ',

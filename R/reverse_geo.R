@@ -108,7 +108,7 @@ reverse_geo <- function(lat, long, method = 'osm', address = address, limit = 1,
     progress_bar = show_progress_bar(), quiet = FALSE, api_url = NULL,  
     timeout = 20, mode = '',  full_results = FALSE, unique_only = FALSE, return_coords = TRUE, flatten = TRUE, 
     batch_limit = NULL, verbose = FALSE, no_query = FALSE, custom_query = list(), iq_region = 'us', geocodio_v = 1.6,
-    mapbox_permanent = FALSE, here_request_id = NULL, mapquest_open = FALSE) {
+    mapbox_permanent = FALSE, here_request_id = NULL, mapquest_open = FALSE, init = TRUE) {
 
   # NSE eval
   address <- rm_quote(deparse(substitute(address)))
@@ -116,6 +116,7 @@ reverse_geo <- function(lat, long, method = 'osm', address = address, limit = 1,
   # capture all function arguments including default values as a named list.
   # IMPORTANT: make sure to put this statement before any other variables are defined in the function
   all_args <- as.list(environment())
+  all_args$init <- FALSE # any following queries are not the initial query
   
   # Check argument inputs
   stopifnot(is.logical(verbose), is.logical(no_query), is.logical(flatten),
@@ -162,7 +163,7 @@ reverse_geo <- function(lat, long, method = 'osm', address = address, limit = 1,
   }
   
   # Geocode coordinates one at a time in a loop -------------------------------------------------------
-  if ((num_unique_coords > 1) & ((!(method %in% names(reverse_batch_func_map))) | (mode == 'single'))) {
+  if ((init == TRUE) & ((!(method %in% names(reverse_batch_func_map))) | (mode == 'single'))) {
     
     # construct arguments for a single address query
     # note that non-lat/long related fields go to the MoreArgs argument of mapply
@@ -204,7 +205,7 @@ reverse_geo <- function(lat, long, method = 'osm', address = address, limit = 1,
   }
   
   # Batch geocoding --------------------------------------------------------------------------
-  if ((num_unique_coords > 1) || (mode == 'batch')) {
+  if ((init == TRUE) || (mode == 'batch')) {
     if (verbose == TRUE) message('Executing batch geocoding...\n')
     
     # check for conflict between limit and return_coords arguments
