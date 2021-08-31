@@ -145,12 +145,12 @@ API queries.
 }
 \examples{
 \donttest{
- reverse_geo(lat = 38.895865, long = -77.0307713, method = 'osm', verbose = TRUE)
+ reverse_geo(lat = 38.895865, long = -77.0307713, method = 'osm')
  
  reverse_geo(
    lat = c(38.895865, 43.6534817, 300), 
    long = c(-77.0307713, -79.3839347, 600),
-   method = 'osm', full_results = TRUE, verbose = TRUE
+   method = 'osm', full_results = TRUE
  )
  
 }

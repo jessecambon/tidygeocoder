@@ -38,7 +38,7 @@
 #'
 #' @examples
 #' \donttest{
-#' library(dplyr)
+#' library(dplyr, warn.conflicts = FALSE)
 #' sample_addresses %>% slice(1:2) %>%
 #'  geocode(addr, method = 'arcgis')
 #'

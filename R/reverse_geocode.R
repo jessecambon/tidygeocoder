@@ -23,7 +23,7 @@
 #' @examples
 #' \donttest{
 #' library(tibble)
-#' library(dplyr)
+#' library(dplyr, warn.conflicts = FALSE)
 #' 
 #' tibble(
 #'     latitude = c(38.895865, 43.6534817),
@@ -42,7 +42,7 @@
 #' 
 #' louisville %>% head(2) %>% 
 #'   reverse_geocode(lat = latitude, long = longitude,  
-#'   method = 'osm', verbose = TRUE,
+#'   method = 'osm',
 #'   limit = 2, return_input = FALSE)
 #' 
 #' }
