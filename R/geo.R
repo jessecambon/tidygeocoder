@@ -51,7 +51,7 @@ progress_geo <- function(pb = NULL, ...) {
 #'  - `"cascade"` : First uses one geocoding service and then uses
 #'     a second geocoding service if the first service didn't return results.
 #'     The services and order is specified by the cascade_order argument. 
-#'     Note that this is not compatible with `full_results = TRUE` as geocoder
+#'     Note that this is not compatible with `full_results = TRUE` as geocoding
 #'     services have different columns that they return.
 #' 
 #' @param cascade_order a vector with two character values for the method argument 
@@ -113,7 +113,7 @@ progress_geo <- function(pb = NULL, ...) {
 #' @param mapquest_open if TRUE then MapQuest would use the Open Geocoding 
 #'   endpoint, that relies solely on data contributed to OpenStreetMap.
 #'   
-#' @param init internal use only. Set to TRUE for initial query and FALSE otherwise.
+#' @param init internal package use only. Set to TRUE for initial query and FALSE otherwise.
 #'    
 #' @return tibble (dataframe)
 #' @examples
@@ -403,12 +403,8 @@ geo <- function(address = NULL,
                 mapbox_permanent = mapbox_permanent, mapquest_open = mapquest_open)
   }
   
-  # Workaround for Mapbox/TomTom - The search_text should be in the API URL
-  if (method %in% c('mapbox', 'tomtom')) {
-    api_url <- gsub(" ", "%20", paste0(api_url, generic_query[['address']], ".json"))
-    # Remove semicolons (Reserved for batch)
-    api_url <- gsub(";", ",", api_url)
-  }
+  ## Workaround for Mapbox/TomTom - The search_text should be in the API URL
+  api_url <- api_url_modification(method, api_url, generic_query, custom_query, reverse = FALSE)
 
   # Set min_time if not set based on usage limit of service
   if (is.null(min_time)) min_time <- get_min_query_time(method)

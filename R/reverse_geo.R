@@ -276,12 +276,9 @@ reverse_geo <- function(lat, long, method = 'osm', address = address, limit = 1,
                            mapbox_permanent = mapbox_permanent, mapquest_open = mapquest_open)
   }
   
-  # Workaround for Mapbox/TomTom - The search_text should be in the url
-  if (method %in%  c('mapbox', 'tomtom')) {
-    api_url <- paste0(api_url, custom_query[["to_url"]], ".json")
-    # Remove semicolons (Reserved for batch)
-    api_url <- gsub(";", ",", api_url)
-  }
+  ## Workaround for Mapbox/TomTom - The search_text should be in the url
+  api_url <- api_url_modification(method, api_url, generic_query, custom_query, reverse = TRUE)
+  
   # Workaround for Bing - The search_text should be in the url
   if (method %in%  c('bing')) {
     api_url <- paste0(api_url, custom_query[["to_url"]])

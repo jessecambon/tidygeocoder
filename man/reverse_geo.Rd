@@ -126,7 +126,7 @@ needs to be FALSE.}
 \item{mapquest_open}{if TRUE then MapQuest would use the Open Geocoding
 endpoint, that relies solely on data contributed to OpenStreetMap.}
 
-\item{init}{internal use only. Set to TRUE for initial query and FALSE otherwise.}
+\item{init}{internal package use only. Set to TRUE for initial query and FALSE otherwise.}
 }
 \value{
 tibble (dataframe)

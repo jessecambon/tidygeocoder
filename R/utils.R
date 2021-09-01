@@ -311,3 +311,25 @@ query_start_message <- function(method, num_inputs, reverse, batch, display_time
 query_complete_message <- function(start_time) {
   print_time("Query completed in", get_seconds_elapsed(start_time))
 }
+
+# Misc --------------------------------
+
+# if necessary, modify the API URL - called by geo() and reverse_geo()
+# returns the API URL
+# reverse indicates if query is reverse geocoding or forward geocoding
+api_url_modification <- function(method, api_url, generic_query, custom_query, reverse) {
+
+  # Workaround for Mapbox/TomTom - The search_text should be in the API URL
+  if (method %in% c('mapbox', 'tomtom')) {
+    api_url <- if (reverse == TRUE) {
+      paste0(api_url, custom_query[["to_url"]], ".json")
+    } else {
+      gsub(" ", "%20", paste0(api_url, generic_query[['address']], ".json"))      
+    }
+    # Remove semicolons (Reserved for batch)
+    api_url <- gsub(";", ",", api_url)
+  }
+  
+  return(api_url)
+  
+}

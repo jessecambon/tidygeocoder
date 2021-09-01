@@ -77,7 +77,7 @@ Do not combine with the address component arguments below
 \item \code{"cascade"} : First uses one geocoding service and then uses
 a second geocoding service if the first service didn't return results.
 The services and order is specified by the cascade_order argument.
-Note that this is not compatible with \code{full_results = TRUE} as geocoder
+Note that this is not compatible with \code{full_results = TRUE} as geocoding
 services have different columns that they return.
 }}
 
@@ -173,7 +173,7 @@ needs to be FALSE.}
 \item{mapquest_open}{if TRUE then MapQuest would use the Open Geocoding
 endpoint, that relies solely on data contributed to OpenStreetMap.}
 
-\item{init}{internal use only. Set to TRUE for initial query and FALSE otherwise.}
+\item{init}{internal package use only. Set to TRUE for initial query and FALSE otherwise.}
 }
 \value{
 tibble (dataframe)
