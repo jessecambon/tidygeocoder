@@ -74,19 +74,18 @@ progress_geo <- function(pb = NULL, ...) {
 #' 
 #' @param mode `r get_mode_documentation(reverse = FALSE)`
 
-#' @param full_results returns all data from the geocoding service if TRUE. 
-#' If FALSE then only longitude and latitude are returned from the geocoding service.
+#' @param full_results `r get_full_results_documentation(reverse = FALSE)`
 #' @param unique_only only return results for unique inputs if TRUE
 #' @param return_addresses return input addresses with results if TRUE. Note that
 #'    most services return the input addresses with `full_results = TRUE` and setting
 #'    return_addresses to FALSE does not prevent this.
 #' 
-#' @param flatten if TRUE then any nested dataframes in results are flattened if possible.
+#' @param flatten if TRUE (default) then any nested dataframes in results are flattened if possible.
 #'    Note that in some cases results are flattened regardless such as for
 #'    Geocodio batch geocoding.
 #' @param batch_limit  `r get_batch_limit_documentation(reverse = FALSE)`
 #' @param batch_limit_error `r get_batch_limit_error_documentation(reverse = FALSE)`
-#' @param verbose if TRUE then detailed logs are output to the console
+#' @param verbose if TRUE then detailed logs are output to the console. FALSE is default.
 #' @param no_query if TRUE then no queries are sent to the geocoding service and verbose is set to TRUE.
 #'    Used for testing.
 
@@ -132,9 +131,10 @@ progress_geo <- function(pb = NULL, ...) {
 geo <- function(address = NULL, 
     street = NULL, city = NULL, county = NULL, state = NULL, postalcode = NULL, country = NULL,
     method = 'osm', cascade_order = c('census', 'osm'), lat = lat, long = long, limit = 1, 
-    min_time = NULL, progress_bar = show_progress_bar(), quiet = FALSE, api_url = NULL, timeout = 20,
-    mode = '', full_results = FALSE, unique_only = FALSE, return_addresses = TRUE, 
-    flatten = TRUE, batch_limit = NULL, batch_limit_error = TRUE, verbose = FALSE, no_query = FALSE, 
+    min_time = NULL, progress_bar = show_progress_bar(), quiet = isTRUE(getOption("tidygeocoder.quiet")), api_url = NULL, timeout = 20,
+    mode = '', full_results = isTRUE(getOption("tidygeocoder.full_results")), unique_only = FALSE, return_addresses = TRUE, 
+    flatten = isTRUE(getOption("tidygeocoder.flatten")), batch_limit = NULL, batch_limit_error = TRUE, 
+    verbose = isTRUE(getOption("tidygeocoder.verbose")), no_query = FALSE, 
     custom_query = list(), return_type = 'locations', iq_region = 'us', geocodio_v = 1.6, 
     param_error = TRUE, mapbox_permanent = FALSE, here_request_id = NULL,
     mapquest_open = FALSE, init = TRUE) {

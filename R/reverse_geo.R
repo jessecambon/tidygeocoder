@@ -77,8 +77,7 @@ get_coord_parameters <- function(custom_query, method, lat, long) {
 #' @param limit `r get_limit_documentation(reverse = TRUE, df_input = FALSE)`
 #' 
 #' @param mode `r get_mode_documentation(reverse = TRUE)`
-#' @param full_results returns all data from the geocoding service if TRUE. 
-#' If FALSE then only a single address column will be returned from the geocoding service.
+#' @param full_results `r get_full_results_documentation(reverse = TRUE)`
 #' @param return_coords return input coordinates with results if TRUE. Note that
 #'    most services return the input coordinates with `full_results = TRUE` and setting
 #'    `return_coords` to FALSE does not prevent this.
@@ -105,9 +104,11 @@ get_coord_parameters <- function(custom_query, method, lat, long) {
 #' @seealso [reverse_geocode] [api_parameter_reference] [min_time_reference] [batch_limit_reference]
 #' @export
 reverse_geo <- function(lat, long, method = 'osm', address = address, limit = 1, min_time = NULL, 
-    progress_bar = show_progress_bar(), quiet = FALSE, api_url = NULL,  
-    timeout = 20, mode = '',  full_results = FALSE, unique_only = FALSE, return_coords = TRUE, flatten = TRUE, 
-    batch_limit = NULL, verbose = FALSE, no_query = FALSE, custom_query = list(), iq_region = 'us', geocodio_v = 1.6,
+    progress_bar = show_progress_bar(), quiet = isTRUE(getOption("tidygeocoder.quiet")), api_url = NULL,  
+    timeout = 20, mode = '',  full_results = isTRUE(getOption("tidygeocoder.full_results")), 
+    unique_only = FALSE, return_coords = TRUE, flatten = isTRUE(getOption("tidygeocoder.flatten")), 
+    batch_limit = NULL, verbose = isTRUE(getOption("tidygeocoder.verbose")), 
+    no_query = FALSE, custom_query = list(), iq_region = 'us', geocodio_v = 1.6,
     mapbox_permanent = FALSE, here_request_id = NULL, mapquest_open = FALSE, init = TRUE) {
 
   # NSE eval
