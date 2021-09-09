@@ -1,41 +1,33 @@
 # http://r-pkgs.had.co.nz/inst.html#inst-citation
-# https://github.com/cran/glmnet/blob/master/inst/CITATION
-# 
-# https://zenodo.org/record/3981510#.XzS95nVKiV5
 
-## Update these variables as needed ######################
-
-tidygeocoder_doi <- "10.5281/zenodo.4686074"
 version_note <- "R package version 1.0.3"
-year <- "2021"
 
-author_list <- personList(
-    as.person("Jesse Cambon"), 
-    as.person("Diego Hernangómez"),
-    as.person("Christopher Belanger"),
-    as.person("Daniel Possenriede")
-    )
-    
-title <- "tidygeocoder: Geocoding Made Easy"
-cran_url <- "https://CRAN.R-project.org/package=tidygeocoder"
-    
-###########################################################
-
-
-citHeader("To cite tidygeocoder in publications use:")
+citHeader("To cite tidygeocoder use:")
 
 citEntry(
-  entry = "Misc",
-  title = title,
-  author = author_list,
-  year = year,
-  publisher = "Zenodo",
+  entry = "article",
+  title = "tidygeocoder: An R package for geocoding",
+  author = c(
+    person("Jesse", "Cambon"), 
+    person("Diego", "Hernangómez"),
+    person("Christopher", "Belanger"),
+    person("Daniel", "Possenriede")
+    ),
+  doi = "10.21105/joss.03544",
+  url = "https://doi.org/10.21105/joss.03544",
+  year = "2021",
+  publisher = "The Open Journal",
+  volume = "6",
+  number = "65",
+  pages = "3544",
+  journal = "Journal of Open Source Software",
   note = version_note,
-  url = cran_url,
-  doi = tidygeocoder_doi,
-  textVersion = paste(
-     paste0(paste0(as.character(author_list), collapse = ', '), " (", year, ")."),
-     paste0(title, ". ", version_note, ". DOI: ", tidygeocoder_doi, '.'), 
-     paste0("URL: ", cran_url, ".")
-     )
+  textVersion  = paste(
+    "Cambon J, Hernangómez D, Belanger C, Possenriede D, (2021).",
+    "tidygeocoder: An R package for geocoding.",
+    "Journal of Open Source Software,",
+    "6(65), 3544,",
+    "https://doi.org/10.21105/joss.03544",
+    paste0('(', version_note, ')')
+  )
 )

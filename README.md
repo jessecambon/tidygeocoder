@@ -5,10 +5,8 @@
 
 <!-- badges: start -->
 
-[![Lifecycle:
-stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://lifecycle.r-lib.org/articles/stages.html#stable)
-[![R Build
-Status](https://github.com/jessecambon/tidygeocoder/workflows/R-CMD-check/badge.svg)](https://github.com/jessecambon/tidygeocoder/actions?workflow=R-CMD-check)
+[![JOSS](https://joss.theoj.org/papers/10.21105/joss.03544/status.svg)](https://doi.org/10.21105/joss.03544)
+[![Zenodo](https://zenodo.org/badge/DOI/10.5281/zenodo.4686074.svg)](https://doi.org/10.5281/zenodo.4686074)
 [![License:
 MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/jessecambon/tidygeocoder/blob/master/LICENSE.md)
 [![CRAN](https://www.r-pkg.org/badges/version/tidygeocoder)](https://cran.r-project.org/package=tidygeocoder)
@@ -16,7 +14,10 @@ MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/je
 Downloads](http://cranlogs.r-pkg.org/badges/grand-total/tidygeocoder)](https://CRAN.R-project.org/package=tidygeocoder)
 [![CRAN Downloads Per
 Month](http://cranlogs.r-pkg.org/badges/tidygeocoder)](https://cran.r-project.org/package=tidygeocoder)
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.4686074.svg)](https://doi.org/10.5281/zenodo.4686074)
+[![Lifecycle:
+stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://lifecycle.r-lib.org/articles/stages.html#stable)
+[![R Build
+Status](https://github.com/jessecambon/tidygeocoder/workflows/R-CMD-check/badge.svg)](https://github.com/jessecambon/tidygeocoder/actions?workflow=R-CMD-check)
 <!-- badges: end -->
 
 Tidygeocoder makes getting data from geocoding services easy. A unified
@@ -187,23 +188,27 @@ citation('tidygeocoder')
 <blockquote>
 
 
-    To cite tidygeocoder in publications use:
+    To cite tidygeocoder use:
 
-      Jesse Cambon, Diego Hernangómez, Christopher Belanger, Daniel
-      Possenriede (2021). tidygeocoder: Geocoding Made Easy. R package
-      version 1.0.3. DOI: 10.5281/zenodo.4686074. URL:
-      https://CRAN.R-project.org/package=tidygeocoder.
+      Cambon J, Hernangómez D, Belanger C, Possenriede D, (2021).
+      tidygeocoder: An R package for geocoding. Journal of Open Source
+      Software, 6(65), 3544, https://doi.org/10.21105/joss.03544 (R package
+      version 1.0.3)
 
     A BibTeX entry for LaTeX users is
 
-      @Misc{,
-        title = {tidygeocoder: Geocoding Made Easy},
+      @Article{,
+        title = {tidygeocoder: An R package for geocoding},
         author = {Jesse Cambon and Diego Hernangómez and Christopher Belanger and Daniel Possenriede},
+        doi = {10.21105/joss.03544},
+        url = {https://doi.org/10.21105/joss.03544},
         year = {2021},
-        publisher = {Zenodo},
+        publisher = {The Open Journal},
+        volume = {6},
+        number = {65},
+        pages = {3544},
+        journal = {Journal of Open Source Software},
         note = {R package version 1.0.3},
-        url = {https://CRAN.R-project.org/package=tidygeocoder},
-        doi = {10.5281/zenodo.4686074},
       }
 
 </blockquote>
