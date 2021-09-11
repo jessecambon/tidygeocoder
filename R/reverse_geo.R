@@ -105,8 +105,8 @@ get_coord_parameters <- function(custom_query, method, lat, long) {
 #' @export
 reverse_geo <- function(lat, long, method = 'osm', address = address, limit = 1, min_time = NULL, 
     progress_bar = show_progress_bar(), quiet = isTRUE(getOption("tidygeocoder.quiet")), api_url = NULL,  
-    timeout = 20, mode = '',  full_results = isTRUE(getOption("tidygeocoder.full_results")), 
-    unique_only = FALSE, return_coords = TRUE, flatten = isTRUE(getOption("tidygeocoder.flatten")), 
+    timeout = 20, mode = '',  full_results = FALSE, 
+    unique_only = FALSE, return_coords = TRUE, flatten = TRUE, 
     batch_limit = NULL, verbose = isTRUE(getOption("tidygeocoder.verbose")), 
     no_query = FALSE, custom_query = list(), iq_region = 'us', geocodio_v = 1.6,
     mapbox_permanent = FALSE, here_request_id = NULL, mapquest_open = FALSE, init = TRUE) {
