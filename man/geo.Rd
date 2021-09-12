@@ -19,7 +19,7 @@ geo(
   limit = 1,
   min_time = NULL,
   progress_bar = show_progress_bar(),
-  quiet = FALSE,
+  quiet = isTRUE(getOption("tidygeocoder.quiet")),
   api_url = NULL,
   timeout = 20,
   mode = "",
@@ -29,7 +29,7 @@ geo(
   flatten = TRUE,
   batch_limit = NULL,
   batch_limit_error = TRUE,
-  verbose = FALSE,
+  verbose = isTRUE(getOption("tidygeocoder.verbose")),
   no_query = FALSE,
   custom_query = list(),
   return_type = "locations",
@@ -38,7 +38,8 @@ geo(
   param_error = TRUE,
   mapbox_permanent = FALSE,
   here_request_id = NULL,
-  mapquest_open = FALSE
+  mapquest_open = FALSE,
+  init = TRUE
 )
 }
 \arguments{
@@ -76,7 +77,7 @@ Do not combine with the address component arguments below
 \item \code{"cascade"} : First uses one geocoding service and then uses
 a second geocoding service if the first service didn't return results.
 The services and order is specified by the cascade_order argument.
-Note that this is not compatible with \code{full_results = TRUE} as geocoder
+Note that this is not compatible with \code{full_results = TRUE} as geocoding
 services have different columns that they return.
 }}
 
@@ -116,8 +117,8 @@ be used if available (given method selected) when multiple addresses are
 provided; otherwise single address geocoding will be used. For the "here" and "bing" methods the
 batch mode should be explicitly specified with \code{mode = 'batch'}.}
 
-\item{full_results}{returns all data from the geocoding service if TRUE.
-If FALSE then only longitude and latitude are returned from the geocoding service.}
+\item{full_results}{returns all available data from the geocoding service if TRUE.
+If FALSE (default) then only latitude and longitude columns are returned from the geocoding service.}
 
 \item{unique_only}{only return results for unique inputs if TRUE}
 
@@ -125,7 +126,7 @@ If FALSE then only longitude and latitude are returned from the geocoding servic
 most services return the input addresses with \code{full_results = TRUE} and setting
 return_addresses to FALSE does not prevent this.}
 
-\item{flatten}{if TRUE then any nested dataframes in results are flattened if possible.
+\item{flatten}{if TRUE (default) then any nested dataframes in results are flattened if possible.
 Note that in some cases results are flattened regardless such as for
 Geocodio batch geocoding.}
 
@@ -135,7 +136,7 @@ Defaults to the value in \link{batch_limit_reference} if not specified.}
 \item{batch_limit_error}{if TRUE then an error is thrown if the number of addresses exceeds the batch limit.
 (if executing a batch query). This is reverted to FALSE when using the cascade method.}
 
-\item{verbose}{if TRUE then detailed logs are output to the console}
+\item{verbose}{if TRUE then detailed logs are output to the console. FALSE is default.}
 
 \item{no_query}{if TRUE then no queries are sent to the geocoding service and verbose is set to TRUE.
 Used for testing.}
@@ -171,6 +172,8 @@ needs to be FALSE.}
 
 \item{mapquest_open}{if TRUE then MapQuest would use the Open Geocoding
 endpoint, that relies solely on data contributed to OpenStreetMap.}
+
+\item{init}{internal package use only. Set to TRUE for initial query and FALSE otherwise.}
 }
 \value{
 tibble (dataframe)
@@ -195,7 +198,7 @@ API queries.
 \examples{
 \donttest{
 geo(street = "600 Peachtree Street NE", city = "Atlanta",
- state = "Georgia", method = "census")
+ state = "Georgia", method = "census", full_results = TRUE)
 
 geo(address = c("Tokyo, Japan", "Lima, Peru", "Nairobi, Kenya"),
  method = 'osm')

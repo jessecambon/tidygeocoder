@@ -77,8 +77,7 @@ get_coord_parameters <- function(custom_query, method, lat, long) {
 #' @param limit `r get_limit_documentation(reverse = TRUE, df_input = FALSE)`
 #' 
 #' @param mode `r get_mode_documentation(reverse = TRUE)`
-#' @param full_results returns all data from the geocoding service if TRUE. 
-#' If FALSE then only a single address column will be returned from the geocoding service.
+#' @param full_results `r get_full_results_documentation(reverse = TRUE)`
 #' @param return_coords return input coordinates with results if TRUE. Note that
 #'    most services return the input coordinates with `full_results = TRUE` and setting
 #'    `return_coords` to FALSE does not prevent this.
@@ -105,10 +104,12 @@ get_coord_parameters <- function(custom_query, method, lat, long) {
 #' @seealso [reverse_geocode] [api_parameter_reference] [min_time_reference] [batch_limit_reference]
 #' @export
 reverse_geo <- function(lat, long, method = 'osm', address = address, limit = 1, min_time = NULL, 
-    progress_bar = show_progress_bar(), quiet = FALSE, api_url = NULL,  
-    timeout = 20, mode = '',  full_results = FALSE, unique_only = FALSE, return_coords = TRUE, flatten = TRUE, 
-    batch_limit = NULL, verbose = FALSE, no_query = FALSE, custom_query = list(), iq_region = 'us', geocodio_v = 1.6,
-    mapbox_permanent = FALSE, here_request_id = NULL, mapquest_open = FALSE) {
+    progress_bar = show_progress_bar(), quiet = isTRUE(getOption("tidygeocoder.quiet")), api_url = NULL,  
+    timeout = 20, mode = '',  full_results = FALSE, 
+    unique_only = FALSE, return_coords = TRUE, flatten = TRUE, 
+    batch_limit = NULL, verbose = isTRUE(getOption("tidygeocoder.verbose")), 
+    no_query = FALSE, custom_query = list(), iq_region = 'us', geocodio_v = 1.6,
+    mapbox_permanent = FALSE, here_request_id = NULL, mapquest_open = FALSE, init = TRUE) {
 
   # NSE eval
   address <- rm_quote(deparse(substitute(address)))
@@ -116,6 +117,7 @@ reverse_geo <- function(lat, long, method = 'osm', address = address, limit = 1,
   # capture all function arguments including default values as a named list.
   # IMPORTANT: make sure to put this statement before any other variables are defined in the function
   all_args <- as.list(environment())
+  all_args$init <- FALSE # any following queries are not the initial query
   
   # Check argument inputs
   stopifnot(is.logical(verbose), is.logical(no_query), is.logical(flatten),
@@ -162,7 +164,7 @@ reverse_geo <- function(lat, long, method = 'osm', address = address, limit = 1,
   }
   
   # Geocode coordinates one at a time in a loop -------------------------------------------------------
-  if ((num_unique_coords > 1) & ((!(method %in% names(reverse_batch_func_map))) | (mode == 'single'))) {
+  if ((init == TRUE) & ((!(method %in% names(reverse_batch_func_map))) | (mode == 'single'))) {
     
     # construct arguments for a single address query
     # note that non-lat/long related fields go to the MoreArgs argument of mapply
@@ -204,7 +206,7 @@ reverse_geo <- function(lat, long, method = 'osm', address = address, limit = 1,
   }
   
   # Batch geocoding --------------------------------------------------------------------------
-  if ((num_unique_coords > 1) || (mode == 'batch')) {
+  if ((init == TRUE) || (mode == 'batch')) {
     if (verbose == TRUE) message('Executing batch geocoding...\n')
     
     # check for conflict between limit and return_coords arguments
@@ -275,12 +277,9 @@ reverse_geo <- function(lat, long, method = 'osm', address = address, limit = 1,
                            mapbox_permanent = mapbox_permanent, mapquest_open = mapquest_open)
   }
   
-  # Workaround for Mapbox/TomTom - The search_text should be in the url
-  if (method %in%  c('mapbox', 'tomtom')) {
-    api_url <- paste0(api_url, custom_query[["to_url"]], ".json")
-    # Remove semicolons (Reserved for batch)
-    api_url <- gsub(";", ",", api_url)
-  }
+  ## Workaround for Mapbox/TomTom - The search_text should be in the url
+  api_url <- api_url_modification(method, api_url, generic_query, custom_query, reverse = TRUE)
+  
   # Workaround for Bing - The search_text should be in the url
   if (method %in%  c('bing')) {
     api_url <- paste0(api_url, custom_query[["to_url"]])

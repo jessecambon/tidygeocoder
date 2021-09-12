@@ -51,7 +51,7 @@ progress_geo <- function(pb = NULL, ...) {
 #'  - `"cascade"` : First uses one geocoding service and then uses
 #'     a second geocoding service if the first service didn't return results.
 #'     The services and order is specified by the cascade_order argument. 
-#'     Note that this is not compatible with `full_results = TRUE` as geocoder
+#'     Note that this is not compatible with `full_results = TRUE` as geocoding
 #'     services have different columns that they return.
 #' 
 #' @param cascade_order a vector with two character values for the method argument 
@@ -74,19 +74,18 @@ progress_geo <- function(pb = NULL, ...) {
 #' 
 #' @param mode `r get_mode_documentation(reverse = FALSE)`
 
-#' @param full_results returns all data from the geocoding service if TRUE. 
-#' If FALSE then only longitude and latitude are returned from the geocoding service.
+#' @param full_results `r get_full_results_documentation(reverse = FALSE)`
 #' @param unique_only only return results for unique inputs if TRUE
 #' @param return_addresses return input addresses with results if TRUE. Note that
 #'    most services return the input addresses with `full_results = TRUE` and setting
 #'    return_addresses to FALSE does not prevent this.
 #' 
-#' @param flatten if TRUE then any nested dataframes in results are flattened if possible.
+#' @param flatten if TRUE (default) then any nested dataframes in results are flattened if possible.
 #'    Note that in some cases results are flattened regardless such as for
 #'    Geocodio batch geocoding.
 #' @param batch_limit  `r get_batch_limit_documentation(reverse = FALSE)`
 #' @param batch_limit_error `r get_batch_limit_error_documentation(reverse = FALSE)`
-#' @param verbose if TRUE then detailed logs are output to the console
+#' @param verbose if TRUE then detailed logs are output to the console. FALSE is default.
 #' @param no_query if TRUE then no queries are sent to the geocoding service and verbose is set to TRUE.
 #'    Used for testing.
 
@@ -112,12 +111,14 @@ progress_geo <- function(pb = NULL, ...) {
 #'   needs to be FALSE.
 #' @param mapquest_open if TRUE then MapQuest would use the Open Geocoding 
 #'   endpoint, that relies solely on data contributed to OpenStreetMap.
+#'   
+#' @param init internal package use only. Set to TRUE for initial query and FALSE otherwise.
 #'    
 #' @return tibble (dataframe)
 #' @examples
 #' \donttest{
 #' geo(street = "600 Peachtree Street NE", city = "Atlanta",
-#'  state = "Georgia", method = "census")
+#'  state = "Georgia", method = "census", full_results = TRUE)
 #' 
 #' geo(address = c("Tokyo, Japan", "Lima, Peru", "Nairobi, Kenya"),
 #'  method = 'osm')
@@ -130,12 +131,13 @@ progress_geo <- function(pb = NULL, ...) {
 geo <- function(address = NULL, 
     street = NULL, city = NULL, county = NULL, state = NULL, postalcode = NULL, country = NULL,
     method = 'osm', cascade_order = c('census', 'osm'), lat = lat, long = long, limit = 1, 
-    min_time = NULL, progress_bar = show_progress_bar(), quiet = FALSE, api_url = NULL, timeout = 20,
+    min_time = NULL, progress_bar = show_progress_bar(), quiet = isTRUE(getOption("tidygeocoder.quiet")), api_url = NULL, timeout = 20,
     mode = '', full_results = FALSE, unique_only = FALSE, return_addresses = TRUE, 
-    flatten = TRUE, batch_limit = NULL, batch_limit_error = TRUE, verbose = FALSE, no_query = FALSE, 
+    flatten = TRUE, batch_limit = NULL, batch_limit_error = TRUE, 
+    verbose = isTRUE(getOption("tidygeocoder.verbose")), no_query = FALSE, 
     custom_query = list(), return_type = 'locations', iq_region = 'us', geocodio_v = 1.6, 
     param_error = TRUE, mapbox_permanent = FALSE, here_request_id = NULL,
-    mapquest_open = FALSE) {
+    mapquest_open = FALSE, init = TRUE) {
 
   # NSE - Quote unquoted vars without double quoting quoted vars
   # end result - all of these variables become character values
@@ -145,6 +147,9 @@ geo <- function(address = NULL,
   # capture all function arguments including default values as a named list.
   # IMPORTANT: make sure to put this statement before any other variables are defined in the function
   all_args <- as.list(environment())
+  if (method != 'cascade') {
+    all_args$init <- FALSE  # follow up queries are not the initial query
+  }
 
   # Check parameter arguments --------------------------------------------------------
 
@@ -169,9 +174,7 @@ geo <- function(address = NULL,
     )
   
   check_verbose_quiet(verbose, quiet, reverse = FALSE)
-    
   check_common_args('geo', mode, limit, batch_limit, min_time)
-  
   check_method(method, reverse = FALSE, mode, batch_func_map, cascade_order = cascade_order)
   
   if (!(return_type %in% c('geographies', 'locations'))) {
@@ -267,14 +270,13 @@ geo <- function(address = NULL,
   
   # Single address geocoding is used if the method has no batch function or if 
   # mode = 'single' was specified
-  if ((num_unique_addresses > 1) && ((!(method %in% names(batch_func_map))) || (mode == 'single'))) {
+  if ((init == TRUE) && ((!(method %in% names(batch_func_map))) || (mode == 'single'))) {
     
       if (quiet == FALSE) {
         query_start_message(method, num_unique_addresses, reverse = FALSE, batch = FALSE)
       }
       
       if (progress_bar == TRUE) {
-        
         # intialize progress bar 
         pb <- create_progress_bar(
           num_unique_addresses
@@ -300,7 +302,7 @@ geo <- function(address = NULL,
       }
       
   # Batch geocoding --------------------------------------------------------------------------
-  if ((num_unique_addresses > 1) || (mode == 'batch')) {
+  if ((init == TRUE) || (mode == 'batch')) {
     
     if (verbose == TRUE) message('Executing batch geocoding...\n')
     
@@ -401,12 +403,8 @@ geo <- function(address = NULL,
                 mapbox_permanent = mapbox_permanent, mapquest_open = mapquest_open)
   }
   
-  # Workaround for Mapbox/TomTom - The search_text should be in the API URL
-  if (method %in% c('mapbox', 'tomtom')) {
-    api_url <- gsub(" ", "%20", paste0(api_url, generic_query[['address']], ".json"))
-    # Remove semicolons (Reserved for batch)
-    api_url <- gsub(";", ",", api_url)
-  }
+  ## Workaround for Mapbox/TomTom - The search_text should be in the API URL
+  api_url <- api_url_modification(method, api_url, generic_query, custom_query, reverse = FALSE)
 
   # Set min_time if not set based on usage limit of service
   if (is.null(min_time)) min_time <- get_min_query_time(method)

@@ -262,8 +262,8 @@ extract_bing_latlng <- function(response) {
 # For consistency/continuity, these are the same conditions 
 # that are used for the {readr} package
 show_progress_bar <- function() {
- # isTRUE(getOption("tidygeocoder.show_progress")) && # user disables progress bar
-    interactive() && # an interactive session
+    isTRUE(getOption("tidygeocoder.progress_bar")) && # options() setting isn't FALSE
+    interactive() && # interactive session
     !isTRUE(getOption("rstudio.notebook.executing")) && # Not running in an RStudio notebook chunk
     !isTRUE(getOption("knitr.in.progress")) # Not actively knitting a document
 }
@@ -295,7 +295,8 @@ query_start_message <- function(method, num_inputs, reverse, batch, display_time
   input_terms <- get_coord_address_terms(reverse)
   
   message(paste0('Passing ', 
-                 format(num_inputs, big.mark = ','), ' ', input_terms$input_plural,
+                 format(num_inputs, big.mark = ','), ' ', 
+                 if (num_inputs == 1) input_terms$input_singular else input_terms$input_plural,
                  ' to the ', 
                  # get proper name of the service
                  get_setting_value(tidygeocoder::api_info_reference, method, 'method_display_name'), ' ',
@@ -309,4 +310,26 @@ query_start_message <- function(method, num_inputs, reverse, batch, display_time
 
 query_complete_message <- function(start_time) {
   print_time("Query completed in", get_seconds_elapsed(start_time))
+}
+
+# Misc --------------------------------
+
+# if necessary, modify the API URL - called by geo() and reverse_geo()
+# returns the API URL
+# reverse indicates if query is reverse geocoding or forward geocoding
+api_url_modification <- function(method, api_url, generic_query, custom_query, reverse) {
+
+  # Workaround for Mapbox/TomTom - The search_text should be in the API URL
+  if (method %in% c('mapbox', 'tomtom')) {
+    api_url <- if (reverse == TRUE) {
+      paste0(api_url, custom_query[["to_url"]], ".json")
+    } else {
+      gsub(" ", "%20", paste0(api_url, generic_query[['address']], ".json"))      
+    }
+    # Remove semicolons (Reserved for batch)
+    api_url <- gsub(";", ",", api_url)
+  }
+  
+  return(api_url)
+  
 }

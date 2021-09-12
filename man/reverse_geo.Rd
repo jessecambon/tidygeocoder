@@ -12,7 +12,7 @@ reverse_geo(
   limit = 1,
   min_time = NULL,
   progress_bar = show_progress_bar(),
-  quiet = FALSE,
+  quiet = isTRUE(getOption("tidygeocoder.quiet")),
   api_url = NULL,
   timeout = 20,
   mode = "",
@@ -21,14 +21,15 @@ reverse_geo(
   return_coords = TRUE,
   flatten = TRUE,
   batch_limit = NULL,
-  verbose = FALSE,
+  verbose = isTRUE(getOption("tidygeocoder.verbose")),
   no_query = FALSE,
   custom_query = list(),
   iq_region = "us",
   geocodio_v = 1.6,
   mapbox_permanent = FALSE,
   here_request_id = NULL,
-  mapquest_open = FALSE
+  mapquest_open = FALSE,
+  init = TRUE
 )
 }
 \arguments{
@@ -82,8 +83,8 @@ be used if available (given method selected) when multiple coordinates are
 provided; otherwise single address geocoding will be used. For the "here" and "bing" methods the
 batch mode should be explicitly specified with \code{mode = 'batch'}.}
 
-\item{full_results}{returns all data from the geocoding service if TRUE.
-If FALSE then only a single address column will be returned from the geocoding service.}
+\item{full_results}{returns all available data from the geocoding service if TRUE.
+If FALSE (default) then only a single address column is returned from the geocoding service.}
 
 \item{unique_only}{only return results for unique inputs if TRUE}
 
@@ -91,14 +92,14 @@ If FALSE then only a single address column will be returned from the geocoding s
 most services return the input coordinates with \code{full_results = TRUE} and setting
 \code{return_coords} to FALSE does not prevent this.}
 
-\item{flatten}{if TRUE then any nested dataframes in results are flattened if possible.
+\item{flatten}{if TRUE (default) then any nested dataframes in results are flattened if possible.
 Note that in some cases results are flattened regardless such as for
 Geocodio batch geocoding.}
 
 \item{batch_limit}{limit to the number of coordinates in a batch geocoding query.
 Defaults to the value in \link{batch_limit_reference} if not specified.}
 
-\item{verbose}{if TRUE then detailed logs are output to the console}
+\item{verbose}{if TRUE then detailed logs are output to the console. FALSE is default.}
 
 \item{no_query}{if TRUE then no queries are sent to the geocoding service and verbose is set to TRUE.
 Used for testing.}
@@ -124,6 +125,8 @@ needs to be FALSE.}
 
 \item{mapquest_open}{if TRUE then MapQuest would use the Open Geocoding
 endpoint, that relies solely on data contributed to OpenStreetMap.}
+
+\item{init}{internal package use only. Set to TRUE for initial query and FALSE otherwise.}
 }
 \value{
 tibble (dataframe)

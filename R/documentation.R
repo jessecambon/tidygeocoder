@@ -179,3 +179,14 @@ get_mode_documentation <- function(reverse) {
       )
   )
 }
+
+get_full_results_documentation <- function(reverse) {
+  
+  return_col_str <- if (reverse == TRUE) "a single address column is returned" else "latitude and longitude columns are returned"
+
+  return(  
+    c("returns all available data from the geocoding service if TRUE. ",
+      paste0("If FALSE (default) then only ", return_col_str, " from the geocoding service.")
+    )
+  )
+}

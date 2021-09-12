@@ -115,7 +115,7 @@ test_that("Test geo() and reverse_geo() error handling", {
                      method = 'census', batch_limit = 5, no_query = TRUE, batch_limit_error = FALSE))
   # batch_limit_error should revert to FALSE with method = 'cascade'
   expect_warning(geo(address = as.character(seq(1, 10)), 
-                     method = 'cascade', batch_limit = 5, no_query = TRUE, batch_limit_error = TRUE))
+                     method = 'cascade', batch_limit = 5, no_query = TRUE, full_results = FALSE, batch_limit_error = TRUE))
   
   # Test reverse_geo() batch limit handling
   expect_error(reverse_geo(lat = c(1,2,3), long = c(0,0,0),
