@@ -6,7 +6,6 @@
 <!-- badges: start -->
 
 [![JOSS](https://joss.theoj.org/papers/10.21105/joss.03544/status.svg)](https://doi.org/10.21105/joss.03544)
-[![Zenodo](https://zenodo.org/badge/DOI/10.5281/zenodo.4686074.svg)](https://doi.org/10.5281/zenodo.4686074)
 [![License:
 MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/jessecambon/tidygeocoder/blob/master/LICENSE.md)
 [![CRAN](https://www.r-pkg.org/badges/version/tidygeocoder)](https://cran.r-project.org/package=tidygeocoder)
@@ -18,6 +17,7 @@ Month](http://cranlogs.r-pkg.org/badges/tidygeocoder)](https://cran.r-project.or
 stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://lifecycle.r-lib.org/articles/stages.html#stable)
 [![R Build
 Status](https://github.com/jessecambon/tidygeocoder/workflows/R-CMD-check/badge.svg)](https://github.com/jessecambon/tidygeocoder/actions?workflow=R-CMD-check)
+[![Zenodo](https://zenodo.org/badge/DOI/10.5281/zenodo.4686074.svg)](https://doi.org/10.5281/zenodo.4686074)
 <!-- badges: end -->
 
 Tidygeocoder makes getting data from geocoding services easy. A unified
@@ -190,7 +190,7 @@ citation('tidygeocoder')
 
     To cite tidygeocoder use:
 
-      Cambon J, Hernangómez D, Belanger C, Possenriede D, (2021).
+      Cambon J, Hernangómez D, Belanger C, Possenriede D (2021).
       tidygeocoder: An R package for geocoding. Journal of Open Source
       Software, 6(65), 3544, https://doi.org/10.21105/joss.03544 (R package
       version 1.0.3)

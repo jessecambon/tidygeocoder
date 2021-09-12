@@ -23,7 +23,7 @@ citEntry(
   journal = "Journal of Open Source Software",
   note = version_note,
   textVersion  = paste(
-    "Cambon J, Hernangómez D, Belanger C, Possenriede D, (2021).",
+    "Cambon J, Hernangómez D, Belanger C, Possenriede D (2021).",
     "tidygeocoder: An R package for geocoding.",
     "Journal of Open Source Software,",
     "6(65), 3544,",
