@@ -23,10 +23,10 @@ geo(
   api_url = NULL,
   timeout = 20,
   mode = "",
-  full_results = isTRUE(getOption("tidygeocoder.full_results")),
+  full_results = FALSE,
   unique_only = FALSE,
   return_addresses = TRUE,
-  flatten = isTRUE(getOption("tidygeocoder.flatten")),
+  flatten = TRUE,
   batch_limit = NULL,
   batch_limit_error = TRUE,
   verbose = isTRUE(getOption("tidygeocoder.verbose")),
@@ -198,7 +198,7 @@ API queries.
 \examples{
 \donttest{
 geo(street = "600 Peachtree Street NE", city = "Atlanta",
- state = "Georgia", method = "census")
+ state = "Georgia", method = "census", full_results = TRUE)
 
 geo(address = c("Tokyo, Japan", "Lima, Peru", "Nairobi, Kenya"),
  method = 'osm')

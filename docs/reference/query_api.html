@@ -247,7 +247,7 @@ function to execute.</p>
 <span class='fu'><a href='extract_results.html'>extract_results</a></span><span class='op'>(</span><span class='st'>'osm'</span>, <span class='fu'>jsonlite</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/jsonlite/man/fromJSON.html'>fromJSON</a></span><span class='op'>(</span><span class='va'>raw1</span><span class='op'>$</span><span class='va'>content</span><span class='op'>)</span><span class='op'>)</span>
 </div><div class='output co'>#&gt;        lat      lon  place_id
 #&gt; 1 21.02945 105.8544 309312568
-#&gt; 2 21.04456 105.9187 307989801
+#&gt; 2 21.04456 105.9187 329581031
 #&gt; 3 20.99176 105.7968 235888882
 #&gt; 4 21.03667 105.7827 257198423
 #&gt; 5 21.02930 105.8572  55046555
@@ -270,12 +270,12 @@ function to execute.</p>
 #&gt; 1                                                                                                                   Thành phố Hà Nội, Việt Nam
 #&gt; 2               British International School, Hanoi, Hoa Lan, Phúc Lợi, Vinhomes Riverside, Quận Long Biên, Thành phố Hà Nội, 100000, Việt Nam
 #&gt; 3                   Đại học quốc gia Hà Nội, 182, Đường Lương Thế Vinh, Phường Trung Văn, Quận Nam Từ Liêm, Thành phố Hà Nội, 120001, Việt Nam
-#&gt; 4                                        Đại học Quốc gia Hà Nội, Đường Xuân Thủy, Cầu Giấy, Quận Cầu Giấy, Thành phố Hà Nội, 122000, Việt Nam
+#&gt; 4                                                  Đại học Quốc gia Hà Nội, Đường Xuân Thủy, Quận Cầu Giấy, Thành phố Hà Nội, 122000, Việt Nam
 #&gt; 5 Đại sứ quán Đan Mạch tại Hà Nội, Việt Nam, 194, Đường Trần Quang Khải, Phường Lý Thái Tổ, Quận Hoàn Kiếm, Thành phố Hà Nội, 110905, Việt Nam
-#&gt; 6                                        Đại học Quốc gia Hà Nội, Đường Xuân Thủy, Cầu Giấy, Quận Cầu Giấy, Thành phố Hà Nội, 122000, Việt Nam
+#&gt; 6                                                  Đại học Quốc gia Hà Nội, Đường Xuân Thủy, Quận Cầu Giấy, Thành phố Hà Nội, 122000, Việt Nam
 #&gt;      class           type importance
 #&gt; 1 boundary administrative  0.6282962
-#&gt; 2 building            yes  0.4099978
+#&gt; 2 building         school  0.4099978
 #&gt; 3  amenity     university  0.3945655
 #&gt; 4  railway        station  0.0010000
 #&gt; 5   office     diplomatic  0.0010000
@@ -291,14 +291,14 @@ function to execute.</p>
    <span class='fu'><a href='get_api_query.html'>get_api_query</a></span><span class='op'>(</span><span class='st'>"osm"</span>, custom_parameters <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>lat <span class='op'>=</span> <span class='fl'>38.895865</span>, lon <span class='op'>=</span> <span class='op'>-</span><span class='fl'>77.0307713</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>
    
 <span class='fu'><a href='extract_reverse_results.html'>extract_reverse_results</a></span><span class='op'>(</span><span class='st'>'osm'</span>, <span class='fu'>jsonlite</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/jsonlite/man/fromJSON.html'>fromJSON</a></span><span class='op'>(</span><span class='va'>raw2</span><span class='op'>$</span><span class='va'>content</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 1 x 15</span><span>
+</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 1 × 15</span>
 #&gt;   display_name   place_id licence  osm_type osm_id osm_lat osm_lon tourism road 
-#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>             </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>    </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>     </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>
-#&gt; </span><span style='color: #BCBCBC;'>1</span><span> L’Enfant's pl…   3.02</span><span style='color: #949494;'>e</span><span>8 Data © … way      9.00</span><span style='color: #949494;'>e</span><span>8 38.895… -77.03… L’Enfa… Penn…
-#&gt; </span><span style='color: #949494;'># … with 6 more variables: city &lt;chr&gt;, state &lt;chr&gt;, postcode &lt;chr&gt;,</span><span>
-#&gt; </span><span style='color: #949494;'>#   country &lt;chr&gt;, country_code &lt;chr&gt;, boundingbox &lt;list&gt;</span><span></div><div class='input'><span class='co'># }</span>
+#&gt;   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>             <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>    <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>     <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>
+#&gt; <span style='color: #BCBCBC;'>1</span> L’Enfant's pl…   3.02<span style='color: #949494;'>e</span>8 Data © … way      9.00<span style='color: #949494;'>e</span>8 38.895… -77.03… L’Enfa… Penn…
+#&gt; <span style='color: #949494;'># … with 6 more variables: city &lt;chr&gt;, state &lt;chr&gt;, postcode &lt;chr&gt;,</span>
+#&gt; <span style='color: #949494;'>#   country &lt;chr&gt;, country_code &lt;chr&gt;, boundingbox &lt;list&gt;</span></div><div class='input'><span class='co'># }</span>
 
-</div></span></pre>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

@@ -117,7 +117,7 @@
 
       
 
-      </header><script src="tidygeocoder_files/header-attrs-2.8/header-attrs.js"></script><div class="row">
+      </header><script src="tidygeocoder_files/header-attrs-2.10/header-attrs.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Getting Started</h1>
@@ -161,13 +161,13 @@
 <span class="co">#&gt; Number of Unique Addresses: 2</span>
 <span class="co">#&gt; Executing batch geocoding...</span>
 <span class="co">#&gt; Batch limit: 10,000</span>
-<span class="co">#&gt; Passing 2 addresses to the US Census batch geocoder - 05:30 PM</span>
+<span class="co">#&gt; Passing 2 addresses to the US Census batch geocoder - 04:38 PM</span>
 <span class="co">#&gt; Querying API URL: https://geocoding.geo.census.gov/geocoder/locations/addressbatch</span>
 <span class="co">#&gt; Passing the following parameters to the API:</span>
 <span class="co">#&gt; format : "json"</span>
 <span class="co">#&gt; benchmark : "Public_AR_Current"</span>
 <span class="co">#&gt; vintage : "Current_Current"</span>
-<span class="co">#&gt; Query completed in: 1.9 seconds</span></code></pre></div>
+<span class="co">#&gt; Query completed in: 1 seconds</span></code></pre></div>
 <table class="table">
 <thead><tr class="header">
 <th align="left">singlelineaddress</th>
@@ -218,8 +218,8 @@
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">census_c1</span> <span class="op">&lt;-</span> <span class="va">address_components</span> <span class="op">%&gt;%</span>
   <span class="fu"><a href="../reference/geocode.html">geocode</a></span><span class="op">(</span>street <span class="op">=</span> <span class="va">street</span>, city <span class="op">=</span> <span class="va">cty</span>, state <span class="op">=</span> <span class="va">st</span>, method <span class="op">=</span> <span class="st">"census"</span><span class="op">)</span>
-<span class="co">#&gt; Passing 2 addresses to the US Census batch geocoder - 05:30 PM</span>
-<span class="co">#&gt; Query completed in: 3.9 seconds</span></code></pre></div>
+<span class="co">#&gt; Passing 2 addresses to the US Census batch geocoder - 04:38 PM</span>
+<span class="co">#&gt; Query completed in: 1.3 seconds</span></code></pre></div>
 <table class="table">
 <thead><tr class="header">
 <th align="left">street</th>
@@ -259,8 +259,8 @@
   street <span class="op">=</span> <span class="va">street</span>, state <span class="op">=</span> <span class="va">st</span>, city <span class="op">=</span> <span class="va">cty</span>,
   country <span class="op">=</span> <span class="va">country</span>, method <span class="op">=</span> <span class="st">"cascade"</span>
 <span class="op">)</span>
-<span class="co">#&gt; Passing 4 addresses to the US Census batch geocoder - 05:30 PM</span>
-<span class="co">#&gt; Query completed in: 3.6 seconds</span>
+<span class="co">#&gt; Passing 4 addresses to the US Census batch geocoder - 04:38 PM</span>
+<span class="co">#&gt; Query completed in: 1.6 seconds</span>
 <span class="co">#&gt; Passing 2 addresses to the Nominatim single address geocoder</span>
 <span class="co">#&gt; Query completed in: 2 seconds</span></code></pre></div>
 <table class="table">
@@ -318,8 +318,8 @@
   address <span class="op">=</span> <span class="va">singlelineaddress</span>,
   method <span class="op">=</span> <span class="st">"census"</span>, full_results <span class="op">=</span> <span class="cn">TRUE</span>, return_type <span class="op">=</span> <span class="st">"geographies"</span>
 <span class="op">)</span>
-<span class="co">#&gt; Passing 2 addresses to the US Census batch geocoder - 05:30 PM</span>
-<span class="co">#&gt; Query completed in: 2.2 seconds</span></code></pre></div>
+<span class="co">#&gt; Passing 2 addresses to the US Census batch geocoder - 04:38 PM</span>
+<span class="co">#&gt; Query completed in: 1 seconds</span></code></pre></div>
 <table class="table">
 <colgroup>
 <col width="16%">
@@ -395,7 +395,9 @@ occurring in automated CRAN checks for an improper/old link.
 -->
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">salz</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/geo.html">geo</a></span><span class="op">(</span><span class="st">"Salzburg, Austria"</span>, method <span class="op">=</span> <span class="st">"osm"</span>, full_results <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="op">-</span><span class="va">licence</span><span class="op">)</span></code></pre></div>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="op">-</span><span class="va">licence</span><span class="op">)</span>
+<span class="co">#&gt; Passing 1 address to the Nominatim single address geocoder</span>
+<span class="co">#&gt; Query completed in: 1 seconds</span></code></pre></div>
 <table class="table">
 <colgroup>
 <col width="7%">
@@ -540,7 +542,7 @@ occurring in automated CRAN checks for an improper/old link.
 <span class="co">#&gt; limit : "1"</span>
 <span class="co">#&gt; format : "json"</span>
 <span class="co">#&gt; HTTP Status Code: 200</span>
-<span class="co">#&gt; Query completed in: 0.3 seconds</span>
+<span class="co">#&gt; Query completed in: 0.2 seconds</span>
 <span class="co">#&gt; Total query time (including sleep): 1 seconds</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; </span>
@@ -642,17 +644,17 @@ occurring in automated CRAN checks for an improper/old link.
 <span class="co">#&gt; Rows: 6</span>
 <span class="co">#&gt; Columns: 13</span>
 <span class="co">#&gt; $ address      &lt;chr&gt; "Lima, Peru", "Lima, Peru", "Lima, Peru", "Cairo, Egypt",…</span>
-<span class="co">#&gt; $ lat          &lt;dbl&gt; -12.06211, -12.20011, -11.99997, 30.04439, 30.03325, 30.0…</span>
-<span class="co">#&gt; $ long         &lt;dbl&gt; -77.03653, -76.28506, -76.83322, 31.23573, 31.56216, 31.9…</span>
-<span class="co">#&gt; $ place_id     &lt;int&gt; 258244064, 258655931, 258306819, 258758158, 298971141, 20…</span>
+<span class="co">#&gt; $ lat          &lt;dbl&gt; -12.06211, -12.20011, -11.99997, 30.03521, 30.04439, 30.0…</span>
+<span class="co">#&gt; $ long         &lt;dbl&gt; -77.03653, -76.28506, -76.83322, 31.56337, 31.23573, 31.5…</span>
+<span class="co">#&gt; $ place_id     &lt;int&gt; 258244064, 258655931, 258306819, 258758158, 793757, 29897…</span>
 <span class="co">#&gt; $ licence      &lt;chr&gt; "Data © OpenStreetMap contributors, ODbL 1.0. https://osm…</span>
-<span class="co">#&gt; $ osm_type     &lt;chr&gt; "relation", "relation", "relation", "relation", "relation…</span>
-<span class="co">#&gt; $ osm_id       &lt;int&gt; 1944756, 1944659, 1944670, 5466227, 4103336, 544272017</span>
+<span class="co">#&gt; $ osm_type     &lt;chr&gt; "relation", "relation", "relation", "relation", "node", "…</span>
+<span class="co">#&gt; $ osm_id       &lt;int&gt; 1944756, 1944659, 1944670, 5466227, 271613766, 4103336</span>
 <span class="co">#&gt; $ boundingbox  &lt;list&gt; &lt;"-12.0797663", "-12.0303496", "-77.0884555", "-77.001777…</span>
 <span class="co">#&gt; $ display_name &lt;chr&gt; "Lima, Lima Metropolitana, Lima, Perú", "Lima, Perú", "L…</span>
-<span class="co">#&gt; $ class        &lt;chr&gt; "boundary", "boundary", "boundary", "place", "boundary", …</span>
+<span class="co">#&gt; $ class        &lt;chr&gt; "boundary", "boundary", "boundary", "place", "place", "bo…</span>
 <span class="co">#&gt; $ type         &lt;chr&gt; "administrative", "administrative", "administrative", "ci…</span>
-<span class="co">#&gt; $ importance   &lt;dbl&gt; 0.7830015, 0.6119761, 0.5934835, 0.6960286, 0.4835559, 0.…</span>
+<span class="co">#&gt; $ importance   &lt;dbl&gt; 0.7830015, 0.6119761, 0.5934835, 0.6960286, 0.6960286, 0.…</span>
 <span class="co">#&gt; $ icon         &lt;chr&gt; "https://nominatim.openstreetmap.org/ui/mapicons//poi_bou…</span></code></pre></div>
 <p>To directly specify specific API parameters for a given <code>method</code> you can use the <code>custom_query</code> parameter. For example, <a href="https://nominatim.org/release-docs/develop/api/Details/#parameters">the Nominatim (OSM) geocoder has a ‘polygon_geojson’ argument</a> that can be used to return GeoJSON geometry content. To pass this parameter you can insert it with a named list using the <code>custom_query</code> argument:</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
@@ -660,6 +662,9 @@ occurring in automated CRAN checks for an improper/old link.
   method <span class="op">=</span> <span class="st">"osm"</span>, full_results <span class="op">=</span> <span class="cn">TRUE</span>,
   custom_query <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>polygon_geojson <span class="op">=</span> <span class="fl">1</span><span class="op">)</span>, verbose <span class="op">=</span> <span class="cn">TRUE</span>
 <span class="op">)</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Number of Unique Addresses: 1</span>
+<span class="co">#&gt; Passing 1 address to the Nominatim single address geocoder</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; Number of Unique Addresses: 1</span>
 <span class="co">#&gt; Querying API URL: https://nominatim.openstreetmap.org/search</span>
@@ -672,13 +677,14 @@ occurring in automated CRAN checks for an improper/old link.
 <span class="co">#&gt; Query completed in: 0.1 seconds</span>
 <span class="co">#&gt; Total query time (including sleep): 1 seconds</span>
 <span class="co">#&gt; </span>
+<span class="co">#&gt; Query completed in: 1 seconds</span>
 
 <span class="fu"><a href="https://pillar.r-lib.org/reference/glimpse.html">glimpse</a></span><span class="op">(</span><span class="va">cairo_geo</span><span class="op">)</span>
 <span class="co">#&gt; Rows: 1</span>
 <span class="co">#&gt; Columns: 15</span>
 <span class="co">#&gt; $ address             &lt;chr&gt; "Cairo, Egypt"</span>
-<span class="co">#&gt; $ lat                 &lt;dbl&gt; 30.04439</span>
-<span class="co">#&gt; $ long                &lt;dbl&gt; 31.23573</span>
+<span class="co">#&gt; $ lat                 &lt;dbl&gt; 30.03521</span>
+<span class="co">#&gt; $ long                &lt;dbl&gt; 31.56337</span>
 <span class="co">#&gt; $ place_id            &lt;int&gt; 258758158</span>
 <span class="co">#&gt; $ licence             &lt;chr&gt; "Data © OpenStreetMap contributors, ODbL 1.0. http…</span>
 <span class="co">#&gt; $ osm_type            &lt;chr&gt; "relation"</span>
@@ -738,6 +744,7 @@ occurring in automated CRAN checks for an improper/old link.
 <ul>
 <li>Set <code>quiet = TRUE</code> to silence console logs displayed by default (how many inputs were submitted, to what geocoding service, and the elapsed time).</li>
 <li>Use the <code>progress_bar</code> argument to control if a progress bar is displayed.</li>
+<li>The <code>verbose</code>, <code>quiet</code>, and <code>progress_bar</code> arguments can be set globally with <code>options</code>. For instance <code><a href="https://rdrr.io/r/base/options.html">options(tidygeocoder.verbose = TRUE)</a></code> will set verbose to <code>TRUE</code> for all queries by default.</li>
 <li>To specify a custom geocoder API URL, use the <code>api_url</code> argument. Alternatively, the <code>iq_region</code> and <code>geocodio_v</code> arguments are helper functions for customizing the API URL.</li>
 <li>If not specified manually, the <code>min_time</code> argument will default to a value based on the maximum query rate of the given geocoding service. If you are using a local Nominatim server or have a commercial geocoder plan that has less restrictive usage limits then you can manually set <code>min_time</code> to a lower valuer (such as 0).</li>
 <li>The <code>mode</code> argument can be used to specify whether the batch geocoding or single address/coordinate geocoding should be used. By default batch geocoding will be used if available when more than one address or coordinate is provided (with some noted exceptions for slower batch geocoding services).</li>
