@@ -1,4 +1,33 @@
 
+#' New function to replace method = 'cascade'
+#' 
+#' @description 
+#' 
+#' @inheritParams geo
+#' @param ... arguments passed to the [geocode_loop] function
+#' @inherit geo return
+#' @export
+geo_loop <- function(address = NULL, 
+                     street = NULL, city = NULL, county = NULL, state = NULL, postalcode = NULL, country = NULL, ...) {
+  
+  # Check argument inputs
+  check_address_argument_datatype(address, 'address')
+  check_address_argument_datatype(street, 'street')
+  check_address_argument_datatype(city, 'city')
+  check_address_argument_datatype(county, 'county')
+  check_address_argument_datatype(state, 'state')
+  check_address_argument_datatype(postalcode, 'postalcode')
+  check_address_argument_datatype(country, 'country')
+  
+  tibble::tibble(
+    address = address, 
+    street = street, city = city, county = county, state = state, postalcode = postalcode, country = country
+  )
+  
+  # TODO: call geocode_loop() while specifying address columns for non-NULL parameters
+  
+}
+
 
 #' New function to replace method = 'cascade'
 #' 
