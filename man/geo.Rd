@@ -74,14 +74,14 @@ Do not combine with the address component arguments below
 \item \code{"mapquest"}: \href{https://developer.mapquest.com/documentation/geocoding-api/}{MapQuest}.  An API key must be stored in "MAPQUEST_API_KEY". Batch geocoding is supported.
 \item \code{"bing"}: \href{https://docs.microsoft.com/en-us/bingmaps/rest-services/locations/}{Bing}.  An API key must be stored in "BINGMAPS_API_KEY". Batch geocoding is supported, but must be explicitly called with \code{mode = "batch"}.
 \item \code{"geoapify"}: \href{https://www.geoapify.com/geocoding-api}{Geoapify}.  An API key must be stored in "GEOAPIFY_KEY".
-\item \code{"cascade"} : First uses one geocoding service and then uses
+\item \code{"cascade"} \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} : First uses one geocoding service and then uses
 a second geocoding service if the first service didn't return results.
 The services and order is specified by the cascade_order argument.
 Note that this is not compatible with \code{full_results = TRUE} as geocoding
 services have different columns that they return.
 }}
 
-\item{cascade_order}{a vector with two character values for the method argument
+\item{cascade_order}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} a vector with two character values for the method argument
 in the order in which the geocoding services will be attempted for \code{method = "cascade"}
 (ie. \code{c("census", "geocodio")})}
 
@@ -133,7 +133,7 @@ Geocodio batch geocoding.}
 \item{batch_limit}{limit to the number of addresses in a batch geocoding query.
 Defaults to the value in \link{batch_limit_reference} if not specified.}
 
-\item{batch_limit_error}{if TRUE then an error is thrown if the number of addresses exceeds the batch limit.
+\item{batch_limit_error}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} if TRUE then an error is thrown if the number of addresses exceeds the batch limit.
 (if executing a batch query). This is reverted to FALSE when using the cascade method.}
 
 \item{verbose}{if TRUE then detailed logs are output to the console. FALSE is default.}
@@ -156,7 +156,7 @@ See the Census geocoder API documentation for more details.
 \item{geocodio_v}{version of geocodio API. Used for establishing the API URL
 for the "geocodio" method.}
 
-\item{param_error}{if TRUE then an error will be thrown if any address parameters are used that are
+\item{param_error}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} if TRUE then an error will be thrown if any address parameters are used that are
 invalid for the selected service (\code{method}). If \code{method = "cascade"} then no errors will be thrown.}
 
 \item{mapbox_permanent}{if TRUE then the \code{mapbox.places-permanent}

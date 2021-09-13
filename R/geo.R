@@ -48,13 +48,13 @@ progress_geo <- function(pb = NULL, ...) {
 #' @param country country (ie. 'Japan')
 #' 
 #' @param method `r get_method_documentation(reverse = FALSE)`
-#'  - `"cascade"` : First uses one geocoding service and then uses
+#'  - `"cascade"` `r lifecycle::badge("deprecated")` : First uses one geocoding service and then uses
 #'     a second geocoding service if the first service didn't return results.
 #'     The services and order is specified by the cascade_order argument. 
 #'     Note that this is not compatible with `full_results = TRUE` as geocoding
 #'     services have different columns that they return.
 #' 
-#' @param cascade_order a vector with two character values for the method argument 
+#' @param cascade_order `r lifecycle::badge("deprecated")` a vector with two character values for the method argument 
 #'  in the order in which the geocoding services will be attempted for `method = "cascade"`
 #'  (ie. `c("census", "geocodio")`)
 #' @param lat latitude column name. Can be quoted or unquoted (ie. lat or "lat").
@@ -84,7 +84,7 @@ progress_geo <- function(pb = NULL, ...) {
 #'    Note that in some cases results are flattened regardless such as for
 #'    Geocodio batch geocoding.
 #' @param batch_limit  `r get_batch_limit_documentation(reverse = FALSE)`
-#' @param batch_limit_error `r get_batch_limit_error_documentation(reverse = FALSE)`
+#' @param batch_limit_error `r lifecycle::badge("deprecated")` `r get_batch_limit_error_documentation(reverse = FALSE)` 
 #' @param verbose if TRUE then detailed logs are output to the console. FALSE is default.
 #' @param no_query if TRUE then no queries are sent to the geocoding service and verbose is set to TRUE.
 #'    Used for testing.
@@ -98,7 +98,7 @@ progress_geo <- function(pb = NULL, ...) {
 #' @param iq_region "us" (default) or "eu". Used for establishing the API URL for the "iq" method.
 #' @param geocodio_v version of geocodio API. Used for establishing the API URL
 #'   for the "geocodio" method.
-#' @param param_error if TRUE then an error will be thrown if any address parameters are used that are
+#' @param param_error `r lifecycle::badge("deprecated")` if TRUE then an error will be thrown if any address parameters are used that are
 #'   invalid for the selected service (`method`). If `method = "cascade"` then no errors will be thrown.
 #' @param mapbox_permanent if TRUE then the `mapbox.places-permanent`
 #'   endpoint would be used. Note that this option should be used only if you 
@@ -149,6 +149,8 @@ geo <- function(address = NULL,
   all_args <- as.list(environment())
   if (method != 'cascade') {
     all_args$init <- FALSE  # follow up queries are not the initial query
+  } else {
+    lifecycle::deprecate_warn("1.0.4", 'geo(method = "cannot be \\"cascade\\"")', "geocode_loop()")
   }
 
   # Check parameter arguments --------------------------------------------------------

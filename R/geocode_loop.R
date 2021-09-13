@@ -1,9 +1,21 @@
 
 
 #' New function to replace method = 'cascade'
-#'
+#' 
+#' @description 
+#' 
+#' @param queries list of lists parameter. Each list contains parameters for a query
+#'   (ie. `list(list(method = 'osm'), list(method = 'census'), ...)`)
+#' @param common_params list parameter. Contains arguments that should be used for all queries.
+#'   (ie. `list(full_results = TRUE, unique_only = TRUE)`)
+#' @param stack if TRUE then a single dataframe will be returned. When stack = FALSE
+#'   then a list of dataframes, one per each query, will be returned.
+#' @param cascade if TRUE then only addresses that are not found will be attempted by
+#'   the following query. If FALSE then all queries will attempt to geocode all addresses.
+#' @inheritParams geocode
+#' @inherit geo return
 #' @export
-geocode_loop <- function(.tbl, queries, common_params = list(), stack = TRUE, cascade = TRUE, lat = 'lat', long = 'long') {
+geocode_loop <- function(.tbl, queries, common_params = list(), stack = TRUE, cascade = TRUE, lat = lat, long = long) {
   
   lat <- rm_quote(deparse(substitute(lat)))
   long <- rm_quote(deparse(substitute(long)))

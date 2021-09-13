@@ -6,6 +6,8 @@
 - Added the ability to set default arguments with `options()` for `verbose`, `quiet`, and `progress_bar`. For instance `options(tidygeocoder.verbose = TRUE)` changes the default of `verbose` from FALSE to TRUE.
 - Fixed a bug for Bing forward geocoding `geo()` when no results are found ([#112](https://github.com/jessecambon/tidygeocoder/issues/112)).
 - Fixed a bug when reverse geocoding when passing a set of exclusively duplicate coordinates (1 unique coordinate) ([#129](https://github.com/jessecambon/tidygeocoder/issues/129)). 
+- Added function `geocode_loop()` to replace `method="cascade"`
+- Deprecated `method = "cascade"` and the `cascade_order`, `param_error`, and `batch_limit_error` arguments for `geocode()` and `geo()`.
 
 # tidygeocoder 1.0.3
 
