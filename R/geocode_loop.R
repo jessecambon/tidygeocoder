@@ -1,31 +1,37 @@
 
 #' New function to replace method = 'cascade'
 #' 
-#' @description 
+#' @description  placeholder
 #' 
+#' @param queries list of lists parameter. Each list contains parameters for a query
+#'   (ie. `list(list(method = 'osm'), list(method = 'census'), ...)`)
+#' @param common_params list parameter. Contains arguments that should be used for all queries.
+#'   (ie. `list(full_results = TRUE, unique_only = TRUE)`)
 #' @inheritParams geo
 #' @param ... arguments passed to the [geocode_loop] function
 #' @inherit geo return
 #' @export
-geo_loop <- function(address = NULL, 
+geo_loop <- function(queries, common_params = list(), address = NULL, 
                      street = NULL, city = NULL, county = NULL, state = NULL, postalcode = NULL, country = NULL, ...) {
   
   # Check argument inputs
-  check_address_argument_datatype(address, 'address')
-  check_address_argument_datatype(street, 'street')
-  check_address_argument_datatype(city, 'city')
-  check_address_argument_datatype(county, 'county')
-  check_address_argument_datatype(state, 'state')
-  check_address_argument_datatype(postalcode, 'postalcode')
-  check_address_argument_datatype(country, 'country')
+  check_argument_inputs(address, street, city, county, state, postalcode, country, 'geo_loop')
   
-  tibble::tibble(
+  # prepare data for geocode_loop() function
+   input_df <- tibble::tibble(
     address = address, 
     street = street, city = city, county = county, state = state, postalcode = postalcode, country = country
   )
   
-  # TODO: call geocode_loop() while specifying address columns for non-NULL parameters
-  
+   common_params_combi <- c(
+     common_params, 
+     list(address = address, street = street, city = city, county = county,
+           state = state, postalcode = postalcode, country = country)
+     )
+   
+  return(
+    geocode_loop(.tbl = input_df, common_params = common_params_combi, ...)
+  )
 }
 
 
@@ -41,10 +47,11 @@ geo_loop <- function(address = NULL,
 #'   then a list of dataframes, one per each query, will be returned.
 #' @param cascade if TRUE then only addresses that are not found will be attempted by
 #'   the following query. If FALSE then all queries will attempt to geocode all addresses.
+#' @param query_names an optional vector of names to use for labeling the queries.
 #' @inheritParams geocode
 #' @inherit geo return
 #' @export
-geocode_loop <- function(.tbl, queries, common_params = list(), stack = TRUE, cascade = TRUE, lat = lat, long = long) {
+geocode_loop <- function(.tbl, queries, common_params = list(), query_names = NULL, stack = TRUE, cascade = TRUE, lat = lat, long = long) {
   
   lat <- rm_quote(deparse(substitute(lat)))
   long <- rm_quote(deparse(substitute(long)))
@@ -54,8 +61,6 @@ geocode_loop <- function(.tbl, queries, common_params = list(), stack = TRUE, ca
   
   # TODO: add preemptive checking of parameters by running all the queries with no_query = TRUE and a tryCatch
   
-  # TODO: add a column for stacked results that shows which data is from which query
-  
   # add common arguments to each query
   queries_prepped <- lapply(queries, function(x) {
     c(
@@ -63,6 +68,14 @@ geocode_loop <- function(.tbl, queries, common_params = list(), stack = TRUE, ca
         common_params,
       x)})
   
+  # Set default query names and check user input query names
+  if (is.null(query_names)) {
+    query_names <- unlist(lapply(queries_prepped, function(q) q[['method']]))
+  } else {
+    if (length(query_names) != length(queries)) {
+      stop('query_names parameter have one name per query. see ?geocode_loop')
+    }
+  }
   
   # iterate through the queries (list of lists) and execute each query
   # aggregate results in list object
@@ -88,12 +101,20 @@ geocode_loop <- function(.tbl, queries, common_params = list(), stack = TRUE, ca
     all_results <- c(all_results, list(result)) 
   }
   
+  names(all_results) <- query_names
+  
   # stack all results in one dataframe if stack == TRUE
   # otherwise return list
   if (stack == FALSE) {
     return(all_results)
   } else {
-    return(dplyr::bind_rows(all_results))
+    
+    # add query name column before stacking
+    all_results_labeled <- lapply(
+      query_names, function(x) 
+        dplyr::bind_cols(all_results[[x]], tibble::tibble(query = x)))
+    
+    return(dplyr::bind_rows(all_results_labeled))
   }
 
 }

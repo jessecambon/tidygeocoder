@@ -156,13 +156,7 @@ geo <- function(address = NULL,
   # Check parameter arguments --------------------------------------------------------
 
   # Check argument inputs
-  check_address_argument_datatype(address, 'address')
-  check_address_argument_datatype(street, 'street')
-  check_address_argument_datatype(city, 'city')
-  check_address_argument_datatype(county, 'county')
-  check_address_argument_datatype(state, 'state')
-  check_address_argument_datatype(postalcode, 'postalcode')
-  check_address_argument_datatype(country, 'country')
+  check_argument_inputs(address, street, city, county, state, postalcode, country, 'geo') 
   
   stopifnot(
     is.logical(verbose), is.logical(no_query), is.logical(flatten), is.logical(param_error),

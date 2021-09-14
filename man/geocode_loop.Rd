@@ -8,6 +8,7 @@ geocode_loop(
   .tbl,
   queries,
   common_params = list(),
+  query_names = NULL,
   stack = TRUE,
   cascade = TRUE,
   lat = lat,
@@ -22,6 +23,8 @@ geocode_loop(
 
 \item{common_params}{list parameter. Contains arguments that should be used for all queries.
 (ie. \code{list(full_results = TRUE, unique_only = TRUE)})}
+
+\item{query_names}{an optional vector of names to use for labeling the queries.}
 
 \item{stack}{if TRUE then a single dataframe will be returned. When stack = FALSE
 then a list of dataframes, one per each query, will be returned.}

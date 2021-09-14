@@ -102,6 +102,29 @@ format_address <- function(df, fields) {
 # QA Checks --------------------------------------------------------------------------------------------------------------
 # functions called by reverse_geo() and geo()
 
+# called by geo_loop() and geo()
+check_argument_inputs <- function(address, street, city, county, state, postalcode, country, func_name) {
+  # Check argument inputs
+  check_address_argument_datatype(address, 'address')
+  check_address_argument_datatype(street, 'street')
+  check_address_argument_datatype(city, 'city')
+  check_address_argument_datatype(county, 'county')
+  check_address_argument_datatype(state, 'state')
+  check_address_argument_datatype(postalcode, 'postalcode')
+  check_address_argument_datatype(country, 'country')
+}
+
+# check the data type of an address argument
+# should not be a matrix, class, or dataframe for instance
+# allow factor since it could be coerced to a datatype by address handler function
+# allow numeric for zip codes etc.
+check_address_argument_datatype <- function(arg, arg_name) {
+  # 
+  if (!(is.null(arg) || is.character(arg) || is.numeric(arg) || is.na(arg) || is.factor(arg))) {
+    stop(paste0('Improper datatype for ', arg_name, '. See ?', func_name), call. = FALSE)
+  }
+}
+
 check_verbose_quiet <- function(verbose, quiet, reverse) {
   input_terms <- get_coord_address_terms(reverse)
   
@@ -173,17 +196,6 @@ check_common_args <- function(fun_name, mode, limit, batch_limit, min_time) {
   if (!(is.null(min_time) || (is.numeric(min_time) && min_time >= 0))) {
     stop(paste0('min_time must be NULL or >= 0. See ?', fun_name), call. = FALSE)
   }  
-}
-
-# check the data type of an address argument
-# should not be a matrix, class, or dataframe for instance
-# allow factor since it could be coerced to a datatype by address handler function
-# allow numeric for zip codes etc.
-check_address_argument_datatype <- function(arg, arg_name) {
-  # 
-  if (!(is.null(arg) || is.character(arg) || is.numeric(arg) || is.na(arg) || is.factor(arg))) {
-    stop(paste0('Improper datatype for ', arg_name, '. See ?geo'), call. = FALSE)
-  }
 }
 
 # This check prevents a address-results misalignment issue https://github.com/jessecambon/tidygeocoder/issues/88
