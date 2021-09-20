@@ -35,6 +35,7 @@ geo(
   return_type = "locations",
   iq_region = "us",
   geocodio_v = 1.6,
+  geocodio_hipaa = FALSE,
   param_error = TRUE,
   mapbox_permanent = FALSE,
   here_request_id = NULL,
@@ -155,6 +156,8 @@ See the Census geocoder API documentation for more details.
 
 \item{geocodio_v}{version of geocodio API. Used for establishing the API URL
 for the "geocodio" method.}
+
+\item{geocodio_hipaa}{if TRUE then use geocodio's HIPAA compliant API endpoint}
 
 \item{param_error}{if TRUE then an error will be thrown if any address parameters are used that are
 invalid for the selected service (\code{method}). If \code{method = "cascade"} then no errors will be thrown.}

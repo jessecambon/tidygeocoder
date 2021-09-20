@@ -26,6 +26,7 @@ reverse_geo(
   custom_query = list(),
   iq_region = "us",
   geocodio_v = 1.6,
+  geocodio_hipaa = FALSE,
   mapbox_permanent = FALSE,
   here_request_id = NULL,
   mapquest_open = FALSE,
@@ -111,6 +112,8 @@ Used for testing.}
 
 \item{geocodio_v}{version of geocodio API. Used for establishing the API URL
 for the "geocodio" method.}
+
+\item{geocodio_hipaa}{if TRUE then use geocodio's HIPAA compliant API endpoint}
 
 \item{mapbox_permanent}{if TRUE then the \code{mapbox.places-permanent}
 endpoint would be used. Note that this option should be used only if you

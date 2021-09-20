@@ -108,7 +108,7 @@ reverse_geo <- function(lat, long, method = 'osm', address = address, limit = 1,
     timeout = 20, mode = '',  full_results = FALSE, 
     unique_only = FALSE, return_coords = TRUE, flatten = TRUE, 
     batch_limit = NULL, verbose = isTRUE(getOption("tidygeocoder.verbose")), 
-    no_query = FALSE, custom_query = list(), iq_region = 'us', geocodio_v = 1.6,
+    no_query = FALSE, custom_query = list(), iq_region = 'us', geocodio_v = 1.6, geocodio_hipaa = FALSE,
     mapbox_permanent = FALSE, here_request_id = NULL, mapquest_open = FALSE, init = TRUE) {
 
   # NSE eval
@@ -126,7 +126,7 @@ reverse_geo <- function(lat, long, method = 'osm', address = address, limit = 1,
       is.list(custom_query), 
       is.logical(mapbox_permanent),
       is.null(here_request_id) || is.character(here_request_id),
-      is.logical(mapquest_open)
+      is.logical(mapquest_open), is.logical(geocodio_hipaa)
   )
   
   check_verbose_quiet(verbose, quiet, reverse = FALSE)
@@ -164,7 +164,7 @@ reverse_geo <- function(lat, long, method = 'osm', address = address, limit = 1,
   }
   
   # Geocode coordinates one at a time in a loop -------------------------------------------------------
-  if ((init == TRUE) & ((!(method %in% names(reverse_batch_func_map))) | (mode == 'single'))) {
+  if ((init == TRUE) && (mode != 'batch') && ((!(method %in% names(reverse_batch_func_map))) || (num_unique_coords == 1) || (mode == 'single'))) {
     
     # construct arguments for a single address query
     # note that non-lat/long related fields go to the MoreArgs argument of mapply
@@ -206,7 +206,7 @@ reverse_geo <- function(lat, long, method = 'osm', address = address, limit = 1,
   }
   
   # Batch geocoding --------------------------------------------------------------------------
-  if ((init == TRUE) || (mode == 'batch')) {
+  if (init == TRUE) {
     if (verbose == TRUE) message('Executing batch geocoding...\n')
     
     # check for conflict between limit and return_coords arguments
@@ -274,7 +274,7 @@ reverse_geo <- function(lat, long, method = 'osm', address = address, limit = 1,
   # Set API URL (if not already set) ----------------------------------------
   if (is.null(api_url)) {
     api_url <- get_api_url(method, reverse = TRUE, geocodio_v = geocodio_v, iq_region = iq_region,
-                           mapbox_permanent = mapbox_permanent, mapquest_open = mapquest_open)
+                           mapbox_permanent = mapbox_permanent, mapquest_open = mapquest_open, geocodio_hipaa = geocodio_hipaa)
   }
   
   ## Workaround for Mapbox/TomTom - The search_text should be in the url

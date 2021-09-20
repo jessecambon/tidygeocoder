@@ -98,6 +98,7 @@ progress_geo <- function(pb = NULL, ...) {
 #' @param iq_region "us" (default) or "eu". Used for establishing the API URL for the "iq" method.
 #' @param geocodio_v version of geocodio API. Used for establishing the API URL
 #'   for the "geocodio" method.
+#' @param geocodio_hipaa if TRUE then use geocodio's HIPAA compliant API endpoint
 #' @param param_error if TRUE then an error will be thrown if any address parameters are used that are
 #'   invalid for the selected service (`method`). If `method = "cascade"` then no errors will be thrown.
 #' @param mapbox_permanent if TRUE then the `mapbox.places-permanent`
@@ -135,7 +136,7 @@ geo <- function(address = NULL,
     mode = '', full_results = FALSE, unique_only = FALSE, return_addresses = TRUE, 
     flatten = TRUE, batch_limit = NULL, batch_limit_error = TRUE, 
     verbose = isTRUE(getOption("tidygeocoder.verbose")), no_query = FALSE, 
-    custom_query = list(), return_type = 'locations', iq_region = 'us', geocodio_v = 1.6, 
+    custom_query = list(), return_type = 'locations', iq_region = 'us', geocodio_v = 1.6, geocodio_hipaa = FALSE,
     param_error = TRUE, mapbox_permanent = FALSE, here_request_id = NULL,
     mapquest_open = FALSE, init = TRUE) {
 
@@ -170,7 +171,7 @@ geo <- function(address = NULL,
             is.list(custom_query),
             is.logical(mapbox_permanent), 
             is.null(here_request_id) || is.character(here_request_id),
-            is.logical(mapquest_open)
+            is.logical(mapquest_open), is.logical(geocodio_hipaa)
     )
   
   check_verbose_quiet(verbose, quiet, reverse = FALSE)
@@ -270,7 +271,7 @@ geo <- function(address = NULL,
   
   # Single address geocoding is used if the method has no batch function or if 
   # mode = 'single' was specified
-  if ((init == TRUE) && ((!(method %in% names(batch_func_map))) || (mode == 'single'))) {
+  if ((init == TRUE) && (mode != 'batch') && ( !(method %in% names(batch_func_map)) || ((num_unique_addresses == 1) || (mode == 'single')) )) {
     
       if (quiet == FALSE) {
         query_start_message(method, num_unique_addresses, reverse = FALSE, batch = FALSE)
@@ -302,7 +303,7 @@ geo <- function(address = NULL,
       }
       
   # Batch geocoding --------------------------------------------------------------------------
-  if ((init == TRUE) || (mode == 'batch')) {
+  if (init == TRUE) {
     
     if (verbose == TRUE) message('Executing batch geocoding...\n')
     
@@ -400,7 +401,7 @@ geo <- function(address = NULL,
   if (is.null(api_url)) {
     api_url <- get_api_url(method, reverse = FALSE, return_type = return_type,
                 search = search, geocodio_v = geocodio_v, iq_region = iq_region, 
-                mapbox_permanent = mapbox_permanent, mapquest_open = mapquest_open)
+                mapbox_permanent = mapbox_permanent, mapquest_open = mapquest_open, geocodio_hipaa = geocodio_hipaa)
   }
   
   ## Workaround for Mapbox/TomTom - The search_text should be in the API URL

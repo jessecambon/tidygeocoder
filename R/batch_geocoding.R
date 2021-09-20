@@ -85,7 +85,7 @@ batch_census <- function(unique_addresses,
 # ... are arguments passed from the geo() function
 # https://www.geocod.io/docs/#batch-geocoding
 batch_geocodio <- function(unique_addresses, lat = 'lat', long = 'long', timeout = 20, full_results = FALSE, custom_query = list(),
-verbose = FALSE, api_url = NULL, geocodio_v = 1.6, limit = 1, ...) {
+verbose = FALSE, api_url = NULL, geocodio_v = 1.6, geocodio_hipaa = FALSE, limit = 1, ...) {
   
   # limit the dataframe to legitimate arguments
   address_df <- unique_addresses[names(unique_addresses) %in% get_generic_parameters('geocodio', address_only = TRUE)]
@@ -103,7 +103,8 @@ verbose = FALSE, api_url = NULL, geocodio_v = 1.6, limit = 1, ...) {
     names(address_list) <- 1:nrow(address_df)
   }
   
-  if (is.null(api_url)) api_url <- get_geocodio_url(geocodio_v)
+  if (is.null(api_url)) api_url <- get_geocodio_url(geocodio_v, reverse = FALSE, geocodio_hipaa = geocodio_hipaa)
+  
   # Construct query
   query_parameters <- get_api_query('geocodio', list(limit = limit, api_key = get_key('geocodio')),
                                     custom_parameters = custom_query)
