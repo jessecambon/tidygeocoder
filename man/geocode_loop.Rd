@@ -7,7 +7,7 @@
 geocode_loop(
   .tbl,
   queries,
-  common_params = list(),
+  global_params = list(),
   query_names = NULL,
   stack = TRUE,
   cascade = TRUE,
@@ -21,7 +21,7 @@ geocode_loop(
 \item{queries}{list of lists parameter. Each list contains parameters for a query
 (ie. \code{list(list(method = 'osm'), list(method = 'census'), ...)})}
 
-\item{common_params}{list parameter. Contains arguments that should be used for all queries.
+\item{global_params}{list parameter. Contains arguments that should be used for all queries.
 (ie. \code{list(full_results = TRUE, unique_only = TRUE)})}
 
 \item{query_names}{an optional vector of names to use for labeling the queries.}

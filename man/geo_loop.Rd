@@ -6,7 +6,7 @@
 \usage{
 geo_loop(
   queries,
-  common_params = list(),
+  global_params = list(),
   address = NULL,
   street = NULL,
   city = NULL,
@@ -21,7 +21,7 @@ geo_loop(
 \item{queries}{list of lists parameter. Each list contains parameters for a query
 (ie. \code{list(list(method = 'osm'), list(method = 'census'), ...)})}
 
-\item{common_params}{list parameter. Contains arguments that should be used for all queries.
+\item{global_params}{list parameter. Contains arguments that should be used for all queries.
 (ie. \code{list(full_results = TRUE, unique_only = TRUE)})}
 
 \item{address}{single line address (ie. '1600 Pennsylvania Ave NW, Washington, DC').

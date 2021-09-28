@@ -62,8 +62,6 @@ geocode_loop <- function(.tbl, queries, global_params = list(), query_names = NU
   # TODO: add a 'not found' column/item in the list that is returned to separate out
   # the addresses that are not found
   
-  # TODO: add preemptive checking of parameters by running all the queries with no_query = TRUE and a tryCatch
-  
   # TODO: order the results properly
   
   # add global arguments to each query
@@ -80,6 +78,31 @@ geocode_loop <- function(.tbl, queries, global_params = list(), query_names = NU
     if (length(query_names) != length(queries)) {
       stop('query_names parameter must contain one name per query provided. see ?geocode_loop')
     }
+  }
+  
+  # Sanity check all queries (ie. make sure no queries have a mistyped argument, etc.)
+  for (query in queries_prepped) {
+    query[['no_query']] <- TRUE
+    
+    tryCatch(
+      expr = {
+        suppressMessages(do.call(geocode, query))
+      },
+      error = function(e) {
+        message('The following error was produced:\n')
+        message(e)
+        
+        message('\n\nBy these query parameters:\n')
+        for (name in names(query)) {
+          # don't display .tbl parameter for now
+          if (name != '.tbl') message(paste0(name, ' = ', query[[name]]))
+        } 
+        
+      },
+      finally = {
+        message('')
+      }
+    )    
   }
   
   # iterate through the queries (list of lists) and execute each query
