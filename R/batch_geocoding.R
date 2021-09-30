@@ -4,7 +4,7 @@
 # @param address_pack packaged addresses object
 # Vintage must be defined if return = 'geographies'
 batch_census <- function(unique_addresses,
-     return_type = 'locations', timeout = 20, full_results = FALSE, custom_query = list(), api_url = NULL,
+     api_options = list(), timeout = 20, full_results = FALSE, custom_query = list(), api_url = NULL,
      lat = 'lat', long = 'long', verbose = FALSE, ...) {
   
   if (!'street' %in% names(unique_addresses) & (!'address' %in% names(unique_addresses))) {
@@ -13,12 +13,12 @@ batch_census <- function(unique_addresses,
   
   location_cols <- c('id', 'input_address', 'match_indicator', 'match_type','matched_address', 
           'coords', 'tiger_line_id', 'tiger_side')
-  return_cols <- switch(return_type,
+  return_cols <- switch(api_options[["census_return_type"]],
           'locations' = location_cols,
           'geographies' = c(location_cols, c('state_fips', 'county_fips', 'census_tract', 'census_block'))
   )
   
-  if (is.null(api_url)) api_url <- get_census_url(return_type, 'addressbatch')
+  if (is.null(api_url)) api_url <- get_census_url(api_options[["census_return_type"]], 'addressbatch')
   
   num_addresses <- nrow(unique_addresses)
 
@@ -36,7 +36,7 @@ batch_census <- function(unique_addresses,
   utils::write.table(input_df, tmp, row.names = FALSE, col.names = FALSE, sep = ',', na = '')
   
   # Construct query
-  # NOTE - request will fail if vintage and benchmark are invalid for return_type = 'geographies'
+  # NOTE - request will fail if vintage and benchmark are invalid for census_return_type = 'geographies'
   query_parameters <- get_api_query('census', custom_parameters = custom_query)
   if (verbose == TRUE) display_query(api_url, query_parameters)
   
@@ -46,7 +46,7 @@ batch_census <- function(unique_addresses,
   
   # force certain geographies columns to be read in as character instead of numeric
   # to preserve leading zeros (for FIPS codes)
-  column_classes <- ifelse(return_type == 'geographies',
+  column_classes <- ifelse(api_options[["census_return_type"]] == 'geographies',
        c('state_fips' = 'character',
          'county_fips' = 'character',
          'census_tract' = 'character',
@@ -84,8 +84,9 @@ batch_census <- function(unique_addresses,
 # Batch geocoding with geocodio
 # ... are arguments passed from the geo() function
 # https://www.geocod.io/docs/#batch-geocoding
-batch_geocodio <- function(unique_addresses, lat = 'lat', long = 'long', timeout = 20, full_results = FALSE, custom_query = list(),
-verbose = FALSE, api_url = NULL, geocodio_v = 1.6, limit = 1, ...) {
+batch_geocodio <- function(unique_addresses, lat = 'lat', long = 'long', timeout = 20, 
+          full_results = FALSE, custom_query = list(), verbose = FALSE, api_url = NULL, 
+        api_options = list(), limit = 1, ...) {
   
   # limit the dataframe to legitimate arguments
   address_df <- unique_addresses[names(unique_addresses) %in% get_generic_parameters('geocodio', address_only = TRUE)]
@@ -103,7 +104,7 @@ verbose = FALSE, api_url = NULL, geocodio_v = 1.6, limit = 1, ...) {
     names(address_list) <- 1:nrow(address_df)
   }
   
-  if (is.null(api_url)) api_url <- get_geocodio_url(geocodio_v)
+  if (is.null(api_url)) api_url <- get_geocodio_url(api_options[["geocodio_v"]])
   # Construct query
   query_parameters <- get_api_query('geocodio', list(limit = limit, api_key = get_key('geocodio')),
                                     custom_parameters = custom_query)
@@ -145,7 +146,7 @@ verbose = FALSE, api_url = NULL, geocodio_v = 1.6, limit = 1, ...) {
 # ... are arguments passed from the geo() function
 # https://developer.here.com/documentation/batch-geocoder/dev_guide/topics/introduction.html
 batch_here <- function(unique_addresses, lat = 'lat', long = 'long', timeout = 20, full_results = FALSE, custom_query = list(),
-                       verbose = FALSE, api_url = NULL, geocodio_v = 1.6, limit = 1, 
+                       verbose = FALSE, api_url = NULL, limit = 1, 
                        here_request_id = NULL, ...) {
 
   # https://developer.here.com/documentation/batch-geocoder/dev_guide/topics/quick-start-batch-geocode.html
@@ -465,7 +466,7 @@ batch_tomtom <- function(unique_addresses, lat = 'lat', long = 'long',
 batch_mapquest <-  function(unique_addresses, lat = "lat", long = "long",
                             timeout = 20, full_results = FALSE, custom_query = list(),
                             verbose = FALSE, api_url = NULL, limit = 1, 
-                            mapquest_open = FALSE, ...) {
+                            api_options = list(), ...) {
     # limit the dataframe to legitimate arguments
     address_df <- unique_addresses[names(unique_addresses) %in% get_generic_parameters("mapquest", address_only = TRUE)]
 
@@ -480,7 +481,7 @@ batch_mapquest <-  function(unique_addresses, lat = "lat", long = "long",
                      mode = "single", full_results = full_results,
                      custom_query = custom_query, verbose = verbose,
                      api_url = api_url, limit = limit,
-                     mapquest_open = mapquest_open)
+                     mapquest_open = api_options[["mapquest_open"]])
 
       # rename lat/long columns
       names(results)[names(results) == "lat"] <- lat
@@ -492,13 +493,11 @@ batch_mapquest <-  function(unique_addresses, lat = "lat", long = "long",
     # Multiple via POST ----
     # https://developer.mapquest.com/documentation/geocoding-api/batch/post/
     if (is.null(api_url)) {
-      url_domain <- if (mapquest_open) "http://open" else  "http://www"
-      
+      url_domain <- if (api_options[["mapquest_open"]]) "http://open" else  "http://www"
       api_url <- paste0(url_domain, ".mapquestapi.com/geocoding/v1/batch")
     }
 
     # Construct query - for display only
-
     query_parameters <- get_api_query("mapquest", 
                                       list(limit = limit, api_key = get_key("mapquest")),
                                       custom_parameters = custom_query)
@@ -520,7 +519,6 @@ batch_mapquest <-  function(unique_addresses, lat = "lat", long = "long",
     )
 
     ## Query API ----
-
     query_results <- query_api(api_url, query_parameters, mode = "list",
                                input_list = address_list, timeout = timeout)
 
