@@ -32,8 +32,7 @@ geo(
   verbose = isTRUE(getOption("tidygeocoder.verbose")),
   no_query = FALSE,
   custom_query = list(),
-  api_options = list(census_return_type = "locations", iq_region = "us", geocodio_v =
-    1.6, mapbox_permanent = FALSE, mapquest_open = FALSE),
+  api_options = list(),
   return_type = "locations",
   iq_region = "us",
   geocodio_v = 1.6,

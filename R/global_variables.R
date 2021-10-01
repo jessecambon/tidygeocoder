@@ -21,3 +21,6 @@ pkg.globals$geographic_limitations <- list(
 
 # these methods do not support reverse geocoding
 pkg.globals$no_reverse_methods <- c('census')
+
+pkg.globals$default_api_options <- list(census_return_type = "locations", iq_region = "us", 
+                                        geocodio_v = 1.6, mapbox_permanent = FALSE, mapquest_open = FALSE)

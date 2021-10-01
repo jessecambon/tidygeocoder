@@ -145,8 +145,7 @@ geo <- function(address = NULL,
     flatten = TRUE, batch_limit = NULL, batch_limit_error = TRUE, 
     verbose = isTRUE(getOption("tidygeocoder.verbose")), no_query = FALSE, 
     custom_query = list(), 
-    api_options = list(census_return_type = "locations", iq_region = "us", 
-                       geocodio_v = 1.6, mapbox_permanent = FALSE, mapquest_open = FALSE), 
+    api_options = list(), 
     return_type = 'locations', iq_region = 'us', geocodio_v = 1.6, 
     param_error = TRUE, mapbox_permanent = FALSE, here_request_id = NULL,
     mapquest_open = FALSE, init = TRUE) {
@@ -156,29 +155,47 @@ geo <- function(address = NULL,
   lat <- rm_quote(deparse(substitute(lat)))
   long <- rm_quote(deparse(substitute(long)))
   
-  # Deprecrate return_type argument
-  lifecycle::deprecate_warn("1.0.4", "geo(return_type)", with = "geo(api_options)")
-  if (return_type != 'locations') api_options[["census_return_type"]] <- return_type
-  
-  if (!(api_options[["return_type"]] %in% c('geographies', 'locations'))) {
-    stop('Invalid return_type argument. See ?geo', call. = FALSE)
+  if (init == TRUE) {
+    # Deprecate return_type argument
+    if (!missing("return_type")) {
+      lifecycle::deprecate_warn("1.0.4", "geo(return_type)", with = "geo(api_options)")
+      api_options[["census_return_type"]] <- return_type
+    }
+    
+    # Deprecate the iq_region argument
+    if (!missing("iq_region")) {
+      lifecycle::deprecate_warn("1.0.4", "geo(iq_region)", with = "geo(api_options)")
+      api_options[["iq_region"]] <- iq_region
+    }
+    
+    # Deprecate the geocodio_v argument
+    if (!missing("geocodio_v")) {
+      lifecycle::deprecate_warn("1.0.4", "geo(geocodio_v)", with = "geo(api_options)")
+      api_options[["geocodio_v"]] <- geocodio_v
+    }
+    
+    # Deprecate the mapbox_permanent argument
+    if (!missing("mapbox_permanent")) {
+      lifecycle::deprecate_warn("1.0.4", "geo(mapbox_permanent)", with = "geo(api_options)")
+      api_options[["mapbox_permanent"]] <- mapbox_permanent  
+    }
+    
+    # Deprecate the mapquest_open argument
+    if (!missing("mapquest_open")) {
+      lifecycle::deprecate_warn("1.0.4", "geo(mapquest_open)", with = "geo(api_options)")
+      api_options[["mapquest_open"]] <- mapquest_open  
+    }
   }
   
-  # Deprecate the iq_region argument
-  lifecycle::deprecate_warn("1.0.4", "geo(iq_region)", with = "geo(api_options)")
-  if (iq_region != 'us') api_options[["iq_region"]] <- iq_region
+  # apply api options defaults for options not specified by the user
+  for (name in names(pkg.globals$default_api_options)) {
+    if (is.null(api_options[[name]])) api_options[[name]] <- pkg.globals$default_api_options[[name]]
+  }
+  rm(name) # prevent name parameter from ending up in `all_args` variable
   
-  # Deprecate the geocodio_v argument
-  lifecycle::deprecate_warn("1.0.4", "geo(geocodio_v)", with = "geo(api_options)")
-  if (geocodio_v != 1.6) api_options[["geocodio_v"]] <- geocodio_v
-  
-  # Deprecate the mapbox_permanent argument
-  lifecycle::deprecate_warn("1.0.4", "geo(mapbox_permanent)", with = "geo(api_options)")
-  if (mapbox_permanent != FALSE) api_options[["mapbox_permanent"]] <- mapbox_permanent  
-  
-  # Deprecate the mapquest_open argument
-  lifecycle::deprecate_warn("1.0.4", "geo(mapquest_open)", with = "geo(api_options)")
-  if (mapquest_open != FALSE) api_options[["mapquest_open"]] <- mapquest_open  
+  if (!(api_options[["census_return_type"]] %in% c('geographies', 'locations'))) {
+    stop('Invalid return_type argument. See ?geo', call. = FALSE)
+  }
   
   # capture all function arguments including default values as a named list.
   # IMPORTANT: make sure to put this statement before any other variables are defined in the function
@@ -204,9 +221,9 @@ geo <- function(address = NULL,
             is.logical(batch_limit_error), is.logical(progress_bar), is.logical(quiet),
             is.numeric(timeout), timeout >= 0, 
             is.list(custom_query),
-            is.logical(options[["mapbox_permanent"]]), 
+            is.logical(api_options[["mapbox_permanent"]]), 
             is.null(here_request_id) || is.character(here_request_id),
-            is.logical(options[["mapquest_open"]])
+            is.logical(api_options[["mapquest_open"]])
     )
   
   check_verbose_quiet(verbose, quiet, reverse = FALSE)
