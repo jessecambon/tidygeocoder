@@ -26,6 +26,7 @@ reverse_geo(
   custom_query = list(),
   iq_region = "us",
   geocodio_v = 1.6,
+  geocodio_hipaa = FALSE,
   mapbox_permanent = FALSE,
   here_request_id = NULL,
   mapquest_open = FALSE,
@@ -114,8 +115,10 @@ Used for testing.}
 version of geocodio API. Used for establishing the API URL
 for the "geocodio" method.}
 
-\item{mapbox_permanent}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} use \code{api_options} parameter instead
-if TRUE then the \code{mapbox.places-permanent}
+\item{geocodio_hipaa}{if TRUE then use geocodio's HIPAA compliant API endpoint}
+
+\item{mapbox_permanent}{if TRUE then the \code{mapbox.places-permanent}
+
 endpoint would be used. Note that this option should be used only if you
 have applied for a permanent account. Unsuccessful requests made by an
 account that does not have access to the endpoint may be billable.}

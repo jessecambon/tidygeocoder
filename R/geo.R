@@ -105,6 +105,7 @@ progress_geo <- function(pb = NULL, ...) {
 #' @param geocodio_v `r lifecycle::badge("deprecated")` use `api_options` parameter instead
 #'   version of geocodio API. Used for establishing the API URL
 #'   for the "geocodio" method.
+#' @param geocodio_hipaa if TRUE then use geocodio's HIPAA compliant API endpoint
 #' @param param_error if TRUE then an error will be thrown if any address parameters are used that are
 #'   invalid for the selected service (`method`). If `method = "cascade"` then no errors will be thrown.
 #' @param mapbox_permanent `r lifecycle::badge("deprecated")` use `api_options` parameter instead
@@ -223,7 +224,7 @@ geo <- function(address = NULL,
             is.list(custom_query),
             is.logical(api_options[["mapbox_permanent"]]), 
             is.null(here_request_id) || is.character(here_request_id),
-            is.logical(api_options[["mapquest_open"]])
+            is.logical(api_options[["mapquest_open"]]), is.logical(api_options[["geocodio_hipaa"]])
     )
   
   check_verbose_quiet(verbose, quiet, reverse = FALSE)
@@ -320,7 +321,7 @@ geo <- function(address = NULL,
   
   # Single address geocoding is used if the method has no batch function or if 
   # mode = 'single' was specified
-  if ((init == TRUE) && ((!(method %in% names(batch_func_map))) || (mode == 'single'))) {
+  if ((init == TRUE) && (mode != 'batch') && ( !(method %in% names(batch_func_map)) || ((num_unique_addresses == 1) || (mode == 'single')) )) {
     
       if (quiet == FALSE) {
         query_start_message(method, num_unique_addresses, reverse = FALSE, batch = FALSE)
@@ -352,7 +353,7 @@ geo <- function(address = NULL,
       }
       
   # Batch geocoding --------------------------------------------------------------------------
-  if ((init == TRUE) || (mode == 'batch')) {
+  if (init == TRUE) {
     
     if (verbose == TRUE) message('Executing batch geocoding...\n')
     
@@ -450,7 +451,8 @@ geo <- function(address = NULL,
   if (is.null(api_url)) {
     api_url <- get_api_url(method, reverse = FALSE, return_type = api_options[['census_return_type']],
                 search = search, geocodio_v = api_options[["geocodio_v"]], iq_region = api_options[["iq_region"]], 
-                mapbox_permanent = api_options[["mapbox_permanent"]], mapquest_open = api_options[["mapquest_open"]])
+                mapbox_permanent = api_options[["mapbox_permanent"]], mapquest_open = api_options[["mapquest_open"]],
+                          geocodio_hipaa = api_options[["geocodio_hipaa"]])
   }
   
   ## Workaround for Mapbox/TomTom - The search_text should be in the API URL

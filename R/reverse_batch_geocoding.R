@@ -5,9 +5,9 @@
 # ... are arguments passed from the reverse_geo() function
 # https://www.geocod.io/docs/#batch-geocoding
 reverse_batch_geocodio <- function(lat, long, address = 'address', timeout = 20, full_results = FALSE, custom_query = list(),
-                                   verbose = FALSE, api_url = NULL, geocodio_v = 1.6, limit = 1, ...) {
+                                   verbose = FALSE, api_url = NULL, geocodio_v = 1.6, geocodio_hipaa = FALSE, limit = 1, ...) {
   
-  if (is.null(api_url)) api_url <- get_geocodio_url(geocodio_v, reverse = TRUE)
+  if (is.null(api_url)) api_url <- get_geocodio_url(geocodio_v, reverse = TRUE, geocodio_hipaa = geocodio_hipaa)
   
   # Construct query
   query_parameters <- get_api_query('geocodio', list(limit = limit, api_key = get_key('geocodio')),
