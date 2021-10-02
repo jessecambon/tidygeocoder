@@ -98,14 +98,14 @@ test_that("Test geo() and reverse_geo() error handling", {
   expect_error(geo(no_query = TRUE, address = 'abc', api_options = list(mapbox_permanent = "AA")))
   
   # invalid here_request_id parameter
-  expect_error(geo(no_query = TRUE, address = 'abc', method = 'here', here_request_id  = 12345))
-  expect_error(reverse_geo(no_query = TRUE, lat = 1, long = 2, method = 'here', here_request_id  = 12345))
+  expect_error(geo(no_query = TRUE, address = 'abc', method = 'here', api_options = list(here_request_id  = 12345)))
+  expect_error(reverse_geo(no_query = TRUE, lat = 1, long = 2, method = 'here', api_options = list(here_request_id  = 12345)))
   
   # here specific batch issue for here_request_id
   expect_error(reverse_geo(no_query = TRUE, lat = c(0,1), long = c(0,0), 
-      method = 'here', here_request_id = 'asdf', return_coords = TRUE, mode = 'batch'))
+      method = 'here', api_options = list(here_request_id = 'asdf'), return_coords = TRUE, mode = 'batch'))
   expect_error(geo(no_query = TRUE, address = c('xyz', 'abc'),
-      method = 'here', here_request_id = 'asdf', return_addresses = TRUE, mode = 'batch'))
+      method = 'here', api_options = list(here_request_id = 'asdf'), return_addresses = TRUE, mode = 'batch'))
   
   
   # Test batch limit detection and error/warning toggling - geo()

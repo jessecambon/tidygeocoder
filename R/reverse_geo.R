@@ -83,11 +83,6 @@ get_coord_parameters <- function(custom_query, method, lat, long) {
 #'    `return_coords` to FALSE does not prevent this.
 #'
 #' @param batch_limit `r get_batch_limit_documentation(reverse = TRUE)`
-#' @param here_request_id This parameter would return a previous HERE batch job,
-#'   identified by its RequestID. The RequestID of a batch job is displayed 
-#'   when `verbose = TRUE`. Note that this option would ignore the 
-#'   current `lat, long` parameters on the request, so `return_coords`
-#'   needs to be FALSE.
 #' @inheritParams geo
 #'     
 #' @inherit geo return
@@ -143,6 +138,13 @@ reverse_geo <- function(lat, long, method = 'osm', address = address, limit = 1,
       api_options[["mapquest_open"]] <- mapquest_open
       mapquest_open <- NULL
     }
+    
+    # Deprecate the here_request_id argument
+    if (!missing("here_request_id")) {
+      lifecycle::deprecate_warn("1.0.4", "reverse_geo(here_request_id)", with = "reverse_geo(api_options)")
+      api_options[["here_request_id"]] <- here_request_id
+      here_request_id <- NULL
+    }
   }
   
   # apply api options defaults for options not specified by the user
@@ -161,7 +163,7 @@ reverse_geo <- function(lat, long, method = 'osm', address = address, limit = 1,
       is.logical(quiet),
       is.list(custom_query), 
       is.logical(api_options[["mapbox_permanent"]]),
-      is.null(here_request_id) || is.character(here_request_id),
+      is.null(api_options[["here_request_id"]]) || is.character(api_options[["here_request_id"]]),
       is.logical(api_options[["mapquest_open"]]), is.logical(api_options[["geocodio_hipaa"]])
   )
   
@@ -253,7 +255,7 @@ reverse_geo <- function(lat, long, method = 'osm', address = address, limit = 1,
     if (verbose == TRUE) message(paste0('Batch limit: ', 
                                         format(batch_limit, big.mark = ',')))
     
-    if (method == 'here') check_here_return_input(here_request_id, return_coords, reverse = TRUE)
+    if (method == 'here') check_here_return_input(api_options[["here_request_id"]], return_coords, reverse = TRUE)
     
     # Enforce batch limit if needed
     if (num_unique_coords > batch_limit) {

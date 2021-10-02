@@ -109,6 +109,11 @@ progress_geo <- function(pb = NULL, ...) {
 #'       endpoint may be billable.
 #'   - `mapbox_open` (default: `FALSE`): set to `TRUE` to use the Open Geocoding endpoint which
 #'      relies solely on OpenStreetMap data
+#'   - `here_request_id` (default: `NULL`): this parameter would return a previous HERE batch job,
+#'      identified by its RequestID. The RequestID of a batch job is displayed 
+#'      when `verbose` is TRUE. Note that this option would ignore the 
+#'      current `address` parameter on the request, so the `return_addresses` or `return_coords`
+#'      parameters need to be FALSE.
 #'  
 #' @param return_type `r lifecycle::badge("deprecated")` use the `api_options` parameter instead
 #' @param iq_region `r lifecycle::badge("deprecated")` use the `api_options` parameter instead
@@ -116,11 +121,7 @@ progress_geo <- function(pb = NULL, ...) {
 #' @param param_error if TRUE then an error will be thrown if any address parameters are used that are
 #'   invalid for the selected service (`method`). If `method = "cascade"` then no errors will be thrown.
 #' @param mapbox_permanent `r lifecycle::badge("deprecated")` use `api_options` parameter instead
-#' @param here_request_id This parameter would return a previous HERE batch job,
-#'   identified by its RequestID. The RequestID of a batch job is displayed 
-#'   when `verbose` is TRUE. Note that this option would ignore the 
-#'   current `address` parameter on the request, so `return_addresses`
-#'   needs to be FALSE.
+#' @param here_request_id `r lifecycle::badge("deprecated")` use the `api_options` parameter instead
 #' @param mapquest_open `r lifecycle::badge("deprecated")` use the `api_options` parameter instead
 #'   
 #' @param init internal package use only. Set to TRUE for initial query and FALSE otherwise.
@@ -195,6 +196,13 @@ geo <- function(address = NULL,
       api_options[["mapquest_open"]] <- mapquest_open
       mapquest_open <- NULL
     }
+    
+    # Deprecate the here_request_id argument
+    if (!missing("here_request_id")) {
+      lifecycle::deprecate_warn("1.0.4", "geo(here_request_id)", with = "geo(api_options)")
+      api_options[["here_request_id"]] <- here_request_id
+      here_request_id <- NULL
+    }
   }
   
   # apply api options defaults for options not specified by the user
@@ -231,7 +239,7 @@ geo <- function(address = NULL,
             is.numeric(timeout), timeout >= 0, 
             is.list(custom_query),
             is.logical(api_options[["mapbox_permanent"]]), 
-            is.null(here_request_id) || is.character(here_request_id),
+            is.null(api_options[["here_request_id"]]) || is.character(api_options[["here_request_id"]]),
             is.logical(api_options[["mapquest_open"]]), is.logical(api_options[["geocodio_hipaa"]])
     )
   
@@ -394,7 +402,7 @@ geo <- function(address = NULL,
       batch_unique_addresses <- address_pack$unique
     }
     
-    if (method == 'here') check_here_return_input(here_request_id, return_addresses, reverse = FALSE)
+    if (method == 'here') check_here_return_input(api_options[["here_request_id"]], return_addresses, reverse = FALSE)
     
   
     # Display message to user on the batch query
