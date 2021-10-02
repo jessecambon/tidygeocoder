@@ -32,6 +32,7 @@ geo(
   verbose = isTRUE(getOption("tidygeocoder.verbose")),
   no_query = FALSE,
   custom_query = list(),
+  api_options = list(),
   return_type = "locations",
   iq_region = "us",
   geocodio_v = 1.6,
@@ -145,16 +146,22 @@ Used for testing.}
 \item{custom_query}{API-specific parameters to be used, passed as a named list
 (ie. \code{list(extratags = 1)}.}
 
-\item{return_type}{only used when \code{method = "census"}. Two possible values:
+\item{api_options}{a named list of parameters to customize the API endpoint
+(ex. \code{list(mapquest_open = TRUE)})}
+
+\item{return_type}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} use \code{api_options} parameter instead
+only used when \code{method = "census"}. Two possible values:
 \itemize{
 \item \code{"locations"} (default)
 \item \code{"geographies"}: returns additional geography columns.
 See the Census geocoder API documentation for more details.
 }}
 
-\item{iq_region}{"us" (default) or "eu". Used for establishing the API URL for the "iq" method.}
+\item{iq_region}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} use \code{api_options} parameter instead
+"us" (default) or "eu". Used for establishing the API URL for the "iq" method.}
 
-\item{geocodio_v}{version of geocodio API. Used for establishing the API URL
+\item{geocodio_v}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} use \code{api_options} parameter instead
+version of geocodio API. Used for establishing the API URL
 for the "geocodio" method.}
 
 \item{geocodio_hipaa}{if TRUE then use geocodio's HIPAA compliant API endpoint}
@@ -162,7 +169,8 @@ for the "geocodio" method.}
 \item{param_error}{if TRUE then an error will be thrown if any address parameters are used that are
 invalid for the selected service (\code{method}). If \code{method = "cascade"} then no errors will be thrown.}
 
-\item{mapbox_permanent}{if TRUE then the \code{mapbox.places-permanent}
+\item{mapbox_permanent}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} use \code{api_options} parameter instead
+if TRUE then the \code{mapbox.places-permanent}
 endpoint would be used. Note that this option should be used only if you
 have applied for a permanent account. Unsuccessful requests made by an
 account that does not have access to the endpoint may be billable.}
@@ -173,7 +181,8 @@ when \code{verbose} is TRUE. Note that this option would ignore the
 current \code{address} parameter on the request, so \code{return_addresses}
 needs to be FALSE.}
 
-\item{mapquest_open}{if TRUE then MapQuest would use the Open Geocoding
+\item{mapquest_open}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} use \code{api_options} parameter instead
+if TRUE then MapQuest would use the Open Geocoding
 endpoint, that relies solely on data contributed to OpenStreetMap.}
 
 \item{init}{internal package use only. Set to TRUE for initial query and FALSE otherwise.}
