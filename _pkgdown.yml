@@ -16,6 +16,8 @@ reference:
   - geo 
   - reverse_geocode
   - reverse_geo
+  - geocode_combine
+  - geo_combine
 - title: Reference Datasets
   desc: Datasets used for geocoder queries and documentation
   contents:

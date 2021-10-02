@@ -2,7 +2,7 @@
 % Please edit documentation in R/geocode_combine.R
 \name{geocode_combine}
 \alias{geocode_combine}
-\title{New function to replace method = 'cascade'}
+\title{Combine multiple geocoding queries}
 \usage{
 geocode_combine(
   .tbl,
@@ -40,5 +40,15 @@ the following query. If FALSE then all queries will attempt to geocode all addre
 tibble (dataframe)
 }
 \description{
-
+Replaces method = 'cascade'
+}
+\examples{
+\donttest{
+geocode_combine(sample_addresses,
+ queries = list(list(method = 'census'), list(method = 'osm')),
+ global_params = list(address = 'addr'), cascade = TRUE)
+}
+}
+\seealso{
+\link{geo_combine} \link{geo} \link{geocode}
 }

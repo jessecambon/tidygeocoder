@@ -182,6 +182,9 @@
 <li>Added the ability to set default arguments with <code><a href="https://rdrr.io/r/base/options.html">options()</a></code> for <code>verbose</code>, <code>quiet</code>, and <code>progress_bar</code>. For instance <code><a href="https://rdrr.io/r/base/options.html">options(tidygeocoder.verbose = TRUE)</a></code> changes the default of <code>verbose</code> from FALSE to TRUE.</li>
 <li>Fixed a bug for Bing forward geocoding <code><a href="../reference/geo.html">geo()</a></code> when no results are found (<a href="https://github.com/jessecambon/tidygeocoder/issues/112"><a href='https://github.com/jessecambon/tidygeocoder/issues/112'>#112</a></a>).</li>
 <li>Fixed a bug when reverse geocoding when passing a set of exclusively duplicate coordinates (1 unique coordinate) (<a href="https://github.com/jessecambon/tidygeocoder/issues/129"><a href='https://github.com/jessecambon/tidygeocoder/issues/129'>#129</a></a>).</li>
+<li>Added function <code>geocode_loop()</code> to replace <code>method="cascade"</code>
+</li>
+<li>Deprecated <code>method = "cascade"</code> and the <code>cascade_order</code>, <code>param_error</code>, and <code>batch_limit_error</code> arguments for <code><a href="../reference/geocode.html">geocode()</a></code> and <code><a href="../reference/geo.html">geo()</a></code>.</li>
 </ul>
 </div>
     <div id="tidygeocoder-103" class="section level1">

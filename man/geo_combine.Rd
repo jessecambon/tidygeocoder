@@ -2,7 +2,7 @@
 % Please edit documentation in R/geocode_combine.R
 \name{geo_combine}
 \alias{geo_combine}
-\title{New function to replace method = 'cascade'}
+\title{Combine multiple geocoding queries}
 \usage{
 geo_combine(
   queries,
@@ -46,5 +46,13 @@ Do not combine with the address component arguments below
 tibble (dataframe)
 }
 \description{
-placeholder
+Replaces method = 'cascade'
+}
+\examples{
+\donttest{
+geo_combine(address = c(""), list(list(method = 'census')))
+}
+}
+\seealso{
+\link{geocode_combine} \link{geo} \link{geocode}
 }

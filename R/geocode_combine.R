@@ -1,7 +1,7 @@
 
-#' New function to replace method = 'cascade'
+#' Combine multiple geocoding queries
 #' 
-#' @description  placeholder
+#' @description  Replaces method = 'cascade'
 #' 
 #' @param queries list of lists parameter. Each list contains parameters for a query
 #'   (ie. `list(list(method = 'osm'), list(method = 'census'), ...)`)
@@ -10,6 +10,11 @@
 #' @inheritParams geo
 #' @param ... arguments passed to the [geocode_combine] function
 #' @inherit geo return
+#' @examples
+#' \donttest{
+#' geo_combine(queries = list(list(method = 'census')), address = c(""))
+#' }
+#' @seealso [geocode_combine] [geo] [geocode]
 #' @export
 geo_combine <- function(queries, global_params = list(), address = NULL, 
                      street = NULL, city = NULL, county = NULL, state = NULL, postalcode = NULL, country = NULL, ...) {
@@ -35,9 +40,9 @@ geo_combine <- function(queries, global_params = list(), address = NULL,
 }
 
 
-#' New function to replace method = 'cascade'
+#' Combine multiple geocoding queries
 #' 
-#' @description 
+#' @description Replaces method = 'cascade'
 #' 
 #' @param queries list of lists parameter. Each list contains parameters for a query
 #'   (ie. `list(list(method = 'osm'), list(method = 'census'), ...)`)
@@ -50,6 +55,13 @@ geo_combine <- function(queries, global_params = list(), address = NULL,
 #' @param query_names an optional vector of names to use for labeling the queries.
 #' @inheritParams geocode
 #' @inherit geo return
+#' @examples
+#' \donttest{
+#' geocode_combine(sample_addresses,
+#'  queries = list(list(method = 'census'), list(method = 'osm')),
+#'  global_params = list(address = 'addr'), cascade = TRUE)
+#' }
+#' @seealso [geo_combine] [geo] [geocode]
 #' @export
 geocode_combine <- function(.tbl, queries, global_params = list(), query_names = NULL, stack = TRUE, cascade = TRUE, lat = lat, long = long) {
   
@@ -61,8 +73,6 @@ geocode_combine <- function(.tbl, queries, global_params = list(), query_names =
   
   # TODO: add a 'not found' column/item in the list that is returned to separate out
   # the addresses that are not found
-  
-  # TODO: order the results properly
   
   # add global arguments to each query
   queries_prepped <- lapply(queries, function(x) {

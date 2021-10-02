@@ -286,7 +286,8 @@ Do not combine with the address component arguments below
 <li><p><code>"mapquest"</code>: <a href='https://developer.mapquest.com/documentation/geocoding-api/'>MapQuest</a>.  An API key must be stored in "MAPQUEST_API_KEY". Batch geocoding is supported.</p></li>
 <li><p><code>"bing"</code>: <a href='https://docs.microsoft.com/en-us/bingmaps/rest-services/locations/'>Bing</a>.  An API key must be stored in "BINGMAPS_API_KEY". Batch geocoding is supported, but must be explicitly called with <code>mode = "batch"</code>.</p></li>
 <li><p><code>"geoapify"</code>: <a href='https://www.geoapify.com/geocoding-api'>Geoapify</a>.  An API key must be stored in "GEOAPIFY_KEY".</p></li>
-<li><p><code>"cascade"</code> : First uses one geocoding service and then uses
+<li><p><code>"cascade"</code> <a href='https://lifecycle.r-lib.org/articles/stages.html#deprecated'><img src='figures/lifecycle-deprecated.svg' alt='[Deprecated]' /></a> use <a href='geocode_combine.html'>geocode_combine</a> or <a href='geo_combine.html'>geo_combine</a> instead.
+The "cascade" method first uses one geocoding service and then uses
 a second geocoding service if the first service didn't return results.
 The services and order is specified by the cascade_order argument.
 Note that this is not compatible with <code>full_results = TRUE</code> as geocoding
@@ -295,7 +296,7 @@ services have different columns that they return.</p></li>
     </tr>
     <tr>
       <th>cascade_order</th>
-      <td><p>a vector with two character values for the method argument
+      <td><p><a href='https://lifecycle.r-lib.org/articles/stages.html#deprecated'><img src='figures/lifecycle-deprecated.svg' alt='[Deprecated]' /></a> a vector with two character values for the method argument
 in the order in which the geocoding services will be attempted for <code>method = "cascade"</code>
 (ie. <code><a href='https://rdrr.io/r/base/c.html'>c("census", "geocodio")</a></code>)</p></td>
     </tr>
@@ -377,7 +378,7 @@ Defaults to the value in <a href='batch_limit_reference.html'>batch_limit_refere
     </tr>
     <tr>
       <th>batch_limit_error</th>
-      <td><p>if TRUE then an error is thrown if the number of addresses exceeds the batch limit.
+      <td><p><a href='https://lifecycle.r-lib.org/articles/stages.html#deprecated'><img src='figures/lifecycle-deprecated.svg' alt='[Deprecated]' /></a> if TRUE then an error is thrown if the number of addresses exceeds the batch limit.
 (if executing a batch query). This is reverted to FALSE when using the cascade method.</p></td>
     </tr>
     <tr>
@@ -413,7 +414,7 @@ for the "geocodio" method.</p></td>
     </tr>
     <tr>
       <th>param_error</th>
-      <td><p>if TRUE then an error will be thrown if any address parameters are used that are
+      <td><p><a href='https://lifecycle.r-lib.org/articles/stages.html#deprecated'><img src='figures/lifecycle-deprecated.svg' alt='[Deprecated]' /></a> if TRUE then an error will be thrown if any address parameters are used that are
 invalid for the selected service (<code>method</code>). If <code>method = "cascade"</code> then no errors will be thrown.</p></td>
     </tr>
     <tr>
@@ -453,7 +454,7 @@ endpoint, that relies solely on data contributed to OpenStreetMap.</p></td>
     <pre class="examples"><div class='input'><span class='co'># \donttest{</span>
 <span class='fu'>geo</span><span class='op'>(</span>street <span class='op'>=</span> <span class='st'>"600 Peachtree Street NE"</span>, city <span class='op'>=</span> <span class='st'>"Atlanta"</span>,
  state <span class='op'>=</span> <span class='st'>"Georgia"</span>, method <span class='op'>=</span> <span class='st'>"census"</span>, full_results <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'>Passing 1 address to the US Census batch geocoder - 04:53 PM</span></div><div class='output co'>#&gt; <span class='message'>Query completed in: 0.9 seconds</span></div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 1 × 12</span>
+</div><div class='output co'>#&gt; <span class='message'>Passing 1 address to the US Census batch geocoder - 05:29 PM</span></div><div class='output co'>#&gt; <span class='message'>Query completed in: 2.2 seconds</span></div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 1 × 12</span>
 #&gt;   street  city  state   lat  long    id input_address match_indicator match_type
 #&gt;   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>         <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>           <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>     
 #&gt; <span style='color: #BCBCBC;'>1</span> 600 Pe… Atla… Geor…  33.8 -<span style='color: #BB0000;'>84.4</span>     1 <span style='color: #949494;'>"</span>600 Peachtr… Match           Non_Exact 
@@ -461,7 +462,7 @@ endpoint, that relies solely on data contributed to OpenStreetMap.</p></td>
 #&gt; <span style='color: #949494;'>#   tiger_side &lt;chr&gt;</span></div><div class='input'>
 <span class='fu'>geo</span><span class='op'>(</span>address <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Tokyo, Japan"</span>, <span class='st'>"Lima, Peru"</span>, <span class='st'>"Nairobi, Kenya"</span><span class='op'>)</span>,
  method <span class='op'>=</span> <span class='st'>'osm'</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'>Passing 3 addresses to the Nominatim single address geocoder</span></div><div class='output co'>#&gt; <span class='message'>Query completed in: 3 seconds</span></div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 3 × 3</span>
+</div><div class='output co'>#&gt; <span class='message'>Passing 3 addresses to the Nominatim single address geocoder</span></div><div class='output co'>#&gt; <span class='message'>Query completed in: 3.1 seconds</span></div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 3 × 3</span>
 #&gt;   address           lat  long
 #&gt;   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>           <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>
 #&gt; <span style='color: #BCBCBC;'>1</span> Tokyo, Japan    35.7  140. 

@@ -28,7 +28,13 @@
     <loc>https://jessecambon.github.io/tidygeocoder/reference/geo_census.html</loc>
   </url>
   <url>
+    <loc>https://jessecambon.github.io/tidygeocoder/reference/geo_combine.html</loc>
+  </url>
+  <url>
     <loc>https://jessecambon.github.io/tidygeocoder/reference/geocode.html</loc>
+  </url>
+  <url>
+    <loc>https://jessecambon.github.io/tidygeocoder/reference/geocode_combine.html</loc>
   </url>
   <url>
     <loc>https://jessecambon.github.io/tidygeocoder/reference/get_api_query.html</loc>
