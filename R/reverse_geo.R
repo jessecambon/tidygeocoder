@@ -120,24 +120,28 @@ reverse_geo <- function(lat, long, method = 'osm', address = address, limit = 1,
     if (!missing("iq_region")) {
       lifecycle::deprecate_warn("1.0.4", "reverse_geo(iq_region)", with = "reverse_geo(api_options)")
       api_options[["iq_region"]] <- iq_region
+      iq_region <- NULL
     }
     
     # Deprecate the geocodio_v argument
     if (!missing("geocodio_v")) {
       lifecycle::deprecate_warn("1.0.4", "reverse_geo(geocodio_v)", with = "reverse_geo(api_options)")
       api_options[["geocodio_v"]] <- geocodio_v
+      geocodio_v <- NULL
     }
     
     # Deprecate the mapbox_permanent argument
     if (!missing("mapbox_permanent")) {
       lifecycle::deprecate_warn("1.0.4", "reverse_geo(mapbox_permanent)", with = "reverse_geo(api_options)")
-      api_options[["mapbox_permanent"]] <- mapbox_permanent  
+      api_options[["mapbox_permanent"]] <- mapbox_permanent
+      mapbox_permanent <- NULL
     }
     
     # Deprecate the mapquest_open argument
     if (!missing("mapquest_open")) {
       lifecycle::deprecate_warn("1.0.4", "reverse_geo(mapquest_open)", with = "reverse_geo(api_options)")
-      api_options[["mapquest_open"]] <- mapquest_open  
+      api_options[["mapquest_open"]] <- mapquest_open
+      mapquest_open <- NULL
     }
   }
   
@@ -148,6 +152,8 @@ reverse_geo <- function(lat, long, method = 'osm', address = address, limit = 1,
   # IMPORTANT: make sure to put this statement before any other variables are defined in the function
   all_args <- as.list(environment())
   all_args$init <- FALSE # any following queries are not the initial query
+  # remove NULL arguments
+  all_args[sapply(all_args, is.null)] <- NULL
   
   # Check argument inputs
   stopifnot(is.logical(verbose), is.logical(no_query), is.logical(flatten),
@@ -303,8 +309,9 @@ reverse_geo <- function(lat, long, method = 'osm', address = address, limit = 1,
   
   # Set API URL (if not already set) ----------------------------------------
   if (is.null(api_url)) {
-    api_url <- get_api_url(method, reverse = TRUE, geocodio_v = geocodio_v, iq_region = iq_region,
-                           mapbox_permanent = mapbox_permanent, mapquest_open = mapquest_open, geocodio_hipaa = geocodio_hipaa)
+    api_url <- get_api_url(method, reverse = TRUE, geocodio_v = api_options[["geocodio_v"]], iq_region = api_options[["iq_region"]],
+                           mapbox_permanent = api_options[["mapbox_permanent"]], 
+                           mapquest_open = api_options[["mapquest_open"]], geocodio_hipaa = api_options[["geocodio_hipaa"]])
   }
   
   ## Workaround for Mapbox/TomTom - The search_text should be in the url

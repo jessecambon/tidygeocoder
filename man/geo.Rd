@@ -212,6 +212,9 @@ geo(street = "600 Peachtree Street NE", city = "Atlanta",
 
 geo(address = c("Tokyo, Japan", "Lima, Peru", "Nairobi, Kenya"),
  method = 'osm')
+ 
+geo("100 Main St New York, NY", 
+ method = "census", api_options = list(census_return_type = 'geographies'))
 
 geo(county = 'Jefferson', state = "Kentucky", country = "US",
      method = 'osm')

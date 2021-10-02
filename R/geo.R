@@ -133,6 +133,9 @@ progress_geo <- function(pb = NULL, ...) {
 #' 
 #' geo(address = c("Tokyo, Japan", "Lima, Peru", "Nairobi, Kenya"),
 #'  method = 'osm')
+#'  
+#' geo("100 Main St New York, NY", 
+#'  method = "census", api_options = list(census_return_type = 'geographies'))
 #' 
 #' geo(county = 'Jefferson', state = "Kentucky", country = "US",
 #'      method = 'osm')
@@ -162,30 +165,35 @@ geo <- function(address = NULL,
     if (!missing("return_type")) {
       lifecycle::deprecate_warn("1.0.4", "geo(return_type)", with = "geo(api_options)")
       api_options[["census_return_type"]] <- return_type
+      return_type <- NULL
     }
     
     # Deprecate the iq_region argument
     if (!missing("iq_region")) {
       lifecycle::deprecate_warn("1.0.4", "geo(iq_region)", with = "geo(api_options)")
       api_options[["iq_region"]] <- iq_region
+      iq_region <- NULL
     }
     
     # Deprecate the geocodio_v argument
     if (!missing("geocodio_v")) {
       lifecycle::deprecate_warn("1.0.4", "geo(geocodio_v)", with = "geo(api_options)")
       api_options[["geocodio_v"]] <- geocodio_v
+      geocodio_v <- NULL
     }
     
     # Deprecate the mapbox_permanent argument
     if (!missing("mapbox_permanent")) {
       lifecycle::deprecate_warn("1.0.4", "geo(mapbox_permanent)", with = "geo(api_options)")
-      api_options[["mapbox_permanent"]] <- mapbox_permanent  
+      api_options[["mapbox_permanent"]] <- mapbox_permanent
+      mapbox_permanent <- NULL
     }
     
     # Deprecate the mapquest_open argument
     if (!missing("mapquest_open")) {
       lifecycle::deprecate_warn("1.0.4", "geo(mapquest_open)", with = "geo(api_options)")
-      api_options[["mapquest_open"]] <- mapquest_open  
+      api_options[["mapquest_open"]] <- mapquest_open
+      mapquest_open <- NULL
     }
   }
   
@@ -198,6 +206,8 @@ geo <- function(address = NULL,
   if (method != 'cascade') {
     all_args$init <- FALSE  # follow up queries are not the initial query
   }
+  # remove NULL arguments
+  all_args[sapply(all_args, is.null)] <- NULL
 
   # Check parameter arguments --------------------------------------------------------
 
@@ -228,7 +238,6 @@ geo <- function(address = NULL,
   check_verbose_quiet(verbose, quiet, reverse = FALSE)
   check_common_args('geo', mode, limit, batch_limit, min_time)
   check_method(method, reverse = FALSE, mode, batch_func_map, cascade_order = cascade_order)
-  
   
   if (no_query == TRUE) verbose <- TRUE
   start_time <- Sys.time() # start timer

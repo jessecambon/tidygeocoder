@@ -465,7 +465,7 @@ needs to be FALSE.</p></td>
     <pre class="examples"><div class='input'><span class='co'># \donttest{</span>
 <span class='fu'>geo</span><span class='op'>(</span>street <span class='op'>=</span> <span class='st'>"600 Peachtree Street NE"</span>, city <span class='op'>=</span> <span class='st'>"Atlanta"</span>,
  state <span class='op'>=</span> <span class='st'>"Georgia"</span>, method <span class='op'>=</span> <span class='st'>"census"</span>, full_results <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'>Passing 1 address to the US Census single address geocoder</span></div><div class='output co'>#&gt; <span class='message'>Query completed in: 4 seconds</span></div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 1 × 20</span>
+</div><div class='output co'>#&gt; <span class='message'>Passing 1 address to the US Census single address geocoder</span></div><div class='output co'>#&gt; <span class='message'>Query completed in: 9.5 seconds</span></div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 1 × 20</span>
 #&gt;   street  city  state   lat  long matchedAddress tigerLine.tiger… tigerLine.side
 #&gt;   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>          <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>            <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>         
 #&gt; <span style='color: #BCBCBC;'>1</span> 600 Pe… Atla… Geor…  33.8 -<span style='color: #BB0000;'>84.4</span> 600 PEACHTREE… 17343689         L             
@@ -483,7 +483,13 @@ needs to be FALSE.</p></td>
 #&gt;   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>           <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>
 #&gt; <span style='color: #BCBCBC;'>1</span> Tokyo, Japan    35.7  140. 
 #&gt; <span style='color: #BCBCBC;'>2</span> Lima, Peru     -<span style='color: #BB0000;'>12.1</span>  -<span style='color: #BB0000;'>77.0</span>
-#&gt; <span style='color: #BCBCBC;'>3</span> Nairobi, Kenya  -<span style='color: #BB0000;'>1.30</span>  36.8</div><div class='input'>
+#&gt; <span style='color: #BCBCBC;'>3</span> Nairobi, Kenya  -<span style='color: #BB0000;'>1.30</span>  36.8</div><div class='input'> 
+<span class='fu'>geo</span><span class='op'>(</span><span class='st'>"100 Main St New York, NY"</span>, 
+ method <span class='op'>=</span> <span class='st'>"census"</span>, api_options <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>census_return_type <span class='op'>=</span> <span class='st'>'geographies'</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='message'>Passing 1 address to the US Census single address geocoder</span></div><div class='output co'>#&gt; <span class='message'>Query completed in: 2.1 seconds</span></div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 1 × 3</span>
+#&gt;   address                    lat  long
+#&gt;   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>                    <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>
+#&gt; <span style='color: #BCBCBC;'>1</span> 100 Main St New York, NY  40.7 -<span style='color: #BB0000;'>74.0</span></div><div class='input'>
 <span class='fu'>geo</span><span class='op'>(</span>county <span class='op'>=</span> <span class='st'>'Jefferson'</span>, state <span class='op'>=</span> <span class='st'>"Kentucky"</span>, country <span class='op'>=</span> <span class='st'>"US"</span>,
      method <span class='op'>=</span> <span class='st'>'osm'</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; <span class='message'>Passing 1 address to the Nominatim single address geocoder</span></div><div class='output co'>#&gt; <span class='message'>Query completed in: 1 seconds</span></div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 1 × 5</span>
