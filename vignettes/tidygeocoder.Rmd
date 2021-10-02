@@ -72,7 +72,6 @@ census_c1 <- address_components %>%
 knitr::kable(census_c1)
 ```
 
-
 The `cascade` method first tries to use one geocoding service and then again attempts to geocode addresses that were not found using a second geocoding service. By default it first uses the Census Geocoder and then OSM, but you can specify any two methods you want (in order) with the `cascade_order` argument.
 
 ```{r}
@@ -94,12 +93,12 @@ cascade1 <- addr_comp1 %>% geocode(
 knitr::kable(cascade1)
 ```
 
-To return the full geocoding service results (not just latitude and longitude), specify `full_results = TRUE`. Additionally, for the Census geocoder you can get fields for geographies such as Census tracts by specifying `return_type = 'geographies'`. Be sure to use `full_results = TRUE` with `return_type = 'geographies'` in order to allow the Census geography columns to be returned.
+To return the full geocoding service results (not just latitude and longitude), specify `full_results = TRUE`. Additionally, for the Census geocoder you can get fields for geographies such as Census tracts by specifying `api_options = list(census_return_type = 'geographies')`. Be sure to use `full_results = TRUE` with the "geographies" return type in order to allow the Census geography columns to be returned.
 
 ```{r}
 census_full1 <- address_single %>% geocode(
   address = singlelineaddress,
-  method = "census", full_results = TRUE, return_type = "geographies"
+  method = "census", full_results = TRUE, api_options = list(census_return_type = 'geographies')
 )
 ```
 
@@ -225,7 +224,7 @@ Additional usage notes for the `geocode()`, `geo()`, `reverse_geocode()`, and `r
 - Set `quiet = TRUE` to silence console logs displayed by default (how many inputs were submitted, to what geocoding service, and the elapsed time). 
 - Use the `progress_bar` argument to control if a progress bar is displayed.
 - The `verbose`, `quiet`, and `progress_bar` arguments can be set globally with `options`. For instance `options(tidygeocoder.verbose = TRUE)` will set verbose to `TRUE` for all queries by default.
-- To specify a custom geocoder API URL, use the `api_url` argument. Alternatively, the `iq_region` and `geocodio_v` arguments are helper functions for customizing the API URL. 
+- To customize the API endpoint, use the `api_options` or `api_url` arguments. See `?geo` or `?reverse_geo` for details.
 - If not specified manually, the `min_time` argument will default to a value based on the maximum query rate of the given geocoding service. If you are using a local Nominatim server or have a commercial geocoder plan that has less restrictive usage limits then you can manually set `min_time` to a lower valuer (such as 0).
 - The `mode` argument can be used to specify whether the batch geocoding or single address/coordinate geocoding should be used. By default batch geocoding will be used if available when more than one address or coordinate is provided (with some noted exceptions for slower batch geocoding services).
 - The `return_addresses` and `return_coords` parameters (for forward and reverse geocoding respectively) can be used to toggle whether the input addresses or coordinates are returned. Setting these parameters to `FALSE` is necessary to use batch geocoding if `limit` is greater than 1 or NULL. 

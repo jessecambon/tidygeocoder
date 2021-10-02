@@ -71,7 +71,7 @@ test_that("Test geo() and reverse_geo() error handling", {
   # incompatible address arguments
   expect_error(geo(no_query = TRUE, address = 'abc', street = 'xyz', no_query = TRUE)) 
   # invalid return_type
-  expect_error(geo(no_query = TRUE, address = 'abc', return_type = 'xyz')) 
+  expect_error(geo(no_query = TRUE, address = 'abc', api_options = list(census_return_type = 'xyz'))) 
   # invalid limit
   expect_error(geo(no_query = TRUE, address = 'abc', limit = 0)) 
   expect_error(reverse_geo(no_query = TRUE, lat = 1, long = 2, limit = 0))
@@ -95,7 +95,7 @@ test_that("Test geo() and reverse_geo() error handling", {
   expect_error(geo('ab', no_query = TRUE, limit = 5, method = 'cascade'))
   
   # invalid mapbox_permanent parameter
-  expect_error(geo(no_query = TRUE, address = 'abc', mapbox_permanent = "AA"))
+  expect_error(geo(no_query = TRUE, address = 'abc', api_options = list(mapbox_permanent = "AA")))
   
   # invalid here_request_id parameter
   expect_error(geo(no_query = TRUE, address = 'abc', method = 'here', here_request_id  = 12345))

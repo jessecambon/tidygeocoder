@@ -203,20 +203,21 @@ API queries.</p>
   method <span class='op'>=</span> <span class='st'>"osm"</span>,
   address <span class='op'>=</span> <span class='va'>address</span>,
   limit <span class='op'>=</span> <span class='fl'>1</span>,
+  full_results <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  mode <span class='op'>=</span> <span class='st'>""</span>,
+  unique_only <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  return_coords <span class='op'>=</span> <span class='cn'>TRUE</span>,
   min_time <span class='op'>=</span> <span class='cn'>NULL</span>,
   progress_bar <span class='op'>=</span> <span class='fu'>show_progress_bar</span><span class='op'>(</span><span class='op'>)</span>,
   quiet <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Logic.html'>isTRUE</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/options.html'>getOption</a></span><span class='op'>(</span><span class='st'>"tidygeocoder.quiet"</span><span class='op'>)</span><span class='op'>)</span>,
   api_url <span class='op'>=</span> <span class='cn'>NULL</span>,
   timeout <span class='op'>=</span> <span class='fl'>20</span>,
-  mode <span class='op'>=</span> <span class='st'>""</span>,
-  full_results <span class='op'>=</span> <span class='cn'>FALSE</span>,
-  unique_only <span class='op'>=</span> <span class='cn'>FALSE</span>,
-  return_coords <span class='op'>=</span> <span class='cn'>TRUE</span>,
   flatten <span class='op'>=</span> <span class='cn'>TRUE</span>,
   batch_limit <span class='op'>=</span> <span class='cn'>NULL</span>,
   verbose <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Logic.html'>isTRUE</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/options.html'>getOption</a></span><span class='op'>(</span><span class='st'>"tidygeocoder.verbose"</span><span class='op'>)</span><span class='op'>)</span>,
   no_query <span class='op'>=</span> <span class='cn'>FALSE</span>,
   custom_query <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='op'>)</span>,
+  api_options <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='op'>)</span>,
   iq_region <span class='op'>=</span> <span class='st'>"us"</span>,
   geocodio_v <span class='op'>=</span> <span class='fl'>1.6</span>,
   mapbox_permanent <span class='op'>=</span> <span class='cn'>FALSE</span>,
@@ -266,6 +267,29 @@ For batch geocoding, limit must be set to 1 (default) if <code>return_coords = T
 Refer to <a href='api_parameter_reference.html'>api_parameter_reference</a> for more details.</p></td>
     </tr>
     <tr>
+      <th>full_results</th>
+      <td><p>returns all available data from the geocoding service if TRUE.
+If FALSE (default) then only a single address column is returned from the geocoding service.</p></td>
+    </tr>
+    <tr>
+      <th>mode</th>
+      <td><p>set to 'batch' to force batch geocoding or 'single' to force single coordinate
+geocoding (one coordinate per query). If not specified then batch geocoding will
+be used if available (given method selected) when multiple coordinates are
+provided; otherwise single address geocoding will be used. For the "here" and "bing" methods the
+batch mode should be explicitly specified with <code>mode = 'batch'</code>.</p></td>
+    </tr>
+    <tr>
+      <th>unique_only</th>
+      <td><p>only return results for unique inputs if TRUE</p></td>
+    </tr>
+    <tr>
+      <th>return_coords</th>
+      <td><p>return input coordinates with results if TRUE. Note that
+most services return the input coordinates with <code>full_results = TRUE</code> and setting
+<code>return_coords</code> to FALSE does not prevent this.</p></td>
+    </tr>
+    <tr>
       <th>min_time</th>
       <td><p>minimum amount of time for a query to take (in seconds). If NULL
 then min_time will be set to the default value specified in <a href='min_time_reference.html'>min_time_reference</a>.</p></td>
@@ -290,29 +314,6 @@ This parameter can be used to specify a local Nominatim server, for instance.</p
     <tr>
       <th>timeout</th>
       <td><p>query timeout (in minutes)</p></td>
-    </tr>
-    <tr>
-      <th>mode</th>
-      <td><p>set to 'batch' to force batch geocoding or 'single' to force single coordinate
-geocoding (one coordinate per query). If not specified then batch geocoding will
-be used if available (given method selected) when multiple coordinates are
-provided; otherwise single address geocoding will be used. For the "here" and "bing" methods the
-batch mode should be explicitly specified with <code>mode = 'batch'</code>.</p></td>
-    </tr>
-    <tr>
-      <th>full_results</th>
-      <td><p>returns all available data from the geocoding service if TRUE.
-If FALSE (default) then only a single address column is returned from the geocoding service.</p></td>
-    </tr>
-    <tr>
-      <th>unique_only</th>
-      <td><p>only return results for unique inputs if TRUE</p></td>
-    </tr>
-    <tr>
-      <th>return_coords</th>
-      <td><p>return input coordinates with results if TRUE. Note that
-most services return the input coordinates with <code>full_results = TRUE</code> and setting
-<code>return_coords</code> to FALSE does not prevent this.</p></td>
     </tr>
     <tr>
       <th>flatten</th>
@@ -340,20 +341,36 @@ Used for testing.</p></td>
 (ie. <code><a href='https://rdrr.io/r/base/list.html'>list(extratags = 1)</a></code>.</p></td>
     </tr>
     <tr>
+      <th>api_options</th>
+      <td><p>a named list of parameters to customize the API endpoint
+(ex. <code><a href='https://rdrr.io/r/base/list.html'>list(geocodio_v = 1.6, geocodio_hipaa = TRUE)</a></code>). Each parameter begins
+with the name of the <code>method</code> (service) it applies to. The possible parameters
+are shown below with their default values.</p><ul>
+<li><p><code>census_return_type</code> (default: <code>"locations"</code>): set to "geographies" to return
+additional geography columns</p></li>
+<li><p><code>iq_region</code> (default: `"us"``): set to "eu" for European Union</p></li>
+<li><p><code>geocodio_v</code> (default: <code>1.6</code>): the version number of the Geocodio API to be used</p></li>
+<li><p><code>geocodio_hipaa</code> (default: <code>FALSE</code>): set to <code>TRUE</code> to use the HIPAA compliant
+Geocodio API endpoint</p></li>
+<li><p><code>mapbox_permanent</code> (default: <code>FALSE</code>): set to <code>TRUE</code> to use the <code>mapbox.places-permanent</code>
+endpoint. Note that this option should be used only if you have applied for a permanent
+account. Unsuccessful requests made by an account that does not have access to the
+endpoint may be billable.</p></li>
+<li><p><code>mapbox_open</code> (default: <code>FALSE</code>): set to <code>TRUE</code> to use the Open Geocoding endpoint which
+relies solely on OpenStreetMap data</p></li>
+</ul></td>
+    </tr>
+    <tr>
       <th>iq_region</th>
-      <td><p>"us" (default) or "eu". Used for establishing the API URL for the "iq" method.</p></td>
+      <td><p><a href='https://lifecycle.r-lib.org/articles/stages.html#deprecated'><img src='figures/lifecycle-deprecated.svg' alt='[Deprecated]' /></a> use the <code>api_options</code> parameter instead</p></td>
     </tr>
     <tr>
       <th>geocodio_v</th>
-      <td><p>version of geocodio API. Used for establishing the API URL
-for the "geocodio" method.</p></td>
+      <td><p><a href='https://lifecycle.r-lib.org/articles/stages.html#deprecated'><img src='figures/lifecycle-deprecated.svg' alt='[Deprecated]' /></a> use the <code>api_options</code> parameter instead</p></td>
     </tr>
     <tr>
       <th>mapbox_permanent</th>
-      <td><p>if TRUE then the <code>mapbox.places-permanent</code>
-endpoint would be used. Note that this option should be used only if you
-have applied for a permanent account. Unsuccessful requests made by an
-account that does not have access to the endpoint may be billable.</p></td>
+      <td><p><a href='https://lifecycle.r-lib.org/articles/stages.html#deprecated'><img src='figures/lifecycle-deprecated.svg' alt='[Deprecated]' /></a> use <code>api_options</code> parameter instead</p></td>
     </tr>
     <tr>
       <th>here_request_id</th>
@@ -365,8 +382,7 @@ needs to be FALSE.</p></td>
     </tr>
     <tr>
       <th>mapquest_open</th>
-      <td><p>if TRUE then MapQuest would use the Open Geocoding
-endpoint, that relies solely on data contributed to OpenStreetMap.</p></td>
+      <td><p><a href='https://lifecycle.r-lib.org/articles/stages.html#deprecated'><img src='figures/lifecycle-deprecated.svg' alt='[Deprecated]' /></a> use the <code>api_options</code> parameter instead</p></td>
     </tr>
     <tr>
       <th>init</th>
