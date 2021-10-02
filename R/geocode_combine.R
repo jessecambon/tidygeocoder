@@ -8,16 +8,16 @@
 #' @param global_params list parameter. Contains arguments that should be used for all queries.
 #'   (ie. `list(full_results = TRUE, unique_only = TRUE)`)
 #' @inheritParams geo
-#' @param ... arguments passed to the [geocode_loop] function
+#' @param ... arguments passed to the [geocode_combine] function
 #' @inherit geo return
 #' @export
-geo_loop <- function(queries, global_params = list(), address = NULL, 
+geo_combine <- function(queries, global_params = list(), address = NULL, 
                      street = NULL, city = NULL, county = NULL, state = NULL, postalcode = NULL, country = NULL, ...) {
   
   # Check argument inputs
-  check_argument_inputs(address, street, city, county, state, postalcode, country, 'geo_loop')
+  check_argument_inputs(address, street, city, county, state, postalcode, country, 'geo_combine')
   
-  # prepare data for geocode_loop() function
+  # prepare data for geocode_combine() function
    input_df <- tibble::tibble(
     address = address, 
     street = street, city = city, county = county, state = state, postalcode = postalcode, country = country
@@ -30,7 +30,7 @@ geo_loop <- function(queries, global_params = list(), address = NULL,
      )
    
   return(
-    geocode_loop(.tbl = input_df, global_params = global_params_combi, ...)
+    geocode_combine(.tbl = input_df, global_params = global_params_combi, ...)
   )
 }
 
@@ -51,7 +51,7 @@ geo_loop <- function(queries, global_params = list(), address = NULL,
 #' @inheritParams geocode
 #' @inherit geo return
 #' @export
-geocode_loop <- function(.tbl, queries, global_params = list(), query_names = NULL, stack = TRUE, cascade = TRUE, lat = lat, long = long) {
+geocode_combine <- function(.tbl, queries, global_params = list(), query_names = NULL, stack = TRUE, cascade = TRUE, lat = lat, long = long) {
   
   lat <- rm_quote(deparse(substitute(lat)))
   long <- rm_quote(deparse(substitute(long)))
@@ -76,7 +76,7 @@ geocode_loop <- function(.tbl, queries, global_params = list(), query_names = NU
     query_names <- unlist(lapply(queries_prepped, function(q) q[['method']]))
   } else {
     if (length(query_names) != length(queries)) {
-      stop('query_names parameter must contain one name per query provided. see ?geocode_loop')
+      stop('query_names parameter must contain one name per query provided. see ?geocode_combine')
     }
   }
   
@@ -155,4 +155,4 @@ geocode_loop <- function(.tbl, queries, global_params = list(), query_names = NU
 
 }
 
-# a <- geocode_loop(sample_addresses, list(list(method = 'census'), list(method = 'osm')), list(address = 'addr'), cascade = TRUE)
+# a <- geocode_combine(sample_addresses, list(list(method = 'census'), list(method = 'osm')), list(address = 'addr'), cascade = TRUE)

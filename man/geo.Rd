@@ -74,7 +74,8 @@ Do not combine with the address component arguments below
 \item \code{"mapquest"}: \href{https://developer.mapquest.com/documentation/geocoding-api/}{MapQuest}.  An API key must be stored in "MAPQUEST_API_KEY". Batch geocoding is supported.
 \item \code{"bing"}: \href{https://docs.microsoft.com/en-us/bingmaps/rest-services/locations/}{Bing}.  An API key must be stored in "BINGMAPS_API_KEY". Batch geocoding is supported, but must be explicitly called with \code{mode = "batch"}.
 \item \code{"geoapify"}: \href{https://www.geoapify.com/geocoding-api}{Geoapify}.  An API key must be stored in "GEOAPIFY_KEY".
-\item \code{"cascade"} \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} : First uses one geocoding service and then uses
+\item \code{"cascade"} \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} use \link{geocode_combine} or \link{geo_combine} instead.
+The "cascade" method first uses one geocoding service and then uses
 a second geocoding service if the first service didn't return results.
 The services and order is specified by the cascade_order argument.
 Note that this is not compatible with \code{full_results = TRUE} as geocoding

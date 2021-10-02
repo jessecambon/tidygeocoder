@@ -48,7 +48,8 @@ progress_geo <- function(pb = NULL, ...) {
 #' @param country country (ie. 'Japan')
 #' 
 #' @param method `r get_method_documentation(reverse = FALSE)`
-#'  - `"cascade"` `r lifecycle::badge("deprecated")` : First uses one geocoding service and then uses
+#'  - `"cascade"` `r lifecycle::badge("deprecated")` use [geocode_combine] or [geo_combine] instead.
+#'     The "cascade" method first uses one geocoding service and then uses
 #'     a second geocoding service if the first service didn't return results.
 #'     The services and order is specified by the cascade_order argument. 
 #'     Note that this is not compatible with `full_results = TRUE` as geocoding
