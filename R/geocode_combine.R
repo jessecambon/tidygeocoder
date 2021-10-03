@@ -138,21 +138,22 @@ geocode_combine <- function(.tbl, queries, global_params = list(), query_names =
     na_indices <- is.na(result[[lat]]) | is.na(result[[long]])
     
     # which addresses were not found
-    if (cascade == TRUE) {
-      #distinct_found <- dplyr::distinct(result[names(result) %in% intersect(names(query), pkg.globals$address_arg_names]))
-      not_found <- result[na_indices, intersect(colnames(result), colnames(.tbl))]
-    }
+    not_found <- result[na_indices, intersect(colnames(result), colnames(.tbl))]
     
     # addresses that were found (non-NA results)
     found <- result[!is.na(result[[lat]]) & !is.na(result[[long]]), ]
     
     # aggregate results
-    all_results <- c(all_results, list(found)) 
+    all_results <- if (cascade == TRUE) c(all_results, list(found)) else c(all_results, list(result))
   }
   
-  
   names(all_results) <- query_names
-  if (nrow(not_found) != 0) all_results[["none"]] <- not_found
+  
+  # if there are addresses that no method found then in cascade then 
+  # separate them into their own list item
+  if (cascade == TRUE) {
+    if(nrow(not_found) != 0) all_results[["none"]] <- not_found
+  }
   
   # stack all results in one dataframe if stack == TRUE
   # otherwise return list

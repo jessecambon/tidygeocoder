@@ -61,7 +61,7 @@ test_that("geocode null/empty addresses", {
 test_that("Test geo() and reverse_geo() error handling", {
   
   # invalid cascade_order
-  expect_error(geo(no_query = TRUE, address = 'abc', method = 'cascade', cascade_order = 1))
+  #expect_error(geo(no_query = TRUE, address = 'abc', method = 'cascade', cascade_order = 1))
   # invalid method
   expect_error(geo(no_query = TRUE, address = 'abc', method = '123'))
   expect_error(reverse_geo(no_query = TRUE, lat = 1, long = 2, method = '123'))
