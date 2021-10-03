@@ -17,21 +17,22 @@ geo(
   lat = lat,
   long = long,
   limit = 1,
+  full_results = FALSE,
+  mode = "",
+  unique_only = FALSE,
+  return_addresses = TRUE,
   min_time = NULL,
   progress_bar = show_progress_bar(),
   quiet = isTRUE(getOption("tidygeocoder.quiet")),
   api_url = NULL,
   timeout = 20,
-  mode = "",
-  full_results = FALSE,
-  unique_only = FALSE,
-  return_addresses = TRUE,
   flatten = TRUE,
   batch_limit = NULL,
   batch_limit_error = TRUE,
   verbose = isTRUE(getOption("tidygeocoder.verbose")),
   no_query = FALSE,
   custom_query = list(),
+  api_options = list(),
   return_type = "locations",
   iq_region = "us",
   geocodio_v = 1.6,
@@ -96,6 +97,21 @@ the default \code{limit} value of the selected geocoding service.
 For batch geocoding, limit must be set to 1 (default) if \code{return_addresses = TRUE}.
 Refer to \link{api_parameter_reference} for more details.}
 
+\item{full_results}{returns all available data from the geocoding service if TRUE.
+If FALSE (default) then only latitude and longitude columns are returned from the geocoding service.}
+
+\item{mode}{set to 'batch' to force batch geocoding or 'single' to force single address
+geocoding (one address per query). If not specified then batch geocoding will
+be used if available (given method selected) when multiple addresses are
+provided; otherwise single address geocoding will be used. For the "here" and "bing" methods the
+batch mode should be explicitly specified with \code{mode = 'batch'}.}
+
+\item{unique_only}{only return results for unique inputs if TRUE}
+
+\item{return_addresses}{return input addresses with results if TRUE. Note that
+most services return the input addresses with \code{full_results = TRUE} and setting
+return_addresses to FALSE does not prevent this.}
+
 \item{min_time}{minimum amount of time for a query to take (in seconds). If NULL
 then min_time will be set to the default value specified in \link{min_time_reference}.}
 
@@ -111,21 +127,6 @@ queries will be suppressed. Can be set permanently with \code{options(tidgeocode
 This parameter can be used to specify a local Nominatim server, for instance.}
 
 \item{timeout}{query timeout (in minutes)}
-
-\item{mode}{set to 'batch' to force batch geocoding or 'single' to force single address
-geocoding (one address per query). If not specified then batch geocoding will
-be used if available (given method selected) when multiple addresses are
-provided; otherwise single address geocoding will be used. For the "here" and "bing" methods the
-batch mode should be explicitly specified with \code{mode = 'batch'}.}
-
-\item{full_results}{returns all available data from the geocoding service if TRUE.
-If FALSE (default) then only latitude and longitude columns are returned from the geocoding service.}
-
-\item{unique_only}{only return results for unique inputs if TRUE}
-
-\item{return_addresses}{return input addresses with results if TRUE. Note that
-most services return the input addresses with \code{full_results = TRUE} and setting
-return_addresses to FALSE does not prevent this.}
 
 \item{flatten}{if TRUE (default) then any nested dataframes in results are flattened if possible.
 Note that in some cases results are flattened regardless such as for
@@ -146,26 +147,36 @@ Used for testing.}
 \item{custom_query}{API-specific parameters to be used, passed as a named list
 (ie. \code{list(extratags = 1)}.}
 
-\item{return_type}{only used when \code{method = "census"}. Two possible values:
+\item{api_options}{a named list of parameters to customize the API endpoint
+(ex. \code{list(geocodio_v = 1.6, geocodio_hipaa = TRUE)}). Each parameter begins
+with the name of the \code{method} (service) it applies to. The possible parameters
+are shown below with their default values.
 \itemize{
-\item \code{"locations"} (default)
-\item \code{"geographies"}: returns additional geography columns.
-See the Census geocoder API documentation for more details.
+\item \code{census_return_type} (default: \code{"locations"}): set to "geographies" to return
+additional geography columns
+\item \code{iq_region} (default: `"us"``): set to "eu" for European Union
+\item \code{geocodio_v} (default: \code{1.6}): the version number of the Geocodio API to be used
+\item \code{geocodio_hipaa} (default: \code{FALSE}): set to \code{TRUE} to use the HIPAA compliant
+Geocodio API endpoint
+\item \code{mapbox_permanent} (default: \code{FALSE}): set to \code{TRUE} to use the \code{mapbox.places-permanent}
+endpoint. Note that this option should be used only if you have applied for a permanent
+account. Unsuccessful requests made by an account that does not have access to the
+endpoint may be billable.
+\item \code{mapbox_open} (default: \code{FALSE}): set to \code{TRUE} to use the Open Geocoding endpoint which
+relies solely on OpenStreetMap data
 }}
 
-\item{iq_region}{"us" (default) or "eu". Used for establishing the API URL for the "iq" method.}
+\item{return_type}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} use the \code{api_options} parameter instead}
 
-\item{geocodio_v}{version of geocodio API. Used for establishing the API URL
-for the "geocodio" method.}
+\item{iq_region}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} use the \code{api_options} parameter instead}
+
+\item{geocodio_v}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} use the \code{api_options} parameter instead}
 
 \item{param_error}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} if TRUE then an error will be thrown if
 any address parameters are used that are invalid for the selected service (\code{method}).
 If \code{method = "cascade"} then no errors will be thrown.}
 
-\item{mapbox_permanent}{if TRUE then the \code{mapbox.places-permanent}
-endpoint would be used. Note that this option should be used only if you
-have applied for a permanent account. Unsuccessful requests made by an
-account that does not have access to the endpoint may be billable.}
+\item{mapbox_permanent}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} use \code{api_options} parameter instead}
 
 \item{here_request_id}{This parameter would return a previous HERE batch job,
 identified by its RequestID. The RequestID of a batch job is displayed
@@ -173,8 +184,7 @@ when \code{verbose} is TRUE. Note that this option would ignore the
 current \code{address} parameter on the request, so \code{return_addresses}
 needs to be FALSE.}
 
-\item{mapquest_open}{if TRUE then MapQuest would use the Open Geocoding
-endpoint, that relies solely on data contributed to OpenStreetMap.}
+\item{mapquest_open}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} use the \code{api_options} parameter instead}
 
 \item{init}{internal package use only. Set to TRUE for initial query and FALSE otherwise.}
 }
@@ -205,6 +215,9 @@ geo(street = "600 Peachtree Street NE", city = "Atlanta",
 
 geo(address = c("Tokyo, Japan", "Lima, Peru", "Nairobi, Kenya"),
  method = 'osm')
+ 
+geo("100 Main St New York, NY", 
+ method = "census", api_options = list(census_return_type = 'geographies'))
 
 geo(county = 'Jefferson', state = "Kentucky", country = "US",
      method = 'osm')

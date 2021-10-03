@@ -345,3 +345,12 @@ api_url_modification <- function(method, api_url, generic_query, custom_query, r
   return(api_url)
   
 }
+
+# apply api options defaults for options not specified by the user.
+# called by geo() and reverse_geo()
+apply_api_options_defaults <- function(api_options) {
+  for (name in names(pkg.globals$default_api_options)) {
+    if (is.null(api_options[[name]])) api_options[[name]] <- pkg.globals$default_api_options[[name]]
+  }
+  return(api_options)
+}

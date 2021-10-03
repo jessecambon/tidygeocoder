@@ -61,6 +61,14 @@ progress_geo <- function(pb = NULL, ...) {
 #' @param lat latitude column name. Can be quoted or unquoted (ie. lat or "lat").
 #' @param long longitude column name. Can be quoted or unquoted (ie. long or "long").
 #' @param limit `r get_limit_documentation(reverse = FALSE, df_input = FALSE)`
+#' 
+#' @param full_results `r get_full_results_documentation(reverse = FALSE)`
+#' @param mode `r get_mode_documentation(reverse = FALSE)`
+#' @param unique_only only return results for unique inputs if TRUE
+#' @param return_addresses return input addresses with results if TRUE. Note that
+#'    most services return the input addresses with `full_results = TRUE` and setting
+#'    return_addresses to FALSE does not prevent this.
+#' 
 #' @param min_time minimum amount of time for a query to take (in seconds). If NULL
 #' then min_time will be set to the default value specified in [min_time_reference].
 #' @param progress_bar if TRUE then a progress bar will be displayed to track query
@@ -72,14 +80,6 @@ progress_geo <- function(pb = NULL, ...) {
 #' @param api_url custom API URL. If specified, the default API URL will be overridden.
 #'  This parameter can be used to specify a local Nominatim server, for instance.
 #' @param timeout query timeout (in minutes)
-#' 
-#' @param mode `r get_mode_documentation(reverse = FALSE)`
-
-#' @param full_results `r get_full_results_documentation(reverse = FALSE)`
-#' @param unique_only only return results for unique inputs if TRUE
-#' @param return_addresses return input addresses with results if TRUE. Note that
-#'    most services return the input addresses with `full_results = TRUE` and setting
-#'    return_addresses to FALSE does not prevent this.
 #' 
 #' @param flatten if TRUE (default) then any nested dataframes in results are flattened if possible.
 #'    Note that in some cases results are flattened regardless such as for
@@ -93,27 +93,38 @@ progress_geo <- function(pb = NULL, ...) {
 
 #' @param custom_query API-specific parameters to be used, passed as a named list 
 #'  (ie. `list(extratags = 1)`.
-#' @param return_type only used when `method = "census"`. Two possible values: 
-#'   - `"locations"` (default)
-#'   - `"geographies"`: returns additional geography columns. 
-#'   See the Census geocoder API documentation for more details.
-#' @param iq_region "us" (default) or "eu". Used for establishing the API URL for the "iq" method.
-#' @param geocodio_v version of geocodio API. Used for establishing the API URL
-#'   for the "geocodio" method.
-#' @param param_error `r lifecycle::badge("deprecated")` if TRUE then an error will be thrown if 
-#'   any address parameters are used that are invalid for the selected service (`method`). 
-#'   If `method = "cascade"` then no errors will be thrown.
-#' @param mapbox_permanent if TRUE then the `mapbox.places-permanent`
-#'   endpoint would be used. Note that this option should be used only if you 
-#'   have applied for a permanent account. Unsuccessful requests made by an 
-#'   account that does not have access to the endpoint may be billable.
-#' @param here_request_id This parameter would return a previous HERE batch job,
-#'   identified by its RequestID. The RequestID of a batch job is displayed 
-#'   when `verbose` is TRUE. Note that this option would ignore the 
-#'   current `address` parameter on the request, so `return_addresses`
-#'   needs to be FALSE.
-#' @param mapquest_open if TRUE then MapQuest would use the Open Geocoding 
-#'   endpoint, that relies solely on data contributed to OpenStreetMap.
+#'  
+#' @param api_options a named list of parameters to customize the API endpoint 
+#'   (ex. `list(geocodio_v = 1.6, geocodio_hipaa = TRUE)`). Each parameter begins
+#'   with the name of the `method` (service) it applies to. The possible parameters
+#'   are shown below with their default values.
+#'   
+#'   - `census_return_type` (default: `"locations"`): set to "geographies" to return
+#'     additional geography columns
+#'   - `iq_region` (default: `"us"``): set to "eu" for European Union
+#'   - `geocodio_v` (default: `1.6`): the version number of the Geocodio API to be used
+#'   - `geocodio_hipaa` (default: `FALSE`): set to `TRUE` to use the HIPAA compliant
+#'      Geocodio API endpoint
+#'   - `mapbox_permanent` (default: `FALSE`): set to `TRUE` to use the `mapbox.places-permanent`
+#'      endpoint. Note that this option should be used only if you have applied for a permanent
+#'       account. Unsuccessful requests made by an account that does not have access to the 
+#'       endpoint may be billable.
+#'   - `mapbox_open` (default: `FALSE`): set to `TRUE` to use the Open Geocoding endpoint which
+#'      relies solely on OpenStreetMap data
+#'   - `here_request_id` (default: `NULL`): this parameter would return a previous HERE batch job,
+#'      identified by its RequestID. The RequestID of a batch job is displayed 
+#'      when `verbose` is TRUE. Note that this option would ignore the 
+#'      current `address` parameter on the request, so the `return_addresses` or `return_coords`
+#'      parameters need to be FALSE.
+#'  
+#' @param return_type `r lifecycle::badge("deprecated")` use the `api_options` parameter instead
+#' @param iq_region `r lifecycle::badge("deprecated")` use the `api_options` parameter instead
+#' @param geocodio_v `r lifecycle::badge("deprecated")` use the `api_options` parameter instead
+#' @param param_error if TRUE then an error will be thrown if any address parameters are used that are
+#'   invalid for the selected service (`method`). If `method = "cascade"` then no errors will be thrown.
+#' @param mapbox_permanent `r lifecycle::badge("deprecated")` use `api_options` parameter instead
+#' @param here_request_id `r lifecycle::badge("deprecated")` use the `api_options` parameter instead
+#' @param mapquest_open `r lifecycle::badge("deprecated")` use the `api_options` parameter instead
 #'   
 #' @param init internal package use only. Set to TRUE for initial query and FALSE otherwise.
 #'    
@@ -125,6 +136,9 @@ progress_geo <- function(pb = NULL, ...) {
 #' 
 #' geo(address = c("Tokyo, Japan", "Lima, Peru", "Nairobi, Kenya"),
 #'  method = 'osm')
+#'  
+#' geo("100 Main St New York, NY", 
+#'  method = "census", api_options = list(census_return_type = 'geographies'))
 #' 
 #' geo(county = 'Jefferson', state = "Kentucky", country = "US",
 #'      method = 'osm')
@@ -134,11 +148,13 @@ progress_geo <- function(pb = NULL, ...) {
 geo <- function(address = NULL, 
     street = NULL, city = NULL, county = NULL, state = NULL, postalcode = NULL, country = NULL,
     method = 'osm', cascade_order = c('census', 'osm'), lat = lat, long = long, limit = 1, 
+    full_results = FALSE, mode = '', unique_only = FALSE, return_addresses = TRUE,
     min_time = NULL, progress_bar = show_progress_bar(), quiet = isTRUE(getOption("tidygeocoder.quiet")), api_url = NULL, timeout = 20,
-    mode = '', full_results = FALSE, unique_only = FALSE, return_addresses = TRUE, 
     flatten = TRUE, batch_limit = NULL, batch_limit_error = TRUE, 
     verbose = isTRUE(getOption("tidygeocoder.verbose")), no_query = FALSE, 
-    custom_query = list(), return_type = 'locations', iq_region = 'us', geocodio_v = 1.6, 
+    custom_query = list(), 
+    api_options = list(), 
+    return_type = 'locations', iq_region = 'us', geocodio_v = 1.6, 
     param_error = TRUE, mapbox_permanent = FALSE, here_request_id = NULL,
     mapquest_open = FALSE, init = TRUE) {
 
@@ -146,6 +162,53 @@ geo <- function(address = NULL,
   # end result - all of these variables become character values
   lat <- rm_quote(deparse(substitute(lat)))
   long <- rm_quote(deparse(substitute(long)))
+  
+  if (init == TRUE) {
+    # Deprecate return_type argument
+    if (!missing("return_type")) {
+      lifecycle::deprecate_warn("1.0.4", "geo(return_type)", with = "geo(api_options)")
+      api_options[["census_return_type"]] <- return_type
+      return_type <- NULL
+    }
+    
+    # Deprecate the iq_region argument
+    if (!missing("iq_region")) {
+      lifecycle::deprecate_warn("1.0.4", "geo(iq_region)", with = "geo(api_options)")
+      api_options[["iq_region"]] <- iq_region
+      iq_region <- NULL
+    }
+    
+    # Deprecate the geocodio_v argument
+    if (!missing("geocodio_v")) {
+      lifecycle::deprecate_warn("1.0.4", "geo(geocodio_v)", with = "geo(api_options)")
+      api_options[["geocodio_v"]] <- geocodio_v
+      geocodio_v <- NULL
+    }
+    
+    # Deprecate the mapbox_permanent argument
+    if (!missing("mapbox_permanent")) {
+      lifecycle::deprecate_warn("1.0.4", "geo(mapbox_permanent)", with = "geo(api_options)")
+      api_options[["mapbox_permanent"]] <- mapbox_permanent
+      mapbox_permanent <- NULL
+    }
+    
+    # Deprecate the mapquest_open argument
+    if (!missing("mapquest_open")) {
+      lifecycle::deprecate_warn("1.0.4", "geo(mapquest_open)", with = "geo(api_options)")
+      api_options[["mapquest_open"]] <- mapquest_open
+      mapquest_open <- NULL
+    }
+    
+    # Deprecate the here_request_id argument
+    if (!missing("here_request_id")) {
+      lifecycle::deprecate_warn("1.0.4", "geo(here_request_id)", with = "geo(api_options)")
+      api_options[["here_request_id"]] <- here_request_id
+      here_request_id <- NULL
+    }
+  }
+  
+  # apply api options defaults for options not specified by the user
+  api_options <- apply_api_options_defaults(api_options)
   
   # capture all function arguments including default values as a named list.
   # IMPORTANT: make sure to put this statement before any other variables are defined in the function
@@ -155,11 +218,17 @@ geo <- function(address = NULL,
   } else {
     lifecycle::deprecate_warn("1.0.4", 'geo(method = "cannot be \\"cascade\\"")', "geocode_combine()")
   }
+  # remove NULL arguments
+  all_args[sapply(all_args, is.null)] <- NULL
 
   # Check parameter arguments --------------------------------------------------------
 
   # Check argument inputs
   check_argument_inputs(address, street, city, county, state, postalcode, country, 'geo') 
+  
+  if (!(api_options[["census_return_type"]] %in% c('geographies', 'locations'))) {
+    stop('Invalid return_type argument. See ?geo', call. = FALSE)
+  }
   
   stopifnot(
     is.logical(verbose), is.logical(no_query), is.logical(flatten), is.logical(param_error),
@@ -167,19 +236,20 @@ geo <- function(address = NULL,
             is.logical(batch_limit_error), is.logical(progress_bar), is.logical(quiet),
             is.numeric(timeout), timeout >= 0, 
             is.list(custom_query),
-            is.logical(mapbox_permanent), 
-            is.null(here_request_id) || is.character(here_request_id),
-            is.logical(mapquest_open)
+            is.logical(api_options[["mapbox_permanent"]]), 
+            is.null(api_options[["here_request_id"]]) || is.character(api_options[["here_request_id"]]),
+            is.logical(api_options[["mapquest_open"]]), is.logical(api_options[["geocodio_hipaa"]])
     )
   
   check_verbose_quiet(verbose, quiet, reverse = FALSE)
   check_common_args('geo', mode, limit, batch_limit, min_time)
   check_method(method, reverse = FALSE, mode, batch_func_map, cascade_order = cascade_order)
   
-  if (!(return_type %in% c('geographies', 'locations'))) {
-    stop('Invalid return_type argument. See ?geo', call. = FALSE)
+  if (!(api_options[["census_return_type"]] %in% c('geographies', 'locations'))) {
+    stop('Invalid census_return_type value. See ?geo', call. = FALSE)
   }
   
+  # Deprecate parameters that only existed because of method = "cascade"
   if (init == TRUE) {
     if (!missing("cascade_order")) lifecycle::deprecate_warn("1.0.4", 'geo(cascade_order)', "geocode_combine()")
     if (!missing("batch_limit_error")) lifecycle::deprecate_warn("1.0.4", 'geo(batch_limit_error)')
@@ -275,7 +345,7 @@ geo <- function(address = NULL,
   
   # Single address geocoding is used if the method has no batch function or if 
   # mode = 'single' was specified
-  if ((init == TRUE) && ((!(method %in% names(batch_func_map))) || (mode == 'single'))) {
+  if ((init == TRUE) && (mode != 'batch') && ( !(method %in% names(batch_func_map)) || ((num_unique_addresses == 1) || (mode == 'single')) )) {
     
       if (quiet == FALSE) {
         query_start_message(method, num_unique_addresses, reverse = FALSE, batch = FALSE)
@@ -307,7 +377,7 @@ geo <- function(address = NULL,
       }
       
   # Batch geocoding --------------------------------------------------------------------------
-  if ((init == TRUE) || (mode == 'batch')) {
+  if (init == TRUE) {
     
     if (verbose == TRUE) message('Executing batch geocoding...\n')
     
@@ -341,9 +411,9 @@ geo <- function(address = NULL,
       batch_unique_addresses <- address_pack$unique
     }
     
-    if (method == 'here') check_here_return_input(here_request_id, return_addresses, reverse = FALSE)
+    if (method == 'here') check_here_return_input(api_options[["here_request_id"]], return_addresses, reverse = FALSE)
     
-    
+  
     # Display message to user on the batch query
     if (quiet == FALSE) {
       query_start_message(
@@ -403,9 +473,10 @@ geo <- function(address = NULL,
   
   # Set API URL (if not already set) ---------------------------
   if (is.null(api_url)) {
-    api_url <- get_api_url(method, reverse = FALSE, return_type = return_type,
-                search = search, geocodio_v = geocodio_v, iq_region = iq_region, 
-                mapbox_permanent = mapbox_permanent, mapquest_open = mapquest_open)
+    api_url <- get_api_url(method, reverse = FALSE, return_type = api_options[['census_return_type']],
+                search = search, geocodio_v = api_options[["geocodio_v"]], iq_region = api_options[["iq_region"]], 
+                mapbox_permanent = api_options[["mapbox_permanent"]], mapquest_open = api_options[["mapquest_open"]],
+                          geocodio_hipaa = api_options[["geocodio_hipaa"]])
   }
   
   ## Workaround for Mapbox/TomTom - The search_text should be in the API URL

@@ -5,9 +5,12 @@
 - Added support for the [Geoapify](https://www.geoapify.com/) service (thanks [@dpprdan](https://github.com/dpprdan)). This service supports batch geocoding, but this capability is currently not implemented in tidygeocoder (see [#119](https://github.com/jessecambon/tidygeocoder/issues/119)).
 - Added the ability to set default arguments with `options()` for `verbose`, `quiet`, and `progress_bar`. For instance `options(tidygeocoder.verbose = TRUE)` changes the default of `verbose` from FALSE to TRUE.
 - Fixed a bug for Bing forward geocoding `geo()` when no results are found ([#112](https://github.com/jessecambon/tidygeocoder/issues/112)).
-- Fixed a bug when reverse geocoding when passing a set of exclusively duplicate coordinates (1 unique coordinate) ([#129](https://github.com/jessecambon/tidygeocoder/issues/129)). 
-- Added function `geocode_loop()` to replace `method="cascade"`
+- Fixed a bug when reverse geocoding when passing a set of exclusively duplicate coordinates (1 unique coordinate) ([#129](https://github.com/jessecambon/tidygeocoder/issues/129)).
+- Added the functions `geocode_combine()` and `geo_combine()` to replace `method="cascade"`
 - Deprecated `method = "cascade"` and the `cascade_order`, `param_error`, and `batch_limit_error` arguments for `geocode()` and `geo()`.
+- Deprecated the `return_type`, `geocodio_v`, `mapbox_permanent`, `mapquest_open`, `iq_region`, and `here_request_id` arguments in favor of the new `api_options` parameter for the `geo()` and `reverse_geo()` functions.
+- Added `api_options = list(geocodio_hipaa = TRUE/FALSE))` parameter to `geo()` and `reverse_geo()` functions to allow the toggling of the HIPAA-compliant Geocodio API endpoint ([#137](https://github.com/jessecambon/tidygeocoder/issues/137)).
+
 
 # tidygeocoder 1.0.3
 
@@ -73,8 +76,11 @@
 
 # tidygeocoder 0.2.5
 
-Per CRAN request, fixed an issue where the example for R/geocode.R failed. Only change required was to add a library(dplyr) statement.
+Per CRAN request, fixed an issue where the example for R/geocode.R failed. The only change required was to add a `library(dplyr)` statement.
 
 # tidygeocoder 0.2.4
 
-Initial CRAN release. Per CRAN request: \* Replaced `print()` with `warning()` to make suppressing console output possible. \* Replaced `\dontrun` with `\donttest` in .R files
+Initial CRAN release. 
+
+- Per CRAN request: \* Replaced `print()` with `warning()` to make suppressing console output possible. \* 
+- Replaced `\dontrun` with `\donttest` in .R files

@@ -75,18 +75,14 @@ get_coord_parameters <- function(custom_query, method, lat, long) {
 #' 
 #' @param address name of the address column (in the output data)
 #' @param limit `r get_limit_documentation(reverse = TRUE, df_input = FALSE)`
-#' 
-#' @param mode `r get_mode_documentation(reverse = TRUE)`
+#'
 #' @param full_results `r get_full_results_documentation(reverse = TRUE)`
+#' @param mode `r get_mode_documentation(reverse = TRUE)`
 #' @param return_coords return input coordinates with results if TRUE. Note that
 #'    most services return the input coordinates with `full_results = TRUE` and setting
 #'    `return_coords` to FALSE does not prevent this.
+#'
 #' @param batch_limit `r get_batch_limit_documentation(reverse = TRUE)`
-#' @param here_request_id This parameter would return a previous HERE batch job,
-#'   identified by its RequestID. The RequestID of a batch job is displayed 
-#'   when `verbose = TRUE`. Note that this option would ignore the 
-#'   current `lat, long` parameters on the request, so `return_coords`
-#'   needs to be FALSE.
 #' @inheritParams geo
 #'     
 #' @inherit geo return
@@ -103,30 +99,72 @@ get_coord_parameters <- function(custom_query, method, lat, long) {
 #' }
 #' @seealso [reverse_geocode] [api_parameter_reference] [min_time_reference] [batch_limit_reference]
 #' @export
-reverse_geo <- function(lat, long, method = 'osm', address = address, limit = 1, min_time = NULL, 
-    progress_bar = show_progress_bar(), quiet = isTRUE(getOption("tidygeocoder.quiet")), api_url = NULL,  
-    timeout = 20, mode = '',  full_results = FALSE, 
-    unique_only = FALSE, return_coords = TRUE, flatten = TRUE, 
+reverse_geo <- function(lat, long, method = 'osm', address = address, limit = 1, 
+    full_results = FALSE, mode = '', unique_only = FALSE, return_coords = TRUE,
+    min_time = NULL, progress_bar = show_progress_bar(), quiet = isTRUE(getOption("tidygeocoder.quiet")), 
+    api_url = NULL, timeout = 20, flatten = TRUE, 
     batch_limit = NULL, verbose = isTRUE(getOption("tidygeocoder.verbose")), 
-    no_query = FALSE, custom_query = list(), iq_region = 'us', geocodio_v = 1.6,
+    no_query = FALSE, custom_query = list(), api_options = list(), iq_region = 'us', geocodio_v = 1.6,
     mapbox_permanent = FALSE, here_request_id = NULL, mapquest_open = FALSE, init = TRUE) {
 
   # NSE eval
   address <- rm_quote(deparse(substitute(address)))
   
+  if (init == TRUE) {
+    # Deprecate the iq_region argument
+    if (!missing("iq_region")) {
+      lifecycle::deprecate_warn("1.0.4", "reverse_geo(iq_region)", with = "reverse_geo(api_options)")
+      api_options[["iq_region"]] <- iq_region
+      iq_region <- NULL
+    }
+    
+    # Deprecate the geocodio_v argument
+    if (!missing("geocodio_v")) {
+      lifecycle::deprecate_warn("1.0.4", "reverse_geo(geocodio_v)", with = "reverse_geo(api_options)")
+      api_options[["geocodio_v"]] <- geocodio_v
+      geocodio_v <- NULL
+    }
+    
+    # Deprecate the mapbox_permanent argument
+    if (!missing("mapbox_permanent")) {
+      lifecycle::deprecate_warn("1.0.4", "reverse_geo(mapbox_permanent)", with = "reverse_geo(api_options)")
+      api_options[["mapbox_permanent"]] <- mapbox_permanent
+      mapbox_permanent <- NULL
+    }
+    
+    # Deprecate the mapquest_open argument
+    if (!missing("mapquest_open")) {
+      lifecycle::deprecate_warn("1.0.4", "reverse_geo(mapquest_open)", with = "reverse_geo(api_options)")
+      api_options[["mapquest_open"]] <- mapquest_open
+      mapquest_open <- NULL
+    }
+    
+    # Deprecate the here_request_id argument
+    if (!missing("here_request_id")) {
+      lifecycle::deprecate_warn("1.0.4", "reverse_geo(here_request_id)", with = "reverse_geo(api_options)")
+      api_options[["here_request_id"]] <- here_request_id
+      here_request_id <- NULL
+    }
+  }
+  
+  # apply api options defaults for options not specified by the user
+  api_options <- apply_api_options_defaults(api_options)
+  
   # capture all function arguments including default values as a named list.
   # IMPORTANT: make sure to put this statement before any other variables are defined in the function
   all_args <- as.list(environment())
   all_args$init <- FALSE # any following queries are not the initial query
+  # remove NULL arguments
+  all_args[sapply(all_args, is.null)] <- NULL
   
   # Check argument inputs
   stopifnot(is.logical(verbose), is.logical(no_query), is.logical(flatten),
       is.logical(full_results), is.logical(unique_only), is.logical(progress_bar), 
       is.logical(quiet),
       is.list(custom_query), 
-      is.logical(mapbox_permanent),
-      is.null(here_request_id) || is.character(here_request_id),
-      is.logical(mapquest_open)
+      is.logical(api_options[["mapbox_permanent"]]),
+      is.null(api_options[["here_request_id"]]) || is.character(api_options[["here_request_id"]]),
+      is.logical(api_options[["mapquest_open"]]), is.logical(api_options[["geocodio_hipaa"]])
   )
   
   check_verbose_quiet(verbose, quiet, reverse = FALSE)
@@ -164,7 +202,7 @@ reverse_geo <- function(lat, long, method = 'osm', address = address, limit = 1,
   }
   
   # Geocode coordinates one at a time in a loop -------------------------------------------------------
-  if ((init == TRUE) & ((!(method %in% names(reverse_batch_func_map))) | (mode == 'single'))) {
+  if ((init == TRUE) && (mode != 'batch') && ((!(method %in% names(reverse_batch_func_map))) || (num_unique_coords == 1) || (mode == 'single'))) {
     
     # construct arguments for a single address query
     # note that non-lat/long related fields go to the MoreArgs argument of mapply
@@ -206,7 +244,7 @@ reverse_geo <- function(lat, long, method = 'osm', address = address, limit = 1,
   }
   
   # Batch geocoding --------------------------------------------------------------------------
-  if ((init == TRUE) || (mode == 'batch')) {
+  if (init == TRUE) {
     if (verbose == TRUE) message('Executing batch geocoding...\n')
     
     # check for conflict between limit and return_coords arguments
@@ -217,7 +255,7 @@ reverse_geo <- function(lat, long, method = 'osm', address = address, limit = 1,
     if (verbose == TRUE) message(paste0('Batch limit: ', 
                                         format(batch_limit, big.mark = ',')))
     
-    if (method == 'here') check_here_return_input(here_request_id, return_coords, reverse = TRUE)
+    if (method == 'here') check_here_return_input(api_options[["here_request_id"]], return_coords, reverse = TRUE)
     
     # Enforce batch limit if needed
     if (num_unique_coords > batch_limit) {
@@ -273,8 +311,9 @@ reverse_geo <- function(lat, long, method = 'osm', address = address, limit = 1,
   
   # Set API URL (if not already set) ----------------------------------------
   if (is.null(api_url)) {
-    api_url <- get_api_url(method, reverse = TRUE, geocodio_v = geocodio_v, iq_region = iq_region,
-                           mapbox_permanent = mapbox_permanent, mapquest_open = mapquest_open)
+    api_url <- get_api_url(method, reverse = TRUE, geocodio_v = api_options[["geocodio_v"]], iq_region = api_options[["iq_region"]],
+                           mapbox_permanent = api_options[["mapbox_permanent"]], 
+                           mapquest_open = api_options[["mapquest_open"]], geocodio_hipaa = api_options[["geocodio_hipaa"]])
   }
   
   ## Workaround for Mapbox/TomTom - The search_text should be in the url

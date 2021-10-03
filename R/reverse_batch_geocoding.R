@@ -5,9 +5,10 @@
 # ... are arguments passed from the reverse_geo() function
 # https://www.geocod.io/docs/#batch-geocoding
 reverse_batch_geocodio <- function(lat, long, address = 'address', timeout = 20, full_results = FALSE, custom_query = list(),
-                                   verbose = FALSE, api_url = NULL, geocodio_v = 1.6, limit = 1, ...) {
+                                   verbose = FALSE, api_url = NULL, api_options = list(), limit = 1, ...) {
   
-  if (is.null(api_url)) api_url <- get_geocodio_url(geocodio_v, reverse = TRUE)
+  if (is.null(api_url)) api_url <- get_geocodio_url(api_options[["geocodio_v"]], 
+                                      reverse = TRUE, geocodio_hipaa = api_options[["geocodio_hipaa"]])
   
   # Construct query
   query_parameters <- get_api_query('geocodio', list(limit = limit, api_key = get_key('geocodio')),
@@ -41,8 +42,8 @@ reverse_batch_geocodio <- function(lat, long, address = 'address', timeout = 20,
 # ... are arguments passed from the reverse_geo() function
 # https://developer.here.com/documentation/batch-geocoder/dev_guide/topics/introduction.html
 reverse_batch_here <- function(lat, long, address = 'address', timeout = 20, full_results = FALSE, custom_query = list(),
-                               verbose = FALSE, api_url = NULL, geocodio_v = 1.6, limit = 1,
-                               here_request_id = NULL, ...) {
+                               verbose = FALSE, api_url = NULL, limit = 1,
+                               api_options = list(), ...) {
   
   # https://developer.here.com/documentation/batch-geocoder/dev_guide/topics/quick-start-batch-geocode.html
   # Specific endpoint
@@ -125,7 +126,7 @@ reverse_batch_here <- function(lat, long, address = 'address', timeout = 20, ful
   # Batch timer
   init_process <- Sys.time()
   
-  if (!is.null(here_request_id)){
+  if (!is.null(api_options[["here_request_id"]])){
     if (verbose) message("HERE: Requesting a previous job")
     
   } else {
@@ -148,10 +149,10 @@ reverse_batch_here <- function(lat, long, address = 'address', timeout = 20, ful
     }
     
     # Retrieve here_request_id
-    here_request_id <- job_result$Response$MetaInfo$RequestId
+    api_options[["here_request_id"]] <- job_result$Response$MetaInfo$RequestId
   }
   
-  if (verbose) message('HERE: RequestID -> ', here_request_id)
+  if (verbose) message('HERE: RequestID -> ', api_options[["here_request_id"]])
   
   # Step 2: Check job until is done ----
   # https://developer.here.com/documentation/batch-geocoder/dev_guide/topics/job-status.html
@@ -162,7 +163,7 @@ reverse_batch_here <- function(lat, long, address = 'address', timeout = 20, ful
   # HERE Batching takes a while!
   while (!current_status %in% c('cancelled', 'failed', 'completed')) {
     Sys.sleep(3) # Arbitrary, 3sec
-    status <- httr::GET(url = paste0(api_url, '/', here_request_id),
+    status <- httr::GET(url = paste0(api_url, '/', api_options[["here_request_id"]]),
                         query = list(action = 'status',
                                      apiKey = get_key('here'))
     )
@@ -189,7 +190,7 @@ reverse_batch_here <- function(lat, long, address = 'address', timeout = 20, ful
   
   # Delete non-completed jobs and return empty
   if (current_status != 'completed') {
-    delete <- httr::DELETE(url = paste0(api_url, '/', here_request_id),
+    delete <- httr::DELETE(url = paste0(api_url, '/', api_options[["here_request_id"]]),
                            query = list(apiKey = get_key('here')))
     
     if (verbose) message('\nHERE: Batch job failure\n')
@@ -198,7 +199,7 @@ reverse_batch_here <- function(lat, long, address = 'address', timeout = 20, ful
   
   # Step 3: GET results and parse ----
   batch_results <-
-    httr::GET(url = paste0(api_url, '/', here_request_id, '/result'),
+    httr::GET(url = paste0(api_url, '/', api_options[["here_request_id"]], '/result'),
               query = list(apiKey = get_key('here'),
                            outputcompressed = FALSE)
     )
@@ -356,7 +357,7 @@ reverse_batch_tomtom <- function(lat, long, address = 'address', timeout = 20, f
 # ... are arguments passed from the reverse_geo() function
 # https://developer.mapquest.com/documentation/geocoding-api/batch/post/
 reverse_batch_mapquest <- function(lat, long, address = 'address', timeout = 20, full_results = FALSE, custom_query = list(),
-                                   verbose = FALSE, api_url = NULL, mapquest_open = FALSE, limit = 1, ...) {
+                                   verbose = FALSE, api_url = NULL, api_options = list(), limit = 1, ...) {
 
 
   latLng <- as.character(paste0(lat, ',', long))
@@ -371,7 +372,7 @@ reverse_batch_mapquest <- function(lat, long, address = 'address', timeout = 20,
     results <- reverse_geo(lat = lat, long = long, mode = 'single', method = 'mapquest',
                            full_results = full_results, custom_query = custom_query, 
                            verbose = verbose, api_url = api_url, limit = limit, 
-                           mapquest_open = mapquest_open)
+                           mapquest_open = api_options[["mapquest_open"]])
     
     # rename lat/long columns
     names(results)[names(results) == 'address'] <- address
@@ -382,7 +383,7 @@ reverse_batch_mapquest <- function(lat, long, address = 'address', timeout = 20,
   # Multiple via POST ----
   # https://developer.mapquest.com/documentation/geocoding-api/batch/post/
   if (is.null(api_url)) {
-    url_domain <- if (mapquest_open) "http://open" else  "http://www"
+    url_domain <- if (api_options[["mapquest_open"]]) "http://open" else  "http://www"
     
     api_url <- paste0(url_domain, ".mapquestapi.com/geocoding/v1/batch")
   }
