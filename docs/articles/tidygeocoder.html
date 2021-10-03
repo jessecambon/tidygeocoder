@@ -161,13 +161,12 @@
 <span class="co">#&gt; Number of Unique Addresses: 2</span>
 <span class="co">#&gt; Executing batch geocoding...</span>
 <span class="co">#&gt; Batch limit: 10,000</span>
-<span class="co">#&gt; Passing 2 addresses to the US Census batch geocoder - 04:46 PM</span>
 <span class="co">#&gt; Querying API URL: https://geocoding.geo.census.gov/geocoder/locations/addressbatch</span>
 <span class="co">#&gt; Passing the following parameters to the API:</span>
 <span class="co">#&gt; format : "json"</span>
 <span class="co">#&gt; benchmark : "Public_AR_Current"</span>
 <span class="co">#&gt; vintage : "Current_Current"</span>
-<span class="co">#&gt; Query completed in: 1.2 seconds</span></code></pre></div>
+
 <table class="table">
 <thead><tr class="header">
 <th align="left">singlelineaddress</th>
@@ -218,8 +217,8 @@
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">census_c1</span> <span class="op">&lt;-</span> <span class="va">address_components</span> <span class="op">%&gt;%</span>
   <span class="fu"><a href="../reference/geocode.html">geocode</a></span><span class="op">(</span>street <span class="op">=</span> <span class="va">street</span>, city <span class="op">=</span> <span class="va">cty</span>, state <span class="op">=</span> <span class="va">st</span>, method <span class="op">=</span> <span class="st">"census"</span><span class="op">)</span>
-<span class="co">#&gt; Passing 2 addresses to the US Census batch geocoder - 04:46 PM</span>
-<span class="co">#&gt; Query completed in: 2.2 seconds</span></code></pre></div>
+<span class="co">#&gt; Passing 2 addresses to the US Census batch geocoder</span>
+<span class="co">#&gt; Query completed in: 1.8 seconds</span></code></pre></div>
 <table class="table">
 <thead><tr class="header">
 <th align="left">street</th>
@@ -259,28 +258,18 @@
   street <span class="op">=</span> <span class="va">street</span>, state <span class="op">=</span> <span class="va">st</span>, city <span class="op">=</span> <span class="va">cty</span>,
   country <span class="op">=</span> <span class="va">country</span>, method <span class="op">=</span> <span class="st">"cascade"</span>
 <span class="op">)</span>
-<span class="co">#&gt; Warning: The `return_type` argument of `geo()` is deprecated as of tidygeocoder 1.0.4.</span>
-<span class="co">#&gt; Please use the `api_options` argument instead.</span>
+<span class="co">#&gt; Warning: The `method` argument of `geo()` cannot be "cascade" as of tidygeocoder 1.0.4.</span>
+<span class="co">#&gt; Please use `geocode_combine()` instead.</span>
 <span class="co">#&gt; This warning is displayed once every 8 hours.</span>
 <span class="co">#&gt; Call `lifecycle::last_lifecycle_warnings()` to see where this warning was generated.</span>
-<span class="co">#&gt; Warning: The `iq_region` argument of `geo()` is deprecated as of tidygeocoder 1.0.4.</span>
-<span class="co">#&gt; Please use the `api_options` argument instead.</span>
+<span class="co">#&gt; Warning: The `batch_limit_error` argument of `geo()` is deprecated as of tidygeocoder 1.0.4.</span>
 <span class="co">#&gt; This warning is displayed once every 8 hours.</span>
 <span class="co">#&gt; Call `lifecycle::last_lifecycle_warnings()` to see where this warning was generated.</span>
-<span class="co">#&gt; Warning: The `geocodio_v` argument of `geo()` is deprecated as of tidygeocoder 1.0.4.</span>
-<span class="co">#&gt; Please use the `api_options` argument instead.</span>
+<span class="co">#&gt; Warning: The `param_error` argument of `geo()` is deprecated as of tidygeocoder 1.0.4.</span>
 <span class="co">#&gt; This warning is displayed once every 8 hours.</span>
 <span class="co">#&gt; Call `lifecycle::last_lifecycle_warnings()` to see where this warning was generated.</span>
-<span class="co">#&gt; Warning: The `mapbox_permanent` argument of `geo()` is deprecated as of tidygeocoder 1.0.4.</span>
-<span class="co">#&gt; Please use the `api_options` argument instead.</span>
-<span class="co">#&gt; This warning is displayed once every 8 hours.</span>
-<span class="co">#&gt; Call `lifecycle::last_lifecycle_warnings()` to see where this warning was generated.</span>
-<span class="co">#&gt; Warning: The `mapquest_open` argument of `geo()` is deprecated as of tidygeocoder 1.0.4.</span>
-<span class="co">#&gt; Please use the `api_options` argument instead.</span>
-<span class="co">#&gt; This warning is displayed once every 8 hours.</span>
-<span class="co">#&gt; Call `lifecycle::last_lifecycle_warnings()` to see where this warning was generated.</span>
-<span class="co">#&gt; Passing 4 addresses to the US Census batch geocoder - 04:46 PM</span>
-<span class="co">#&gt; Query completed in: 1.8 seconds</span>
+<span class="co">#&gt; Passing 4 addresses to the US Census batch geocoder</span>
+<span class="co">#&gt; Query completed in: 1.5 seconds</span>
 <span class="co">#&gt; Passing 2 addresses to the Nominatim single address geocoder</span>
 <span class="co">#&gt; Query completed in: 2 seconds</span></code></pre></div>
 <table class="table">
@@ -338,8 +327,8 @@
   address <span class="op">=</span> <span class="va">singlelineaddress</span>,
   method <span class="op">=</span> <span class="st">"census"</span>, full_results <span class="op">=</span> <span class="cn">TRUE</span>, api_options <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>census_return_type <span class="op">=</span> <span class="st">'geographies'</span><span class="op">)</span>
 <span class="op">)</span>
-<span class="co">#&gt; Passing 2 addresses to the US Census batch geocoder - 04:46 PM</span>
-<span class="co">#&gt; Query completed in: 1.5 seconds</span></code></pre></div>
+<span class="co">#&gt; Passing 2 addresses to the US Census batch geocoder</span>
+<span class="co">#&gt; Query completed in: 1.1 seconds</span></code></pre></div>
 <table class="table">
 <colgroup>
 <col width="16%">

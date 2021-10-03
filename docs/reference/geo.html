@@ -287,7 +287,8 @@ Do not combine with the address component arguments below
 <li><p><code>"mapquest"</code>: <a href='https://developer.mapquest.com/documentation/geocoding-api/'>MapQuest</a>.  An API key must be stored in "MAPQUEST_API_KEY". Batch geocoding is supported.</p></li>
 <li><p><code>"bing"</code>: <a href='https://docs.microsoft.com/en-us/bingmaps/rest-services/locations/'>Bing</a>.  An API key must be stored in "BINGMAPS_API_KEY". Batch geocoding is supported, but must be explicitly called with <code>mode = "batch"</code>.</p></li>
 <li><p><code>"geoapify"</code>: <a href='https://www.geoapify.com/geocoding-api'>Geoapify</a>.  An API key must be stored in "GEOAPIFY_KEY".</p></li>
-<li><p><code>"cascade"</code> : First uses one geocoding service and then uses
+<li><p><code>"cascade"</code> <a href='https://lifecycle.r-lib.org/articles/stages.html#deprecated'><img src='figures/lifecycle-deprecated.svg' alt='[Deprecated]' /></a> use <a href='geocode_combine.html'>geocode_combine</a> or <a href='geo_combine.html'>geo_combine</a> instead.
+The "cascade" method first uses one geocoding service and then uses
 a second geocoding service if the first service didn't return results.
 The services and order is specified by the cascade_order argument.
 Note that this is not compatible with <code>full_results = TRUE</code> as geocoding
@@ -296,8 +297,8 @@ services have different columns that they return.</p></li>
     </tr>
     <tr>
       <th>cascade_order</th>
-      <td><p>a vector with two character values for the method argument
-in the order in which the geocoding services will be attempted for <code>method = "cascade"</code>
+      <td><p><a href='https://lifecycle.r-lib.org/articles/stages.html#deprecated'><img src='figures/lifecycle-deprecated.svg' alt='[Deprecated]' /></a> a vector with two character values for the
+method argument in the order in which the geocoding services will be attempted for <code>method = "cascade"</code>
 (ie. <code><a href='https://rdrr.io/r/base/c.html'>c("census", "geocodio")</a></code>)</p></td>
     </tr>
     <tr>
@@ -349,12 +350,12 @@ then min_time will be set to the default value specified in <a href='min_time_re
       <td><p>if TRUE then a progress bar will be displayed to track query
 progress for single input geocoding (1 input per query). By default the progress bar
 will not be shown for code executed when knitting R Markdown files or code within
-an RStudio notebook chunk.</p></td>
+an RStudio notebook chunk. Can be set permanently with <code><a href='https://rdrr.io/r/base/options.html'>options(tidygeocoder.progress_bar = FALSE)</a></code>.</p></td>
     </tr>
     <tr>
       <th>quiet</th>
-      <td><p>if FALSE then console messages that are displayed by default regarding
-queries will be suppressed</p></td>
+      <td><p>if FALSE (default) then console messages that are displayed by default regarding
+queries will be suppressed. Can be set permanently with <code><a href='https://rdrr.io/r/base/options.html'>options(tidgeocoder.quiet = TRUE)</a></code>.</p></td>
     </tr>
     <tr>
       <th>api_url</th>
@@ -378,12 +379,13 @@ Defaults to the value in <a href='batch_limit_reference.html'>batch_limit_refere
     </tr>
     <tr>
       <th>batch_limit_error</th>
-      <td><p>if TRUE then an error is thrown if the number of addresses exceeds the batch limit.
+      <td><p><a href='https://lifecycle.r-lib.org/articles/stages.html#deprecated'><img src='figures/lifecycle-deprecated.svg' alt='[Deprecated]' /></a> if TRUE then an error is thrown if the number of addresses exceeds the batch limit.
 (if executing a batch query). This is reverted to FALSE when using the cascade method.</p></td>
     </tr>
     <tr>
       <th>verbose</th>
-      <td><p>if TRUE then detailed logs are output to the console. FALSE is default.</p></td>
+      <td><p>if TRUE then detailed logs are output to the console. FALSE is default. Can be set
+permanently with <code><a href='https://rdrr.io/r/base/options.html'>options(tidygeocoder.verbose = TRUE)</a></code></p></td>
     </tr>
     <tr>
       <th>no_query</th>
@@ -429,8 +431,9 @@ relies solely on OpenStreetMap data</p></li>
     </tr>
     <tr>
       <th>param_error</th>
-      <td><p>if TRUE then an error will be thrown if any address parameters are used that are
-invalid for the selected service (<code>method</code>). If <code>method = "cascade"</code> then no errors will be thrown.</p></td>
+      <td><p><a href='https://lifecycle.r-lib.org/articles/stages.html#deprecated'><img src='figures/lifecycle-deprecated.svg' alt='[Deprecated]' /></a> if TRUE then an error will be thrown if
+any address parameters are used that are invalid for the selected service (<code>method</code>).
+If <code>method = "cascade"</code> then no errors will be thrown.</p></td>
     </tr>
     <tr>
       <th>mapbox_permanent</th>
@@ -465,20 +468,19 @@ needs to be FALSE.</p></td>
     <pre class="examples"><div class='input'><span class='co'># \donttest{</span>
 <span class='fu'>geo</span><span class='op'>(</span>street <span class='op'>=</span> <span class='st'>"600 Peachtree Street NE"</span>, city <span class='op'>=</span> <span class='st'>"Atlanta"</span>,
  state <span class='op'>=</span> <span class='st'>"Georgia"</span>, method <span class='op'>=</span> <span class='st'>"census"</span>, full_results <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'>Passing 1 address to the US Census single address geocoder</span></div><div class='output co'>#&gt; <span class='message'>Query completed in: 7.2 seconds</span></div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 1 × 20</span>
-#&gt;   street  city  state   lat  long matchedAddress tigerLine.tiger… tigerLine.side
-#&gt;   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>          <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>            <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>         
-#&gt; <span style='color: #BCBCBC;'>1</span> 600 Pe… Atla… Geor…  33.8 -<span style='color: #BB0000;'>84.4</span> 600 PEACHTREE… 17343689         L             
-#&gt; <span style='color: #949494;'># … with 12 more variables: addressComponents.fromAddress &lt;chr&gt;,</span>
-#&gt; <span style='color: #949494;'>#   addressComponents.toAddress &lt;chr&gt;, addressComponents.preQualifier &lt;chr&gt;,</span>
-#&gt; <span style='color: #949494;'>#   addressComponents.preDirection &lt;chr&gt;, addressComponents.preType &lt;chr&gt;,</span>
-#&gt; <span style='color: #949494;'>#   addressComponents.streetName &lt;chr&gt;, addressComponents.suffixType &lt;chr&gt;,</span>
-#&gt; <span style='color: #949494;'>#   addressComponents.suffixDirection &lt;chr&gt;,</span>
-#&gt; <span style='color: #949494;'>#   addressComponents.suffixQualifier &lt;chr&gt;, addressComponents.city &lt;chr&gt;,</span>
-#&gt; <span style='color: #949494;'>#   addressComponents.state &lt;chr&gt;, addressComponents.zip &lt;chr&gt;</span></div><div class='input'>
+</div><div class='output co'>#&gt; <span class='message'>Passing 1 address to the US Census batch geocoder</span></div><div class='output co'>#&gt; <span class='message'>Query completed in: 1.6 seconds</span></div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 1 × 12</span>
+#&gt;   street  city  state   lat  long    id input_address match_indicator match_type
+#&gt;   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>         <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>           <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>     
+#&gt; <span style='color: #BCBCBC;'>1</span> 600 Pe… Atla… Geor…  33.8 -<span style='color: #BB0000;'>84.4</span>     1 <span style='color: #949494;'>"</span>600 Peachtr… Match           Non_Exact 
+#&gt; <span style='color: #949494;'># … with 3 more variables: matched_address &lt;chr&gt;, tiger_line_id &lt;int&gt;,</span>
+#&gt; <span style='color: #949494;'>#   tiger_side &lt;chr&gt;</span></div><div class='input'>
 <span class='fu'>geo</span><span class='op'>(</span>address <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Tokyo, Japan"</span>, <span class='st'>"Lima, Peru"</span>, <span class='st'>"Nairobi, Kenya"</span><span class='op'>)</span>,
  method <span class='op'>=</span> <span class='st'>'osm'</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'>Passing 3 addresses to the Nominatim single address geocoder</span></div><div class='output co'>#&gt; <span class='message'>Query completed in: 3 seconds</span></div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 3 × 3</span>
+</div><div class='output co'>#&gt; <span class='message'>Passing 3 addresses to the Nominatim single address geocoder</span></div><div class='output co'>#&gt; <span class='message'>
+</span></div><div class='output co'>#&gt; <span class='message'>[-------------------------------------] 0/3 (  0%) Elapsed:  0s Remaining:  ?s</span></div><div class='output co'>#&gt; <span class='message'>
+</span></div><div class='output co'>#&gt; <span class='message'>[===========&gt;-------------------------] 1/3 ( 33%) Elapsed:  1s Remaining:  2s</span></div><div class='output co'>#&gt; <span class='message'>
+</span></div><div class='output co'>#&gt; <span class='message'>[========================&gt;------------] 2/3 ( 67%) Elapsed:  2s Remaining:  1s</span></div><div class='output co'>#&gt; <span class='message'>
+</span></div><div class='output co'>#&gt; <span class='message'>[=====================================] 3/3 (100%) Elapsed:  3s Remaining:  0s</span></div><div class='output co'>#&gt; </div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 3 × 3</span>
 #&gt;   address           lat  long
 #&gt;   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>           <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>
 #&gt; <span style='color: #BCBCBC;'>1</span> Tokyo, Japan    35.7  140. 
@@ -492,7 +494,9 @@ needs to be FALSE.</p></td>
 #&gt; <span style='color: #BCBCBC;'>1</span> 100 Main St New York, NY  40.7 -<span style='color: #BB0000;'>74.0</span></div><div class='input'>
 <span class='fu'>geo</span><span class='op'>(</span>county <span class='op'>=</span> <span class='st'>'Jefferson'</span>, state <span class='op'>=</span> <span class='st'>"Kentucky"</span>, country <span class='op'>=</span> <span class='st'>"US"</span>,
      method <span class='op'>=</span> <span class='st'>'osm'</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'>Passing 1 address to the Nominatim single address geocoder</span></div><div class='output co'>#&gt; <span class='message'>Query completed in: 1 seconds</span></div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 1 × 5</span>
+</div><div class='output co'>#&gt; <span class='message'>Passing 1 address to the Nominatim single address geocoder</span></div><div class='output co'>#&gt; <span class='message'>
+</span></div><div class='output co'>#&gt; <span class='message'>[-------------------------------------] 0/1 (  0%) Elapsed:  0s Remaining:  ?s</span></div><div class='output co'>#&gt; <span class='message'>
+</span></div><div class='output co'>#&gt; <span class='message'>[=====================================] 1/1 (100%) Elapsed:  1s Remaining:  0s</span></div><div class='output co'>#&gt; </div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 1 × 5</span>
 #&gt;   county    state    country   lat  long
 #&gt;   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>     <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>    <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>
 #&gt; <span style='color: #BCBCBC;'>1</span> Jefferson Kentucky US       38.2 -<span style='color: #BB0000;'>85.7</span></div><div class='input'><span class='co'># }</span>

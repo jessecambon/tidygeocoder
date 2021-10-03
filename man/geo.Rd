@@ -75,15 +75,16 @@ Do not combine with the address component arguments below
 \item \code{"mapquest"}: \href{https://developer.mapquest.com/documentation/geocoding-api/}{MapQuest}.  An API key must be stored in "MAPQUEST_API_KEY". Batch geocoding is supported.
 \item \code{"bing"}: \href{https://docs.microsoft.com/en-us/bingmaps/rest-services/locations/}{Bing}.  An API key must be stored in "BINGMAPS_API_KEY". Batch geocoding is supported, but must be explicitly called with \code{mode = "batch"}.
 \item \code{"geoapify"}: \href{https://www.geoapify.com/geocoding-api}{Geoapify}.  An API key must be stored in "GEOAPIFY_KEY".
-\item \code{"cascade"} : First uses one geocoding service and then uses
+\item \code{"cascade"} \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} use \link{geocode_combine} or \link{geo_combine} instead.
+The "cascade" method first uses one geocoding service and then uses
 a second geocoding service if the first service didn't return results.
 The services and order is specified by the cascade_order argument.
 Note that this is not compatible with \code{full_results = TRUE} as geocoding
 services have different columns that they return.
 }}
 
-\item{cascade_order}{a vector with two character values for the method argument
-in the order in which the geocoding services will be attempted for \code{method = "cascade"}
+\item{cascade_order}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} a vector with two character values for the
+method argument in the order in which the geocoding services will be attempted for \code{method = "cascade"}
 (ie. \code{c("census", "geocodio")})}
 
 \item{lat}{latitude column name. Can be quoted or unquoted (ie. lat or "lat").}
@@ -117,10 +118,10 @@ then min_time will be set to the default value specified in \link{min_time_refer
 \item{progress_bar}{if TRUE then a progress bar will be displayed to track query
 progress for single input geocoding (1 input per query). By default the progress bar
 will not be shown for code executed when knitting R Markdown files or code within
-an RStudio notebook chunk.}
+an RStudio notebook chunk. Can be set permanently with \code{options(tidygeocoder.progress_bar = FALSE)}.}
 
-\item{quiet}{if FALSE then console messages that are displayed by default regarding
-queries will be suppressed}
+\item{quiet}{if FALSE (default) then console messages that are displayed by default regarding
+queries will be suppressed. Can be set permanently with \code{options(tidgeocoder.quiet = TRUE)}.}
 
 \item{api_url}{custom API URL. If specified, the default API URL will be overridden.
 This parameter can be used to specify a local Nominatim server, for instance.}
@@ -134,10 +135,11 @@ Geocodio batch geocoding.}
 \item{batch_limit}{limit to the number of addresses in a batch geocoding query.
 Defaults to the value in \link{batch_limit_reference} if not specified.}
 
-\item{batch_limit_error}{if TRUE then an error is thrown if the number of addresses exceeds the batch limit.
+\item{batch_limit_error}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} if TRUE then an error is thrown if the number of addresses exceeds the batch limit.
 (if executing a batch query). This is reverted to FALSE when using the cascade method.}
 
-\item{verbose}{if TRUE then detailed logs are output to the console. FALSE is default.}
+\item{verbose}{if TRUE then detailed logs are output to the console. FALSE is default. Can be set
+permanently with \code{options(tidygeocoder.verbose = TRUE)}}
 
 \item{no_query}{if TRUE then no queries are sent to the geocoding service and verbose is set to TRUE.
 Used for testing.}
@@ -170,8 +172,9 @@ relies solely on OpenStreetMap data
 
 \item{geocodio_v}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} use the \code{api_options} parameter instead}
 
-\item{param_error}{if TRUE then an error will be thrown if any address parameters are used that are
-invalid for the selected service (\code{method}). If \code{method = "cascade"} then no errors will be thrown.}
+\item{param_error}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} if TRUE then an error will be thrown if
+any address parameters are used that are invalid for the selected service (\code{method}).
+If \code{method = "cascade"} then no errors will be thrown.}
 
 \item{mapbox_permanent}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} use \code{api_options} parameter instead}
 

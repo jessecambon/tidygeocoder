@@ -48,14 +48,15 @@ progress_geo <- function(pb = NULL, ...) {
 #' @param country country (ie. 'Japan')
 #' 
 #' @param method `r get_method_documentation(reverse = FALSE)`
-#'  - `"cascade"` : First uses one geocoding service and then uses
+#'  - `"cascade"` `r lifecycle::badge("deprecated")` use [geocode_combine] or [geo_combine] instead.
+#'     The "cascade" method first uses one geocoding service and then uses
 #'     a second geocoding service if the first service didn't return results.
 #'     The services and order is specified by the cascade_order argument. 
 #'     Note that this is not compatible with `full_results = TRUE` as geocoding
 #'     services have different columns that they return.
 #' 
-#' @param cascade_order a vector with two character values for the method argument 
-#'  in the order in which the geocoding services will be attempted for `method = "cascade"`
+#' @param cascade_order `r lifecycle::badge("deprecated")` a vector with two character values for the 
+#'  method argument in the order in which the geocoding services will be attempted for `method = "cascade"`
 #'  (ie. `c("census", "geocodio")`)
 #' @param lat latitude column name. Can be quoted or unquoted (ie. lat or "lat").
 #' @param long longitude column name. Can be quoted or unquoted (ie. long or "long").
@@ -73,9 +74,9 @@ progress_geo <- function(pb = NULL, ...) {
 #' @param progress_bar if TRUE then a progress bar will be displayed to track query
 #'   progress for single input geocoding (1 input per query). By default the progress bar
 #'   will not be shown for code executed when knitting R Markdown files or code within 
-#'   an RStudio notebook chunk.
-#' @param quiet if FALSE then console messages that are displayed by default regarding
-#'   queries will be suppressed
+#'   an RStudio notebook chunk. Can be set permanently with `options(tidygeocoder.progress_bar = FALSE)`.
+#' @param quiet if FALSE (default) then console messages that are displayed by default regarding
+#'   queries will be suppressed. Can be set permanently with `options(tidgeocoder.quiet = TRUE)`.
 #' @param api_url custom API URL. If specified, the default API URL will be overridden.
 #'  This parameter can be used to specify a local Nominatim server, for instance.
 #' @param timeout query timeout (in minutes)
@@ -84,8 +85,9 @@ progress_geo <- function(pb = NULL, ...) {
 #'    Note that in some cases results are flattened regardless such as for
 #'    Geocodio batch geocoding.
 #' @param batch_limit  `r get_batch_limit_documentation(reverse = FALSE)`
-#' @param batch_limit_error `r get_batch_limit_error_documentation(reverse = FALSE)`
-#' @param verbose if TRUE then detailed logs are output to the console. FALSE is default.
+#' @param batch_limit_error `r lifecycle::badge("deprecated")` `r get_batch_limit_error_documentation(reverse = FALSE)` 
+#' @param verbose if TRUE then detailed logs are output to the console. FALSE is default. Can be set 
+#'    permanently with `options(tidygeocoder.verbose = TRUE)`
 #' @param no_query if TRUE then no queries are sent to the geocoding service and verbose is set to TRUE.
 #'    Used for testing.
 
@@ -213,6 +215,8 @@ geo <- function(address = NULL,
   all_args <- as.list(environment())
   if (method != 'cascade') {
     all_args$init <- FALSE  # follow up queries are not the initial query
+  } else {
+    lifecycle::deprecate_warn("1.0.4", 'geo(method = "cannot be \\"cascade\\"")', "geocode_combine()")
   }
   # remove NULL arguments
   all_args[sapply(all_args, is.null)] <- NULL
@@ -220,13 +224,7 @@ geo <- function(address = NULL,
   # Check parameter arguments --------------------------------------------------------
 
   # Check argument inputs
-  check_address_argument_datatype(address, 'address')
-  check_address_argument_datatype(street, 'street')
-  check_address_argument_datatype(city, 'city')
-  check_address_argument_datatype(county, 'county')
-  check_address_argument_datatype(state, 'state')
-  check_address_argument_datatype(postalcode, 'postalcode')
-  check_address_argument_datatype(country, 'country')
+  check_argument_inputs(address, street, city, county, state, postalcode, country, 'geo') 
   
   if (!(api_options[["census_return_type"]] %in% c('geographies', 'locations'))) {
     stop('Invalid return_type argument. See ?geo', call. = FALSE)
@@ -246,6 +244,17 @@ geo <- function(address = NULL,
   check_verbose_quiet(verbose, quiet, reverse = FALSE)
   check_common_args('geo', mode, limit, batch_limit, min_time)
   check_method(method, reverse = FALSE, mode, batch_func_map, cascade_order = cascade_order)
+  
+  if (!(api_options[["census_return_type"]] %in% c('geographies', 'locations'))) {
+    stop('Invalid census_return_type value. See ?geo', call. = FALSE)
+  }
+  
+  # Deprecate parameters that only existed because of method = "cascade"
+  if (init == TRUE) {
+    if (!missing("cascade_order")) lifecycle::deprecate_warn("1.0.4", 'geo(cascade_order)', "geocode_combine()")
+    if (!missing("batch_limit_error")) lifecycle::deprecate_warn("1.0.4", 'geo(batch_limit_error)')
+    if (!missing("param_error")) lifecycle::deprecate_warn("1.0.4", 'geo(param_error)')
+  }
   
   if (no_query == TRUE) verbose <- TRUE
   start_time <- Sys.time() # start timer
@@ -412,7 +421,7 @@ geo <- function(address = NULL,
         min(batch_limit, num_unique_addresses),
         reverse = FALSE,
         batch = TRUE,
-        display_time = TRUE
+        display_time = FALSE
       )
     }
 
