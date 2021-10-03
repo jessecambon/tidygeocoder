@@ -120,8 +120,9 @@ progress_geo <- function(pb = NULL, ...) {
 #' @param return_type `r lifecycle::badge("deprecated")` use the `api_options` parameter instead
 #' @param iq_region `r lifecycle::badge("deprecated")` use the `api_options` parameter instead
 #' @param geocodio_v `r lifecycle::badge("deprecated")` use the `api_options` parameter instead
-#' @param param_error if TRUE then an error will be thrown if any address parameters are used that are
-#'   invalid for the selected service (`method`). If `method = "cascade"` then no errors will be thrown.
+#' @param param_error `r lifecycle::badge("deprecated")` if TRUE then an error will be thrown if any address 
+#'  parameters are used that are invalid for the selected service (`method`). 
+#'  If `method = "cascade"` then no errors will be thrown.
 #' @param mapbox_permanent `r lifecycle::badge("deprecated")` use `api_options` parameter instead
 #' @param here_request_id `r lifecycle::badge("deprecated")` use the `api_options` parameter instead
 #' @param mapquest_open `r lifecycle::badge("deprecated")` use the `api_options` parameter instead

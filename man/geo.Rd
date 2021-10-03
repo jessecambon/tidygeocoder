@@ -177,8 +177,9 @@ parameters need to be FALSE.
 
 \item{geocodio_v}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} use the \code{api_options} parameter instead}
 
-\item{param_error}{if TRUE then an error will be thrown if any address parameters are used that are
-invalid for the selected service (\code{method}). If \code{method = "cascade"} then no errors will be thrown.}
+\item{param_error}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} if TRUE then an error will be thrown if any address
+parameters are used that are invalid for the selected service (\code{method}).
+If \code{method = "cascade"} then no errors will be thrown.}
 
 \item{mapbox_permanent}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} use \code{api_options} parameter instead}
 
