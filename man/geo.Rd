@@ -164,6 +164,11 @@ account. Unsuccessful requests made by an account that does not have access to t
 endpoint may be billable.
 \item \code{mapbox_open} (default: \code{FALSE}): set to \code{TRUE} to use the Open Geocoding endpoint which
 relies solely on OpenStreetMap data
+\item \code{here_request_id} (default: \code{NULL}): this parameter would return a previous HERE batch job,
+identified by its RequestID. The RequestID of a batch job is displayed
+when \code{verbose} is TRUE. Note that this option would ignore the
+current \code{address} parameter on the request, so the \code{return_addresses} or \code{return_coords}
+parameters need to be FALSE.
 }}
 
 \item{return_type}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} use the \code{api_options} parameter instead}
@@ -172,17 +177,12 @@ relies solely on OpenStreetMap data
 
 \item{geocodio_v}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} use the \code{api_options} parameter instead}
 
-\item{param_error}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} if TRUE then an error will be thrown if
-any address parameters are used that are invalid for the selected service (\code{method}).
-If \code{method = "cascade"} then no errors will be thrown.}
+\item{param_error}{if TRUE then an error will be thrown if any address parameters are used that are
+invalid for the selected service (\code{method}). If \code{method = "cascade"} then no errors will be thrown.}
 
 \item{mapbox_permanent}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} use \code{api_options} parameter instead}
 
-\item{here_request_id}{This parameter would return a previous HERE batch job,
-identified by its RequestID. The RequestID of a batch job is displayed
-when \code{verbose} is TRUE. Note that this option would ignore the
-current \code{address} parameter on the request, so \code{return_addresses}
-needs to be FALSE.}
+\item{here_request_id}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} use the \code{api_options} parameter instead}
 
 \item{mapquest_open}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} use the \code{api_options} parameter instead}
 
