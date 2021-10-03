@@ -82,8 +82,8 @@ Note that this is not compatible with \code{full_results = TRUE} as geocoding
 services have different columns that they return.
 }}
 
-\item{cascade_order}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} a vector with two character values for the method argument
-in the order in which the geocoding services will be attempted for \code{method = "cascade"}
+\item{cascade_order}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} a vector with two character values for the
+method argument in the order in which the geocoding services will be attempted for \code{method = "cascade"}
 (ie. \code{c("census", "geocodio")})}
 
 \item{lat}{latitude column name. Can be quoted or unquoted (ie. lat or "lat").}
@@ -102,10 +102,10 @@ then min_time will be set to the default value specified in \link{min_time_refer
 \item{progress_bar}{if TRUE then a progress bar will be displayed to track query
 progress for single input geocoding (1 input per query). By default the progress bar
 will not be shown for code executed when knitting R Markdown files or code within
-an RStudio notebook chunk.}
+an RStudio notebook chunk. Can be set permanently with \code{options(tidygeocoder.progress_bar = FALSE)}.}
 
-\item{quiet}{if FALSE then console messages that are displayed by default regarding
-queries will be suppressed}
+\item{quiet}{if FALSE (default) then console messages that are displayed by default regarding
+queries will be suppressed. Can be set permanently with \code{options(tidgeocoder.quiet = TRUE)}.}
 
 \item{api_url}{custom API URL. If specified, the default API URL will be overridden.
 This parameter can be used to specify a local Nominatim server, for instance.}
@@ -137,7 +137,8 @@ Defaults to the value in \link{batch_limit_reference} if not specified.}
 \item{batch_limit_error}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} if TRUE then an error is thrown if the number of addresses exceeds the batch limit.
 (if executing a batch query). This is reverted to FALSE when using the cascade method.}
 
-\item{verbose}{if TRUE then detailed logs are output to the console. FALSE is default.}
+\item{verbose}{if TRUE then detailed logs are output to the console. FALSE is default. Can be set
+permanently with \code{options(tidygeocoder.verbose = TRUE)}}
 
 \item{no_query}{if TRUE then no queries are sent to the geocoding service and verbose is set to TRUE.
 Used for testing.}
@@ -157,8 +158,9 @@ See the Census geocoder API documentation for more details.
 \item{geocodio_v}{version of geocodio API. Used for establishing the API URL
 for the "geocodio" method.}
 
-\item{param_error}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} if TRUE then an error will be thrown if any address parameters are used that are
-invalid for the selected service (\code{method}). If \code{method = "cascade"} then no errors will be thrown.}
+\item{param_error}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} if TRUE then an error will be thrown if
+any address parameters are used that are invalid for the selected service (\code{method}).
+If \code{method = "cascade"} then no errors will be thrown.}
 
 \item{mapbox_permanent}{if TRUE then the \code{mapbox.places-permanent}
 endpoint would be used. Note that this option should be used only if you

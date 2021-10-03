@@ -67,10 +67,10 @@ then min_time will be set to the default value specified in \link{min_time_refer
 \item{progress_bar}{if TRUE then a progress bar will be displayed to track query
 progress for single input geocoding (1 input per query). By default the progress bar
 will not be shown for code executed when knitting R Markdown files or code within
-an RStudio notebook chunk.}
+an RStudio notebook chunk. Can be set permanently with \code{options(tidygeocoder.progress_bar = FALSE)}.}
 
-\item{quiet}{if FALSE then console messages that are displayed by default regarding
-queries will be suppressed}
+\item{quiet}{if FALSE (default) then console messages that are displayed by default regarding
+queries will be suppressed. Can be set permanently with \code{options(tidgeocoder.quiet = TRUE)}.}
 
 \item{api_url}{custom API URL. If specified, the default API URL will be overridden.
 This parameter can be used to specify a local Nominatim server, for instance.}
@@ -99,7 +99,8 @@ Geocodio batch geocoding.}
 \item{batch_limit}{limit to the number of coordinates in a batch geocoding query.
 Defaults to the value in \link{batch_limit_reference} if not specified.}
 
-\item{verbose}{if TRUE then detailed logs are output to the console. FALSE is default.}
+\item{verbose}{if TRUE then detailed logs are output to the console. FALSE is default. Can be set
+permanently with \code{options(tidygeocoder.verbose = TRUE)}}
 
 \item{no_query}{if TRUE then no queries are sent to the geocoding service and verbose is set to TRUE.
 Used for testing.}

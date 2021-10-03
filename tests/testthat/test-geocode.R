@@ -86,13 +86,10 @@ test_that("Test geo() and reverse_geo() error handling", {
   
   # invalid parameters for the census service (country and limit != 1)
   expect_error(geo('yz', no_query = TRUE, country = 'abc', method = 'census'))
-
-  # improper argument value for census but param_error = FALSE so we expect a message
-  expect_message(geo(no_query = TRUE, country = 'abc', method = 'census', verbose = FALSE, param_error = FALSE))
   
   # improper parameters for cascade (limit !=1 and full_results = TRUE)
-  expect_error(geo('xy', no_query = TRUE, full_results = TRUE, method = 'cascade'))
-  expect_error(geo('ab', no_query = TRUE, limit = 5, method = 'cascade'))
+  # expect_error(geo('xy', no_query = TRUE, full_results = TRUE, method = 'cascade'))
+  # expect_error(geo('ab', no_query = TRUE, limit = 5, method = 'cascade'))
   
   # invalid mapbox_permanent parameter
   expect_error(geo(no_query = TRUE, address = 'abc', mapbox_permanent = "AA"))
@@ -110,12 +107,9 @@ test_that("Test geo() and reverse_geo() error handling", {
   
   # Test batch limit detection and error/warning toggling - geo()
   expect_error(geo(address = as.character(seq(1, 10)), 
-                   method = 'census', batch_limit = 5, no_query = TRUE, batch_limit_error = TRUE))
+                   method = 'census', batch_limit = 5, no_query = TRUE))
   expect_warning(geo(address = as.character(seq(1, 10)), 
                      method = 'census', batch_limit = 5, no_query = TRUE, batch_limit_error = FALSE))
-  # batch_limit_error should revert to FALSE with method = 'cascade'
-  expect_warning(geo(address = as.character(seq(1, 10)), 
-                     method = 'cascade', batch_limit = 5, no_query = TRUE, full_results = FALSE, batch_limit_error = TRUE))
   
   # Test reverse_geo() batch limit handling
   expect_error(reverse_geo(lat = c(1,2,3), long = c(0,0,0),

@@ -9,7 +9,7 @@ geocode_combine(
   queries,
   global_params = list(),
   query_names = NULL,
-  stack = TRUE,
+  return_list = FALSE,
   cascade = TRUE,
   lat = lat,
   long = long
@@ -21,13 +21,13 @@ geocode_combine(
 \item{queries}{list of lists parameter. Each list contains parameters for a query
 (ie. \code{list(list(method = 'osm'), list(method = 'census'), ...)})}
 
-\item{global_params}{list parameter. Contains arguments that should be used for all queries.
+\item{global_params}{list parameter. Contains parameters to be used for all queries.
 (ie. \code{list(full_results = TRUE, unique_only = TRUE)})}
 
 \item{query_names}{an optional vector of names to use for labeling the queries.}
 
-\item{stack}{if TRUE then a single dataframe will be returned. When stack = FALSE
-then a list of dataframes, one per each query, will be returned.}
+\item{return_list}{if TRUE then results will be returned in a named list. If FALSE (default)
+then all results will be combined into a single dataframe.}
 
 \item{cascade}{if TRUE then only addresses that are not found will be attempted by
 the following query. If FALSE then all queries will attempt to geocode all addresses.}
@@ -41,7 +41,7 @@ tibble (dataframe)
 }
 \description{
 Executes multiple geocoding queries on a dataframe input and combines
-the results.
+the results. To use a character vector input instead, see the \link{geo_combine} function.
 }
 \examples{
 \donttest{

@@ -233,7 +233,7 @@ reverse_geo <- function(lat, long, method = 'osm', address = address, limit = 1,
         num_unique_coords,
         reverse = TRUE,
         batch = TRUE,
-        display_time = TRUE
+        display_time = FALSE
       )
     }
     

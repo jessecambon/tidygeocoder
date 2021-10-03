@@ -21,7 +21,7 @@ geo_combine(
 \item{queries}{list of lists parameter. Each list contains parameters for a query
 (ie. \code{list(list(method = 'osm'), list(method = 'census'), ...)})}
 
-\item{global_params}{list parameter. Contains arguments that should be used for all queries.
+\item{global_params}{list parameter. Contains parameters to be used for all queries.
 (ie. \code{list(full_results = TRUE, unique_only = TRUE)})}
 
 \item{address}{single line address (ie. '1600 Pennsylvania Ave NW, Washington, DC').
@@ -46,12 +46,12 @@ Do not combine with the address component arguments below
 tibble (dataframe)
 }
 \description{
-Passes address inputs to the \link{geocode_combine} function
-for geocoding.
+Passes address inputs in character vector form to the
+\link{geocode_combine} function for geocoding.
 }
 \examples{
 \donttest{
-geo_combine(queries = list(list(method = 'census')), address = c(""))
+geo_combine(queries = list(list(method = 'census'), list(method = 'osm')), address = c("100 Main St New York, NY", "Paris", "Not a Real Address"))
 }
 }
 \seealso{

@@ -275,12 +275,12 @@ then min_time will be set to the default value specified in <a href='min_time_re
       <td><p>if TRUE then a progress bar will be displayed to track query
 progress for single input geocoding (1 input per query). By default the progress bar
 will not be shown for code executed when knitting R Markdown files or code within
-an RStudio notebook chunk.</p></td>
+an RStudio notebook chunk. Can be set permanently with <code><a href='https://rdrr.io/r/base/options.html'>options(tidygeocoder.progress_bar = FALSE)</a></code>.</p></td>
     </tr>
     <tr>
       <th>quiet</th>
-      <td><p>if FALSE then console messages that are displayed by default regarding
-queries will be suppressed</p></td>
+      <td><p>if FALSE (default) then console messages that are displayed by default regarding
+queries will be suppressed. Can be set permanently with <code><a href='https://rdrr.io/r/base/options.html'>options(tidgeocoder.quiet = TRUE)</a></code>.</p></td>
     </tr>
     <tr>
       <th>api_url</th>
@@ -327,7 +327,8 @@ Defaults to the value in <a href='batch_limit_reference.html'>batch_limit_refere
     </tr>
     <tr>
       <th>verbose</th>
-      <td><p>if TRUE then detailed logs are output to the console. FALSE is default.</p></td>
+      <td><p>if TRUE then detailed logs are output to the console. FALSE is default. Can be set
+permanently with <code><a href='https://rdrr.io/r/base/options.html'>options(tidygeocoder.verbose = TRUE)</a></code></p></td>
     </tr>
     <tr>
       <th>no_query</th>
@@ -384,7 +385,7 @@ endpoint, that relies solely on data contributed to OpenStreetMap.</p></td>
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># \donttest{</span>
  <span class='fu'>reverse_geo</span><span class='op'>(</span>lat <span class='op'>=</span> <span class='fl'>38.895865</span>, long <span class='op'>=</span> <span class='op'>-</span><span class='fl'>77.0307713</span>, method <span class='op'>=</span> <span class='st'>'osm'</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'>Passing 1 coordinate to the Nominatim single coordinate geocoder</span></div><div class='output co'>#&gt; <span class='message'>Query completed in: 1 seconds</span></div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 1 × 3</span>
+</div><div class='output co'>#&gt; <span class='message'>Passing 1 coordinate to the Nominatim single coordinate geocoder</span></div><div class='output co'>#&gt; <span class='message'></span></div><div class='output co'>#&gt; <span class='message'>[-------------------------------------] 0/1 (  0%) Elapsed:  0s Remaining:  ?s</span></div><div class='output co'>#&gt; <span class='message'></span></div><div class='output co'>#&gt; <span class='message'>[=====================================] 1/1 (100%) Elapsed:  1s Remaining:  0s</span></div><div class='output co'>#&gt; </div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 1 × 3</span>
 #&gt;     lat  long address                                                           
 #&gt;   <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>                                                             
 #&gt; <span style='color: #BCBCBC;'>1</span>  38.9 -<span style='color: #BB0000;'>77.0</span> L’Enfant's plan, Pennsylvania Avenue, Washington, District of Col…</div><div class='input'> 
@@ -393,7 +394,7 @@ endpoint, that relies solely on data contributed to OpenStreetMap.</p></td>
    long <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='op'>-</span><span class='fl'>77.0307713</span>, <span class='op'>-</span><span class='fl'>79.3839347</span>, <span class='fl'>600</span><span class='op'>)</span>,
    method <span class='op'>=</span> <span class='st'>'osm'</span>, full_results <span class='op'>=</span> <span class='cn'>TRUE</span>
  <span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'>Passing 2 coordinates to the Nominatim single coordinate geocoder</span></div><div class='output co'>#&gt; <span class='message'>Query completed in: 2 seconds</span></div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 3 × 22</span>
+</div><div class='output co'>#&gt; <span class='message'>Passing 2 coordinates to the Nominatim single coordinate geocoder</span></div><div class='output co'>#&gt; <span class='message'></span></div><div class='output co'>#&gt; <span class='message'>[-------------------------------------] 0/2 (  0%) Elapsed:  0s Remaining:  ?s</span></div><div class='output co'>#&gt; <span class='message'></span></div><div class='output co'>#&gt; <span class='message'>[=================&gt;-------------------] 1/2 ( 50%) Elapsed:  1s Remaining:  1s</span></div><div class='output co'>#&gt; <span class='message'></span></div><div class='output co'>#&gt; <span class='message'>[=====================================] 2/2 (100%) Elapsed:  2s Remaining:  0s</span></div><div class='output co'>#&gt; </div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 3 × 22</span>
 #&gt;     lat  long address  place_id licence osm_type  osm_id osm_lat osm_lon tourism
 #&gt;   <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>       <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>      <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>  
 #&gt; <span style='color: #BCBCBC;'>1</span>  38.9 -<span style='color: #BB0000;'>77.0</span> L’Enfan…   3.02<span style='color: #949494;'>e</span>8 Data ©… way       9.00<span style='color: #949494;'>e</span>8 38.895… -77.03… L’Enfa…
