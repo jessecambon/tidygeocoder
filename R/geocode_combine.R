@@ -1,7 +1,8 @@
 
 #' Combine multiple geocoding queries
 #' 
-#' @description  Replaces method = 'cascade'
+#' @description Passes address inputs to the [geocode_combine] function
+#'   for geocoding.
 #' 
 #' @param queries list of lists parameter. Each list contains parameters for a query
 #'   (ie. `list(list(method = 'osm'), list(method = 'census'), ...)`)
@@ -28,21 +29,22 @@ geo_combine <- function(queries, global_params = list(), address = NULL,
     street = street, city = city, county = county, state = state, postalcode = postalcode, country = country
   )
   
-   global_params_combi <- c(
-     global_params, 
-     list(address = address, street = street, city = city, county = county,
-           state = state, postalcode = postalcode, country = country)
-     )
+   # Combine user input global parameters with the addres parameters that are needed
+   global_params_combined <- global_params
+   for (colname in colnames(input_df)) {
+     global_params_combined[[colname]] <- colname
+   }
    
   return(
-    geocode_combine(.tbl = input_df, global_params = global_params_combi, ...)
+    geocode_combine(.tbl = input_df, queries = queries, global_params = global_params_combined, ...)
   )
 }
 
 
 #' Combine multiple geocoding queries
 #' 
-#' @description Replaces method = 'cascade'
+#' @description Executes multiple geocoding queries on a dataframe input and combines
+#'  the results.
 #' 
 #' @param queries list of lists parameter. Each list contains parameters for a query
 #'   (ie. `list(list(method = 'osm'), list(method = 'census'), ...)`)
@@ -68,11 +70,12 @@ geocode_combine <- function(.tbl, queries, global_params = list(), query_names =
   lat <- rm_quote(deparse(substitute(lat)))
   long <- rm_quote(deparse(substitute(long)))
   
-  # TODO: throw error if cascade == TRUE and return_addresses == FALSE (check all list args passed)
-  # since we need addresses to know what was or wasn't 
-  
-  # TODO: add a 'not found' column/item in the list that is returned to separate out
-  # the addresses that are not found
+  # TODO: make a workaround so return_input can be FALSE if limit = 1 for all queries (ie.
+  # we can track which address is which by index)
+  if (!is.null(global_params[['return_input']]) && global_params[["return_input"]] == FALSE) stop('return_input must be set to TRUE', .call = FALSE)
+  for (query in queries) {
+    if (!is.null(query[["return_input"]]) && query[["return_input"]] == FALSE) stop('return_input must be set to TRUE', .call = FALSE)
+  }
   
   # add global arguments to each query
   queries_prepped <- lapply(queries, function(x) {
@@ -132,22 +135,24 @@ geocode_combine <- function(.tbl, queries, global_params = list(), query_names =
     
     result <- do.call(geocode, query)
     
+    na_indices <- is.na(result[[lat]]) | is.na(result[[long]])
+    
     # which addresses were not found
     if (cascade == TRUE) {
       #distinct_found <- dplyr::distinct(result[names(result) %in% intersect(names(query), pkg.globals$address_arg_names]))
-      not_found <- result[is.na(result[[lat]]) | is.na(result[[long]]), intersect(colnames(result), colnames(.tbl))]
+      not_found <- result[na_indices, intersect(colnames(result), colnames(.tbl))]
     }
     
-    # only return non-NA results unless we are at the last query in the loop
-    result_to_return <- if (i == length(queries_prepped)) result else {
-      result[!is.na(result[[lat]]) & !is.na(result[[long]]), ]
-    }
+    # addresses that were found (non-NA results)
+    found <- result[!is.na(result[[lat]]) & !is.na(result[[long]]), ]
     
     # aggregate results
-    all_results <- c(all_results, list(result_to_return)) 
+    all_results <- c(all_results, list(found)) 
   }
   
+  
   names(all_results) <- query_names
+  if (nrow(not_found) != 0) all_results[["none"]] <- not_found
   
   # stack all results in one dataframe if stack == TRUE
   # otherwise return list
@@ -157,12 +162,10 @@ geocode_combine <- function(.tbl, queries, global_params = list(), query_names =
     
     # add query name column before stacking
     all_results_labeled <- lapply(
-      query_names, function(x) 
+      names(all_results), function(x) 
         dplyr::bind_cols(all_results[[x]], tibble::tibble(query = x)))
     
     return(dplyr::bind_rows(all_results_labeled))
   }
 
 }
-
-# a <- geocode_combine(sample_addresses, list(list(method = 'census'), list(method = 'osm')), list(address = 'addr'), cascade = TRUE)

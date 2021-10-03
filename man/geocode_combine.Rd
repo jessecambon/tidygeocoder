@@ -40,7 +40,8 @@ the following query. If FALSE then all queries will attempt to geocode all addre
 tibble (dataframe)
 }
 \description{
-Replaces method = 'cascade'
+Executes multiple geocoding queries on a dataframe input and combines
+the results.
 }
 \examples{
 \donttest{

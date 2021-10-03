@@ -46,11 +46,12 @@ Do not combine with the address component arguments below
 tibble (dataframe)
 }
 \description{
-Replaces method = 'cascade'
+Passes address inputs to the \link{geocode_combine} function
+for geocoding.
 }
 \examples{
 \donttest{
-geo_combine(address = c(""), list(list(method = 'census')))
+geo_combine(queries = list(list(method = 'census')), address = c(""))
 }
 }
 \seealso{
