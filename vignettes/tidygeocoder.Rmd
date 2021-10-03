@@ -72,27 +72,6 @@ census_c1 <- address_components %>%
 knitr::kable(census_c1)
 ```
 
-The `cascade` method first tries to use one geocoding service and then again attempts to geocode addresses that were not found using a second geocoding service. By default it first uses the Census Geocoder and then OSM, but you can specify any two methods you want (in order) with the `cascade_order` argument.
-
-```{r}
-addr_comp1 <- address_components %>%
-  bind_rows(
-    tibble(
-      cty = c("Toronto", "Tokyo"), 
-      country = c("Canada", "Japan")
-    )
-  )
-
-cascade1 <- addr_comp1 %>% geocode(
-  street = street, state = st, city = cty,
-  country = country, method = "cascade"
-)
-```
-
-```{r, echo = FALSE}
-knitr::kable(cascade1)
-```
-
 To return the full geocoding service results (not just latitude and longitude), specify `full_results = TRUE`. Additionally, for the Census geocoder you can get fields for geographies such as Census tracts by specifying `api_options = list(census_return_type = 'geographies')`. Be sure to use `full_results = TRUE` with the "geographies" return type in order to allow the Census geography columns to be returned.
 
 ```{r}
@@ -120,6 +99,28 @@ salz <- geo("Salzburg, Austria", method = "osm", full_results = TRUE) %>%
 ```{r, echo = FALSE}
 knitr::kable(salz)
 ```
+
+## geocode_combine()
+
+The `geocode_combine()` function allows you to easily combine the results of multiple queries. The queries are executed in the order provided. By default only addresses that are not found are passed to the next service, but this behavior can be toggled with the `cascade` argument.
+
+```{r}
+cascade_results1 <-  tibble(
+  address = c('100 Wall Street NY, NY', 'Paris', 'Not An Address')
+) %>%
+  geocode_combine(
+    queries = list(
+      list(method = 'census'),
+      list(method = 'osm')
+    ),
+    global_params = list(address = 'address')
+  )
+```
+
+```{r, echo = FALSE}
+knitr::kable(cascade_results1)
+```
+
 
 ## Reverse Geocoding
 

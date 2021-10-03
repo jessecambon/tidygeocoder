@@ -167,7 +167,7 @@
 <span class="co">#&gt; format : "json"</span>
 <span class="co">#&gt; benchmark : "Public_AR_Current"</span>
 <span class="co">#&gt; vintage : "Current_Current"</span>
-<span class="co">#&gt; Query completed in: 2.5 seconds</span></code></pre></div>
+<span class="co">#&gt; Query completed in: 4.4 seconds</span></code></pre></div>
 <table class="table">
 <thead><tr class="header">
 <th align="left">singlelineaddress</th>
@@ -219,7 +219,7 @@
 <code class="sourceCode R"><span class="va">census_c1</span> <span class="op">&lt;-</span> <span class="va">address_components</span> <span class="op">%&gt;%</span>
   <span class="fu"><a href="../reference/geocode.html">geocode</a></span><span class="op">(</span>street <span class="op">=</span> <span class="va">street</span>, city <span class="op">=</span> <span class="va">cty</span>, state <span class="op">=</span> <span class="va">st</span>, method <span class="op">=</span> <span class="st">"census"</span><span class="op">)</span>
 <span class="co">#&gt; Passing 2 addresses to the US Census batch geocoder</span>
-<span class="co">#&gt; Query completed in: 3.1 seconds</span></code></pre></div>
+<span class="co">#&gt; Query completed in: 1.9 seconds</span></code></pre></div>
 <table class="table">
 <thead><tr class="header">
 <th align="left">street</th>
@@ -242,114 +242,17 @@
 <td align="left">GA</td>
 <td align="right">33.77085</td>
 <td align="right">-84.38505</td>
-</tr>
-</tbody>
-</table>
-<p>The <code>cascade</code> method first tries to use one geocoding service and then again attempts to geocode addresses that were not found using a second geocoding service. By default it first uses the Census Geocoder and then OSM, but you can specify any two methods you want (in order) with the <code>cascade_order</code> argument.</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">addr_comp1</span> <span class="op">&lt;-</span> <span class="va">address_components</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/bind.html">bind_rows</a></span><span class="op">(</span>
-    <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span><span class="op">(</span>
-      cty <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Toronto"</span>, <span class="st">"Tokyo"</span><span class="op">)</span>, 
-      country <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Canada"</span>, <span class="st">"Japan"</span><span class="op">)</span>
-    <span class="op">)</span>
-  <span class="op">)</span>
-
-<span class="va">cascade1</span> <span class="op">&lt;-</span> <span class="va">addr_comp1</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/geocode.html">geocode</a></span><span class="op">(</span>
-  street <span class="op">=</span> <span class="va">street</span>, state <span class="op">=</span> <span class="va">st</span>, city <span class="op">=</span> <span class="va">cty</span>,
-  country <span class="op">=</span> <span class="va">country</span>, method <span class="op">=</span> <span class="st">"cascade"</span>
-<span class="op">)</span>
-<span class="co">#&gt; Warning: The `method` argument of `geo()` cannot be "cascade" as of tidygeocoder 1.0.4.</span>
-<span class="co">#&gt; Please use `geocode_combine()` instead.</span>
-<span class="co">#&gt; This warning is displayed once every 8 hours.</span>
-<span class="co">#&gt; Call `lifecycle::last_lifecycle_warnings()` to see where this warning was generated.</span>
-<span class="co">#&gt; Warning: The `return_type` argument of `geo()` is deprecated as of tidygeocoder 1.0.4.</span>
-<span class="co">#&gt; Please use the `api_options` argument instead.</span>
-<span class="co">#&gt; This warning is displayed once every 8 hours.</span>
-<span class="co">#&gt; Call `lifecycle::last_lifecycle_warnings()` to see where this warning was generated.</span>
-<span class="co">#&gt; Warning: The `iq_region` argument of `geo()` is deprecated as of tidygeocoder 1.0.4.</span>
-<span class="co">#&gt; Please use the `api_options` argument instead.</span>
-<span class="co">#&gt; This warning is displayed once every 8 hours.</span>
-<span class="co">#&gt; Call `lifecycle::last_lifecycle_warnings()` to see where this warning was generated.</span>
-<span class="co">#&gt; Warning: The `geocodio_v` argument of `geo()` is deprecated as of tidygeocoder 1.0.4.</span>
-<span class="co">#&gt; Please use the `api_options` argument instead.</span>
-<span class="co">#&gt; This warning is displayed once every 8 hours.</span>
-<span class="co">#&gt; Call `lifecycle::last_lifecycle_warnings()` to see where this warning was generated.</span>
-<span class="co">#&gt; Warning: The `mapbox_permanent` argument of `geo()` is deprecated as of tidygeocoder 1.0.4.</span>
-<span class="co">#&gt; Please use the `api_options` argument instead.</span>
-<span class="co">#&gt; This warning is displayed once every 8 hours.</span>
-<span class="co">#&gt; Call `lifecycle::last_lifecycle_warnings()` to see where this warning was generated.</span>
-<span class="co">#&gt; Warning: The `mapquest_open` argument of `geo()` is deprecated as of tidygeocoder 1.0.4.</span>
-<span class="co">#&gt; Please use the `api_options` argument instead.</span>
-<span class="co">#&gt; This warning is displayed once every 8 hours.</span>
-<span class="co">#&gt; Call `lifecycle::last_lifecycle_warnings()` to see where this warning was generated.</span>
-<span class="co">#&gt; Warning: The `batch_limit_error` argument of `geo()` is deprecated as of tidygeocoder 1.0.4.</span>
-<span class="co">#&gt; This warning is displayed once every 8 hours.</span>
-<span class="co">#&gt; Call `lifecycle::last_lifecycle_warnings()` to see where this warning was generated.</span>
-<span class="co">#&gt; Warning: The `param_error` argument of `geo()` is deprecated as of tidygeocoder 1.0.4.</span>
-<span class="co">#&gt; This warning is displayed once every 8 hours.</span>
-<span class="co">#&gt; Call `lifecycle::last_lifecycle_warnings()` to see where this warning was generated.</span>
-<span class="co">#&gt; Passing 4 addresses to the US Census batch geocoder</span>
-<span class="co">#&gt; Query completed in: 1.3 seconds</span>
-<span class="co">#&gt; Passing 2 addresses to the Nominatim single address geocoder</span>
-<span class="co">#&gt; Query completed in: 2 seconds</span></code></pre></div>
-<table class="table">
-<thead><tr class="header">
-<th align="left">street</th>
-<th align="left">cty</th>
-<th align="left">st</th>
-<th align="left">country</th>
-<th align="right">lat</th>
-<th align="right">long</th>
-<th align="left">geo_method</th>
-</tr></thead>
-<tbody>
-<tr class="odd">
-<td align="left">11 Wall St</td>
-<td align="left">NY</td>
-<td align="left">NY</td>
-<td align="left">NA</td>
-<td align="right">40.70747</td>
-<td align="right">-74.01122</td>
-<td align="left">census</td>
-</tr>
-<tr class="even">
-<td align="left">600 Peachtree Street NE</td>
-<td align="left">Atlanta</td>
-<td align="left">GA</td>
-<td align="left">NA</td>
-<td align="right">33.77085</td>
-<td align="right">-84.38505</td>
-<td align="left">census</td>
-</tr>
-<tr class="odd">
-<td align="left">NA</td>
-<td align="left">Toronto</td>
-<td align="left">NA</td>
-<td align="left">Canada</td>
-<td align="right">43.64655</td>
-<td align="right">-79.41953</td>
-<td align="left">osm</td>
-</tr>
-<tr class="even">
-<td align="left">NA</td>
-<td align="left">Tokyo</td>
-<td align="left">NA</td>
-<td align="left">Japan</td>
-<td align="right">35.65870</td>
-<td align="right">139.40728</td>
-<td align="left">osm</td>
 </tr>
 </tbody>
 </table>
 <p>To return the full geocoding service results (not just latitude and longitude), specify <code>full_results = TRUE</code>. Additionally, for the Census geocoder you can get fields for geographies such as Census tracts by specifying <code>api_options = list(census_return_type = 'geographies')</code>. Be sure to use <code>full_results = TRUE</code> with the “geographies” return type in order to allow the Census geography columns to be returned.</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">census_full1</span> <span class="op">&lt;-</span> <span class="va">address_single</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/geocode.html">geocode</a></span><span class="op">(</span>
   address <span class="op">=</span> <span class="va">singlelineaddress</span>,
   method <span class="op">=</span> <span class="st">"census"</span>, full_results <span class="op">=</span> <span class="cn">TRUE</span>, api_options <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>census_return_type <span class="op">=</span> <span class="st">'geographies'</span><span class="op">)</span>
 <span class="op">)</span>
 <span class="co">#&gt; Passing 2 addresses to the US Census batch geocoder</span>
-<span class="co">#&gt; Query completed in: 1.3 seconds</span></code></pre></div>
+<span class="co">#&gt; Query completed in: 1.5 seconds</span></code></pre></div>
 <table class="table">
 <colgroup>
 <col width="16%">
@@ -423,7 +326,7 @@
 Removing the licence column is done just to prevent a note from 
 occurring in automated CRAN checks for an improper/old link.
 -->
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">salz</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/geo.html">geo</a></span><span class="op">(</span><span class="st">"Salzburg, Austria"</span>, method <span class="op">=</span> <span class="st">"osm"</span>, full_results <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op">%&gt;%</span>
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="op">-</span><span class="va">licence</span><span class="op">)</span>
 <span class="co">#&gt; Passing 1 address to the Nominatim single address geocoder</span>
@@ -471,6 +374,55 @@ occurring in automated CRAN checks for an improper/old link.
 <td align="right">0.6854709</td>
 <td align="left"><a href="https://nominatim.openstreetmap.org/ui/mapicons//poi_boundary_administrative.p.20.png" class="uri">https://nominatim.openstreetmap.org/ui/mapicons//poi_boundary_administrative.p.20.png</a></td>
 </tr></tbody>
+</table>
+</div>
+<div id="geocode_combine" class="section level2">
+<h2 class="hasAnchor">
+<a href="#geocode_combine" class="anchor"></a>geocode_combine()</h2>
+<p>The <code><a href="../reference/geocode_combine.html">geocode_combine()</a></code> function allows you to easily combine the results of multiple queries. The queries are executed in the order provided. By default only addresses that are not found are passed to the next service, but this behavior can be toggled with the <code>cascade</code> argument.</p>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">cascade_results1</span> <span class="op">&lt;-</span>  <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span><span class="op">(</span>
+  address <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">'100 Wall Street NY, NY'</span>, <span class="st">'Paris'</span>, <span class="st">'Not An Address'</span><span class="op">)</span>
+<span class="op">)</span> <span class="op">%&gt;%</span>
+  <span class="fu"><a href="../reference/geocode_combine.html">geocode_combine</a></span><span class="op">(</span>
+    queries <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>
+      <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>method <span class="op">=</span> <span class="st">'census'</span><span class="op">)</span>,
+      <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>method <span class="op">=</span> <span class="st">'osm'</span><span class="op">)</span>
+    <span class="op">)</span>,
+    global_params <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>address <span class="op">=</span> <span class="st">'address'</span><span class="op">)</span>
+  <span class="op">)</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Passing 3 addresses to the US Census batch geocoder</span>
+<span class="co">#&gt; Query completed in: 0.1 seconds</span>
+<span class="co">#&gt; Passing 2 addresses to the Nominatim single address geocoder</span>
+<span class="co">#&gt; Query completed in: 2 seconds</span></code></pre></div>
+<table class="table">
+<thead><tr class="header">
+<th align="left">address</th>
+<th align="right">lat</th>
+<th align="right">long</th>
+<th align="left">query</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td align="left">100 Wall Street NY, NY</td>
+<td align="right">40.70516</td>
+<td align="right">-74.007350</td>
+<td align="left">census</td>
+</tr>
+<tr class="even">
+<td align="left">Paris</td>
+<td align="right">48.85670</td>
+<td align="right">2.351462</td>
+<td align="left">osm</td>
+</tr>
+<tr class="odd">
+<td align="left">Not An Address</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="left">none</td>
+</tr>
+</tbody>
 </table>
 </div>
 <div id="reverse-geocoding" class="section level2">

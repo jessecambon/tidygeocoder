@@ -39,7 +39,19 @@ reference:
 - title: Deprecated Functions
   desc: Use `geo()` instead.
   contents:
-  - starts_with("geo_")
+  - geo_census
+  - geo_osm
+  - geo_geocodio
+  - geo_iq
+  - geo_google
+  - geo_opencage
+  - geo_mapbox
+  - geo_here
+  - geo_tomtom
+  - geo_mapquest
+  - geo_bing
+  - geo_arcgis
+  - geo_cascade
   
 navbar:
   components:
