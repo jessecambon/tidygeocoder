@@ -55,13 +55,13 @@ Here is what is going on behind the scenes:
 
 Refer to the notes below on adding a geocoding service for more specific documentation on the code structure.
 
-# Adding a New Geocoding Service
+## Adding a New Geocoding Service
 
 This section documents how to add support for a new geocoding service to the package. Required changes are organized by file. If anything isn't clear, feel free to [file an issue](https://github.com/jessecambon/tidygeocoder/issues).
 
 **Base all changes on the main branch**.
 
-## Files to Update
+### Files to Update
 
 * **[R/api_url.R](https://github.com/jessecambon/tidygeocoder/blob/main/R/api_url.R)**
     * Add a standalone function for obtaining the API URL and update the `get_api_url()` function accordingly. If arguments need to be added to the `get_api_url()` function, make sure to adjust the calls to this function in the `geo()` and `reverse_geo()` functions accordingly.
@@ -84,11 +84,11 @@ This section documents how to add support for a new geocoding service to the pac
     * Update the `extract_errors_from_results()` function to extract error messages for invalid queries.
 * **[R/geo_methods.R](https://github.com/jessecambon/tidygeocoder/blob/main/R/geo_methods.R)**
     * Add a new `geo_<method>()` convenience function to [R/geo_methods.R](https://github.com/jessecambon/tidygeocoder/blob/main/R/geo_methods.R). Note that these functions are deprecated and will be phased out in the future.
-* If applicable, add new tests to the scripts in the [tests directory](https://github.com/jessecambon/tidygeocoder/tree/main/tests/testthat) for the method. Note that tests should avoid making a HTTP query (ie. use `no_query = TRUE` in the `geo()` and `geocode()` functions.
+* If applicable, add new tests to the scripts in the [tests directory](https://github.com/jessecambon/tidygeocoder/tree/main/tests/testthat) for the method. Note that tests should avoid making a HTTP query (ie. use `no_query = TRUE` in the `geo()` and `geocode()` functions).
 * **[R/global_variables.R](https://github.com/jessecambon/tidygeocoder/blob/main/R/global_variables.R)**
     * If applicable, add your service to one of the global variables. 
 
-## Other Files
+### Other Files
 
 These files don't necessarily need to be updated. However, you might need to make changes to these files if the service you are implementing requires some non-standard workarounds. 
 
@@ -105,9 +105,9 @@ These files don't necessarily need to be updated. However, you might need to mak
 * **[external/create_logo.Rmd](https://github.com/jessecambon/tidygeocoder/blob/main/external/create_logo.Rmd)**
     * Create the package logo.
 
-## Testing
+### Testing
 
-* Test out the new method with `verbose = TRUE` to make sure it behaves as expected. You can reference tests available [the 'sandbox' folder](https://github.com/jessecambon/tidygeocoder/tree/main/sandbox) for reference. 
+* Test out the new service with `verbose = TRUE` to make sure it behaves as expected. You can reference tests available [the 'sandbox' folder](https://github.com/jessecambon/tidygeocoder/tree/main/sandbox) for reference. 
 * Run `devtools::check()` to make sure the package still passes all tests and the vignette runs properly. To only run the package tests use `devtools::test()`, but note these tests do not query the geocoding services to avoid external dependencies.
 * Run **[external/online_tests.R](https://github.com/jessecambon/tidygeocoder/blob/main/external/online_tests.R)** to test making queries to the geocoding services. These tests are not included in the internal package tests (`devtools::test()`) because they require API keys which would not exist on all systems and are dependent on the geocoding services being online at that the time of the test.
 * Run the commands detailed in **[cran-comments.md](https://github.com/jessecambon/tidygeocoder/blob/main/cran-comments.md)** to test the package on other environments. Note that these tests should also be included in the automated GitHub actions tests for pull requests.

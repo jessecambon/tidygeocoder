@@ -101,7 +101,7 @@ progress_geo <- function(pb = NULL, ...) {
 #'   
 #'   - `census_return_type` (default: `"locations"`): set to "geographies" to return
 #'     additional geography columns
-#'   - `iq_region` (default: `"us"``): set to "eu" for European Union
+#'   - `iq_region` (default: `"us"`): set to "eu" for European Union
 #'   - `geocodio_v` (default: `1.6`): the version number of the Geocodio API to be used
 #'   - `geocodio_hipaa` (default: `FALSE`): set to `TRUE` to use the HIPAA compliant
 #'      Geocodio API endpoint
@@ -123,7 +123,7 @@ progress_geo <- function(pb = NULL, ...) {
 #' @param param_error `r lifecycle::badge("deprecated")` if TRUE then an error will be thrown if any address 
 #'  parameters are used that are invalid for the selected service (`method`). 
 #'  If `method = "cascade"` then no errors will be thrown.
-#' @param mapbox_permanent `r lifecycle::badge("deprecated")` use `api_options` parameter instead
+#' @param mapbox_permanent `r lifecycle::badge("deprecated")` use the `api_options` parameter instead
 #' @param here_request_id `r lifecycle::badge("deprecated")` use the `api_options` parameter instead
 #' @param mapquest_open `r lifecycle::badge("deprecated")` use the `api_options` parameter instead
 #'   
@@ -225,7 +225,17 @@ geo <- function(address = NULL,
   # Check parameter arguments --------------------------------------------------------
 
   # Check argument inputs
-  check_argument_inputs(address, street, city, county, state, postalcode, country, 'geo') 
+  if (is.null(address) && is.null(street) && is.null(city) && is.null(county) && is.null(state) && is.null(postalcode) && is.null(country)) {
+    stop('No address data provided', call. = FALSE)
+  }
+  
+  check_address_argument_datatype(address, 'address')
+  check_address_argument_datatype(street, 'street')
+  check_address_argument_datatype(city, 'city')
+  check_address_argument_datatype(county, 'county')
+  check_address_argument_datatype(state, 'state')
+  check_address_argument_datatype(postalcode, 'postalcode')
+  check_address_argument_datatype(country, 'country')
   
   if (!(api_options[["census_return_type"]] %in% c('geographies', 'locations'))) {
     stop('Invalid return_type argument. See ?geo', call. = FALSE)

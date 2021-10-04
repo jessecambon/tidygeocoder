@@ -154,7 +154,7 @@ are shown below with their default values.
 \itemize{
 \item \code{census_return_type} (default: \code{"locations"}): set to "geographies" to return
 additional geography columns
-\item \code{iq_region} (default: `"us"``): set to "eu" for European Union
+\item \code{iq_region} (default: \code{"us"}): set to "eu" for European Union
 \item \code{geocodio_v} (default: \code{1.6}): the version number of the Geocodio API to be used
 \item \code{geocodio_hipaa} (default: \code{FALSE}): set to \code{TRUE} to use the HIPAA compliant
 Geocodio API endpoint
@@ -181,7 +181,7 @@ parameters need to be FALSE.
 parameters are used that are invalid for the selected service (\code{method}).
 If \code{method = "cascade"} then no errors will be thrown.}
 
-\item{mapbox_permanent}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} use \code{api_options} parameter instead}
+\item{mapbox_permanent}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} use the \code{api_options} parameter instead}
 
 \item{here_request_id}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} use the \code{api_options} parameter instead}
 
