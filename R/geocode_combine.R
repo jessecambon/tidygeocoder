@@ -20,9 +20,6 @@
 geo_combine <- function(queries, global_params = list(), address = NULL, 
                      street = NULL, city = NULL, county = NULL, state = NULL, postalcode = NULL, country = NULL, ...) {
   
-  # Check argument inputs
-  check_argument_inputs(address, street, city, county, state, postalcode, country, 'geo_combine')
-  
   # prepare data for geocode_combine() function
    input_df <- tibble::tibble(
     address = address, 
@@ -75,10 +72,32 @@ geocode_combine <- function(.tbl, queries, global_params = list(), query_names =
     is.null(query_names) || is.character(query_names)
   )
   
+  # get all parameter names
+  all_param_names <- unlist(sapply(list(queries, global_params), names))
+  
+  # TODO: check to see if address parameters are set to NULL
+  # which address arguments were used in 
+  used_address_args <- intersect(all_param_names, pkg.globals$address_arg_names)
+  
+  #message(paste0('Used address args:', used_address_args))
+
   # TODO: make a workaround so return_input can be FALSE if limit = 1 for all queries (ie.
-  # we can track which address is which by index)
-  for (query in list(queries, global_params)) {
-    if (!is.null(query[["return_input"]]) && query[["return_input"]] == FALSE) stop('return_input must be set to TRUE', .call = FALSE)
+  # we can track which address is which by index) ??
+  
+  if (cascade == TRUE) {
+    for (query in list(queries, global_params)) {
+      if (!is.null(query[["return_input"]]) && query[["return_input"]] == FALSE) {
+        stop('return_input must be set to TRUE', call. = FALSE)
+      }
+    
+    # If an address argument was used and was not NULL then record it 
+    # for (i in 1:length(query)) {
+    #   # TODO: && (!is.null(query[[i]])
+    #   if ((names(query)[[i]] %in% pkg.globals$address_arg_names)) {
+    #     used_address_args <- unique(c(used_address_args, names(query)[[i]]))
+    #   }
+    # }
+    }
   }
   
   # add global arguments to each query
@@ -163,7 +182,23 @@ geocode_combine <- function(.tbl, queries, global_params = list(), query_names =
       names(all_results), function(x) 
         dplyr::bind_cols(all_results[[x]], tibble::tibble(query = x))
       )
-    return(dplyr::bind_rows(all_results_labeled))
+    
+    # put all results into a single dataframe
+    bound_data <- dplyr::bind_rows(all_results_labeled)
+    
+    # remove .id column if it is present
+    bound_data <- bound_data[!names(bound_data) %in% '.id']
+    
+    # reorder the dataset to match the order it was received in before returning it
+    proper_order <- unique(.tbl[used_address_args])
+    proper_order[['.id']] <- 1:nrow(proper_order)
+    
+    # join to get our id column so we can sort
+    bound_data_joined <- dplyr::left_join(bound_data, proper_order, by = used_address_args)
+      
+    # sort the dataset
+    bound_data_joined <- bound_data_joined[order(bound_data_joined[['.id']]), ]
+    
+    return(bound_data_joined[!names(bound_data_joined) %in% '.id'])
   }
-
 }

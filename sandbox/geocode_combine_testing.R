@@ -23,4 +23,13 @@ tie_results <- tie_addresses %>%
     query_names = c('census batch', 'census single')
   )
 
-##
+## Test sorting (ie. should be returned in the same order as given and no -extra- duplicates)
+geo_combine(list(list(method = 'census'), list(method = 'osm')), 
+            global_params = list(address = 'address', limit = 1), 
+            address = c('Paris', 'Tokyo', 'Paris', '100 Main Street New York, NY', 'London'))
+
+## More complicated query:
+
+geo_combine(list(list(method = 'census'), list(method = 'osm')), 
+            global_params = list(address = 'address', limit = 3, mode = 'single', return_input = FALSE, unique_only = TRUE), 
+            address = c('Paris', 'Tokyo', 'Paris', '100 Main Street New York, NY', 'London'), cascade = FALSE, return_list = TRUE)
