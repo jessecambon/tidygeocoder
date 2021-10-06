@@ -95,7 +95,7 @@ unpackage_inputs <- function(package, results, unique_only = FALSE, return_input
   if (return_inputs == TRUE) results <- dplyr::bind_cols(package$unique, results)
   
   # if there are no duplicates then just return the raw results
-  if ((nrow(package$unique) == nrow(package$crosswalk)) | unique_only) {
+  if ((nrow(package$unique) == nrow(package$crosswalk)) || unique_only == TRUE) {
     return(tibble::as_tibble(results))
   }
   

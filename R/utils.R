@@ -102,6 +102,13 @@ format_address <- function(df, fields) {
 # QA Checks --------------------------------------------------------------------------------------------------------------
 # functions called by reverse_geo() and/or geo()
 
+check_api_options <- function(api_options, func_name) {
+  for (param in names(api_options)) {
+    if (!param %in% c('cascade_flag', names(pkg.globals$default_api_options))) {
+      stop(paste0("Invalid parameter ", '"', param, '"', " used in the api_options argument. See ?", func_name), call. = FALSE)
+    }
+  }
+}
 
 # check the data type of an address argument - called by geo() function
 # should not be a matrix, class, or dataframe for instance

@@ -170,6 +170,8 @@ reverse_geo <- function(lat, long, method = 'osm', address = address, limit = 1,
   check_verbose_quiet(verbose, quiet, reverse = FALSE)
   
   # Check method argument
+  
+  check_api_options(api_options, 'reverse_geo')
   check_method(method, reverse = TRUE, mode, reverse_batch_func_map)
   
   if (length(lat) != length(long)) stop('Lengths of lat and long must be equal.', call. = FALSE)

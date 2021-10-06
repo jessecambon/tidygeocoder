@@ -109,14 +109,14 @@ Used for testing.}
 \item{custom_query}{API-specific parameters to be used, passed as a named list
 (ie. \code{list(extratags = 1)}.}
 
-\item{api_options}{a named list of parameters to customize the API endpoint
+\item{api_options}{a named list of parameters specific to individual services.
 (ex. \code{list(geocodio_v = 1.6, geocodio_hipaa = TRUE)}). Each parameter begins
 with the name of the \code{method} (service) it applies to. The possible parameters
 are shown below with their default values.
 \itemize{
 \item \code{census_return_type} (default: \code{"locations"}): set to "geographies" to return
 additional geography columns
-\item \code{iq_region} (default: \code{"us"}): set to "eu" for European Union
+\item \code{iq_region} (default: \code{"us"}): set to "eu" to use the European Union API endpoint
 \item \code{geocodio_v} (default: \code{1.6}): the version number of the Geocodio API to be used
 \item \code{geocodio_hipaa} (default: \code{FALSE}): set to \code{TRUE} to use the HIPAA compliant
 Geocodio API endpoint

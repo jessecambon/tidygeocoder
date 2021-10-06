@@ -8,3 +8,5 @@ test_func <- function(a = 1, b = 5) {
 }
 
 test_func(a=1)
+
+test_func(a = NULL)
