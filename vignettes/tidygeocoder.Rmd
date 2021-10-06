@@ -19,7 +19,7 @@ set.seed(42)
 
 Tidygeocoder provides a unified interface for performing both forward and reverse geocoding queries with a variety of geocoding services. In forward geocoding you provide an address to the geocoding service and you get latitude and longitude coordinates in return. In reverse geocoding you provide the latitude and longitude and the geocoding service will return that location's address. In both cases, other data about the location can be provided by the geocoding service.
 
-The `geocode()` and `geo()` functions are for forward geocoding while the `reverse_geocode()` and `reverse_geo()` functions perform reverse geocoding. The `geocode()` and `reverse_geocode()` functions extract either addresses (forward geocoding) or coordinates (reverse geocoding) from the input dataframe and pass this data to the `geo()` and `reverse_geo()` functions respectively which execute the geocoding queries. All extra arguments (`...`) given to the `geocode()` and passed to `geo()` and extra arguments given to `reverse_geocode()` are passed to `reverse_geo()`.
+The `geocode()` and `geo()` functions are for forward geocoding while the `reverse_geocode()` and `reverse_geo()` functions perform reverse geocoding. The `geocode()` and `reverse_geocode()` functions extract either addresses (forward geocoding) or coordinates (reverse geocoding) from the input dataframe and pass this data to the `geo()` and `reverse_geo()` functions respectively which execute the geocoding queries. All extra arguments (`...`) given to `geocode()` are passed to `geo()` and extra arguments given to `reverse_geocode()` are passed to `reverse_geo()`.
 
 ## Forward Geocoding
 
