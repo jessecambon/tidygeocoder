@@ -4,8 +4,7 @@
 package_inputs <- function(input_orig, coords = FALSE) {
   
   input_colnames <- names(input_orig) # store column names
-  
-  # Clean and inputs addresses. Remove all NA/missing addresses 
+
   input_unique <- input_orig
   
   # limit lat/longs in unique dataset to possible values
@@ -22,7 +21,7 @@ package_inputs <- function(input_orig, coords = FALSE) {
   # remove rows that are entirely blank or NA
   input_unique <- input_unique[!apply(is.na(input_unique) | input_unique == "", 1, all), ]
   
-  # only keep unique columns and then create a unique identifier column
+  # only keep unique rows and then create a unique identifier column
   input_unique <- unique(input_unique)
   
   # if there are 0 valid/nonblank inputs... return a tibble with 1 row for unique
@@ -95,7 +94,7 @@ unpackage_inputs <- function(package, results, unique_only = FALSE, return_input
   if (return_inputs == TRUE) results <- dplyr::bind_cols(package$unique, results)
   
   # if there are no duplicates then just return the raw results
-  if ((nrow(package$unique) == nrow(package$crosswalk)) | unique_only) {
+  if ((nrow(package$unique) == nrow(package$crosswalk)) || unique_only == TRUE) {
     return(tibble::as_tibble(results))
   }
   

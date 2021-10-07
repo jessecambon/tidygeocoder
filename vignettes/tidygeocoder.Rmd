@@ -19,7 +19,7 @@ set.seed(42)
 
 Tidygeocoder provides a unified interface for performing both forward and reverse geocoding queries with a variety of geocoding services. In forward geocoding you provide an address to the geocoding service and you get latitude and longitude coordinates in return. In reverse geocoding you provide the latitude and longitude and the geocoding service will return that location's address. In both cases, other data about the location can be provided by the geocoding service.
 
-The `geocode()` and `geo()` functions are for forward geocoding while the `reverse_geocode()` and `reverse_geo()` functions perform reverse geocoding. The `geocode()` and `reverse_geocode()` functions extract either addresses (forward geocoding) or coordinates (reverse geocoding) from the input dataframe and pass this data to the `geo()` and `reverse_geo()` functions respectively which execute the geocoding queries. All extra arguments (`...`) given to the `geocode()` and passed to `geo()` and extra arguments given to `reverse_geocode()` are passed to `reverse_geo()`.
+The `geocode()` and `geo()` functions are for forward geocoding while the `reverse_geocode()` and `reverse_geo()` functions perform reverse geocoding. The `geocode()` and `reverse_geocode()` functions extract either addresses (forward geocoding) or coordinates (reverse geocoding) from the input dataframe and pass this data to the `geo()` and `reverse_geo()` functions respectively which execute the geocoding queries. All extra arguments (`...`) given to `geocode()` are passed to `geo()` and extra arguments given to `reverse_geocode()` are passed to `reverse_geo()`.
 
 ## Forward Geocoding
 
@@ -102,12 +102,14 @@ knitr::kable(salz)
 
 ## geocode_combine()
 
-The `geocode_combine()` function allows you to easily combine the results of multiple queries. The queries are executed in the order provided. By default only addresses that are not found are passed to the next service, but this behavior can be toggled with the `cascade` argument.
+The `geocode_combine()` function allows you to easily combine the results of multiple queries. The queries are executed in the order provided. By default only addresses that are not found are passed to the next service, but this behavior can be toggled with the `cascade` argument. In the first example below, the US Census service is used for the first query while the Nominatim ("osm") service is used for the second query. The `global_params` argument is used to pass the `address` column to both queries.
 
 ```{r}
-cascade_results1 <-  tibble(
+addresses_combine <- tibble(
   address = c('100 Wall Street NY, NY', 'Paris', 'Not An Address')
-) %>%
+)
+
+cascade_results1 <- addresses_combine %>%
   geocode_combine(
     queries = list(
       list(method = 'census'),
@@ -119,6 +121,24 @@ cascade_results1 <-  tibble(
 
 ```{r, echo = FALSE}
 knitr::kable(cascade_results1)
+```
+
+If cascade is set to FALSE then all addresses are attempted by each query regardless of if the address was found initially or not.
+
+```{r}
+no_cascade_results1 <- addresses_combine %>%
+  geocode_combine(
+    queries = list(
+      list(method = 'census'),
+      list(method = 'osm')
+    ),
+    global_params = list(address = 'address'),
+    cascade = FALSE
+  )
+```
+
+```{r, echo = FALSE}
+knitr::kable(no_cascade_results1)
 ```
 
 

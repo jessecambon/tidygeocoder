@@ -100,28 +100,23 @@ format_address <- function(df, fields) {
 
 
 # QA Checks --------------------------------------------------------------------------------------------------------------
-# functions called by reverse_geo() and geo()
+# functions called by reverse_geo() and/or geo()
 
-# called by geo_loop() and geo()
-check_argument_inputs <- function(address, street, city, county, state, postalcode, country, func_name) {
-  # Check argument inputs
-  check_address_argument_datatype(address, 'address')
-  check_address_argument_datatype(street, 'street')
-  check_address_argument_datatype(city, 'city')
-  check_address_argument_datatype(county, 'county')
-  check_address_argument_datatype(state, 'state')
-  check_address_argument_datatype(postalcode, 'postalcode')
-  check_address_argument_datatype(country, 'country')
+check_api_options <- function(api_options, func_name) {
+  for (param in names(api_options)) {
+    if (!param %in% c('cascade_flag', names(pkg.globals$default_api_options))) {
+      stop(paste0("Invalid parameter ", '"', param, '"', " used in the api_options argument. See ?", func_name), call. = FALSE)
+    }
+  }
 }
 
-# check the data type of an address argument
+# check the data type of an address argument - called by geo() function
 # should not be a matrix, class, or dataframe for instance
 # allow factor since it could be coerced to a datatype by address handler function
 # allow numeric for zip codes etc.
 check_address_argument_datatype <- function(arg, arg_name) {
-  # 
   if (!(is.null(arg) || is.character(arg) || is.numeric(arg) || is.na(arg) || is.factor(arg))) {
-    stop(paste0('Improper datatype for ', arg_name, '. See ?', func_name), call. = FALSE)
+    stop(paste0('Improper datatype for ', arg_name, '. See ?geo'), call. = FALSE)
   }
 }
 
@@ -171,7 +166,6 @@ check_method <- function(method, reverse, mode, batch_funcs, cascade_order = lis
   if (!(method %in% single_input_methods)) {
     stop(paste0('Invalid method argument. See ?', input_terms$base_func_name), call. = FALSE)
   } 
-  
 }
  
 # check some arguments common to geo() and reverse_geo()

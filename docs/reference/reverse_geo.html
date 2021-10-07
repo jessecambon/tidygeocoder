@@ -242,16 +242,16 @@ API queries.</p>
       <td><p>the geocoding service to be used. API keys are loaded from environmental variables. Run <code><a href='https://usethis.r-lib.org/reference/edit.html'>usethis::edit_r_environ()</a></code> to open your .Renviron file and add an API key as an environmental variable. For example, add the line <code>GEOCODIO_API_KEY="YourAPIKeyHere"</code>.</p><ul>
 <li><p><code>"osm"</code>: <a href='https://nominatim.org'>Nominatim</a>.</p></li>
 <li><p><code>"arcgis"</code>: <a href='https://developers.arcgis.com/rest/geocode/api-reference/overview-world-geocoding-service.htm'>ArcGIS</a>.</p></li>
-<li><p><code>"geocodio"</code>: <a href='https://www.geocod.io/'>Geocodio</a>. Geographic coverage is limited to the United States and Canada. An API key must be stored in "GEOCODIO_API_KEY". Batch geocoding is supported.</p></li>
-<li><p><code>"iq"</code>: <a href='https://locationiq.com/'>Location IQ</a>.  An API key must be stored in "LOCATIONIQ_API_KEY".</p></li>
-<li><p><code>"google"</code>: <a href='https://developers.google.com/maps/documentation/geocoding/overview'>Google</a>.  An API key must be stored in "GOOGLEGEOCODE_API_KEY".</p></li>
-<li><p><code>"opencage"</code>: <a href='https://opencagedata.com'>OpenCage</a>.  An API key must be stored in "OPENCAGE_KEY".</p></li>
-<li><p><code>"mapbox"</code>: <a href='https://docs.mapbox.com/api/search/'>Mapbox</a>.  An API key must be stored in "MAPBOX_API_KEY".</p></li>
-<li><p><code>"here"</code>: <a href='https://developer.here.com/products/geocoding-and-search'>HERE</a>.  An API key must be stored in "HERE_API_KEY". Batch geocoding is supported, but must be explicitly called with <code>mode = "batch"</code>.</p></li>
-<li><p><code>"tomtom"</code>: <a href='https://developer.tomtom.com/search-api/search-api-documentation/geocoding'>TomTom</a>.  An API key must be stored in "TOMTOM_API_KEY". Batch geocoding is supported.</p></li>
-<li><p><code>"mapquest"</code>: <a href='https://developer.mapquest.com/documentation/geocoding-api/'>MapQuest</a>.  An API key must be stored in "MAPQUEST_API_KEY". Batch geocoding is supported.</p></li>
-<li><p><code>"bing"</code>: <a href='https://docs.microsoft.com/en-us/bingmaps/rest-services/locations/'>Bing</a>.  An API key must be stored in "BINGMAPS_API_KEY". Batch geocoding is supported, but must be explicitly called with <code>mode = "batch"</code>.</p></li>
-<li><p><code>"geoapify"</code>: <a href='https://www.geoapify.com/geocoding-api'>Geoapify</a>.  An API key must be stored in "GEOAPIFY_KEY".</p></li>
+<li><p><code>"geocodio"</code>: <a href='https://www.geocod.io/'>Geocodio</a>. Geographic coverage is limited to the United States and Canada. An API key must be stored in the environmental variable "GEOCODIO_API_KEY". Batch geocoding is supported.</p></li>
+<li><p><code>"iq"</code>: <a href='https://locationiq.com/'>Location IQ</a>.  An API key must be stored in the environmental variable "LOCATIONIQ_API_KEY".</p></li>
+<li><p><code>"google"</code>: <a href='https://developers.google.com/maps/documentation/geocoding/overview'>Google</a>.  An API key must be stored in the environmental variable "GOOGLEGEOCODE_API_KEY".</p></li>
+<li><p><code>"opencage"</code>: <a href='https://opencagedata.com'>OpenCage</a>.  An API key must be stored in the environmental variable "OPENCAGE_KEY".</p></li>
+<li><p><code>"mapbox"</code>: <a href='https://docs.mapbox.com/api/search/'>Mapbox</a>.  An API key must be stored in the environmental variable "MAPBOX_API_KEY".</p></li>
+<li><p><code>"here"</code>: <a href='https://developer.here.com/products/geocoding-and-search'>HERE</a>.  An API key must be stored in the environmental variable "HERE_API_KEY". Batch geocoding is supported, but must be explicitly called with <code>mode = "batch"</code>.</p></li>
+<li><p><code>"tomtom"</code>: <a href='https://developer.tomtom.com/search-api/search-api-documentation/geocoding'>TomTom</a>.  An API key must be stored in the environmental variable "TOMTOM_API_KEY". Batch geocoding is supported.</p></li>
+<li><p><code>"mapquest"</code>: <a href='https://developer.mapquest.com/documentation/geocoding-api/'>MapQuest</a>.  An API key must be stored in the environmental variable "MAPQUEST_API_KEY". Batch geocoding is supported.</p></li>
+<li><p><code>"bing"</code>: <a href='https://docs.microsoft.com/en-us/bingmaps/rest-services/locations/'>Bing</a>.  An API key must be stored in the environmental variable "BINGMAPS_API_KEY". Batch geocoding is supported, but must be explicitly called with <code>mode = "batch"</code>.</p></li>
+<li><p><code>"geoapify"</code>: <a href='https://www.geoapify.com/geocoding-api'>Geoapify</a>.  An API key must be stored in the environmental variable "GEOAPIFY_KEY".</p></li>
 </ul></td>
     </tr>
     <tr>
@@ -343,13 +343,13 @@ Used for testing.</p></td>
     </tr>
     <tr>
       <th>api_options</th>
-      <td><p>a named list of parameters to customize the API endpoint
+      <td><p>a named list of parameters specific to individual services.
 (ex. <code><a href='https://rdrr.io/r/base/list.html'>list(geocodio_v = 1.6, geocodio_hipaa = TRUE)</a></code>). Each parameter begins
 with the name of the <code>method</code> (service) it applies to. The possible parameters
 are shown below with their default values.</p><ul>
 <li><p><code>census_return_type</code> (default: <code>"locations"</code>): set to "geographies" to return
 additional geography columns</p></li>
-<li><p><code>iq_region</code> (default: `"us"``): set to "eu" for European Union</p></li>
+<li><p><code>iq_region</code> (default: <code>"us"</code>): set to "eu" to use the European Union API endpoint</p></li>
 <li><p><code>geocodio_v</code> (default: <code>1.6</code>): the version number of the Geocodio API to be used</p></li>
 <li><p><code>geocodio_hipaa</code> (default: <code>FALSE</code>): set to <code>TRUE</code> to use the HIPAA compliant
 Geocodio API endpoint</p></li>
@@ -376,7 +376,7 @@ parameters need to be FALSE.</p></li>
     </tr>
     <tr>
       <th>mapbox_permanent</th>
-      <td><p><a href='https://lifecycle.r-lib.org/articles/stages.html#deprecated'><img src='figures/lifecycle-deprecated.svg' alt='[Deprecated]' /></a> use <code>api_options</code> parameter instead</p></td>
+      <td><p><a href='https://lifecycle.r-lib.org/articles/stages.html#deprecated'><img src='figures/lifecycle-deprecated.svg' alt='[Deprecated]' /></a> use the <code>api_options</code> parameter instead</p></td>
     </tr>
     <tr>
       <th>here_request_id</th>

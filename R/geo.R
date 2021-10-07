@@ -85,7 +85,7 @@ progress_geo <- function(pb = NULL, ...) {
 #'    Note that in some cases results are flattened regardless such as for
 #'    Geocodio batch geocoding.
 #' @param batch_limit  `r get_batch_limit_documentation(reverse = FALSE)`
-#' @param batch_limit_error `r lifecycle::badge("deprecated")` `r get_batch_limit_error_documentation(reverse = FALSE)` 
+#' @param batch_limit_error `r lifecycle::badge("deprecated")` `r get_batch_limit_error_documentation(reverse = FALSE)`
 #' @param verbose if TRUE then detailed logs are output to the console. FALSE is default. Can be set 
 #'    permanently with `options(tidygeocoder.verbose = TRUE)`
 #' @param no_query if TRUE then no queries are sent to the geocoding service and verbose is set to TRUE.
@@ -94,21 +94,21 @@ progress_geo <- function(pb = NULL, ...) {
 #' @param custom_query API-specific parameters to be used, passed as a named list 
 #'  (ie. `list(extratags = 1)`.
 #'  
-#' @param api_options a named list of parameters to customize the API endpoint 
+#' @param api_options a named list of parameters specific to individual services.
 #'   (ex. `list(geocodio_v = 1.6, geocodio_hipaa = TRUE)`). Each parameter begins
 #'   with the name of the `method` (service) it applies to. The possible parameters
 #'   are shown below with their default values.
 #'   
 #'   - `census_return_type` (default: `"locations"`): set to "geographies" to return
 #'     additional geography columns
-#'   - `iq_region` (default: `"us"``): set to "eu" for European Union
+#'   - `iq_region` (default: `"us"`): set to "eu" to use the European Union API endpoint 
 #'   - `geocodio_v` (default: `1.6`): the version number of the Geocodio API to be used
 #'   - `geocodio_hipaa` (default: `FALSE`): set to `TRUE` to use the HIPAA compliant
 #'      Geocodio API endpoint
 #'   - `mapbox_permanent` (default: `FALSE`): set to `TRUE` to use the `mapbox.places-permanent`
 #'      endpoint. Note that this option should be used only if you have applied for a permanent
-#'       account. Unsuccessful requests made by an account that does not have access to the 
-#'       endpoint may be billable.
+#'      account. Unsuccessful requests made by an account that does not have access to the 
+#'      endpoint may be billable.
 #'   - `mapbox_open` (default: `FALSE`): set to `TRUE` to use the Open Geocoding endpoint which
 #'      relies solely on OpenStreetMap data
 #'   - `here_request_id` (default: `NULL`): this parameter would return a previous HERE batch job,
@@ -123,7 +123,7 @@ progress_geo <- function(pb = NULL, ...) {
 #' @param param_error `r lifecycle::badge("deprecated")` if TRUE then an error will be thrown if any address 
 #'  parameters are used that are invalid for the selected service (`method`). 
 #'  If `method = "cascade"` then no errors will be thrown.
-#' @param mapbox_permanent `r lifecycle::badge("deprecated")` use `api_options` parameter instead
+#' @param mapbox_permanent `r lifecycle::badge("deprecated")` use the `api_options` parameter instead
 #' @param here_request_id `r lifecycle::badge("deprecated")` use the `api_options` parameter instead
 #' @param mapquest_open `r lifecycle::badge("deprecated")` use the `api_options` parameter instead
 #'   
@@ -164,49 +164,45 @@ geo <- function(address = NULL,
   lat <- rm_quote(deparse(substitute(lat)))
   long <- rm_quote(deparse(substitute(long)))
   
+  # Deprecate arguments that are replaced by the api_options parameter
   if (init == TRUE) {
     # Deprecate return_type argument
-    if (!missing("return_type")) {
+    if (!missing("return_type") && !is.null(return_type)) {
       lifecycle::deprecate_warn("1.0.4", "geo(return_type)", with = "geo(api_options)")
       api_options[["census_return_type"]] <- return_type
-      return_type <- NULL
     }
     
     # Deprecate the iq_region argument
-    if (!missing("iq_region")) {
+    if (!missing("iq_region") && !is.null(iq_region)) {
       lifecycle::deprecate_warn("1.0.4", "geo(iq_region)", with = "geo(api_options)")
       api_options[["iq_region"]] <- iq_region
-      iq_region <- NULL
     }
     
     # Deprecate the geocodio_v argument
-    if (!missing("geocodio_v")) {
+    if (!missing("geocodio_v") && !is.null(geocodio_v)) {
       lifecycle::deprecate_warn("1.0.4", "geo(geocodio_v)", with = "geo(api_options)")
       api_options[["geocodio_v"]] <- geocodio_v
-      geocodio_v <- NULL
     }
     
     # Deprecate the mapbox_permanent argument
-    if (!missing("mapbox_permanent")) {
+    if (!missing("mapbox_permanent") && !is.null(mapbox_permanent)) {
       lifecycle::deprecate_warn("1.0.4", "geo(mapbox_permanent)", with = "geo(api_options)")
       api_options[["mapbox_permanent"]] <- mapbox_permanent
-      mapbox_permanent <- NULL
     }
     
     # Deprecate the mapquest_open argument
-    if (!missing("mapquest_open")) {
+    if (!missing("mapquest_open") && !is.null(mapquest_open)) {
       lifecycle::deprecate_warn("1.0.4", "geo(mapquest_open)", with = "geo(api_options)")
       api_options[["mapquest_open"]] <- mapquest_open
-      mapquest_open <- NULL
     }
     
     # Deprecate the here_request_id argument
-    if (!missing("here_request_id")) {
+    if (!missing("here_request_id") && !is.null(here_request_id)) {
       lifecycle::deprecate_warn("1.0.4", "geo(here_request_id)", with = "geo(api_options)")
       api_options[["here_request_id"]] <- here_request_id
-      here_request_id <- NULL
     }
   }
+  
   
   # apply api options defaults for options not specified by the user
   api_options <- apply_api_options_defaults(api_options)
@@ -218,23 +214,47 @@ geo <- function(address = NULL,
     all_args$init <- FALSE  # follow up queries are not the initial query
   } else {
     lifecycle::deprecate_warn("1.0.4", 'geo(method = "cannot be \\"cascade\\"")', "geocode_combine()")
+    
+    # set deprecated arguments to NULL to avoid triggering deprecation warnings
+    all_args$return_type <- NULL
+    all_args$iq_region <- NULL
+    all_args$geocodio_v <- NULL
+    all_args$mapbox_permanent <- NULL
+    all_args$mapquest_open <- NULL
+    all_args$here_request_id <- NULL
+    
+    # set a flag to indicate the cascade method was used 
+    # to avoid certain errors from triggering
+    all_args$api_options$cascade_flag <- TRUE
   }
   # remove NULL arguments
-  all_args[sapply(all_args, is.null)] <- NULL
+  #all_args[sapply(all_args, is.null)] <- NULL
 
   # Check parameter arguments --------------------------------------------------------
 
+  check_api_options(api_options, 'geo')
+  
   # Check argument inputs
-  check_argument_inputs(address, street, city, county, state, postalcode, country, 'geo') 
+  if (is.null(address) && is.null(street) && is.null(city) && is.null(county) && is.null(state) && is.null(postalcode) && is.null(country)) {
+    stop('No address data provided', call. = FALSE)
+  }
+  
+  check_address_argument_datatype(address, 'address')
+  check_address_argument_datatype(street, 'street')
+  check_address_argument_datatype(city, 'city')
+  check_address_argument_datatype(county, 'county')
+  check_address_argument_datatype(state, 'state')
+  check_address_argument_datatype(postalcode, 'postalcode')
+  check_address_argument_datatype(country, 'country')
   
   if (!(api_options[["census_return_type"]] %in% c('geographies', 'locations'))) {
     stop('Invalid return_type argument. See ?geo', call. = FALSE)
   }
   
   stopifnot(
-    is.logical(verbose), is.logical(no_query), is.logical(flatten), is.logical(param_error),
+    is.logical(verbose), is.logical(no_query), is.logical(flatten), is.null(param_error) || is.logical(param_error),
             is.logical(full_results), is.logical(unique_only), is.logical(return_addresses),
-            is.logical(batch_limit_error), is.logical(progress_bar), is.logical(quiet),
+            is.null(batch_limit_error) || is.logical(batch_limit_error), is.logical(progress_bar), is.logical(quiet),
             is.numeric(timeout), timeout >= 0, 
             is.list(custom_query),
             is.logical(api_options[["mapbox_permanent"]]), 
@@ -253,8 +273,13 @@ geo <- function(address = NULL,
   # Deprecate parameters that only existed because of method = "cascade"
   if (init == TRUE) {
     if (!missing("cascade_order")) lifecycle::deprecate_warn("1.0.4", 'geo(cascade_order)', "geocode_combine()")
-    if (!missing("batch_limit_error")) lifecycle::deprecate_warn("1.0.4", 'geo(batch_limit_error)')
-    if (!missing("param_error")) lifecycle::deprecate_warn("1.0.4", 'geo(param_error)')
+    
+    # use cascade_flag in api_options to prevent param_error and batch_limit_error deprecation warnings
+    # from being triggered whenever method = 'cascade' is used
+    if (is.null(api_options[['cascade_flag']]) || api_options[['cascade_flag']] != TRUE) {
+      if (!missing("batch_limit_error")) lifecycle::deprecate_warn("1.0.4", 'geo(batch_limit_error)')
+      if (!missing("param_error")) lifecycle::deprecate_warn("1.0.4", 'geo(param_error)')
+    }
   }
   
   if (no_query == TRUE) verbose <- TRUE
@@ -307,7 +332,7 @@ geo <- function(address = NULL,
                            ' method:\n\n', paste0(illegal_params, collapse = ' '),
                            '\n\nSee ?api_parameter_reference for more details.')
     
-    if (param_error == TRUE) stop(param_message, call. = FALSE)
+    if (is.null(param_error) || param_error == TRUE) stop(param_message, call. = FALSE)
     else if (verbose == TRUE) message(param_message)
   }
   

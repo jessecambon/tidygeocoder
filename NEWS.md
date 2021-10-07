@@ -1,6 +1,6 @@
 # tidygeocoder (development version)
 
-- Added the functions `geocode_combine()` and `geo_combine()` to replace `method = "cascade"`
+- Added the functions `geocode_combine()` and `geo_combine()` to replace `method = "cascade"`.
 - Deprecated `method = "cascade"` and the `cascade_order`, `param_error`, and `batch_limit_error` arguments for `geocode()` and `geo()`.
 - Deprecated the `return_type`, `geocodio_v`, `mapbox_permanent`, `mapquest_open`, `iq_region`, and `here_request_id` arguments in favor of the new `api_options` parameter for the `geo()` and `reverse_geo()` functions.
 - Added `api_options = list(geocodio_hipaa = TRUE/FALSE))` parameter to `geo()` and `reverse_geo()` functions to allow the toggling of the HIPAA-compliant Geocodio API endpoint ([#137](https://github.com/jessecambon/tidygeocoder/issues/137)).

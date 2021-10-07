@@ -194,14 +194,14 @@
 </ul>
 <p>Refer to the notes below on adding a geocoding service for more specific documentation on the code structure.</p>
 </div>
-<div id="adding-a-new-geocoding-service" class="section level1">
-<h1 class="hasAnchor">
-<a href="#adding-a-new-geocoding-service" class="anchor"></a>Adding a New Geocoding Service</h1>
+<div id="adding-a-new-geocoding-service" class="section level2">
+<h2 class="hasAnchor">
+<a href="#adding-a-new-geocoding-service" class="anchor"></a>Adding a New Geocoding Service</h2>
 <p>This section documents how to add support for a new geocoding service to the package. Required changes are organized by file. If anything isn’t clear, feel free to <a href="https://github.com/jessecambon/tidygeocoder/issues">file an issue</a>.</p>
 <p><strong>Base all changes on the main branch</strong>.</p>
-<div id="files-to-update" class="section level2">
-<h2 class="hasAnchor">
-<a href="#files-to-update" class="anchor"></a>Files to Update</h2>
+<div id="files-to-update" class="section level3">
+<h3 class="hasAnchor">
+<a href="#files-to-update" class="anchor"></a>Files to Update</h3>
 <ul>
 <li>
 <strong><a href="https://github.com/jessecambon/tidygeocoder/blob/main/R/api_url.R">R/api_url.R</a></strong>
@@ -252,7 +252,7 @@
 <li>Add a new <code>geo_&lt;method&gt;()</code> convenience function to <a href="https://github.com/jessecambon/tidygeocoder/blob/main/R/geo_methods.R">R/geo_methods.R</a>. Note that these functions are deprecated and will be phased out in the future.</li>
 </ul>
 </li>
-<li>If applicable, add new tests to the scripts in the <a href="https://github.com/jessecambon/tidygeocoder/tree/main/tests/testthat">tests directory</a> for the method. Note that tests should avoid making a HTTP query (ie. use <code>no_query = TRUE</code> in the <code><a href="../reference/geo.html">geo()</a></code> and <code><a href="../reference/geocode.html">geocode()</a></code> functions.</li>
+<li>If applicable, add new tests to the scripts in the <a href="https://github.com/jessecambon/tidygeocoder/tree/main/tests/testthat">tests directory</a> for the method. Note that tests should avoid making a HTTP query (ie. use <code>no_query = TRUE</code> in the <code><a href="../reference/geo.html">geo()</a></code> and <code><a href="../reference/geocode.html">geocode()</a></code> functions).</li>
 <li>
 <strong><a href="https://github.com/jessecambon/tidygeocoder/blob/main/R/global_variables.R">R/global_variables.R</a></strong>
 <ul>
@@ -261,9 +261,9 @@
 </li>
 </ul>
 </div>
-<div id="other-files" class="section level2">
-<h2 class="hasAnchor">
-<a href="#other-files" class="anchor"></a>Other Files</h2>
+<div id="other-files" class="section level3">
+<h3 class="hasAnchor">
+<a href="#other-files" class="anchor"></a>Other Files</h3>
 <p>These files don’t necessarily need to be updated. However, you might need to make changes to these files if the service you are implementing requires some non-standard workarounds.</p>
 <ul>
 <li>
@@ -304,11 +304,11 @@
 </li>
 </ul>
 </div>
-<div id="testing" class="section level2">
-<h2 class="hasAnchor">
-<a href="#testing" class="anchor"></a>Testing</h2>
+<div id="testing" class="section level3">
+<h3 class="hasAnchor">
+<a href="#testing" class="anchor"></a>Testing</h3>
 <ul>
-<li>Test out the new method with <code>verbose = TRUE</code> to make sure it behaves as expected. You can reference tests available <a href="https://github.com/jessecambon/tidygeocoder/tree/main/sandbox">the ‘sandbox’ folder</a> for reference.</li>
+<li>Test out the new service with <code>verbose = TRUE</code> to make sure it behaves as expected. You can reference tests available <a href="https://github.com/jessecambon/tidygeocoder/tree/main/sandbox">the ‘sandbox’ folder</a> for reference.</li>
 <li>Run <code><a href="https://devtools.r-lib.org//reference/check.html">devtools::check()</a></code> to make sure the package still passes all tests and the vignette runs properly. To only run the package tests use <code><a href="https://devtools.r-lib.org//reference/test.html">devtools::test()</a></code>, but note these tests do not query the geocoding services to avoid external dependencies.</li>
 <li>Run <strong><a href="https://github.com/jessecambon/tidygeocoder/blob/main/external/online_tests.R">external/online_tests.R</a></strong> to test making queries to the geocoding services. These tests are not included in the internal package tests (<code><a href="https://devtools.r-lib.org//reference/test.html">devtools::test()</a></code>) because they require API keys which would not exist on all systems and are dependent on the geocoding services being online at that the time of the test.</li>
 <li>Run the commands detailed in <strong><a href="https://github.com/jessecambon/tidygeocoder/blob/main/cran-comments.md">cran-comments.md</a></strong> to test the package on other environments. Note that these tests should also be included in the automated GitHub actions tests for pull requests.</li>
