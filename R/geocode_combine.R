@@ -13,12 +13,17 @@
 #' @inherit geo return
 #' @examples
 #' \donttest{
-#' geo_combine(queries = list(list(method = 'census'), list(method = 'osm')), address = c("100 Main St New York, NY", "Paris", "Not a Real Address"))
+#' geo_combine(queries = list(list(method = 'census'), list(method = 'osm')), 
+#'   address = c("100 Main St New York, NY", "Paris", "Not a Real Address"))
 #' }
 #' @seealso [geocode_combine] [geo] [geocode]
 #' @export
 geo_combine <- function(queries, global_params = list(), address = NULL, 
-                     street = NULL, city = NULL, county = NULL, state = NULL, postalcode = NULL, country = NULL, ...) {
+                     street = NULL, city = NULL, county = NULL, state = NULL, postalcode = NULL, country = NULL, 
+                     lat = lat, long = long, ...) {
+  
+  lat <- rm_quote(deparse(substitute(lat)))
+  long <- rm_quote(deparse(substitute(long)))
   
   # prepare data for geocode_combine() function
    input_df <- tibble::tibble(
@@ -33,7 +38,7 @@ geo_combine <- function(queries, global_params = list(), address = NULL,
    }
    
   return(
-    geocode_combine(.tbl = input_df, queries = queries, global_params = global_params_combined, ...)
+    geocode_combine(.tbl = input_df, queries = queries, global_params = global_params_combined, lat = lat, long = long, ...)
   )
 }
 
@@ -87,13 +92,13 @@ geocode_combine <- function(.tbl, queries, global_params = list(), query_names =
   # print(all_param_lists)
   
   # remove NULL values from parameter name lists
-  all_param_names_no_null <- lapply(all_param_names, function(x) {
+  all_param_names_no_null <- sapply(all_param_names, function(x) {
     x[sapply(x, is.null)] <- NULL
     return(x)
-    })
+    }, USE.NAMES = FALSE)
   
   # which address arguments were used in the queries
-  used_address_args <- unique(intersect(unlist(all_param_names_no_null), pkg.globals$address_arg_names))
+  used_address_args <- unique(intersect(all_param_names_no_null, pkg.globals$address_arg_names))
   
   #message(paste0('Used address args:', used_address_args))
 
@@ -111,7 +116,7 @@ geocode_combine <- function(.tbl, queries, global_params = list(), query_names =
   # add global arguments to each query
   queries_prepped <- lapply(queries, function(x) {
     c(
-      list(.tbl = .tbl),
+      list(.tbl = .tbl, lat = lat, long = long),
         global_params,
       x)})
   

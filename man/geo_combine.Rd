@@ -14,6 +14,8 @@ geo_combine(
   state = NULL,
   postalcode = NULL,
   country = NULL,
+  lat = lat,
+  long = long,
   ...
 )
 }
@@ -40,6 +42,10 @@ Do not combine with the address component arguments below
 
 \item{country}{country (ie. 'Japan')}
 
+\item{lat}{latitude column name. Can be quoted or unquoted (ie. lat or "lat").}
+
+\item{long}{longitude column name. Can be quoted or unquoted (ie. long or "long").}
+
 \item{...}{arguments passed to the \link{geocode_combine} function}
 }
 \value{
@@ -51,7 +57,8 @@ Passes address inputs in character vector form to the
 }
 \examples{
 \donttest{
-geo_combine(queries = list(list(method = 'census'), list(method = 'osm')), address = c("100 Main St New York, NY", "Paris", "Not a Real Address"))
+geo_combine(queries = list(list(method = 'census'), list(method = 'osm')), 
+  address = c("100 Main St New York, NY", "Paris", "Not a Real Address"))
 }
 }
 \seealso{

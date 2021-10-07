@@ -79,7 +79,7 @@ get_method_bullet <- function(method) {
   # if an API key is required list environmental variable
   api_requirements <- ifelse(
     method %in% tidygeocoder::api_key_reference[['method']],
-    paste0('An API key must be stored in "', 
+    paste0('An API key must be stored in the environmental variable "', 
            get_setting_value(tidygeocoder::api_key_reference, method, 'env_var'), '".'), 
   ''
   )

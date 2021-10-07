@@ -277,16 +277,16 @@ Do not combine with the address component arguments below
 <li><p><code>"osm"</code>: <a href='https://nominatim.org'>Nominatim</a>.</p></li>
 <li><p><code>"census"</code>: <a href='https://geocoding.geo.census.gov/'>US Census</a>. Geographic coverage is limited to the United States.  Batch geocoding is supported.</p></li>
 <li><p><code>"arcgis"</code>: <a href='https://developers.arcgis.com/rest/geocode/api-reference/overview-world-geocoding-service.htm'>ArcGIS</a>.</p></li>
-<li><p><code>"geocodio"</code>: <a href='https://www.geocod.io/'>Geocodio</a>. Geographic coverage is limited to the United States and Canada. An API key must be stored in "GEOCODIO_API_KEY". Batch geocoding is supported.</p></li>
-<li><p><code>"iq"</code>: <a href='https://locationiq.com/'>Location IQ</a>.  An API key must be stored in "LOCATIONIQ_API_KEY".</p></li>
-<li><p><code>"google"</code>: <a href='https://developers.google.com/maps/documentation/geocoding/overview'>Google</a>.  An API key must be stored in "GOOGLEGEOCODE_API_KEY".</p></li>
-<li><p><code>"opencage"</code>: <a href='https://opencagedata.com'>OpenCage</a>.  An API key must be stored in "OPENCAGE_KEY".</p></li>
-<li><p><code>"mapbox"</code>: <a href='https://docs.mapbox.com/api/search/'>Mapbox</a>.  An API key must be stored in "MAPBOX_API_KEY".</p></li>
-<li><p><code>"here"</code>: <a href='https://developer.here.com/products/geocoding-and-search'>HERE</a>.  An API key must be stored in "HERE_API_KEY". Batch geocoding is supported, but must be explicitly called with <code>mode = "batch"</code>.</p></li>
-<li><p><code>"tomtom"</code>: <a href='https://developer.tomtom.com/search-api/search-api-documentation/geocoding'>TomTom</a>.  An API key must be stored in "TOMTOM_API_KEY". Batch geocoding is supported.</p></li>
-<li><p><code>"mapquest"</code>: <a href='https://developer.mapquest.com/documentation/geocoding-api/'>MapQuest</a>.  An API key must be stored in "MAPQUEST_API_KEY". Batch geocoding is supported.</p></li>
-<li><p><code>"bing"</code>: <a href='https://docs.microsoft.com/en-us/bingmaps/rest-services/locations/'>Bing</a>.  An API key must be stored in "BINGMAPS_API_KEY". Batch geocoding is supported, but must be explicitly called with <code>mode = "batch"</code>.</p></li>
-<li><p><code>"geoapify"</code>: <a href='https://www.geoapify.com/geocoding-api'>Geoapify</a>.  An API key must be stored in "GEOAPIFY_KEY".</p></li>
+<li><p><code>"geocodio"</code>: <a href='https://www.geocod.io/'>Geocodio</a>. Geographic coverage is limited to the United States and Canada. An API key must be stored in the environmental variable "GEOCODIO_API_KEY". Batch geocoding is supported.</p></li>
+<li><p><code>"iq"</code>: <a href='https://locationiq.com/'>Location IQ</a>.  An API key must be stored in the environmental variable "LOCATIONIQ_API_KEY".</p></li>
+<li><p><code>"google"</code>: <a href='https://developers.google.com/maps/documentation/geocoding/overview'>Google</a>.  An API key must be stored in the environmental variable "GOOGLEGEOCODE_API_KEY".</p></li>
+<li><p><code>"opencage"</code>: <a href='https://opencagedata.com'>OpenCage</a>.  An API key must be stored in the environmental variable "OPENCAGE_KEY".</p></li>
+<li><p><code>"mapbox"</code>: <a href='https://docs.mapbox.com/api/search/'>Mapbox</a>.  An API key must be stored in the environmental variable "MAPBOX_API_KEY".</p></li>
+<li><p><code>"here"</code>: <a href='https://developer.here.com/products/geocoding-and-search'>HERE</a>.  An API key must be stored in the environmental variable "HERE_API_KEY". Batch geocoding is supported, but must be explicitly called with <code>mode = "batch"</code>.</p></li>
+<li><p><code>"tomtom"</code>: <a href='https://developer.tomtom.com/search-api/search-api-documentation/geocoding'>TomTom</a>.  An API key must be stored in the environmental variable "TOMTOM_API_KEY". Batch geocoding is supported.</p></li>
+<li><p><code>"mapquest"</code>: <a href='https://developer.mapquest.com/documentation/geocoding-api/'>MapQuest</a>.  An API key must be stored in the environmental variable "MAPQUEST_API_KEY". Batch geocoding is supported.</p></li>
+<li><p><code>"bing"</code>: <a href='https://docs.microsoft.com/en-us/bingmaps/rest-services/locations/'>Bing</a>.  An API key must be stored in the environmental variable "BINGMAPS_API_KEY". Batch geocoding is supported, but must be explicitly called with <code>mode = "batch"</code>.</p></li>
+<li><p><code>"geoapify"</code>: <a href='https://www.geoapify.com/geocoding-api'>Geoapify</a>.  An API key must be stored in the environmental variable "GEOAPIFY_KEY".</p></li>
 <li><p><code>"cascade"</code> <a href='https://lifecycle.r-lib.org/articles/stages.html#deprecated'><img src='figures/lifecycle-deprecated.svg' alt='[Deprecated]' /></a> use <a href='geocode_combine.html'>geocode_combine</a> or <a href='geo_combine.html'>geo_combine</a> instead.
 The "cascade" method first uses one geocoding service and then uses
 a second geocoding service if the first service didn't return results.
@@ -469,7 +469,7 @@ If <code>method = "cascade"</code> then no errors will be thrown.</p></td>
     <pre class="examples"><div class='input'><span class='co'># \donttest{</span>
 <span class='fu'>geo</span><span class='op'>(</span>street <span class='op'>=</span> <span class='st'>"600 Peachtree Street NE"</span>, city <span class='op'>=</span> <span class='st'>"Atlanta"</span>,
  state <span class='op'>=</span> <span class='st'>"Georgia"</span>, method <span class='op'>=</span> <span class='st'>"census"</span>, full_results <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'>Passing 1 address to the US Census single address geocoder</span></div><div class='output co'>#&gt; <span class='message'>Query completed in: 1.3 seconds</span></div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 1 × 20</span>
+</div><div class='output co'>#&gt; <span class='message'>Passing 1 address to the US Census single address geocoder</span></div><div class='output co'>#&gt; <span class='message'>Query completed in: 8.3 seconds</span></div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 1 × 20</span>
 #&gt;   street  city  state   lat  long matchedAddress tigerLine.tiger… tigerLine.side
 #&gt;   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>          <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>            <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>         
 #&gt; <span style='color: #BCBCBC;'>1</span> 600 Pe… Atla… Geor…  33.8 -<span style='color: #BB0000;'>84.4</span> 600 PEACHTREE… 17343689         L             
@@ -490,7 +490,7 @@ If <code>method = "cascade"</code> then no errors will be thrown.</p></td>
 #&gt; <span style='color: #BCBCBC;'>3</span> Nairobi, Kenya  -<span style='color: #BB0000;'>1.30</span>  36.8</div><div class='input'> 
 <span class='fu'>geo</span><span class='op'>(</span><span class='st'>"100 Main St New York, NY"</span>, 
  method <span class='op'>=</span> <span class='st'>"census"</span>, api_options <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>census_return_type <span class='op'>=</span> <span class='st'>'geographies'</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'>Passing 1 address to the US Census single address geocoder</span></div><div class='output co'>#&gt; <span class='message'>Query completed in: 2 seconds</span></div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 1 × 3</span>
+</div><div class='output co'>#&gt; <span class='message'>Passing 1 address to the US Census single address geocoder</span></div><div class='output co'>#&gt; <span class='message'>Query completed in: 3.8 seconds</span></div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 1 × 3</span>
 #&gt;   address                    lat  long
 #&gt;   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>                    <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>
 #&gt; <span style='color: #BCBCBC;'>1</span> 100 Main St New York, NY  40.7 -<span style='color: #BB0000;'>74.0</span></div><div class='input'>
