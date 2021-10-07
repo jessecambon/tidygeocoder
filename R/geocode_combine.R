@@ -93,7 +93,7 @@ geocode_combine <- function(.tbl, queries, global_params = list(), query_names =
     })
   
   # which address arguments were used in the queries
-  used_address_args <- intersect(all_param_names_no_null, pkg.globals$address_arg_names)
+  used_address_args <- unique(intersect(unlist(all_param_names_no_null), pkg.globals$address_arg_names))
   
   #message(paste0('Used address args:', used_address_args))
 
