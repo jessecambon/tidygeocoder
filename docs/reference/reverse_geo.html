@@ -343,13 +343,13 @@ Used for testing.</p></td>
     </tr>
     <tr>
       <th>api_options</th>
-      <td><p>a named list of parameters to customize the API endpoint
+      <td><p>a named list of parameters specific to individual services.
 (ex. <code><a href='https://rdrr.io/r/base/list.html'>list(geocodio_v = 1.6, geocodio_hipaa = TRUE)</a></code>). Each parameter begins
 with the name of the <code>method</code> (service) it applies to. The possible parameters
 are shown below with their default values.</p><ul>
 <li><p><code>census_return_type</code> (default: <code>"locations"</code>): set to "geographies" to return
 additional geography columns</p></li>
-<li><p><code>iq_region</code> (default: `"us"``): set to "eu" for European Union</p></li>
+<li><p><code>iq_region</code> (default: <code>"us"</code>): set to "eu" to use the European Union API endpoint</p></li>
 <li><p><code>geocodio_v</code> (default: <code>1.6</code>): the version number of the Geocodio API to be used</p></li>
 <li><p><code>geocodio_hipaa</code> (default: <code>FALSE</code>): set to <code>TRUE</code> to use the HIPAA compliant
 Geocodio API endpoint</p></li>
@@ -376,7 +376,7 @@ parameters need to be FALSE.</p></li>
     </tr>
     <tr>
       <th>mapbox_permanent</th>
-      <td><p><a href='https://lifecycle.r-lib.org/articles/stages.html#deprecated'><img src='figures/lifecycle-deprecated.svg' alt='[Deprecated]' /></a> use <code>api_options</code> parameter instead</p></td>
+      <td><p><a href='https://lifecycle.r-lib.org/articles/stages.html#deprecated'><img src='figures/lifecycle-deprecated.svg' alt='[Deprecated]' /></a> use the <code>api_options</code> parameter instead</p></td>
     </tr>
     <tr>
       <th>here_request_id</th>

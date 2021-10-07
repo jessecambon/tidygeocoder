@@ -202,12 +202,12 @@ citation('tidygeocoder')
         author = {Jesse Cambon and Diego Hernangómez and Christopher Belanger and Daniel Possenriede},
         doi = {10.21105/joss.03544},
         url = {https://doi.org/10.21105/joss.03544},
-        year = {2021},
+        journal = {Journal of Open Source Software},
         publisher = {The Open Journal},
+        year = {2021},
         volume = {6},
         number = {65},
         pages = {3544},
-        journal = {Journal of Open Source Software},
         note = {R package version 1.0.3},
       }
 
