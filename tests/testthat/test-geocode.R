@@ -72,6 +72,10 @@ test_that("Test geo() and reverse_geo() error handling", {
   expect_error(geo(no_query = TRUE, address = 'abc', street = 'xyz', no_query = TRUE)) 
   # invalid return_type
   expect_error(geo(no_query = TRUE, address = 'abc', api_options = list(census_return_type = 'xyz'))) 
+  
+  # invalid api_option argument
+  expect_error(geo(no_query = TRUE, address = 'abc', api_options = list(bad_argument = 'xyz'))) 
+  
   # invalid limit
   expect_error(geo(no_query = TRUE, address = 'abc', limit = 0)) 
   expect_error(reverse_geo(no_query = TRUE, lat = 1, long = 2, limit = 0))

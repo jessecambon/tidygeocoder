@@ -68,16 +68,32 @@ geocode_combine <- function(.tbl, queries, global_params = list(), query_names =
   long <- rm_quote(deparse(substitute(long)))
   
   stopifnot(
-    is.data.frame(.tbl), is.list(queries), is.list(global_params), is.logical(return_list), is.logical(cascade),
+    is.data.frame(.tbl), 
+    is.list(queries), 
+    # either queries is an empty list or contains other lists
+    length(queries) == 0 || all(sapply(queries, is.list)),
+    is.list(global_params), is.logical(return_list), is.logical(cascade),
     is.null(query_names) || is.character(query_names)
   )
   
-  # get all parameter names
-  all_param_names <- unlist(sapply(list(queries, global_params), names))
+  # combine all parameter lists into a list of lists
+  all_param_lists <- queries
+  all_param_lists[[length(queries) + 1]] <- global_params 
   
-  # TODO: check to see if address parameters are set to NULL
-  # which address arguments were used in 
-  used_address_args <- intersect(all_param_names, pkg.globals$address_arg_names)
+  # get all parameter names
+  all_param_names <- unlist(sapply(all_param_lists, names))
+  
+  # print('all_param_lists:')
+  # print(all_param_lists)
+  
+  # remove NULL values from parameter name lists
+  all_param_names_no_null <- lapply(all_param_names, function(x) {
+    x[sapply(x, is.null)] <- NULL
+    return(x)
+    })
+  
+  # which address arguments were used in the queries
+  used_address_args <- intersect(all_param_names_no_null, pkg.globals$address_arg_names)
   
   #message(paste0('Used address args:', used_address_args))
 
@@ -85,18 +101,10 @@ geocode_combine <- function(.tbl, queries, global_params = list(), query_names =
   # we can track which address is which by index) ??
   
   if (cascade == TRUE) {
-    for (query in list(queries, global_params)) {
+    for (query in all_param_lists) {
       if (!is.null(query[["return_input"]]) && query[["return_input"]] == FALSE) {
-        stop('return_input must be set to TRUE', call. = FALSE)
+        stop('return_input must be set to TRUE for geocode_combine()', call. = FALSE)
       }
-    
-    # If an address argument was used and was not NULL then record it 
-    # for (i in 1:length(query)) {
-    #   # TODO: && (!is.null(query[[i]])
-    #   if ((names(query)[[i]] %in% pkg.globals$address_arg_names)) {
-    #     used_address_args <- unique(c(used_address_args, names(query)[[i]]))
-    #   }
-    # }
     }
   }
   
@@ -109,10 +117,31 @@ geocode_combine <- function(.tbl, queries, global_params = list(), query_names =
   
   # Set default query names and check user input query names
   if (is.null(query_names)) {
-    query_names <- unlist(lapply(queries_prepped, function(q) q[['method']]))
+    # default query names to the method arguments and fill in 'osm' if the method argument isn't provided
+    query_names <- unlist(lapply(queries_prepped, function(q) if (!is.null(q[['method']])) q[['method']] else 'osm'))
+    
+    # number duplicate query names if necessary (to prevent duplicates)
+    for (name in unique(query_names)) {
+      # if the given name occurs more than once in query_names then iterate through and add numbers
+      if ((sum(query_names == name)) > 1) {
+        i <- 1
+        dup_num <- 1
+        for (i in 1:length(query_names)) {
+          if (query_names[[i]] == name) {
+            query_names[[i]] <- paste0(query_names[[i]], as.character(dup_num), collapse = '')
+            dup_num <- dup_num + 1
+          }
+        }
+      }
+    }
+    
   } else {
     if (length(query_names) != length(queries)) {
       stop('query_names parameter must contain one name per query provided. see ?geocode_combine')
+    }
+    
+    if (any(duplicated(query_names)) == TRUE) {
+      stop('query_names values should be unique. See ?geocode_combine')
     }
   }
   
@@ -149,6 +178,8 @@ geocode_combine <- function(.tbl, queries, global_params = list(), query_names =
       # adjust the input dataframe based on which addresses were not found in prior query
       if (nrow(not_found) != 0) {
         query[['.tbl']] <- not_found
+      } else if (i != 1) {
+        break # break loop - all addresses are geocoded
       }
     }
     
@@ -164,12 +195,12 @@ geocode_combine <- function(.tbl, queries, global_params = list(), query_names =
     all_results <- if (cascade == TRUE) c(all_results, list(found)) else c(all_results, list(result))
   }
   
-  names(all_results) <- query_names
+  names(all_results) <- query_names[1:length(all_results)]
   
   # if there are addresses that no method found then in cascade then 
   # separate them into their own list item
   if (cascade == TRUE) {
-    if(nrow(not_found) != 0) all_results[["none"]] <- not_found
+    if(nrow(not_found) != 0) all_results[[length(all_results) + 1]] <- not_found
   }
   
   # bind all results into one dataframe if return_list == FALSE
@@ -199,6 +230,7 @@ geocode_combine <- function(.tbl, queries, global_params = list(), query_names =
     # sort the dataset
     bound_data_joined <- bound_data_joined[order(bound_data_joined[['.id']]), ]
     
+    # remove .id column before returning the dataset
     return(bound_data_joined[!names(bound_data_joined) %in% '.id'])
   }
 }

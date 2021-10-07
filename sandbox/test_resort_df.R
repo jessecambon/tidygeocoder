@@ -10,8 +10,6 @@ addresses_in_order <- tibble(
 addresses_out_of_order <- addresses_in_order %>%
   arrange(desc(state))
 
-
-
 addresses_resort <- addresses_out_of_order %>%
   left_join(
     addresses_in_order %>% mutate(.id = 1:nrow(addresses_in_order)) %>%

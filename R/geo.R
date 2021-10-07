@@ -276,7 +276,7 @@ geo <- function(address = NULL,
     
     # use cascade_flag in api_options to prevent param_error and batch_limit_error deprecation warnings
     # from being triggered whenever method = 'cascade' is used
-    if (!is.null(api_options[['cascade_flag']]) && api_options[['cascade_flag']] != TRUE) {
+    if (is.null(api_options[['cascade_flag']]) || api_options[['cascade_flag']] != TRUE) {
       if (!missing("batch_limit_error")) lifecycle::deprecate_warn("1.0.4", 'geo(batch_limit_error)')
       if (!missing("param_error")) lifecycle::deprecate_warn("1.0.4", 'geo(param_error)')
     }
