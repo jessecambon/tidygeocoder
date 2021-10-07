@@ -92,15 +92,19 @@ geocode_combine <- function(.tbl, queries, global_params = list(), query_names =
   # print(all_param_lists)
   
   # remove NULL values from parameter name lists
-  all_param_names_no_null <- sapply(all_param_names, function(x) {
-    x[sapply(x, is.null)] <- NULL
-    return(x)
-    }, USE.NAMES = FALSE)
+  # all_param_names_no_null <- sapply(all_param_names, function(x) {
+  #   x[sapply(x, is.null)] <- NULL
+  #   return(x)
+  #   }, USE.NAMES = FALSE)
   
   # which address arguments were used in the queries
-  used_address_args <- unique(intersect(all_param_names_no_null, pkg.globals$address_arg_names))
+  #used_address_args <- unique(intersect(all_param_names_no_null, pkg.globals$address_arg_names))
   
-  #message(paste0('Used address args:', used_address_args))
+  # which columns are used to store addresses
+  used_address_colnames <- unique(unlist(sapply(all_param_lists, 
+            function(x) unlist(x[names(x) %in% pkg.globals$address_arg_names], use.names = FALSE))))
+  
+  #message(paste0('used_address_colnames: ', used_address_colnames))
 
   # TODO: make a workaround so return_input can be FALSE if limit = 1 for all queries (ie.
   # we can track which address is which by index) ??
@@ -226,11 +230,11 @@ geocode_combine <- function(.tbl, queries, global_params = list(), query_names =
     bound_data <- bound_data[!names(bound_data) %in% '.id']
     
     # reorder the dataset to match the order it was received in before returning it
-    proper_order <- unique(.tbl[used_address_args])
+    proper_order <- unique(.tbl[used_address_colnames])
     proper_order[['.id']] <- 1:nrow(proper_order)
     
     # join to get our id column so we can sort
-    bound_data_joined <- dplyr::left_join(bound_data, proper_order, by = used_address_args)
+    bound_data_joined <- dplyr::left_join(bound_data, proper_order, by = used_address_colnames)
       
     # sort the dataset
     bound_data_joined <- bound_data_joined[order(bound_data_joined[['.id']]), ]
