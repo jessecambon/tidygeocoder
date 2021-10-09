@@ -24,13 +24,17 @@ geocode_combine(
 \item{global_params}{list parameter. Contains parameters to be used for all queries.
 (ie. \code{list(full_results = TRUE, unique_only = TRUE)})}
 
-\item{query_names}{an optional vector of names to use for labeling the queries.}
+\item{query_names}{an optional vector of names to use for labeling the results of each query.
+These names are either placed in a \code{query} column if \code{cascade = TRUE}.
+If null then the \code{method} parameter values will be used as names.}
 
-\item{return_list}{if TRUE then results will be returned in a named list. If FALSE (default)
-then all results will be combined into a single dataframe.}
+\item{return_list}{if TRUE then results from each service will be returned as separate
+items in a named list. If FALSE (default) then all results will be combined into a
+single dataframe.}
 
-\item{cascade}{if TRUE then only addresses that are not found will be attempted by
-the following query. If FALSE then all queries will attempt to geocode all addresses.}
+\item{cascade}{if TRUE (default) then only addresses that are not found by a geocoding
+service will be attempted by subsequent queries.
+If FALSE then all queries will attempt to geocode all addresses.}
 
 \item{lat}{latitude column name. Can be quoted or unquoted (ie. lat or 'lat').}
 

@@ -37,9 +37,15 @@ geo_combine <- function(queries, global_params = list(), address = NULL,
      global_params_combined[[colname]] <- colname
    }
    
-  return(
-    geocode_combine(.tbl = input_df, queries = queries, global_params = global_params_combined, lat = lat, long = long, ...)
-  )
+   # pass arguments as a list
+   arguments_to_pass <- c(list(
+     .tbl = input_df, queries = queries, global_params = global_params_combined, lat = lat, long = long), 
+     list(...)
+     )
+
+   return(
+     do.call(geocode_combine, arguments_to_pass)
+   )
 }
 
 
@@ -52,11 +58,15 @@ geo_combine <- function(queries, global_params = list(), address = NULL,
 #'   (ie. `list(list(method = 'osm'), list(method = 'census'), ...)`)
 #' @param global_params list parameter. Contains parameters to be used for all queries.
 #'   (ie. `list(full_results = TRUE, unique_only = TRUE)`)
-#' @param return_list if TRUE then results will be returned in a named list. If FALSE (default) 
-#'   then all results will be combined into a single dataframe.
-#' @param cascade if TRUE then only addresses that are not found will be attempted by
-#'   the following query. If FALSE then all queries will attempt to geocode all addresses.
-#' @param query_names an optional vector of names to use for labeling the queries.
+#' @param return_list if TRUE then results from each service will be returned as separate 
+#'   items in a named list. If FALSE (default) then all results will be combined into a 
+#'   single dataframe.
+#' @param cascade if TRUE (default) then only addresses that are not found by a geocoding 
+#'   service will be attempted by subsequent queries. 
+#'   If FALSE then all queries will attempt to geocode all addresses.
+#' @param query_names an optional vector of names to use for labeling the results of each query.
+#'   These names are either placed in a `query` column if `cascade = TRUE`.
+#'   If null then the `method` parameter values will be used as names.
 #' @inheritParams geocode
 #' @inherit geo return
 #' @examples
@@ -130,6 +140,7 @@ geocode_combine <- function(.tbl, queries, global_params = list(), query_names =
     query_names <- unlist(lapply(queries_prepped, function(q) if (!is.null(q[['method']])) q[['method']] else 'osm'))
     
     # number duplicate query names if necessary (to prevent duplicates)
+    # ie. 'osm1', 'osm2', etc.
     for (name in unique(query_names)) {
       # if the given name occurs more than once in query_names then iterate through and add numbers
       if ((sum(query_names == name)) > 1) {
@@ -146,7 +157,7 @@ geocode_combine <- function(.tbl, queries, global_params = list(), query_names =
     
   } else {
     if (length(query_names) != length(queries)) {
-      stop('query_names parameter must contain one name per query provided. see ?geocode_combine')
+      stop('query_names parameter must contain one name per query provided. See ?geocode_combine')
     }
     
     if (any(duplicated(query_names)) == TRUE) {
