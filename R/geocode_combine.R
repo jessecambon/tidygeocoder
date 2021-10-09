@@ -37,7 +37,7 @@ geo_combine <- function(queries, global_params = list(), address = NULL,
      global_params_combined[[colname]] <- colname
    }
    
-   # pass arguments as a list
+   # pass arguments to geocode_combine() as a list. lat and long arguments did not work when passed directly
    arguments_to_pass <- c(list(
      .tbl = input_df, queries = queries, global_params = global_params_combined, lat = lat, long = long), 
      list(...)
@@ -244,7 +244,7 @@ geocode_combine <- function(.tbl, queries, global_params = list(), query_names =
     proper_order <- unique(.tbl[used_address_colnames])
     proper_order[['.id']] <- 1:nrow(proper_order)
     
-    # join to get our id column so we can sort
+    # join to get our .id column so we can sort the output dataset
     bound_data_joined <- dplyr::left_join(bound_data, proper_order, by = used_address_colnames)
       
     # sort the dataset
