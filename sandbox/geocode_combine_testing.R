@@ -7,9 +7,9 @@ library(tidygeocoder)
 
 tie_addresses <- tribble(
   ~res_street_address, ~res_city_desc, ~state_cd, ~zip_code,
-  "624 W DAVIS ST   #1D",   "BURLINGTON",      "NC",     27215,
-  "201 E CENTER ST   #268",       "MEBANE",      "NC",     27302,
-  "100 Wall Street",    "New York",      "NY",     NA
+  "624 W DAVIS ST #1D",   "BURLINGTON", "NC", 27215,
+  "201 E CENTER ST #268", "MEBANE",     "NC", 27302,
+  "100 Wall Street",      "New York",   "NY", 10005
 )
 
 tie_results <- tie_addresses %>%

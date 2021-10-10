@@ -210,8 +210,17 @@ test_that("Test reverse_geocode() error handling", {
 
 test_that("Test geocode_combine()", {
   # test that output is a tibble
-  expect_true(is_tibble(na_results <- geocode_combine(sample_addresses, list(list(method = 'osm'), list(method = 'arcgis')),
-        global_params = list(address = 'addr', no_query = TRUE))))
+  expect_true(is_tibble(
+    na_results <- geocode_combine(sample_addresses, 
+        queries = list(list(method = 'osm'), list(method = 'arcgis')),
+        global_params = list(address = 'addr', no_query = TRUE))
+    ))
+  
+  # make sure all input address column names are included in output
+  expect_equal(
+    length(intersect(colnames(sample_addresses), colnames(na_results))),
+    length(colnames(sample_addresses))
+  )
   
   # Make sure number of rows is preserved in the output
   expect_equal(nrow(na_results), nrow(sample_addresses))
@@ -259,6 +268,31 @@ test_that("Test geocode_combine()", {
     geocode_combine(sample_addresses, list(list(method = 'osm'), list(method = 'arcgis')),
                     global_params = list(address = 'bad column name', no_query = TRUE))
   )
+  
+  # Test list output -------------------------------------------------------------------------
+  expect_true(is.list(
+    na_results_list <- geocode_combine(sample_addresses, 
+                  return_list = TRUE,
+                  queries = list(list(method = 'census'), list(method = 'osm')),
+                  global_params = list(address = 'addr', no_query = TRUE))
+  ))
+  
+  # all items in list should be a tibble
+  expect_true(all(sapply(na_results_list, is_tibble)))
+  
+  # check list names
+  expect_setequal(
+    names(na_results_list),
+    c('census', 'osm', '')
+  )
+  
+  # check that all results are categorized as not found (last item in the list)
+  expect_equal(nrow(na_results_list[[3]]), nrow(sample_addresses))
+  
+  # check column names in NA output
+  expect_setequal(colnames(na_results_list[[3]]), colnames(sample_addresses))
+  
+  
   
 })
 
