@@ -15,6 +15,8 @@
 #' \donttest{
 #' geo_combine(queries = list(list(method = 'census'), list(method = 'osm')), 
 #'   address = c("100 Main St New York, NY", "Paris", "Not a Real Address"))
+#'   
+#' 
 #' }
 #' @seealso [geocode_combine] [geo] [geocode]
 #' @export
@@ -22,6 +24,7 @@ geo_combine <- function(queries, global_params = list(), address = NULL,
                      street = NULL, city = NULL, county = NULL, state = NULL, postalcode = NULL, country = NULL, 
                      lat = lat, long = long, ...) {
   
+  # NSE - converts lat and long parameters to character values
   lat <- rm_quote(deparse(substitute(lat)))
   long <- rm_quote(deparse(substitute(long)))
   
@@ -79,6 +82,7 @@ geo_combine <- function(queries, global_params = list(), address = NULL,
 #' @export
 geocode_combine <- function(.tbl, queries, global_params = list(), query_names = NULL, return_list = FALSE, cascade = TRUE, lat = lat, long = long) {
   
+  # NSE - converts lat and long parameters to character values
   lat <- rm_quote(deparse(substitute(lat)))
   long <- rm_quote(deparse(substitute(long)))
   
@@ -229,10 +233,17 @@ geocode_combine <- function(.tbl, queries, global_params = list(), query_names =
     return(all_results)
   } else {
     # create query name column before combining results into single dataframe
-    all_results_labeled <- lapply(
-      names(all_results), function(x) 
-        dplyr::bind_cols(all_results[[x]], tibble::tibble(query = x))
-      )
+    # all_results_labeled <- lapply(
+    #   names(all_results), function(x) 
+    #     dplyr::bind_cols(all_results[[x]], tibble::tibble(query = x))
+    #   )
+    
+    # names we want to populate 'query' label column
+    query_names_to_use <- names(sapply(all_results, names))
+    
+    # label the dataframes contained in the all_results list with a 'query' column
+    all_results_labeled <- mapply(function(x, y) dplyr::bind_cols(x, tibble::tibble(query = y)), 
+                       all_results, query_names_to_use, SIMPLIFY = FALSE)
     
     # put all results into a single dataframe
     bound_data <- dplyr::bind_rows(all_results_labeled)

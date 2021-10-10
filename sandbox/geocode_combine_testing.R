@@ -33,3 +33,8 @@ geo_combine(list(list(method = 'census'), list(method = 'osm')),
 geo_combine(list(list(method = 'census'), list(method = 'osm')), 
             global_params = list(address = 'address', limit = 3, mode = 'single', return_input = FALSE, unique_only = TRUE), 
             address = c('Paris', 'Tokyo', 'Paris', '100 Main Street New York, NY', 'London'), cascade = FALSE, return_list = TRUE)
+
+# Does this return NAs properly?
+
+geocode_combine(sample_addresses, list(list(method = 'osm'), list(method = 'arcgis')), 
+                global_params = list(address = 'addr', no_query = TRUE))

@@ -98,6 +98,9 @@ test_that("Test geo() and reverse_geo() error handling", {
   # invalid mapbox_permanent parameter
   expect_error(geo(no_query = TRUE, address = 'abc', api_options = list(mapbox_permanent = "AA")))
   
+  # invalid api_options parameter
+  expect_error(geo(no_query = TRUE, address = 'abc', api_options = list(invalid_parameter = "blah")))
+  
   # invalid here_request_id parameter
   expect_error(geo(no_query = TRUE, address = 'abc', method = 'here', api_options = list(here_request_id  = 12345)))
   expect_error(reverse_geo(no_query = TRUE, lat = 1, long = 2, method = 'here', api_options = list(here_request_id  = 12345)))
@@ -118,7 +121,6 @@ test_that("Test geo() and reverse_geo() error handling", {
   # Test reverse_geo() batch limit handling
   expect_error(reverse_geo(lat = c(1,2,3), long = c(0,0,0),
                    method = 'geocodio', batch_limit = 2, no_query = TRUE))
-  
 })
 
 test_that("Test geocode() error handling", {
@@ -204,3 +206,59 @@ test_that("Test reverse_geocode() error handling", {
   # non-dataframe input
   expect_error(reverse_geocode(named_list, no_query = TRUE, address = 'addr'))
 })
+
+
+test_that("Test geocode_combine()", {
+  # test that output is a tibble
+  expect_true(is_tibble(na_results <- geocode_combine(sample_addresses, list(list(method = 'osm'), list(method = 'arcgis')),
+        global_params = list(address = 'addr', no_query = TRUE))))
+  
+  # Make sure number of rows is preserved in the output
+  expect_equal(nrow(na_results), nrow(sample_addresses))
+  
+  # method error handling
+  expect_error(
+    geocode_combine(sample_addresses, list(list(method = 'invalid_method'), list(method = 'arcgis')),
+                    global_params = list(address = 'addr', no_query = TRUE))
+  )
+  
+  # global_params error handling
+  expect_error(
+    geocode_combine(sample_addresses, list(list(method = 'osm'), list(method = 'arcgis')),
+                    global_params = list(address = 'addr', bad_argument = TRUE, no_query = TRUE))
+  )
+  
+  # bad queries argument
+  expect_error(
+    geocode_combine(sample_addresses, 'blarg',
+                    global_params = list(address = 'addr', no_query = TRUE))
+  )
+  
+  # Duplicate query names
+  expect_error(
+    geocode_combine(sample_addresses, list(list(method = 'osm'), list(method = 'arcgis')),
+                    query_names = c('duplicate', 'duplicate'),
+                    global_params = list(address = 'addr', no_query = TRUE))
+  )
+  
+  # Invalid number of query names
+  expect_error(
+    geocode_combine(sample_addresses, list(list(method = 'osm'), list(method = 'arcgis')),
+                    query_names = c('only one name'),
+                    global_params = list(address = 'addr', no_query = TRUE))
+  )
+  
+  # Invalid dataframe argument
+  expect_error(
+    geocode_combine(list(x = 1), list(list(method = 'osm'), list(method = 'arcgis')),
+                    global_params = list(address = 'addr', no_query = TRUE))
+  )
+  
+  # Invalid address argument
+  expect_error(
+    geocode_combine(sample_addresses, list(list(method = 'osm'), list(method = 'arcgis')),
+                    global_params = list(address = 'bad column name', no_query = TRUE))
+  )
+  
+})
+

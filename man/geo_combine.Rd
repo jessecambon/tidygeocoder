@@ -59,6 +59,8 @@ Passes address inputs in character vector form to the
 \donttest{
 geo_combine(queries = list(list(method = 'census'), list(method = 'osm')), 
   address = c("100 Main St New York, NY", "Paris", "Not a Real Address"))
+  
+
 }
 }
 \seealso{
