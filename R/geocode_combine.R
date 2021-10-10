@@ -21,8 +21,8 @@
 #' @seealso [geocode_combine] [geo] [geocode]
 #' @export
 geo_combine <- function(queries, global_params = list(), address = NULL, 
-                     street = NULL, city = NULL, county = NULL, state = NULL, postalcode = NULL, country = NULL, 
-                     lat = lat, long = long, ...) {
+                     street = NULL, city = NULL, county = NULL, state = NULL, postalcode = NULL, 
+                     country = NULL, lat = lat, long = long, ...) {
   
   # NSE - converts lat and long parameters to character values
   lat <- rm_quote(deparse(substitute(lat)))
@@ -77,10 +77,27 @@ geo_combine <- function(queries, global_params = list(), address = NULL,
 #' geocode_combine(sample_addresses,
 #'  queries = list(list(method = 'census'), list(method = 'osm')),
 #'  global_params = list(address = 'addr'), cascade = TRUE)
+#' 
+#'  geocode_combine( 
+#'      tibble::tribble(
+#'      ~res_street_address, ~res_city_desc, ~state_cd, ~zip_code,
+#'      "624 W DAVIS ST #1D",   "BURLINGTON", "NC", 27215,
+#'      "201 E CENTER ST #268", "MEBANE",     "NC", 27302,
+#'      "100 Wall Street",      "New York",   "NY", 10005
+#'      ),
+#'      queries = list(
+#'          list(method = 'census', mode = 'batch'),
+#'          list(method = 'census', mode = 'single')
+#'       ),
+#'      global_params = list(street = 'res_street_address', 
+#'        city = 'res_city_desc', state = 'state_cd', postalcode = 'zip_code'),
+#'      query_names = c('census batch', 'census single')
+#'  )
 #' }
 #' @seealso [geo_combine] [geo] [geocode]
 #' @export
-geocode_combine <- function(.tbl, queries, global_params = list(), query_names = NULL, return_list = FALSE, cascade = TRUE, lat = lat, long = long) {
+geocode_combine <- function(.tbl, queries, global_params = list(), query_names = NULL, 
+                          return_list = FALSE, cascade = TRUE, lat = lat, long = long) {
   
   # NSE - converts lat and long parameters to character values
   lat <- rm_quote(deparse(substitute(lat)))
