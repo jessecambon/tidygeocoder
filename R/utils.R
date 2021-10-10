@@ -104,7 +104,7 @@ format_address <- function(df, fields) {
 
 check_api_options <- function(api_options, func_name) {
   for (param in names(api_options)) {
-    if (!param %in% c('cascade_flag', names(pkg.globals$default_api_options))) {
+    if (!param %in% c('cascade_flag', "init", names(pkg.globals$default_api_options))) {
       stop(paste0("Invalid parameter ", '"', param, '"', " used in the api_options argument. See ?", func_name), call. = FALSE)
     }
   }
@@ -337,7 +337,6 @@ api_url_modification <- function(method, api_url, generic_query, custom_query, r
   }
   
   return(api_url)
-  
 }
 
 # apply api options defaults for options not specified by the user.
@@ -345,6 +344,17 @@ api_url_modification <- function(method, api_url, generic_query, custom_query, r
 apply_api_options_defaults <- function(api_options) {
   for (name in names(pkg.globals$default_api_options)) {
     if (is.null(api_options[[name]])) api_options[[name]] <- pkg.globals$default_api_options[[name]]
+  }
+  return(api_options)
+}
+
+# Set the api_options[["init"]] parameter
+# init is for internal package use only, used to designate if the geo() or reverse_geo() function
+# is being called for the first time (init = TRUE) or if it has called itself 
+# recursively (init = FALSE)
+initialize_init <- function(api_options) {
+  if (is.null(api_options[["init"]])) {
+    api_options[["init"]] <- TRUE
   }
   return(api_options)
 }

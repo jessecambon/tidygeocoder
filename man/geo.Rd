@@ -39,8 +39,7 @@ geo(
   param_error = TRUE,
   mapbox_permanent = FALSE,
   here_request_id = NULL,
-  mapquest_open = FALSE,
-  init = TRUE
+  mapquest_open = FALSE
 )
 }
 \arguments{
@@ -186,8 +185,6 @@ If \code{method = "cascade"} then no errors will be thrown.}
 \item{here_request_id}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} use the \code{api_options} parameter instead}
 
 \item{mapquest_open}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} use the \code{api_options} parameter instead}
-
-\item{init}{internal package use only. Set to TRUE for initial query and FALSE otherwise.}
 }
 \value{
 tibble (dataframe)

@@ -126,8 +126,6 @@ progress_geo <- function(pb = NULL, ...) {
 #' @param mapbox_permanent `r lifecycle::badge("deprecated")` use the `api_options` parameter instead
 #' @param here_request_id `r lifecycle::badge("deprecated")` use the `api_options` parameter instead
 #' @param mapquest_open `r lifecycle::badge("deprecated")` use the `api_options` parameter instead
-#'   
-#' @param init internal package use only. Set to TRUE for initial query and FALSE otherwise.
 #'    
 #' @return tibble (dataframe)
 #' @examples
@@ -156,15 +154,18 @@ geo <- function(address = NULL,
     custom_query = list(), api_options = list(), 
     return_type = 'locations', iq_region = 'us', geocodio_v = 1.6, 
     param_error = TRUE, mapbox_permanent = FALSE, here_request_id = NULL,
-    mapquest_open = FALSE, init = TRUE) {
+    mapquest_open = FALSE) {
 
   # NSE - Quote unquoted vars without double quoting quoted vars
   # end result - all of these variables become character values
   lat <- rm_quote(deparse(substitute(lat)))
   long <- rm_quote(deparse(substitute(long)))
   
+  # set the api_optons[["init"]] parameter if it is NULL
+  api_options <- initialize_init(api_options)
+  
   # Deprecate arguments that are replaced by the api_options parameter
-  if (init == TRUE) {
+  if (api_options[["init"]] == TRUE) {
     # Deprecate return_type argument
     if (!missing("return_type") && !is.null(return_type)) {
       lifecycle::deprecate_warn("1.0.4", "geo(return_type)", with = "geo(api_options)")
@@ -202,7 +203,6 @@ geo <- function(address = NULL,
     }
   }
   
-  
   # apply api options defaults for options not specified by the user
   api_options <- apply_api_options_defaults(api_options)
   
@@ -210,7 +210,7 @@ geo <- function(address = NULL,
   # IMPORTANT: make sure to put this statement before any other variables are defined in the function
   all_args <- as.list(environment())
   if (method != 'cascade') {
-    all_args$init <- FALSE  # follow up queries are not the initial query
+    all_args$api_options[["init"]] <- FALSE  # follow up queries are not the initial query
   } else {
     lifecycle::deprecate_warn("1.0.4", 'geo(method = "cannot be \\"cascade\\"")', "geocode_combine()")
     
@@ -270,7 +270,7 @@ geo <- function(address = NULL,
   }
   
   # Deprecate parameters that only existed because of method = "cascade"
-  if (init == TRUE) {
+  if (api_options[["init"]] == TRUE) {
     if (!missing("cascade_order")) lifecycle::deprecate_warn("1.0.4", 'geo(cascade_order)', "geocode_combine()")
     
     # use cascade_flag in api_options to prevent param_error and batch_limit_error deprecation warnings
@@ -370,7 +370,7 @@ geo <- function(address = NULL,
   
   # Single address geocoding is used if the method has no batch function or if 
   # mode = 'single' was specified
-  if ((init == TRUE) && (mode != 'batch') && ( !(method %in% names(batch_func_map)) || ((num_unique_addresses == 1) || (mode == 'single')) )) {
+  if ((api_options[["init"]] == TRUE) && (mode != 'batch') && ( !(method %in% names(batch_func_map)) || ((num_unique_addresses == 1) || (mode == 'single')) )) {
     
       if (quiet == FALSE) {
         query_start_message(method, num_unique_addresses, reverse = FALSE, batch = FALSE)
@@ -402,7 +402,7 @@ geo <- function(address = NULL,
       }
       
   # Batch geocoding --------------------------------------------------------------------------
-  if (init == TRUE) {
+  if (api_options[["init"]] == TRUE) {
     
     if (verbose == TRUE) message('Executing batch geocoding...\n')
     

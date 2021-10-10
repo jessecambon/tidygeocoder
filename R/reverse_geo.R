@@ -105,12 +105,15 @@ reverse_geo <- function(lat, long, method = 'osm', address = address, limit = 1,
     api_url = NULL, timeout = 20, flatten = TRUE, 
     batch_limit = NULL, verbose = isTRUE(getOption("tidygeocoder.verbose")), 
     no_query = FALSE, custom_query = list(), api_options = list(), iq_region = 'us', geocodio_v = 1.6,
-    mapbox_permanent = FALSE, here_request_id = NULL, mapquest_open = FALSE, init = TRUE) {
+    mapbox_permanent = FALSE, here_request_id = NULL, mapquest_open = FALSE) {
 
   # NSE eval
   address <- rm_quote(deparse(substitute(address)))
   
-  if (init == TRUE) {
+  # set the api_optons[["init"]] parameter if it is NULL
+  api_options <- initialize_init(api_options)
+  
+  if (api_options[["init"]] == TRUE) {
     # Deprecate the iq_region argument
     if (!missing("iq_region")) {
       lifecycle::deprecate_warn("1.0.4", "reverse_geo(iq_region)", with = "reverse_geo(api_options)")
@@ -153,7 +156,7 @@ reverse_geo <- function(lat, long, method = 'osm', address = address, limit = 1,
   # capture all function arguments including default values as a named list.
   # IMPORTANT: make sure to put this statement before any other variables are defined in the function
   all_args <- as.list(environment())
-  all_args$init <- FALSE # any following queries are not the initial query
+  all_args$api_options[["init"]] <- FALSE # any following queries are not the initial query
   # remove NULL arguments
   all_args[sapply(all_args, is.null)] <- NULL
   
@@ -204,7 +207,7 @@ reverse_geo <- function(lat, long, method = 'osm', address = address, limit = 1,
   }
   
   # Geocode coordinates one at a time in a loop -------------------------------------------------------
-  if ((init == TRUE) && (mode != 'batch') && ((!(method %in% names(reverse_batch_func_map))) || (num_unique_coords == 1) || (mode == 'single'))) {
+  if ((api_options[["init"]] == TRUE) && (mode != 'batch') && ((!(method %in% names(reverse_batch_func_map))) || (num_unique_coords == 1) || (mode == 'single'))) {
     
     # construct arguments for a single address query
     # note that non-lat/long related fields go to the MoreArgs argument of mapply
@@ -246,7 +249,7 @@ reverse_geo <- function(lat, long, method = 'osm', address = address, limit = 1,
   }
   
   # Batch geocoding --------------------------------------------------------------------------
-  if (init == TRUE) {
+  if (api_options[["init"]] == TRUE) {
     if (verbose == TRUE) message('Executing batch geocoding...\n')
     
     # check for conflict between limit and return_coords arguments
