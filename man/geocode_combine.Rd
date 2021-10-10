@@ -18,7 +18,8 @@ geocode_combine(
 \arguments{
 \item{.tbl}{dataframe containing addresses}
 
-\item{queries}{list of lists parameter. Each list contains parameters for a query
+\item{queries}{list of lists parameter. Each list contains parameters for a query.
+The queries are executed in the order provided.
 (ie. \code{list(list(method = 'osm'), list(method = 'census'), ...)})}
 
 \item{global_params}{list parameter. Contains parameters to be used for all queries.

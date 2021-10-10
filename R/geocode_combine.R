@@ -4,7 +4,8 @@
 #' @description Passes address inputs in character vector form to the
 #'  [geocode_combine] function for geocoding.
 #' 
-#' @param queries list of lists parameter. Each list contains parameters for a query
+#' @param queries list of lists parameter. Each list contains parameters for a query.
+#'   The queries are executed in the order provided.
 #'   (ie. `list(list(method = 'osm'), list(method = 'census'), ...)`)
 #' @param global_params list parameter. Contains parameters to be used for all queries. 
 #'   (ie. `list(full_results = TRUE, unique_only = TRUE)`)
@@ -57,7 +58,8 @@ geo_combine <- function(queries, global_params = list(), address = NULL,
 #' @description Executes multiple geocoding queries on a dataframe input and combines
 #'  the results. To use a character vector input instead, see the [geo_combine] function.
 #' 
-#' @param queries list of lists parameter. Each list contains parameters for a query
+#' @param queries list of lists parameter. Each list contains parameters for a query. 
+#'   The queries are executed in the order provided.
 #'   (ie. `list(list(method = 'osm'), list(method = 'census'), ...)`)
 #' @param global_params list parameter. Contains parameters to be used for all queries.
 #'   (ie. `list(full_results = TRUE, unique_only = TRUE)`)

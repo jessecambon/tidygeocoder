@@ -100,7 +100,8 @@ progress_geo <- function(pb = NULL, ...) {
 #'   are shown below with their default values.
 #'   
 #'   - `census_return_type` (default: `"locations"`): set to "geographies" to return
-#'     additional geography columns
+#'     additional geography columns. Make sure to use `full_results = TRUE` if using
+#'     the "geographies" setting.
 #'   - `iq_region` (default: `"us"`): set to "eu" to use the European Union API endpoint 
 #'   - `geocodio_v` (default: `1.6`): the version number of the Geocodio API to be used
 #'   - `geocodio_hipaa` (default: `FALSE`): set to `TRUE` to use the HIPAA compliant
