@@ -39,8 +39,7 @@ geo(
   param_error = TRUE,
   mapbox_permanent = FALSE,
   here_request_id = NULL,
-  mapquest_open = FALSE,
-  init = TRUE
+  mapquest_open = FALSE
 )
 }
 \arguments{
@@ -153,7 +152,8 @@ with the name of the \code{method} (service) it applies to. The possible paramet
 are shown below with their default values.
 \itemize{
 \item \code{census_return_type} (default: \code{"locations"}): set to "geographies" to return
-additional geography columns
+additional geography columns. Make sure to use \code{full_results = TRUE} if using
+the "geographies" setting.
 \item \code{iq_region} (default: \code{"us"}): set to "eu" to use the European Union API endpoint
 \item \code{geocodio_v} (default: \code{1.6}): the version number of the Geocodio API to be used
 \item \code{geocodio_hipaa} (default: \code{FALSE}): set to \code{TRUE} to use the HIPAA compliant
@@ -186,8 +186,6 @@ If \code{method = "cascade"} then no errors will be thrown.}
 \item{here_request_id}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} use the \code{api_options} parameter instead}
 
 \item{mapquest_open}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} use the \code{api_options} parameter instead}
-
-\item{init}{internal package use only. Set to TRUE for initial query and FALSE otherwise.}
 }
 \value{
 tibble (dataframe)
@@ -212,12 +210,12 @@ API queries.
 \examples{
 \donttest{
 geo(street = "600 Peachtree Street NE", city = "Atlanta",
- state = "Georgia", method = "census", full_results = TRUE)
+ state = "Georgia", method = "census")
 
 geo(address = c("Tokyo, Japan", "Lima, Peru", "Nairobi, Kenya"),
  method = 'osm')
  
-geo("100 Main St New York, NY", 
+geo("100 Main St New York, NY",  full_results = TRUE,
  method = "census", api_options = list(census_return_type = 'geographies'))
 
 geo(county = 'Jefferson', state = "Kentucky", country = "US",

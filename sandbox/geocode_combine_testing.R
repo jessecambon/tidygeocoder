@@ -7,9 +7,9 @@ library(tidygeocoder)
 
 tie_addresses <- tribble(
   ~res_street_address, ~res_city_desc, ~state_cd, ~zip_code,
-  "624 W DAVIS ST   #1D",   "BURLINGTON",      "NC",     27215,
-  "201 E CENTER ST   #268",       "MEBANE",      "NC",     27302,
-  "100 Wall Street",    "New York",      "NY",     NA
+  "624 W DAVIS ST #1D",   "BURLINGTON", "NC", 27215,
+  "201 E CENTER ST #268", "MEBANE",     "NC", 27302,
+  "100 Wall Street",      "New York",   "NY", 10005
 )
 
 tie_results <- tie_addresses %>%
@@ -33,3 +33,8 @@ geo_combine(list(list(method = 'census'), list(method = 'osm')),
 geo_combine(list(list(method = 'census'), list(method = 'osm')), 
             global_params = list(address = 'address', limit = 3, mode = 'single', return_input = FALSE, unique_only = TRUE), 
             address = c('Paris', 'Tokyo', 'Paris', '100 Main Street New York, NY', 'London'), cascade = FALSE, return_list = TRUE)
+
+# Does this return NAs properly?
+
+geocode_combine(sample_addresses, list(list(method = 'osm'), list(method = 'arcgis')), 
+                global_params = list(address = 'addr', no_query = TRUE))

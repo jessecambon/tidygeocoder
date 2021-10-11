@@ -222,8 +222,7 @@ API queries.</p>
   geocodio_v <span class='op'>=</span> <span class='fl'>1.6</span>,
   mapbox_permanent <span class='op'>=</span> <span class='cn'>FALSE</span>,
   here_request_id <span class='op'>=</span> <span class='cn'>NULL</span>,
-  mapquest_open <span class='op'>=</span> <span class='cn'>FALSE</span>,
-  init <span class='op'>=</span> <span class='cn'>TRUE</span>
+  mapquest_open <span class='op'>=</span> <span class='cn'>FALSE</span>
 <span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -348,7 +347,8 @@ Used for testing.</p></td>
 with the name of the <code>method</code> (service) it applies to. The possible parameters
 are shown below with their default values.</p><ul>
 <li><p><code>census_return_type</code> (default: <code>"locations"</code>): set to "geographies" to return
-additional geography columns</p></li>
+additional geography columns. Make sure to use <code>full_results = TRUE</code> if using
+the "geographies" setting.</p></li>
 <li><p><code>iq_region</code> (default: <code>"us"</code>): set to "eu" to use the European Union API endpoint</p></li>
 <li><p><code>geocodio_v</code> (default: <code>1.6</code>): the version number of the Geocodio API to be used</p></li>
 <li><p><code>geocodio_hipaa</code> (default: <code>FALSE</code>): set to <code>TRUE</code> to use the HIPAA compliant
@@ -385,10 +385,6 @@ parameters need to be FALSE.</p></li>
     <tr>
       <th>mapquest_open</th>
       <td><p><a href='https://lifecycle.r-lib.org/articles/stages.html#deprecated'><img src='figures/lifecycle-deprecated.svg' alt='[Deprecated]' /></a> use the <code>api_options</code> parameter instead</p></td>
-    </tr>
-    <tr>
-      <th>init</th>
-      <td><p>internal package use only. Set to TRUE for initial query and FALSE otherwise.</p></td>
     </tr>
     </table>
 

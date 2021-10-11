@@ -47,7 +47,11 @@
 
 <meta property="og:title" content="Combine multiple geocoding queries — geo_combine" />
 <meta property="og:description" content="Passes address inputs in character vector form to the
-geocode_combine function for geocoding." />
+geocode_combine function for geocoding. See example usage in vignette(&quot;tidygeocoder&quot;).
+Note that address inputs must be specified for queries either in queries (for each query)
+or global_params (for all queries) using standard address parameter
+names. For example global_params = list(address = 'address') would
+pass addresses from the address parameter to all queries." />
 
 
 
@@ -176,7 +180,11 @@ geocode_combine function for geocoding." />
 
     <div class="ref-description">
     <p>Passes address inputs in character vector form to the
-<a href='geocode_combine.html'>geocode_combine</a> function for geocoding.</p>
+<a href='geocode_combine.html'>geocode_combine</a> function for geocoding. See example usage in <code><a href='../articles/tidygeocoder.html'>vignette("tidygeocoder")</a></code>.</p>
+<p>Note that address inputs must be specified for queries either in <code>queries</code> (for each query)
+or <code>global_params</code> (for all queries) using standard address parameter
+names. For example <code>global_params = list(address = 'address')</code> would
+pass addresses from the <code>address</code> parameter to all queries.</p>
     </div>
 
     <pre class="usage"><span class='fu'>geo_combine</span><span class='op'>(</span>
@@ -199,13 +207,14 @@ geocode_combine function for geocoding." />
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>queries</th>
-      <td><p>list of lists parameter. Each list contains parameters for a query
+      <td><p>list of lists parameter. Each list contains parameters for a query.
+The queries are executed in the order provided.
 (ie. <code><a href='https://rdrr.io/r/base/list.html'>list(list(method = 'osm'), list(method = 'census'), ...)</a></code>)</p></td>
     </tr>
     <tr>
       <th>global_params</th>
       <td><p>list parameter. Contains parameters to be used for all queries.
-(ie. <code><a href='https://rdrr.io/r/base/list.html'>list(full_results = TRUE, unique_only = TRUE)</a></code>)</p></td>
+(ie. <code><a href='https://rdrr.io/r/base/list.html'>list(address = 'address', full_results = TRUE)</a></code>)</p></td>
     </tr>
     <tr>
       <th>address</th>
@@ -260,14 +269,53 @@ Do not combine with the address component arguments below
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># \donttest{</span>
-<span class='fu'>geo_combine</span><span class='op'>(</span>queries <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>method <span class='op'>=</span> <span class='st'>'census'</span><span class='op'>)</span>, <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>method <span class='op'>=</span> <span class='st'>'osm'</span><span class='op'>)</span><span class='op'>)</span>, 
-  address <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"100 Main St New York, NY"</span>, <span class='st'>"Paris"</span>, <span class='st'>"Not a Real Address"</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; </div><div class='output co'>#&gt; </div><div class='output co'>#&gt; <span class='message'>Passing 3 addresses to the US Census batch geocoder</span></div><div class='output co'>#&gt; <span class='message'>Query completed in: 0.5 seconds</span></div><div class='output co'>#&gt; <span class='message'>Passing 2 addresses to the Nominatim single address geocoder</span></div><div class='output co'>#&gt; <span class='message'>Query completed in: 2 seconds</span></div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 3 × 4</span>
+
+<span class='va'>example_addresses</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"100 Main St New York, NY"</span>, <span class='st'>"Paris"</span>, <span class='st'>"Not a Real Address"</span><span class='op'>)</span>
+
+<span class='fu'>geo_combine</span><span class='op'>(</span>queries <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>method <span class='op'>=</span> <span class='st'>'census'</span><span class='op'>)</span>, <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>method <span class='op'>=</span> <span class='st'>'osm'</span><span class='op'>)</span><span class='op'>)</span>,
+  address <span class='op'>=</span> <span class='va'>example_addresses</span>,
+  global_params <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>address <span class='op'>=</span> <span class='st'>'address'</span><span class='op'>)</span>
+  <span class='op'>)</span>
+</div><div class='output co'>#&gt; </div><div class='output co'>#&gt; </div><div class='output co'>#&gt; <span class='message'>Passing 3 addresses to the US Census batch geocoder</span></div><div class='output co'>#&gt; <span class='message'>Query completed in: 0.4 seconds</span></div><div class='output co'>#&gt; <span class='message'>Passing 2 addresses to the Nominatim single address geocoder</span></div><div class='output co'>#&gt; <span class='message'>Query completed in: 2 seconds</span></div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 3 × 4</span>
 #&gt;   address                    lat   long query   
 #&gt;   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>                    <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>   
 #&gt; <span style='color: #BCBCBC;'>1</span> 100 Main St New York, NY  40.7 -<span style='color: #BB0000;'>74.0</span>  <span style='color: #949494;'>"</span>census<span style='color: #949494;'>"</span>
 #&gt; <span style='color: #BCBCBC;'>2</span> Paris                     48.9   2.35 <span style='color: #949494;'>"</span>osm<span style='color: #949494;'>"</span>   
-#&gt; <span style='color: #BCBCBC;'>3</span> <span style='color: #BB0000;'>NA</span>                        <span style='color: #BB0000;'>NA</span>    <span style='color: #BB0000;'>NA</span>    <span style='color: #949494;'>""</span>      </div><div class='input'><span class='co'># }</span>
+#&gt; <span style='color: #BCBCBC;'>3</span> Not a Real Address        <span style='color: #BB0000;'>NA</span>    <span style='color: #BB0000;'>NA</span>    <span style='color: #949494;'>""</span>      </div><div class='input'>  
+<span class='fu'>geo_combine</span><span class='op'>(</span>queries <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>
+  <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>method <span class='op'>=</span> <span class='st'>'arcgis'</span><span class='op'>)</span>, 
+  <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>method <span class='op'>=</span> <span class='st'>'census'</span>, mode <span class='op'>=</span> <span class='st'>'single'</span><span class='op'>)</span>,
+  <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>method <span class='op'>=</span> <span class='st'>'census'</span>, mode <span class='op'>=</span> <span class='st'>'batch'</span><span class='op'>)</span>
+  <span class='op'>)</span>,
+  global_params <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>address <span class='op'>=</span> <span class='st'>'address'</span><span class='op'>)</span>,
+  address <span class='op'>=</span> <span class='va'>example_addresses</span>,
+  cascade <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  return_list <span class='op'>=</span> <span class='cn'>TRUE</span>
+<span class='op'>)</span>
+</div><div class='output co'>#&gt; </div><div class='output co'>#&gt; </div><div class='output co'>#&gt; </div><div class='output co'>#&gt; <span class='message'>Passing 3 addresses to the ArcGIS single address geocoder</span></div><div class='output co'>#&gt; <span class='message'>Query completed in: 1.2 seconds</span></div><div class='output co'>#&gt; <span class='message'>Passing 3 addresses to the US Census single address geocoder</span></div><div class='output co'>#&gt; <span class='message'>Query completed in: 1.1 seconds</span></div><div class='output co'>#&gt; <span class='message'>Passing 3 addresses to the US Census batch geocoder</span></div><div class='output co'>#&gt; <span class='message'>Query completed in: 0.6 seconds</span></div><div class='output co'>#&gt; $arcgis
+#&gt; <span style='color: #949494;'># A tibble: 3 × 3</span>
+#&gt;   address                    lat   long
+#&gt;   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>                    <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>
+#&gt; <span style='color: #BCBCBC;'>1</span> 100 Main St New York, NY  40.5 -<span style='color: #BB0000;'>74.3</span> 
+#&gt; <span style='color: #BCBCBC;'>2</span> Paris                     48.9   2.34
+#&gt; <span style='color: #BCBCBC;'>3</span> Not a Real Address        <span style='color: #BB0000;'>NA</span>    <span style='color: #BB0000;'>NA</span>   
+#&gt; 
+#&gt; $census1
+#&gt; <span style='color: #949494;'># A tibble: 3 × 3</span>
+#&gt;   address                    lat  long
+#&gt;   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>                    <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>
+#&gt; <span style='color: #BCBCBC;'>1</span> 100 Main St New York, NY  40.7 -<span style='color: #BB0000;'>74.0</span>
+#&gt; <span style='color: #BCBCBC;'>2</span> Paris                     <span style='color: #BB0000;'>NA</span>    <span style='color: #BB0000;'>NA</span>  
+#&gt; <span style='color: #BCBCBC;'>3</span> Not a Real Address        <span style='color: #BB0000;'>NA</span>    <span style='color: #BB0000;'>NA</span>  
+#&gt; 
+#&gt; $census2
+#&gt; <span style='color: #949494;'># A tibble: 3 × 3</span>
+#&gt;   address                    lat  long
+#&gt;   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>                    <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>
+#&gt; <span style='color: #BCBCBC;'>1</span> 100 Main St New York, NY  40.7 -<span style='color: #BB0000;'>74.0</span>
+#&gt; <span style='color: #BCBCBC;'>2</span> Paris                     <span style='color: #BB0000;'>NA</span>    <span style='color: #BB0000;'>NA</span>  
+#&gt; <span style='color: #BCBCBC;'>3</span> Not a Real Address        <span style='color: #BB0000;'>NA</span>    <span style='color: #BB0000;'>NA</span>  
+#&gt; </div><div class='input'><span class='co'># }</span>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

@@ -18,19 +18,24 @@ geocode_combine(
 \arguments{
 \item{.tbl}{dataframe containing addresses}
 
-\item{queries}{list of lists parameter. Each list contains parameters for a query
+\item{queries}{list of lists parameter. Each list contains parameters for a query.
+The queries are executed in the order provided.
 (ie. \code{list(list(method = 'osm'), list(method = 'census'), ...)})}
 
 \item{global_params}{list parameter. Contains parameters to be used for all queries.
 (ie. \code{list(full_results = TRUE, unique_only = TRUE)})}
 
-\item{query_names}{an optional vector of names to use for labeling the queries.}
+\item{query_names}{an optional vector of names to use for labeling the results of each query.
+These names are either placed in a \code{query} column if \code{cascade = TRUE}.
+If null then the \code{method} parameter values will be used as names.}
 
-\item{return_list}{if TRUE then results will be returned in a named list. If FALSE (default)
-then all results will be combined into a single dataframe.}
+\item{return_list}{if TRUE then results from each service will be returned as separate
+items in a named list. If FALSE (default) then all results will be combined into a
+single dataframe.}
 
-\item{cascade}{if TRUE then only addresses that are not found will be attempted by
-the following query. If FALSE then all queries will attempt to geocode all addresses.}
+\item{cascade}{if TRUE (default) then only addresses that are not found by a geocoding
+service will be attempted by subsequent queries.
+If FALSE then all queries will attempt to geocode all addresses.}
 
 \item{lat}{latitude column name. Can be quoted or unquoted (ie. lat or 'lat').}
 
@@ -45,9 +50,44 @@ the results. To use a character vector input instead, see the \link{geo_combine}
 }
 \examples{
 \donttest{
-geocode_combine(sample_addresses,
- queries = list(list(method = 'census'), list(method = 'osm')),
- global_params = list(address = 'addr'), cascade = TRUE)
+
+library(dplyr, warn.conflicts = FALSE)
+
+sample_addresses \%>\%
+  geocode_combine(
+    queries = list(list(method = 'census'), list(method = 'osm')),
+    global_params = list(address = 'addr'), cascade = TRUE)
+
+more_addresses <- tibble::tribble(
+     ~street_address, ~city, ~state,        ~zip_cd,
+     "624 W DAVIS ST #1D",   "BURLINGTON", "NC", 27215,
+     "201 E CENTER ST #268", "MEBANE",     "NC", 27302,
+     "100 Wall Street",      "New York",   "NY", 10005,
+     "Bucharest",            NA,           NA,   NA
+     )
+ 
+ more_addresses \%>\%        
+   geocode_combine( 
+     queries = list(
+         list(method = 'census', mode = 'batch'),
+         list(method = 'census', mode = 'single'),
+         list(method = 'osm')
+      ),
+     global_params = list(street = 'street_address', 
+       city = 'city', state = 'state', postalcode = 'zip_cd'),
+     query_names = c('census batch', 'census single', 'osm')
+   )
+   
+ more_addresses \%>\%
+   geocode_combine( 
+     queries = list(
+         list(method = 'census', mode = 'batch', street = 'street_address', 
+       city = 'city', state = 'state', postalcode = 'zip_cd'),
+         list(method = 'arcgis', address = 'street_address')
+      ),
+     cascade = FALSE,
+     return_list = TRUE
+   )
 }
 }
 \seealso{

@@ -234,8 +234,7 @@ API queries.</p>
   param_error <span class='op'>=</span> <span class='cn'>TRUE</span>,
   mapbox_permanent <span class='op'>=</span> <span class='cn'>FALSE</span>,
   here_request_id <span class='op'>=</span> <span class='cn'>NULL</span>,
-  mapquest_open <span class='op'>=</span> <span class='cn'>FALSE</span>,
-  init <span class='op'>=</span> <span class='cn'>TRUE</span>
+  mapquest_open <span class='op'>=</span> <span class='cn'>FALSE</span>
 <span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -404,7 +403,8 @@ Used for testing.</p></td>
 with the name of the <code>method</code> (service) it applies to. The possible parameters
 are shown below with their default values.</p><ul>
 <li><p><code>census_return_type</code> (default: <code>"locations"</code>): set to "geographies" to return
-additional geography columns</p></li>
+additional geography columns. Make sure to use <code>full_results = TRUE</code> if using
+the "geographies" setting.</p></li>
 <li><p><code>iq_region</code> (default: <code>"us"</code>): set to "eu" to use the European Union API endpoint</p></li>
 <li><p><code>geocodio_v</code> (default: <code>1.6</code>): the version number of the Geocodio API to be used</p></li>
 <li><p><code>geocodio_hipaa</code> (default: <code>FALSE</code>): set to <code>TRUE</code> to use the HIPAA compliant
@@ -452,10 +452,6 @@ If <code>method = "cascade"</code> then no errors will be thrown.</p></td>
       <th>mapquest_open</th>
       <td><p><a href='https://lifecycle.r-lib.org/articles/stages.html#deprecated'><img src='figures/lifecycle-deprecated.svg' alt='[Deprecated]' /></a> use the <code>api_options</code> parameter instead</p></td>
     </tr>
-    <tr>
-      <th>init</th>
-      <td><p>internal package use only. Set to TRUE for initial query and FALSE otherwise.</p></td>
-    </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
@@ -468,18 +464,11 @@ If <code>method = "cascade"</code> then no errors will be thrown.</p></td>
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># \donttest{</span>
 <span class='fu'>geo</span><span class='op'>(</span>street <span class='op'>=</span> <span class='st'>"600 Peachtree Street NE"</span>, city <span class='op'>=</span> <span class='st'>"Atlanta"</span>,
- state <span class='op'>=</span> <span class='st'>"Georgia"</span>, method <span class='op'>=</span> <span class='st'>"census"</span>, full_results <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'>Passing 1 address to the US Census single address geocoder</span></div><div class='output co'>#&gt; <span class='message'>Query completed in: 8.9 seconds</span></div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 1 × 20</span>
-#&gt;   street  city  state   lat  long matchedAddress tigerLine.tiger… tigerLine.side
-#&gt;   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>          <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>            <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>         
-#&gt; <span style='color: #BCBCBC;'>1</span> 600 Pe… Atla… Geor…  33.8 -<span style='color: #BB0000;'>84.4</span> 600 PEACHTREE… 17343689         L             
-#&gt; <span style='color: #949494;'># … with 12 more variables: addressComponents.fromAddress &lt;chr&gt;,</span>
-#&gt; <span style='color: #949494;'>#   addressComponents.toAddress &lt;chr&gt;, addressComponents.preQualifier &lt;chr&gt;,</span>
-#&gt; <span style='color: #949494;'>#   addressComponents.preDirection &lt;chr&gt;, addressComponents.preType &lt;chr&gt;,</span>
-#&gt; <span style='color: #949494;'>#   addressComponents.streetName &lt;chr&gt;, addressComponents.suffixType &lt;chr&gt;,</span>
-#&gt; <span style='color: #949494;'>#   addressComponents.suffixDirection &lt;chr&gt;,</span>
-#&gt; <span style='color: #949494;'>#   addressComponents.suffixQualifier &lt;chr&gt;, addressComponents.city &lt;chr&gt;,</span>
-#&gt; <span style='color: #949494;'>#   addressComponents.state &lt;chr&gt;, addressComponents.zip &lt;chr&gt;</span></div><div class='input'>
+ state <span class='op'>=</span> <span class='st'>"Georgia"</span>, method <span class='op'>=</span> <span class='st'>"census"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='message'>Passing 1 address to the US Census single address geocoder</span></div><div class='output co'>#&gt; <span class='message'>Query completed in: 7.3 seconds</span></div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 1 × 5</span>
+#&gt;   street                  city    state     lat  long
+#&gt;   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>                   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>
+#&gt; <span style='color: #BCBCBC;'>1</span> 600 Peachtree Street NE Atlanta Georgia  33.8 -<span style='color: #BB0000;'>84.4</span></div><div class='input'>
 <span class='fu'>geo</span><span class='op'>(</span>address <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Tokyo, Japan"</span>, <span class='st'>"Lima, Peru"</span>, <span class='st'>"Nairobi, Kenya"</span><span class='op'>)</span>,
  method <span class='op'>=</span> <span class='st'>'osm'</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; <span class='message'>Passing 3 addresses to the Nominatim single address geocoder</span></div><div class='output co'>#&gt; <span class='message'>Query completed in: 3 seconds</span></div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 3 × 3</span>
@@ -488,12 +477,19 @@ If <code>method = "cascade"</code> then no errors will be thrown.</p></td>
 #&gt; <span style='color: #BCBCBC;'>1</span> Tokyo, Japan    35.7  140. 
 #&gt; <span style='color: #BCBCBC;'>2</span> Lima, Peru     -<span style='color: #BB0000;'>12.1</span>  -<span style='color: #BB0000;'>77.0</span>
 #&gt; <span style='color: #BCBCBC;'>3</span> Nairobi, Kenya  -<span style='color: #BB0000;'>1.30</span>  36.8</div><div class='input'> 
-<span class='fu'>geo</span><span class='op'>(</span><span class='st'>"100 Main St New York, NY"</span>, 
+<span class='fu'>geo</span><span class='op'>(</span><span class='st'>"100 Main St New York, NY"</span>,  full_results <span class='op'>=</span> <span class='cn'>TRUE</span>,
  method <span class='op'>=</span> <span class='st'>"census"</span>, api_options <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>census_return_type <span class='op'>=</span> <span class='st'>'geographies'</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'>Passing 1 address to the US Census single address geocoder</span></div><div class='output co'>#&gt; <span class='message'>Query completed in: 2 seconds</span></div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 1 × 3</span>
-#&gt;   address                    lat  long
-#&gt;   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>                    <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>
-#&gt; <span style='color: #BCBCBC;'>1</span> 100 Main St New York, NY  40.7 -<span style='color: #BB0000;'>74.0</span></div><div class='input'>
+</div><div class='output co'>#&gt; <span class='message'>Passing 1 address to the US Census single address geocoder</span></div><div class='output co'>#&gt; <span class='message'>Query completed in: 1.6 seconds</span></div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 1 × 18</span>
+#&gt;   address                    lat  long matchedAddress tigerLine.tiger… tigerLine.side
+#&gt;   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>                    <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>          <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>            <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>         
+#&gt; <span style='color: #BCBCBC;'>1</span> 100 Main St New York, NY  40.7 -<span style='color: #BB0000;'>74.0</span> 100 MAIN ST, … 59662602         R             
+#&gt; <span style='color: #949494;'># … with 12 more variables: addressComponents.fromAddress &lt;chr&gt;,</span>
+#&gt; <span style='color: #949494;'>#   addressComponents.toAddress &lt;chr&gt;, addressComponents.preQualifier &lt;chr&gt;,</span>
+#&gt; <span style='color: #949494;'>#   addressComponents.preDirection &lt;chr&gt;, addressComponents.preType &lt;chr&gt;,</span>
+#&gt; <span style='color: #949494;'>#   addressComponents.streetName &lt;chr&gt;, addressComponents.suffixType &lt;chr&gt;,</span>
+#&gt; <span style='color: #949494;'>#   addressComponents.suffixDirection &lt;chr&gt;,</span>
+#&gt; <span style='color: #949494;'>#   addressComponents.suffixQualifier &lt;chr&gt;, addressComponents.city &lt;chr&gt;,</span>
+#&gt; <span style='color: #949494;'>#   addressComponents.state &lt;chr&gt;, addressComponents.zip &lt;chr&gt;</span></div><div class='input'>
 <span class='fu'>geo</span><span class='op'>(</span>county <span class='op'>=</span> <span class='st'>'Jefferson'</span>, state <span class='op'>=</span> <span class='st'>"Kentucky"</span>, country <span class='op'>=</span> <span class='st'>"US"</span>,
      method <span class='op'>=</span> <span class='st'>'osm'</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; <span class='message'>Passing 1 address to the Nominatim single address geocoder</span></div><div class='output co'>#&gt; <span class='message'>Query completed in: 1 seconds</span></div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 1 × 5</span>

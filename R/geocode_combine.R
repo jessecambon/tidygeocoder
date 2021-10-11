@@ -2,26 +2,49 @@
 #' Combine multiple geocoding queries
 #' 
 #' @description Passes address inputs in character vector form to the
-#'  [geocode_combine] function for geocoding.
+#'  [geocode_combine] function for geocoding. See example usage in `vignette("tidygeocoder")`.
+#'  
+#'  Note that address inputs must be specified for queries either in `queries` (for each query)
+#'  or `global_params` (for all queries) using standard address parameter 
+#'  names. For example `global_params = list(address = 'address')` would 
+#'  pass addresses from the `address` parameter to all queries.
 #' 
-#' @param queries list of lists parameter. Each list contains parameters for a query
+#' @param queries list of lists parameter. Each list contains parameters for a query.
+#'   The queries are executed in the order provided.
 #'   (ie. `list(list(method = 'osm'), list(method = 'census'), ...)`)
 #' @param global_params list parameter. Contains parameters to be used for all queries. 
-#'   (ie. `list(full_results = TRUE, unique_only = TRUE)`)
+#'   (ie. `list(address = 'address', full_results = TRUE)`)
 #' @inheritParams geo
 #' @param ... arguments passed to the [geocode_combine] function
 #' @inherit geo return
 #' @examples
 #' \donttest{
-#' geo_combine(queries = list(list(method = 'census'), list(method = 'osm')), 
-#'   address = c("100 Main St New York, NY", "Paris", "Not a Real Address"))
+#' 
+#' example_addresses <- c("100 Main St New York, NY", "Paris", "Not a Real Address")
+#' 
+#' geo_combine(queries = list(list(method = 'census'), list(method = 'osm')),
+#'   address = example_addresses,
+#'   global_params = list(address = 'address')
+#'   )
+#'   
+#' geo_combine(queries = list(
+#'   list(method = 'arcgis'), 
+#'   list(method = 'census', mode = 'single'),
+#'   list(method = 'census', mode = 'batch')
+#'   ),
+#'   global_params = list(address = 'address'),
+#'   address = example_addresses,
+#'   cascade = FALSE,
+#'   return_list = TRUE
+#' )
 #' }
 #' @seealso [geocode_combine] [geo] [geocode]
 #' @export
 geo_combine <- function(queries, global_params = list(), address = NULL, 
-                     street = NULL, city = NULL, county = NULL, state = NULL, postalcode = NULL, country = NULL, 
-                     lat = lat, long = long, ...) {
+                     street = NULL, city = NULL, county = NULL, state = NULL, postalcode = NULL, 
+                     country = NULL, lat = lat, long = long, ...) {
   
+  # NSE - converts lat and long parameters to character values
   lat <- rm_quote(deparse(substitute(lat)))
   long <- rm_quote(deparse(substitute(long)))
   
@@ -32,14 +55,20 @@ geo_combine <- function(queries, global_params = list(), address = NULL,
   )
   
    # Combine user input global parameters with the address parameters that are needed
-   global_params_combined <- global_params
-   for (colname in colnames(input_df)) {
-     global_params_combined[[colname]] <- colname
-   }
+   # global_params_combined <- global_params
+   # for (colname in colnames(input_df)) {
+   #   global_params_combined[[colname]] <- colname
+   # }
    
-  return(
-    geocode_combine(.tbl = input_df, queries = queries, global_params = global_params_combined, lat = lat, long = long, ...)
-  )
+   # pass arguments to geocode_combine() as a list. lat and long arguments did not work when passed directly
+   arguments_to_pass <- c(list(
+     .tbl = input_df, queries = queries, global_params = global_params, lat = lat, long = long), 
+     list(...)
+     )
+
+   return(
+     do.call(geocode_combine, arguments_to_pass)
+   )
 }
 
 
@@ -48,27 +77,69 @@ geo_combine <- function(queries, global_params = list(), address = NULL,
 #' @description Executes multiple geocoding queries on a dataframe input and combines
 #'  the results. To use a character vector input instead, see the [geo_combine] function.
 #' 
-#' @param queries list of lists parameter. Each list contains parameters for a query
+#' @param queries list of lists parameter. Each list contains parameters for a query. 
+#'   The queries are executed in the order provided.
 #'   (ie. `list(list(method = 'osm'), list(method = 'census'), ...)`)
 #' @param global_params list parameter. Contains parameters to be used for all queries.
 #'   (ie. `list(full_results = TRUE, unique_only = TRUE)`)
-#' @param return_list if TRUE then results will be returned in a named list. If FALSE (default) 
-#'   then all results will be combined into a single dataframe.
-#' @param cascade if TRUE then only addresses that are not found will be attempted by
-#'   the following query. If FALSE then all queries will attempt to geocode all addresses.
-#' @param query_names an optional vector of names to use for labeling the queries.
+#' @param return_list if TRUE then results from each service will be returned as separate 
+#'   items in a named list. If FALSE (default) then all results will be combined into a 
+#'   single dataframe.
+#' @param cascade if TRUE (default) then only addresses that are not found by a geocoding 
+#'   service will be attempted by subsequent queries. 
+#'   If FALSE then all queries will attempt to geocode all addresses.
+#' @param query_names an optional vector of names to use for labeling the results of each query.
+#'   These names are either placed in a `query` column if `cascade = TRUE`.
+#'   If null then the `method` parameter values will be used as names.
 #' @inheritParams geocode
 #' @inherit geo return
 #' @examples
 #' \donttest{
-#' geocode_combine(sample_addresses,
-#'  queries = list(list(method = 'census'), list(method = 'osm')),
-#'  global_params = list(address = 'addr'), cascade = TRUE)
+#' 
+#' library(dplyr, warn.conflicts = FALSE)
+#' 
+#' sample_addresses %>%
+#'   geocode_combine(
+#'     queries = list(list(method = 'census'), list(method = 'osm')),
+#'     global_params = list(address = 'addr'), cascade = TRUE)
+#' 
+#' more_addresses <- tibble::tribble(
+#'      ~street_address, ~city, ~state,        ~zip_cd,
+#'      "624 W DAVIS ST #1D",   "BURLINGTON", "NC", 27215,
+#'      "201 E CENTER ST #268", "MEBANE",     "NC", 27302,
+#'      "100 Wall Street",      "New York",   "NY", 10005,
+#'      "Bucharest",            NA,           NA,   NA
+#'      )
+#'  
+#'  more_addresses %>%        
+#'    geocode_combine( 
+#'      queries = list(
+#'          list(method = 'census', mode = 'batch'),
+#'          list(method = 'census', mode = 'single'),
+#'          list(method = 'osm')
+#'       ),
+#'      global_params = list(street = 'street_address', 
+#'        city = 'city', state = 'state', postalcode = 'zip_cd'),
+#'      query_names = c('census batch', 'census single', 'osm')
+#'    )
+#'    
+#'  more_addresses %>%
+#'    geocode_combine( 
+#'      queries = list(
+#'          list(method = 'census', mode = 'batch', street = 'street_address', 
+#'        city = 'city', state = 'state', postalcode = 'zip_cd'),
+#'          list(method = 'arcgis', address = 'street_address')
+#'       ),
+#'      cascade = FALSE,
+#'      return_list = TRUE
+#'    )
 #' }
 #' @seealso [geo_combine] [geo] [geocode]
 #' @export
-geocode_combine <- function(.tbl, queries, global_params = list(), query_names = NULL, return_list = FALSE, cascade = TRUE, lat = lat, long = long) {
+geocode_combine <- function(.tbl, queries, global_params = list(), query_names = NULL, 
+                          return_list = FALSE, cascade = TRUE, lat = lat, long = long) {
   
+  # NSE - converts lat and long parameters to character values
   lat <- rm_quote(deparse(substitute(lat)))
   long <- rm_quote(deparse(substitute(long)))
   
@@ -130,6 +201,7 @@ geocode_combine <- function(.tbl, queries, global_params = list(), query_names =
     query_names <- unlist(lapply(queries_prepped, function(q) if (!is.null(q[['method']])) q[['method']] else 'osm'))
     
     # number duplicate query names if necessary (to prevent duplicates)
+    # ie. 'osm1', 'osm2', etc.
     for (name in unique(query_names)) {
       # if the given name occurs more than once in query_names then iterate through and add numbers
       if ((sum(query_names == name)) > 1) {
@@ -146,7 +218,7 @@ geocode_combine <- function(.tbl, queries, global_params = list(), query_names =
     
   } else {
     if (length(query_names) != length(queries)) {
-      stop('query_names parameter must contain one name per query provided. see ?geocode_combine')
+      stop('query_names parameter must contain one name per query provided. See ?geocode_combine')
     }
     
     if (any(duplicated(query_names)) == TRUE) {
@@ -218,10 +290,17 @@ geocode_combine <- function(.tbl, queries, global_params = list(), query_names =
     return(all_results)
   } else {
     # create query name column before combining results into single dataframe
-    all_results_labeled <- lapply(
-      names(all_results), function(x) 
-        dplyr::bind_cols(all_results[[x]], tibble::tibble(query = x))
-      )
+    # all_results_labeled <- lapply(
+    #   names(all_results), function(x) 
+    #     dplyr::bind_cols(all_results[[x]], tibble::tibble(query = x))
+    #   )
+    
+    # names we want to populate 'query' label column
+    query_names_to_use <- names(all_results)
+    
+    # label the dataframes contained in the all_results list with a 'query' column
+    all_results_labeled <- mapply(function(x, y) dplyr::bind_cols(x, tibble::tibble(query = y)), 
+                       all_results, query_names_to_use, SIMPLIFY = FALSE)
     
     # put all results into a single dataframe
     bound_data <- dplyr::bind_rows(all_results_labeled)
@@ -233,7 +312,7 @@ geocode_combine <- function(.tbl, queries, global_params = list(), query_names =
     proper_order <- unique(.tbl[used_address_colnames])
     proper_order[['.id']] <- 1:nrow(proper_order)
     
-    # join to get our id column so we can sort
+    # join to get our .id column so we can sort the output dataset
     bound_data_joined <- dplyr::left_join(bound_data, proper_order, by = used_address_colnames)
       
     # sort the dataset
