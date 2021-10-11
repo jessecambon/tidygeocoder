@@ -59,10 +59,11 @@ sample_addresses \%>\%
     global_params = list(address = 'addr'), cascade = TRUE)
 
 more_addresses <- tibble::tribble(
-     ~res_street_address, ~res_city_desc, ~state_cd, ~zip_code,
+     ~street_address, ~city, ~state,        ~zip_cd,
      "624 W DAVIS ST #1D",   "BURLINGTON", "NC", 27215,
      "201 E CENTER ST #268", "MEBANE",     "NC", 27302,
-     "100 Wall Street",      "New York",   "NY", 10005
+     "100 Wall Street",      "New York",   "NY", 10005,
+     "Bucharest",            NA,           NA,   NA
      )
  
  more_addresses \%>\%        
@@ -72,21 +73,18 @@ more_addresses <- tibble::tribble(
          list(method = 'census', mode = 'single'),
          list(method = 'osm')
       ),
-     global_params = list(street = 'res_street_address', 
-       city = 'res_city_desc', state = 'state_cd', postalcode = 'zip_code'),
-     query_names = c('census batch', 'census single')
+     global_params = list(street = 'street_address', 
+       city = 'city', state = 'state', postalcode = 'zip_cd'),
+     query_names = c('census batch', 'census single', 'osm')
    )
    
  more_addresses \%>\%
    geocode_combine( 
      queries = list(
-         list(method = 'census', mode = 'batch'),
-         list(method = 'census', mode = 'single')
-         list(method = 'osm')
+         list(method = 'census', mode = 'batch', street = 'street_address', 
+       city = 'city', state = 'state', postalcode = 'zip_cd'),
+         list(method = 'arcgis', address = 'street_address')
       ),
-     global_params = list(street = 'res_street_address', 
-       city = 'res_city_desc', state = 'state_cd', postalcode = 'zip_code'),
-     query_names = c('census batch', 'census single'),
      cascade = FALSE,
      return_list = TRUE
    )

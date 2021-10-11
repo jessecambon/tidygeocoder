@@ -167,7 +167,7 @@
 <span class="co">#&gt; format : "json"</span>
 <span class="co">#&gt; benchmark : "Public_AR_Current"</span>
 <span class="co">#&gt; vintage : "Current_Current"</span>
-<span class="co">#&gt; Query completed in: 1.3 seconds</span></code></pre></div>
+<span class="co">#&gt; Query completed in: 1.4 seconds</span></code></pre></div>
 <table class="table">
 <thead><tr class="header">
 <th align="left">singlelineaddress</th>
@@ -219,7 +219,7 @@
 <code class="sourceCode R"><span class="va">census_c1</span> <span class="op">&lt;-</span> <span class="va">address_components</span> <span class="op">%&gt;%</span>
   <span class="fu"><a href="../reference/geocode.html">geocode</a></span><span class="op">(</span>street <span class="op">=</span> <span class="va">street</span>, city <span class="op">=</span> <span class="va">cty</span>, state <span class="op">=</span> <span class="va">st</span>, method <span class="op">=</span> <span class="st">"census"</span><span class="op">)</span>
 <span class="co">#&gt; Passing 2 addresses to the US Census batch geocoder</span>
-<span class="co">#&gt; Query completed in: 2.9 seconds</span></code></pre></div>
+<span class="co">#&gt; Query completed in: 1.7 seconds</span></code></pre></div>
 <table class="table">
 <thead><tr class="header">
 <th align="left">street</th>
@@ -252,7 +252,7 @@
   method <span class="op">=</span> <span class="st">"census"</span>, full_results <span class="op">=</span> <span class="cn">TRUE</span>, api_options <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>census_return_type <span class="op">=</span> <span class="st">'geographies'</span><span class="op">)</span>
 <span class="op">)</span>
 <span class="co">#&gt; Passing 2 addresses to the US Census batch geocoder</span>
-<span class="co">#&gt; Query completed in: 1.7 seconds</span></code></pre></div>
+<span class="co">#&gt; Query completed in: 1.2 seconds</span></code></pre></div>
 <table class="table">
 <colgroup>
 <col width="16%">
@@ -298,10 +298,10 @@
 <td align="left">11 WALL ST, NEW YORK, NY, 10005</td>
 <td align="left">59659656</td>
 <td align="left">R</td>
-<td align="left">36</td>
-<td align="left">061</td>
-<td align="left">000700</td>
-<td align="left">1004</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
 </tr>
 <tr class="even">
 <td align="left">600 Peachtree Street NE, Atlanta, Georgia</td>
@@ -314,10 +314,10 @@
 <td align="left">600 PEACHTREE ST, ATLANTA, GA, 30308</td>
 <td align="left">17343689</td>
 <td align="left">L</td>
-<td align="left">13</td>
-<td align="left">121</td>
-<td align="left">001902</td>
-<td align="left">2003</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
 </tr>
 </tbody>
 </table>
@@ -395,7 +395,7 @@ occurring in automated CRAN checks for an improper/old link.
   <span class="op">)</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; Passing 3 addresses to the US Census batch geocoder</span>
-<span class="co">#&gt; Query completed in: 0.6 seconds</span>
+<span class="co">#&gt; Query completed in: 0.2 seconds</span>
 <span class="co">#&gt; Passing 2 addresses to the Nominatim single address geocoder</span>
 <span class="co">#&gt; Query completed in: 2 seconds</span></code></pre></div>
 <table class="table">
@@ -419,7 +419,7 @@ occurring in automated CRAN checks for an improper/old link.
 <td align="left">osm</td>
 </tr>
 <tr class="odd">
-<td align="left">NA</td>
+<td align="left">Not An Address</td>
 <td align="right">NA</td>
 <td align="right">NA</td>
 <td align="left"></td>

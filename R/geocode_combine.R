@@ -2,7 +2,7 @@
 #' Combine multiple geocoding queries
 #' 
 #' @description Passes address inputs in character vector form to the
-#'  [geocode_combine] function for geocoding. 
+#'  [geocode_combine] function for geocoding. See example usage in `vignette("tidygeocoder")`.
 #'  
 #'  Note that address inputs must be specified for queries either in `queries` (for each query)
 #'  or `global_params` (for all queries) using standard address parameter 
@@ -104,10 +104,11 @@ geo_combine <- function(queries, global_params = list(), address = NULL,
 #'     global_params = list(address = 'addr'), cascade = TRUE)
 #' 
 #' more_addresses <- tibble::tribble(
-#'      ~res_street_address, ~res_city_desc, ~state_cd, ~zip_code,
+#'      ~street_address, ~city, ~state,        ~zip_cd,
 #'      "624 W DAVIS ST #1D",   "BURLINGTON", "NC", 27215,
 #'      "201 E CENTER ST #268", "MEBANE",     "NC", 27302,
-#'      "100 Wall Street",      "New York",   "NY", 10005
+#'      "100 Wall Street",      "New York",   "NY", 10005,
+#'      "Bucharest",            NA,           NA,   NA
 #'      )
 #'  
 #'  more_addresses %>%        
@@ -117,21 +118,18 @@ geo_combine <- function(queries, global_params = list(), address = NULL,
 #'          list(method = 'census', mode = 'single'),
 #'          list(method = 'osm')
 #'       ),
-#'      global_params = list(street = 'res_street_address', 
-#'        city = 'res_city_desc', state = 'state_cd', postalcode = 'zip_code'),
-#'      query_names = c('census batch', 'census single')
+#'      global_params = list(street = 'street_address', 
+#'        city = 'city', state = 'state', postalcode = 'zip_cd'),
+#'      query_names = c('census batch', 'census single', 'osm')
 #'    )
 #'    
 #'  more_addresses %>%
 #'    geocode_combine( 
 #'      queries = list(
-#'          list(method = 'census', mode = 'batch'),
-#'          list(method = 'census', mode = 'single')
-#'          list(method = 'osm')
+#'          list(method = 'census', mode = 'batch', street = 'street_address', 
+#'        city = 'city', state = 'state', postalcode = 'zip_cd'),
+#'          list(method = 'arcgis', address = 'street_address')
 #'       ),
-#'      global_params = list(street = 'res_street_address', 
-#'        city = 'res_city_desc', state = 'state_cd', postalcode = 'zip_code'),
-#'      query_names = c('census batch', 'census single'),
 #'      cascade = FALSE,
 #'      return_list = TRUE
 #'    )
@@ -298,7 +296,7 @@ geocode_combine <- function(.tbl, queries, global_params = list(), query_names =
     #   )
     
     # names we want to populate 'query' label column
-    query_names_to_use <- names(sapply(all_results, names))
+    query_names_to_use <- names(all_results)
     
     # label the dataframes contained in the all_results list with a 'query' column
     all_results_labeled <- mapply(function(x, y) dplyr::bind_cols(x, tibble::tibble(query = y)), 
