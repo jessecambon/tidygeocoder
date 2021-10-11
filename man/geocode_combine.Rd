@@ -50,25 +50,46 @@ the results. To use a character vector input instead, see the \link{geo_combine}
 }
 \examples{
 \donttest{
-geocode_combine(sample_addresses,
- queries = list(list(method = 'census'), list(method = 'osm')),
- global_params = list(address = 'addr'), cascade = TRUE)
 
- geocode_combine( 
-     tibble::tribble(
+library(dplyr, warn.conflicts = FALSE)
+
+sample_addresses \%>\%
+  geocode_combine(
+    queries = list(list(method = 'census'), list(method = 'osm')),
+    global_params = list(address = 'addr'), cascade = TRUE)
+
+more_addresses <- tibble::tribble(
      ~res_street_address, ~res_city_desc, ~state_cd, ~zip_code,
      "624 W DAVIS ST #1D",   "BURLINGTON", "NC", 27215,
      "201 E CENTER ST #268", "MEBANE",     "NC", 27302,
      "100 Wall Street",      "New York",   "NY", 10005
-     ),
+     )
+ 
+ more_addresses \%>\%        
+   geocode_combine( 
      queries = list(
          list(method = 'census', mode = 'batch'),
-         list(method = 'census', mode = 'single')
+         list(method = 'census', mode = 'single'),
+         list(method = 'osm')
       ),
      global_params = list(street = 'res_street_address', 
        city = 'res_city_desc', state = 'state_cd', postalcode = 'zip_code'),
      query_names = c('census batch', 'census single')
- )
+   )
+   
+ more_addresses \%>\%
+   geocode_combine( 
+     queries = list(
+         list(method = 'census', mode = 'batch'),
+         list(method = 'census', mode = 'single')
+         list(method = 'osm')
+      ),
+     global_params = list(street = 'res_street_address', 
+       city = 'res_city_desc', state = 'state_cd', postalcode = 'zip_code'),
+     query_names = c('census batch', 'census single'),
+     cascade = FALSE,
+     return_list = TRUE
+   )
 }
 }
 \seealso{

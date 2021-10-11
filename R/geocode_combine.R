@@ -2,22 +2,41 @@
 #' Combine multiple geocoding queries
 #' 
 #' @description Passes address inputs in character vector form to the
-#'  [geocode_combine] function for geocoding.
+#'  [geocode_combine] function for geocoding. 
+#'  
+#'  Note that address inputs must be specified for queries either in `queries` (for each query)
+#'  or `global_params` (for all queries) using standard address parameter 
+#'  names. For example `global_params = list(address = 'address')` would 
+#'  pass addresses from the `address` parameter to all queries.
 #' 
 #' @param queries list of lists parameter. Each list contains parameters for a query.
 #'   The queries are executed in the order provided.
 #'   (ie. `list(list(method = 'osm'), list(method = 'census'), ...)`)
 #' @param global_params list parameter. Contains parameters to be used for all queries. 
-#'   (ie. `list(full_results = TRUE, unique_only = TRUE)`)
+#'   (ie. `list(address = 'address', full_results = TRUE)`)
 #' @inheritParams geo
 #' @param ... arguments passed to the [geocode_combine] function
 #' @inherit geo return
 #' @examples
 #' \donttest{
-#' geo_combine(queries = list(list(method = 'census'), list(method = 'osm')), 
-#'   address = c("100 Main St New York, NY", "Paris", "Not a Real Address"))
-#'   
 #' 
+#' example_addresses <- c("100 Main St New York, NY", "Paris", "Not a Real Address")
+#' 
+#' geo_combine(queries = list(list(method = 'census'), list(method = 'osm')),
+#'   address = example_addresses,
+#'   global_params = list(address = 'address')
+#'   )
+#'   
+#' geo_combine(queries = list(
+#'   list(method = 'arcgis'), 
+#'   list(method = 'census', mode = 'single'),
+#'   list(method = 'census', mode = 'batch')
+#'   ),
+#'   global_params = list(address = 'address'),
+#'   address = example_addresses,
+#'   cascade = FALSE,
+#'   return_list = TRUE
+#' )
 #' }
 #' @seealso [geocode_combine] [geo] [geocode]
 #' @export
@@ -36,14 +55,14 @@ geo_combine <- function(queries, global_params = list(), address = NULL,
   )
   
    # Combine user input global parameters with the address parameters that are needed
-   global_params_combined <- global_params
-   for (colname in colnames(input_df)) {
-     global_params_combined[[colname]] <- colname
-   }
+   # global_params_combined <- global_params
+   # for (colname in colnames(input_df)) {
+   #   global_params_combined[[colname]] <- colname
+   # }
    
    # pass arguments to geocode_combine() as a list. lat and long arguments did not work when passed directly
    arguments_to_pass <- c(list(
-     .tbl = input_df, queries = queries, global_params = global_params_combined, lat = lat, long = long), 
+     .tbl = input_df, queries = queries, global_params = global_params, lat = lat, long = long), 
      list(...)
      )
 
@@ -76,25 +95,46 @@ geo_combine <- function(queries, global_params = list(), address = NULL,
 #' @inherit geo return
 #' @examples
 #' \donttest{
-#' geocode_combine(sample_addresses,
-#'  queries = list(list(method = 'census'), list(method = 'osm')),
-#'  global_params = list(address = 'addr'), cascade = TRUE)
 #' 
-#'  geocode_combine( 
-#'      tibble::tribble(
+#' library(dplyr, warn.conflicts = FALSE)
+#' 
+#' sample_addresses %>%
+#'   geocode_combine(
+#'     queries = list(list(method = 'census'), list(method = 'osm')),
+#'     global_params = list(address = 'addr'), cascade = TRUE)
+#' 
+#' more_addresses <- tibble::tribble(
 #'      ~res_street_address, ~res_city_desc, ~state_cd, ~zip_code,
 #'      "624 W DAVIS ST #1D",   "BURLINGTON", "NC", 27215,
 #'      "201 E CENTER ST #268", "MEBANE",     "NC", 27302,
 #'      "100 Wall Street",      "New York",   "NY", 10005
-#'      ),
+#'      )
+#'  
+#'  more_addresses %>%        
+#'    geocode_combine( 
 #'      queries = list(
 #'          list(method = 'census', mode = 'batch'),
-#'          list(method = 'census', mode = 'single')
+#'          list(method = 'census', mode = 'single'),
+#'          list(method = 'osm')
 #'       ),
 #'      global_params = list(street = 'res_street_address', 
 #'        city = 'res_city_desc', state = 'state_cd', postalcode = 'zip_code'),
 #'      query_names = c('census batch', 'census single')
-#'  )
+#'    )
+#'    
+#'  more_addresses %>%
+#'    geocode_combine( 
+#'      queries = list(
+#'          list(method = 'census', mode = 'batch'),
+#'          list(method = 'census', mode = 'single')
+#'          list(method = 'osm')
+#'       ),
+#'      global_params = list(street = 'res_street_address', 
+#'        city = 'res_city_desc', state = 'state_cd', postalcode = 'zip_code'),
+#'      query_names = c('census batch', 'census single'),
+#'      cascade = FALSE,
+#'      return_list = TRUE
+#'    )
 #' }
 #' @seealso [geo_combine] [geo] [geocode]
 #' @export
