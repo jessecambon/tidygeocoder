@@ -39,12 +39,12 @@ progress_geo <- function(pb = NULL, ...) {
 #' 
 #' @param address single line address (ie. '1600 Pennsylvania Ave NW, Washington, DC').
 #'    Do not combine with the address component arguments below
-#'    (street, city, county, state, postalcode, country).
+#'    (`street`, `city`, `county`, `state`, `postalcode`, `country`).
 #' @param street street address (ie. '1600 Pennsylvania Ave NW')
 #' @param city city (ie. 'Tokyo')
 #' @param county county (ie. 'Jefferson')
 #' @param state state (ie. 'Kentucky')
-#' @param postalcode postalcode (zip code if in the United States)
+#' @param postalcode postalcode (ie. zip code if in the United States)
 #' @param country country (ie. 'Japan')
 #' 
 #' @param method `r get_method_documentation(reverse = FALSE)`
@@ -58,8 +58,8 @@ progress_geo <- function(pb = NULL, ...) {
 #' @param cascade_order `r lifecycle::badge("deprecated")` a vector with two character values for the 
 #'  method argument in the order in which the geocoding services will be attempted for `method = "cascade"`
 #'  (ie. `c("census", "geocodio")`)
-#' @param lat latitude column name. Can be quoted or unquoted (ie. lat or "lat").
-#' @param long longitude column name. Can be quoted or unquoted (ie. long or "long").
+#' @param lat latitude column name. Can be quoted or unquoted (ie. `lat` or `"lat"`).
+#' @param long longitude column name. Can be quoted or unquoted (ie. `long` or `"long"``).
 #' @param limit `r get_limit_documentation(reverse = FALSE, df_input = FALSE)`
 #' 
 #' @param full_results `r get_full_results_documentation(reverse = FALSE)`

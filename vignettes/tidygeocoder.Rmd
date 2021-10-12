@@ -10,7 +10,7 @@ vignette: >
 ---
 
 ```{r, echo = FALSE, message = FALSE}
-knitr::opts_chunk$set(collapse = T, comment = "#>")
+knitr::opts_chunk$set(collapse = TRUE, comment = "#>")
 options(tibble.print_min = 4L, tibble.print_max = 4L)
 set.seed(42)
 ```
@@ -100,48 +100,6 @@ salz <- geo("Salzburg, Austria", method = "osm", full_results = TRUE) %>%
 knitr::kable(salz)
 ```
 
-## geocode_combine()
-
-The `geocode_combine()` function allows you to easily combine the results of multiple queries. The queries are executed in the order provided. By default only addresses that are not found are passed to the next service, but this behavior can be toggled with the `cascade` argument. In the first example below, the US Census service is used for the first query while the Nominatim ("osm") service is used for the second query. The `global_params` argument is used to pass the `address` column to both queries.
-
-```{r}
-addresses_combine <- tibble(
-  address = c('100 Wall Street NY, NY', 'Paris', 'Not An Address')
-)
-
-cascade_results1 <- addresses_combine %>%
-  geocode_combine(
-    queries = list(
-      list(method = 'census'),
-      list(method = 'osm')
-    ),
-    global_params = list(address = 'address')
-  )
-```
-
-```{r, echo = FALSE}
-knitr::kable(cascade_results1)
-```
-
-If cascade is set to FALSE then all addresses are attempted by each query regardless of if the address was found initially or not.
-
-```{r}
-no_cascade_results1 <- addresses_combine %>%
-  geocode_combine(
-    queries = list(
-      list(method = 'census'),
-      list(method = 'osm')
-    ),
-    global_params = list(address = 'address'),
-    cascade = FALSE
-  )
-```
-
-```{r, echo = FALSE}
-knitr::kable(no_cascade_results1)
-```
-
-
 ## Reverse Geocoding
 
 For reverse geocoding you'll use `reverse_geocode()` instead of `geocode()` and `reverse_geo()` instead of `geo()`. Note that the reverse geocoding functions are structured very similarly to the forward geocoding functions and share many of the same arguments (`method`, `limit`, `full_results`, etc.). For reverse geocoding you will provide latitude and longitude coordinates as inputs and the location's address will be returned by the geocoding service. 
@@ -202,6 +160,50 @@ uniqueonly1 <- duplicate_addrs %>%
 ```{r, echo = FALSE}
 knitr::kable(uniqueonly1)
 ```
+
+
+## Combining Multiple Queries
+
+The `geocode_combine()` function allows you to execute and combine the results of multiple queries. The queries are executed in the order provided. By default only addresses that are not found are passed to the next query, but this behavior can be toggled with the `cascade` argument. In the first example below, the US Census service is used for the first query while the Nominatim ("osm") service is used for the second query. The `global_params` argument passes the `address` column from the input dataset to both queries.
+
+```{r}
+addresses_combine <- tibble(
+  address = c('100 Wall Street NY, NY', 'Paris', 'Not An Address')
+)
+
+cascade_results1 <- addresses_combine %>%
+  geocode_combine(
+    queries = list(
+      list(method = 'census'),
+      list(method = 'osm')
+    ),
+    global_params = list(address = 'address')
+  )
+```
+
+```{r, echo = FALSE}
+knitr::kable(cascade_results1)
+```
+
+If `cascade` is set to FALSE then all addresses are attempted by each query regardless of if the address was found initially or not.
+
+```{r}
+no_cascade_results1 <- addresses_combine %>%
+  geocode_combine(
+    queries = list(
+      list(method = 'census'),
+      list(method = 'osm')
+    ),
+    global_params = list(address = 'address'),
+    cascade = FALSE
+  )
+```
+
+```{r, echo = FALSE}
+knitr::kable(no_cascade_results1)
+```
+
+Additionally, the results from each query can be returned in separate list items by setting `return_list = TRUE`.
 
 ## Customizing Queries
 

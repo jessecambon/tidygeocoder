@@ -5,9 +5,8 @@
 #'  [geocode_combine] function for geocoding. See example usage in `vignette("tidygeocoder")`.
 #'  
 #'  Note that address inputs must be specified for queries either in `queries` (for each query)
-#'  or `global_params` (for all queries) using standard address parameter 
-#'  names. For example `global_params = list(address = 'address')` would 
-#'  pass addresses from the `address` parameter to all queries.
+#'  or `global_params` (for all queries). For example `global_params = list(address = 'address')` 
+#'  passes addresses provided in the `address` parameter to all queries.
 #' 
 #' @param queries list of lists parameter. Each list contains parameters for a query.
 #'   The queries are executed in the order provided.
@@ -53,12 +52,6 @@ geo_combine <- function(queries, global_params = list(), address = NULL,
     address = address, 
     street = street, city = city, county = county, state = state, postalcode = postalcode, country = country
   )
-  
-   # Combine user input global parameters with the address parameters that are needed
-   # global_params_combined <- global_params
-   # for (colname in colnames(input_df)) {
-   #   global_params_combined[[colname]] <- colname
-   # }
    
    # pass arguments to geocode_combine() as a list. lat and long arguments did not work when passed directly
    arguments_to_pass <- c(list(
@@ -159,26 +152,9 @@ geocode_combine <- function(.tbl, queries, global_params = list(), query_names =
   # get all parameter names
   all_param_names <- unlist(sapply(all_param_lists, names))
   
-  # print('all_param_lists:')
-  # print(all_param_lists)
-  
-  # remove NULL values from parameter name lists
-  # all_param_names_no_null <- sapply(all_param_names, function(x) {
-  #   x[sapply(x, is.null)] <- NULL
-  #   return(x)
-  #   }, USE.NAMES = FALSE)
-  
-  # which address arguments were used in the queries
-  #used_address_args <- unique(intersect(all_param_names_no_null, pkg.globals$address_arg_names))
-  
   # which columns are used to store addresses
   used_address_colnames <- unique(unlist(sapply(all_param_lists, 
             function(x) unlist(x[names(x) %in% pkg.globals$address_arg_names], use.names = FALSE))))
-  
-  #message(paste0('used_address_colnames: ', used_address_colnames))
-
-  # TODO: make a workaround so return_input can be FALSE if limit = 1 for all queries (ie.
-  # we can track which address is which by index) ??
   
   if (cascade == TRUE) {
     for (query in all_param_lists) {

@@ -9,17 +9,20 @@ template:
       index_name: tidygeocoder
       
 reference:
-- title: Geocoding functions
-  desc: The main functions to call for geocoding
+- title: Forward geocoding
+  desc: Obtain coordinates from addresses
   contents:
   - geocode
   - geo 
-  - reverse_geocode
-  - reverse_geo
   - geocode_combine
   - geo_combine
+- title: Reverse Geocoding
+  desc: Obtain addresses from coordinates
+  contents:
+  - reverse_geocode
+  - reverse_geo
 - title: Reference Datasets
-  desc: Datasets used for geocoder queries and documentation
+  desc: Datasets used for geocoding queries and documentation
   contents:
   - api_parameter_reference
   - min_time_reference

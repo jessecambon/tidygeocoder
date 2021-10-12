@@ -45,7 +45,7 @@ geo(
 \arguments{
 \item{address}{single line address (ie. '1600 Pennsylvania Ave NW, Washington, DC').
 Do not combine with the address component arguments below
-(street, city, county, state, postalcode, country).}
+(\code{street}, \code{city}, \code{county}, \code{state}, \code{postalcode}, \code{country}).}
 
 \item{street}{street address (ie. '1600 Pennsylvania Ave NW')}
 
@@ -55,7 +55,7 @@ Do not combine with the address component arguments below
 
 \item{state}{state (ie. 'Kentucky')}
 
-\item{postalcode}{postalcode (zip code if in the United States)}
+\item{postalcode}{postalcode (ie. zip code if in the United States)}
 
 \item{country}{country (ie. 'Japan')}
 
@@ -86,9 +86,9 @@ services have different columns that they return.
 method argument in the order in which the geocoding services will be attempted for \code{method = "cascade"}
 (ie. \code{c("census", "geocodio")})}
 
-\item{lat}{latitude column name. Can be quoted or unquoted (ie. lat or "lat").}
+\item{lat}{latitude column name. Can be quoted or unquoted (ie. \code{lat} or \code{"lat"}).}
 
-\item{long}{longitude column name. Can be quoted or unquoted (ie. long or "long").}
+\item{long}{longitude column name. Can be quoted or unquoted (ie. \code{long} or `"long"``).}
 
 \item{limit}{maximum number of results to return per input address. For many geocoding services
 the maximum value of the limit parameter is 100. Pass \code{limit = NULL} to use
