@@ -20,12 +20,12 @@ geo_combine(
 )
 }
 \arguments{
-\item{queries}{list of lists parameter. Each list contains parameters for a query.
-The queries are executed in the order provided.
-(ie. \code{list(list(method = 'osm'), list(method = 'census'), ...)})}
+\item{queries}{a list of queries, each provided as a list of parameters. The queries are
+executed in the order provided.
+(ex. \code{list(list(method = 'osm'), list(method = 'census'), ...)})}
 
-\item{global_params}{list parameter. Contains parameters to be used for all queries.
-(ie. \code{list(address = 'address', full_results = TRUE)})}
+\item{global_params}{a list of parameters to be used for all queries
+(ex. \code{list(address = 'address', full_results = TRUE)})}
 
 \item{address}{single line address (ie. '1600 Pennsylvania Ave NW, Washington, DC').
 Do not combine with the address component arguments below
@@ -65,15 +65,20 @@ passes addresses provided in the \code{address} parameter to all queries.
 
 example_addresses <- c("100 Main St New York, NY", "Paris", "Not a Real Address")
 
-geo_combine(queries = list(list(method = 'census'), list(method = 'osm')),
-  address = example_addresses,
-  global_params = list(address = 'address')
+geo_combine(
+    queries = list(
+        list(method = 'census'),
+        list(method = 'osm')
+    ),
+    address = example_addresses,
+    global_params = list(address = 'address')
   )
   
-geo_combine(queries = list(
-  list(method = 'arcgis'), 
-  list(method = 'census', mode = 'single'),
-  list(method = 'census', mode = 'batch')
+geo_combine(
+  queries = list(
+      list(method = 'arcgis'), 
+      list(method = 'census', mode = 'single'),
+      list(method = 'census', mode = 'batch')
   ),
   global_params = list(address = 'address'),
   address = example_addresses,

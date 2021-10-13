@@ -18,12 +18,12 @@ geocode_combine(
 \arguments{
 \item{.tbl}{dataframe containing addresses}
 
-\item{queries}{list of lists parameter. Each list contains parameters for a query.
-The queries are executed in the order provided.
-(ie. \code{list(list(method = 'osm'), list(method = 'census'), ...)})}
+\item{queries}{a list of queries, each provided as a list of parameters. The queries are
+executed in the order provided.
+(ex. \code{list(list(method = 'osm'), list(method = 'census'), ...)})}
 
-\item{global_params}{list parameter. Contains parameters to be used for all queries.
-(ie. \code{list(full_results = TRUE, unique_only = TRUE)})}
+\item{global_params}{a list of parameters to be used for all queries
+(ex. \code{list(address = 'address', full_results = TRUE)})}
 
 \item{query_names}{an optional vector of names to use for labeling the results of each query.
 These names are either placed in a \code{query} column if \code{cascade = TRUE}.

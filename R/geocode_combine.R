@@ -1,4 +1,20 @@
 
+get_queries_parameter_documentation <- function() {
+  return(c(
+      "a list of queries, each provided as a list of parameters. The queries are",
+      "executed in the order provided.",
+      "(ex. `list(list(method = 'osm'), list(method = 'census'), ...)`)"
+    ))
+}
+
+get_global_params_parameter_documentation <- function() {
+  return(c(
+    "a list of parameters to be used for all queries",
+    "(ex. `list(address = 'address', full_results = TRUE)`)"
+  ))
+}
+
+
 #' Combine multiple geocoding queries
 #' 
 #' @description Passes address inputs in character vector form to the
@@ -8,11 +24,8 @@
 #'  or `global_params` (for all queries). For example `global_params = list(address = 'address')` 
 #'  passes addresses provided in the `address` parameter to all queries.
 #' 
-#' @param queries list of lists parameter. Each list contains parameters for a query.
-#'   The queries are executed in the order provided.
-#'   (ie. `list(list(method = 'osm'), list(method = 'census'), ...)`)
-#' @param global_params list parameter. Contains parameters to be used for all queries. 
-#'   (ie. `list(address = 'address', full_results = TRUE)`)
+#' @param queries `r get_queries_parameter_documentation()`
+#' @param global_params `r get_global_params_parameter_documentation()`
 #' @inheritParams geo
 #' @param ... arguments passed to the [geocode_combine] function
 #' @inherit geo return
@@ -21,15 +34,20 @@
 #' 
 #' example_addresses <- c("100 Main St New York, NY", "Paris", "Not a Real Address")
 #' 
-#' geo_combine(queries = list(list(method = 'census'), list(method = 'osm')),
-#'   address = example_addresses,
-#'   global_params = list(address = 'address')
+#' geo_combine(
+#'     queries = list(
+#'         list(method = 'census'),
+#'         list(method = 'osm')
+#'     ),
+#'     address = example_addresses,
+#'     global_params = list(address = 'address')
 #'   )
 #'   
-#' geo_combine(queries = list(
-#'   list(method = 'arcgis'), 
-#'   list(method = 'census', mode = 'single'),
-#'   list(method = 'census', mode = 'batch')
+#' geo_combine(
+#'   queries = list(
+#'       list(method = 'arcgis'), 
+#'       list(method = 'census', mode = 'single'),
+#'       list(method = 'census', mode = 'batch')
 #'   ),
 #'   global_params = list(address = 'address'),
 #'   address = example_addresses,
@@ -70,11 +88,8 @@ geo_combine <- function(queries, global_params = list(), address = NULL,
 #' @description Executes multiple geocoding queries on a dataframe input and combines
 #'  the results. To use a character vector input instead, see the [geo_combine] function.
 #' 
-#' @param queries list of lists parameter. Each list contains parameters for a query. 
-#'   The queries are executed in the order provided.
-#'   (ie. `list(list(method = 'osm'), list(method = 'census'), ...)`)
-#' @param global_params list parameter. Contains parameters to be used for all queries.
-#'   (ie. `list(full_results = TRUE, unique_only = TRUE)`)
+#' @param queries `r get_queries_parameter_documentation()`
+#' @param global_params `r get_global_params_parameter_documentation()`
 #' @param return_list if TRUE then results from each service will be returned as separate 
 #'   items in a named list. If FALSE (default) then all results will be combined into a 
 #'   single dataframe.
