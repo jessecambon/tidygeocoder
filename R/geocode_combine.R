@@ -267,18 +267,10 @@ geocode_combine <- function(.tbl, queries, global_params = list(), query_names =
   if (return_list == TRUE) {
     return(all_results)
   } else {
-    # create query name column before combining results into single dataframe
-    # all_results_labeled <- lapply(
-    #   names(all_results), function(x) 
-    #     dplyr::bind_cols(all_results[[x]], tibble::tibble(query = x))
-    #   )
-    
-    # names we want to populate 'query' label column
-    query_names_to_use <- names(all_results)
     
     # label the dataframes contained in the all_results list with a 'query' column
     all_results_labeled <- mapply(function(x, y) dplyr::bind_cols(x, tibble::tibble(query = y)), 
-                       all_results, query_names_to_use, SIMPLIFY = FALSE)
+                       all_results, names(all_results), SIMPLIFY = FALSE)
     
     # put all results into a single dataframe
     bound_data <- dplyr::bind_rows(all_results_labeled)
