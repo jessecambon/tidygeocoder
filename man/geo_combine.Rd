@@ -54,7 +54,7 @@ tibble (dataframe)
 }
 \description{
 Passes address inputs in character vector form to the
-\link{geocode_combine} function for geocoding. See example usage in \code{vignette("tidygeocoder")}.
+\link{geocode_combine} function for geocoding.
 
 Note that address inputs must be specified for queries either in \code{queries} (for each query)
 or \code{global_params} (for all queries). For example \code{global_params = list(address = 'address')}

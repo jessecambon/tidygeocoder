@@ -18,7 +18,7 @@ get_global_params_parameter_documentation <- function() {
 #' Combine multiple geocoding queries
 #' 
 #' @description Passes address inputs in character vector form to the
-#'  [geocode_combine] function for geocoding. See example usage in `vignette("tidygeocoder")`.
+#'  [geocode_combine] function for geocoding.
 #'  
 #'  Note that address inputs must be specified for queries either in `queries` (for each query)
 #'  or `global_params` (for all queries). For example `global_params = list(address = 'address')` 
@@ -87,6 +87,7 @@ geo_combine <- function(queries, global_params = list(), address = NULL,
 #' 
 #' @description Executes multiple geocoding queries on a dataframe input and combines
 #'  the results. To use a character vector input instead, see the [geo_combine] function.
+#'  See example usage in `vignette("tidygeocoder")`.
 #' 
 #' @param queries `r get_queries_parameter_documentation()`
 #' @param global_params `r get_global_params_parameter_documentation()`
@@ -96,11 +97,12 @@ geo_combine <- function(queries, global_params = list(), address = NULL,
 #' @param cascade if TRUE (default) then only addresses that are not found by a geocoding 
 #'   service will be attempted by subsequent queries. 
 #'   If FALSE then all queries will attempt to geocode all addresses.
-#' @param query_names an optional vector of names to use for labeling the results of each query.
-#'   These names are either placed in a `query` column if `cascade = TRUE`.
-#'   If not specified (NULL) then the `method` parameter values will be used to label the query results.
-#'   If the same `method` is used in multiple queries, then a number will be added to the method name
-#'   to reflect the order of the queries.
+#' @param query_names optional vector of labels for each query (ex. `c('geocodio batch', 'geocodio single')`).
+#'   If provided, there should be one value per query. If `return_list = FALSE` (default) then the query names
+#'   will be placed in a `query` column in the returned dataset. If `return_list = TRUE` then the query names
+#'   will be the names of the returned list.
+#'   If this argument is not specified (`NULL`) then the `method` parameter values will be used to label the query results.
+#'   If the same `method` is used in multiple queries, then a number will be added according to the order of the queries.
 #' @inheritParams geocode
 #' @inherit geo return
 #' @examples
@@ -216,6 +218,10 @@ geocode_combine <- function(.tbl, queries, global_params = list(), query_names =
     
     if (any(duplicated(query_names)) == TRUE) {
       stop('query_names values should be unique. See ?geocode_combine')
+    }
+    
+    if (any(trimws(query_names) == '')) {
+      stop('query_names values should not be blank. See ?geocode_combine')
     }
   }
   

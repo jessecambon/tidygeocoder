@@ -25,11 +25,12 @@ executed in the order provided.
 \item{global_params}{a list of parameters to be used for all queries
 (ex. \code{list(address = 'address', full_results = TRUE)})}
 
-\item{query_names}{an optional vector of names to use for labeling the results of each query.
-These names are either placed in a \code{query} column if \code{cascade = TRUE}.
-If not specified (NULL) then the \code{method} parameter values will be used to label the query results.
-If the same \code{method} is used in multiple queries, then a number will be added to the method name
-to reflect the order of the queries.}
+\item{query_names}{optional vector of labels for each query (ex. \code{c('geocodio batch', 'geocodio single')}).
+If provided, there should be one value per query. If \code{return_list = FALSE} (default) then the query names
+will be placed in a \code{query} column in the returned dataset. If \code{return_list = TRUE} then the query names
+will be the names of the returned list.
+If this argument is not specified (\code{NULL}) then the \code{method} parameter values will be used to label the query results.
+If the same \code{method} is used in multiple queries, then a number will be added according to the order of the queries.}
 
 \item{return_list}{if TRUE then results from each service will be returned as separate
 items in a named list. If FALSE (default) then all results will be combined into a
@@ -49,6 +50,7 @@ tibble (dataframe)
 \description{
 Executes multiple geocoding queries on a dataframe input and combines
 the results. To use a character vector input instead, see the \link{geo_combine} function.
+See example usage in \code{vignette("tidygeocoder")}.
 }
 \examples{
 \donttest{
