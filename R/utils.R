@@ -268,7 +268,7 @@ extract_bing_latlng <- function(response) {
 # For consistency/continuity, these are the same conditions 
 # that are used for the {readr} package
 show_progress_bar <- function() {
-    isTRUE(getOption("tidygeocoder.progress_bar")) && # options() setting isn't FALSE
+    getOption("tidygeocoder.progress_bar", TRUE) && # option is TRUE or not found
     interactive() && # interactive session
     !isTRUE(getOption("rstudio.notebook.executing")) && # Not running in an RStudio notebook chunk
     !isTRUE(getOption("knitr.in.progress")) # Not actively knitting a document

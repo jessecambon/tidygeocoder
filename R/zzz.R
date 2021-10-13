@@ -1,3 +1,4 @@
+# Set default options() - used in geo() and reverse_geo() functions
 .onLoad <- function(libname, pkgname) {
   op <- options()
   op.tidygeocoder <- list(
