@@ -17,7 +17,6 @@ progress_reverse_geo <- function(pb = NULL, ...) {
   return(results)
 }
 
-
 # Create API parameters for a single set of coordinates (lat, long) based on the 
 # method. Parameters are placed into the 'custom_query' variable which is a named list
 # that is passed directly to the API service.

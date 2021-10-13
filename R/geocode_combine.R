@@ -83,7 +83,9 @@ geo_combine <- function(queries, global_params = list(), address = NULL,
 #'   If FALSE then all queries will attempt to geocode all addresses.
 #' @param query_names an optional vector of names to use for labeling the results of each query.
 #'   These names are either placed in a `query` column if `cascade = TRUE`.
-#'   If null then the `method` parameter values will be used as names.
+#'   If not specified (NULL) then the `method` parameter values will be used to label the query results.
+#'   If the same `method` is used in multiple queries, then a number will be added to the method name
+#'   to reflect the order of the queries.
 #' @inheritParams geocode
 #' @inherit geo return
 #' @examples

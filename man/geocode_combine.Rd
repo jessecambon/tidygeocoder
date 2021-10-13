@@ -27,7 +27,9 @@ The queries are executed in the order provided.
 
 \item{query_names}{an optional vector of names to use for labeling the results of each query.
 These names are either placed in a \code{query} column if \code{cascade = TRUE}.
-If null then the \code{method} parameter values will be used as names.}
+If not specified (NULL) then the \code{method} parameter values will be used to label the query results.
+If the same \code{method} is used in multiple queries, then a number will be added to the method name
+to reflect the order of the queries.}
 
 \item{return_list}{if TRUE then results from each service will be returned as separate
 items in a named list. If FALSE (default) then all results will be combined into a
