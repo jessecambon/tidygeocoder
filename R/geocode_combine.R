@@ -1,41 +1,69 @@
 
+get_queries_parameter_documentation <- function() {
+  return(c(
+      "a list of queries, each provided as a list of parameters. The queries are",
+      "executed in the order provided by the [geocode] function.",
+      "(ex. `list(list(method = 'osm'), list(method = 'census'), ...)`)"
+    ))
+}
+
+get_global_params_parameter_documentation <- function() {
+  return(c(
+    "a list of parameters to be used for all queries",
+    "(ex. `list(address = 'address', full_results = TRUE)`)"
+  ))
+}
+
+
 #' Combine multiple geocoding queries
 #' 
 #' @description Passes address inputs in character vector form to the
-#'  [geocode_combine] function for geocoding. See example usage in `vignette("tidygeocoder")`.
+#'  [geocode_combine] function for geocoding.
 #'  
 #'  Note that address inputs must be specified for queries either in `queries` (for each query)
-#'  or `global_params` (for all queries) using standard address parameter 
-#'  names. For example `global_params = list(address = 'address')` would 
-#'  pass addresses from the `address` parameter to all queries.
+#'  or `global_params` (for all queries). For example `global_params = list(address = 'address')` 
+#'  passes addresses provided in the `address` parameter to all queries.
 #' 
-#' @param queries list of lists parameter. Each list contains parameters for a query.
-#'   The queries are executed in the order provided.
-#'   (ie. `list(list(method = 'osm'), list(method = 'census'), ...)`)
-#' @param global_params list parameter. Contains parameters to be used for all queries. 
-#'   (ie. `list(address = 'address', full_results = TRUE)`)
+#' @param queries `r get_queries_parameter_documentation()`
+#' @param global_params `r get_global_params_parameter_documentation()`
 #' @inheritParams geo
 #' @param ... arguments passed to the [geocode_combine] function
 #' @inherit geo return
 #' @examples
 #' \donttest{
 #' 
+#' options(tidygeocoder.progress_bar = FALSE)
 #' example_addresses <- c("100 Main St New York, NY", "Paris", "Not a Real Address")
 #' 
-#' geo_combine(queries = list(list(method = 'census'), list(method = 'osm')),
-#'   address = example_addresses,
-#'   global_params = list(address = 'address')
+#' geo_combine(
+#'     queries = list(
+#'         list(method = 'census'),
+#'         list(method = 'osm')
+#'     ),
+#'     address = example_addresses,
+#'     global_params = list(address = 'address')
 #'   )
 #'   
-#' geo_combine(queries = list(
-#'   list(method = 'arcgis'), 
-#'   list(method = 'census', mode = 'single'),
-#'   list(method = 'census', mode = 'batch')
+#' geo_combine(
+#'   queries = list(
+#'       list(method = 'arcgis'), 
+#'       list(method = 'census', mode = 'single'),
+#'       list(method = 'census', mode = 'batch')
 #'   ),
 #'   global_params = list(address = 'address'),
 #'   address = example_addresses,
 #'   cascade = FALSE,
 #'   return_list = TRUE
+#' )
+#' 
+#' geo_combine(
+#'    queries = list(
+#'       list(method = 'arcgis', address = 'city'),
+#'       list(method = 'osm', city = 'city', country = 'country')
+#'    ),
+#'    city = c('Tokyo', 'New York'),
+#'    country = c('Japan', 'United States'),
+#'    cascade = FALSE
 #' )
 #' }
 #' @seealso [geocode_combine] [geo] [geocode]
@@ -48,17 +76,15 @@ geo_combine <- function(queries, global_params = list(), address = NULL,
   lat <- rm_quote(deparse(substitute(lat)))
   long <- rm_quote(deparse(substitute(long)))
   
-  # prepare data for geocode_combine() function
+  # Check address arguments -------------------------------------
+  address_pack <- package_addresses(address, street, city, county, 
+                                    state, postalcode, country)
+  
+  # prepare data for geocode_combine() function -----------------
    input_df <- tibble::tibble(
-    address = address, 
+    address = address,
     street = street, city = city, county = county, state = state, postalcode = postalcode, country = country
   )
-  
-   # Combine user input global parameters with the address parameters that are needed
-   # global_params_combined <- global_params
-   # for (colname in colnames(input_df)) {
-   #   global_params_combined[[colname]] <- colname
-   # }
    
    # pass arguments to geocode_combine() as a list. lat and long arguments did not work when passed directly
    arguments_to_pass <- c(list(
@@ -76,21 +102,25 @@ geo_combine <- function(queries, global_params = list(), address = NULL,
 #' 
 #' @description Executes multiple geocoding queries on a dataframe input and combines
 #'  the results. To use a character vector input instead, see the [geo_combine] function.
+#'  Queries are executed by the [geocode] function. See example usage 
+#'  in `vignette("tidygeocoder")`.
+#'  
+#'  Query results are by default labelled to show which query produced each result. Labels are either
+#'  placed in a `query` column (if `return_list = FALSE`) or used as the names of the returned list 
+#'  (if `return_list = TRUE`). By default the `method` parameter value of each query is used as a query label.
+#'  If the same `method` is used in multiple queries then a number is added according 
+#'  to the order of the queries (ie. `osm1`, `osm2`, ...). To provide your own custom query labels
+#'  use the `query_names` parameter.
 #' 
-#' @param queries list of lists parameter. Each list contains parameters for a query. 
-#'   The queries are executed in the order provided.
-#'   (ie. `list(list(method = 'osm'), list(method = 'census'), ...)`)
-#' @param global_params list parameter. Contains parameters to be used for all queries.
-#'   (ie. `list(full_results = TRUE, unique_only = TRUE)`)
+#' @param queries `r get_queries_parameter_documentation()`
+#' @param global_params `r get_global_params_parameter_documentation()`
 #' @param return_list if TRUE then results from each service will be returned as separate 
-#'   items in a named list. If FALSE (default) then all results will be combined into a 
-#'   single dataframe.
+#'   dataframes. If FALSE (default) then all results will be combined into a single dataframe.
 #' @param cascade if TRUE (default) then only addresses that are not found by a geocoding 
-#'   service will be attempted by subsequent queries. 
-#'   If FALSE then all queries will attempt to geocode all addresses.
-#' @param query_names an optional vector of names to use for labeling the results of each query.
-#'   These names are either placed in a `query` column if `cascade = TRUE`.
-#'   If null then the `method` parameter values will be used as names.
+#'   service will be attempted by subsequent queries. If FALSE then all queries will 
+#'   attempt to geocode all addresses.
+#' @param query_names optional vector with one label for each query provided 
+#'   (ex. `c('geocodio batch', 'geocodio single')`).
 #' @inheritParams geocode
 #' @inherit geo return
 #' @examples
@@ -136,8 +166,9 @@ geo_combine <- function(queries, global_params = list(), address = NULL,
 #' }
 #' @seealso [geo_combine] [geo] [geocode]
 #' @export
-geocode_combine <- function(.tbl, queries, global_params = list(), query_names = NULL, 
-                          return_list = FALSE, cascade = TRUE, lat = lat, long = long) {
+geocode_combine <- function(.tbl, queries, global_params = list(),  
+                          return_list = FALSE, cascade = TRUE, query_names = NULL,
+                          lat = lat, long = long) {
   
   # NSE - converts lat and long parameters to character values
   lat <- rm_quote(deparse(substitute(lat)))
@@ -159,26 +190,9 @@ geocode_combine <- function(.tbl, queries, global_params = list(), query_names =
   # get all parameter names
   all_param_names <- unlist(sapply(all_param_lists, names))
   
-  # print('all_param_lists:')
-  # print(all_param_lists)
-  
-  # remove NULL values from parameter name lists
-  # all_param_names_no_null <- sapply(all_param_names, function(x) {
-  #   x[sapply(x, is.null)] <- NULL
-  #   return(x)
-  #   }, USE.NAMES = FALSE)
-  
-  # which address arguments were used in the queries
-  #used_address_args <- unique(intersect(all_param_names_no_null, pkg.globals$address_arg_names))
-  
   # which columns are used to store addresses
   used_address_colnames <- unique(unlist(sapply(all_param_lists, 
             function(x) unlist(x[names(x) %in% pkg.globals$address_arg_names], use.names = FALSE))))
-  
-  #message(paste0('used_address_colnames: ', used_address_colnames))
-
-  # TODO: make a workaround so return_input can be FALSE if limit = 1 for all queries (ie.
-  # we can track which address is which by index) ??
   
   if (cascade == TRUE) {
     for (query in all_param_lists) {
@@ -223,6 +237,10 @@ geocode_combine <- function(.tbl, queries, global_params = list(), query_names =
     
     if (any(duplicated(query_names)) == TRUE) {
       stop('query_names values should be unique. See ?geocode_combine')
+    }
+    
+    if (any(trimws(query_names) == '')) {
+      stop('query_names values should not be blank. See ?geocode_combine')
     }
   }
   
@@ -289,18 +307,10 @@ geocode_combine <- function(.tbl, queries, global_params = list(), query_names =
   if (return_list == TRUE) {
     return(all_results)
   } else {
-    # create query name column before combining results into single dataframe
-    # all_results_labeled <- lapply(
-    #   names(all_results), function(x) 
-    #     dplyr::bind_cols(all_results[[x]], tibble::tibble(query = x))
-    #   )
-    
-    # names we want to populate 'query' label column
-    query_names_to_use <- names(all_results)
     
     # label the dataframes contained in the all_results list with a 'query' column
     all_results_labeled <- mapply(function(x, y) dplyr::bind_cols(x, tibble::tibble(query = y)), 
-                       all_results, query_names_to_use, SIMPLIFY = FALSE)
+                       all_results, names(all_results), SIMPLIFY = FALSE)
     
     # put all results into a single dataframe
     bound_data <- dplyr::bind_rows(all_results_labeled)

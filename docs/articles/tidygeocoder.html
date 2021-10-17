@@ -40,7 +40,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">tidygeocoder</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.3.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.4</span>
       </span>
     </div>
 
@@ -167,7 +167,7 @@
 <span class="co">#&gt; format : "json"</span>
 <span class="co">#&gt; benchmark : "Public_AR_Current"</span>
 <span class="co">#&gt; vintage : "Current_Current"</span>
-<span class="co">#&gt; Query completed in: 1.4 seconds</span></code></pre></div>
+<span class="co">#&gt; Query completed in: 2.1 seconds</span></code></pre></div>
 <table class="table">
 <thead><tr class="header">
 <th align="left">singlelineaddress</th>
@@ -219,7 +219,7 @@
 <code class="sourceCode R"><span class="va">census_c1</span> <span class="op">&lt;-</span> <span class="va">address_components</span> <span class="op">%&gt;%</span>
   <span class="fu"><a href="../reference/geocode.html">geocode</a></span><span class="op">(</span>street <span class="op">=</span> <span class="va">street</span>, city <span class="op">=</span> <span class="va">cty</span>, state <span class="op">=</span> <span class="va">st</span>, method <span class="op">=</span> <span class="st">"census"</span><span class="op">)</span>
 <span class="co">#&gt; Passing 2 addresses to the US Census batch geocoder</span>
-<span class="co">#&gt; Query completed in: 1.7 seconds</span></code></pre></div>
+<span class="co">#&gt; Query completed in: 3 seconds</span></code></pre></div>
 <table class="table">
 <thead><tr class="header">
 <th align="left">street</th>
@@ -252,7 +252,7 @@
   method <span class="op">=</span> <span class="st">"census"</span>, full_results <span class="op">=</span> <span class="cn">TRUE</span>, api_options <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>census_return_type <span class="op">=</span> <span class="st">'geographies'</span><span class="op">)</span>
 <span class="op">)</span>
 <span class="co">#&gt; Passing 2 addresses to the US Census batch geocoder</span>
-<span class="co">#&gt; Query completed in: 1.2 seconds</span></code></pre></div>
+<span class="co">#&gt; Query completed in: 1.9 seconds</span></code></pre></div>
 <table class="table">
 <colgroup>
 <col width="16%">
@@ -298,10 +298,10 @@
 <td align="left">11 WALL ST, NEW YORK, NY, 10005</td>
 <td align="left">59659656</td>
 <td align="left">R</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
+<td align="left">36</td>
+<td align="left">061</td>
+<td align="left">000700</td>
+<td align="left">1004</td>
 </tr>
 <tr class="even">
 <td align="left">600 Peachtree Street NE, Atlanta, Georgia</td>
@@ -314,10 +314,10 @@
 <td align="left">600 PEACHTREE ST, ATLANTA, GA, 30308</td>
 <td align="left">17343689</td>
 <td align="left">L</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
+<td align="left">13</td>
+<td align="left">121</td>
+<td align="left">001902</td>
+<td align="left">2003</td>
 </tr>
 </tbody>
 </table>
@@ -376,125 +376,12 @@ occurring in automated CRAN checks for an improper/old link.
 </tr></tbody>
 </table>
 </div>
-<div id="geocode_combine" class="section level2">
-<h2 class="hasAnchor">
-<a href="#geocode_combine" class="anchor"></a>geocode_combine()</h2>
-<p>The <code><a href="../reference/geocode_combine.html">geocode_combine()</a></code> function allows you to easily combine the results of multiple queries. The queries are executed in the order provided. By default only addresses that are not found are passed to the next service, but this behavior can be toggled with the <code>cascade</code> argument. In the first example below, the US Census service is used for the first query while the Nominatim (“osm”) service is used for the second query. The <code>global_params</code> argument is used to pass the <code>address</code> column to both queries.</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">addresses_combine</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span><span class="op">(</span>
-  address <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">'100 Wall Street NY, NY'</span>, <span class="st">'Paris'</span>, <span class="st">'Not An Address'</span><span class="op">)</span>
-<span class="op">)</span>
-
-<span class="va">cascade_results1</span> <span class="op">&lt;-</span> <span class="va">addresses_combine</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="../reference/geocode_combine.html">geocode_combine</a></span><span class="op">(</span>
-    queries <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>
-      <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>method <span class="op">=</span> <span class="st">'census'</span><span class="op">)</span>,
-      <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>method <span class="op">=</span> <span class="st">'osm'</span><span class="op">)</span>
-    <span class="op">)</span>,
-    global_params <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>address <span class="op">=</span> <span class="st">'address'</span><span class="op">)</span>
-  <span class="op">)</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Passing 3 addresses to the US Census batch geocoder</span>
-<span class="co">#&gt; Query completed in: 0.2 seconds</span>
-<span class="co">#&gt; Passing 2 addresses to the Nominatim single address geocoder</span>
-<span class="co">#&gt; Query completed in: 2 seconds</span></code></pre></div>
-<table class="table">
-<thead><tr class="header">
-<th align="left">address</th>
-<th align="right">lat</th>
-<th align="right">long</th>
-<th align="left">query</th>
-</tr></thead>
-<tbody>
-<tr class="odd">
-<td align="left">100 Wall Street NY, NY</td>
-<td align="right">40.70516</td>
-<td align="right">-74.007350</td>
-<td align="left">census</td>
-</tr>
-<tr class="even">
-<td align="left">Paris</td>
-<td align="right">48.85670</td>
-<td align="right">2.351462</td>
-<td align="left">osm</td>
-</tr>
-<tr class="odd">
-<td align="left">Not An Address</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-<td align="left"></td>
-</tr>
-</tbody>
-</table>
-<p>If cascade is set to FALSE then all addresses are attempted by each query regardless of if the address was found initially or not.</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">no_cascade_results1</span> <span class="op">&lt;-</span> <span class="va">addresses_combine</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="../reference/geocode_combine.html">geocode_combine</a></span><span class="op">(</span>
-    queries <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>
-      <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>method <span class="op">=</span> <span class="st">'census'</span><span class="op">)</span>,
-      <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>method <span class="op">=</span> <span class="st">'osm'</span><span class="op">)</span>
-    <span class="op">)</span>,
-    global_params <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>address <span class="op">=</span> <span class="st">'address'</span><span class="op">)</span>,
-    cascade <span class="op">=</span> <span class="cn">FALSE</span>
-  <span class="op">)</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Passing 3 addresses to the US Census batch geocoder</span>
-<span class="co">#&gt; Query completed in: 0.2 seconds</span>
-<span class="co">#&gt; Passing 3 addresses to the Nominatim single address geocoder</span>
-<span class="co">#&gt; Query completed in: 3 seconds</span></code></pre></div>
-<table class="table">
-<thead><tr class="header">
-<th align="left">address</th>
-<th align="right">lat</th>
-<th align="right">long</th>
-<th align="left">query</th>
-</tr></thead>
-<tbody>
-<tr class="odd">
-<td align="left">100 Wall Street NY, NY</td>
-<td align="right">40.70516</td>
-<td align="right">-74.007350</td>
-<td align="left">census</td>
-</tr>
-<tr class="even">
-<td align="left">100 Wall Street NY, NY</td>
-<td align="right">40.70522</td>
-<td align="right">-74.006800</td>
-<td align="left">osm</td>
-</tr>
-<tr class="odd">
-<td align="left">Paris</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-<td align="left">census</td>
-</tr>
-<tr class="even">
-<td align="left">Paris</td>
-<td align="right">48.85670</td>
-<td align="right">2.351462</td>
-<td align="left">osm</td>
-</tr>
-<tr class="odd">
-<td align="left">Not An Address</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-<td align="left">census</td>
-</tr>
-<tr class="even">
-<td align="left">Not An Address</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-<td align="left">osm</td>
-</tr>
-</tbody>
-</table>
-</div>
 <div id="reverse-geocoding" class="section level2">
 <h2 class="hasAnchor">
 <a href="#reverse-geocoding" class="anchor"></a>Reverse Geocoding</h2>
 <p>For reverse geocoding you’ll use <code><a href="../reference/reverse_geocode.html">reverse_geocode()</a></code> instead of <code><a href="../reference/geocode.html">geocode()</a></code> and <code><a href="../reference/reverse_geo.html">reverse_geo()</a></code> instead of <code><a href="../reference/geo.html">geo()</a></code>. Note that the reverse geocoding functions are structured very similarly to the forward geocoding functions and share many of the same arguments (<code>method</code>, <code>limit</code>, <code>full_results</code>, etc.). For reverse geocoding you will provide latitude and longitude coordinates as inputs and the location’s address will be returned by the geocoding service.</p>
 <p>Below, the <code><a href="../reference/reverse_geocode.html">reverse_geocode()</a></code> function is used to geocode coordinates in a dataframe. The <code>lat</code> and <code>long</code> arguments specify the columns that contain the latitude and longitude data. The <code>address</code> argument can be used to specify the single line address column name that is returned from the geocoder. Just as with forward geocoding, the <code>method</code> argument is used to specify the geocoding service.</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">lat_longs1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span><span class="op">(</span>
   latitude <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">38.895865</span>, <span class="fl">43.6534817</span><span class="op">)</span>,
   longitude <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">77.0307713</span>, <span class="op">-</span><span class="fl">79.3839347</span><span class="op">)</span>
@@ -529,7 +416,7 @@ occurring in automated CRAN checks for an improper/old link.
 </tbody>
 </table>
 <p>The same query can also be performed by passing the latitude and longitudes directly to the <code><a href="../reference/reverse_geo.html">reverse_geo()</a></code> function. Here we will use <code>full_results = TRUE</code> so that the full results are returned (not just the single line address column).</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">rev2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/reverse_geo.html">reverse_geo</a></span><span class="op">(</span>
   lat <span class="op">=</span> <span class="va">lat_longs1</span><span class="op">$</span><span class="va">latitude</span>,
   long <span class="op">=</span> <span class="va">lat_longs1</span><span class="op">$</span><span class="va">longitude</span>,
@@ -567,8 +454,9 @@ occurring in automated CRAN checks for an improper/old link.
 <div id="working-with-messy-data" class="section level2">
 <h2 class="hasAnchor">
 <a href="#working-with-messy-data" class="anchor"></a>Working With Messy Data</h2>
-<p>Only unique input data (either addresses or coordinates) is passed to geocoding services even if your data contains duplicates. NA and blank inputs are excluded from queries. Input latitudes and longitudes are also limited to the range of possible values. Below is an example of how duplicate and missing data is handled by tidygeocoder. As the console messages shows, only the two unique addresses are passed to the geocoding service.</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<p>Only unique input data (either addresses or coordinates) is passed to geocoding services even if your data contains duplicates. NA and blank inputs are excluded from queries. Input latitudes and longitudes are also limited to the range of possible values.</p>
+<p>Below is an example of how duplicate and missing data is handled by tidygeocoder. As the console messages shows, only the two unique addresses are passed to the geocoding service.</p>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># create a dataset with duplicate and NA addresses</span>
 <span class="va">duplicate_addrs</span> <span class="op">&lt;-</span> <span class="va">address_single</span> <span class="op">%&gt;%</span>
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/bind.html">bind_rows</a></span><span class="op">(</span><span class="va">address_single</span><span class="op">)</span> <span class="op">%&gt;%</span>
@@ -647,7 +535,7 @@ occurring in automated CRAN checks for an improper/old link.
 </tbody>
 </table>
 <p>As shown above, duplicates will not be removed from your results by default. However, you can return only unique results by using <code>unique_only = TRUE</code>. Note that passing <code>unique_only = TRUE</code> to <code><a href="../reference/geocode.html">geocode()</a></code> or <code><a href="../reference/reverse_geocode.html">reverse_geocode()</a></code> will result in the original dataframe format (including column names) to be discarded in favor of the standard field names (ie. “address”, ‘lat, ’long’, etc.).</p>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">uniqueonly1</span> <span class="op">&lt;-</span> <span class="va">duplicate_addrs</span> <span class="op">%&gt;%</span>
   <span class="fu"><a href="../reference/geocode.html">geocode</a></span><span class="op">(</span><span class="va">singlelineaddress</span>, unique_only <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
 <span class="co">#&gt; Passing 2 addresses to the Nominatim single address geocoder</span>
@@ -671,6 +559,121 @@ occurring in automated CRAN checks for an improper/old link.
 </tr>
 </tbody>
 </table>
+</div>
+<div id="combining-multiple-queries" class="section level2">
+<h2 class="hasAnchor">
+<a href="#combining-multiple-queries" class="anchor"></a>Combining Multiple Queries</h2>
+<p>The <code><a href="../reference/geocode_combine.html">geocode_combine()</a></code> function allows you to execute and combine the results of multiple geocoding queries. The queries are specified as a list of lists with the <code>queries</code> parameter and are executed in the order provided. By default only addresses that are not found are passed to the next query, but this behavior can be toggled with the <code>cascade</code> argument.</p>
+<p>In the first example below, the US Census service is used for the first query while the Nominatim (“osm”) service is used for the second query. The <code>global_params</code> argument passes the <code>address</code> column from the input dataset to both queries.</p>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">addresses_combine</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span><span class="op">(</span>
+  address <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">'100 Wall Street NY, NY'</span>, <span class="st">'Paris'</span>, <span class="st">'Not An Address'</span><span class="op">)</span>
+<span class="op">)</span>
+
+<span class="va">cascade_results1</span> <span class="op">&lt;-</span> <span class="va">addresses_combine</span> <span class="op">%&gt;%</span>
+  <span class="fu"><a href="../reference/geocode_combine.html">geocode_combine</a></span><span class="op">(</span>
+    queries <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>
+      <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>method <span class="op">=</span> <span class="st">'census'</span><span class="op">)</span>,
+      <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>method <span class="op">=</span> <span class="st">'osm'</span><span class="op">)</span>
+    <span class="op">)</span>,
+    global_params <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>address <span class="op">=</span> <span class="st">'address'</span><span class="op">)</span>
+  <span class="op">)</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Passing 3 addresses to the US Census batch geocoder</span>
+<span class="co">#&gt; Query completed in: 0.5 seconds</span>
+<span class="co">#&gt; Passing 2 addresses to the Nominatim single address geocoder</span>
+<span class="co">#&gt; Query completed in: 2 seconds</span></code></pre></div>
+<table class="table">
+<thead><tr class="header">
+<th align="left">address</th>
+<th align="right">lat</th>
+<th align="right">long</th>
+<th align="left">query</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td align="left">100 Wall Street NY, NY</td>
+<td align="right">40.70516</td>
+<td align="right">-74.007350</td>
+<td align="left">census</td>
+</tr>
+<tr class="even">
+<td align="left">Paris</td>
+<td align="right">48.85670</td>
+<td align="right">2.351462</td>
+<td align="left">osm</td>
+</tr>
+<tr class="odd">
+<td align="left">Not An Address</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="left"></td>
+</tr>
+</tbody>
+</table>
+<p>If <code>cascade</code> is set to FALSE then all addresses are attempted by each query regardless of if the address was found initially or not.</p>
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">no_cascade_results1</span> <span class="op">&lt;-</span> <span class="va">addresses_combine</span> <span class="op">%&gt;%</span>
+  <span class="fu"><a href="../reference/geocode_combine.html">geocode_combine</a></span><span class="op">(</span>
+    queries <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>
+      <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>method <span class="op">=</span> <span class="st">'census'</span><span class="op">)</span>,
+      <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>method <span class="op">=</span> <span class="st">'osm'</span><span class="op">)</span>
+    <span class="op">)</span>,
+    global_params <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>address <span class="op">=</span> <span class="st">'address'</span><span class="op">)</span>,
+    cascade <span class="op">=</span> <span class="cn">FALSE</span>
+  <span class="op">)</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Passing 3 addresses to the US Census batch geocoder</span>
+<span class="co">#&gt; Query completed in: 0.1 seconds</span>
+<span class="co">#&gt; Passing 3 addresses to the Nominatim single address geocoder</span>
+<span class="co">#&gt; Query completed in: 3 seconds</span></code></pre></div>
+<table class="table">
+<thead><tr class="header">
+<th align="left">address</th>
+<th align="right">lat</th>
+<th align="right">long</th>
+<th align="left">query</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td align="left">100 Wall Street NY, NY</td>
+<td align="right">40.70516</td>
+<td align="right">-74.007350</td>
+<td align="left">census</td>
+</tr>
+<tr class="even">
+<td align="left">100 Wall Street NY, NY</td>
+<td align="right">40.70522</td>
+<td align="right">-74.006800</td>
+<td align="left">osm</td>
+</tr>
+<tr class="odd">
+<td align="left">Paris</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="left">census</td>
+</tr>
+<tr class="even">
+<td align="left">Paris</td>
+<td align="right">48.85670</td>
+<td align="right">2.351462</td>
+<td align="left">osm</td>
+</tr>
+<tr class="odd">
+<td align="left">Not An Address</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="left">census</td>
+</tr>
+<tr class="even">
+<td align="left">Not An Address</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="left">osm</td>
+</tr>
+</tbody>
+</table>
+<p>Additionally, the results from each query can be returned in separate list items by setting <code>return_list = TRUE</code>.</p>
 </div>
 <div id="customizing-queries" class="section level2">
 <h2 class="hasAnchor">
@@ -789,7 +792,7 @@ occurring in automated CRAN checks for an improper/old link.
 <li>Use the <code>progress_bar</code> argument to control if a progress bar is displayed.</li>
 <li>The <code>verbose</code>, <code>quiet</code>, and <code>progress_bar</code> arguments can be set globally with <code>options</code>. For instance <code><a href="https://rdrr.io/r/base/options.html">options(tidygeocoder.verbose = TRUE)</a></code> will set verbose to <code>TRUE</code> for all queries by default.</li>
 <li>To customize the API endpoint, use the <code>api_options</code> or <code>api_url</code> arguments. See <code><a href="../reference/geo.html">?geo</a></code> or <code><a href="../reference/reverse_geo.html">?reverse_geo</a></code> for details.</li>
-<li>If not specified manually, the <code>min_time</code> argument will default to a value based on the maximum query rate of the given geocoding service. If you are using a local Nominatim server or have a commercial geocoder plan that has less restrictive usage limits then you can manually set <code>min_time</code> to a lower valuer (such as 0).</li>
+<li>If not specified manually, the <code>min_time</code> argument will default to a value based on the maximum query rate of the given geocoding service. If you are using a local Nominatim server or have a commercial geocoder plan that has less restrictive usage limits then you can manually set <code>min_time</code> to a lower value (such as 0).</li>
 <li>The <code>mode</code> argument can be used to specify whether the batch geocoding or single address/coordinate geocoding should be used. By default batch geocoding will be used if available when more than one address or coordinate is provided (with some noted exceptions for slower batch geocoding services).</li>
 <li>The <code>return_addresses</code> and <code>return_coords</code> parameters (for forward and reverse geocoding respectively) can be used to toggle whether the input addresses or coordinates are returned. Setting these parameters to <code>FALSE</code> is necessary to use batch geocoding if <code>limit</code> is greater than 1 or NULL.</li>
 <li>For the <code><a href="../reference/reverse_geocode.html">reverse_geocode()</a></code> and <code><a href="../reference/geocode.html">geocode()</a></code> functions, the <code>return_input</code> argument can be used to toggle if the input dataset is included in the returned dataframe.</li>

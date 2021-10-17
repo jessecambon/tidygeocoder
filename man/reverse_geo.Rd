@@ -16,12 +16,12 @@ reverse_geo(
   return_coords = TRUE,
   min_time = NULL,
   progress_bar = show_progress_bar(),
-  quiet = isTRUE(getOption("tidygeocoder.quiet")),
+  quiet = getOption("tidygeocoder.quiet", FALSE),
   api_url = NULL,
   timeout = 20,
   flatten = TRUE,
   batch_limit = NULL,
-  verbose = isTRUE(getOption("tidygeocoder.verbose")),
+  verbose = getOption("tidygeocoder.verbose", FALSE),
   no_query = FALSE,
   custom_query = list(),
   api_options = list(),
@@ -106,7 +106,7 @@ permanently with \code{options(tidygeocoder.verbose = TRUE)}}
 Used for testing.}
 
 \item{custom_query}{API-specific parameters to be used, passed as a named list
-(ie. \code{list(extratags = 1)}.}
+(ex. \code{list(extratags = 1)}.}
 
 \item{api_options}{a named list of parameters specific to individual services.
 (ex. \code{list(geocodio_v = 1.6, geocodio_hipaa = TRUE)}). Each parameter begins

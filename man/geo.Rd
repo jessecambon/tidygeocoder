@@ -23,13 +23,13 @@ geo(
   return_addresses = TRUE,
   min_time = NULL,
   progress_bar = show_progress_bar(),
-  quiet = isTRUE(getOption("tidygeocoder.quiet")),
+  quiet = getOption("tidygeocoder.quiet", FALSE),
   api_url = NULL,
   timeout = 20,
   flatten = TRUE,
   batch_limit = NULL,
   batch_limit_error = TRUE,
-  verbose = isTRUE(getOption("tidygeocoder.verbose")),
+  verbose = getOption("tidygeocoder.verbose", FALSE),
   no_query = FALSE,
   custom_query = list(),
   api_options = list(),
@@ -45,7 +45,7 @@ geo(
 \arguments{
 \item{address}{single line address (ie. '1600 Pennsylvania Ave NW, Washington, DC').
 Do not combine with the address component arguments below
-(street, city, county, state, postalcode, country).}
+(\code{street}, \code{city}, \code{county}, \code{state}, \code{postalcode}, \code{country}).}
 
 \item{street}{street address (ie. '1600 Pennsylvania Ave NW')}
 
@@ -55,7 +55,7 @@ Do not combine with the address component arguments below
 
 \item{state}{state (ie. 'Kentucky')}
 
-\item{postalcode}{postalcode (zip code if in the United States)}
+\item{postalcode}{postalcode (ie. zip code if in the United States)}
 
 \item{country}{country (ie. 'Japan')}
 
@@ -86,9 +86,9 @@ services have different columns that they return.
 method argument in the order in which the geocoding services will be attempted for \code{method = "cascade"}
 (ie. \code{c("census", "geocodio")})}
 
-\item{lat}{latitude column name. Can be quoted or unquoted (ie. lat or "lat").}
+\item{lat}{latitude column name. Can be quoted or unquoted (ie. \code{lat} or \code{"lat"}).}
 
-\item{long}{longitude column name. Can be quoted or unquoted (ie. long or "long").}
+\item{long}{longitude column name. Can be quoted or unquoted (ie. \code{long} or `"long"``).}
 
 \item{limit}{maximum number of results to return per input address. For many geocoding services
 the maximum value of the limit parameter is 100. Pass \code{limit = NULL} to use
@@ -144,7 +144,7 @@ permanently with \code{options(tidygeocoder.verbose = TRUE)}}
 Used for testing.}
 
 \item{custom_query}{API-specific parameters to be used, passed as a named list
-(ie. \code{list(extratags = 1)}.}
+(ex. \code{list(extratags = 1)}.}
 
 \item{api_options}{a named list of parameters specific to individual services.
 (ex. \code{list(geocodio_v = 1.6, geocodio_hipaa = TRUE)}). Each parameter begins

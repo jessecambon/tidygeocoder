@@ -17,7 +17,7 @@ Month](http://cranlogs.r-pkg.org/badges/tidygeocoder)](https://cran.r-project.or
 stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://lifecycle.r-lib.org/articles/stages.html#stable)
 [![R Build
 Status](https://github.com/jessecambon/tidygeocoder/workflows/R-CMD-check/badge.svg)](https://github.com/jessecambon/tidygeocoder/actions?workflow=R-CMD-check)
-[![Zenodo](https://zenodo.org/badge/DOI/10.5281/zenodo.4686074.svg)](https://doi.org/10.5281/zenodo.4686074)
+[![Zenodo](https://zenodo.org/badge/DOI/10.5281/zenodo.5574263.svg)](https://doi.org/10.5281/zenodo.5574263)
 <!-- badges: end -->
 
 Tidygeocoder makes getting data from geocoding services easy. A unified
@@ -193,7 +193,7 @@ citation('tidygeocoder')
       Cambon J, Hernangómez D, Belanger C, Possenriede D (2021).
       tidygeocoder: An R package for geocoding. Journal of Open Source
       Software, 6(65), 3544, https://doi.org/10.21105/joss.03544 (R package
-      version 1.0.3)
+      version 1.0.4)
 
     A BibTeX entry for LaTeX users is
 
@@ -208,7 +208,7 @@ citation('tidygeocoder')
         volume = {6},
         number = {65},
         pages = {3544},
-        note = {R package version 1.0.3},
+        note = {R package version 1.0.4},
       }
 
 </blockquote>

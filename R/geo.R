@@ -39,12 +39,12 @@ progress_geo <- function(pb = NULL, ...) {
 #' 
 #' @param address single line address (ie. '1600 Pennsylvania Ave NW, Washington, DC').
 #'    Do not combine with the address component arguments below
-#'    (street, city, county, state, postalcode, country).
+#'    (`street`, `city`, `county`, `state`, `postalcode`, `country`).
 #' @param street street address (ie. '1600 Pennsylvania Ave NW')
 #' @param city city (ie. 'Tokyo')
 #' @param county county (ie. 'Jefferson')
 #' @param state state (ie. 'Kentucky')
-#' @param postalcode postalcode (zip code if in the United States)
+#' @param postalcode postalcode (ie. zip code if in the United States)
 #' @param country country (ie. 'Japan')
 #' 
 #' @param method `r get_method_documentation(reverse = FALSE)`
@@ -58,8 +58,8 @@ progress_geo <- function(pb = NULL, ...) {
 #' @param cascade_order `r lifecycle::badge("deprecated")` a vector with two character values for the 
 #'  method argument in the order in which the geocoding services will be attempted for `method = "cascade"`
 #'  (ie. `c("census", "geocodio")`)
-#' @param lat latitude column name. Can be quoted or unquoted (ie. lat or "lat").
-#' @param long longitude column name. Can be quoted or unquoted (ie. long or "long").
+#' @param lat latitude column name. Can be quoted or unquoted (ie. `lat` or `"lat"`).
+#' @param long longitude column name. Can be quoted or unquoted (ie. `long` or `"long"``).
 #' @param limit `r get_limit_documentation(reverse = FALSE, df_input = FALSE)`
 #' 
 #' @param full_results `r get_full_results_documentation(reverse = FALSE)`
@@ -92,7 +92,7 @@ progress_geo <- function(pb = NULL, ...) {
 #'    Used for testing.
 
 #' @param custom_query API-specific parameters to be used, passed as a named list 
-#'  (ie. `list(extratags = 1)`.
+#'  (ex. `list(extratags = 1)`.
 #'  
 #' @param api_options a named list of parameters specific to individual services.
 #'   (ex. `list(geocodio_v = 1.6, geocodio_hipaa = TRUE)`). Each parameter begins
@@ -149,9 +149,9 @@ geo <- function(address = NULL,
     street = NULL, city = NULL, county = NULL, state = NULL, postalcode = NULL, country = NULL,
     method = 'osm', cascade_order = c('census', 'osm'), lat = lat, long = long, limit = 1, 
     full_results = FALSE, mode = '', unique_only = FALSE, return_addresses = TRUE,
-    min_time = NULL, progress_bar = show_progress_bar(), quiet = isTRUE(getOption("tidygeocoder.quiet")), 
+    min_time = NULL, progress_bar = show_progress_bar(), quiet = getOption("tidygeocoder.quiet", FALSE), 
     api_url = NULL, timeout = 20, flatten = TRUE, batch_limit = NULL, batch_limit_error = TRUE, 
-    verbose = isTRUE(getOption("tidygeocoder.verbose")), no_query = FALSE, 
+    verbose = getOption("tidygeocoder.verbose", FALSE), no_query = FALSE, 
     custom_query = list(), api_options = list(), 
     return_type = 'locations', iq_region = 'us', geocodio_v = 1.6, 
     param_error = TRUE, mapbox_permanent = FALSE, here_request_id = NULL,

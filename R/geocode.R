@@ -9,14 +9,14 @@
 #' [geo] function, so you can refer to its documentation for more details
 #' on possible arguments.
 #' 
-#' Note that the arguments used for specifying address columns (address, 
-#' street, city, county, state, postalcode, and country) accept either
-#' quoted or unquoted column names (ie. "address_col" and address_col are 
+#' Note that the arguments used for specifying address columns (`address`, 
+#' `street`, `city`, `county`, `state`, `postalcode`, and `country`) accept either
+#' quoted or unquoted column names (ie. `"address_col"` and `address_col` are 
 #' both acceptable). 
 #'
 #' @param .tbl dataframe containing addresses
 #' @param address single line street address column name. Do not combine with 
-#'  address component arguments (street, city, county, state, postalcode, country)
+#'  address component arguments (`street`, `city`, `county`, `state`, `postalcode`, `country`)
 #' @param street street address column name
 #' @param city city column name
 #' @param county county column name

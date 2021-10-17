@@ -1,5 +1,5 @@
 ## Test environments
-* local Ubuntu install, R 4.0.5
+* local Ubuntu install, R 4.1.0
 * GitHub Actions [R-CMD-check](https://github.com/jessecambon/tidygeocoder/blob/main/.github/workflows/check-full.yaml)
 * winbuilder r-old devel: `devtools::check_win_oldrelease()`
 * winbuilder r-devel : `devtools::check_win_devel()`
@@ -11,4 +11,4 @@
 
 ## Notes 
 
-- RE the NOTE, the DOI is reserved and will become active once released.
+- RE the inactive Zenodo URL, this DOI is reserved and will become active once released.

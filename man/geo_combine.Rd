@@ -20,16 +20,16 @@ geo_combine(
 )
 }
 \arguments{
-\item{queries}{list of lists parameter. Each list contains parameters for a query.
-The queries are executed in the order provided.
-(ie. \code{list(list(method = 'osm'), list(method = 'census'), ...)})}
+\item{queries}{a list of queries, each provided as a list of parameters. The queries are
+executed in the order provided by the \link{geocode} function.
+(ex. \code{list(list(method = 'osm'), list(method = 'census'), ...)})}
 
-\item{global_params}{list parameter. Contains parameters to be used for all queries.
-(ie. \code{list(address = 'address', full_results = TRUE)})}
+\item{global_params}{a list of parameters to be used for all queries
+(ex. \code{list(address = 'address', full_results = TRUE)})}
 
 \item{address}{single line address (ie. '1600 Pennsylvania Ave NW, Washington, DC').
 Do not combine with the address component arguments below
-(street, city, county, state, postalcode, country).}
+(\code{street}, \code{city}, \code{county}, \code{state}, \code{postalcode}, \code{country}).}
 
 \item{street}{street address (ie. '1600 Pennsylvania Ave NW')}
 
@@ -39,13 +39,13 @@ Do not combine with the address component arguments below
 
 \item{state}{state (ie. 'Kentucky')}
 
-\item{postalcode}{postalcode (zip code if in the United States)}
+\item{postalcode}{postalcode (ie. zip code if in the United States)}
 
 \item{country}{country (ie. 'Japan')}
 
-\item{lat}{latitude column name. Can be quoted or unquoted (ie. lat or "lat").}
+\item{lat}{latitude column name. Can be quoted or unquoted (ie. \code{lat} or \code{"lat"}).}
 
-\item{long}{longitude column name. Can be quoted or unquoted (ie. long or "long").}
+\item{long}{longitude column name. Can be quoted or unquoted (ie. \code{long} or `"long"``).}
 
 \item{...}{arguments passed to the \link{geocode_combine} function}
 }
@@ -54,32 +54,47 @@ tibble (dataframe)
 }
 \description{
 Passes address inputs in character vector form to the
-\link{geocode_combine} function for geocoding. See example usage in \code{vignette("tidygeocoder")}.
+\link{geocode_combine} function for geocoding.
 
 Note that address inputs must be specified for queries either in \code{queries} (for each query)
-or \code{global_params} (for all queries) using standard address parameter
-names. For example \code{global_params = list(address = 'address')} would
-pass addresses from the \code{address} parameter to all queries.
+or \code{global_params} (for all queries). For example \code{global_params = list(address = 'address')}
+passes addresses provided in the \code{address} parameter to all queries.
 }
 \examples{
 \donttest{
 
+options(tidygeocoder.progress_bar = FALSE)
 example_addresses <- c("100 Main St New York, NY", "Paris", "Not a Real Address")
 
-geo_combine(queries = list(list(method = 'census'), list(method = 'osm')),
-  address = example_addresses,
-  global_params = list(address = 'address')
+geo_combine(
+    queries = list(
+        list(method = 'census'),
+        list(method = 'osm')
+    ),
+    address = example_addresses,
+    global_params = list(address = 'address')
   )
   
-geo_combine(queries = list(
-  list(method = 'arcgis'), 
-  list(method = 'census', mode = 'single'),
-  list(method = 'census', mode = 'batch')
+geo_combine(
+  queries = list(
+      list(method = 'arcgis'), 
+      list(method = 'census', mode = 'single'),
+      list(method = 'census', mode = 'batch')
   ),
   global_params = list(address = 'address'),
   address = example_addresses,
   cascade = FALSE,
   return_list = TRUE
+)
+
+geo_combine(
+   queries = list(
+      list(method = 'arcgis', address = 'city'),
+      list(method = 'osm', city = 'city', country = 'country')
+   ),
+   city = c('Tokyo', 'New York'),
+   country = c('Japan', 'United States'),
+   cascade = FALSE
 )
 }
 }

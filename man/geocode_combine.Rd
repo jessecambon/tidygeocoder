@@ -8,9 +8,9 @@ geocode_combine(
   .tbl,
   queries,
   global_params = list(),
-  query_names = NULL,
   return_list = FALSE,
   cascade = TRUE,
+  query_names = NULL,
   lat = lat,
   long = long
 )
@@ -18,24 +18,22 @@ geocode_combine(
 \arguments{
 \item{.tbl}{dataframe containing addresses}
 
-\item{queries}{list of lists parameter. Each list contains parameters for a query.
-The queries are executed in the order provided.
-(ie. \code{list(list(method = 'osm'), list(method = 'census'), ...)})}
+\item{queries}{a list of queries, each provided as a list of parameters. The queries are
+executed in the order provided by the \link{geocode} function.
+(ex. \code{list(list(method = 'osm'), list(method = 'census'), ...)})}
 
-\item{global_params}{list parameter. Contains parameters to be used for all queries.
-(ie. \code{list(full_results = TRUE, unique_only = TRUE)})}
-
-\item{query_names}{an optional vector of names to use for labeling the results of each query.
-These names are either placed in a \code{query} column if \code{cascade = TRUE}.
-If null then the \code{method} parameter values will be used as names.}
+\item{global_params}{a list of parameters to be used for all queries
+(ex. \code{list(address = 'address', full_results = TRUE)})}
 
 \item{return_list}{if TRUE then results from each service will be returned as separate
-items in a named list. If FALSE (default) then all results will be combined into a
-single dataframe.}
+dataframes. If FALSE (default) then all results will be combined into a single dataframe.}
 
 \item{cascade}{if TRUE (default) then only addresses that are not found by a geocoding
-service will be attempted by subsequent queries.
-If FALSE then all queries will attempt to geocode all addresses.}
+service will be attempted by subsequent queries. If FALSE then all queries will
+attempt to geocode all addresses.}
+
+\item{query_names}{optional vector with one label for each query provided
+(ex. \code{c('geocodio batch', 'geocodio single')}).}
 
 \item{lat}{latitude column name. Can be quoted or unquoted (ie. lat or 'lat').}
 
@@ -47,6 +45,15 @@ tibble (dataframe)
 \description{
 Executes multiple geocoding queries on a dataframe input and combines
 the results. To use a character vector input instead, see the \link{geo_combine} function.
+Queries are executed by the \link{geocode} function. See example usage
+in \code{vignette("tidygeocoder")}.
+
+Query results are by default labelled to show which query produced each result. Labels are either
+placed in a \code{query} column (if \code{return_list = FALSE}) or used as the names of the returned list
+(if \code{return_list = TRUE}). By default the \code{method} parameter value of each query is used as a query label.
+If the same \code{method} is used in multiple queries then a number is added according
+to the order of the queries (ie. \code{osm1}, \code{osm2}, ...). To provide your own custom query labels
+use the \code{query_names} parameter.
 }
 \examples{
 \donttest{

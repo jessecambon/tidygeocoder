@@ -26,7 +26,7 @@ geocode(
 \item{.tbl}{dataframe containing addresses}
 
 \item{address}{single line street address column name. Do not combine with
-address component arguments (street, city, county, state, postalcode, country)}
+address component arguments (\code{street}, \code{city}, \code{county}, \code{state}, \code{postalcode}, \code{country})}
 
 \item{street}{street address column name}
 
@@ -74,9 +74,9 @@ This function passes all additional parameters (\code{...}) to the
 \link{geo} function, so you can refer to its documentation for more details
 on possible arguments.
 
-Note that the arguments used for specifying address columns (address,
-street, city, county, state, postalcode, and country) accept either
-quoted or unquoted column names (ie. "address_col" and address_col are
+Note that the arguments used for specifying address columns (\code{address},
+\code{street}, \code{city}, \code{county}, \code{state}, \code{postalcode}, and \code{country}) accept either
+quoted or unquoted column names (ie. \code{"address_col"} and \code{address_col} are
 both acceptable).
 }
 \examples{

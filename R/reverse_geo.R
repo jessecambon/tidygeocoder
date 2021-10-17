@@ -17,7 +17,6 @@ progress_reverse_geo <- function(pb = NULL, ...) {
   return(results)
 }
 
-
 # Create API parameters for a single set of coordinates (lat, long) based on the 
 # method. Parameters are placed into the 'custom_query' variable which is a named list
 # that is passed directly to the API service.
@@ -101,9 +100,9 @@ get_coord_parameters <- function(custom_query, method, lat, long) {
 #' @export
 reverse_geo <- function(lat, long, method = 'osm', address = address, limit = 1, 
     full_results = FALSE, mode = '', unique_only = FALSE, return_coords = TRUE,
-    min_time = NULL, progress_bar = show_progress_bar(), quiet = isTRUE(getOption("tidygeocoder.quiet")), 
+    min_time = NULL, progress_bar = show_progress_bar(), quiet = getOption("tidygeocoder.quiet", FALSE), 
     api_url = NULL, timeout = 20, flatten = TRUE, 
-    batch_limit = NULL, verbose = isTRUE(getOption("tidygeocoder.verbose")), 
+    batch_limit = NULL, verbose = getOption("tidygeocoder.verbose", FALSE), 
     no_query = FALSE, custom_query = list(), api_options = list(), iq_region = 'us', geocodio_v = 1.6,
     mapbox_permanent = FALSE, here_request_id = NULL, mapquest_open = FALSE) {
 
