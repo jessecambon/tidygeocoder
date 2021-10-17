@@ -11,4 +11,4 @@
 
 ## Notes 
 
-- RE the NOTE, the DOI is reserved and will become active once released.
+- RE the inactive Zenodo URL, this DOI is reserved and will become active once released.
