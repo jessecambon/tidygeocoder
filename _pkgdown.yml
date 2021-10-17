@@ -72,6 +72,8 @@ navbar:
 
 news:
   releases:
+  - text: "Version 1.0.4"
+    href: https://jessecambon.github.io/2021/10/17/tidygeocoder-1-0-4.html
   - text: "Version 1.0.3"
     href: https://jessecambon.github.io/2021/04/19/tidygeocoder-1-0-3.html
   - text: "Version 1.0.2"
