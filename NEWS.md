@@ -1,4 +1,4 @@
-# tidygeocoder (development version)
+# tidygeocoder 1.0.4
 
 ### New Features
 
