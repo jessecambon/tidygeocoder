@@ -126,7 +126,7 @@ test_that("test forward batch limit", {
   expect_error(geo(sample_addresses, method = 'census', full_results = TRUE, mode = 'batch',
             batch_limit = 5))
   
-  expect_warning(result1 <- geo(sample_addresses, method = 'census', full_results = TRUE, 
+  expect_error(result1 <- geo(sample_addresses, method = 'census', full_results = TRUE, 
                    batch_limit = 5))
   
   # check that a 1 row dataframe is returned

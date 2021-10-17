@@ -26,9 +26,7 @@ executed in the order provided by the \link{geocode} function.
 (ex. \code{list(address = 'address', full_results = TRUE)})}
 
 \item{return_list}{if TRUE then results from each service will be returned as separate
-items in a named list where the names indicate which result came from which query.
-If FALSE (default) then all results will be combined into a
-single dataframe and \code{query} column will label which result came from which query.}
+dataframes. If FALSE (default) then all results will be combined into a single dataframe.}
 
 \item{cascade}{if TRUE (default) then only addresses that are not found by a geocoding
 service will be attempted by subsequent queries. If FALSE then all queries will

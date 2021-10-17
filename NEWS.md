@@ -11,7 +11,7 @@
 ### Console Output
 
 - Added a progress bar for single input geocoding (ie. not batch geocoding) ([#38](https://github.com/jessecambon/tidygeocoder/issues/38)). The progress bar can be disabled with `progress_bar = FALSE` (a new parameter for the `geo()` and `reverse_geo()` functions). Similar to the [readr](https://readr.tidyverse.org/reference/show_progress.html) package, progress bars are shown by default if the session is interactive and the code being run is not part of an RStudio Notebook chunk or R Markdown knitting process.
-- Some console messages related to geocoding queries are now shown by default. These messages show the number of inputs (addresses or coordinates) submitted, the geocoding service used, and how long the query took to execute. To supress these messages you can set `quiet = TRUE` (a new parameter for the `geo()` and `reverse_geo()` functions).
+- Some console messages related to geocoding queries are now shown by default. These messages show the number of inputs (addresses or coordinates) submitted, the geocoding service used, and how long the query took to execute. To suppress these messages you can set `quiet = TRUE` (a new parameter for the `geo()` and `reverse_geo()` functions).
 - Default arguments with `options()` for `verbose`, `quiet`, and `progress_bar`. For instance `options(tidygeocoder.verbose = TRUE)` changes the default value of `verbose` from FALSE to TRUE.
 
 ### Bugfixes

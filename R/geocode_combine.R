@@ -115,9 +115,7 @@ geo_combine <- function(queries, global_params = list(), address = NULL,
 #' @param queries `r get_queries_parameter_documentation()`
 #' @param global_params `r get_global_params_parameter_documentation()`
 #' @param return_list if TRUE then results from each service will be returned as separate 
-#'   items in a named list where the names indicate which result came from which query.
-#'   If FALSE (default) then all results will be combined into a 
-#'   single dataframe and `query` column will label which result came from which query.
+#'   dataframes. If FALSE (default) then all results will be combined into a single dataframe.
 #' @param cascade if TRUE (default) then only addresses that are not found by a geocoding 
 #'   service will be attempted by subsequent queries. If FALSE then all queries will 
 #'   attempt to geocode all addresses.
