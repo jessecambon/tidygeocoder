@@ -1,6 +1,6 @@
 # http://r-pkgs.had.co.nz/inst.html#inst-citation
 
-version_note <- "R package version 1.0.3"
+version_note <- "R package version 1.0.4"
 
 citHeader("To cite tidygeocoder use:")
 

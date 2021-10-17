@@ -85,6 +85,16 @@ geo_combine(
   cascade = FALSE,
   return_list = TRUE
 )
+
+geo_combine(
+   queries = list(
+      list(method = 'arcgis', address = 'city'),
+      list(method = 'osm', city = 'city', country = 'country')
+   ),
+   city = c('Tokyo', 'New York'),
+   country = c('Japan', 'United States'),
+   cascade = FALSE
+)
 }
 }
 \seealso{

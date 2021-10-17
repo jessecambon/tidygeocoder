@@ -55,6 +55,7 @@ See example usage in \code{vignette("tidygeocoder")}.
 \examples{
 \donttest{
 
+options(tidygeocoder.progress_bar = FALSE)
 library(dplyr, warn.conflicts = FALSE)
 
 sample_addresses \%>\%

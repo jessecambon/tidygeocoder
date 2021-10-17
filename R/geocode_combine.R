@@ -54,6 +54,16 @@ get_global_params_parameter_documentation <- function() {
 #'   cascade = FALSE,
 #'   return_list = TRUE
 #' )
+#' 
+#' geo_combine(
+#'    queries = list(
+#'       list(method = 'arcgis', address = 'city'),
+#'       list(method = 'osm', city = 'city', country = 'country')
+#'    ),
+#'    city = c('Tokyo', 'New York'),
+#'    country = c('Japan', 'United States'),
+#'    cascade = FALSE
+#' )
 #' }
 #' @seealso [geocode_combine] [geo] [geocode]
 #' @export
@@ -65,9 +75,13 @@ geo_combine <- function(queries, global_params = list(), address = NULL,
   lat <- rm_quote(deparse(substitute(lat)))
   long <- rm_quote(deparse(substitute(long)))
   
-  # prepare data for geocode_combine() function
+  # Check address arguments -------------------------------------
+  address_pack <- package_addresses(address, street, city, county, 
+                                    state, postalcode, country)
+  
+  # prepare data for geocode_combine() function -----------------
    input_df <- tibble::tibble(
-    address = address, 
+    address = address,
     street = street, city = city, county = county, state = state, postalcode = postalcode, country = country
   )
    
@@ -108,6 +122,7 @@ geo_combine <- function(queries, global_params = list(), address = NULL,
 #' @examples
 #' \donttest{
 #' 
+#' options(tidygeocoder.progress_bar = FALSE)
 #' library(dplyr, warn.conflicts = FALSE)
 #' 
 #' sample_addresses %>%
