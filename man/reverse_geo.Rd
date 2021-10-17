@@ -106,7 +106,7 @@ permanently with \code{options(tidygeocoder.verbose = TRUE)}}
 Used for testing.}
 
 \item{custom_query}{API-specific parameters to be used, passed as a named list
-(ie. \code{list(extratags = 1)}.}
+(ex. \code{list(extratags = 1)}.}
 
 \item{api_options}{a named list of parameters specific to individual services.
 (ex. \code{list(geocodio_v = 1.6, geocodio_hipaa = TRUE)}). Each parameter begins

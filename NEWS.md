@@ -3,21 +3,21 @@
 ### New Features
 
 - Added support for the [Geoapify](https://www.geoapify.com/) service (thanks [@dpprdan](https://github.com/dpprdan)). This service supports batch geocoding, but this capability is currently not implemented in tidygeocoder (see [#119](https://github.com/jessecambon/tidygeocoder/issues/119)).
-- Added the functions `geocode_combine()` and `geo_combine()` to replace `geo(method = "cascade")`.
+- Added the functions `geocode_combine()` and `geo_combine()` to combine the results of multiple geocoding queries. These functions are meant to replace `geo(method = "cascade")`.
 - Deprecated `method = "cascade"` and the `cascade_order`, `param_error`, and `batch_limit_error` arguments for `geo()`.
 - Deprecated the `return_type`, `geocodio_v`, `mapbox_permanent`, `mapquest_open`, `iq_region`, and `here_request_id` arguments in favor of the new `api_options` parameter for the `geo()` and `reverse_geo()` functions.
-- Added a `api_options = list(geocodio_hipaa = TRUE/FALSE))` parameter to `geo()` and `reverse_geo()` functions to allow the toggling of the HIPAA-compliant Geocodio API endpoint ([#137](https://github.com/jessecambon/tidygeocoder/issues/137)).
+- Added a `api_options = list(geocodio_hipaa = TRUE/FALSE))` option to `geo()` and `reverse_geo()` functions to allow the toggling of the HIPAA-compliant Geocodio API endpoint ([#137](https://github.com/jessecambon/tidygeocoder/issues/137)).
 
-### Console Output Changes
+### Console Output
 
-- Added a progress bar for single input geocoding (ie. not batch geocoding) ([#38](https://github.com/jessecambon/tidygeocoder/issues/38)). The progress bar can be disabled with `progress_bar = FALSE` (a new parameter for the `geo()` and `reverse_geo()` functions). By default progress bars are displayed if the session is interactive and the code being run is not part of an RStudio Notebook chunk or R Markdown knitting process.
-- Console messages for the number of inputs (addresses or coordinates) submitted, the geocoding service used, and the time elapsed are shown by default. These messages can be suppressed with `quiet = TRUE` (a new parameter for the `geo()` and `reverse_geo()` functions).
-- Added the ability to set default arguments with `options()` for `verbose`, `quiet`, and `progress_bar`. For instance `options(tidygeocoder.verbose = TRUE)` changes the default value of `verbose` from FALSE to TRUE.
+- Added a progress bar for single input geocoding (ie. not batch geocoding) ([#38](https://github.com/jessecambon/tidygeocoder/issues/38)). The progress bar can be disabled with `progress_bar = FALSE` (a new parameter for the `geo()` and `reverse_geo()` functions). Similar to the [readr](https://readr.tidyverse.org/reference/show_progress.html) package, progress bars are shown by default if the session is interactive and the code being run is not part of an RStudio Notebook chunk or R Markdown knitting process.
+- Some console messages related to geocoding queries are now shown by default. These messages show the number of inputs (addresses or coordinates) submitted, the geocoding service used, and how long the query took to execute. To supress these messages you can set `quiet = TRUE` (a new parameter for the `geo()` and `reverse_geo()` functions).
+- Default arguments with `options()` for `verbose`, `quiet`, and `progress_bar`. For instance `options(tidygeocoder.verbose = TRUE)` changes the default value of `verbose` from FALSE to TRUE.
 
 ### Bugfixes
 
 - Fixed a bug for Bing forward geocoding `geo()` when no results are found ([#112](https://github.com/jessecambon/tidygeocoder/issues/112)).
-- Fixed a bug when reverse geocoding when passing a set of exclusively duplicate coordinates (1 unique coordinate) ([#129](https://github.com/jessecambon/tidygeocoder/issues/129)).
+- Fixed a bug that occurred in reverse geocoding when passing a set of exclusively duplicate coordinates (ie. 1 unique coordinate) ([#129](https://github.com/jessecambon/tidygeocoder/issues/129)).
 
 
 # tidygeocoder 1.0.3
@@ -27,7 +27,7 @@
 - Added support for reverse geocoding with the new `reverse_geo()` and `reverse_geocode()` functions. 
 - Added support for the [OpenCage](https://opencagedata.com/) geocoding service ([#67](https://github.com/jessecambon/tidygeocoder/issues/67)) (thanks [@dpprdan](https://github.com/dpprdan)).
 - Added support for the [HERE](https://developer.here.com/products/geocoding-and-search) ([#74](https://github.com/jessecambon/tidygeocoder/issues/74)), [Mapbox](https://docs.mapbox.com/api/search/) ([#71](https://github.com/jessecambon/tidygeocoder/issues/71)), [MapQuest](https://developer.mapquest.com/documentation/geocoding-api/) ([#85](https://github.com/jessecambon/tidygeocoder/issues/85)),  [TomTom](https://developer.tomtom.com/search-api/search-api-documentation/geocoding) ([#76](https://github.com/jessecambon/tidygeocoder/issues/76)), [Bing](https://docs.microsoft.com/en-us/bingmaps/rest-services/locations/) ([#92](https://github.com/jessecambon/tidygeocoder/issues/92)), and [ArcGIS](https://developers.arcgis.com/rest/geocode/api-reference/overview-world-geocoding-service.htm) ([#98](https://github.com/jessecambon/tidygeocoder/issues/98)) geocoding services (thanks [@dieghernan](https://github.com/dieghernan)). Note that the batch geocoding capabilities for the Mapbox and ArcGIS services are not currently implemented (see [#73](https://github.com/jessecambon/tidygeocoder/issues/73) and [#102](https://github.com/jessecambon/tidygeocoder/issues/102)).
-    - Added the ` mapbox_permanent`, `here_request_id`, and `mapquest_open` parameters to the `geo()` and `reverse_geo()` functions.
+- Added the ` mapbox_permanent`, `here_request_id`, and `mapquest_open` parameters to the `geo()` and `reverse_geo()` functions.
 - The `limit` argument can now be used with the "google" and "census" methods to control the number of results returned. These two services do not have limit arguments in their APIs so the limit is applied after the results are returned.
 - `batch_limit` is now automatically set according to the specified geocoding service unless otherwise specified.
 

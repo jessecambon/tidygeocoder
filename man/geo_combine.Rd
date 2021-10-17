@@ -21,7 +21,7 @@ geo_combine(
 }
 \arguments{
 \item{queries}{a list of queries, each provided as a list of parameters. The queries are
-executed in the order provided.
+executed in the order provided by the \link{geocode} function.
 (ex. \code{list(list(method = 'osm'), list(method = 'census'), ...)})}
 
 \item{global_params}{a list of parameters to be used for all queries
@@ -63,6 +63,7 @@ passes addresses provided in the \code{address} parameter to all queries.
 \examples{
 \donttest{
 
+options(tidygeocoder.progress_bar = FALSE)
 example_addresses <- c("100 Main St New York, NY", "Paris", "Not a Real Address")
 
 geo_combine(

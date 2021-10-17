@@ -2,7 +2,7 @@
 get_queries_parameter_documentation <- function() {
   return(c(
       "a list of queries, each provided as a list of parameters. The queries are",
-      "executed in the order provided.",
+      "executed in the order provided by the [geocode] function.",
       "(ex. `list(list(method = 'osm'), list(method = 'census'), ...)`)"
     ))
 }
@@ -32,6 +32,7 @@ get_global_params_parameter_documentation <- function() {
 #' @examples
 #' \donttest{
 #' 
+#' options(tidygeocoder.progress_bar = FALSE)
 #' example_addresses <- c("100 Main St New York, NY", "Paris", "Not a Real Address")
 #' 
 #' geo_combine(
@@ -101,28 +102,32 @@ geo_combine <- function(queries, global_params = list(), address = NULL,
 #' 
 #' @description Executes multiple geocoding queries on a dataframe input and combines
 #'  the results. To use a character vector input instead, see the [geo_combine] function.
-#'  See example usage in `vignette("tidygeocoder")`.
+#'  Queries are executed by the [geocode] function. See example usage 
+#'  in `vignette("tidygeocoder")`.
+#'  
+#'  Query results are by default labelled to show which query produced each result. Labels are either
+#'  placed in a `query` column (if `return_list = FALSE`) or used as the names of the returned list 
+#'  (if `return_list = TRUE`). By default the `method` parameter value of each query is used as a query label.
+#'  If the same `method` is used in multiple queries then a number is added according 
+#'  to the order of the queries (ie. `osm1`, `osm2`, ...). To provide your own custom query labels
+#'  use the `query_names` parameter.
 #' 
 #' @param queries `r get_queries_parameter_documentation()`
 #' @param global_params `r get_global_params_parameter_documentation()`
 #' @param return_list if TRUE then results from each service will be returned as separate 
-#'   items in a named list. If FALSE (default) then all results will be combined into a 
-#'   single dataframe.
+#'   items in a named list where the names indicate which result came from which query.
+#'   If FALSE (default) then all results will be combined into a 
+#'   single dataframe and `query` column will label which result came from which query.
 #' @param cascade if TRUE (default) then only addresses that are not found by a geocoding 
-#'   service will be attempted by subsequent queries. 
-#'   If FALSE then all queries will attempt to geocode all addresses.
-#' @param query_names optional vector of labels for each query (ex. `c('geocodio batch', 'geocodio single')`).
-#'   If provided, there should be one value per query. If `return_list = FALSE` (default) then the query names
-#'   will be placed in a `query` column in the returned dataset. If `return_list = TRUE` then the query names
-#'   will be the names of the returned list.
-#'   If this argument is not specified (`NULL`) then the `method` parameter values will be used to label the query results.
-#'   If the same `method` is used in multiple queries, then a number will be added according to the order of the queries.
+#'   service will be attempted by subsequent queries. If FALSE then all queries will 
+#'   attempt to geocode all addresses.
+#' @param query_names optional vector with one label for each query provided 
+#'   (ex. `c('geocodio batch', 'geocodio single')`).
 #' @inheritParams geocode
 #' @inherit geo return
 #' @examples
 #' \donttest{
 #' 
-#' options(tidygeocoder.progress_bar = FALSE)
 #' library(dplyr, warn.conflicts = FALSE)
 #' 
 #' sample_addresses %>%
@@ -163,8 +168,9 @@ geo_combine <- function(queries, global_params = list(), address = NULL,
 #' }
 #' @seealso [geo_combine] [geo] [geocode]
 #' @export
-geocode_combine <- function(.tbl, queries, global_params = list(), query_names = NULL, 
-                          return_list = FALSE, cascade = TRUE, lat = lat, long = long) {
+geocode_combine <- function(.tbl, queries, global_params = list(),  
+                          return_list = FALSE, cascade = TRUE, query_names = NULL,
+                          lat = lat, long = long) {
   
   # NSE - converts lat and long parameters to character values
   lat <- rm_quote(deparse(substitute(lat)))

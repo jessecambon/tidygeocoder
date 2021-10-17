@@ -92,7 +92,7 @@ progress_geo <- function(pb = NULL, ...) {
 #'    Used for testing.
 
 #' @param custom_query API-specific parameters to be used, passed as a named list 
-#'  (ie. `list(extratags = 1)`.
+#'  (ex. `list(extratags = 1)`.
 #'  
 #' @param api_options a named list of parameters specific to individual services.
 #'   (ex. `list(geocodio_v = 1.6, geocodio_hipaa = TRUE)`). Each parameter begins
