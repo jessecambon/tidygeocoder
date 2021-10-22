@@ -75,8 +75,8 @@ progress_geo <- function(pb = NULL, ...) {
 #'   progress for single input geocoding (1 input per query). By default the progress bar
 #'   will not be shown for code executed when knitting R Markdown files or code within 
 #'   an RStudio notebook chunk. Can be set permanently with `options(tidygeocoder.progress_bar = FALSE)`.
-#' @param quiet if FALSE (default) then console messages that are displayed by default regarding
-#'   queries will be suppressed. Can be set permanently with `options(tidgeocoder.quiet = TRUE)`.
+#' @param quiet if TRUE then console messages that are displayed by default
+#'   regarding queries will be suppressed. Can be set permanently with `options(tidygeocoder.quiet = TRUE)`.
 #' @param api_url custom API URL. If specified, the default API URL will be overridden.
 #'  This parameter can be used to specify a local Nominatim server, for instance.
 #' @param timeout query timeout (in minutes)

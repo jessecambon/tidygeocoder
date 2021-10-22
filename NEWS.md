@@ -1,3 +1,7 @@
+# tidygeocoder (development version)
+
+- Corrected documentation for `quiet` parameter in `geo()` and `reverse_geo()`
+
 # tidygeocoder 1.0.4
 
 ### New Features
