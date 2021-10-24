@@ -79,13 +79,14 @@ most services return the input coordinates with \code{full_results = TRUE} and s
 \item{min_time}{minimum amount of time for a query to take (in seconds). If NULL
 then min_time will be set to the default value specified in \link{min_time_reference}.}
 
-\item{progress_bar}{if TRUE then a progress bar will be displayed to track query
-progress for single input geocoding (1 input per query). By default the progress bar
+\item{progress_bar}{if TRUE then a progress bar will be displayed
+for single input geocoding (1 input per query). By default the progress bar
 will not be shown for code executed when knitting R Markdown files or code within
 an RStudio notebook chunk. Can be set permanently with \code{options(tidygeocoder.progress_bar = FALSE)}.}
 
 \item{quiet}{if TRUE then console messages that are displayed by default
-regarding queries will be suppressed. Can be set permanently with \code{options(tidygeocoder.quiet = TRUE)}.}
+regarding queries will be suppressed. FALSE is default.
+Can be set permanently with \code{options(tidygeocoder.quiet = TRUE)}.}
 
 \item{api_url}{custom API URL. If specified, the default API URL will be overridden.
 This parameter can be used to specify a local Nominatim server, for instance.}
@@ -93,8 +94,7 @@ This parameter can be used to specify a local Nominatim server, for instance.}
 \item{timeout}{query timeout (in minutes)}
 
 \item{flatten}{if TRUE (default) then any nested dataframes in results are flattened if possible.
-Note that in some cases results are flattened regardless such as for
-Geocodio batch geocoding.}
+Note that in some cases results are flattened regardless such as for Geocodio batch geocoding.}
 
 \item{batch_limit}{limit to the number of coordinates in a batch geocoding query.
 Defaults to the value in \link{batch_limit_reference} if not specified.}
