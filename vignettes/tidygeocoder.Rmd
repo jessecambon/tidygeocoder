@@ -13,7 +13,6 @@ vignette: >
 
 
 
-
 ## Introduction
 
 Tidygeocoder provides a unified interface for performing both forward and reverse geocoding queries with a variety of geocoding services. In forward geocoding you provide an address to the geocoding service and you get latitude and longitude coordinates in return. In reverse geocoding you provide the latitude and longitude and the geocoding service will return that location's address. In both cases, other data about the location can be provided by the geocoding service.
@@ -73,7 +72,7 @@ osm_s1 <- geo(
   lat = latitude, long = longitude
 )
 #> Passing 2 addresses to the Nominatim single address geocoder
-#> Query completed in: 2.1 seconds
+#> Query completed in: 2 seconds
 ```
 
 |address                                   | latitude| longitude|
@@ -88,7 +87,7 @@ Instead of single-line addresses, you can use any combination of the following a
 census_c1 <- address_components %>%
   geocode(street = street, city = cty, state = st, method = "census")
 #> Passing 2 addresses to the US Census batch geocoder
-#> Query completed in: 1.8 seconds
+#> Query completed in: 1.4 seconds
 ```
 
 |street                  |cty     |st |      lat|      long|
@@ -105,7 +104,7 @@ census_full1 <- address_single %>% geocode(
   method = "census", full_results = TRUE, api_options = list(census_return_type = 'geographies')
 )
 #> Passing 2 addresses to the US Census batch geocoder
-#> Query completed in: 1.2 seconds
+#> Query completed in: 1.5 seconds
 ```
 
 
@@ -149,7 +148,7 @@ lat_longs1 <- tibble(
 rev1 <- lat_longs1 %>%
   reverse_geocode(lat = latitude, long = longitude, address = addr, method = "osm")
 #> Passing 2 coordinates to the Nominatim single coordinate geocoder
-#> Query completed in: 2.1 seconds
+#> Query completed in: 2 seconds
 ```
 
 
@@ -175,9 +174,9 @@ glimpse(rev2)
 #> Columns: 22
 #> $ lat            <dbl> 38.89587, 43.65348
 #> $ long           <dbl> -77.03077, -79.38393
-#> $ address        <chr> "L’Enfant's plan, Pennsylvania Avenue, Washington, District of Columbia, 20045, United S…
+#> $ address        <chr> "L’Enfant's plan, Pennsylvania Avenue, Washington, District of Columbia, 20045, United States", "Toronto City Hall, 100, Queen Str…
 #> $ place_id       <int> 301711857, 137497520
-#> $ licence        <chr> "Data © OpenStreetMap contributors, ODbL 1.0. https://osm.org/copyright", "Data © OpenSt…
+#> $ licence        <chr> "Data © OpenStreetMap contributors, ODbL 1.0. https://osm.org/copyright", "Data © OpenStreetMap contributors, ODbL 1.0. https://os…
 #> $ osm_type       <chr> "way", "way"
 #> $ osm_id         <int> 899927546, 198500761
 #> $ osm_lat        <chr> "38.895859599999994", "43.6536032"
@@ -189,7 +188,7 @@ glimpse(rev2)
 #> $ postcode       <chr> "20045", "M5H 2N2"
 #> $ country        <chr> "United States", "Canada"
 #> $ country_code   <chr> "us", "ca"
-#> $ boundingbox    <list> <"38.8957273", "38.8959688", "-77.0311667", "-77.0301895">, <"43.6529946", "43.6541458",…
+#> $ boundingbox    <list> <"38.8957273", "38.8959688", "-77.0311667", "-77.0301895">, <"43.6529946", "43.6541458", "-79.3848438", "-79.3830415">
 #> $ amenity        <chr> NA, "Toronto City Hall"
 #> $ house_number   <chr> NA, "100"
 #> $ neighbourhood  <chr> NA, "Financial District"
@@ -289,7 +288,7 @@ cascade_results1 <- addresses_combine %>%
   )
 #> 
 #> Passing 3 addresses to the US Census batch geocoder
-#> Query completed in: 0.1 seconds
+#> Query completed in: 0.2 seconds
 #> Passing 2 addresses to the Nominatim single address geocoder
 #> Query completed in: 2 seconds
 ```
@@ -353,15 +352,15 @@ glimpse(geo_limit)
 #> $ lat          <dbl> -12.06211, -12.20011, -11.99997, 30.03521, 30.04439, 30.03325
 #> $ long         <dbl> -77.03653, -76.28506, -76.83322, 31.56337, 31.23573, 31.56216
 #> $ place_id     <int> 258244064, 258655931, 258306819, 258758158, 793757, 298971141
-#> $ licence      <chr> "Data © OpenStreetMap contributors, ODbL 1.0. https://osm.org/copyright", "Data © OpenStre…
+#> $ licence      <chr> "Data © OpenStreetMap contributors, ODbL 1.0. https://osm.org/copyright", "Data © OpenStreetMap contributors, ODbL 1.0. https://osm.…
 #> $ osm_type     <chr> "relation", "relation", "relation", "relation", "node", "relation"
 #> $ osm_id       <int> 1944756, 1944659, 1944670, 5466227, 271613766, 4103336
-#> $ boundingbox  <list> <"-12.0797663", "-12.0303496", "-77.0884555", "-77.0017774">, <"-13.3235137", "-10.2741856…
-#> $ display_name <chr> "Lima, Lima Metropolitana, Lima, Perú", "Lima, Perú", "Lima, Lima Metropolitana, Lima, Per…
+#> $ boundingbox  <list> <"-12.0797663", "-12.0303496", "-77.0884555", "-77.0017774">, <"-13.3235137", "-10.2741856", "-77.8863105", "-75.5075">, <"-12.51993…
+#> $ display_name <chr> "Lima, Lima Metropolitana, Lima, Perú", "Lima, Perú", "Lima, Lima Metropolitana, Lima, Perú", "القاهرة, محافظة القاهرة, مصر", "القاه…
 #> $ class        <chr> "boundary", "boundary", "boundary", "place", "place", "boundary"
 #> $ type         <chr> "administrative", "administrative", "administrative", "city", "city", "administrative"
 #> $ importance   <dbl> 0.7830015, 0.6119761, 0.5934835, 0.6960286, 0.6960286, 0.4835559
-#> $ icon         <chr> "https://nominatim.openstreetmap.org/ui/mapicons//poi_boundary_administrative.p.20.png", "…
+#> $ icon         <chr> "https://nominatim.openstreetmap.org/ui/mapicons//poi_boundary_administrative.p.20.png", "https://nominatim.openstreetmap.org/ui/map…
 ```
 
 To directly specify specific API parameters for a given `method` you can use the `custom_query` parameter. For example, [the Nominatim (OSM) geocoder has a 'polygon_geojson' argument](https://nominatim.org/release-docs/develop/api/Details/#parameters) that can be used to return GeoJSON geometry content. To pass this parameter you can insert it with a named list using the `custom_query` argument:
@@ -384,7 +383,7 @@ cairo_geo <- geo("Cairo, Egypt",
 #> polygon_geojson : "1"
 #> format : "json"
 #> HTTP Status Code: 200
-#> Query completed in: 0.2 seconds
+#> Query completed in: 0.1 seconds
 #> Total query time (including sleep): 1 seconds
 #> 
 #> Query completed in: 1 seconds

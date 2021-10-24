@@ -1,6 +1,8 @@
 # tidygeocoder (development version)
 
 - Corrected documentation for `quiet` parameter in `geo()` and `reverse_geo()`
+- Reconfigured the vignette so that it is precomputed and is not executed during
+`R CMD check` (ie. `devtools::check()`). Also added a check at the beginning of the vignette to check for the availability of APIs. This fixes an issue that occurred on Mac CRAN checks ([#152](https://github.com/jessecambon/tidygeocoder/issues/152)).
 
 # tidygeocoder 1.0.4
 

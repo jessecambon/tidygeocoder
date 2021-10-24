@@ -162,7 +162,7 @@
 <span class="co">#&gt; limit : "1"</span>
 <span class="co">#&gt; format : "json"</span>
 <span class="co">#&gt; HTTP Status Code: 200</span>
-<span class="co">#&gt; Query completed in: 0.3 seconds</span>
+<span class="co">#&gt; Query completed in: 0.4 seconds</span>
 <span class="co">#&gt; Total query time (including sleep): 1 seconds</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; </span>
@@ -302,7 +302,13 @@
 <li>
 <strong><a href="https://github.com/jessecambon/tidygeocoder/blob/main/external/create_logo.Rmd">external/create_logo.Rmd</a></strong>
 <ul>
-<li>Create the package logo.</li>
+<li>Creates the package logo.</li>
+</ul>
+</li>
+<li>
+<strong><a href="vignettes/tidygeocoder.Rmd.orig">vignettes/tidygeocoder.Rmd.orig</a></strong>
+<ul>
+<li>This file produces the vignette. See the knit command and comments at the top of this file.</li>
 </ul>
 </li>
 </ul>
@@ -311,9 +317,9 @@
 <h3 class="hasAnchor">
 <a href="#testing" class="anchor"></a>Testing</h3>
 <ul>
-<li>Test out the new service with <code>verbose = TRUE</code> to make sure it behaves as expected. You can reference tests available <a href="https://github.com/jessecambon/tidygeocoder/tree/main/sandbox">the ‘sandbox’ folder</a> for reference.</li>
-<li>Run <code><a href="https://devtools.r-lib.org//reference/check.html">devtools::check()</a></code> to make sure the package still passes all tests and the vignette runs properly. To only run the package tests use <code><a href="https://devtools.r-lib.org//reference/test.html">devtools::test()</a></code>, but note these tests do not query the geocoding services to avoid external dependencies.</li>
-<li>Run <strong><a href="https://github.com/jessecambon/tidygeocoder/blob/main/external/online_tests.R">external/online_tests.R</a></strong> to test making queries to the geocoding services. These tests are not included in the internal package tests (<code><a href="https://devtools.r-lib.org//reference/test.html">devtools::test()</a></code>) because they require API keys which would not exist on all systems and are dependent on the geocoding services being online at that the time of the test.</li>
+<li>Test out the new service to make sure it behaves as expected. You can reference tests and example code in <a href="https://github.com/jessecambon/tidygeocoder/tree/main/sandbox">the ‘sandbox’ folder</a>.</li>
+<li>Run <code><a href="https://devtools.r-lib.org//reference/check.html">devtools::check()</a></code> to make sure the package still passes all tests and checks. To only run the package tests use <code><a href="https://devtools.r-lib.org//reference/test.html">devtools::test()</a></code>, but note these tests do not query the geocoding services to avoid external dependencies.</li>
+<li>As a final check, run <strong><a href="https://github.com/jessecambon/tidygeocoder/blob/main/external/online_tests.R">external/online_tests.R</a></strong> to test making queries to the geocoding services. These tests are not included in the internal package tests (<code><a href="https://devtools.r-lib.org//reference/test.html">devtools::test()</a></code>) because they require API keys which would not exist on all systems and are dependent on the geocoding services being online at that the time of the test.</li>
 <li>Run the commands detailed in <strong><a href="https://github.com/jessecambon/tidygeocoder/blob/main/cran-comments.md">cran-comments.md</a></strong> to test the package on other environments. Note that these tests should also be included in the automated GitHub actions tests for pull requests.</li>
 <li>When prepping for a release, use <code><a href="https://rdrr.io/pkg/urlchecker/man/url_check.html">urlchecker::url_check()</a></code> to check all package URLs.</li>
 </ul>

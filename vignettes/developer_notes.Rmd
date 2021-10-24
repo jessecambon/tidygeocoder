@@ -92,6 +92,7 @@ This section documents how to add support for a new geocoding service to the pac
 
 These files don't necessarily need to be updated. However, you might need to make changes to these files if the service you are implementing requires some non-standard workarounds. 
 
+
 * **[R/query_factory.R](https://github.com/jessecambon/tidygeocoder/blob/main/R/query_factory.R)**
     * Houses the functions used to create and execute API queries.
 * **[R/documentation.R](https://github.com/jessecambon/tidygeocoder/blob/main/R/documentation.R)**
@@ -103,12 +104,14 @@ These files don't necessarily need to be updated. However, you might need to mak
 * **[R/input_handling.R](https://github.com/jessecambon/tidygeocoder/blob/main/R/input_handling.R)**
     * Handles the deduplication of input data.
 * **[external/create_logo.Rmd](https://github.com/jessecambon/tidygeocoder/blob/main/external/create_logo.Rmd)**
-    * Create the package logo.
+    * Creates the package logo.
+* **[vignettes/tidygeocoder.Rmd.orig](vignettes/tidygeocoder.Rmd.orig)**
+    * This file produces the vignette. See the knit command and comments at the top of this file.
 
 ### Testing
 
-* Test out the new service with `verbose = TRUE` to make sure it behaves as expected. You can reference tests available [the 'sandbox' folder](https://github.com/jessecambon/tidygeocoder/tree/main/sandbox) for reference. 
-* Run `devtools::check()` to make sure the package still passes all tests and the vignette runs properly. To only run the package tests use `devtools::test()`, but note these tests do not query the geocoding services to avoid external dependencies.
-* Run **[external/online_tests.R](https://github.com/jessecambon/tidygeocoder/blob/main/external/online_tests.R)** to test making queries to the geocoding services. These tests are not included in the internal package tests (`devtools::test()`) because they require API keys which would not exist on all systems and are dependent on the geocoding services being online at that the time of the test.
-* Run the commands detailed in **[cran-comments.md](https://github.com/jessecambon/tidygeocoder/blob/main/cran-comments.md)** to test the package on other environments. Note that these tests should also be included in the automated GitHub actions tests for pull requests.
-* When prepping for a release, use `urlchecker::url_check()` to check all package URLs.
+- Test out the new service to make sure it behaves as expected. You can reference tests and example code in [the 'sandbox' folder](https://github.com/jessecambon/tidygeocoder/tree/main/sandbox).
+- Run `devtools::check()` to make sure the package still passes all tests and checks. To only run the package tests use `devtools::test()`, but note these tests do not query the geocoding services to avoid external dependencies.
+- As a final check, run **[external/online_tests.R](https://github.com/jessecambon/tidygeocoder/blob/main/external/online_tests.R)** to test making queries to the geocoding services. These tests are not included in the internal package tests (`devtools::test()`) because they require API keys which would not exist on all systems and are dependent on the geocoding services being online at that the time of the test.
+- Run the commands detailed in **[cran-comments.md](https://github.com/jessecambon/tidygeocoder/blob/main/cran-comments.md)** to test the package on other environments. Note that these tests should also be included in the automated GitHub actions tests for pull requests.
+- When prepping for a release, use `urlchecker::url_check()` to check all package URLs.

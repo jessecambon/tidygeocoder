@@ -71,19 +71,19 @@ progress_geo <- function(pb = NULL, ...) {
 #' 
 #' @param min_time minimum amount of time for a query to take (in seconds). If NULL
 #' then min_time will be set to the default value specified in [min_time_reference].
-#' @param progress_bar if TRUE then a progress bar will be displayed to track query
-#'   progress for single input geocoding (1 input per query). By default the progress bar
+#' @param progress_bar if TRUE then a progress bar will be displayed
+#'   for single input geocoding (1 input per query). By default the progress bar
 #'   will not be shown for code executed when knitting R Markdown files or code within 
 #'   an RStudio notebook chunk. Can be set permanently with `options(tidygeocoder.progress_bar = FALSE)`.
 #' @param quiet if TRUE then console messages that are displayed by default
-#'   regarding queries will be suppressed. Can be set permanently with `options(tidygeocoder.quiet = TRUE)`.
+#'   regarding queries will be suppressed. FALSE is default.
+#'   Can be set permanently with `options(tidygeocoder.quiet = TRUE)`.
 #' @param api_url custom API URL. If specified, the default API URL will be overridden.
 #'  This parameter can be used to specify a local Nominatim server, for instance.
 #' @param timeout query timeout (in minutes)
 #' 
 #' @param flatten if TRUE (default) then any nested dataframes in results are flattened if possible.
-#'    Note that in some cases results are flattened regardless such as for
-#'    Geocodio batch geocoding.
+#'    Note that in some cases results are flattened regardless such as for Geocodio batch geocoding.
 #' @param batch_limit  `r get_batch_limit_documentation(reverse = FALSE)`
 #' @param batch_limit_error `r lifecycle::badge("deprecated")` `r get_batch_limit_error_documentation(reverse = FALSE)`
 #' @param verbose if TRUE then detailed logs are output to the console. FALSE is default. Can be set 
