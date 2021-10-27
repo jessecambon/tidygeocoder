@@ -40,7 +40,9 @@ reference:
   - extract_results
   - extract_reverse_results
 - title: Deprecated Functions
-  desc: Use `geo()` instead.
+  desc: <a href="https://lifecycle.r-lib.org/articles/lifecycle.html">
+      <img src='figures/lifecycle-deprecated.svg' alt='Deprecated lifecycle'/>
+      </a> Use `geo()` instead
   contents:
   - geo_census
   - geo_osm

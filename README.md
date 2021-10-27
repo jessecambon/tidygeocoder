@@ -81,7 +81,7 @@ some_addresses <- tribble(
 lat_longs <- some_addresses %>%
   geocode(addr, method = 'osm', lat = latitude , long = longitude)
 #> Passing 3 addresses to the Nominatim single address geocoder
-#> Query completed in: 3 seconds
+#> Query completed in: 3.6 seconds
 ```
 
 The `geocode()` function geocodes addresses contained in a dataframe.
@@ -96,7 +96,7 @@ documentation for details.
 |:---------------------|:-------------------------------------------|---------:|-----------:|
 | White House          | 1600 Pennsylvania Ave NW, Washington, DC   | 38.89770 |  -77.03655 |
 | Transamerica Pyramid | 600 Montgomery St, San Francisco, CA 94111 | 37.79520 | -122.40279 |
-| Willis Tower         | 233 S Wacker Dr, Chicago, IL 60606         | 41.87887 |  -87.63591 |
+| Willis Tower         | 233 S Wacker Dr, Chicago, IL 60606         | 41.87535 |  -87.63576 |
 
 Now that we have the longitude and latitude coordinates, we can use
 ggplot to plot our addresses on a map.
@@ -137,11 +137,11 @@ reverse <- lat_longs %>%
 #> Query completed in: 3 seconds
 ```
 
-| name                 | latitude |  longitude | address\_found                                                                                                                                         | place\_id | osm\_type |   osm\_id | osm\_lat           | osm\_lon            | office      | house\_number | road                          | city          | state                | postcode | country       | country\_code | boundingbox                                          | tourism              | neighbourhood | county        | building     | suburb |
-|:---------------------|---------:|-----------:|:-------------------------------------------------------------------------------------------------------------------------------------------------------|----------:|:----------|----------:|:-------------------|:--------------------|:------------|:--------------|:------------------------------|:--------------|:---------------------|:---------|:--------------|:--------------|:-----------------------------------------------------|:---------------------|:--------------|:--------------|:-------------|:-------|
-| White House          | 38.89770 |  -77.03655 | White House, 1600, Pennsylvania Avenue Northwest, Washington, District of Columbia, 20500, United States                                               | 147370996 | way       | 238241022 | 38.897699700000004 | -77.03655315        | White House | 1600          | Pennsylvania Avenue Northwest | Washington    | District of Columbia | 20500    | United States | us            | 38.8974908 , 38.897911 , -77.0368537, -77.0362519    | NA                   | NA            | NA            | NA           | NA     |
-| Transamerica Pyramid | 37.79520 | -122.40279 | Transamerica Pyramid, 600, Montgomery Street, Chinatown, San Francisco, San Francisco City and County, San Francisco, California, 94111, United States |  95364489 | way       |  24222973 | 37.795200550000004 | -122.40279267840137 | NA          | 600           | Montgomery Street             | San Francisco | California           | 94111    | United States | us            | 37.7948854 , 37.7954472 , -122.4031399, -122.4024317 | Transamerica Pyramid | Chinatown     | San Francisco | NA           | NA     |
-| Willis Tower         | 41.87887 |  -87.63591 | Willis Tower, 233, South Wacker Drive, Printer’s Row, Loop, Chicago, Cook County, Illinois, 60606, United States                                       | 103673983 | way       |  58528804 | 41.878871700000005 | -87.63590893936448  | NA          | 233           | South Wacker Drive            | Chicago       | Illinois             | 60606    | United States | us            | 41.8785389 , 41.8791932 , -87.6363362, -87.6354746   | NA                   | Printer’s Row | Cook County   | Willis Tower | Loop   |
+| name                 | latitude |  longitude | address\_found                                                                                                                                         | place\_id | osm\_type |   osm\_id | osm\_lat           | osm\_lon            | office      | house\_number | road                          | city          | state                | postcode | country       | country\_code | boundingbox                                          | tourism              | neighbourhood | county        | suburb |
+|:---------------------|---------:|-----------:|:-------------------------------------------------------------------------------------------------------------------------------------------------------|----------:|:----------|----------:|:-------------------|:--------------------|:------------|:--------------|:------------------------------|:--------------|:---------------------|:---------|:--------------|:--------------|:-----------------------------------------------------|:---------------------|:--------------|:--------------|:-------|
+| White House          | 38.89770 |  -77.03655 | White House, 1600, Pennsylvania Avenue Northwest, Washington, District of Columbia, 20500, United States                                               | 159859857 | way       | 238241022 | 38.897699700000004 | -77.03655315        | White House | 1600          | Pennsylvania Avenue Northwest | Washington    | District of Columbia | 20500    | United States | us            | 38.8974908 , 38.897911 , -77.0368537, -77.0362519    | NA                   | NA            | NA            | NA     |
+| Transamerica Pyramid | 37.79520 | -122.40279 | Transamerica Pyramid, 600, Montgomery Street, Chinatown, San Francisco, San Francisco City and County, San Francisco, California, 94111, United States | 106590650 | way       |  24222973 | 37.795200550000004 | -122.40279267840137 | NA          | 600           | Montgomery Street             | San Francisco | California           | 94111    | United States | us            | 37.7948854 , 37.7954472 , -122.4031399, -122.4024317 | Transamerica Pyramid | Chinatown     | San Francisco | NA     |
+| Willis Tower         | 41.87535 |  -87.63576 | South Wacker Drive, Printer’s Row, Loop, Chicago, Cook County, Illinois, 60606, United States                                                          | 182316972 | way       | 337681342 | 41.8753503         | -87.6357587         | NA          | NA            | South Wacker Drive            | Chicago       | Illinois             | 60606    | United States | us            | 41.8749718 , 41.8757997 , -87.6361005, -87.6354602   | NA                   | Printer’s Row | Cook County   | Loop   |
 
 ## In the Wild
 
@@ -193,22 +193,22 @@ citation('tidygeocoder')
       Cambon J, Hernangómez D, Belanger C, Possenriede D (2021).
       tidygeocoder: An R package for geocoding. Journal of Open Source
       Software, 6(65), 3544, https://doi.org/10.21105/joss.03544 (R package
-      version 1.0.4)
+      version 1.0.5)
 
     A BibTeX entry for LaTeX users is
 
       @Article{,
         title = {tidygeocoder: An R package for geocoding},
         author = {Jesse Cambon and Diego Hernangómez and Christopher Belanger and Daniel Possenriede},
-        doi = {10.21105/joss.03544},
-        url = {https://doi.org/10.21105/joss.03544},
+        year = {2021},
         journal = {Journal of Open Source Software},
         publisher = {The Open Journal},
-        year = {2021},
+        doi = {10.21105/joss.03544},
+        url = {https://doi.org/10.21105/joss.03544},
         volume = {6},
         number = {65},
         pages = {3544},
-        note = {R package version 1.0.4},
+        note = {R package version 1.0.5},
       }
 
 </blockquote>
