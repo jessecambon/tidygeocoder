@@ -87,6 +87,8 @@ get_coord_parameters <- function(custom_query, method, lat, long) {
 #' @inherit geo return
 #' @examples
 #' \donttest{
+#' options(tidygeocoder.progress_bar = FALSE)
+#' 
 #'  reverse_geo(lat = 38.895865, long = -77.0307713, method = 'osm')
 #'  
 #'  reverse_geo(

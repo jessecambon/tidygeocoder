@@ -209,6 +209,8 @@ API queries.
 }
 \examples{
 \donttest{
+options(tidygeocoder.progress_bar = FALSE)
+
 geo(street = "600 Peachtree Street NE", city = "Atlanta",
  state = "Georgia", method = "census")
 
