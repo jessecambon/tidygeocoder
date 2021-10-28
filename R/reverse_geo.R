@@ -98,7 +98,7 @@ get_coord_parameters <- function(custom_query, method, lat, long) {
 #' }
 #' @seealso [reverse_geocode] [api_parameter_reference] [min_time_reference] [batch_limit_reference]
 #' @export
-reverse_geo <- function(lat, long, method = 'osm', address = address, limit = 1, 
+reverse_geo <- function(lat, long, method = 'osm', address = 'address', limit = 1, 
     full_results = FALSE, mode = '', unique_only = FALSE, return_coords = TRUE,
     min_time = NULL, progress_bar = show_progress_bar(), quiet = getOption("tidygeocoder.quiet", FALSE), 
     api_url = NULL, timeout = 20, flatten = TRUE, 

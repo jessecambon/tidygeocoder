@@ -147,7 +147,7 @@ progress_geo <- function(pb = NULL, ...) {
 #' @export
 geo <- function(address = NULL, 
     street = NULL, city = NULL, county = NULL, state = NULL, postalcode = NULL, country = NULL,
-    method = 'osm', cascade_order = c('census', 'osm'), lat = lat, long = long, limit = 1, 
+    method = 'osm', cascade_order = c('census', 'osm'), lat = 'lat', long = 'long', limit = 1, 
     full_results = FALSE, mode = '', unique_only = FALSE, return_addresses = TRUE,
     min_time = NULL, progress_bar = show_progress_bar(), quiet = getOption("tidygeocoder.quiet", FALSE), 
     api_url = NULL, timeout = 20, flatten = TRUE, batch_limit = NULL, batch_limit_error = TRUE, 

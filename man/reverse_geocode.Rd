@@ -8,7 +8,7 @@ reverse_geocode(
   .tbl,
   lat,
   long,
-  address = address,
+  address = "address",
   return_input = TRUE,
   limit = 1,
   return_coords = NULL,

@@ -48,7 +48,7 @@
 #' }
 #' @seealso [reverse_geo]
 #' @export
-reverse_geocode <- function(.tbl, lat, long, address = address, return_input = TRUE, limit = 1, return_coords = NULL, unique_only = FALSE, ...) {
+reverse_geocode <- function(.tbl, lat, long, address = 'address', return_input = TRUE, limit = 1, return_coords = NULL, unique_only = FALSE, ...) {
   
   # Non-standard evaluation --------------------------------------------------------------
   # Quote unquoted vars without double quoting quoted vars

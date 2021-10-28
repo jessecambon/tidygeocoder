@@ -59,7 +59,7 @@
 #' @export
 geocode <- function(.tbl, address = NULL, street = NULL, city = NULL, county = NULL, 
                     state = NULL, postalcode = NULL, country = NULL,
-                    lat = lat, long = long, return_input = TRUE, limit = 1, return_addresses = NULL, unique_only = FALSE, ...) {
+                    lat = 'lat', long = 'long', return_input = TRUE, limit = 1, return_addresses = NULL, unique_only = FALSE, ...) {
   
   # Non-standard evaluation --------------------------------------------------------------
   # Quote unquoted vars without double quoting quoted vars
