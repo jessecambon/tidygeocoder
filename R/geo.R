@@ -99,7 +99,7 @@ progress_geo <- function(pb = NULL, ...) {
 #'   with the name of the `method` (service) it applies to. The possible parameters
 #'   are shown below with their default values.
 #'   
-#'   - `census_return_type` (default: `"locations"`): set to "geographies" to return
+#'   - `census_return_type` (default: `"locations"`): set to `"geographies"` to return
 #'     additional geography columns. Make sure to use `full_results = TRUE` if using
 #'     the "geographies" setting.
 #'   - `iq_region` (default: `"us"`): set to "eu" to use the European Union API endpoint 

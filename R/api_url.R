@@ -1,4 +1,4 @@
-# API URL Functions ----------------------------------------------------------------
+# API URL Functions
 # reverse = TRUE for reverse geocoding
 
 ## wrapper function for functions below

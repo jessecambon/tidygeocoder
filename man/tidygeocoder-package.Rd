@@ -9,7 +9,7 @@
 The \link{geocode} and \link{geo} functions are for forward geocoding while
 the \link{reverse_geocode} and \link{reverse_geo} functions are for reverse geocoding.
 Refer to the documentation on the \code{method} argument in the \link{geo} and \link{reverse_geo} functions
-for more details on the available geocoder services. Also see \code{vignette("tidygeocoder")}
+for more details on the available geocoding services. Also see \code{vignette("tidygeocoder")}
 for example usage.
 }
 \seealso{

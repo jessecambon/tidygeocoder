@@ -19,7 +19,7 @@ geocode_combine(
 \item{.tbl}{dataframe containing addresses}
 
 \item{queries}{a list of queries, each provided as a list of parameters. The queries are
-executed in the order provided by the \link{geocode} function.
+executed by the \link{geocode} function in the order provided.
 (ex. \code{list(list(method = 'osm'), list(method = 'census'), ...)})}
 
 \item{global_params}{a list of parameters to be used for all queries

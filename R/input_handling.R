@@ -1,3 +1,8 @@
+# By default tidygeocoder only sends unique inputs to geocoding services
+# but preserves duplicates in outputs. These functions perform the 
+# deduplication and "re-deduplication" to facilitate that.
+
+
 # utility function for packaging either lat longs or address data
 # takes a dataframe input 
 # cords = TRUE if processing coordinates
@@ -84,6 +89,8 @@ package_addresses <- function(address = NULL,
 # so that we can return them in the same order that they were passed
 # this function assumes that the results are in the same order as package$unique
 # Args:
+#   package: the output of package_inputs() or package_addresses()
+#   results: the results returned by the geocoding service
 #   unique_only: if TRUE then only unique results are returned
 #   return_inputs: if TRUE then include inputs in the returned results
 # 

@@ -21,7 +21,7 @@ geo_combine(
 }
 \arguments{
 \item{queries}{a list of queries, each provided as a list of parameters. The queries are
-executed in the order provided by the \link{geocode} function.
+executed by the \link{geocode} function in the order provided.
 (ex. \code{list(list(method = 'osm'), list(method = 'census'), ...)})}
 
 \item{global_params}{a list of parameters to be used for all queries
@@ -56,8 +56,8 @@ tibble (dataframe)
 Passes address inputs in character vector form to the
 \link{geocode_combine} function for geocoding.
 
-Note that address inputs must be specified for queries either in \code{queries} (for each query)
-or \code{global_params} (for all queries). For example \code{global_params = list(address = 'address')}
+Note that address inputs must be specified for queries either with the \code{queries} parameter (for each query)
+or the \code{global_params} parameter (for all queries). For example \code{global_params = list(address = 'address')}
 passes addresses provided in the \code{address} parameter to all queries.
 }
 \examples{

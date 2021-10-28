@@ -82,16 +82,13 @@ This section documents how to add support for a new geocoding service to the pac
     * Update the `extract_results()` function which is used for parsing single addresses (ie. not batch geocoding). You can see examples of how I've tested out parsing the results of geocoding services [here](https://github.com/jessecambon/tidygeocoder/tree/main/sandbox/query_debugging).
     * In a similar fashion, update the `extract_reverse_results()` function for reverse geocoding.
     * Update the `extract_errors_from_results()` function to extract error messages for invalid queries.
-* **[R/geo_methods.R](https://github.com/jessecambon/tidygeocoder/blob/main/R/geo_methods.R)**
-    * Add a new `geo_<method>()` convenience function to [R/geo_methods.R](https://github.com/jessecambon/tidygeocoder/blob/main/R/geo_methods.R). Note that these functions are deprecated and will be phased out in the future.
 * If applicable, add new tests to the scripts in the [tests directory](https://github.com/jessecambon/tidygeocoder/tree/main/tests/testthat) for the method. Note that tests should avoid making a HTTP query (ie. use `no_query = TRUE` in the `geo()` and `geocode()` functions).
 * **[R/global_variables.R](https://github.com/jessecambon/tidygeocoder/blob/main/R/global_variables.R)**
-    * If applicable, add your service to one of the global variables. 
+    * If applicable, add your service to one of the global variables.
 
 ### Other Files
 
 These files don't necessarily need to be updated. However, you might need to make changes to these files if the service you are implementing requires some non-standard workarounds. 
-
 
 * **[R/query_factory.R](https://github.com/jessecambon/tidygeocoder/blob/main/R/query_factory.R)**
     * Houses the functions used to create and execute API queries.

@@ -1,4 +1,4 @@
-### Put common utility functions here
+# Common utility functions
 
 
 # utility function for extracting setting values according to the method column

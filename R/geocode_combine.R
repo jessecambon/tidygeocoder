@@ -2,7 +2,7 @@
 get_queries_parameter_documentation <- function() {
   return(c(
       "a list of queries, each provided as a list of parameters. The queries are",
-      "executed in the order provided by the [geocode] function.",
+      "executed by the [geocode] function in the order provided.",
       "(ex. `list(list(method = 'osm'), list(method = 'census'), ...)`)"
     ))
 }
@@ -20,8 +20,8 @@ get_global_params_parameter_documentation <- function() {
 #' @description Passes address inputs in character vector form to the
 #'  [geocode_combine] function for geocoding.
 #'  
-#'  Note that address inputs must be specified for queries either in `queries` (for each query)
-#'  or `global_params` (for all queries). For example `global_params = list(address = 'address')` 
+#'  Note that address inputs must be specified for queries either with the `queries` parameter (for each query)
+#'  or the `global_params` parameter (for all queries). For example `global_params = list(address = 'address')` 
 #'  passes addresses provided in the `address` parameter to all queries.
 #' 
 #' @param queries `r get_queries_parameter_documentation()`
