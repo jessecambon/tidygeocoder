@@ -166,9 +166,17 @@ geo_combine <- function(queries, global_params = list(), address = NULL,
 #' }
 #' @seealso [geo_combine] [geo] [geocode]
 #' @export
-geocode_combine <- function(.tbl, queries, global_params = list(),  
-                          return_list = FALSE, cascade = TRUE, query_names = NULL,
-                          lat = 'lat', long = 'long') {
+geocode_combine <- 
+  function(
+    .tbl,
+    queries,
+    global_params = list(),
+    return_list = FALSE,
+    cascade = TRUE,
+    query_names = NULL,
+    lat = 'lat',
+    long = 'long'
+  ) {
   
   # NSE - converts lat and long parameters to character values
   lat <- rm_quote(deparse(substitute(lat)))
