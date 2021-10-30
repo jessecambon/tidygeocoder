@@ -11,8 +11,8 @@ geocode_combine(
   return_list = FALSE,
   cascade = TRUE,
   query_names = NULL,
-  lat = lat,
-  long = long
+  lat = "lat",
+  long = "long"
 )
 }
 \arguments{

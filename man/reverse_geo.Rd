@@ -8,7 +8,7 @@ reverse_geo(
   lat,
   long,
   method = "osm",
-  address = address,
+  address = "address",
   limit = 1,
   full_results = FALSE,
   mode = "",
