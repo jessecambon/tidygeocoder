@@ -153,11 +153,10 @@
 <p>In this first example we will geocode a few addresses using the <code><a href="reference/geocode.html">geocode()</a></code> function and plot them on a map with ggplot.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org">dplyr</a></span>, warn.conflicts <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tibble.tidyverse.org/">tibble</a></span><span class="op">)</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://jessecambon.github.io/tidygeocoder/">tidygeocoder</a></span><span class="op">)</span>
 
 <span class="co"># create a dataframe with addresses</span>
-<span class="va">some_addresses</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tribble.html">tribble</a></span><span class="op">(</span>
+<span class="va">some_addresses</span> <span class="op">&lt;-</span> <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tribble.html">tribble</a></span><span class="op">(</span>
 <span class="op">~</span><span class="va">name</span>,                  <span class="op">~</span><span class="va">addr</span>,
 <span class="st">"White House"</span>,          <span class="st">"1600 Pennsylvania Ave NW, Washington, DC"</span>,
 <span class="st">"Transamerica Pyramid"</span>, <span class="st">"600 Montgomery St, San Francisco, CA 94111"</span>,     
@@ -168,7 +167,7 @@
 <span class="va">lat_longs</span> <span class="op">&lt;-</span> <span class="va">some_addresses</span> <span class="op">%&gt;%</span>
   <span class="fu"><a href="reference/geocode.html">geocode</a></span><span class="op">(</span><span class="va">addr</span>, method <span class="op">=</span> <span class="st">'osm'</span>, lat <span class="op">=</span> <span class="va">latitude</span> , long <span class="op">=</span> <span class="va">longitude</span><span class="op">)</span>
 <span class="co">#&gt; Passing 3 addresses to the Nominatim single address geocoder</span>
-<span class="co">#&gt; Query completed in: 3.6 seconds</span></code></pre></div>
+<span class="co">#&gt; Query completed in: 3 seconds</span></code></pre></div>
 <p>The <code><a href="reference/geocode.html">geocode()</a></code> function geocodes addresses contained in a dataframe. The <a href="https://nominatim.org/">Nominatim (“osm”)</a> geocoding service is used here, but other services can be specified with the <code>method</code> argument. Only latitude and longitude are returned from the geocoding service in this example, but <code>full_results = TRUE</code> can be used to return all of the data from the geocoding service. See the <code><a href="reference/geo.html">geo()</a></code> function documentation for details.</p>
 <table class="table">
 <colgroup>
@@ -207,15 +206,14 @@
 <p>Now that we have the longitude and latitude coordinates, we can use ggplot to plot our addresses on a map.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org">ggplot2</a></span><span class="op">)</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">maps</span><span class="op">)</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/slowkow/ggrepel">ggrepel</a></span><span class="op">)</span>
 
 <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">lat_longs</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span><span class="va">longitude</span>, <span class="va">latitude</span><span class="op">)</span>, color <span class="op">=</span> <span class="st">"grey99"</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/borders.html">borders</a></span><span class="op">(</span><span class="st">"state"</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="https://rdrr.io/pkg/ggrepel/man/geom_text_repel.html">geom_label_repel</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>label <span class="op">=</span> <span class="va">name</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu">ggrepel</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/ggrepel/man/geom_text_repel.html">geom_label_repel</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>label <span class="op">=</span> <span class="va">name</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_void</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <p><img src="reference/figures/README-usamap-1.png" style="display: block; margin: auto;"></p>
-<p>To perform reverse geocoding (obtaining addresses from geographic coordinates), we can use the <code><a href="reference/reverse_geocode.html">reverse_geocode()</a></code> function. The arguments are similar to the <code><a href="reference/geocode.html">geocode()</a></code> function, but now we specify the input data columns with the <code>lat</code> and <code>long</code> arguments. The dataset used here is from the geocoder query above. The single line address is returned in a column named by the <code>address</code> argument and all columns from the geocoding service are returned because <code>full_results = TRUE</code>. See the <code><a href="reference/reverse_geo.html">reverse_geo()</a></code> function documentation for more details.</p>
+<p>To perform reverse geocoding (obtaining addresses from geographic coordinates), we can use the <code><a href="reference/reverse_geocode.html">reverse_geocode()</a></code> function. The arguments are similar to the <code><a href="reference/geocode.html">geocode()</a></code> function, but now we specify the input data columns with the <code>lat</code> and <code>long</code> arguments. The input dataset used here is from the geocoder query above.</p>
+<p>The single line address is returned in a column named by the <code>address</code> argument and all columns from the geocoding service results are returned because <code>full_results = TRUE</code>. See the <code><a href="reference/reverse_geo.html">reverse_geo()</a></code> function documentation for more details.</p>
 <!-- 
 Removing the licence column is done just to prevent a note from 
 occurring in automated CRAN checks for an improper/old link.
@@ -282,7 +280,7 @@ occurring in automated CRAN checks for an improper/old link.
 <td align="right">38.89770</td>
 <td align="right">-77.03655</td>
 <td align="left">White House, 1600, Pennsylvania Avenue Northwest, Washington, District of Columbia, 20500, United States</td>
-<td align="right">159859857</td>
+<td align="right">159983331</td>
 <td align="left">way</td>
 <td align="right">238241022</td>
 <td align="left">38.897699700000004</td>
@@ -306,7 +304,7 @@ occurring in automated CRAN checks for an improper/old link.
 <td align="right">37.79520</td>
 <td align="right">-122.40279</td>
 <td align="left">Transamerica Pyramid, 600, Montgomery Street, Chinatown, San Francisco, San Francisco City and County, San Francisco, California, 94111, United States</td>
-<td align="right">106590650</td>
+<td align="right">106008002</td>
 <td align="left">way</td>
 <td align="right">24222973</td>
 <td align="left">37.795200550000004</td>
@@ -330,7 +328,7 @@ occurring in automated CRAN checks for an improper/old link.
 <td align="right">41.87535</td>
 <td align="right">-87.63576</td>
 <td align="left">South Wacker Drive, Printer’s Row, Loop, Chicago, Cook County, Illinois, 60606, United States</td>
-<td align="right">182316972</td>
+<td align="right">182238096</td>
 <td align="left">way</td>
 <td align="right">337681342</td>
 <td align="left">41.8753503</td>
@@ -358,15 +356,17 @@ occurring in automated CRAN checks for an improper/old link.
 <p>For inspiration, here are a few articles (with code) that leverage tidygeocoder:</p>
 <ul>
 <li>
-<a href="http://www2.stat.duke.edu/courses/Spring21/sta323.001/exercises/lec_12.html">Exercises: Spatial Data Wrangling with sf</a> - part of a <a href="http://www2.stat.duke.edu/courses/Spring21/sta323.001/">statistical computing course</a> at Duke.</li>
+<a href="http://www2.stat.duke.edu/courses/Spring21/sta323.001/exercises/lec_12.html">Exercises: Spatial Data Wrangling with sf</a> - part of a <a href="http://www2.stat.duke.edu/courses/Spring21/sta323.001/">statistical computing course</a> at Duke</li>
 <li>
-<a href="https://www.jla-data.net/eng/minard-map-tidygeocoder/">Geocoding the Minard Map</a> - recreating a famous infographic with geocoding.</li>
+<a href="https://www.jla-data.net/eng/minard-map-tidygeocoder/">Geocoding the Minard Map</a> - recreating a famous infographic with geocoding</li>
 <li>
-<a href="https://www.monicaalexander.com/posts/2021-21-02-mapping/">Mapping a network of women in demography</a> - using rvest and tidygeocoder to map Google Scholar data.</li>
+<a href="https://www.monicaalexander.com/posts/2021-21-02-mapping/">Mapping a network of women in demography</a> - using rvest and tidygeocoder to map Google Scholar data</li>
 <li>
-<a href="https://www.jla-data.net/eng/routing-in-r-context/">Road Routing in R</a> - demonstration of three different routing APIs.</li>
+<a href="https://bensstats.wordpress.com/2021/10/21/robservations-15-i-reverse-engineered-atlas-co-well-some-of-it/">Mapping Routes</a> - mapping routes with tidygeocoder and osrm</li>
 <li>
-<a href="https://www.sharpsightlabs.com/blog/mapping-texas-ports-with-r-part1/">Mapping Texas Ports With R</a> - mapping the Texas coast with rnaturalearth and sf.</li>
+<a href="https://www.jla-data.net/eng/routing-in-r-context/">Road Routing in R</a> - demonstration of three different routing APIs</li>
+<li>
+<a href="https://www.sharpsightlabs.com/blog/mapping-texas-ports-with-r-part1/">Mapping Texas Ports With R</a> - mapping the Texas coast with rnaturalearth and sf</li>
 </ul>
 </div>
 <div id="contributing" class="section level2">
@@ -459,7 +459,7 @@ occurring in automated CRAN checks for an improper/old link.
 <li><a href="https://cran.r-project.org/package=tidygeocoder"><img src="http://cranlogs.r-pkg.org/badges/tidygeocoder" alt="CRAN Downloads Per Month"></a></li>
 <li><a href="https://lifecycle.r-lib.org/articles/stages.html#stable"><img src="https://img.shields.io/badge/lifecycle-stable-brightgreen.svg" alt="Lifecycle: stable"></a></li>
 <li><a href="https://github.com/jessecambon/tidygeocoder/actions?workflow=R-CMD-check"><img src="https://github.com/jessecambon/tidygeocoder/workflows/R-CMD-check/badge.svg" alt="R Build Status"></a></li>
-<li><a href="https://doi.org/10.5281/zenodo.5574263"><img src="https://zenodo.org/badge/DOI/10.5281/zenodo.5574263.svg" alt="Zenodo"></a></li>
+<li><a href="https://doi.org/10.5281/zenodo.5627341"><img src="https://zenodo.org/badge/DOI/10.5281/zenodo.5627341.svg" alt="Zenodo"></a></li>
 </ul>
 </div>
 </div>

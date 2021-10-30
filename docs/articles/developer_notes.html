@@ -40,7 +40,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">tidygeocoder</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.4.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.5</span>
       </span>
     </div>
 
@@ -162,7 +162,7 @@
 <span class="co">#&gt; limit : "1"</span>
 <span class="co">#&gt; format : "json"</span>
 <span class="co">#&gt; HTTP Status Code: 200</span>
-<span class="co">#&gt; Query completed in: 0.4 seconds</span>
+<span class="co">#&gt; Query completed in: 0.6 seconds</span>
 <span class="co">#&gt; Total query time (including sleep): 1 seconds</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; </span>
@@ -173,16 +173,16 @@
 <span class="co">#&gt; limit : "1"</span>
 <span class="co">#&gt; format : "json"</span>
 <span class="co">#&gt; HTTP Status Code: 200</span>
-<span class="co">#&gt; Query completed in: 0.2 seconds</span>
+<span class="co">#&gt; Query completed in: 0.3 seconds</span>
 <span class="co">#&gt; Total query time (including sleep): 1 seconds</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; Query completed in: 2 seconds</span>
 <span class="co">#&gt; # A tibble: 3 × 14</span>
 <span class="co">#&gt;      id locations   lat   long  place_id licence     osm_type osm_id boundingbox</span>
 <span class="co">#&gt;   &lt;dbl&gt; &lt;chr&gt;     &lt;dbl&gt;  &lt;dbl&gt;     &lt;int&gt; &lt;chr&gt;       &lt;chr&gt;     &lt;int&gt; &lt;list&gt;     </span>
-<span class="co">#&gt; 1     1 tokyo      35.7 140.   258605795 Data © Ope… relation 1.54e6 &lt;chr [4]&gt;  </span>
-<span class="co">#&gt; 2     2 madrid     40.4  -3.70 258787188 Data © Ope… relation 5.33e6 &lt;chr [4]&gt;  </span>
-<span class="co">#&gt; 3     1 tokyo      35.7 140.   258605795 Data © Ope… relation 1.54e6 &lt;chr [4]&gt;  </span>
+<span class="co">#&gt; 1     1 tokyo      35.7 140.   282632558 Data © Ope… relation 1.54e6 &lt;chr [4]&gt;  </span>
+<span class="co">#&gt; 2     2 madrid     40.4  -3.70 282999935 Data © Ope… relation 5.33e6 &lt;chr [4]&gt;  </span>
+<span class="co">#&gt; 3     1 tokyo      35.7 140.   282632558 Data © Ope… relation 1.54e6 &lt;chr [4]&gt;  </span>
 <span class="co">#&gt; # … with 5 more variables: display_name &lt;chr&gt;, class &lt;chr&gt;, type &lt;chr&gt;,</span>
 <span class="co">#&gt; #   importance &lt;dbl&gt;, icon &lt;chr&gt;</span></code></pre></div>
 <p>Here is what is going on behind the scenes:</p>
@@ -249,12 +249,6 @@
 <li>Update the <code>extract_errors_from_results()</code> function to extract error messages for invalid queries.</li>
 </ul>
 </li>
-<li>
-<strong><a href="https://github.com/jessecambon/tidygeocoder/blob/main/R/geo_methods.R">R/geo_methods.R</a></strong>
-<ul>
-<li>Add a new <code>geo_&lt;method&gt;()</code> convenience function to <a href="https://github.com/jessecambon/tidygeocoder/blob/main/R/geo_methods.R">R/geo_methods.R</a>. Note that these functions are deprecated and will be phased out in the future.</li>
-</ul>
-</li>
 <li>If applicable, add new tests to the scripts in the <a href="https://github.com/jessecambon/tidygeocoder/tree/main/tests/testthat">tests directory</a> for the method. Note that tests should avoid making a HTTP query (ie. use <code>no_query = TRUE</code> in the <code><a href="../reference/geo.html">geo()</a></code> and <code><a href="../reference/geocode.html">geocode()</a></code> functions).</li>
 <li>
 <strong><a href="https://github.com/jessecambon/tidygeocoder/blob/main/R/global_variables.R">R/global_variables.R</a></strong>
@@ -318,11 +312,30 @@
 <a href="#testing" class="anchor"></a>Testing</h3>
 <ul>
 <li>Test out the new service to make sure it behaves as expected. You can reference tests and example code in <a href="https://github.com/jessecambon/tidygeocoder/tree/main/sandbox">the ‘sandbox’ folder</a>.</li>
-<li>Run <code><a href="https://devtools.r-lib.org//reference/check.html">devtools::check()</a></code> to make sure the package still passes all tests and checks. To only run the package tests use <code><a href="https://devtools.r-lib.org//reference/test.html">devtools::test()</a></code>, but note these tests do not query the geocoding services to avoid external dependencies.</li>
+<li>Run <strong><code><a href="https://devtools.r-lib.org//reference/check.html">devtools::check()</a></code></strong> to make sure the package still passes all tests and checks, but note that these tests are designed to work offline so they do not make queries to geocoding services.</li>
 <li>As a final check, run <strong><a href="https://github.com/jessecambon/tidygeocoder/blob/main/external/online_tests.R">external/online_tests.R</a></strong> to test making queries to the geocoding services. These tests are not included in the internal package tests (<code><a href="https://devtools.r-lib.org//reference/test.html">devtools::test()</a></code>) because they require API keys which would not exist on all systems and are dependent on the geocoding services being online at that the time of the test.</li>
 <li>Run the commands detailed in <strong><a href="https://github.com/jessecambon/tidygeocoder/blob/main/cran-comments.md">cran-comments.md</a></strong> to test the package on other environments. Note that these tests should also be included in the automated GitHub actions tests for pull requests.</li>
-<li>When prepping for a release, use <code><a href="https://rdrr.io/pkg/urlchecker/man/url_check.html">urlchecker::url_check()</a></code> to check all package URLs.</li>
 </ul>
+</div>
+<div id="releasing-a-new-version" class="section level3">
+<h3 class="hasAnchor">
+<a href="#releasing-a-new-version" class="anchor"></a>Releasing a New Version</h3>
+<p>To release a new version of tidygeocoder:</p>
+<ul>
+<li>Run the tests detailed above</li>
+<li>Update the package version in <a href="DESCRIPTION">DESCRIPTION</a>
+</li>
+<li>Update the package version for the citation note in <a href="inst/CITATION">inst/CITATION</a>
+</li>
+<li>Reserve a DOI for a new package version with <a href="https://zenodo.org/">Zenodo</a>
+</li>
+<li>Update the Zenodo DOI in <a href="README.Rmd">README.Rmd</a> and reknit to update <a href="README.html">README.md</a>
+</li>
+<li>Update the site with <code><a href="https://pkgdown.r-lib.org/reference/build_site.html">pkgdown::build_site()</a></code>
+</li>
+<li>Use <code><a href="https://rdrr.io/pkg/urlchecker/man/url_check.html">urlchecker::url_check()</a></code> to check all package URLs</li>
+</ul>
+<p>Lastly, run <code><a href="https://devtools.r-lib.org//reference/release.html">devtools::release()</a></code> to release the new version</p>
 </div>
 </div>
   </div>

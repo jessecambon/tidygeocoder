@@ -87,7 +87,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">tidygeocoder</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.4.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.5</span>
       </span>
     </div>
 
@@ -181,7 +181,8 @@
 <ul>
 <li>Corrected documentation for <code>quiet</code> parameter in <code><a href="../reference/geo.html">geo()</a></code> and <code><a href="../reference/reverse_geo.html">reverse_geo()</a></code>
 </li>
-<li>Reconfigured the vignette so that it is precomputed and is not executed during <code>R CMD check</code> (ie. <code><a href="https://devtools.r-lib.org//reference/check.html">devtools::check()</a></code>). Also added a check at the beginning of the vignette to check for the availability of APIs. This fixes an issue that occurred on Mac CRAN checks (<a href="https://github.com/jessecambon/tidygeocoder/issues/152"><a href='https://github.com/jessecambon/tidygeocoder/issues/152'>#152</a></a>).</li>
+<li>To fix an issue that occurred on Mac CRAN checks (<a href="https://github.com/jessecambon/tidygeocoder/issues/152"><a href='https://github.com/jessecambon/tidygeocoder/issues/152'>#152</a></a>) the vignette is now precomputed so that it does not run during <code>R CMD check</code> (ie. <code><a href="https://devtools.r-lib.org//reference/check.html">devtools::check()</a></code>).</li>
+<li>Changed some default parameter values to facilitate the use of the <a href="https://memoise.r-lib.org/">memoise package</a> (<a href="https://github.com/dpprdan">@dpprdan</a>, <a href="https://github.com/jessecambon/tidygeocoder/pull/154"><a href='https://github.com/jessecambon/tidygeocoder/issues/154'>#154</a></a>).</li>
 </ul>
 </div>
     <div id="tidygeocoder-104" class="section level1">

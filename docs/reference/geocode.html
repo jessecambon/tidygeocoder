@@ -97,7 +97,7 @@ both acceptable)." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">tidygeocoder</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.4.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.5</span>
       </span>
     </div>
 
@@ -207,8 +207,8 @@ both acceptable).</p>
   state <span class='op'>=</span> <span class='cn'>NULL</span>,
   postalcode <span class='op'>=</span> <span class='cn'>NULL</span>,
   country <span class='op'>=</span> <span class='cn'>NULL</span>,
-  lat <span class='op'>=</span> <span class='va'>lat</span>,
-  long <span class='op'>=</span> <span class='va'>long</span>,
+  lat <span class='op'>=</span> <span class='st'>"lat"</span>,
+  long <span class='op'>=</span> <span class='st'>"long"</span>,
   return_input <span class='op'>=</span> <span class='cn'>TRUE</span>,
   limit <span class='op'>=</span> <span class='fl'>1</span>,
   return_addresses <span class='op'>=</span> <span class='cn'>NULL</span>,
@@ -323,17 +323,17 @@ return_input will be set to FALSE.</p></td>
 </div><div class='output co'>#&gt; <span class='message'>Passing 2 addresses to the Nominatim single address geocoder</span></div><div class='output co'>#&gt; <span class='message'>Query completed in: 2 seconds</span></div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 4 × 13</span>
 #&gt;   address    lat  long place_id licence osm_type osm_id boundingbox display_name
 #&gt;   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>    <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>    <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>     <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;list&gt;</span>      <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>       
-#&gt; <span style='color: #BCBCBC;'>1</span> Istanbu…  41.0  29.0   1.84<span style='color: #949494;'>e</span>7 Data ©… node     1.88<span style='color: #949494;'>e</span>9 <span style='color: #949494;'>&lt;chr [4]&gt;</span>   İstanbul, F…
-#&gt; <span style='color: #BCBCBC;'>2</span> Istanbu…  41.1  29.1   2.58<span style='color: #949494;'>e</span>8 Data ©… relation 2.23<span style='color: #949494;'>e</span>5 <span style='color: #949494;'>&lt;chr [4]&gt;</span>   İstanbul, M…
-#&gt; <span style='color: #BCBCBC;'>3</span> Tokyo, …  35.7 140.    2.59<span style='color: #949494;'>e</span>8 Data ©… relation 1.54<span style='color: #949494;'>e</span>6 <span style='color: #949494;'>&lt;chr [4]&gt;</span>   東京都, 日本
-#&gt; <span style='color: #BCBCBC;'>4</span> Tokyo, …  35.7 140.    7.10<span style='color: #949494;'>e</span>7 Data ©… node     6.40<span style='color: #949494;'>e</span>9 <span style='color: #949494;'>&lt;chr [4]&gt;</span>   東京, 丸の… 
+#&gt; <span style='color: #BCBCBC;'>1</span> Istanbu…  41.0  29.0   1.70<span style='color: #949494;'>e</span>7 Data ©… node     1.88<span style='color: #949494;'>e</span>9 <span style='color: #949494;'>&lt;chr [4]&gt;</span>   İstanbul, F…
+#&gt; <span style='color: #BCBCBC;'>2</span> Istanbu…  41.1  29.1   2.82<span style='color: #949494;'>e</span>8 Data ©… relation 2.23<span style='color: #949494;'>e</span>5 <span style='color: #949494;'>&lt;chr [4]&gt;</span>   İstanbul, M…
+#&gt; <span style='color: #BCBCBC;'>3</span> Tokyo, …  35.7 140.    2.83<span style='color: #949494;'>e</span>8 Data ©… relation 1.54<span style='color: #949494;'>e</span>6 <span style='color: #949494;'>&lt;chr [4]&gt;</span>   東京都, 日本
+#&gt; <span style='color: #BCBCBC;'>4</span> Tokyo, …  35.7 140.    6.99<span style='color: #949494;'>e</span>7 Data ©… node     6.40<span style='color: #949494;'>e</span>9 <span style='color: #949494;'>&lt;chr [4]&gt;</span>   東京, 丸の… 
 #&gt; <span style='color: #949494;'># … with 4 more variables: class &lt;chr&gt;, type &lt;chr&gt;, importance &lt;dbl&gt;,</span>
 #&gt; <span style='color: #949494;'>#   icon &lt;chr&gt;</span></div><div class='input'>
 <span class='va'>sample_addresses</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/slice.html'>slice</a></span><span class='op'>(</span><span class='fl'>4</span><span class='op'>:</span><span class='fl'>5</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
  <span class='fu'>geocode</span><span class='op'>(</span><span class='va'>addr</span>, method <span class='op'>=</span> <span class='st'>'arcgis'</span>,
   lat <span class='op'>=</span> <span class='va'>latitude</span>, long <span class='op'>=</span> <span class='va'>longitude</span>,
   full_results <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'>Passing 2 addresses to the ArcGIS single address geocoder</span></div><div class='output co'>#&gt; <span class='message'>Query completed in: 0.2 seconds</span></div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 2 × 12</span>
+</div><div class='output co'>#&gt; <span class='message'>Passing 2 addresses to the ArcGIS single address geocoder</span></div><div class='output co'>#&gt; <span class='message'>Query completed in: 1.2 seconds</span></div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 2 × 12</span>
 #&gt;   name   addr     latitude longitude arcgis_address  score location.x location.y
 #&gt;   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>       <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>     <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>           <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span>      <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>      <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>
 #&gt; <span style='color: #BCBCBC;'>1</span> Willi… 233 S W…     41.9     -<span style='color: #BB0000;'>87.6</span> 233 S Wacker D…   100      -<span style='color: #BB0000;'>87.6</span>       41.9
