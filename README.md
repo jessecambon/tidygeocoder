@@ -115,7 +115,7 @@ To perform reverse geocoding (obtaining addresses from geographic
 coordinates), we can use the `reverse_geocode()` function. The arguments
 are similar to the `geocode()` function, but now we specify the input
 data columns with the `lat` and `long` arguments. The input dataset used
-here is from the geocoder query above.
+here is the results of the geocoding query above.
 
 The single line address is returned in a column named by the `address`
 argument and all columns from the geocoding service results are returned
