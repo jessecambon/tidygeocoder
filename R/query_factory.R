@@ -1,4 +1,5 @@
-### Functions for constructing API queries
+# Functions for constructing API queries
+
 
 # Get API Key from environmental variables
 get_key <- function(method) {

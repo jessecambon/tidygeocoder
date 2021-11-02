@@ -1,4 +1,5 @@
-### Global package variables
+# Global package variables
+
 
 pkg.globals <- new.env()
 

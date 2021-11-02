@@ -1,4 +1,5 @@
-### Functions for batch geocoding that are called by geo()
+# Functions for batch (forward) geocoding that are called by geo()
+
 
 # Census batch geocoding
 # @param address_pack packaged addresses object

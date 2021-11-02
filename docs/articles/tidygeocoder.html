@@ -40,7 +40,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">tidygeocoder</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.4.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.5</span>
       </span>
     </div>
 
@@ -170,7 +170,7 @@
 <span class="co">#&gt; format : "json"</span>
 <span class="co">#&gt; benchmark : "Public_AR_Current"</span>
 <span class="co">#&gt; vintage : "Current_Current"</span>
-<span class="co">#&gt; Query completed in: 1.2 seconds</span></code></pre></div>
+<span class="co">#&gt; Query completed in: 1 seconds</span></code></pre></div>
 <table class="table">
 <thead><tr class="header">
 <th align="left">singlelineaddress</th>
@@ -207,8 +207,8 @@
 <tbody>
 <tr class="odd">
 <td align="left">11 Wall St, NY, NY</td>
-<td align="right">40.90805</td>
-<td align="right">-73.01708</td>
+<td align="right">40.70707</td>
+<td align="right">-74.01117</td>
 </tr>
 <tr class="even">
 <td align="left">600 Peachtree Street NE, Atlanta, Georgia</td>
@@ -222,7 +222,7 @@
 <code class="sourceCode R"><span class="va">census_c1</span> <span class="op">&lt;-</span> <span class="va">address_components</span> <span class="op">%&gt;%</span>
   <span class="fu"><a href="../reference/geocode.html">geocode</a></span><span class="op">(</span>street <span class="op">=</span> <span class="va">street</span>, city <span class="op">=</span> <span class="va">cty</span>, state <span class="op">=</span> <span class="va">st</span>, method <span class="op">=</span> <span class="st">"census"</span><span class="op">)</span>
 <span class="co">#&gt; Passing 2 addresses to the US Census batch geocoder</span>
-<span class="co">#&gt; Query completed in: 1.4 seconds</span></code></pre></div>
+<span class="co">#&gt; Query completed in: 2.5 seconds</span></code></pre></div>
 <table class="table">
 <thead><tr class="header">
 <th align="left">street</th>
@@ -255,7 +255,7 @@
   method <span class="op">=</span> <span class="st">"census"</span>, full_results <span class="op">=</span> <span class="cn">TRUE</span>, api_options <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>census_return_type <span class="op">=</span> <span class="st">'geographies'</span><span class="op">)</span>
 <span class="op">)</span>
 <span class="co">#&gt; Passing 2 addresses to the US Census batch geocoder</span>
-<span class="co">#&gt; Query completed in: 1.5 seconds</span></code></pre></div>
+<span class="co">#&gt; Query completed in: 1.2 seconds</span></code></pre></div>
 <table class="table">
 <colgroup>
 <col width="16%">
@@ -367,7 +367,7 @@ occurring in automated CRAN checks for an improper/old link.
 <td align="left">Salzburg, Austria</td>
 <td align="right">47.79813</td>
 <td align="right">13.04648</td>
-<td align="right">214457</td>
+<td align="right">147539</td>
 <td align="left">node</td>
 <td align="right">34964314</td>
 <td align="left">47.6381346, 47.9581346, 12.8864806, 13.2064806</td>
@@ -409,7 +409,7 @@ occurring in automated CRAN checks for an improper/old link.
 <tr class="odd">
 <td align="right">38.89587</td>
 <td align="right">-77.03077</td>
-<td align="left">L’Enfant’s plan, Pennsylvania Avenue, Washington, District of Columbia, 20045, United States</td>
+<td align="left">Freedom Plaza, 1455, Pennsylvania Avenue Northwest, Washington, District of Columbia, 20004, United States</td>
 </tr>
 <tr class="even">
 <td align="right">43.65348</td>
@@ -433,23 +433,23 @@ occurring in automated CRAN checks for an improper/old link.
 <span class="co">#&gt; Columns: 22</span>
 <span class="co">#&gt; $ lat            &lt;dbl&gt; 38.89587, 43.65348</span>
 <span class="co">#&gt; $ long           &lt;dbl&gt; -77.03077, -79.38393</span>
-<span class="co">#&gt; $ address        &lt;chr&gt; "L’Enfant's plan, Pennsylvania Avenue, Washington, District of Columbia, 20045, United States", "Toronto City Hall, 100, Queen Str…</span>
-<span class="co">#&gt; $ place_id       &lt;int&gt; 301711857, 137497520</span>
-<span class="co">#&gt; $ licence        &lt;chr&gt; "Data © OpenStreetMap contributors, ODbL 1.0. https://osm.org/copyright", "Data © OpenStreetMap contributors, ODbL 1.0. https://os…</span>
-<span class="co">#&gt; $ osm_type       &lt;chr&gt; "way", "way"</span>
-<span class="co">#&gt; $ osm_id         &lt;int&gt; 899927546, 198500761</span>
-<span class="co">#&gt; $ osm_lat        &lt;chr&gt; "38.895859599999994", "43.6536032"</span>
-<span class="co">#&gt; $ osm_lon        &lt;chr&gt; "-77.0306779870984", "-79.38400546703345"</span>
-<span class="co">#&gt; $ tourism        &lt;chr&gt; "L’Enfant's plan", NA</span>
-<span class="co">#&gt; $ road           &lt;chr&gt; "Pennsylvania Avenue", "Queen Street West"</span>
+<span class="co">#&gt; $ address        &lt;chr&gt; "Freedom Plaza, 1455, Pennsylvania Avenue Northwest, Washington, District of Columbia, 20004, United States", "Toronto City Hall, 1…</span>
+<span class="co">#&gt; $ place_id       &lt;int&gt; 284009208, 148364261</span>
+<span class="co">#&gt; $ licence        &lt;chr&gt; "Data © OpenStreetMap contributors, ODbL 1.0. https://osm.org/copyright", "Data © OpenStreetMap contributors, ODbL 1.0. https://osm…</span>
+<span class="co">#&gt; $ osm_type       &lt;chr&gt; "relation", "way"</span>
+<span class="co">#&gt; $ osm_id         &lt;int&gt; 8060882, 198500761</span>
+<span class="co">#&gt; $ osm_lat        &lt;chr&gt; "38.895849999999996", "43.6536032"</span>
+<span class="co">#&gt; $ osm_lon        &lt;chr&gt; "-77.03077367444483", "-79.38400546703345"</span>
+<span class="co">#&gt; $ tourism        &lt;chr&gt; "Freedom Plaza", NA</span>
+<span class="co">#&gt; $ house_number   &lt;chr&gt; "1455", "100"</span>
+<span class="co">#&gt; $ road           &lt;chr&gt; "Pennsylvania Avenue Northwest", "Queen Street West"</span>
 <span class="co">#&gt; $ city           &lt;chr&gt; "Washington", "Old Toronto"</span>
 <span class="co">#&gt; $ state          &lt;chr&gt; "District of Columbia", "Ontario"</span>
-<span class="co">#&gt; $ postcode       &lt;chr&gt; "20045", "M5H 2N2"</span>
+<span class="co">#&gt; $ postcode       &lt;chr&gt; "20004", "M5H 2N2"</span>
 <span class="co">#&gt; $ country        &lt;chr&gt; "United States", "Canada"</span>
 <span class="co">#&gt; $ country_code   &lt;chr&gt; "us", "ca"</span>
-<span class="co">#&gt; $ boundingbox    &lt;list&gt; &lt;"38.8957273", "38.8959688", "-77.0311667", "-77.0301895"&gt;, &lt;"43.6529946", "43.6541458", "-79.3848438", "-79.3830415"&gt;</span>
+<span class="co">#&gt; $ boundingbox    &lt;list&gt; &lt;"38.8956276", "38.896068", "-77.03182", "-77.0297273"&gt;, &lt;"43.6529946", "43.6541458", "-79.3848438", "-79.3830415"&gt;</span>
 <span class="co">#&gt; $ amenity        &lt;chr&gt; NA, "Toronto City Hall"</span>
-<span class="co">#&gt; $ house_number   &lt;chr&gt; NA, "100"</span>
 <span class="co">#&gt; $ neighbourhood  &lt;chr&gt; NA, "Financial District"</span>
 <span class="co">#&gt; $ quarter        &lt;chr&gt; NA, "Spadina—Fort York"</span>
 <span class="co">#&gt; $ state_district &lt;chr&gt; NA, "Golden Horseshoe"</span></code></pre></div>
@@ -478,7 +478,7 @@ occurring in automated CRAN checks for an improper/old link.
 <span class="co">#&gt; limit : "1"</span>
 <span class="co">#&gt; format : "json"</span>
 <span class="co">#&gt; HTTP Status Code: 200</span>
-<span class="co">#&gt; Query completed in: 0.3 seconds</span>
+<span class="co">#&gt; Query completed in: 0.2 seconds</span>
 <span class="co">#&gt; Total query time (including sleep): 1 seconds</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; </span>
@@ -502,8 +502,8 @@ occurring in automated CRAN checks for an improper/old link.
 <tbody>
 <tr class="odd">
 <td align="left">11 Wall St, NY, NY</td>
-<td align="right">40.90805</td>
-<td align="right">-73.01708</td>
+<td align="right">40.70707</td>
+<td align="right">-74.01117</td>
 </tr>
 <tr class="even">
 <td align="left">600 Peachtree Street NE, Atlanta, Georgia</td>
@@ -512,8 +512,8 @@ occurring in automated CRAN checks for an improper/old link.
 </tr>
 <tr class="odd">
 <td align="left">11 Wall St, NY, NY</td>
-<td align="right">40.90805</td>
-<td align="right">-73.01708</td>
+<td align="right">40.70707</td>
+<td align="right">-74.01117</td>
 </tr>
 <tr class="even">
 <td align="left">600 Peachtree Street NE, Atlanta, Georgia</td>
@@ -552,8 +552,8 @@ occurring in automated CRAN checks for an improper/old link.
 <tbody>
 <tr class="odd">
 <td align="left">11 Wall St, NY, NY</td>
-<td align="right">40.90805</td>
-<td align="right">-73.01708</td>
+<td align="right">40.70707</td>
+<td align="right">-74.01117</td>
 </tr>
 <tr class="even">
 <td align="left">600 Peachtree Street NE, Atlanta, Georgia</td>
@@ -602,8 +602,8 @@ occurring in automated CRAN checks for an improper/old link.
 </tr>
 <tr class="even">
 <td align="left">Paris</td>
-<td align="right">48.85670</td>
-<td align="right">2.351462</td>
+<td align="right">48.85889</td>
+<td align="right">2.320041</td>
 <td align="left">osm</td>
 </tr>
 <tr class="odd">
@@ -627,7 +627,7 @@ occurring in automated CRAN checks for an improper/old link.
   <span class="op">)</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; Passing 3 addresses to the US Census batch geocoder</span>
-<span class="co">#&gt; Query completed in: 0.1 seconds</span>
+<span class="co">#&gt; Query completed in: 0.3 seconds</span>
 <span class="co">#&gt; Passing 3 addresses to the Nominatim single address geocoder</span>
 <span class="co">#&gt; Query completed in: 3 seconds</span></code></pre></div>
 <table class="table">
@@ -658,8 +658,8 @@ occurring in automated CRAN checks for an improper/old link.
 </tr>
 <tr class="even">
 <td align="left">Paris</td>
-<td align="right">48.85670</td>
-<td align="right">2.351462</td>
+<td align="right">48.85889</td>
+<td align="right">2.320041</td>
 <td align="left">osm</td>
 </tr>
 <tr class="odd">
@@ -694,18 +694,18 @@ occurring in automated CRAN checks for an improper/old link.
 <span class="co">#&gt; Rows: 6</span>
 <span class="co">#&gt; Columns: 13</span>
 <span class="co">#&gt; $ address      &lt;chr&gt; "Lima, Peru", "Lima, Peru", "Lima, Peru", "Cairo, Egypt", "Cairo, Egypt", "Cairo, Egypt"</span>
-<span class="co">#&gt; $ lat          &lt;dbl&gt; -12.06211, -12.20011, -11.99997, 30.03521, 30.04439, 30.03325</span>
-<span class="co">#&gt; $ long         &lt;dbl&gt; -77.03653, -76.28506, -76.83322, 31.56337, 31.23573, 31.56216</span>
-<span class="co">#&gt; $ place_id     &lt;int&gt; 258244064, 258655931, 258306819, 258758158, 793757, 298971141</span>
-<span class="co">#&gt; $ licence      &lt;chr&gt; "Data © OpenStreetMap contributors, ODbL 1.0. https://osm.org/copyright", "Data © OpenStreetMap contributors, ODbL 1.0. https://osm.…</span>
-<span class="co">#&gt; $ osm_type     &lt;chr&gt; "relation", "relation", "relation", "relation", "node", "relation"</span>
-<span class="co">#&gt; $ osm_id       &lt;int&gt; 1944756, 1944659, 1944670, 5466227, 271613766, 4103336</span>
-<span class="co">#&gt; $ boundingbox  &lt;list&gt; &lt;"-12.0797663", "-12.0303496", "-77.0884555", "-77.0017774"&gt;, &lt;"-13.3235137", "-10.2741856", "-77.8863105", "-75.5075"&gt;, &lt;"-12.51993…</span>
-<span class="co">#&gt; $ display_name &lt;chr&gt; "Lima, Lima Metropolitana, Lima, Perú", "Lima, Perú", "Lima, Lima Metropolitana, Lima, Perú", "القاهرة, محافظة القاهرة, مصر", "القاه…</span>
-<span class="co">#&gt; $ class        &lt;chr&gt; "boundary", "boundary", "boundary", "place", "place", "boundary"</span>
-<span class="co">#&gt; $ type         &lt;chr&gt; "administrative", "administrative", "administrative", "city", "city", "administrative"</span>
-<span class="co">#&gt; $ importance   &lt;dbl&gt; 0.7830015, 0.6119761, 0.5934835, 0.6960286, 0.6960286, 0.4835559</span>
-<span class="co">#&gt; $ icon         &lt;chr&gt; "https://nominatim.openstreetmap.org/ui/mapicons//poi_boundary_administrative.p.20.png", "https://nominatim.openstreetmap.org/ui/map…</span></code></pre></div>
+<span class="co">#&gt; $ lat          &lt;dbl&gt; -11.96784, -12.03089, -11.95785, 30.04439, 30.08695, 30.22503</span>
+<span class="co">#&gt; $ long         &lt;dbl&gt; -77.01094, -77.09072, -77.04139, 31.23573, 31.96162, 31.69733</span>
+<span class="co">#&gt; $ place_id     &lt;int&gt; 128601425, 118029294, 128061402, 283020077, 216381765, 272362266</span>
+<span class="co">#&gt; $ licence      &lt;chr&gt; "Data © OpenStreetMap contributors, ODbL 1.0. https://osm.org/copyright", "Data © OpenStreetMap contributors, ODbL 1.0. https://osm.o…</span>
+<span class="co">#&gt; $ osm_type     &lt;chr&gt; "way", "way", "way", "relation", "way", "way"</span>
+<span class="co">#&gt; $ osm_id       &lt;int&gt; 116948976, 71187508, 115715296, 5466227, 544272017, 914722135</span>
+<span class="co">#&gt; $ boundingbox  &lt;list&gt; &lt;"-11.9678367", "-11.9672995", "-77.0117952", "-77.0109387"&gt;, &lt;"-12.0308994", "-12.0304024", "-77.0911106", "-77.090276"&gt;, &lt;"-11.9608…</span>
+<span class="co">#&gt; $ display_name &lt;chr&gt; "Peru, San Juan de Lurigancho, Huascar, Lima, Lima Metropolitana, Lima, 15423, Perú", "Peru, San Martín de Porres, Lima, Lima Metropo…</span>
+<span class="co">#&gt; $ class        &lt;chr&gt; "highway", "highway", "highway", "place", "highway", "highway"</span>
+<span class="co">#&gt; $ type         &lt;chr&gt; "residential", "residential", "residential", "city", "motorway", "trunk"</span>
+<span class="co">#&gt; $ importance   &lt;dbl&gt; 0.3200000, 0.3200000, 0.3200000, 0.6960286, 0.1000000, 0.1000000</span>
+<span class="co">#&gt; $ icon         &lt;chr&gt; NA, NA, NA, "https://nominatim.openstreetmap.org/ui/mapicons//poi_place_city.p.20.png", NA, NA</span></code></pre></div>
 <p>To directly specify specific API parameters for a given <code>method</code> you can use the <code>custom_query</code> parameter. For example, <a href="https://nominatim.org/release-docs/develop/api/Details/#parameters">the Nominatim (OSM) geocoder has a ‘polygon_geojson’ argument</a> that can be used to return GeoJSON geometry content. To pass this parameter you can insert it with a named list using the <code>custom_query</code> argument:</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">cairo_geo</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/geo.html">geo</a></span><span class="op">(</span><span class="st">"Cairo, Egypt"</span>,
@@ -724,7 +724,7 @@ occurring in automated CRAN checks for an improper/old link.
 <span class="co">#&gt; polygon_geojson : "1"</span>
 <span class="co">#&gt; format : "json"</span>
 <span class="co">#&gt; HTTP Status Code: 200</span>
-<span class="co">#&gt; Query completed in: 0.1 seconds</span>
+<span class="co">#&gt; Query completed in: 0.2 seconds</span>
 <span class="co">#&gt; Total query time (including sleep): 1 seconds</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; Query completed in: 1 seconds</span>
@@ -732,9 +732,9 @@ occurring in automated CRAN checks for an improper/old link.
 <span class="co">#&gt; Rows: 1</span>
 <span class="co">#&gt; Columns: 15</span>
 <span class="co">#&gt; $ address             &lt;chr&gt; "Cairo, Egypt"</span>
-<span class="co">#&gt; $ lat                 &lt;dbl&gt; 30.03521</span>
-<span class="co">#&gt; $ long                &lt;dbl&gt; 31.56337</span>
-<span class="co">#&gt; $ place_id            &lt;int&gt; 258758158</span>
+<span class="co">#&gt; $ lat                 &lt;dbl&gt; 30.04439</span>
+<span class="co">#&gt; $ long                &lt;dbl&gt; 31.23573</span>
+<span class="co">#&gt; $ place_id            &lt;int&gt; 283020077</span>
 <span class="co">#&gt; $ licence             &lt;chr&gt; "Data © OpenStreetMap contributors, ODbL 1.0. https://osm.org/copyright"</span>
 <span class="co">#&gt; $ osm_type            &lt;chr&gt; "relation"</span>
 <span class="co">#&gt; $ osm_id              &lt;int&gt; 5466227</span>
@@ -799,6 +799,7 @@ occurring in automated CRAN checks for an improper/old link.
 <li>The <code>mode</code> argument can be used to specify whether the batch geocoding or single address/coordinate geocoding should be used. By default batch geocoding will be used if available when more than one address or coordinate is provided (with some noted exceptions for slower batch geocoding services).</li>
 <li>The <code>return_addresses</code> and <code>return_coords</code> parameters (for forward and reverse geocoding respectively) can be used to toggle whether the input addresses or coordinates are returned. Setting these parameters to <code>FALSE</code> is necessary to use batch geocoding if <code>limit</code> is greater than 1 or NULL.</li>
 <li>For the <code><a href="../reference/reverse_geocode.html">reverse_geocode()</a></code> and <code><a href="../reference/geocode.html">geocode()</a></code> functions, the <code>return_input</code> argument can be used to toggle if the input dataset is included in the returned dataframe.</li>
+<li>For use with the <a href="https://memoise.r-lib.org/">memoise package</a>, you may need to use character values when specifying input data columns in the <code><a href="../reference/geocode.html">geocode()</a></code> and <code><a href="../reference/reverse_geocode.html">reverse_geocode()</a></code> functions. See <a href="https://github.com/jessecambon/tidygeocoder/pull/154">#154</a> for details.</li>
 </ul>
 </div>
   </div>

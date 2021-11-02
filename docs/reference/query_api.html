@@ -89,7 +89,7 @@ function to execute." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">tidygeocoder</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.4.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.5</span>
       </span>
     </div>
 
@@ -249,12 +249,13 @@ function to execute.</p>
 </div><div class='output co'>#&gt; [1] 200</div><div class='input'>   
 <span class='fu'><a href='extract_results.html'>extract_results</a></span><span class='op'>(</span><span class='st'>'osm'</span>, <span class='fu'>jsonlite</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/jsonlite/man/fromJSON.html'>fromJSON</a></span><span class='op'>(</span><span class='va'>raw1</span><span class='op'>$</span><span class='va'>content</span><span class='op'>)</span><span class='op'>)</span>
 </div><div class='output co'>#&gt;        lat      lon  place_id
-#&gt; 1 21.02945 105.8544 309312568
-#&gt; 2 21.04456 105.9187 329581031
-#&gt; 3 20.99176 105.7968 235888882
-#&gt; 4 21.03667 105.7827 257198423
-#&gt; 5 21.02930 105.8572  55046555
-#&gt; 6 21.03665 105.7827  83738781
+#&gt; 1 21.02945 105.8544 282631247
+#&gt; 2 21.04456 105.9187 151044464
+#&gt; 3 20.99176 105.7968 246307827
+#&gt; 4 21.04778 105.8143  53777587
+#&gt; 5 21.03667 105.7827 267001250
+#&gt; 6 21.02930 105.8572  53727173
+#&gt; 7 21.03669 105.7827  81907432
 #&gt;                                                                  licence
 #&gt; 1 Data © OpenStreetMap contributors, ODbL 1.0. https://osm.org/copyright
 #&gt; 2 Data © OpenStreetMap contributors, ODbL 1.0. https://osm.org/copyright
@@ -262,44 +263,50 @@ function to execute.</p>
 #&gt; 4 Data © OpenStreetMap contributors, ODbL 1.0. https://osm.org/copyright
 #&gt; 5 Data © OpenStreetMap contributors, ODbL 1.0. https://osm.org/copyright
 #&gt; 6 Data © OpenStreetMap contributors, ODbL 1.0. https://osm.org/copyright
+#&gt; 7 Data © OpenStreetMap contributors, ODbL 1.0. https://osm.org/copyright
 #&gt;   osm_type     osm_id                                      boundingbox
 #&gt; 1 relation    1903516 20.5645154, 21.3852777, 105.2848986, 106.0200725
 #&gt; 2      way  208502808   21.0437964, 21.0453238, 105.9181301, 105.91946
 #&gt; 3      way  736412443  20.9907136, 20.9928221, 105.795787, 105.7978094
-#&gt; 4      way  872332878  21.0365605, 21.0367753, 105.7821469, 105.783248
-#&gt; 5     node 4747249104   21.029253, 21.029353, 105.8571969, 105.8572969
-#&gt; 6     node 8124813874   21.036605, 21.036705, 105.7826401, 105.7827401
-#&gt;                                                                                                                            display_name
-#&gt; 1                                                                                                            Thành phố Hà Nội, Việt Nam
-#&gt; 2        British International School, Hanoi, Hoa Lan, Phúc Lợi, Vinhomes Riverside, Quận Long Biên, Thành phố Hà Nội, 100000, Việt Nam
-#&gt; 3            Đại học quốc gia Hà Nội, 182, Đường Lương Thế Vinh, Phường Trung Văn, Quận Nam Từ Liêm, Thành phố Hà Nội, 120406, Việt Nam
-#&gt; 4                                           Đại học Quốc gia Hà Nội, Đường Xuân Thủy, Quận Cầu Giấy, Thành phố Hà Nội, 122000, Việt Nam
-#&gt; 5 Đại sứ quán Đan Mạch tại Hà Nội, Việt Nam, 194, Đường Trần Quang Khải, Lý Thái Tổ, Quận Hoàn Kiếm, Thành phố Hà Nội, 110905, Việt Nam
-#&gt; 6                                           Đại học Quốc gia Hà Nội, Đường Xuân Thủy, Quận Cầu Giấy, Thành phố Hà Nội, 122000, Việt Nam
+#&gt; 4     node 4753131321 21.0477253, 21.0478253, 105.8142571, 105.8143571
+#&gt; 5      way  872332878  21.0365605, 21.0367753, 105.7821469, 105.783248
+#&gt; 6     node 4747249104   21.029253, 21.029353, 105.8571969, 105.8572969
+#&gt; 7     node 8124813873 21.0366379, 21.0367379, 105.7826432, 105.7827432
+#&gt;                                                                                                                              display_name
+#&gt; 1                                                                                                              Thành phố Hà Nội, Việt Nam
+#&gt; 2 British International School, Hanoi, Hoa Lan 2, Vinhomes Riverside, Phường Phúc Lợi, Quận Long Biên, Thành phố Hà Nội, 100000, Việt Nam
+#&gt; 3             Đại học quốc gia Hà Nội, 182, Đường Lương Thế Vinh, Phường Trung Văn, Quận Nam Từ Liêm, Thành phố Hà Nội, 1000001, Việt Nam
+#&gt; 4                    Venezuelan Embassy in Hanoi, Vietnam, 111, Phố Trích Sài, Phường Bưởi, Quận Tây Hồ, Thành phố Hà Nội, 1000, Việt Nam
+#&gt; 5                                             Đại học Quốc gia Hà Nội, Đường Xuân Thủy, Quận Cầu Giấy, Thành phố Hà Nội, 122000, Việt Nam
+#&gt; 6   Đại sứ quán Đan Mạch tại Hà Nội, Việt Nam, 194, Đường Trần Quang Khải, Lý Thái Tổ, Quận Hoàn Kiếm, Thành phố Hà Nội, 110905, Việt Nam
+#&gt; 7                                             Đại học Quốc gia Hà Nội, Đường Xuân Thủy, Quận Cầu Giấy, Thành phố Hà Nội, 122000, Việt Nam
 #&gt;      class           type importance
 #&gt; 1 boundary administrative  0.6282962
 #&gt; 2 building         school  0.4099978
 #&gt; 3  amenity     university  0.3945655
-#&gt; 4  railway        station  0.0010000
-#&gt; 5   office     diplomatic  0.0010000
-#&gt; 6  railway           stop  0.0010000
+#&gt; 4   office     diplomatic  0.2110000
+#&gt; 5  railway        station  0.0010000
+#&gt; 6   office     diplomatic  0.0010000
+#&gt; 7  railway           stop  0.0010000
 #&gt;                                                                                    icon
 #&gt; 1 https://nominatim.openstreetmap.org/ui/mapicons//poi_boundary_administrative.p.20.png
 #&gt; 2                                                                                  &lt;NA&gt;
 #&gt; 3        https://nominatim.openstreetmap.org/ui/mapicons//education_university.p.20.png
-#&gt; 4    https://nominatim.openstreetmap.org/ui/mapicons//transport_train_station2.p.20.png
-#&gt; 5                                                                                  &lt;NA&gt;
-#&gt; 6                                                                                  &lt;NA&gt;</div><div class='input'>
+#&gt; 4                                                                                  &lt;NA&gt;
+#&gt; 5    https://nominatim.openstreetmap.org/ui/mapicons//transport_train_station2.p.20.png
+#&gt; 6                                                                                  &lt;NA&gt;
+#&gt; 7                                                                                  &lt;NA&gt;</div><div class='input'>
 <span class='va'>raw2</span> <span class='op'>&lt;-</span> <span class='fu'>query_api</span><span class='op'>(</span><span class='st'>"http://nominatim.openstreetmap.org/reverse"</span>, 
    <span class='fu'><a href='get_api_query.html'>get_api_query</a></span><span class='op'>(</span><span class='st'>"osm"</span>, custom_parameters <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>lat <span class='op'>=</span> <span class='fl'>38.895865</span>, lon <span class='op'>=</span> <span class='op'>-</span><span class='fl'>77.0307713</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>
    
 <span class='fu'><a href='extract_reverse_results.html'>extract_reverse_results</a></span><span class='op'>(</span><span class='st'>'osm'</span>, <span class='fu'>jsonlite</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/jsonlite/man/fromJSON.html'>fromJSON</a></span><span class='op'>(</span><span class='va'>raw2</span><span class='op'>$</span><span class='va'>content</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 1 × 15</span>
-#&gt;   display_name   place_id licence  osm_type osm_id osm_lat osm_lon tourism road 
-#&gt;   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>             <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>    <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>     <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>
-#&gt; <span style='color: #BCBCBC;'>1</span> L’Enfant's pl…   3.02<span style='color: #949494;'>e</span>8 Data © … way      9.00<span style='color: #949494;'>e</span>8 38.895… -77.03… L’Enfa… Penn…
-#&gt; <span style='color: #949494;'># … with 6 more variables: city &lt;chr&gt;, state &lt;chr&gt;, postcode &lt;chr&gt;,</span>
-#&gt; <span style='color: #949494;'>#   country &lt;chr&gt;, country_code &lt;chr&gt;, boundingbox &lt;list&gt;</span></div><div class='input'><span class='co'># }</span>
+</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 1 × 16</span>
+#&gt;   display_name      place_id licence     osm_type osm_id osm_lat osm_lon tourism
+#&gt;   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>                <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>       <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>     <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>  
+#&gt; <span style='color: #BCBCBC;'>1</span> Freedom Plaza, … 284<span style='text-decoration: underline;'>009</span>208 Data © Ope… relation 8.06<span style='color: #949494;'>e</span>6 38.895… -77.03… Freedo…
+#&gt; <span style='color: #949494;'># … with 8 more variables: house_number &lt;chr&gt;, road &lt;chr&gt;, city &lt;chr&gt;,</span>
+#&gt; <span style='color: #949494;'>#   state &lt;chr&gt;, postcode &lt;chr&gt;, country &lt;chr&gt;, country_code &lt;chr&gt;,</span>
+#&gt; <span style='color: #949494;'>#   boundingbox &lt;list&gt;</span></div><div class='input'><span class='co'># }</span>
 
 </div></pre>
   </div>

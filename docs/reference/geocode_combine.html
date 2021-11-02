@@ -97,7 +97,7 @@ use the query_names parameter." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">tidygeocoder</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.4.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.5</span>
       </span>
     </div>
 
@@ -205,8 +205,8 @@ use the <code>query_names</code> parameter.</p>
   return_list <span class='op'>=</span> <span class='cn'>FALSE</span>,
   cascade <span class='op'>=</span> <span class='cn'>TRUE</span>,
   query_names <span class='op'>=</span> <span class='cn'>NULL</span>,
-  lat <span class='op'>=</span> <span class='va'>lat</span>,
-  long <span class='op'>=</span> <span class='va'>long</span>
+  lat <span class='op'>=</span> <span class='st'>"lat"</span>,
+  long <span class='op'>=</span> <span class='st'>"long"</span>
 <span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -219,7 +219,7 @@ use the <code>query_names</code> parameter.</p>
     <tr>
       <th>queries</th>
       <td><p>a list of queries, each provided as a list of parameters. The queries are
-executed in the order provided by the <a href='geocode.html'>geocode</a> function.
+executed by the <a href='geocode.html'>geocode</a> function in the order provided.
 (ex. <code><a href='https://rdrr.io/r/base/list.html'>list(list(method = 'osm'), list(method = 'census'), ...)</a></code>)</p></td>
     </tr>
     <tr>
@@ -269,18 +269,18 @@ attempt to geocode all addresses.</p></td>
   <span class='fu'>geocode_combine</span><span class='op'>(</span>
     queries <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>method <span class='op'>=</span> <span class='st'>'census'</span><span class='op'>)</span>, <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>method <span class='op'>=</span> <span class='st'>'osm'</span><span class='op'>)</span><span class='op'>)</span>,
     global_params <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>address <span class='op'>=</span> <span class='st'>'addr'</span><span class='op'>)</span>, cascade <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; </div><div class='output co'>#&gt; </div><div class='output co'>#&gt; <span class='message'>Passing 9 addresses to the US Census batch geocoder</span></div><div class='output co'>#&gt; <span class='message'>Query completed in: 1.4 seconds</span></div><div class='output co'>#&gt; <span class='message'>Passing 5 addresses to the Nominatim single address geocoder</span></div><div class='output co'>#&gt; <span class='message'>Query completed in: 5 seconds</span></div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 9 × 5</span>
-#&gt;   name                 addr                                     lat   long query
-#&gt;   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>                <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>                                  <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>
-#&gt; <span style='color: #BCBCBC;'>1</span> White House          1600 Pennsylvania Ave NW Washington, … 38.9   -<span style='color: #BB0000;'>77.0</span> cens…
-#&gt; <span style='color: #BCBCBC;'>2</span> Transamerica Pyramid 600 Montgomery St, San Francisco, CA … 37.8  -<span style='color: #BB0000;'>122.</span>  cens…
-#&gt; <span style='color: #BCBCBC;'>3</span> NY Stock Exchange    11 Wall Street, New York, New York     40.7   -<span style='color: #BB0000;'>74.0</span> cens…
-#&gt; <span style='color: #BCBCBC;'>4</span> Willis Tower         233 S Wacker Dr, Chicago, IL 60606     41.9   -<span style='color: #BB0000;'>87.6</span> cens…
-#&gt; <span style='color: #BCBCBC;'>5</span> Chateau Frontenac    1 Rue des Carrieres, Quebec, QC G1R 4… 46.8   -<span style='color: #BB0000;'>71.2</span> osm  
-#&gt; <span style='color: #BCBCBC;'>6</span> Nashville            Nashville, TN                          36.2   -<span style='color: #BB0000;'>86.8</span> osm  
-#&gt; <span style='color: #BCBCBC;'>7</span> Nairobi              Nairobi, Kenya                         -<span style='color: #BB0000;'>1.30</span>   36.8 osm  
-#&gt; <span style='color: #BCBCBC;'>8</span> Istanbul             Istanbul, Turkey                       41.0    29.0 osm  
-#&gt; <span style='color: #BCBCBC;'>9</span> Tokyo                Tokyo, Japan                           35.7   140.  osm  </div><div class='input'>
+</div><div class='output co'>#&gt; </div><div class='output co'>#&gt; </div><div class='output co'>#&gt; <span class='message'>Passing 9 addresses to the US Census batch geocoder</span></div><div class='output co'>#&gt; <span class='message'>Query completed in: 1.1 seconds</span></div><div class='output co'>#&gt; <span class='message'>Passing 5 addresses to the Nominatim single address geocoder</span></div><div class='output co'>#&gt; <span class='message'>Query completed in: 5 seconds</span></div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 9 × 5</span>
+#&gt;   name                 addr                                   lat   long query  
+#&gt;   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>                <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>                                <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>  
+#&gt; <span style='color: #BCBCBC;'>1</span> White House          1600 Pennsylvania Ave NW Washington… 38.9   -<span style='color: #BB0000;'>77.0</span> <span style='color: #949494;'>"</span>censu…
+#&gt; <span style='color: #BCBCBC;'>2</span> Transamerica Pyramid 600 Montgomery St, San Francisco, C… 37.8  -<span style='color: #BB0000;'>122.</span>  <span style='color: #949494;'>"</span>censu…
+#&gt; <span style='color: #BCBCBC;'>3</span> NY Stock Exchange    11 Wall Street, New York, New York   40.7   -<span style='color: #BB0000;'>74.0</span> <span style='color: #949494;'>"</span>censu…
+#&gt; <span style='color: #BCBCBC;'>4</span> Willis Tower         233 S Wacker Dr, Chicago, IL 60606   41.9   -<span style='color: #BB0000;'>87.6</span> <span style='color: #949494;'>"</span>censu…
+#&gt; <span style='color: #BCBCBC;'>5</span> Chateau Frontenac    1 Rue des Carrieres, Quebec, QC G1R… <span style='color: #BB0000;'>NA</span>      <span style='color: #BB0000;'>NA</span>   <span style='color: #949494;'>""</span>     
+#&gt; <span style='color: #BCBCBC;'>6</span> Nashville            Nashville, TN                        36.2   -<span style='color: #BB0000;'>86.8</span> <span style='color: #949494;'>"</span>osm<span style='color: #949494;'>"</span>  
+#&gt; <span style='color: #BCBCBC;'>7</span> Nairobi              Nairobi, Kenya                       -<span style='color: #BB0000;'>1.28</span>   36.8 <span style='color: #949494;'>"</span>osm<span style='color: #949494;'>"</span>  
+#&gt; <span style='color: #BCBCBC;'>8</span> Istanbul             Istanbul, Turkey                     41.0    29.0 <span style='color: #949494;'>"</span>osm<span style='color: #949494;'>"</span>  
+#&gt; <span style='color: #BCBCBC;'>9</span> Tokyo                Tokyo, Japan                         35.7   140.  <span style='color: #949494;'>"</span>osm<span style='color: #949494;'>"</span>  </div><div class='input'>
 <span class='va'>more_addresses</span> <span class='op'>&lt;-</span> <span class='fu'>tibble</span><span class='fu'>::</span><span class='fu'><a href='https://tibble.tidyverse.org/reference/tribble.html'>tribble</a></span><span class='op'>(</span>
      <span class='op'>~</span><span class='va'>street_address</span>, <span class='op'>~</span><span class='va'>city</span>, <span class='op'>~</span><span class='va'>state</span>,        <span class='op'>~</span><span class='va'>zip_cd</span>,
      <span class='st'>"624 W DAVIS ST #1D"</span>,   <span class='st'>"BURLINGTON"</span>, <span class='st'>"NC"</span>, <span class='fl'>27215</span>,
@@ -300,13 +300,13 @@ attempt to geocode all addresses.</p></td>
        city <span class='op'>=</span> <span class='st'>'city'</span>, state <span class='op'>=</span> <span class='st'>'state'</span>, postalcode <span class='op'>=</span> <span class='st'>'zip_cd'</span><span class='op'>)</span>,
      query_names <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>'census batch'</span>, <span class='st'>'census single'</span>, <span class='st'>'osm'</span><span class='op'>)</span>
    <span class='op'>)</span>
-</div><div class='output co'>#&gt; </div><div class='output co'>#&gt; </div><div class='output co'>#&gt; </div><div class='output co'>#&gt; <span class='message'>Passing 4 addresses to the US Census batch geocoder</span></div><div class='output co'>#&gt; <span class='message'>Query completed in: 0.7 seconds</span></div><div class='output co'>#&gt; <span class='message'>Passing 3 addresses to the US Census single address geocoder</span></div><div class='output co'>#&gt; <span class='message'>Query completed in: 2.2 seconds</span></div><div class='output co'>#&gt; <span class='message'>Passing 1 address to the Nominatim single address geocoder</span></div><div class='output co'>#&gt; <span class='message'>Query completed in: 1 seconds</span></div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 4 × 7</span>
+</div><div class='output co'>#&gt; </div><div class='output co'>#&gt; </div><div class='output co'>#&gt; </div><div class='output co'>#&gt; <span class='message'>Passing 4 addresses to the US Census batch geocoder</span></div><div class='output co'>#&gt; <span class='message'>Query completed in: 0.3 seconds</span></div><div class='output co'>#&gt; <span class='message'>Passing 3 addresses to the US Census single address geocoder</span></div><div class='output co'>#&gt; <span class='message'>Query completed in: 1.7 seconds</span></div><div class='output co'>#&gt; <span class='message'>Passing 1 address to the Nominatim single address geocoder</span></div><div class='output co'>#&gt; <span class='message'>Query completed in: 1 seconds</span></div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 4 × 7</span>
 #&gt;   street_address       city       state zip_cd   lat   long query        
 #&gt;   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>                <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>      <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>        
-#&gt; <span style='color: #BCBCBC;'>1</span> 624 W DAVIS ST #1D   BURLINGTON NC     <span style='text-decoration: underline;'>27</span>215  36.1 -<span style='color: #BB0000;'>79.4</span>  census single
-#&gt; <span style='color: #BCBCBC;'>2</span> 201 E CENTER ST #268 MEBANE     NC     <span style='text-decoration: underline;'>27</span>302  36.1 -<span style='color: #BB0000;'>79.3</span>  census single
-#&gt; <span style='color: #BCBCBC;'>3</span> 100 Wall Street      New York   NY     <span style='text-decoration: underline;'>10</span>005  40.7 -<span style='color: #BB0000;'>74.0</span>  census batch 
-#&gt; <span style='color: #BCBCBC;'>4</span> Bucharest            <span style='color: #BB0000;'>NA</span>         <span style='color: #BB0000;'>NA</span>        <span style='color: #BB0000;'>NA</span>  50.4  -<span style='color: #BB0000;'>4.13</span> osm          </div><div class='input'>   
+#&gt; <span style='color: #BCBCBC;'>1</span> 624 W DAVIS ST #1D   BURLINGTON NC     <span style='text-decoration: underline;'>27</span>215  36.1  -<span style='color: #BB0000;'>79.4</span> census single
+#&gt; <span style='color: #BCBCBC;'>2</span> 201 E CENTER ST #268 MEBANE     NC     <span style='text-decoration: underline;'>27</span>302  36.1  -<span style='color: #BB0000;'>79.3</span> census single
+#&gt; <span style='color: #BCBCBC;'>3</span> 100 Wall Street      New York   NY     <span style='text-decoration: underline;'>10</span>005  40.7  -<span style='color: #BB0000;'>74.0</span> census batch 
+#&gt; <span style='color: #BCBCBC;'>4</span> Bucharest            <span style='color: #BB0000;'>NA</span>         <span style='color: #BB0000;'>NA</span>        <span style='color: #BB0000;'>NA</span>  33.5 -<span style='color: #BB0000;'>117.</span>  osm          </div><div class='input'>   
  <span class='va'>more_addresses</span> <span class='op'>%&gt;%</span>
    <span class='fu'>geocode_combine</span><span class='op'>(</span> 
      queries <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>
@@ -317,7 +317,7 @@ attempt to geocode all addresses.</p></td>
      cascade <span class='op'>=</span> <span class='cn'>FALSE</span>,
      return_list <span class='op'>=</span> <span class='cn'>TRUE</span>
    <span class='op'>)</span>
-</div><div class='output co'>#&gt; </div><div class='output co'>#&gt; </div><div class='output co'>#&gt; <span class='message'>Passing 4 addresses to the US Census batch geocoder</span></div><div class='output co'>#&gt; <span class='message'>Query completed in: 0.6 seconds</span></div><div class='output co'>#&gt; <span class='message'>Passing 4 addresses to the ArcGIS single address geocoder</span></div><div class='output co'>#&gt; <span class='message'>Query completed in: 1.4 seconds</span></div><div class='output co'>#&gt; $census
+</div><div class='output co'>#&gt; </div><div class='output co'>#&gt; </div><div class='output co'>#&gt; <span class='message'>Passing 4 addresses to the US Census batch geocoder</span></div><div class='output co'>#&gt; <span class='message'>Query completed in: 0.4 seconds</span></div><div class='output co'>#&gt; <span class='message'>Passing 4 addresses to the ArcGIS single address geocoder</span></div><div class='output co'>#&gt; <span class='message'>Query completed in: 1.1 seconds</span></div><div class='output co'>#&gt; $census
 #&gt; <span style='color: #949494;'># A tibble: 4 × 6</span>
 #&gt;   street_address       city       state zip_cd   lat  long
 #&gt;   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>                <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>      <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>

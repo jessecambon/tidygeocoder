@@ -1,6 +1,7 @@
 # http://r-pkgs.had.co.nz/inst.html#inst-citation
 
-version_note <- "R package version 1.0.4"
+# IMPORTANT: update the version note before release
+version_note <- "R package version 1.0.5"
 
 citHeader("To cite tidygeocoder use:")
 
@@ -13,11 +14,11 @@ citEntry(
     person("Christopher", "Belanger"),
     person("Daniel", "Possenriede")
     ),
-  doi = "10.21105/joss.03544",
-  url = "https://doi.org/10.21105/joss.03544",
+  year = "2021",
   journal = "Journal of Open Source Software",
   publisher = "The Open Journal",
-  year = "2021",
+  doi = "10.21105/joss.03544",
+  url = "https://doi.org/10.21105/joss.03544",
   volume = "6",
   number = "65",
   pages = "3544",

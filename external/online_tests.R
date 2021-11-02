@@ -16,6 +16,8 @@ methods_to_test <- all_methods
 
 #methods_to_test <- setdiff(all_methods, c('here', 'mapbox', 'bing'))
 #methods_to_test <- c('census', 'osm', 'geocodio', 'opencage', 'google', 'geoapify', 'arcgis')
+#methods_to_test <- c('census', 'osm', 'geocodio', 'opencage', 'arcgis')
+
 
 ##############################################################################################
 
@@ -118,27 +120,28 @@ test_error_catching <- function(method, generic_args = list(), custom_args = lis
 # This test uses the census batch geocoder but it should apply to all methods
 test_that("test forward batch limit", {
   
-  sample_addresses <- tidygeocoder::louisville %>% head(10) %>%
-    mutate(combi_addr = paste(street, city,',', state, zip)) %>%
+  louisville_addresses <- tidygeocoder::louisville %>% 
+    head(10) %>%
+    mutate(combi_addr = paste0(street, ' ', city, ', ', state, ' ', zip)) %>%
     pull(combi_addr)
 
   print(paste0('Testing batch limit'))
-  expect_error(geo(sample_addresses, method = 'census', full_results = TRUE, mode = 'batch',
+  expect_error(geo(louisville_addresses, method = 'census', full_results = TRUE, mode = 'batch',
             batch_limit = 5))
   
-  expect_error(result1 <- geo(sample_addresses, method = 'census', full_results = TRUE, 
+  expect_error(result1 <- geo(louisville_addresses, method = 'census', full_results = TRUE, 
                    batch_limit = 5))
   
   # check that a 1 row dataframe is returned
-  expect_true(is_tibble(result1))
-  expect_equal(nrow(result1), length(sample_addresses))
+  # expect_true(is_tibble(result1))
+  # expect_equal(nrow(result1), length(sample_addresses))
   
   # check address
-  expect_equal(result1$address, sample_addresses)
+  # expect_equal(result1$address, sample_addresses)
   
   # check that all lat long values are numeric
-  expect_true(all(is.numeric(result1$lat)))
-  expect_true(all(is.numeric(result1$long)))
+  # expect_true(all(is.numeric(result1$lat)))
+  # expect_true(all(is.numeric(result1$long)))
 })
 
 

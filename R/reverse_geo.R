@@ -87,6 +87,8 @@ get_coord_parameters <- function(custom_query, method, lat, long) {
 #' @inherit geo return
 #' @examples
 #' \donttest{
+#' options(tidygeocoder.progress_bar = FALSE)
+#' 
 #'  reverse_geo(lat = 38.895865, long = -77.0307713, method = 'osm')
 #'  
 #'  reverse_geo(
@@ -98,14 +100,35 @@ get_coord_parameters <- function(custom_query, method, lat, long) {
 #' }
 #' @seealso [reverse_geocode] [api_parameter_reference] [min_time_reference] [batch_limit_reference]
 #' @export
-reverse_geo <- function(lat, long, method = 'osm', address = address, limit = 1, 
-    full_results = FALSE, mode = '', unique_only = FALSE, return_coords = TRUE,
-    min_time = NULL, progress_bar = show_progress_bar(), quiet = getOption("tidygeocoder.quiet", FALSE), 
-    api_url = NULL, timeout = 20, flatten = TRUE, 
-    batch_limit = NULL, verbose = getOption("tidygeocoder.verbose", FALSE), 
-    no_query = FALSE, custom_query = list(), api_options = list(), iq_region = 'us', geocodio_v = 1.6,
-    mapbox_permanent = FALSE, here_request_id = NULL, mapquest_open = FALSE) {
-
+reverse_geo <-
+  function(
+    lat,
+    long,
+    method = 'osm',
+    address = 'address',
+    limit = 1,
+    full_results = FALSE,
+    mode = '',
+    unique_only = FALSE,
+    return_coords = TRUE,
+    min_time = NULL,
+    progress_bar = show_progress_bar(),
+    quiet = getOption("tidygeocoder.quiet", FALSE),
+    api_url = NULL,
+    timeout = 20,
+    flatten = TRUE,
+    batch_limit = NULL,
+    verbose = getOption("tidygeocoder.verbose", FALSE),
+    no_query = FALSE,
+    custom_query = list(),
+    api_options = list(),
+    iq_region = 'us',
+    geocodio_v = 1.6,
+    mapbox_permanent = FALSE,
+    here_request_id = NULL,
+    mapquest_open = FALSE
+  ) {
+    
   # NSE eval
   address <- rm_quote(deparse(substitute(address)))
   

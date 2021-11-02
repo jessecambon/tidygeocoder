@@ -1,3 +1,7 @@
+# The functions in this file are deprecated and will be removed in a future
+# version of tidygeocoder
+
+
 #' Convenience functions for calling `geo()`
 #' 
 #' @description The `method` for `geo()` is specified in the function name.
@@ -96,8 +100,6 @@ geo_cascade <- function(...) {
   lifecycle::deprecate_warn("1.0.3", "geo_cascade()", "geo()")
   return(geo(method = 'cascade', ...))
 }
-
-
 
 
 ## private cascade geocoding function

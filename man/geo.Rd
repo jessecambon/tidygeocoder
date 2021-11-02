@@ -14,8 +14,8 @@ geo(
   country = NULL,
   method = "osm",
   cascade_order = c("census", "osm"),
-  lat = lat,
-  long = long,
+  lat = "lat",
+  long = "long",
   limit = 1,
   full_results = FALSE,
   mode = "",
@@ -151,7 +151,7 @@ Used for testing.}
 with the name of the \code{method} (service) it applies to. The possible parameters
 are shown below with their default values.
 \itemize{
-\item \code{census_return_type} (default: \code{"locations"}): set to "geographies" to return
+\item \code{census_return_type} (default: \code{"locations"}): set to \code{"geographies"} to return
 additional geography columns. Make sure to use \code{full_results = TRUE} if using
 the "geographies" setting.
 \item \code{iq_region} (default: \code{"us"}): set to "eu" to use the European Union API endpoint
@@ -209,6 +209,8 @@ API queries.
 }
 \examples{
 \donttest{
+options(tidygeocoder.progress_bar = FALSE)
+
 geo(street = "600 Peachtree Street NE", city = "Atlanta",
  state = "Georgia", method = "census")
 

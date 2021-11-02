@@ -1,4 +1,4 @@
-### Functions for reverse batch geocoding that are called by reverse_geo()
+# Functions for reverse batch geocoding that are called by reverse_geo()
 
 
 # Reverse Batch geocoding with geocodio
