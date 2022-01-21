@@ -46,7 +46,10 @@ extract_results <- function(method, response, full_results = TRUE, flatten = TRU
       'geoapify' = data.frame(
         lat = response$features$geometry$coordinates[[1]][2], 
         lon = response$features$geometry$coordinates[[1]][1]
-      ) # geoapify returns GeoJSON
+      ), # geoapify returns GeoJSON
+      'geocode.xyz' = data.frame(
+        lat = response$latt,
+        lon = response$longt)
   )
   
   # Return NA if data is not empty or not valid (cannot be turned into a dataframe)
@@ -89,7 +92,8 @@ extract_results <- function(method, response, full_results = TRUE, flatten = TRU
             # bbox is not always returned. if it is null then return NA
             tibble::as_tibble(c(bbox = list(
               if (is.null(response$features$bbox)) list(NA_real_) else response$features$bbox
-              ))))
+              )))),
+        'geocode.xyz' = tibble::as_tibble_row(unlist(response$standard))
      ))
     
     # Formatted address for mapquest
@@ -282,5 +286,10 @@ extract_errors_from_results <- function(method, response, verbose) {
       if ("error" %in% names(raw_results)) message(paste0('Error: ', raw_results$error$message, collapse = "\n"))
     }
     else if (method == 'geoapify') message('Error: ', paste(raw_results$error, raw_results$message, sep = ", "))
+    
+    else if ((method == 'geocode.xyz') && ('error' %in% names(raw_results))) {
+      if (!raw_results$error$code %in% c('008', '018'))
+        message(paste0('Error: ', raw_results$error$description))
+    }
   }
 }

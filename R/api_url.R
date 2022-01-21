@@ -21,7 +21,8 @@ get_api_url <- function(method, reverse = FALSE, return_type = 'locations',
                     "mapquest" = get_mapquest_url(mapquest_open, reverse = reverse),
                     "bing" = get_bing_url(),
                     "arcgis" = get_arcgis_url(reverse = reverse),
-                    "geoapify" = get_geoapify_url(reverse = reverse)
+                    "geoapify" = get_geoapify_url(reverse = reverse),
+                    "geocode.xyz" = get_geocodexyz_url()
   )
   
   if (length(api_url) == 0) stop('API URL not found', call. = FALSE)
@@ -93,3 +94,9 @@ get_geoapify_url <- function(reverse = FALSE) {
   endpoint <- if (reverse) 'reverse' else 'search'
   return(paste0('https://api.geoapify.com/v1/geocode/', endpoint))
 }
+
+get_geocodexyz_url <- function(){
+  return("https://geocode.xyz/")
+}
+
+

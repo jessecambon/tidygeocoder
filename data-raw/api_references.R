@@ -26,6 +26,7 @@ min_time_reference <- tibble::tribble(
   "tomtom",    1/5,          "5 queries per second (free tier)",
   "here",      1/5,          "5 queries per second (free tier)",
   "geoapify",  1/5,          "5 queries per second (free tier)",
+  "geocode.xyz",  1,         "1 query per second (free tier)",
 )
 
 
@@ -61,6 +62,8 @@ api_info_reference <- tibble::tribble(
   "mapquest", "MapQuest", "https://developer.mapquest.com/documentation/geocoding-api/", "https://developer.mapquest.com/documentation/geocoding-api/", "https://developer.mapquest.com/plans",
   "bing",     "Bing", "https://docs.microsoft.com/en-us/bingmaps/rest-services/locations/", "https://docs.microsoft.com/en-us/bingmaps/rest-services/locations/", "https://docs.microsoft.com/en-us/bingmaps/spatial-data-services/geocode-and-data-source-limits",
   "geoapify", "Geoapify", "https://www.geoapify.com/geocoding-api", "https://apidocs.geoapify.com/docs/geocoding/api/", "https://www.geoapify.com/term-and-conditions",
+  "geocode.xyz", "Geocode.xyz", "https://geocode.xyz/", "https://geocode.xyz/api", "https://geocode.xyz/legal",
+  
 )
 
 usethis::use_data(batch_limit_reference, overwrite = TRUE)
