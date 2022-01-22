@@ -20,7 +20,7 @@ raw_results <- jsonlite::fromJSON(query_results$content)
 cols <- c('street', paste0('adminArea', seq(1, 6)))
 
 tidygeocoder:::format_address(raw_results$results$locations[[1]],
-                             c(paste0('adminArea', seq(1, 6)), "street"))
+                             method ="mapquest")
 
 
 df <- tibble::as_tibble(raw_results$results$locations[[1]])
@@ -196,8 +196,3 @@ address <- some_lonlat %>%
     ),
   )
 glimpse(address)
-
-# Check format_address function
-add <- address[c("street","adminArea1")]
-add
-tidygeocoder:::format_address(add,c("adminArea1","sss","street"))

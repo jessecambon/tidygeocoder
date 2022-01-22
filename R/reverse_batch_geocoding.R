@@ -455,7 +455,7 @@ reverse_batch_mapquest <- function(lat, long, address = 'address', timeout = 20,
   results <- dplyr::bind_rows(result_list_filled)
   
   # Format address
-  frmt_address <- format_address(results, c('street', paste0('adminArea', seq(6, 1))))
+  frmt_address <- format_address(results, 'mapquest')
   results <- tibble::as_tibble(cbind(frmt_address, results))
   
   names(results)[names(results) == 'formatted_address'] <- address

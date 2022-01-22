@@ -98,8 +98,7 @@ extract_results <- function(method, response, full_results = TRUE, flatten = TRU
     
     # Formatted address for mapquest
     if (method == 'mapquest'){
-      frmt_address <- format_address(results,
-                                     c('street', paste0('adminArea', seq(6, 1))))
+      frmt_address <- format_address(results, 'mapquest')
       results <- tibble::as_tibble(cbind(frmt_address, results))
     }
     
@@ -164,10 +163,11 @@ extract_reverse_results <- function(method, response, full_results = TRUE, flatt
       'here' = response$items['title'],
       'tomtom' = response$addresses$address['freeformAddress'],
       'mapquest' = format_address(response$results$locations[[1]],
-                                  c('street', paste0('adminArea', seq(6, 1)))),
+                                  method = 'mapquest'),
       'bing' = response$resourceSets$resources[[1]]['name'],
       'arcgis' = response$address['LongLabel'],
-      'geoapify' = response$features$properties['formatted']
+      'geoapify' = response$features$properties['formatted'],
+      'geocode.xyz' = format_address(response, 'geocode.xyz')
   )
   
   # Return NA if data is not empty or not valid (cannot be turned into a dataframe)
@@ -196,7 +196,8 @@ extract_reverse_results <- function(method, response, full_results = TRUE, flatt
         'mapquest' = response$results$locations[[1]],
         'bing' = response$resourceSets$resources[[1]][names(response$resourceSets$resources[[1]]) != 'name'],
         'arcgis' = response$address[names(response$address) != 'LongLabel'],
-        'geoapify' = response$features$properties[names(response$features$properties) != 'formatted']
+        'geoapify' = response$features$properties[names(response$features$properties) != 'formatted'],
+        'geocode.xyz' = tibble::as_tibble_row(unlist(response))
     ))
     
     
