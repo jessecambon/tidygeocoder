@@ -35,6 +35,8 @@ results <-
 
 results
 
+results$frmt_address
+
 full_results_notflat <-
   tidygeocoder::extract_results(method,
                                 response,

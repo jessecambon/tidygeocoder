@@ -159,32 +159,3 @@ address <- some_lonlat %>%
   )
 glimpse(address)
 
-# Error on format
-
-  tidygeocoder::reverse_geo(
-    lat = c(48.85, 40.45),
-    long = c(2.29, -3.68),
-    verbose = TRUE,
-    full_results = TRUE,
-    limit = 3,
-    method = "geocode.xyz",
-    mode = "single",
-    custom_query = list(
-      f = "POI"
-    ),
-  )
-  
-  # Error on API QUery
-  tidygeocoder::reverse_geo(
-    lat = c(48.85, 40.45),
-    long = c(2.29, -3.68),
-    verbose = TRUE,
-    full_results = TRUE,
-    limit = 3,
-    method = "geocode.xyz",
-    mode = "single",
-    custom_query = list(
-      token = "POI"
-    ),
-  )
-  

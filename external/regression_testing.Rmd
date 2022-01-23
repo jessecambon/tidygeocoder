@@ -398,3 +398,38 @@ geocode_arcgis1 <- sample1 %>%
   )
 geocode_arcgis1
 ```
+
+
+# Check geocode.xyz
+
+```{r}
+louisville_gecode.xyz <- louisville %>%
+  sample_n(10) %>%
+  mutate(full = paste0(street, ", Louisville")) %>%
+  geocode(
+    address = full,
+    method = 'geocode.xyz',
+    full_results = TRUE,
+    verbose = TRUE) %>%
+  mutate(lat_diff = lat - latitude,
+         long_diff = long - longitude) %>%
+  select(lat_diff, long_diff, everything())
+
+louisville_gecode.xyz
+```
+
+
+```{r}
+geocode_geocode.xyz1 <- sample1 %>%
+  mutate(addr = address) %>%
+  select(-address) %>%
+  geocode(
+    address = addr,
+    method = 'geocode.xyz',
+    mode = 'single',
+    full_results = TRUE,
+    verbose = TRUE,
+    limit = 1
+  )
+geocode_geocode.xyz1
+```

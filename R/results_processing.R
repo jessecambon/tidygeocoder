@@ -102,6 +102,13 @@ extract_results <- function(method, response, full_results = TRUE, flatten = TRU
       results <- tibble::as_tibble(cbind(frmt_address, results))
     }
     
+    # Formatted address for geocode.xyz
+    if (method == 'geocode.xyz'){
+      frmt_address <- paste0(results[1, names(results) != 'confidence'], 
+                             collapse = ', ')
+      results <- tibble::as_tibble(cbind(frmt_address, results))
+    }
+    
     # add prefix to variable names that likely could be in our input dataset
     # to avoid variable name overlap
     for (var in c('address', 'street', 'city', 'county', 'state', 'postalcode', 'postcode', 'country')) {
