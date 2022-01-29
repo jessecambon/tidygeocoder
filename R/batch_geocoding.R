@@ -567,7 +567,7 @@ batch_mapquest <-  function(unique_addresses, lat = "lat", long = "long",
     names(results)[names(results) == "latLng.lng"] <- long
     
     # Format address
-    frmt_address <- format_address(results, c('street', paste0('adminArea', seq(6, 1))))
+    frmt_address <- format_address(results, 'mapquest')
     results <- tibble::as_tibble(cbind(frmt_address, results))
 
     ## Prepare output----

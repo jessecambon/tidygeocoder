@@ -136,6 +136,11 @@ api_parameter_reference <- tibble::tribble(
   'geoapify', 'postalcode', 'postcode',    NA,                  FALSE,
   'geoapify', 'country',    'country',     NA,                  FALSE,
   'geoapify', 'limit',      'limit',       '1',                 FALSE,
+  
+  ########################### geocode.xyz #################################
+  # geocode.xyz may not require an api key
+  'geocode.xyz', 'address',     'locate',      NA,      TRUE,
+  'geocode.xyz', 'format',      'geoit',       'json',  TRUE,
 )
 
 usethis::use_data(api_parameter_reference, overwrite = TRUE)

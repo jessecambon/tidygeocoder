@@ -44,6 +44,9 @@ get_coord_parameters <- function(custom_query, method, lat, long) {
   } else if (method == 'arcgis'){
     custom_query[['location']] <-
       paste0(as.character(long), ',', as.character(lat))
+  } else if (method == 'geocode.xyz'){
+    custom_query[['locate']] <-
+      paste0(as.character(lat), ',', as.character(long))
   } else {
     stop('Invalid method. See ?reverse_geo', call. = FALSE)
   }

@@ -47,10 +47,11 @@ reverse_geo(
 \item \code{"opencage"}: \href{https://opencagedata.com}{OpenCage}.  An API key must be stored in the environmental variable "OPENCAGE_KEY".
 \item \code{"mapbox"}: \href{https://docs.mapbox.com/api/search/}{Mapbox}.  An API key must be stored in the environmental variable "MAPBOX_API_KEY".
 \item \code{"here"}: \href{https://developer.here.com/products/geocoding-and-search}{HERE}.  An API key must be stored in the environmental variable "HERE_API_KEY". Batch geocoding is supported, but must be explicitly called with \code{mode = "batch"}.
-\item \code{"tomtom"}: \href{https://developer.tomtom.com/search-api/search-api-documentation/geocoding}{TomTom}.  An API key must be stored in the environmental variable "TOMTOM_API_KEY". Batch geocoding is supported.
+\item \code{"tomtom"}: \href{https://developer.tomtom.com/search-api/search-api-documentation}{TomTom}.  An API key must be stored in the environmental variable "TOMTOM_API_KEY". Batch geocoding is supported.
 \item \code{"mapquest"}: \href{https://developer.mapquest.com/documentation/geocoding-api/}{MapQuest}.  An API key must be stored in the environmental variable "MAPQUEST_API_KEY". Batch geocoding is supported.
 \item \code{"bing"}: \href{https://docs.microsoft.com/en-us/bingmaps/rest-services/locations/}{Bing}.  An API key must be stored in the environmental variable "BINGMAPS_API_KEY". Batch geocoding is supported, but must be explicitly called with \code{mode = "batch"}.
 \item \code{"geoapify"}: \href{https://www.geoapify.com/geocoding-api}{Geoapify}.  An API key must be stored in the environmental variable "GEOAPIFY_KEY".
+\item \code{"geocode.xyz"}: \href{https://geocode.xyz/}{Geocode.xyz}.
 }}
 
 \item{address}{name of the address column (in the output data)}

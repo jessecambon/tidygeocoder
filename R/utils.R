@@ -71,10 +71,8 @@ pause_until <- function(start_time, min_time, debug = FALSE) {
   }
 }
 
-# Used for mapquest - provide formatted address based on fields
-# Could be extended to other providers if no frmt.address is provided - non specific
-# input is a data.frame/tibble and the list of fields used for creating 
-# a formatted address
+# Provide formatted address based on fields
+# input is converted to a data frame, each method has it specific treatment
 # output is a tibble with the formatted address
 # formatted address follow the order of fields vector
 # Result sample:
@@ -82,11 +80,22 @@ pause_until <- function(start_time, min_time, debug = FALSE) {
 # formatted_address          
 # <chr>                      
 # 1 ES, 2 Calle de Espoz y Mina
-format_address <- function(df, fields) {
-  frmt_df <- tibble::as_tibble(df)
-  col_order <- intersect(fields, names(frmt_df))
-  frmt_df <- dplyr::relocate(frmt_df[col_order], col_order)
-  
+format_address <- function(df, method) {
+  if (method == 'mapquest'){
+    fields <- c('street', paste0('adminArea', seq(6, 1)))
+    frmt_df <- tibble::as_tibble(df)
+    col_order <- intersect(fields, names(frmt_df))
+    frmt_df <- dplyr::relocate(frmt_df[col_order], col_order)
+  } else if (method == 'geocode.xyz'){
+    fields <- c('stnumber', 'staddress', 'city','state', 
+                'region', 'country', 'prov')
+    
+    # Extract
+    frmt_df <- tibble::as_tibble_row(unlist(df))
+    col_order <- intersect(fields, names(frmt_df))
+    frmt_df <- frmt_df[col_order]
+    
+  }
   frmt_char <- as.character(apply(frmt_df, 1, function(x) {
     y <- unique(as.character(x))
     y <- y[!y %in% c('', 'NA')]
@@ -95,6 +104,7 @@ format_address <- function(df, fields) {
   
   frmt_char[frmt_char == 'NA'] <- NA
   frmt_out <- tibble::tibble(formatted_address = frmt_char)
+
   return(frmt_out)
 }
 
