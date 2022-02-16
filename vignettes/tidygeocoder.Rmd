@@ -9,6 +9,18 @@ vignette: >
   \usepackage[utf8]{inputenc}
 ---
 
+<!-- 
+############################ INSTRUCTIONS ###########################################
+# 1. Make all changes to tidygeocoder.Rmd.orig 
+# 2. Knit the vignette with this command:
+#
+# knitr::knit("vignettes/tidygeocoder.Rmd.orig", output = "vignettes/tidygeocoder.Rmd")
+# 
+# See these instructions for more detail:
+# https://ropensci.org/blog/2019/12/08/precompute-vignettes/
+#####################################################################################
+-->
+
 
 
 
@@ -54,7 +66,7 @@ census_s1 <- address_single %>%
 #> format : "json"
 #> benchmark : "Public_AR_Current"
 #> vintage : "Current_Current"
-#> Query completed in: 1 seconds
+#> Query completed in: 1.3 seconds
 ```
 
 
@@ -72,12 +84,12 @@ osm_s1 <- geo(
   lat = latitude, long = longitude
 )
 #> Passing 2 addresses to the Nominatim single address geocoder
-#> Query completed in: 2 seconds
+#> Query completed in: 2.1 seconds
 ```
 
 |address                                   | latitude| longitude|
 |:-----------------------------------------|--------:|---------:|
-|11 Wall St, NY, NY                        | 40.70707| -74.01117|
+|11 Wall St, NY, NY                        | 43.00929| -78.87870|
 |600 Peachtree Street NE, Atlanta, Georgia | 33.77086| -84.38614|
 
 Instead of single-line addresses, you can use any combination of the following arguments to specify your addresses: `street`, `city`, `state`, `county`, `postalcode`, and `country`. 
@@ -87,7 +99,7 @@ Instead of single-line addresses, you can use any combination of the following a
 census_c1 <- address_components %>%
   geocode(street = street, city = cty, state = st, method = "census")
 #> Passing 2 addresses to the US Census batch geocoder
-#> Query completed in: 2.5 seconds
+#> Query completed in: 1.4 seconds
 ```
 
 |street                  |cty     |st |      lat|      long|
@@ -104,7 +116,7 @@ census_full1 <- address_single %>% geocode(
   method = "census", full_results = TRUE, api_options = list(census_return_type = 'geographies')
 )
 #> Passing 2 addresses to the US Census batch geocoder
-#> Query completed in: 1.2 seconds
+#> Query completed in: 0.9 seconds
 ```
 
 
@@ -169,14 +181,15 @@ rev2 <- reverse_geo(
 )
 #> Passing 2 coordinates to the Nominatim single coordinate geocoder
 #> Query completed in: 2 seconds
+
 glimpse(rev2)
 #> Rows: 2
 #> Columns: 22
 #> $ lat            <dbl> 38.89587, 43.65348
 #> $ long           <dbl> -77.03077, -79.38393
-#> $ address        <chr> "Freedom Plaza, 1455, Pennsylvania Avenue Northwest, Washington, District of Columbia, 20004, United States", "Toronto City Hall, 1…
+#> $ address        <chr> "Freedom Plaza, 1455, Pennsylvania Avenue Northwest, Washington, District of Columbia, 200…
 #> $ place_id       <int> 284009208, 148364261
-#> $ licence        <chr> "Data © OpenStreetMap contributors, ODbL 1.0. https://osm.org/copyright", "Data © OpenStreetMap contributors, ODbL 1.0. https://osm…
+#> $ licence        <chr> "Data © OpenStreetMap contributors, ODbL 1.0. https://osm.org/copyright", "Data © OpenStre…
 #> $ osm_type       <chr> "relation", "way"
 #> $ osm_id         <int> 8060882, 198500761
 #> $ osm_lat        <chr> "38.895849999999996", "43.6536032"
@@ -189,7 +202,7 @@ glimpse(rev2)
 #> $ postcode       <chr> "20004", "M5H 2N2"
 #> $ country        <chr> "United States", "Canada"
 #> $ country_code   <chr> "us", "ca"
-#> $ boundingbox    <list> <"38.8956276", "38.896068", "-77.03182", "-77.0297273">, <"43.6529946", "43.6541458", "-79.3848438", "-79.3830415">
+#> $ boundingbox    <list> <"38.8956276", "38.896068", "-77.03182", "-77.0297273">, <"43.6529946", "43.6541458", "-79…
 #> $ amenity        <chr> NA, "Toronto City Hall"
 #> $ neighbourhood  <chr> NA, "Financial District"
 #> $ quarter        <chr> NA, "Spadina—Fort York"
@@ -222,7 +235,7 @@ duplicates_geocoded <- duplicate_addrs %>%
 #> limit : "1"
 #> format : "json"
 #> HTTP Status Code: 200
-#> Query completed in: 0.2 seconds
+#> Query completed in: 0.8 seconds
 #> Total query time (including sleep): 1 seconds
 #> 
 #> 
@@ -242,9 +255,9 @@ duplicates_geocoded <- duplicate_addrs %>%
 
 |singlelineaddress                         |      lat|      long|
 |:-----------------------------------------|--------:|---------:|
-|11 Wall St, NY, NY                        | 40.70707| -74.01117|
+|11 Wall St, NY, NY                        | 43.00929| -78.87870|
 |600 Peachtree Street NE, Atlanta, Georgia | 33.77086| -84.38614|
-|11 Wall St, NY, NY                        | 40.70707| -74.01117|
+|11 Wall St, NY, NY                        | 43.00929| -78.87870|
 |600 Peachtree Street NE, Atlanta, Georgia | 33.77086| -84.38614|
 |NA                                        |       NA|        NA|
 |NA                                        |       NA|        NA|
@@ -257,12 +270,12 @@ As shown above, duplicates will not be removed from your results by default. How
 uniqueonly1 <- duplicate_addrs %>%
   geocode(singlelineaddress, unique_only = TRUE)
 #> Passing 2 addresses to the Nominatim single address geocoder
-#> Query completed in: 2 seconds
+#> Query completed in: 2.1 seconds
 ```
 
 |address                                   |      lat|      long|
 |:-----------------------------------------|--------:|---------:|
-|11 Wall St, NY, NY                        | 40.70707| -74.01117|
+|11 Wall St, NY, NY                        | 43.00929| -78.87870|
 |600 Peachtree Street NE, Atlanta, Georgia | 33.77086| -84.38614|
 
 
@@ -288,7 +301,7 @@ cascade_results1 <- addresses_combine %>%
   )
 #> 
 #> Passing 3 addresses to the US Census batch geocoder
-#> Query completed in: 0.2 seconds
+#> Query completed in: 0.1 seconds
 #> Passing 2 addresses to the Nominatim single address geocoder
 #> Query completed in: 2 seconds
 ```
@@ -315,7 +328,7 @@ no_cascade_results1 <- addresses_combine %>%
   )
 #> 
 #> Passing 3 addresses to the US Census batch geocoder
-#> Query completed in: 0.3 seconds
+#> Query completed in: 0.1 seconds
 #> Passing 3 addresses to the Nominatim single address geocoder
 #> Query completed in: 3 seconds
 ```
@@ -345,22 +358,23 @@ geo_limit <- geo(
 )
 #> Passing 2 addresses to the Nominatim single address geocoder
 #> Query completed in: 2 seconds
+
 glimpse(geo_limit)
 #> Rows: 6
 #> Columns: 13
 #> $ address      <chr> "Lima, Peru", "Lima, Peru", "Lima, Peru", "Cairo, Egypt", "Cairo, Egypt", "Cairo, Egypt"
-#> $ lat          <dbl> -11.96784, -12.03089, -11.95785, 30.04439, 30.08695, 30.22503
-#> $ long         <dbl> -77.01094, -77.09072, -77.04139, 31.23573, 31.96162, 31.69733
-#> $ place_id     <int> 128601425, 118029294, 128061402, 283020077, 216381765, 272362266
-#> $ licence      <chr> "Data © OpenStreetMap contributors, ODbL 1.0. https://osm.org/copyright", "Data © OpenStreetMap contributors, ODbL 1.0. https://osm.o…
-#> $ osm_type     <chr> "way", "way", "way", "relation", "way", "way"
-#> $ osm_id       <int> 116948976, 71187508, 115715296, 5466227, 544272017, 914722135
-#> $ boundingbox  <list> <"-11.9678367", "-11.9672995", "-77.0117952", "-77.0109387">, <"-12.0308994", "-12.0304024", "-77.0911106", "-77.090276">, <"-11.9608…
-#> $ display_name <chr> "Peru, San Juan de Lurigancho, Huascar, Lima, Lima Metropolitana, Lima, 15423, Perú", "Peru, San Martín de Porres, Lima, Lima Metropo…
-#> $ class        <chr> "highway", "highway", "highway", "place", "highway", "highway"
-#> $ type         <chr> "residential", "residential", "residential", "city", "motorway", "trunk"
-#> $ importance   <dbl> 0.3200000, 0.3200000, 0.3200000, 0.6960286, 0.1000000, 0.1000000
-#> $ icon         <chr> NA, NA, NA, "https://nominatim.openstreetmap.org/ui/mapicons//poi_place_city.p.20.png", NA, NA
+#> $ lat          <dbl> -12.06211, -12.20011, -11.99997, 30.04439, 30.03521, 30.08695
+#> $ long         <dbl> -77.03653, -76.28506, -76.83322, 31.23573, 31.56337, 31.96162
+#> $ place_id     <int> 49009999, 282617684, 282722041, 728384, 283020077, 216381765
+#> $ licence      <chr> "Data © OpenStreetMap contributors, ODbL 1.0. https://osm.org/copyright", "Data © OpenStreet…
+#> $ osm_type     <chr> "node", "relation", "relation", "node", "relation", "way"
+#> $ osm_id       <dbl> 4289361265, 1944659, 1944670, 271613766, 5466227, 544272017
+#> $ boundingbox  <list> <"-12.2221065", "-11.9021065", "-77.1965256", "-76.8765256">, <"-13.3241714", "-10.2741856",…
+#> $ display_name <chr> "Lima, Lima Metropolitana, Lima, LIMA 15046, Perú", "Lima, Perú", "Lima, Lima Metropolitana,…
+#> $ class        <chr> "place", "boundary", "boundary", "place", "place", "highway"
+#> $ type         <chr> "city", "administrative", "administrative", "city", "city", "motorway"
+#> $ importance   <dbl> 0.7830015, 0.6119761, 0.5934835, 0.6960286, 0.6960286, 0.1000000
+#> $ icon         <chr> "https://nominatim.openstreetmap.org/ui/mapicons//poi_place_city.p.20.png", "https://nominat…
 ```
 
 To directly specify specific API parameters for a given `method` you can use the `custom_query` parameter. For example, [the Nominatim (OSM) geocoder has a 'polygon_geojson' argument](https://nominatim.org/release-docs/develop/api/Details/#parameters) that can be used to return GeoJSON geometry content. To pass this parameter you can insert it with a named list using the `custom_query` argument:
@@ -387,24 +401,25 @@ cairo_geo <- geo("Cairo, Egypt",
 #> Total query time (including sleep): 1 seconds
 #> 
 #> Query completed in: 1 seconds
+
 glimpse(cairo_geo)
 #> Rows: 1
 #> Columns: 15
 #> $ address             <chr> "Cairo, Egypt"
 #> $ lat                 <dbl> 30.04439
 #> $ long                <dbl> 31.23573
-#> $ place_id            <int> 283020077
+#> $ place_id            <int> 728384
 #> $ licence             <chr> "Data © OpenStreetMap contributors, ODbL 1.0. https://osm.org/copyright"
-#> $ osm_type            <chr> "relation"
-#> $ osm_id              <int> 5466227
-#> $ boundingbox         <list> <"29.7483062", "30.3209168", "31.2200331", "31.9090054">
-#> $ display_name        <chr> "القاهرة, محافظة القاهرة, مصر"
+#> $ osm_type            <chr> "node"
+#> $ osm_id              <int> 271613766
+#> $ boundingbox         <list> <"29.8843879", "30.2043879", "31.0757257", "31.3957257">
+#> $ display_name        <chr> "القاهرة, محافظة القاهرة, 11519, مصر"
 #> $ class               <chr> "place"
 #> $ type                <chr> "city"
 #> $ importance          <dbl> 0.6960286
 #> $ icon                <chr> "https://nominatim.openstreetmap.org/ui/mapicons//poi_place_city.p.20.png"
-#> $ geojson.type        <chr> "Polygon"
-#> $ geojson.coordinates <list> <<array[1 x 119 x 2]>>
+#> $ geojson.type        <chr> "Point"
+#> $ geojson.coordinates <list> <31.23573, 30.04439>
 ```
 
 To test a query without sending any data to a geocoding service, you can use `no_query = TRUE` (NA results are returned).
