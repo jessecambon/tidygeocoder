@@ -28,6 +28,8 @@
 </script>
 </head>
 <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-article">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -40,7 +42,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">tidygeocoder</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.0.5</span>
       </span>
     </div>
 
@@ -76,22 +78,23 @@
   <ul class="dropdown-menu" role="menu">
 <li class="dropdown-header">Releases</li>
     <li>
-      <a href="https://jessecambon.github.io/2021/10/17/tidygeocoder-1-0-4.html">Version 1.0.4</a>
+      <a href="https://jessecambon.github.io/2021/10/17/tidygeocoder-1-0-4.html" class="external-link">Version 1.0.4</a>
     </li>
     <li>
-      <a href="https://jessecambon.github.io/2021/04/19/tidygeocoder-1-0-3.html">Version 1.0.3</a>
+      <a href="https://jessecambon.github.io/2021/04/19/tidygeocoder-1-0-3.html" class="external-link">Version 1.0.3</a>
     </li>
     <li>
-      <a href="https://jessecambon.github.io/2021/01/18/tidygeocoder-1-0-2.html">Version 1.0.2</a>
+      <a href="https://jessecambon.github.io/2021/01/18/tidygeocoder-1-0-2.html" class="external-link">Version 1.0.2</a>
     </li>
     <li>
-      <a href="https://jessecambon.github.io/2020/07/15/tidygeocoder-1-0-0.html">Version 1.0.0</a>
+      <a href="https://jessecambon.github.io/2020/07/15/tidygeocoder-1-0-0.html" class="external-link">Version 1.0.0</a>
     </li>
     <li>
-      <a href="https://jessecambon.github.io/2019/11/11/tidygeocoder-demo.html">Version 0.2.4</a>
+      <a href="https://jessecambon.github.io/2019/11/11/tidygeocoder-demo.html" class="external-link">Version 0.2.4</a>
     </li>
     <li class="divider">
-    <li>
+    </li>
+<li>
       <a href="../news/index.html">Changelog</a>
     </li>
   </ul>
@@ -99,7 +102,7 @@
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="https://github.com/jessecambon/tidygeocoder/">
+  <a href="https://github.com/jessecambon/tidygeocoder/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -120,13 +123,13 @@
 
       
 
-      </header><script src="developer_notes_files/header-attrs-2.11/header-attrs.js"></script><div class="row">
+      </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Developer Notes</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/jessecambon/tidygeocoder/blob/master/vignettes/developer_notes.Rmd"><code>vignettes/developer_notes.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/jessecambon/tidygeocoder/blob/HEAD/vignettes/developer_notes.Rmd" class="external-link"><code>vignettes/developer_notes.Rmd</code></a></small>
       <div class="hidden name"><code>developer_notes.Rmd</code></div>
 
     </div>
@@ -134,22 +137,22 @@
     
     
 <p>This page contains documentation relevant for those wishing to contribute to the package and specific instructions for how to add support for a new geocoding service.</p>
-<div id="introduction" class="section level2">
-<h2 class="hasAnchor">
-<a href="#introduction" class="anchor"></a>Introduction</h2>
-<p>The two core functions to focus on in the package are <a href="https://github.com/jessecambon/tidygeocoder/blob/main/R/geo.R">geo()</a> and <a href="https://github.com/jessecambon/tidygeocoder/blob/main/R/reverse_geo.R">reverse_geo()</a>. These functions have very similar layouts, but <code><a href="../reference/geo.html">geo()</a></code> is for forward geocoding while <code><a href="../reference/reverse_geo.html">reverse_geo()</a></code> is for reverse geocoding. The <code><a href="../reference/geocode.html">geocode()</a></code> and <code><a href="../reference/reverse_geocode.html">reverse_geocode()</a></code> functions only extract input data from a dataframe and pass it to the <code><a href="../reference/geo.html">geo()</a></code> and <code><a href="../reference/reverse_geo.html">reverse_geo()</a></code> functions respectively for geocoding.</p>
+<div class="section level2">
+<h2 id="introduction">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a>
+</h2>
+<p>The two core functions to focus on in the package are <a href="https://github.com/jessecambon/tidygeocoder/blob/main/R/geo.R" class="external-link">geo()</a> and <a href="https://github.com/jessecambon/tidygeocoder/blob/main/R/reverse_geo.R" class="external-link">reverse_geo()</a>. These functions have very similar layouts, but <code><a href="../reference/geo.html">geo()</a></code> is for forward geocoding while <code><a href="../reference/reverse_geo.html">reverse_geo()</a></code> is for reverse geocoding. The <code><a href="../reference/geocode.html">geocode()</a></code> and <code><a href="../reference/reverse_geocode.html">reverse_geocode()</a></code> functions only extract input data from a dataframe and pass it to the <code><a href="../reference/geo.html">geo()</a></code> and <code><a href="../reference/reverse_geo.html">reverse_geo()</a></code> functions respectively for geocoding.</p>
 <p>Both the <code><a href="../reference/geo.html">geo()</a></code> and <code><a href="../reference/reverse_geo.html">reverse_geo()</a></code> functions take inputs (either addresses or coordinates) and call other functions as needed to deduplicate the inputs, pause to comply with API usage rate policies, and execute queries. Key parameters and settings for geocoding are stored for easy access and display in built-in datasets.</p>
 <p>Consider this query:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org">dplyr</a></span><span class="op">)</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://jessecambon.github.io/tidygeocoder/">tidygeocoder</a></span><span class="op">)</span>
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://jessecambon.github.io/tidygeocoder/">tidygeocoder</a></span><span class="op">)</span>
 
-<span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span><span class="op">(</span>
-  id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">1</span><span class="op">)</span>,
-  locations <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">'tokyo'</span>, <span class="st">'madrid'</span>, <span class="st">'tokyo'</span><span class="op">)</span>
+<span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span>
+  id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">1</span><span class="op">)</span>,
+  locations <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'tokyo'</span>, <span class="st">'madrid'</span>, <span class="st">'tokyo'</span><span class="op">)</span>
   <span class="op">)</span>
 
-<span class="va">df</span> <span class="op">%&gt;%</span>
+<span class="va">df</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
   <span class="fu"><a href="../reference/geocode.html">geocode</a></span><span class="op">(</span>address <span class="op">=</span> <span class="va">locations</span>, method <span class="op">=</span> <span class="st">'osm'</span>, full_results <span class="op">=</span> <span class="cn">TRUE</span>, verbose <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; Number of Unique Addresses: 2</span>
@@ -162,7 +165,7 @@
 <span class="co">#&gt; limit : "1"</span>
 <span class="co">#&gt; format : "json"</span>
 <span class="co">#&gt; HTTP Status Code: 200</span>
-<span class="co">#&gt; Query completed in: 0.3 seconds</span>
+<span class="co">#&gt; Query completed in: 0.5 seconds</span>
 <span class="co">#&gt; Total query time (including sleep): 1 seconds</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; </span>
@@ -177,14 +180,14 @@
 <span class="co">#&gt; Total query time (including sleep): 1 seconds</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; Query completed in: 2 seconds</span>
-<span class="co">#&gt; # A tibble: 3 × 14</span>
+<span class="co">#&gt; <span style="color: #949494;"># A tibble: 3 × 14</span></span>
 <span class="co">#&gt;      id locations   lat   long  place_id licence     osm_type osm_id boundingbox</span>
-<span class="co">#&gt;   &lt;dbl&gt; &lt;chr&gt;     &lt;dbl&gt;  &lt;dbl&gt;     &lt;int&gt; &lt;chr&gt;       &lt;chr&gt;     &lt;int&gt; &lt;list&gt;     </span>
-<span class="co">#&gt; 1     1 tokyo      35.7 140.   282632558 Data © Ope… relation 1.54e6 &lt;chr [4]&gt;  </span>
-<span class="co">#&gt; 2     2 madrid     40.4  -3.70 282999935 Data © Ope… relation 5.33e6 &lt;chr [4]&gt;  </span>
-<span class="co">#&gt; 3     1 tokyo      35.7 140.   282632558 Data © Ope… relation 1.54e6 &lt;chr [4]&gt;  </span>
-<span class="co">#&gt; # … with 5 more variables: display_name &lt;chr&gt;, class &lt;chr&gt;, type &lt;chr&gt;,</span>
-<span class="co">#&gt; #   importance &lt;dbl&gt;, icon &lt;chr&gt;</span></code></pre></div>
+<span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>     </span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">1</span>     1 tokyo      35.7 140.   282<span style="text-decoration: underline;">632</span>558 Data © Ope… relation 1.54<span style="color: #949494;">e</span>6 <span style="color: #949494;">&lt;chr [4]&gt;</span>  </span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">2</span>     2 madrid     40.4  -<span style="color: #BB0000;">3.70</span> 283<span style="text-decoration: underline;">886</span>466 Data © Ope… node     2.11<span style="color: #949494;">e</span>7 <span style="color: #949494;">&lt;chr [4]&gt;</span>  </span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">3</span>     1 tokyo      35.7 140.   282<span style="text-decoration: underline;">632</span>558 Data © Ope… relation 1.54<span style="color: #949494;">e</span>6 <span style="color: #949494;">&lt;chr [4]&gt;</span>  </span>
+<span class="co">#&gt; <span style="color: #949494;"># … with 5 more variables: display_name &lt;chr&gt;, class &lt;chr&gt;, type &lt;chr&gt;,</span></span>
+<span class="co">#&gt; <span style="color: #949494;">#   importance &lt;dbl&gt;, icon &lt;chr&gt;</span></span></code></pre></div>
 <p>Here is what is going on behind the scenes:</p>
 <ul>
 <li>The <code><a href="../reference/geocode.html">geocode()</a></code> function extracts the address data from the input dataframe and passes it to the <code><a href="../reference/geo.html">geo()</a></code> function.</li>
@@ -197,30 +200,30 @@
 </ul>
 <p>Refer to the notes below on adding a geocoding service for more specific documentation on the code structure.</p>
 </div>
-<div id="adding-a-new-geocoding-service" class="section level2">
-<h2 class="hasAnchor">
-<a href="#adding-a-new-geocoding-service" class="anchor"></a>Adding a New Geocoding Service</h2>
-<p>This section documents how to add support for a new geocoding service to the package. Required changes are organized by file. If anything isn’t clear, feel free to <a href="https://github.com/jessecambon/tidygeocoder/issues">file an issue</a>.</p>
+<div class="section level2">
+<h2 id="adding-a-new-geocoding-service">Adding a New Geocoding Service<a class="anchor" aria-label="anchor" href="#adding-a-new-geocoding-service"></a>
+</h2>
+<p>This section documents how to add support for a new geocoding service to the package. Required changes are organized by file. If anything isn’t clear, feel free to <a href="https://github.com/jessecambon/tidygeocoder/issues" class="external-link">file an issue</a>.</p>
 <p><strong>Base all changes on the main branch</strong>.</p>
-<div id="files-to-update" class="section level3">
-<h3 class="hasAnchor">
-<a href="#files-to-update" class="anchor"></a>Files to Update</h3>
+<div class="section level3">
+<h3 id="files-to-update">Files to Update<a class="anchor" aria-label="anchor" href="#files-to-update"></a>
+</h3>
 <ul>
 <li>
-<strong><a href="https://github.com/jessecambon/tidygeocoder/blob/main/R/api_url.R">R/api_url.R</a></strong>
+<strong><a href="https://github.com/jessecambon/tidygeocoder/blob/main/R/api_url.R" class="external-link">R/api_url.R</a></strong>
 <ul>
 <li>Add a standalone function for obtaining the API URL and update the <code>get_api_url()</code> function accordingly. If arguments need to be added to the <code>get_api_url()</code> function, make sure to adjust the calls to this function in the <code><a href="../reference/geo.html">geo()</a></code> and <code><a href="../reference/reverse_geo.html">reverse_geo()</a></code> functions accordingly.</li>
 </ul>
 </li>
 <li>
-<strong><a href="https://github.com/jessecambon/tidygeocoder/blob/main/data-raw/api_parameter_reference.R">data-raw/api_parameter_reference.R</a></strong>
+<strong><a href="https://github.com/jessecambon/tidygeocoder/blob/main/data-raw/api_parameter_reference.R" class="external-link">data-raw/api_parameter_reference.R</a></strong>
 <ul>
 <li>Add rows to the <a href="https://jessecambon.github.io/tidygeocoder/articles/tidygeocoder.html#api-reference">api_parameter_reference</a> dataset to include the geocoding service. Each service is referred to by a short name in the <code>method</code> column (which is how the service is specified in the <code><a href="../reference/geo.html">geo()</a></code> and <code><a href="../reference/geocode.html">geocode()</a></code> functions). The <code>generic_name</code> column has the universal parameter name that is used across geocoding services (ie. “address”, “limit”, etc.) while the <code>api_name</code> column stores the parameter names that are specific to the geocoding service.</li>
 <li>Note that there is no need to include parameters that are only used for reverse geocoding or parameters that have no equivalent in other geocoding services (ie. there is no <code>generic_name</code>) <strong>unless</strong> the parameters are required. Parameters can always be passed to services directly with the <code>custom_query</code> argument in <code><a href="../reference/geo.html">geo()</a></code> or <code><a href="../reference/reverse_geo.html">reverse_geo()</a></code>.</li>
 </ul>
 </li>
 <li>
-<strong><a href="https://github.com/jessecambon/tidygeocoder/blob/main/data-raw/api_references.R">data-raw/api_references.R</a></strong>
+<strong><a href="https://github.com/jessecambon/tidygeocoder/blob/main/data-raw/api_references.R" class="external-link">data-raw/api_references.R</a></strong>
 <ul>
 <li>Add a row to <code>min_time_reference</code> with the minimum time each query should take (in seconds) according to the geocoding service’s free tier usage restrictions.</li>
 <li>Add a row to <code>api_key_reference</code> if the service requires an API key.</li>
@@ -229,72 +232,72 @@
 </ul>
 </li>
 <li>
-<strong><a href="https://github.com/jessecambon/tidygeocoder/blob/main/R/geo.R">R/geo.R</a></strong>
+<strong><a href="https://github.com/jessecambon/tidygeocoder/blob/main/R/geo.R" class="external-link">R/geo.R</a></strong>
 <ul>
-<li>If the service supports batch geocoding then add a new function in <strong><a href="https://github.com/jessecambon/tidygeocoder/blob/main/R/batch_geocoding.R">R/batch_geocoding.R</a></strong> and add it to the <code>batch_func_map</code> named list.</li>
+<li>If the service supports batch geocoding then add a new function in <strong><a href="https://github.com/jessecambon/tidygeocoder/blob/main/R/batch_geocoding.R" class="external-link">R/batch_geocoding.R</a></strong> and add it to the <code>batch_func_map</code> named list.</li>
 </ul>
 </li>
 <li>
-<strong><a href="https://github.com/jessecambon/tidygeocoder/blob/main/R/reverse_geo.R">R/reverse_geo.R</a></strong>
+<strong><a href="https://github.com/jessecambon/tidygeocoder/blob/main/R/reverse_geo.R" class="external-link">R/reverse_geo.R</a></strong>
 <ul>
 <li>Update the <code>get_coord_parameters()</code> function based on how the service passed latitude and longitude coordinates for reverse geocoding.</li>
-<li>If the service supports reverse batch geocoding then add a new function in <strong><a href="https://github.com/jessecambon/tidygeocoder/blob/main/R/reverse_batch_geocoding.R">R/reverse_batch_geocoding.R</a></strong> and add it to the <code>reverse_batch_func_map</code> named list.</li>
+<li>If the service supports reverse batch geocoding then add a new function in <strong><a href="https://github.com/jessecambon/tidygeocoder/blob/main/R/reverse_batch_geocoding.R" class="external-link">R/reverse_batch_geocoding.R</a></strong> and add it to the <code>reverse_batch_func_map</code> named list.</li>
 </ul>
 </li>
 <li>
-<strong><a href="https://github.com/jessecambon/tidygeocoder/blob/main/R/results_processing.R">R/results_processing.R</a></strong>
+<strong><a href="https://github.com/jessecambon/tidygeocoder/blob/main/R/results_processing.R" class="external-link">R/results_processing.R</a></strong>
 <ul>
-<li>Update the <code><a href="../reference/extract_results.html">extract_results()</a></code> function which is used for parsing single addresses (ie. not batch geocoding). You can see examples of how I’ve tested out parsing the results of geocoding services <a href="https://github.com/jessecambon/tidygeocoder/tree/main/sandbox/query_debugging">here</a>.</li>
+<li>Update the <code><a href="../reference/extract_results.html">extract_results()</a></code> function which is used for parsing single addresses (ie. not batch geocoding). You can see examples of how I’ve tested out parsing the results of geocoding services <a href="https://github.com/jessecambon/tidygeocoder/tree/main/sandbox/query_debugging" class="external-link">here</a>.</li>
 <li>In a similar fashion, update the <code><a href="../reference/extract_reverse_results.html">extract_reverse_results()</a></code> function for reverse geocoding.</li>
 <li>Update the <code>extract_errors_from_results()</code> function to extract error messages for invalid queries.</li>
 </ul>
 </li>
-<li>If applicable, add new tests to the scripts in the <a href="https://github.com/jessecambon/tidygeocoder/tree/main/tests/testthat">tests directory</a> for the method. Note that tests should avoid making a HTTP query (ie. use <code>no_query = TRUE</code> in the <code><a href="../reference/geo.html">geo()</a></code> and <code><a href="../reference/geocode.html">geocode()</a></code> functions).</li>
+<li>If applicable, add new tests to the scripts in the <a href="https://github.com/jessecambon/tidygeocoder/tree/main/tests/testthat" class="external-link">tests directory</a> for the method. Note that tests should avoid making a HTTP query (ie. use <code>no_query = TRUE</code> in the <code><a href="../reference/geo.html">geo()</a></code> and <code><a href="../reference/geocode.html">geocode()</a></code> functions).</li>
 <li>
-<strong><a href="https://github.com/jessecambon/tidygeocoder/blob/main/R/global_variables.R">R/global_variables.R</a></strong>
+<strong><a href="https://github.com/jessecambon/tidygeocoder/blob/main/R/global_variables.R" class="external-link">R/global_variables.R</a></strong>
 <ul>
 <li>If applicable, add your service to one of the global variables.</li>
 </ul>
 </li>
 </ul>
 </div>
-<div id="other-files" class="section level3">
-<h3 class="hasAnchor">
-<a href="#other-files" class="anchor"></a>Other Files</h3>
+<div class="section level3">
+<h3 id="other-files">Other Files<a class="anchor" aria-label="anchor" href="#other-files"></a>
+</h3>
 <p>These files don’t necessarily need to be updated. However, you might need to make changes to these files if the service you are implementing requires some non-standard workarounds.</p>
 <ul>
 <li>
-<strong><a href="https://github.com/jessecambon/tidygeocoder/blob/main/R/query_factory.R">R/query_factory.R</a></strong>
+<strong><a href="https://github.com/jessecambon/tidygeocoder/blob/main/R/query_factory.R" class="external-link">R/query_factory.R</a></strong>
 <ul>
 <li>Houses the functions used to create and execute API queries.</li>
 </ul>
 </li>
 <li>
-<strong><a href="https://github.com/jessecambon/tidygeocoder/blob/main/R/documentation.R">R/documentation.R</a></strong>
+<strong><a href="https://github.com/jessecambon/tidygeocoder/blob/main/R/documentation.R" class="external-link">R/documentation.R</a></strong>
 <ul>
 <li>Functions for producing rmarkdown package documentation.</li>
 </ul>
 </li>
 <li>
-<strong><a href="https://github.com/jessecambon/tidygeocoder/blob/main/R/data.R">R/data.R</a></strong>
+<strong><a href="https://github.com/jessecambon/tidygeocoder/blob/main/R/data.R" class="external-link">R/data.R</a></strong>
 <ul>
 <li>Documentation for in-built datasets.</li>
 </ul>
 </li>
 <li>
-<strong><a href="https://github.com/jessecambon/tidygeocoder/blob/main/R/utils.R">R/utils.R</a></strong>
+<strong><a href="https://github.com/jessecambon/tidygeocoder/blob/main/R/utils.R" class="external-link">R/utils.R</a></strong>
 <ul>
 <li>Common utility functions.</li>
 </ul>
 </li>
 <li>
-<strong><a href="https://github.com/jessecambon/tidygeocoder/blob/main/R/input_handling.R">R/input_handling.R</a></strong>
+<strong><a href="https://github.com/jessecambon/tidygeocoder/blob/main/R/input_handling.R" class="external-link">R/input_handling.R</a></strong>
 <ul>
 <li>Handles the deduplication of input data.</li>
 </ul>
 </li>
 <li>
-<strong><a href="https://github.com/jessecambon/tidygeocoder/blob/main/external/create_logo.Rmd">external/create_logo.Rmd</a></strong>
+<strong><a href="https://github.com/jessecambon/tidygeocoder/blob/main/external/create_logo.Rmd" class="external-link">external/create_logo.Rmd</a></strong>
 <ul>
 <li>Creates the package logo.</li>
 </ul>
@@ -307,19 +310,19 @@
 </li>
 </ul>
 </div>
-<div id="testing" class="section level3">
-<h3 class="hasAnchor">
-<a href="#testing" class="anchor"></a>Testing</h3>
+<div class="section level3">
+<h3 id="testing">Testing<a class="anchor" aria-label="anchor" href="#testing"></a>
+</h3>
 <ul>
-<li>Test out the new service to make sure it behaves as expected. You can reference tests and example code in <a href="https://github.com/jessecambon/tidygeocoder/tree/main/sandbox">the ‘sandbox’ folder</a>.</li>
-<li>Run <strong><code><a href="https://devtools.r-lib.org//reference/check.html">devtools::check()</a></code></strong> to make sure the package still passes all tests and checks, but note that these tests are designed to work offline so they do not make queries to geocoding services.</li>
-<li>As a final check, run <strong><a href="https://github.com/jessecambon/tidygeocoder/blob/main/external/online_tests.R">external/online_tests.R</a></strong> to test making queries to the geocoding services. These tests are not included in the internal package tests (<code><a href="https://devtools.r-lib.org//reference/test.html">devtools::test()</a></code>) because they require API keys which would not exist on all systems and are dependent on the geocoding services being online at that the time of the test.</li>
-<li>Run the commands detailed in <strong><a href="https://github.com/jessecambon/tidygeocoder/blob/main/cran-comments.md">cran-comments.md</a></strong> to test the package on other environments. Note that these tests should also be included in the automated GitHub actions tests for pull requests.</li>
+<li>Test out the new service to make sure it behaves as expected. You can reference tests and example code in <a href="https://github.com/jessecambon/tidygeocoder/tree/main/sandbox" class="external-link">the ‘sandbox’ folder</a>.</li>
+<li>Run <strong><code><a href="https://devtools.r-lib.org/reference/check.html" class="external-link">devtools::check()</a></code></strong> to make sure the package still passes all tests and checks, but note that these tests are designed to work offline so they do not make queries to geocoding services.</li>
+<li>As a final check, run <strong><a href="https://github.com/jessecambon/tidygeocoder/blob/main/external/online_tests.R" class="external-link">external/online_tests.R</a></strong> to test making queries to the geocoding services. These tests are not included in the internal package tests (<code><a href="https://devtools.r-lib.org/reference/test.html" class="external-link">devtools::test()</a></code>) because they require API keys which would not exist on all systems and are dependent on the geocoding services being online at that the time of the test.</li>
+<li>Run the commands detailed in <strong><a href="https://github.com/jessecambon/tidygeocoder/blob/main/cran-comments.md" class="external-link">cran-comments.md</a></strong> to test the package on other environments. Note that these tests should also be included in the automated GitHub actions tests for pull requests.</li>
 </ul>
 </div>
-<div id="releasing-a-new-version" class="section level3">
-<h3 class="hasAnchor">
-<a href="#releasing-a-new-version" class="anchor"></a>Releasing a New Version</h3>
+<div class="section level3">
+<h3 id="releasing-a-new-version">Releasing a New Version<a class="anchor" aria-label="anchor" href="#releasing-a-new-version"></a>
+</h3>
 <p>To release a new version of tidygeocoder:</p>
 <ul>
 <li>Run the tests detailed above</li>
@@ -327,15 +330,15 @@
 </li>
 <li>Update the package version for the citation note in <a href="inst/CITATION">inst/CITATION</a>
 </li>
-<li>Reserve a DOI for a new package version with <a href="https://zenodo.org/">Zenodo</a>
+<li>Reserve a DOI for a new package version with <a href="https://zenodo.org/" class="external-link">Zenodo</a>
 </li>
 <li>Update the Zenodo DOI in <a href="README.Rmd">README.Rmd</a> and reknit to update <a href="README.html">README.md</a>
 </li>
-<li>Update the site with <code><a href="https://pkgdown.r-lib.org/reference/build_site.html">pkgdown::build_site()</a></code>
+<li>Update the site with <code><a href="https://pkgdown.r-lib.org/reference/build_site.html" class="external-link">pkgdown::build_site()</a></code>
 </li>
-<li>Use <code><a href="https://rdrr.io/pkg/urlchecker/man/url_check.html">urlchecker::url_check()</a></code> to check all package URLs</li>
+<li>Use <code><a href="https://rdrr.io/pkg/urlchecker/man/url_check.html" class="external-link">urlchecker::url_check()</a></code> to check all package URLs</li>
 </ul>
-<p>Lastly, run <code><a href="https://devtools.r-lib.org//reference/release.html">devtools::release()</a></code> to release the new version</p>
+<p>Lastly, run <code><a href="https://devtools.r-lib.org/reference/release.html" class="external-link">devtools::release()</a></code> to release the new version</p>
 </div>
 </div>
   </div>
@@ -351,11 +354,13 @@
 
 
       <footer><div class="copyright">
-  <p>Developed by <a href="https://jessecambon.github.io">Jesse Cambon</a>, <a href="https://github.com/dieghernan">Diego Hernangómez</a>, <a href="https://github.com/chris31415926535">Christopher Belanger</a>, <a href="https://github.com/dpprdan">Daniel Possenriede</a>.</p>
+  <p></p>
+<p>Developed by <a href="https://jessecambon.github.io" class="external-link">Jesse Cambon</a>, <a href="https://github.com/dieghernan" class="external-link">Diego Hernangómez</a>, <a href="https://github.com/chris31415926535" class="external-link">Christopher Belanger</a>, <a href="https://github.com/dpprdan" class="external-link">Daniel Possenriede</a>.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
+  <p></p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
 </div>
 
       </footer>
