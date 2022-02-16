@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file directly and reknit -->
 
-# tidygeocoder<a href='https://jessecambon.github.io/tidygeocoder/'><img src="man/figures/tidygeocoder_hex.png" align="right" height="139"/></a>
+# tidygeocoder<a href='https://jessecambon.github.io/tidygeocoder/'><img src="man/figures/tidygeocoder_hex.png" align="right" width="150"/></a>
 
 <!-- badges: start -->
 
