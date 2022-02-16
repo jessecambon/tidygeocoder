@@ -27,6 +27,8 @@
 </script>
 </head>
 <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-home">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -39,7 +41,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">tidygeocoder</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.0.5</span>
       </span>
     </div>
 
@@ -75,22 +77,23 @@
   <ul class="dropdown-menu" role="menu">
 <li class="dropdown-header">Releases</li>
     <li>
-      <a href="https://jessecambon.github.io/2021/10/17/tidygeocoder-1-0-4.html">Version 1.0.4</a>
+      <a href="https://jessecambon.github.io/2021/10/17/tidygeocoder-1-0-4.html" class="external-link">Version 1.0.4</a>
     </li>
     <li>
-      <a href="https://jessecambon.github.io/2021/04/19/tidygeocoder-1-0-3.html">Version 1.0.3</a>
+      <a href="https://jessecambon.github.io/2021/04/19/tidygeocoder-1-0-3.html" class="external-link">Version 1.0.3</a>
     </li>
     <li>
-      <a href="https://jessecambon.github.io/2021/01/18/tidygeocoder-1-0-2.html">Version 1.0.2</a>
+      <a href="https://jessecambon.github.io/2021/01/18/tidygeocoder-1-0-2.html" class="external-link">Version 1.0.2</a>
     </li>
     <li>
-      <a href="https://jessecambon.github.io/2020/07/15/tidygeocoder-1-0-0.html">Version 1.0.0</a>
+      <a href="https://jessecambon.github.io/2020/07/15/tidygeocoder-1-0-0.html" class="external-link">Version 1.0.0</a>
     </li>
     <li>
-      <a href="https://jessecambon.github.io/2019/11/11/tidygeocoder-demo.html">Version 0.2.4</a>
+      <a href="https://jessecambon.github.io/2019/11/11/tidygeocoder-demo.html" class="external-link">Version 0.2.4</a>
     </li>
     <li class="divider">
-    <li>
+    </li>
+<li>
       <a href="news/index.html">Changelog</a>
     </li>
   </ul>
@@ -98,7 +101,7 @@
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="https://github.com/jessecambon/tidygeocoder/">
+  <a href="https://github.com/jessecambon/tidygeocoder/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -121,13 +124,13 @@
 
       </header><div class="row">
   <div class="contents col-md-9">
-<div id="tidygeocoder" class="section level1">
-<div class="page-header"><h1 class="hasAnchor">
-<a href="#tidygeocoder" class="anchor"></a>tidygeocoder<a href="https://jessecambon.github.io/tidygeocoder/"><img src="reference/figures/tidygeocoder_hex.png" align="right" height="139px"></a>
+<div class="section level1">
+<div class="page-header"><h1 id="tidygeocoder">tidygeocoder<a href="https://jessecambon.github.io/tidygeocoder/"><img src="reference/figures/tidygeocoder_hex.png" align="right" width="150"></a>
+<a class="anchor" aria-label="anchor" href="#tidygeocoder"></a>
 </h1></div>
 <!-- badges: start -->
 
-<p>Tidygeocoder makes getting data from geocoding services easy. A unified high-level interface is provided for a selection of <a href="https://jessecambon.github.io/tidygeocoder/articles/geocoder_services.html">supported geocoding services</a> and results are returned in <a href="https://tibble.tidyverse.org/">tibble</a> (dataframe) format.</p>
+<p>Tidygeocoder makes getting data from geocoding services easy. A unified high-level interface is provided for a selection of <a href="https://jessecambon.github.io/tidygeocoder/articles/geocoder_services.html">supported geocoding services</a> and results are returned in <a href="https://tibble.tidyverse.org/" class="external-link">tibble</a> (dataframe) format.</p>
 <p><strong>Features:</strong></p>
 <ul>
 <li>Forward geocoding (addresses ⮕ coordinates)</li>
@@ -136,27 +139,27 @@
 <li>Duplicate, NA, and blank input data is handled elegantly; only unique inputs are submitted in queries, but the rows in the original data are preserved by default.</li>
 <li>The maximum rate of querying is automatically set according to the usage policies of the selected geocoding service.</li>
 </ul>
-<p>In addition to the usage examples below, see the <a href="https://jessecambon.github.io/tidygeocoder/articles/tidygeocoder.html">Getting Started Vignette</a> and <a href="https://jessecambon.github.io/tag/tidygeocoder">blog posts on tidygeocoder</a>.</p>
-<div id="installation" class="section level2">
-<h2 class="hasAnchor">
-<a href="#installation" class="anchor"></a>Installation</h2>
+<p>In addition to the usage examples below, see the <a href="https://jessecambon.github.io/tidygeocoder/articles/tidygeocoder.html">Getting Started Vignette</a> and <a href="https://jessecambon.github.io/tag/tidygeocoder" class="external-link">blog posts on tidygeocoder</a>.</p>
+<div class="section level2">
+<h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
+</h2>
 <p>To install the stable version from CRAN (the official R package servers):</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">'tidygeocoder'</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">'tidygeocoder'</span><span class="op">)</span></code></pre></div>
 <p>Alternatively, you can install the latest development version from GitHub:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://devtools.r-lib.org//reference/remote-reexports.html">install_github</a></span><span class="op">(</span><span class="st">"jessecambon/tidygeocoder"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://devtools.r-lib.org/reference/remote-reexports.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"jessecambon/tidygeocoder"</span><span class="op">)</span></code></pre></div>
 </div>
-<div id="usage" class="section level2">
-<h2 class="hasAnchor">
-<a href="#usage" class="anchor"></a>Usage</h2>
+<div class="section level2">
+<h2 id="usage">Usage<a class="anchor" aria-label="anchor" href="#usage"></a>
+</h2>
 <p>In this first example we will geocode a few addresses using the <code><a href="reference/geocode.html">geocode()</a></code> function and plot them on a map with ggplot.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org">dplyr</a></span>, warn.conflicts <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://jessecambon.github.io/tidygeocoder/">tidygeocoder</a></span><span class="op">)</span>
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span>, warn.conflicts <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://jessecambon.github.io/tidygeocoder/">tidygeocoder</a></span><span class="op">)</span>
 
 <span class="co"># create a dataframe with addresses</span>
-<span class="va">some_addresses</span> <span class="op">&lt;-</span> <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tribble.html">tribble</a></span><span class="op">(</span>
+<span class="va">some_addresses</span> <span class="op">&lt;-</span> <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tribble.html" class="external-link">tribble</a></span><span class="op">(</span>
 <span class="op">~</span><span class="va">name</span>,                  <span class="op">~</span><span class="va">addr</span>,
 <span class="st">"White House"</span>,          <span class="st">"1600 Pennsylvania Ave NW, Washington, DC"</span>,
 <span class="st">"Transamerica Pyramid"</span>, <span class="st">"600 Montgomery St, San Francisco, CA 94111"</span>,     
@@ -164,11 +167,11 @@
 <span class="op">)</span>
 
 <span class="co"># geocode the addresses</span>
-<span class="va">lat_longs</span> <span class="op">&lt;-</span> <span class="va">some_addresses</span> <span class="op">%&gt;%</span>
+<span class="va">lat_longs</span> <span class="op">&lt;-</span> <span class="va">some_addresses</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
   <span class="fu"><a href="reference/geocode.html">geocode</a></span><span class="op">(</span><span class="va">addr</span>, method <span class="op">=</span> <span class="st">'osm'</span>, lat <span class="op">=</span> <span class="va">latitude</span> , long <span class="op">=</span> <span class="va">longitude</span><span class="op">)</span>
 <span class="co">#&gt; Passing 3 addresses to the Nominatim single address geocoder</span>
 <span class="co">#&gt; Query completed in: 3 seconds</span></code></pre></div>
-<p>The <code><a href="reference/geocode.html">geocode()</a></code> function geocodes addresses contained in a dataframe. The <a href="https://nominatim.org/">Nominatim (“osm”)</a> geocoding service is used here, but other services can be specified with the <code>method</code> argument. Only latitude and longitude are returned from the geocoding service in this example, but <code>full_results = TRUE</code> can be used to return all of the data from the geocoding service. See the <code><a href="reference/geo.html">geo()</a></code> function documentation for details.</p>
+<p>The <code><a href="reference/geocode.html">geocode()</a></code> function geocodes addresses contained in a dataframe. The <a href="https://nominatim.org/" class="external-link">Nominatim (“osm”)</a> geocoding service is used here, but other services can be specified with the <code>method</code> argument. Only latitude and longitude are returned from the geocoding service in this example, but <code>full_results = TRUE</code> can be used to return all of the data from the geocoding service. See the <code><a href="reference/geo.html">geo()</a></code> function documentation for details.</p>
 <table class="table">
 <colgroup>
 <col width="25%">
@@ -198,19 +201,19 @@
 <tr class="odd">
 <td align="left">Willis Tower</td>
 <td align="left">233 S Wacker Dr, Chicago, IL 60606</td>
-<td align="right">41.87535</td>
-<td align="right">-87.63576</td>
+<td align="right">41.87887</td>
+<td align="right">-87.63591</td>
 </tr>
 </tbody>
 </table>
 <p>Now that we have the longitude and latitude coordinates, we can use ggplot to plot our addresses on a map.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org">ggplot2</a></span><span class="op">)</span>
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span>
 
-<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">lat_longs</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span><span class="va">longitude</span>, <span class="va">latitude</span><span class="op">)</span>, color <span class="op">=</span> <span class="st">"grey99"</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/borders.html">borders</a></span><span class="op">(</span><span class="st">"state"</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu">ggrepel</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/ggrepel/man/geom_text_repel.html">geom_label_repel</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>label <span class="op">=</span> <span class="va">name</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_void</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">lat_longs</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span><span class="va">longitude</span>, <span class="va">latitude</span><span class="op">)</span>, color <span class="op">=</span> <span class="st">"grey99"</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/borders.html" class="external-link">borders</a></span><span class="op">(</span><span class="st">"state"</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html" class="external-link">geom_point</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu">ggrepel</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/ggrepel/man/geom_text_repel.html" class="external-link">geom_label_repel</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>label <span class="op">=</span> <span class="va">name</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_void</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <p><img src="reference/figures/README-usamap-1.png" style="display: block; margin: auto;"></p>
 <p>To perform reverse geocoding (obtaining addresses from geographic coordinates), we can use the <code><a href="reference/reverse_geocode.html">reverse_geocode()</a></code> function. The arguments are similar to the <code><a href="reference/geocode.html">geocode()</a></code> function, but now we specify the input data columns with the <code>lat</code> and <code>long</code> arguments. The input dataset used here is the results of the geocoding query above.</p>
 <p>The single line address is returned in a column named by the <code>address</code> argument and all columns from the geocoding service results are returned because <code>full_results = TRUE</code>. See the <code><a href="reference/reverse_geo.html">reverse_geo()</a></code> function documentation for more details.</p>
@@ -219,36 +222,37 @@ Removing the licence column is done just to prevent a note from
 occurring in automated CRAN checks for an improper/old link.
 -->
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">reverse</span> <span class="op">&lt;-</span> <span class="va">lat_longs</span> <span class="op">%&gt;%</span>
+<code class="sourceCode R"><span class="va">reverse</span> <span class="op">&lt;-</span> <span class="va">lat_longs</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
   <span class="fu"><a href="reference/reverse_geocode.html">reverse_geocode</a></span><span class="op">(</span>lat <span class="op">=</span> <span class="va">latitude</span>, long <span class="op">=</span> <span class="va">longitude</span>, method <span class="op">=</span> <span class="st">'osm'</span>,
-                  address <span class="op">=</span> <span class="va">address_found</span>, full_results <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="op">-</span><span class="va">addr</span>, <span class="op">-</span><span class="va">licence</span><span class="op">)</span>
+                  address <span class="op">=</span> <span class="va">address_found</span>, full_results <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="op">-</span><span class="va">addr</span>, <span class="op">-</span><span class="va">licence</span><span class="op">)</span>
 <span class="co">#&gt; Passing 3 coordinates to the Nominatim single coordinate geocoder</span>
 <span class="co">#&gt; Query completed in: 3 seconds</span></code></pre></div>
 <table class="table">
 <colgroup>
 <col width="4%">
-<col width="1%">
-<col width="2%">
-<col width="29%">
 <col width="2%">
 <col width="2%">
+<col width="23%">
 <col width="2%">
+<col width="2%">
+<col width="2%">
+<col width="4%">
+<col width="4%">
+<col width="2%">
+<col width="3%">
+<col width="6%">
 <col width="3%">
 <col width="4%">
 <col width="2%">
-<col width="2%">
-<col width="5%">
-<col width="2%">
-<col width="4%">
-<col width="1%">
-<col width="2%">
-<col width="2%">
+<col width="3%">
+<col width="3%">
 <col width="10%">
 <col width="4%">
-<col width="2%">
+<col width="3%">
 <col width="2%">
 <col width="1%">
+<col width="2%">
 </colgroup>
 <thead><tr class="header">
 <th align="left">name</th>
@@ -271,8 +275,9 @@ occurring in automated CRAN checks for an improper/old link.
 <th align="left">boundingbox</th>
 <th align="left">tourism</th>
 <th align="left">neighbourhood</th>
-<th align="left">county</th>
+<th align="left">building</th>
 <th align="left">suburb</th>
+<th align="left">county</th>
 </tr></thead>
 <tbody>
 <tr class="odd">
@@ -298,12 +303,13 @@ occurring in automated CRAN checks for an improper/old link.
 <td align="left">NA</td>
 <td align="left">NA</td>
 <td align="left">NA</td>
+<td align="left">NA</td>
 </tr>
 <tr class="even">
 <td align="left">Transamerica Pyramid</td>
 <td align="right">37.79520</td>
 <td align="right">-122.40279</td>
-<td align="left">Transamerica Pyramid, 600, Montgomery Street, Chinatown, San Francisco, San Francisco City and County, San Francisco, California, 94111, United States</td>
+<td align="left">Transamerica Pyramid, 600, Montgomery Street, Chinatown, San Francisco, California, 94111, United States</td>
 <td align="right">106008002</td>
 <td align="left">way</td>
 <td align="right">24222973</td>
@@ -320,66 +326,68 @@ occurring in automated CRAN checks for an improper/old link.
 <td align="left">37.7948854 , 37.7954472 , -122.4031399, -122.4024317</td>
 <td align="left">Transamerica Pyramid</td>
 <td align="left">Chinatown</td>
-<td align="left">San Francisco</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
 <td align="left">NA</td>
 </tr>
 <tr class="odd">
 <td align="left">Willis Tower</td>
-<td align="right">41.87535</td>
-<td align="right">-87.63576</td>
-<td align="left">South Wacker Drive, Printer’s Row, Loop, Chicago, Cook County, Illinois, 60606, United States</td>
-<td align="right">182238096</td>
+<td align="right">41.87887</td>
+<td align="right">-87.63591</td>
+<td align="left">Willis Tower, 233, South Wacker Drive, Printer’s Row, Loop, Chicago, Cook County, Illinois, 60606, United States</td>
+<td align="right">116070994</td>
 <td align="left">way</td>
-<td align="right">337681342</td>
-<td align="left">41.8753503</td>
-<td align="left">-87.6357587</td>
+<td align="right">58528804</td>
+<td align="left">41.878871700000005</td>
+<td align="left">-87.63590784114558</td>
 <td align="left">NA</td>
-<td align="left">NA</td>
+<td align="left">233</td>
 <td align="left">South Wacker Drive</td>
 <td align="left">Chicago</td>
 <td align="left">Illinois</td>
 <td align="left">60606</td>
 <td align="left">United States</td>
 <td align="left">us</td>
-<td align="left">41.8749718 , 41.8757997 , -87.6361005, -87.6354602</td>
+<td align="left">41.8785389 , 41.8791932 , -87.6363362, -87.6354746</td>
 <td align="left">NA</td>
 <td align="left">Printer’s Row</td>
-<td align="left">Cook County</td>
+<td align="left">Willis Tower</td>
 <td align="left">Loop</td>
+<td align="left">Cook County</td>
 </tr>
 </tbody>
 </table>
 </div>
-<div id="in-the-wild" class="section level2">
-<h2 class="hasAnchor">
-<a href="#in-the-wild" class="anchor"></a>In the Wild</h2>
+<div class="section level2">
+<h2 id="in-the-wild">In the Wild<a class="anchor" aria-label="anchor" href="#in-the-wild"></a>
+</h2>
 <p>For inspiration, here are a few articles (with code) that leverage tidygeocoder:</p>
 <ul>
 <li>
-<a href="http://www2.stat.duke.edu/courses/Spring21/sta323.001/exercises/lec_12.html">Exercises: Spatial Data Wrangling with sf</a> - part of a <a href="http://www2.stat.duke.edu/courses/Spring21/sta323.001/">statistical computing course</a> at Duke</li>
+<a href="http://www2.stat.duke.edu/courses/Spring21/sta323.001/exercises/lec_12.html" class="external-link">Exercises: Spatial Data Wrangling with sf</a> - part of a <a href="http://www2.stat.duke.edu/courses/Spring21/sta323.001/" class="external-link">statistical computing course</a> at Duke</li>
 <li>
-<a href="https://www.jla-data.net/eng/minard-map-tidygeocoder/">Geocoding the Minard Map</a> - recreating a famous infographic with geocoding</li>
+<a href="https://www.jla-data.net/eng/minard-map-tidygeocoder/" class="external-link">Geocoding the Minard Map</a> - recreating a famous infographic with geocoding</li>
 <li>
-<a href="https://www.monicaalexander.com/posts/2021-21-02-mapping/">Mapping a network of women in demography</a> - using rvest and tidygeocoder to map Google Scholar data</li>
+<a href="https://www.monicaalexander.com/posts/2021-21-02-mapping/" class="external-link">Mapping a network of women in demography</a> - using rvest and tidygeocoder to map Google Scholar data</li>
 <li>
-<a href="https://bensstats.wordpress.com/2021/10/21/robservations-15-i-reverse-engineered-atlas-co-well-some-of-it/">Mapping Routes</a> - mapping routes with tidygeocoder and osrm</li>
+<a href="https://bensstats.wordpress.com/2021/10/21/robservations-15-i-reverse-engineered-atlas-co-well-some-of-it/" class="external-link">Mapping Routes</a> - mapping routes with tidygeocoder and osrm</li>
 <li>
-<a href="https://www.jla-data.net/eng/routing-in-r-context/">Road Routing in R</a> - demonstration of three different routing APIs</li>
+<a href="https://www.jla-data.net/eng/routing-in-r-context/" class="external-link">Road Routing in R</a> - demonstration of three different routing APIs</li>
 <li>
-<a href="https://www.sharpsightlabs.com/blog/mapping-texas-ports-with-r-part1/">Mapping Texas Ports With R</a> - mapping the Texas coast with rnaturalearth and sf</li>
+<a href="https://www.sharpsightlabs.com/blog/mapping-texas-ports-with-r-part1/" class="external-link">Mapping Texas Ports With R</a> - mapping the Texas coast with rnaturalearth and sf</li>
 </ul>
 </div>
-<div id="contributing" class="section level2">
-<h2 class="hasAnchor">
-<a href="#contributing" class="anchor"></a>Contributing</h2>
-<p>Contributions to the tidygeocoder package are welcome. File <a href="https://github.com/jessecambon/tidygeocoder/issues">an issue</a> for bug fixes or suggested features. If you would like to contribute code such as adding support for a new geocoding service, reference the <a href="https://jessecambon.github.io/tidygeocoder/articles/developer_notes.html">developer notes</a> for instructions and documentation.</p>
+<div class="section level2">
+<h2 id="contributing">Contributing<a class="anchor" aria-label="anchor" href="#contributing"></a>
+</h2>
+<p>Contributions to the tidygeocoder package are welcome. File <a href="https://github.com/jessecambon/tidygeocoder/issues" class="external-link">an issue</a> for bug fixes or suggested features. If you would like to contribute code such as adding support for a new geocoding service, reference the <a href="https://jessecambon.github.io/tidygeocoder/articles/developer_notes.html">developer notes</a> for instructions and documentation.</p>
 </div>
-<div id="citing-tidygeocoder" class="section level2">
-<h2 class="hasAnchor">
-<a href="#citing-tidygeocoder" class="anchor"></a>Citing tidygeocoder</h2>
-<p>Use the <code><a href="https://rdrr.io/r/utils/citation.html">citation()</a></code> function:</p>
+<div class="section level2">
+<h2 id="citing-tidygeocoder">Citing tidygeocoder<a class="anchor" aria-label="anchor" href="#citing-tidygeocoder"></a>
+</h2>
+<p>Use the <code><a href="https://rdrr.io/r/utils/citation.html" class="external-link">citation()</a></code> function:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/citation.html">citation</a></span><span class="op">(</span><span class="st">'tidygeocoder'</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/citation.html" class="external-link">citation</a></span><span class="op">(</span><span class="st">'tidygeocoder'</span><span class="op">)</span></code></pre></div>
 <p></p>
 <blockquote>
 <div class="sourceCode" id="cb7"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>To cite tidygeocoder use<span class="sc">:</span></span>
@@ -412,66 +420,70 @@ occurring in automated CRAN checks for an improper/old link.
 
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <div class="links">
-<h2>Links</h2>
+<h2 data-toc-skip>Links</h2>
 <ul class="list-unstyled">
-<li>Download from CRAN at <br><a href="https://cloud.r-project.org/package=tidygeocoder">https://​cloud.r-project.org/​package=tidygeocoder</a>
-</li>
-<li>Browse source code at <br><a href="https://github.com/jessecambon/tidygeocoder/">https://​github.com/​jessecambon/​tidygeocoder/​</a>
-</li>
-<li>Report a bug at <br><a href="https://github.com/jessecambon/tidygeocoder/issues">https://​github.com/​jessecambon/​tidygeocoder/​issues</a>
-</li>
-</ul>
-</div>
-<div class="license">
-<h2>License</h2>
-<ul class="list-unstyled">
-<li><a href="LICENSE.html">Full license</a></li>
-<li><small><a href="https://opensource.org/licenses/mit-license.php">MIT</a> + file <a href="LICENSE-text.html">LICENSE</a></small></li>
-</ul>
-</div>
-<div class="citation">
-<h2>Citation</h2>
-<ul class="list-unstyled">
-<li><a href="authors.html">Citing tidygeocoder</a></li>
-</ul>
-</div>
-<div class="developers">
-<h2>Developers</h2>
-<ul class="list-unstyled">
-<li>
-<a href="https://jessecambon.github.io">Jesse Cambon</a> <br><small class="roles"> Author, maintainer </small> <a href="https://orcid.org/0000-0001-6854-1514" target="orcid.widget" aria-label="ORCID"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
-<li>
-<a href="https://github.com/dieghernan">Diego Hernangómez</a> <br><small class="roles"> Author </small> <a href="https://orcid.org/0000-0001-8457-4658" target="orcid.widget" aria-label="ORCID"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
-<li>
-<a href="https://github.com/chris31415926535">Christopher Belanger</a> <br><small class="roles"> Author </small> <a href="https://orcid.org/0000-0003-2070-5721" target="orcid.widget" aria-label="ORCID"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
-<li>
-<a href="https://github.com/dpprdan">Daniel Possenriede</a> <br><small class="roles"> Author </small> <a href="https://orcid.org/0000-0002-6738-9845" target="orcid.widget" aria-label="ORCID"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
+<li><a href="https://cloud.r-project.org/package=tidygeocoder" class="external-link">View on CRAN</a></li>
+<li><a href="https://github.com/jessecambon/tidygeocoder/" class="external-link">Browse source code</a></li>
+<li><a href="https://github.com/jessecambon/tidygeocoder/issues" class="external-link">Report a bug</a></li>
 </ul>
 </div>
 
-  <div class="dev-status">
-<h2>Dev status</h2>
+<div class="license">
+<h2 data-toc-skip>License</h2>
 <ul class="list-unstyled">
-<li><a href="https://doi.org/10.21105/joss.03544"><img src="https://joss.theoj.org/papers/10.21105/joss.03544/status.svg" alt="JOSS"></a></li>
-<li><a href="https://github.com/jessecambon/tidygeocoder/blob/master/LICENSE.md"><img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="License: MIT"></a></li>
-<li><a href="https://cran.r-project.org/package=tidygeocoder"><img src="https://www.r-pkg.org/badges/version/tidygeocoder" alt="CRAN"></a></li>
-<li><a href="https://CRAN.R-project.org/package=tidygeocoder"><img src="http://cranlogs.r-pkg.org/badges/grand-total/tidygeocoder" alt="CRAN Total Downloads"></a></li>
-<li><a href="https://cran.r-project.org/package=tidygeocoder"><img src="http://cranlogs.r-pkg.org/badges/tidygeocoder" alt="CRAN Downloads Per Month"></a></li>
-<li><a href="https://lifecycle.r-lib.org/articles/stages.html#stable"><img src="https://img.shields.io/badge/lifecycle-stable-brightgreen.svg" alt="Lifecycle: stable"></a></li>
-<li><a href="https://github.com/jessecambon/tidygeocoder/actions?workflow=R-CMD-check"><img src="https://github.com/jessecambon/tidygeocoder/workflows/R-CMD-check/badge.svg" alt="R Build Status"></a></li>
-<li><a href="https://doi.org/10.5281/zenodo.5627341"><img src="https://zenodo.org/badge/DOI/10.5281/zenodo.5627341.svg" alt="Zenodo"></a></li>
+<li><a href="LICENSE.html">Full license</a></li>
+<li><small><a href="https://opensource.org/licenses/mit-license.php" class="external-link">MIT</a> + file <a href="LICENSE-text.html">LICENSE</a></small></li>
 </ul>
 </div>
+
+
+<div class="citation">
+<h2 data-toc-skip>Citation</h2>
+<ul class="list-unstyled">
+<li><a href="authors.html#citation">Citing tidygeocoder</a></li>
+</ul>
 </div>
+
+<div class="developers">
+<h2 data-toc-skip>Developers</h2>
+<ul class="list-unstyled">
+<li>
+<a href="https://jessecambon.github.io" class="external-link">Jesse Cambon</a> <br><small class="roles"> Author, maintainer </small> <a href="https://orcid.org/0000-0001-6854-1514" target="orcid.widget" aria-label="ORCID" class="external-link"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
+<li>
+<a href="https://github.com/dieghernan" class="external-link">Diego Hernangómez</a> <br><small class="roles"> Author </small> <a href="https://orcid.org/0000-0001-8457-4658" target="orcid.widget" aria-label="ORCID" class="external-link"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
+<li>
+<a href="https://github.com/chris31415926535" class="external-link">Christopher Belanger</a> <br><small class="roles"> Author </small> <a href="https://orcid.org/0000-0003-2070-5721" target="orcid.widget" aria-label="ORCID" class="external-link"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
+<li>
+<a href="https://github.com/dpprdan" class="external-link">Daniel Possenriede</a> <br><small class="roles"> Author </small> <a href="https://orcid.org/0000-0002-6738-9845" target="orcid.widget" aria-label="ORCID" class="external-link"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
+</ul>
+</div>
+
+<div class="dev-status">
+<h2 data-toc-skip>Dev status</h2>
+<ul class="list-unstyled">
+<li><a href="https://doi.org/10.21105/joss.03544" class="external-link"><img src="https://joss.theoj.org/papers/10.21105/joss.03544/status.svg" alt="JOSS"></a></li>
+<li><a href="https://github.com/jessecambon/tidygeocoder/blob/master/LICENSE.md" class="external-link"><img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="License: MIT"></a></li>
+<li><a href="https://cran.r-project.org/package=tidygeocoder" class="external-link"><img src="https://www.r-pkg.org/badges/version/tidygeocoder" alt="CRAN"></a></li>
+<li><a href="https://CRAN.R-project.org/package=tidygeocoder" class="external-link"><img src="http://cranlogs.r-pkg.org/badges/grand-total/tidygeocoder" alt="CRAN Total Downloads"></a></li>
+<li><a href="https://cran.r-project.org/package=tidygeocoder" class="external-link"><img src="http://cranlogs.r-pkg.org/badges/tidygeocoder" alt="CRAN Downloads Per Month"></a></li>
+<li><a href="https://lifecycle.r-lib.org/articles/stages.html#stable" class="external-link"><img src="https://img.shields.io/badge/lifecycle-stable-brightgreen.svg" alt="Lifecycle: stable"></a></li>
+<li><a href="https://github.com/jessecambon/tidygeocoder/actions?workflow=R-CMD-check" class="external-link"><img src="https://github.com/jessecambon/tidygeocoder/workflows/R-CMD-check/badge.svg" alt="R Build Status"></a></li>
+<li><a href="https://doi.org/10.5281/zenodo.5627341" class="external-link"><img src="https://zenodo.org/badge/DOI/10.5281/zenodo.5627341.svg" alt="Zenodo"></a></li>
+</ul>
+</div>
+
+  </div>
 </div>
 
 
       <footer><div class="copyright">
-  <p>Developed by <a href="https://jessecambon.github.io">Jesse Cambon</a>, <a href="https://github.com/dieghernan">Diego Hernangómez</a>, <a href="https://github.com/chris31415926535">Christopher Belanger</a>, <a href="https://github.com/dpprdan">Daniel Possenriede</a>.</p>
+  <p></p>
+<p>Developed by <a href="https://jessecambon.github.io" class="external-link">Jesse Cambon</a>, <a href="https://github.com/dieghernan" class="external-link">Diego Hernangómez</a>, <a href="https://github.com/chris31415926535" class="external-link">Christopher Belanger</a>, <a href="https://github.com/dpprdan" class="external-link">Daniel Possenriede</a>.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
+  <p></p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
 </div>
 
       </footer>

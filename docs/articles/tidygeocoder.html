@@ -28,6 +28,8 @@
 </script>
 </head>
 <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-article">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -40,7 +42,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">tidygeocoder</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.0.5</span>
       </span>
     </div>
 
@@ -76,22 +78,23 @@
   <ul class="dropdown-menu" role="menu">
 <li class="dropdown-header">Releases</li>
     <li>
-      <a href="https://jessecambon.github.io/2021/10/17/tidygeocoder-1-0-4.html">Version 1.0.4</a>
+      <a href="https://jessecambon.github.io/2021/10/17/tidygeocoder-1-0-4.html" class="external-link">Version 1.0.4</a>
     </li>
     <li>
-      <a href="https://jessecambon.github.io/2021/04/19/tidygeocoder-1-0-3.html">Version 1.0.3</a>
+      <a href="https://jessecambon.github.io/2021/04/19/tidygeocoder-1-0-3.html" class="external-link">Version 1.0.3</a>
     </li>
     <li>
-      <a href="https://jessecambon.github.io/2021/01/18/tidygeocoder-1-0-2.html">Version 1.0.2</a>
+      <a href="https://jessecambon.github.io/2021/01/18/tidygeocoder-1-0-2.html" class="external-link">Version 1.0.2</a>
     </li>
     <li>
-      <a href="https://jessecambon.github.io/2020/07/15/tidygeocoder-1-0-0.html">Version 1.0.0</a>
+      <a href="https://jessecambon.github.io/2020/07/15/tidygeocoder-1-0-0.html" class="external-link">Version 1.0.0</a>
     </li>
     <li>
-      <a href="https://jessecambon.github.io/2019/11/11/tidygeocoder-demo.html">Version 0.2.4</a>
+      <a href="https://jessecambon.github.io/2019/11/11/tidygeocoder-demo.html" class="external-link">Version 0.2.4</a>
     </li>
     <li class="divider">
-    <li>
+    </li>
+<li>
       <a href="../news/index.html">Changelog</a>
     </li>
   </ul>
@@ -99,7 +102,7 @@
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="https://github.com/jessecambon/tidygeocoder/">
+  <a href="https://github.com/jessecambon/tidygeocoder/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -120,45 +123,45 @@
 
       
 
-      </header><script src="tidygeocoder_files/header-attrs-2.11/header-attrs.js"></script><div class="row">
+      </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Getting Started</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/jessecambon/tidygeocoder/blob/master/vignettes/tidygeocoder.Rmd"><code>vignettes/tidygeocoder.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/jessecambon/tidygeocoder/blob/HEAD/vignettes/tidygeocoder.Rmd" class="external-link"><code>vignettes/tidygeocoder.Rmd</code></a></small>
       <div class="hidden name"><code>tidygeocoder.Rmd</code></div>
 
     </div>
 
     
     
-<div id="introduction" class="section level2">
-<h2 class="hasAnchor">
-<a href="#introduction" class="anchor"></a>Introduction</h2>
+<div class="section level2">
+<h2 id="introduction">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a>
+</h2>
 <p>Tidygeocoder provides a unified interface for performing both forward and reverse geocoding queries with a variety of geocoding services. In forward geocoding you provide an address to the geocoding service and you get latitude and longitude coordinates in return. In reverse geocoding you provide the latitude and longitude and the geocoding service will return that location’s address. In both cases, other data about the location can be provided by the geocoding service.</p>
 <p>The <code><a href="../reference/geocode.html">geocode()</a></code> and <code><a href="../reference/geo.html">geo()</a></code> functions are for forward geocoding while the <code><a href="../reference/reverse_geocode.html">reverse_geocode()</a></code> and <code><a href="../reference/reverse_geo.html">reverse_geo()</a></code> functions perform reverse geocoding. The <code><a href="../reference/geocode.html">geocode()</a></code> and <code><a href="../reference/reverse_geocode.html">reverse_geocode()</a></code> functions extract either addresses (forward geocoding) or coordinates (reverse geocoding) from the input dataframe and pass this data to the <code><a href="../reference/geo.html">geo()</a></code> and <code><a href="../reference/reverse_geo.html">reverse_geo()</a></code> functions respectively which execute the geocoding queries. All extra arguments (<code>...</code>) given to <code><a href="../reference/geocode.html">geocode()</a></code> are passed to <code><a href="../reference/geo.html">geo()</a></code> and extra arguments given to <code><a href="../reference/reverse_geocode.html">reverse_geocode()</a></code> are passed to <code><a href="../reference/reverse_geo.html">reverse_geo()</a></code>.</p>
 </div>
-<div id="forward-geocoding" class="section level2">
-<h2 class="hasAnchor">
-<a href="#forward-geocoding" class="anchor"></a>Forward Geocoding</h2>
+<div class="section level2">
+<h2 id="forward-geocoding">Forward Geocoding<a class="anchor" aria-label="anchor" href="#forward-geocoding"></a>
+</h2>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tibble.tidyverse.org/">tibble</a></span><span class="op">)</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org">dplyr</a></span><span class="op">)</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://jessecambon.github.io/tidygeocoder/">tidygeocoder</a></span><span class="op">)</span>
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://tibble.tidyverse.org/" class="external-link">tibble</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://jessecambon.github.io/tidygeocoder/">tidygeocoder</a></span><span class="op">)</span>
 
-<span class="va">address_single</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span><span class="op">(</span>singlelineaddress <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span>
+<span class="va">address_single</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span>singlelineaddress <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>
   <span class="st">"11 Wall St, NY, NY"</span>,
   <span class="st">"600 Peachtree Street NE, Atlanta, Georgia"</span>
 <span class="op">)</span><span class="op">)</span>
-<span class="va">address_components</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tribble.html">tribble</a></span><span class="op">(</span>
+<span class="va">address_components</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tribble.html" class="external-link">tribble</a></span><span class="op">(</span>
   <span class="op">~</span><span class="va">street</span>, <span class="op">~</span><span class="va">cty</span>, <span class="op">~</span><span class="va">st</span>,
   <span class="st">"11 Wall St"</span>, <span class="st">"NY"</span>, <span class="st">"NY"</span>,
   <span class="st">"600 Peachtree Street NE"</span>, <span class="st">"Atlanta"</span>, <span class="st">"GA"</span>
 <span class="op">)</span></code></pre></div>
 <p>You can use the <code>address</code> argument to specify single-line addresses. Note that when multiple addresses are provided, the batch geocoding functionality of the Census geocoding service is used. Additionally, <code>verbose = TRUE</code> displays logs to the console.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">census_s1</span> <span class="op">&lt;-</span> <span class="va">address_single</span> <span class="op">%&gt;%</span>
+<code class="sourceCode R"><span class="va">census_s1</span> <span class="op">&lt;-</span> <span class="va">address_single</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
   <span class="fu"><a href="../reference/geocode.html">geocode</a></span><span class="op">(</span>address <span class="op">=</span> <span class="va">singlelineaddress</span>, method <span class="op">=</span> <span class="st">"census"</span>, verbose <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; Number of Unique Addresses: 2</span>
@@ -219,7 +222,7 @@
 </table>
 <p>Instead of single-line addresses, you can use any combination of the following arguments to specify your addresses: <code>street</code>, <code>city</code>, <code>state</code>, <code>county</code>, <code>postalcode</code>, and <code>country</code>.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">census_c1</span> <span class="op">&lt;-</span> <span class="va">address_components</span> <span class="op">%&gt;%</span>
+<code class="sourceCode R"><span class="va">census_c1</span> <span class="op">&lt;-</span> <span class="va">address_components</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
   <span class="fu"><a href="../reference/geocode.html">geocode</a></span><span class="op">(</span>street <span class="op">=</span> <span class="va">street</span>, city <span class="op">=</span> <span class="va">cty</span>, state <span class="op">=</span> <span class="va">st</span>, method <span class="op">=</span> <span class="st">"census"</span><span class="op">)</span>
 <span class="co">#&gt; Passing 2 addresses to the US Census batch geocoder</span>
 <span class="co">#&gt; Query completed in: 2.5 seconds</span></code></pre></div>
@@ -250,9 +253,9 @@
 </table>
 <p>To return the full geocoding service results (not just latitude and longitude), specify <code>full_results = TRUE</code>. Additionally, for the Census geocoder you can get fields for geographies such as Census tracts by specifying <code>api_options = list(census_return_type = 'geographies')</code>. Be sure to use <code>full_results = TRUE</code> with the “geographies” return type in order to allow the Census geography columns to be returned.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">census_full1</span> <span class="op">&lt;-</span> <span class="va">address_single</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/geocode.html">geocode</a></span><span class="op">(</span>
+<code class="sourceCode R"><span class="va">census_full1</span> <span class="op">&lt;-</span> <span class="va">address_single</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/geocode.html">geocode</a></span><span class="op">(</span>
   address <span class="op">=</span> <span class="va">singlelineaddress</span>,
-  method <span class="op">=</span> <span class="st">"census"</span>, full_results <span class="op">=</span> <span class="cn">TRUE</span>, api_options <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>census_return_type <span class="op">=</span> <span class="st">'geographies'</span><span class="op">)</span>
+  method <span class="op">=</span> <span class="st">"census"</span>, full_results <span class="op">=</span> <span class="cn">TRUE</span>, api_options <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>census_return_type <span class="op">=</span> <span class="st">'geographies'</span><span class="op">)</span>
 <span class="op">)</span>
 <span class="co">#&gt; Passing 2 addresses to the US Census batch geocoder</span>
 <span class="co">#&gt; Query completed in: 1.2 seconds</span></code></pre></div>
@@ -330,8 +333,8 @@ Removing the licence column is done just to prevent a note from
 occurring in automated CRAN checks for an improper/old link.
 -->
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">salz</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/geo.html">geo</a></span><span class="op">(</span><span class="st">"Salzburg, Austria"</span>, method <span class="op">=</span> <span class="st">"osm"</span>, full_results <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="op">-</span><span class="va">licence</span><span class="op">)</span>
+<code class="sourceCode R"><span class="va">salz</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/geo.html">geo</a></span><span class="op">(</span><span class="st">"Salzburg, Austria"</span>, method <span class="op">=</span> <span class="st">"osm"</span>, full_results <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="op">-</span><span class="va">licence</span><span class="op">)</span>
 <span class="co">#&gt; Passing 1 address to the Nominatim single address geocoder</span>
 <span class="co">#&gt; Query completed in: 1 seconds</span></code></pre></div>
 <table class="table">
@@ -375,22 +378,22 @@ occurring in automated CRAN checks for an improper/old link.
 <td align="left">place</td>
 <td align="left">city</td>
 <td align="right">0.6854709</td>
-<td align="left"><a href="https://nominatim.openstreetmap.org/ui/mapicons//poi_place_city.p.20.png" class="uri">https://nominatim.openstreetmap.org/ui/mapicons//poi_place_city.p.20.png</a></td>
+<td align="left"><a href="https://nominatim.openstreetmap.org/ui/mapicons//poi_place_city.p.20.png" class="external-link uri">https://nominatim.openstreetmap.org/ui/mapicons//poi_place_city.p.20.png</a></td>
 </tr></tbody>
 </table>
 </div>
-<div id="reverse-geocoding" class="section level2">
-<h2 class="hasAnchor">
-<a href="#reverse-geocoding" class="anchor"></a>Reverse Geocoding</h2>
+<div class="section level2">
+<h2 id="reverse-geocoding">Reverse Geocoding<a class="anchor" aria-label="anchor" href="#reverse-geocoding"></a>
+</h2>
 <p>For reverse geocoding you’ll use <code><a href="../reference/reverse_geocode.html">reverse_geocode()</a></code> instead of <code><a href="../reference/geocode.html">geocode()</a></code> and <code><a href="../reference/reverse_geo.html">reverse_geo()</a></code> instead of <code><a href="../reference/geo.html">geo()</a></code>. Note that the reverse geocoding functions are structured very similarly to the forward geocoding functions and share many of the same arguments (<code>method</code>, <code>limit</code>, <code>full_results</code>, etc.). For reverse geocoding you will provide latitude and longitude coordinates as inputs and the location’s address will be returned by the geocoding service.</p>
 <p>Below, the <code><a href="../reference/reverse_geocode.html">reverse_geocode()</a></code> function is used to geocode coordinates in a dataframe. The <code>lat</code> and <code>long</code> arguments specify the columns that contain the latitude and longitude data. The <code>address</code> argument can be used to specify the single line address column name that is returned from the geocoder. Just as with forward geocoding, the <code>method</code> argument is used to specify the geocoding service.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">lat_longs1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span><span class="op">(</span>
-  latitude <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">38.895865</span>, <span class="fl">43.6534817</span><span class="op">)</span>,
-  longitude <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">77.0307713</span>, <span class="op">-</span><span class="fl">79.3839347</span><span class="op">)</span>
+<code class="sourceCode R"><span class="va">lat_longs1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span>
+  latitude <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">38.895865</span>, <span class="fl">43.6534817</span><span class="op">)</span>,
+  longitude <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">77.0307713</span>, <span class="op">-</span><span class="fl">79.3839347</span><span class="op">)</span>
 <span class="op">)</span>
 
-<span class="va">rev1</span> <span class="op">&lt;-</span> <span class="va">lat_longs1</span> <span class="op">%&gt;%</span>
+<span class="va">rev1</span> <span class="op">&lt;-</span> <span class="va">lat_longs1</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
   <span class="fu"><a href="../reference/reverse_geocode.html">reverse_geocode</a></span><span class="op">(</span>lat <span class="op">=</span> <span class="va">latitude</span>, long <span class="op">=</span> <span class="va">longitude</span>, address <span class="op">=</span> <span class="va">addr</span>, method <span class="op">=</span> <span class="st">"osm"</span><span class="op">)</span>
 <span class="co">#&gt; Passing 2 coordinates to the Nominatim single coordinate geocoder</span>
 <span class="co">#&gt; Query completed in: 2 seconds</span></code></pre></div>
@@ -428,7 +431,7 @@ occurring in automated CRAN checks for an improper/old link.
 <span class="op">)</span>
 <span class="co">#&gt; Passing 2 coordinates to the Nominatim single coordinate geocoder</span>
 <span class="co">#&gt; Query completed in: 2 seconds</span>
-<span class="fu"><a href="https://pillar.r-lib.org/reference/glimpse.html">glimpse</a></span><span class="op">(</span><span class="va">rev2</span><span class="op">)</span>
+<span class="fu"><a href="https://pillar.r-lib.org/reference/glimpse.html" class="external-link">glimpse</a></span><span class="op">(</span><span class="va">rev2</span><span class="op">)</span>
 <span class="co">#&gt; Rows: 2</span>
 <span class="co">#&gt; Columns: 22</span>
 <span class="co">#&gt; $ lat            &lt;dbl&gt; 38.89587, 43.65348</span>
@@ -454,18 +457,18 @@ occurring in automated CRAN checks for an improper/old link.
 <span class="co">#&gt; $ quarter        &lt;chr&gt; NA, "Spadina—Fort York"</span>
 <span class="co">#&gt; $ state_district &lt;chr&gt; NA, "Golden Horseshoe"</span></code></pre></div>
 </div>
-<div id="working-with-messy-data" class="section level2">
-<h2 class="hasAnchor">
-<a href="#working-with-messy-data" class="anchor"></a>Working With Messy Data</h2>
+<div class="section level2">
+<h2 id="working-with-messy-data">Working With Messy Data<a class="anchor" aria-label="anchor" href="#working-with-messy-data"></a>
+</h2>
 <p>Only unique input data (either addresses or coordinates) is passed to geocoding services even if your data contains duplicates. NA and blank inputs are excluded from queries. Input latitudes and longitudes are also limited to the range of possible values.</p>
 <p>Below is an example of how duplicate and missing data is handled by tidygeocoder. As the console messages shows, only the two unique addresses are passed to the geocoding service.</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># create a dataset with duplicate and NA addresses</span>
-<span class="va">duplicate_addrs</span> <span class="op">&lt;-</span> <span class="va">address_single</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/bind.html">bind_rows</a></span><span class="op">(</span><span class="va">address_single</span><span class="op">)</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/bind.html">bind_rows</a></span><span class="op">(</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span><span class="op">(</span>singlelineaddress <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="cn">NA</span>, <span class="fl">3</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>
+<span class="va">duplicate_addrs</span> <span class="op">&lt;-</span> <span class="va">address_single</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/bind.html" class="external-link">bind_rows</a></span><span class="op">(</span><span class="va">address_single</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/bind.html" class="external-link">bind_rows</a></span><span class="op">(</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span>singlelineaddress <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="cn">NA</span>, <span class="fl">3</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>
 
-<span class="va">duplicates_geocoded</span> <span class="op">&lt;-</span> <span class="va">duplicate_addrs</span> <span class="op">%&gt;%</span>
+<span class="va">duplicates_geocoded</span> <span class="op">&lt;-</span> <span class="va">duplicate_addrs</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
   <span class="fu"><a href="../reference/geocode.html">geocode</a></span><span class="op">(</span><span class="va">singlelineaddress</span>, verbose <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; Number of Unique Addresses: 2</span>
@@ -539,7 +542,7 @@ occurring in automated CRAN checks for an improper/old link.
 </table>
 <p>As shown above, duplicates will not be removed from your results by default. However, you can return only unique results by using <code>unique_only = TRUE</code>. Note that passing <code>unique_only = TRUE</code> to <code><a href="../reference/geocode.html">geocode()</a></code> or <code><a href="../reference/reverse_geocode.html">reverse_geocode()</a></code> will result in the original dataframe format (including column names) to be discarded in favor of the standard field names (ie. “address”, ‘lat, ’long’, etc.).</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">uniqueonly1</span> <span class="op">&lt;-</span> <span class="va">duplicate_addrs</span> <span class="op">%&gt;%</span>
+<code class="sourceCode R"><span class="va">uniqueonly1</span> <span class="op">&lt;-</span> <span class="va">duplicate_addrs</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
   <span class="fu"><a href="../reference/geocode.html">geocode</a></span><span class="op">(</span><span class="va">singlelineaddress</span>, unique_only <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
 <span class="co">#&gt; Passing 2 addresses to the Nominatim single address geocoder</span>
 <span class="co">#&gt; Query completed in: 2 seconds</span></code></pre></div>
@@ -563,23 +566,23 @@ occurring in automated CRAN checks for an improper/old link.
 </tbody>
 </table>
 </div>
-<div id="combining-multiple-queries" class="section level2">
-<h2 class="hasAnchor">
-<a href="#combining-multiple-queries" class="anchor"></a>Combining Multiple Queries</h2>
+<div class="section level2">
+<h2 id="combining-multiple-queries">Combining Multiple Queries<a class="anchor" aria-label="anchor" href="#combining-multiple-queries"></a>
+</h2>
 <p>The <code><a href="../reference/geocode_combine.html">geocode_combine()</a></code> function allows you to execute and combine the results of multiple geocoding queries. The queries are specified as a list of lists with the <code>queries</code> parameter and are executed in the order provided. By default only addresses that are not found are passed to the next query, but this behavior can be toggled with the <code>cascade</code> argument.</p>
 <p>In the first example below, the US Census service is used for the first query while the Nominatim (“osm”) service is used for the second query. The <code>global_params</code> argument passes the <code>address</code> column from the input dataset to both queries.</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">addresses_combine</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span><span class="op">(</span>
-  address <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">'100 Wall Street NY, NY'</span>, <span class="st">'Paris'</span>, <span class="st">'Not An Address'</span><span class="op">)</span>
+<code class="sourceCode R"><span class="va">addresses_combine</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span>
+  address <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'100 Wall Street NY, NY'</span>, <span class="st">'Paris'</span>, <span class="st">'Not An Address'</span><span class="op">)</span>
 <span class="op">)</span>
 
-<span class="va">cascade_results1</span> <span class="op">&lt;-</span> <span class="va">addresses_combine</span> <span class="op">%&gt;%</span>
+<span class="va">cascade_results1</span> <span class="op">&lt;-</span> <span class="va">addresses_combine</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
   <span class="fu"><a href="../reference/geocode_combine.html">geocode_combine</a></span><span class="op">(</span>
-    queries <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>
-      <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>method <span class="op">=</span> <span class="st">'census'</span><span class="op">)</span>,
-      <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>method <span class="op">=</span> <span class="st">'osm'</span><span class="op">)</span>
+    queries <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>
+      <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>method <span class="op">=</span> <span class="st">'census'</span><span class="op">)</span>,
+      <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>method <span class="op">=</span> <span class="st">'osm'</span><span class="op">)</span>
     <span class="op">)</span>,
-    global_params <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>address <span class="op">=</span> <span class="st">'address'</span><span class="op">)</span>
+    global_params <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>address <span class="op">=</span> <span class="st">'address'</span><span class="op">)</span>
   <span class="op">)</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; Passing 3 addresses to the US Census batch geocoder</span>
@@ -616,13 +619,13 @@ occurring in automated CRAN checks for an improper/old link.
 </table>
 <p>If <code>cascade</code> is set to FALSE then all addresses are attempted by each query regardless of if the address was found initially or not.</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">no_cascade_results1</span> <span class="op">&lt;-</span> <span class="va">addresses_combine</span> <span class="op">%&gt;%</span>
+<code class="sourceCode R"><span class="va">no_cascade_results1</span> <span class="op">&lt;-</span> <span class="va">addresses_combine</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
   <span class="fu"><a href="../reference/geocode_combine.html">geocode_combine</a></span><span class="op">(</span>
-    queries <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>
-      <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>method <span class="op">=</span> <span class="st">'census'</span><span class="op">)</span>,
-      <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>method <span class="op">=</span> <span class="st">'osm'</span><span class="op">)</span>
+    queries <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>
+      <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>method <span class="op">=</span> <span class="st">'census'</span><span class="op">)</span>,
+      <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>method <span class="op">=</span> <span class="st">'osm'</span><span class="op">)</span>
     <span class="op">)</span>,
-    global_params <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>address <span class="op">=</span> <span class="st">'address'</span><span class="op">)</span>,
+    global_params <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>address <span class="op">=</span> <span class="st">'address'</span><span class="op">)</span>,
     cascade <span class="op">=</span> <span class="cn">FALSE</span>
   <span class="op">)</span>
 <span class="co">#&gt; </span>
@@ -678,19 +681,19 @@ occurring in automated CRAN checks for an improper/old link.
 </table>
 <p>Additionally, the results from each query can be returned in separate list items by setting <code>return_list = TRUE</code>.</p>
 </div>
-<div id="customizing-queries" class="section level2">
-<h2 class="hasAnchor">
-<a href="#customizing-queries" class="anchor"></a>Customizing Queries</h2>
+<div class="section level2">
+<h2 id="customizing-queries">Customizing Queries<a class="anchor" aria-label="anchor" href="#customizing-queries"></a>
+</h2>
 <p>The <code>limit</code> argument can be specified to allow multiple results (rows) per input if available. The maximum value for the <code>limit</code> argument is often 100 for geocoding services. To use the default <code>limit</code> value for the selected geocoding service you can use <code>limit = NULL</code> which will prevent the limit parameter from being included in the query.</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">geo_limit</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/geo.html">geo</a></span><span class="op">(</span>
-  <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Lima, Peru"</span>, <span class="st">"Cairo, Egypt"</span><span class="op">)</span>,
+  <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Lima, Peru"</span>, <span class="st">"Cairo, Egypt"</span><span class="op">)</span>,
   method <span class="op">=</span> <span class="st">"osm"</span>,
   limit <span class="op">=</span> <span class="fl">3</span>, full_results <span class="op">=</span> <span class="cn">TRUE</span>
 <span class="op">)</span>
 <span class="co">#&gt; Passing 2 addresses to the Nominatim single address geocoder</span>
 <span class="co">#&gt; Query completed in: 2 seconds</span>
-<span class="fu"><a href="https://pillar.r-lib.org/reference/glimpse.html">glimpse</a></span><span class="op">(</span><span class="va">geo_limit</span><span class="op">)</span>
+<span class="fu"><a href="https://pillar.r-lib.org/reference/glimpse.html" class="external-link">glimpse</a></span><span class="op">(</span><span class="va">geo_limit</span><span class="op">)</span>
 <span class="co">#&gt; Rows: 6</span>
 <span class="co">#&gt; Columns: 13</span>
 <span class="co">#&gt; $ address      &lt;chr&gt; "Lima, Peru", "Lima, Peru", "Lima, Peru", "Cairo, Egypt", "Cairo, Egypt", "Cairo, Egypt"</span>
@@ -706,11 +709,11 @@ occurring in automated CRAN checks for an improper/old link.
 <span class="co">#&gt; $ type         &lt;chr&gt; "residential", "residential", "residential", "city", "motorway", "trunk"</span>
 <span class="co">#&gt; $ importance   &lt;dbl&gt; 0.3200000, 0.3200000, 0.3200000, 0.6960286, 0.1000000, 0.1000000</span>
 <span class="co">#&gt; $ icon         &lt;chr&gt; NA, NA, NA, "https://nominatim.openstreetmap.org/ui/mapicons//poi_place_city.p.20.png", NA, NA</span></code></pre></div>
-<p>To directly specify specific API parameters for a given <code>method</code> you can use the <code>custom_query</code> parameter. For example, <a href="https://nominatim.org/release-docs/develop/api/Details/#parameters">the Nominatim (OSM) geocoder has a ‘polygon_geojson’ argument</a> that can be used to return GeoJSON geometry content. To pass this parameter you can insert it with a named list using the <code>custom_query</code> argument:</p>
+<p>To directly specify specific API parameters for a given <code>method</code> you can use the <code>custom_query</code> parameter. For example, <a href="https://nominatim.org/release-docs/develop/api/Details/#parameters" class="external-link">the Nominatim (OSM) geocoder has a ‘polygon_geojson’ argument</a> that can be used to return GeoJSON geometry content. To pass this parameter you can insert it with a named list using the <code>custom_query</code> argument:</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">cairo_geo</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/geo.html">geo</a></span><span class="op">(</span><span class="st">"Cairo, Egypt"</span>,
   method <span class="op">=</span> <span class="st">"osm"</span>, full_results <span class="op">=</span> <span class="cn">TRUE</span>,
-  custom_query <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>polygon_geojson <span class="op">=</span> <span class="fl">1</span><span class="op">)</span>, verbose <span class="op">=</span> <span class="cn">TRUE</span>
+  custom_query <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>polygon_geojson <span class="op">=</span> <span class="fl">1</span><span class="op">)</span>, verbose <span class="op">=</span> <span class="cn">TRUE</span>
 <span class="op">)</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; Number of Unique Addresses: 1</span>
@@ -728,7 +731,7 @@ occurring in automated CRAN checks for an improper/old link.
 <span class="co">#&gt; Total query time (including sleep): 1 seconds</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; Query completed in: 1 seconds</span>
-<span class="fu"><a href="https://pillar.r-lib.org/reference/glimpse.html">glimpse</a></span><span class="op">(</span><span class="va">cairo_geo</span><span class="op">)</span>
+<span class="fu"><a href="https://pillar.r-lib.org/reference/glimpse.html" class="external-link">glimpse</a></span><span class="op">(</span><span class="va">cairo_geo</span><span class="op">)</span>
 <span class="co">#&gt; Rows: 1</span>
 <span class="co">#&gt; Columns: 15</span>
 <span class="co">#&gt; $ address             &lt;chr&gt; "Cairo, Egypt"</span>
@@ -748,7 +751,7 @@ occurring in automated CRAN checks for an improper/old link.
 <span class="co">#&gt; $ geojson.coordinates &lt;list&gt; &lt;&lt;array[1 x 119 x 2]&gt;&gt;</span></code></pre></div>
 <p>To test a query without sending any data to a geocoding service, you can use <code>no_query = TRUE</code> (NA results are returned).</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">noquery1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/geo.html">geo</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Vancouver, Canada"</span>, <span class="st">"Las Vegas, NV"</span><span class="op">)</span>,
+<code class="sourceCode R"><span class="va">noquery1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/geo.html">geo</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Vancouver, Canada"</span>, <span class="st">"Las Vegas, NV"</span><span class="op">)</span>,
   no_query <span class="op">=</span> <span class="cn">TRUE</span>,
   method <span class="op">=</span> <span class="st">"arcgis"</span>
 <span class="op">)</span>
@@ -793,13 +796,13 @@ occurring in automated CRAN checks for an improper/old link.
 <ul>
 <li>Set <code>quiet = TRUE</code> to silence console logs displayed by default (how many inputs were submitted, to what geocoding service, and the elapsed time).</li>
 <li>Use the <code>progress_bar</code> argument to control if a progress bar is displayed.</li>
-<li>The <code>verbose</code>, <code>quiet</code>, and <code>progress_bar</code> arguments can be set globally with <code>options</code>. For instance <code><a href="https://rdrr.io/r/base/options.html">options(tidygeocoder.verbose = TRUE)</a></code> will set verbose to <code>TRUE</code> for all queries by default.</li>
+<li>The <code>verbose</code>, <code>quiet</code>, and <code>progress_bar</code> arguments can be set globally with <code>options</code>. For instance <code>options(tidygeocoder.verbose = TRUE)</code> will set verbose to <code>TRUE</code> for all queries by default.</li>
 <li>To customize the API endpoint, use the <code>api_options</code> or <code>api_url</code> arguments. See <code><a href="../reference/geo.html">?geo</a></code> or <code><a href="../reference/reverse_geo.html">?reverse_geo</a></code> for details.</li>
 <li>If not specified manually, the <code>min_time</code> argument will default to a value based on the maximum query rate of the given geocoding service. If you are using a local Nominatim server or have a commercial geocoder plan that has less restrictive usage limits then you can manually set <code>min_time</code> to a lower value (such as 0).</li>
 <li>The <code>mode</code> argument can be used to specify whether the batch geocoding or single address/coordinate geocoding should be used. By default batch geocoding will be used if available when more than one address or coordinate is provided (with some noted exceptions for slower batch geocoding services).</li>
 <li>The <code>return_addresses</code> and <code>return_coords</code> parameters (for forward and reverse geocoding respectively) can be used to toggle whether the input addresses or coordinates are returned. Setting these parameters to <code>FALSE</code> is necessary to use batch geocoding if <code>limit</code> is greater than 1 or NULL.</li>
 <li>For the <code><a href="../reference/reverse_geocode.html">reverse_geocode()</a></code> and <code><a href="../reference/geocode.html">geocode()</a></code> functions, the <code>return_input</code> argument can be used to toggle if the input dataset is included in the returned dataframe.</li>
-<li>For use with the <a href="https://memoise.r-lib.org/">memoise package</a>, you may need to use character values when specifying input data columns in the <code><a href="../reference/geocode.html">geocode()</a></code> and <code><a href="../reference/reverse_geocode.html">reverse_geocode()</a></code> functions. See <a href="https://github.com/jessecambon/tidygeocoder/pull/154">#154</a> for details.</li>
+<li>For use with the <a href="https://memoise.r-lib.org/" class="external-link">memoise package</a>, you may need to use character values when specifying input data columns in the <code><a href="../reference/geocode.html">geocode()</a></code> and <code><a href="../reference/reverse_geocode.html">reverse_geocode()</a></code> functions. See <a href="https://github.com/jessecambon/tidygeocoder/pull/154" class="external-link">#154</a> for details.</li>
 </ul>
 </div>
   </div>
@@ -815,11 +818,13 @@ occurring in automated CRAN checks for an improper/old link.
 
 
       <footer><div class="copyright">
-  <p>Developed by <a href="https://jessecambon.github.io">Jesse Cambon</a>, <a href="https://github.com/dieghernan">Diego Hernangómez</a>, <a href="https://github.com/chris31415926535">Christopher Belanger</a>, <a href="https://github.com/dpprdan">Daniel Possenriede</a>.</p>
+  <p></p>
+<p>Developed by <a href="https://jessecambon.github.io" class="external-link">Jesse Cambon</a>, <a href="https://github.com/dieghernan" class="external-link">Diego Hernangómez</a>, <a href="https://github.com/chris31415926535" class="external-link">Christopher Belanger</a>, <a href="https://github.com/dpprdan" class="external-link">Daniel Possenriede</a>.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
+  <p></p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
 </div>
 
       </footer>

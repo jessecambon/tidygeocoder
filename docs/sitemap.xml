@@ -1,7 +1,40 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>https://jessecambon.github.io/tidygeocoder/404.html</loc>
+  </url>
+  <url>
+    <loc>https://jessecambon.github.io/tidygeocoder/LICENSE-text.html</loc>
+  </url>
+  <url>
+    <loc>https://jessecambon.github.io/tidygeocoder/LICENSE.html</loc>
+  </url>
+  <url>
+    <loc>https://jessecambon.github.io/tidygeocoder/articles/adding_geocoder_services.html</loc>
+  </url>
+  <url>
+    <loc>https://jessecambon.github.io/tidygeocoder/articles/api_reference.html</loc>
+  </url>
+  <url>
+    <loc>https://jessecambon.github.io/tidygeocoder/articles/developer_notes.html</loc>
+  </url>
+  <url>
+    <loc>https://jessecambon.github.io/tidygeocoder/articles/geocoder_services.html</loc>
+  </url>
+  <url>
+    <loc>https://jessecambon.github.io/tidygeocoder/articles/index.html</loc>
+  </url>
+  <url>
+    <loc>https://jessecambon.github.io/tidygeocoder/articles/tidygeocoder.html</loc>
+  </url>
+  <url>
+    <loc>https://jessecambon.github.io/tidygeocoder/authors.html</loc>
+  </url>
+  <url>
     <loc>https://jessecambon.github.io/tidygeocoder/index.html</loc>
+  </url>
+  <url>
+    <loc>https://jessecambon.github.io/tidygeocoder/news/index.html</loc>
   </url>
   <url>
     <loc>https://jessecambon.github.io/tidygeocoder/reference/api_info_reference.html</loc>
@@ -25,6 +58,9 @@
     <loc>https://jessecambon.github.io/tidygeocoder/reference/geo.html</loc>
   </url>
   <url>
+    <loc>https://jessecambon.github.io/tidygeocoder/reference/geo_cascade.html</loc>
+  </url>
+  <url>
     <loc>https://jessecambon.github.io/tidygeocoder/reference/geo_census.html</loc>
   </url>
   <url>
@@ -38,6 +74,9 @@
   </url>
   <url>
     <loc>https://jessecambon.github.io/tidygeocoder/reference/get_api_query.html</loc>
+  </url>
+  <url>
+    <loc>https://jessecambon.github.io/tidygeocoder/reference/index.html</loc>
   </url>
   <url>
     <loc>https://jessecambon.github.io/tidygeocoder/reference/louisville.html</loc>
@@ -59,14 +98,5 @@
   </url>
   <url>
     <loc>https://jessecambon.github.io/tidygeocoder/reference/tidygeocoder-package.html</loc>
-  </url>
-  <url>
-    <loc>https://jessecambon.github.io/tidygeocoder/articles/developer_notes.html</loc>
-  </url>
-  <url>
-    <loc>https://jessecambon.github.io/tidygeocoder/articles/geocoder_services.html</loc>
-  </url>
-  <url>
-    <loc>https://jessecambon.github.io/tidygeocoder/articles/tidygeocoder.html</loc>
   </url>
 </urlset>
