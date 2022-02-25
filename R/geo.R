@@ -424,7 +424,7 @@ geo <-
       }
       
       # rbind the list of tibble dataframes together
-      stacked_results <- dplyr::bind_rows(list_coords)
+      stacked_results <- dplyr::bind_rows(make_coltypes_compatible(list_coords))
       
       # note that return_inputs has been set to FALSE here since addresses will already
       # be returned in the first geo function call (if asked for)
