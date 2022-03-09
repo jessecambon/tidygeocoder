@@ -28,3 +28,8 @@ raw_results <- jsonlite::fromJSON(httr::content(resp, as = 'text', encoding = "U
 
 final_results <- raw_results$result$geographies
 
+flattened_final_results <- bind_cols(
+  tibble(geography = names(final_results)),
+  bind_rows(final_results)
+)
+
