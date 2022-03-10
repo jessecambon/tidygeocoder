@@ -55,7 +55,7 @@
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
      
     <span class="caret"></span>
@@ -70,7 +70,7 @@
   </ul>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     News
      
     <span class="caret"></span>
@@ -136,12 +136,25 @@
 
     
     
-<p>This page contains documentation relevant for those wishing to contribute to the package and specific instructions for how to add support for a new geocoding service.</p>
+<p>This page contains documentation relevant for those wishing to
+contribute to the package and specific instructions for how to add
+support for a new geocoding service.</p>
 <div class="section level2">
 <h2 id="introduction">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a>
 </h2>
-<p>The two core functions to focus on in the package are <a href="https://github.com/jessecambon/tidygeocoder/blob/main/R/geo.R" class="external-link">geo()</a> and <a href="https://github.com/jessecambon/tidygeocoder/blob/main/R/reverse_geo.R" class="external-link">reverse_geo()</a>. These functions have very similar layouts, but <code><a href="../reference/geo.html">geo()</a></code> is for forward geocoding while <code><a href="../reference/reverse_geo.html">reverse_geo()</a></code> is for reverse geocoding. The <code><a href="../reference/geocode.html">geocode()</a></code> and <code><a href="../reference/reverse_geocode.html">reverse_geocode()</a></code> functions only extract input data from a dataframe and pass it to the <code><a href="../reference/geo.html">geo()</a></code> and <code><a href="../reference/reverse_geo.html">reverse_geo()</a></code> functions respectively for geocoding.</p>
-<p>Both the <code><a href="../reference/geo.html">geo()</a></code> and <code><a href="../reference/reverse_geo.html">reverse_geo()</a></code> functions take inputs (either addresses or coordinates) and call other functions as needed to deduplicate the inputs, pause to comply with API usage rate policies, and execute queries. Key parameters and settings for geocoding are stored for easy access and display in built-in datasets.</p>
+<p>The two core functions to focus on in the package are <a href="https://github.com/jessecambon/tidygeocoder/blob/main/R/geo.R" class="external-link">geo()</a>
+and <a href="https://github.com/jessecambon/tidygeocoder/blob/main/R/reverse_geo.R" class="external-link">reverse_geo()</a>.
+These functions have very similar layouts, but <code><a href="../reference/geo.html">geo()</a></code> is for
+forward geocoding while <code><a href="../reference/reverse_geo.html">reverse_geo()</a></code> is for reverse
+geocoding. The <code><a href="../reference/geocode.html">geocode()</a></code> and <code><a href="../reference/reverse_geocode.html">reverse_geocode()</a></code>
+functions only extract input data from a dataframe and pass it to the
+<code><a href="../reference/geo.html">geo()</a></code> and <code><a href="../reference/reverse_geo.html">reverse_geo()</a></code> functions respectively
+for geocoding.</p>
+<p>Both the <code><a href="../reference/geo.html">geo()</a></code> and <code><a href="../reference/reverse_geo.html">reverse_geo()</a></code> functions
+take inputs (either addresses or coordinates) and call other functions
+as needed to deduplicate the inputs, pause to comply with API usage rate
+policies, and execute queries. Key parameters and settings for geocoding
+are stored for easy access and display in built-in datasets.</p>
 <p>Consider this query:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span>
@@ -165,7 +178,7 @@
 <span class="co">#&gt; limit : "1"</span>
 <span class="co">#&gt; format : "json"</span>
 <span class="co">#&gt; HTTP Status Code: 200</span>
-<span class="co">#&gt; Query completed in: 0.5 seconds</span>
+<span class="co">#&gt; Query completed in: 0.4 seconds</span>
 <span class="co">#&gt; Total query time (including sleep): 1 seconds</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; </span>
@@ -190,20 +203,44 @@
 <span class="co">#&gt; <span style="color: #949494;">#   importance &lt;dbl&gt;, icon &lt;chr&gt;</span></span></code></pre></div>
 <p>Here is what is going on behind the scenes:</p>
 <ul>
-<li>The <code><a href="../reference/geocode.html">geocode()</a></code> function extracts the address data from the input dataframe and passes it to the <code><a href="../reference/geo.html">geo()</a></code> function.</li>
-<li>The <code><a href="../reference/geo.html">geo()</a></code> function looks for unique inputs and prepares them for geocoding. In this case, there is one duplicate input so we only have two unique inputs.</li>
-<li>The <code><a href="../reference/geo.html">geo()</a></code> function must figure out whether to use <em>single address geocoding</em> (1 address per query) or <em>batch geocoding</em> (multiple addresses per query). In this case the specified Nominatim (“osm”) geocoding service does not have a batch geocoding function so single address geocoding is used.</li>
-<li>Because single address geocoding is used, the <code><a href="../reference/geo.html">geo()</a></code> function is called once for each input to geocode all addresses (twice in this case) and the results are combined. If batch geocoding was used then the appropriate batch geocoding function would be called based on the geocoding service specified.</li>
-<li>Because the specified geocoding service has a usage limit, the rate of querying is limited accordingly. By default this is based on the <code>min_time_reference</code> dataset. This behavior can be modified with the <code>min_time</code> argument.</li>
-<li>Since the input data was deduplicated, the results must be aligned to the original inputs (which contained duplicates) so that the original data structure is preserved. Alternatively, if you only want to return unique results, you can specify <code>unique_only = TRUE</code>.</li>
-<li>This combined data is returned by <code><a href="../reference/geo.html">geo()</a></code> to the <code><a href="../reference/geocode.html">geocode()</a></code> function. The <code><a href="../reference/geocode.html">geocode()</a></code> function then combines the returned data with the original dataset.</li>
+<li>The <code><a href="../reference/geocode.html">geocode()</a></code> function extracts the address data from
+the input dataframe and passes it to the <code><a href="../reference/geo.html">geo()</a></code>
+function.</li>
+<li>The <code><a href="../reference/geo.html">geo()</a></code> function looks for unique inputs and prepares
+them for geocoding. In this case, there is one duplicate input so we
+only have two unique inputs.</li>
+<li>The <code><a href="../reference/geo.html">geo()</a></code> function must figure out whether to use
+<em>single address geocoding</em> (1 address per query) or <em>batch
+geocoding</em> (multiple addresses per query). In this case the
+specified Nominatim (“osm”) geocoding service does not have a batch
+geocoding function so single address geocoding is used.</li>
+<li>Because single address geocoding is used, the <code><a href="../reference/geo.html">geo()</a></code>
+function is called once for each input to geocode all addresses (twice
+in this case) and the results are combined. If batch geocoding was used
+then the appropriate batch geocoding function would be called based on
+the geocoding service specified.</li>
+<li>Because the specified geocoding service has a usage limit, the rate
+of querying is limited accordingly. By default this is based on the
+<code>min_time_reference</code> dataset. This behavior can be modified
+with the <code>min_time</code> argument.</li>
+<li>Since the input data was deduplicated, the results must be aligned
+to the original inputs (which contained duplicates) so that the original
+data structure is preserved. Alternatively, if you only want to return
+unique results, you can specify <code>unique_only = TRUE</code>.</li>
+<li>This combined data is returned by <code><a href="../reference/geo.html">geo()</a></code> to the
+<code><a href="../reference/geocode.html">geocode()</a></code> function. The <code><a href="../reference/geocode.html">geocode()</a></code> function
+then combines the returned data with the original dataset.</li>
 </ul>
-<p>Refer to the notes below on adding a geocoding service for more specific documentation on the code structure.</p>
+<p>Refer to the notes below on adding a geocoding service for more
+specific documentation on the code structure.</p>
 </div>
 <div class="section level2">
 <h2 id="adding-a-new-geocoding-service">Adding a New Geocoding Service<a class="anchor" aria-label="anchor" href="#adding-a-new-geocoding-service"></a>
 </h2>
-<p>This section documents how to add support for a new geocoding service to the package. Required changes are organized by file. If anything isn’t clear, feel free to <a href="https://github.com/jessecambon/tidygeocoder/issues" class="external-link">file an issue</a>.</p>
+<p>This section documents how to add support for a new geocoding service
+to the package. Required changes are organized by file. If anything
+isn’t clear, feel free to <a href="https://github.com/jessecambon/tidygeocoder/issues" class="external-link">file an
+issue</a>.</p>
 <p><strong>Base all changes on the main branch</strong>.</p>
 <div class="section level3">
 <h3 id="files-to-update">Files to Update<a class="anchor" aria-label="anchor" href="#files-to-update"></a>
@@ -212,47 +249,83 @@
 <li>
 <strong><a href="https://github.com/jessecambon/tidygeocoder/blob/main/R/api_url.R" class="external-link">R/api_url.R</a></strong>
 <ul>
-<li>Add a standalone function for obtaining the API URL and update the <code>get_api_url()</code> function accordingly. If arguments need to be added to the <code>get_api_url()</code> function, make sure to adjust the calls to this function in the <code><a href="../reference/geo.html">geo()</a></code> and <code><a href="../reference/reverse_geo.html">reverse_geo()</a></code> functions accordingly.</li>
+<li>Add a standalone function for obtaining the API URL and update the
+<code>get_api_url()</code> function accordingly. If arguments need to be
+added to the <code>get_api_url()</code> function, make sure to adjust
+the calls to this function in the <code><a href="../reference/geo.html">geo()</a></code> and
+<code><a href="../reference/reverse_geo.html">reverse_geo()</a></code> functions accordingly.</li>
 </ul>
 </li>
 <li>
 <strong><a href="https://github.com/jessecambon/tidygeocoder/blob/main/data-raw/api_parameter_reference.R" class="external-link">data-raw/api_parameter_reference.R</a></strong>
 <ul>
-<li>Add rows to the <a href="https://jessecambon.github.io/tidygeocoder/articles/tidygeocoder.html#api-reference">api_parameter_reference</a> dataset to include the geocoding service. Each service is referred to by a short name in the <code>method</code> column (which is how the service is specified in the <code><a href="../reference/geo.html">geo()</a></code> and <code><a href="../reference/geocode.html">geocode()</a></code> functions). The <code>generic_name</code> column has the universal parameter name that is used across geocoding services (ie. “address”, “limit”, etc.) while the <code>api_name</code> column stores the parameter names that are specific to the geocoding service.</li>
-<li>Note that there is no need to include parameters that are only used for reverse geocoding or parameters that have no equivalent in other geocoding services (ie. there is no <code>generic_name</code>) <strong>unless</strong> the parameters are required. Parameters can always be passed to services directly with the <code>custom_query</code> argument in <code><a href="../reference/geo.html">geo()</a></code> or <code><a href="../reference/reverse_geo.html">reverse_geo()</a></code>.</li>
+<li>Add rows to the <a href="https://jessecambon.github.io/tidygeocoder/articles/tidygeocoder.html#api-reference">api_parameter_reference</a>
+dataset to include the geocoding service. Each service is referred to by
+a short name in the <code>method</code> column (which is how the service
+is specified in the <code><a href="../reference/geo.html">geo()</a></code> and <code><a href="../reference/geocode.html">geocode()</a></code>
+functions). The <code>generic_name</code> column has the universal
+parameter name that is used across geocoding services (ie. “address”,
+“limit”, etc.) while the <code>api_name</code> column stores the
+parameter names that are specific to the geocoding service.</li>
+<li>Note that there is no need to include parameters that are only used
+for reverse geocoding or parameters that have no equivalent in other
+geocoding services (ie. there is no <code>generic_name</code>)
+<strong>unless</strong> the parameters are required. Parameters can
+always be passed to services directly with the <code>custom_query</code>
+argument in <code><a href="../reference/geo.html">geo()</a></code> or <code><a href="../reference/reverse_geo.html">reverse_geo()</a></code>.</li>
 </ul>
 </li>
 <li>
 <strong><a href="https://github.com/jessecambon/tidygeocoder/blob/main/data-raw/api_references.R" class="external-link">data-raw/api_references.R</a></strong>
 <ul>
-<li>Add a row to <code>min_time_reference</code> with the minimum time each query should take (in seconds) according to the geocoding service’s free tier usage restrictions.</li>
-<li>Add a row to <code>api_key_reference</code> if the service requires an API key.</li>
-<li>If the service you are adding has batch geocoding capabilities, add the maximum batch size (as a row) to <code>batch_limit_reference</code>.</li>
-<li>Add a row to <code>api_info_reference</code> with links to the service’s website, documentation, and usage policy.</li>
+<li>Add a row to <code>min_time_reference</code> with the minimum time
+each query should take (in seconds) according to the geocoding service’s
+free tier usage restrictions.</li>
+<li>Add a row to <code>api_key_reference</code> if the service requires
+an API key.</li>
+<li>If the service you are adding has batch geocoding capabilities, add
+the maximum batch size (as a row) to
+<code>batch_limit_reference</code>.</li>
+<li>Add a row to <code>api_info_reference</code> with links to the
+service’s website, documentation, and usage policy.</li>
 </ul>
 </li>
 <li>
 <strong><a href="https://github.com/jessecambon/tidygeocoder/blob/main/R/geo.R" class="external-link">R/geo.R</a></strong>
 <ul>
-<li>If the service supports batch geocoding then add a new function in <strong><a href="https://github.com/jessecambon/tidygeocoder/blob/main/R/batch_geocoding.R" class="external-link">R/batch_geocoding.R</a></strong> and add it to the <code>batch_func_map</code> named list.</li>
+<li>If the service supports batch geocoding then add a new function in
+<strong><a href="https://github.com/jessecambon/tidygeocoder/blob/main/R/batch_geocoding.R" class="external-link">R/batch_geocoding.R</a></strong>
+and add it to the <code>batch_func_map</code> named list.</li>
 </ul>
 </li>
 <li>
 <strong><a href="https://github.com/jessecambon/tidygeocoder/blob/main/R/reverse_geo.R" class="external-link">R/reverse_geo.R</a></strong>
 <ul>
-<li>Update the <code>get_coord_parameters()</code> function based on how the service passed latitude and longitude coordinates for reverse geocoding.</li>
-<li>If the service supports reverse batch geocoding then add a new function in <strong><a href="https://github.com/jessecambon/tidygeocoder/blob/main/R/reverse_batch_geocoding.R" class="external-link">R/reverse_batch_geocoding.R</a></strong> and add it to the <code>reverse_batch_func_map</code> named list.</li>
+<li>Update the <code>get_coord_parameters()</code> function based on how
+the service passed latitude and longitude coordinates for reverse
+geocoding.</li>
+<li>If the service supports reverse batch geocoding then add a new
+function in <strong><a href="https://github.com/jessecambon/tidygeocoder/blob/main/R/reverse_batch_geocoding.R" class="external-link">R/reverse_batch_geocoding.R</a></strong>
+and add it to the <code>reverse_batch_func_map</code> named list.</li>
 </ul>
 </li>
 <li>
 <strong><a href="https://github.com/jessecambon/tidygeocoder/blob/main/R/results_processing.R" class="external-link">R/results_processing.R</a></strong>
 <ul>
-<li>Update the <code><a href="../reference/extract_results.html">extract_results()</a></code> function which is used for parsing single addresses (ie. not batch geocoding). You can see examples of how I’ve tested out parsing the results of geocoding services <a href="https://github.com/jessecambon/tidygeocoder/tree/main/sandbox/query_debugging" class="external-link">here</a>.</li>
-<li>In a similar fashion, update the <code><a href="../reference/extract_reverse_results.html">extract_reverse_results()</a></code> function for reverse geocoding.</li>
-<li>Update the <code>extract_errors_from_results()</code> function to extract error messages for invalid queries.</li>
+<li>Update the <code><a href="../reference/extract_results.html">extract_results()</a></code> function which is used for
+parsing single addresses (ie. not batch geocoding). You can see examples
+of how I’ve tested out parsing the results of geocoding services <a href="https://github.com/jessecambon/tidygeocoder/tree/main/sandbox/query_debugging" class="external-link">here</a>.</li>
+<li>In a similar fashion, update the
+<code><a href="../reference/extract_reverse_results.html">extract_reverse_results()</a></code> function for reverse
+geocoding.</li>
+<li>Update the <code>extract_errors_from_results()</code> function to
+extract error messages for invalid queries.</li>
 </ul>
 </li>
-<li>If applicable, add new tests to the scripts in the <a href="https://github.com/jessecambon/tidygeocoder/tree/main/tests/testthat" class="external-link">tests directory</a> for the method. Note that tests should avoid making a HTTP query (ie. use <code>no_query = TRUE</code> in the <code><a href="../reference/geo.html">geo()</a></code> and <code><a href="../reference/geocode.html">geocode()</a></code> functions).</li>
+<li>If applicable, add new tests to the scripts in the <a href="https://github.com/jessecambon/tidygeocoder/tree/main/tests/testthat" class="external-link">tests
+directory</a> for the method. Note that tests should avoid making a HTTP
+query (ie. use <code>no_query = TRUE</code> in the <code><a href="../reference/geo.html">geo()</a></code>
+and <code><a href="../reference/geocode.html">geocode()</a></code> functions).</li>
 <li>
 <strong><a href="https://github.com/jessecambon/tidygeocoder/blob/main/R/global_variables.R" class="external-link">R/global_variables.R</a></strong>
 <ul>
@@ -264,7 +337,9 @@
 <div class="section level3">
 <h3 id="other-files">Other Files<a class="anchor" aria-label="anchor" href="#other-files"></a>
 </h3>
-<p>These files don’t necessarily need to be updated. However, you might need to make changes to these files if the service you are implementing requires some non-standard workarounds.</p>
+<p>These files don’t necessarily need to be updated. However, you might
+need to make changes to these files if the service you are implementing
+requires some non-standard workarounds.</p>
 <ul>
 <li>
 <strong><a href="https://github.com/jessecambon/tidygeocoder/blob/main/R/query_factory.R" class="external-link">R/query_factory.R</a></strong>
@@ -303,9 +378,10 @@
 </ul>
 </li>
 <li>
-<strong><a href="vignettes/tidygeocoder.Rmd.orig">vignettes/tidygeocoder.Rmd.orig</a></strong>
+<strong><a href="https://github.com/jessecambon/tidygeocoder/blob/main/vignettes/tidygeocoder.Rmd.orig" class="external-link">vignettes/tidygeocoder.Rmd.orig</a></strong>
 <ul>
-<li>This file produces the vignette. See the knit command and comments at the top of this file.</li>
+<li>This file produces the vignette. See the knit command and comments
+at the top of this file.</li>
 </ul>
 </li>
 </ul>
@@ -314,10 +390,23 @@
 <h3 id="testing">Testing<a class="anchor" aria-label="anchor" href="#testing"></a>
 </h3>
 <ul>
-<li>Test out the new service to make sure it behaves as expected. You can reference tests and example code in <a href="https://github.com/jessecambon/tidygeocoder/tree/main/sandbox" class="external-link">the ‘sandbox’ folder</a>.</li>
-<li>Run <strong><code><a href="https://devtools.r-lib.org/reference/check.html" class="external-link">devtools::check()</a></code></strong> to make sure the package still passes all tests and checks, but note that these tests are designed to work offline so they do not make queries to geocoding services.</li>
-<li>As a final check, run <strong><a href="https://github.com/jessecambon/tidygeocoder/blob/main/external/online_tests.R" class="external-link">external/online_tests.R</a></strong> to test making queries to the geocoding services. These tests are not included in the internal package tests (<code><a href="https://devtools.r-lib.org/reference/test.html" class="external-link">devtools::test()</a></code>) because they require API keys which would not exist on all systems and are dependent on the geocoding services being online at that the time of the test.</li>
-<li>Run the commands detailed in <strong><a href="https://github.com/jessecambon/tidygeocoder/blob/main/cran-comments.md" class="external-link">cran-comments.md</a></strong> to test the package on other environments. Note that these tests should also be included in the automated GitHub actions tests for pull requests.</li>
+<li>Test out the new service to make sure it behaves as expected. You
+can reference tests and example code in <a href="https://github.com/jessecambon/tidygeocoder/tree/main/sandbox" class="external-link">the
+‘sandbox’ folder</a>.</li>
+<li>Run <strong><code><a href="https://devtools.r-lib.org/reference/check.html" class="external-link">devtools::check()</a></code></strong> to make sure the
+package still passes all tests and checks, but note that these tests are
+designed to work offline so they do not make queries to geocoding
+services.</li>
+<li>As a final check, run <strong><a href="https://github.com/jessecambon/tidygeocoder/blob/main/external/online_tests.R" class="external-link">external/online_tests.R</a></strong>
+to test making queries to the geocoding services. These tests are not
+included in the internal package tests (<code><a href="https://devtools.r-lib.org/reference/test.html" class="external-link">devtools::test()</a></code>)
+because they require API keys which would not exist on all systems and
+are dependent on the geocoding services being online at that the time of
+the test.</li>
+<li>Run the commands detailed in <strong><a href="https://github.com/jessecambon/tidygeocoder/blob/main/cran-comments.md" class="external-link">cran-comments.md</a></strong>
+to test the package on other environments. Note that these tests should
+also be included in the automated GitHub actions tests for pull
+requests.</li>
 </ul>
 </div>
 <div class="section level3">
@@ -332,13 +421,16 @@
 </li>
 <li>Reserve a DOI for a new package version with <a href="https://zenodo.org/" class="external-link">Zenodo</a>
 </li>
-<li>Update the Zenodo DOI in <a href="README.Rmd">README.Rmd</a> and reknit to update <a href="README.html">README.md</a>
+<li>Update the Zenodo DOI in <a href="README.Rmd">README.Rmd</a> and
+reknit to update <a href="README.html">README.md</a>
 </li>
 <li>Update the site with <code><a href="https://pkgdown.r-lib.org/reference/build_site.html" class="external-link">pkgdown::build_site()</a></code>
 </li>
-<li>Use <code><a href="https://rdrr.io/pkg/urlchecker/man/url_check.html" class="external-link">urlchecker::url_check()</a></code> to check all package URLs</li>
+<li>Use <code>urlchecker::url_check()</code> to check all package
+URLs</li>
 </ul>
-<p>Lastly, run <code><a href="https://devtools.r-lib.org/reference/release.html" class="external-link">devtools::release()</a></code> to release the new version</p>
+<p>Lastly, run <code><a href="https://devtools.r-lib.org/reference/release.html" class="external-link">devtools::release()</a></code> to release the new
+version</p>
 </div>
 </div>
   </div>
@@ -355,12 +447,17 @@
 
       <footer><div class="copyright">
   <p></p>
-<p>Developed by <a href="https://jessecambon.github.io" class="external-link">Jesse Cambon</a>, <a href="https://github.com/dieghernan" class="external-link">Diego Hernangómez</a>, <a href="https://github.com/chris31415926535" class="external-link">Christopher Belanger</a>, <a href="https://github.com/dpprdan" class="external-link">Daniel Possenriede</a>.</p>
+<p>Developed by <a href="https://jessecambon.github.io" class="external-link">Jesse
+Cambon</a>, <a href="https://github.com/dieghernan" class="external-link">Diego
+Hernangómez</a>,
+<a href="https://github.com/chris31415926535" class="external-link">Christopher Belanger</a>,
+<a href="https://github.com/dpprdan" class="external-link">Daniel Possenriede</a>.</p>
 </div>
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a>
+2.0.2.</p>
 </div>
 
       </footer>
