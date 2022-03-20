@@ -102,7 +102,7 @@ These files don't necessarily need to be updated. However, you might need to mak
     * Handles the deduplication of input data.
 * **[external/create_logo.Rmd](https://github.com/jessecambon/tidygeocoder/blob/main/external/create_logo.Rmd)**
     * Creates the package logo.
-* **[vignettes/tidygeocoder.Rmd.orig](vignettes/tidygeocoder.Rmd.orig)**
+* **[vignettes/tidygeocoder.Rmd.orig](https://github.com/jessecambon/tidygeocoder/blob/main/vignettes/tidygeocoder.Rmd.orig)**
     * This file produces the vignette. See the knit command and comments at the top of this file.
 
 ### Testing

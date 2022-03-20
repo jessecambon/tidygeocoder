@@ -44,7 +44,7 @@ use the query_names parameter.'><!-- mathjax --><script src="https://cdnjs.cloud
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
      
     <span class="caret"></span>
@@ -57,7 +57,7 @@ use the query_names parameter.'><!-- mathjax --><script src="https://cdnjs.cloud
     </li>
   </ul></li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     News
      
     <span class="caret"></span>
@@ -184,19 +184,19 @@ attempt to geocode all addresses.</p></dd>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Passing 9 addresses to the US Census batch geocoder</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Query completed in: 0.3 seconds</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Passing 5 addresses to the Nominatim single address geocoder</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Query completed in: 5.1 seconds</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Query completed in: 5 seconds</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 9 × 5</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   name                 addr                                   lat   long query  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                                <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> White House          1600 Pennsylvania Ave NW Washington… 38.9   -<span style="color: #BB0000;">77.0</span> <span style="color: #949494;">"</span>censu…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> Transamerica Pyramid 600 Montgomery St, San Francisco, C… 37.8  -<span style="color: #BB0000;">122.</span>  <span style="color: #949494;">"</span>censu…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> NY Stock Exchange    11 Wall Street, New York, New York   40.7   -<span style="color: #BB0000;">74.0</span> <span style="color: #949494;">"</span>censu…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> Willis Tower         233 S Wacker Dr, Chicago, IL 60606   41.9   -<span style="color: #BB0000;">87.6</span> <span style="color: #949494;">"</span>censu…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span> Chateau Frontenac    1 Rue des Carrieres, Quebec, QC G1R… <span style="color: #BB0000;">NA</span>      <span style="color: #BB0000;">NA</span>   <span style="color: #949494;">""</span>     </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span> Nashville            Nashville, TN                        36.2   -<span style="color: #BB0000;">86.8</span> <span style="color: #949494;">"</span>osm<span style="color: #949494;">"</span>  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">7</span> Nairobi              Nairobi, Kenya                       -<span style="color: #BB0000;">1.28</span>   36.8 <span style="color: #949494;">"</span>osm<span style="color: #949494;">"</span>  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">8</span> Istanbul             Istanbul, Turkey                     41.0    29.0 <span style="color: #949494;">"</span>osm<span style="color: #949494;">"</span>  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">9</span> Tokyo                Tokyo, Japan                         35.7   140.  <span style="color: #949494;">"</span>osm<span style="color: #949494;">"</span>  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   name                 addr                                     lat   long query</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                                  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> White House          1600 Pennsylvania Ave NW Washington, … 38.9   -<span style="color: #BB0000;">77.0</span> <span style="color: #949494;">"</span>cen…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> Transamerica Pyramid 600 Montgomery St, San Francisco, CA … 37.8  -<span style="color: #BB0000;">122.</span>  <span style="color: #949494;">"</span>cen…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> NY Stock Exchange    11 Wall Street, New York, New York     40.7   -<span style="color: #BB0000;">74.0</span> <span style="color: #949494;">"</span>cen…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> Willis Tower         233 S Wacker Dr, Chicago, IL 60606     41.9   -<span style="color: #BB0000;">87.6</span> <span style="color: #949494;">"</span>cen…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span> Chateau Frontenac    1 Rue des Carrieres, Quebec, QC G1R 4… <span style="color: #BB0000;">NA</span>      <span style="color: #BB0000;">NA</span>   <span style="color: #949494;">""</span>   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span> Nashville            Nashville, TN                          36.2   -<span style="color: #BB0000;">86.8</span> <span style="color: #949494;">"</span>osm<span style="color: #949494;">"</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">7</span> Nairobi              Nairobi, Kenya                         -<span style="color: #BB0000;">1.28</span>   36.8 <span style="color: #949494;">"</span>osm<span style="color: #949494;">"</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">8</span> Istanbul             Istanbul, Turkey                       41.0    29.0 <span style="color: #949494;">"</span>osm<span style="color: #949494;">"</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">9</span> Tokyo                Tokyo, Japan                           35.7   140.  <span style="color: #949494;">"</span>osm<span style="color: #949494;">"</span></span>
 <span class="r-in"></span>
 <span class="r-in"><span class="va">more_addresses</span> <span class="op">&lt;-</span> <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tribble.html" class="external-link">tribble</a></span><span class="op">(</span></span>
 <span class="r-in">     <span class="op">~</span><span class="va">street_address</span>, <span class="op">~</span><span class="va">city</span>, <span class="op">~</span><span class="va">state</span>,        <span class="op">~</span><span class="va">zip_cd</span>,</span>
@@ -221,9 +221,9 @@ attempt to geocode all addresses.</p></dd>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Passing 4 addresses to the US Census batch geocoder</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Query completed in: 0.2 seconds</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Query completed in: 0.1 seconds</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Passing 3 addresses to the US Census single address geocoder</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Query completed in: 0.9 seconds</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Query completed in: 0.5 seconds</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Passing 1 address to the Nominatim single address geocoder</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Query completed in: 1 seconds</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 4 × 7</span></span>
@@ -249,7 +249,7 @@ attempt to geocode all addresses.</p></dd>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Passing 4 addresses to the US Census batch geocoder</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Query completed in: 0.2 seconds</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Passing 4 addresses to the ArcGIS single address geocoder</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Query completed in: 2.3 seconds</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Query completed in: 1.3 seconds</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $census</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 4 × 6</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   street_address       city       state zip_cd   lat  long</span>
@@ -279,11 +279,16 @@ attempt to geocode all addresses.</p></dd>
 
 
       <footer><div class="copyright">
-  <p></p><p>Developed by <a href="https://jessecambon.github.io" class="external-link">Jesse Cambon</a>, <a href="https://github.com/dieghernan" class="external-link">Diego Hernangómez</a>, <a href="https://github.com/chris31415926535" class="external-link">Christopher Belanger</a>, <a href="https://github.com/dpprdan" class="external-link">Daniel Possenriede</a>.</p>
+  <p></p><p>Developed by <a href="https://jessecambon.github.io" class="external-link">Jesse
+Cambon</a>, <a href="https://github.com/dieghernan" class="external-link">Diego
+Hernangómez</a>,
+<a href="https://github.com/chris31415926535" class="external-link">Christopher Belanger</a>,
+<a href="https://github.com/dpprdan" class="external-link">Daniel Possenriede</a>.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a>
+2.0.2.</p>
 </div>
 
       </footer></div>
