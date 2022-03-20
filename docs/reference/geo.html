@@ -34,7 +34,7 @@ API queries.'><!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/lib
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">tidygeocoder</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.0.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.0.5.9000</span>
       </span>
     </div>
 
@@ -46,7 +46,7 @@ API queries.'><!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/lib
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
     Articles
      
     <span class="caret"></span>
@@ -59,7 +59,7 @@ API queries.'><!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/lib
     </li>
   </ul></li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
     News
      
     <span class="caret"></span>
@@ -325,7 +325,7 @@ If <code>method = "cascade"</code> then no errors will be thrown.</p></dd>
 <span class="r-in"><span class="fu">geo</span><span class="op">(</span>street <span class="op">=</span> <span class="st">"600 Peachtree Street NE"</span>, city <span class="op">=</span> <span class="st">"Atlanta"</span>,</span>
 <span class="r-in"> state <span class="op">=</span> <span class="st">"Georgia"</span>, method <span class="op">=</span> <span class="st">"census"</span><span class="op">)</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Passing 1 address to the US Census single address geocoder</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Query completed in: 3.7 seconds</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Query completed in: 5.8 seconds</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 1 × 5</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   street                  city    state     lat  long</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
@@ -334,7 +334,7 @@ If <code>method = "cascade"</code> then no errors will be thrown.</p></dd>
 <span class="r-in"><span class="fu">geo</span><span class="op">(</span>address <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Tokyo, Japan"</span>, <span class="st">"Lima, Peru"</span>, <span class="st">"Nairobi, Kenya"</span><span class="op">)</span>,</span>
 <span class="r-in"> method <span class="op">=</span> <span class="st">'osm'</span><span class="op">)</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Passing 3 addresses to the Nominatim single address geocoder</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Query completed in: 3 seconds</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Query completed in: 3.5 seconds</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 3 × 3</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   address           lat  long</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
@@ -345,7 +345,7 @@ If <code>method = "cascade"</code> then no errors will be thrown.</p></dd>
 <span class="r-in"><span class="fu">geo</span><span class="op">(</span><span class="st">"100 Main St New York, NY"</span>,  full_results <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span class="r-in"> method <span class="op">=</span> <span class="st">"census"</span>, api_options <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>census_return_type <span class="op">=</span> <span class="st">'geographies'</span><span class="op">)</span><span class="op">)</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Passing 1 address to the US Census single address geocoder</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Query completed in: 1.6 seconds</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Query completed in: 1.9 seconds</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 1 × 28</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   address               lat  long matchedAddress tigerLine.tiger… tigerLine.side</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>               <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>         </span>
@@ -377,16 +377,11 @@ If <code>method = "cascade"</code> then no errors will be thrown.</p></dd>
 
 
       <footer><div class="copyright">
-  <p></p><p>Developed by <a href="https://jessecambon.github.io" class="external-link">Jesse
-Cambon</a>, <a href="https://github.com/dieghernan" class="external-link">Diego
-Hernangómez</a>,
-<a href="https://github.com/chris31415926535" class="external-link">Christopher Belanger</a>,
-<a href="https://github.com/dpprdan" class="external-link">Daniel Possenriede</a>.</p>
+  <p></p><p>Developed by <a href="https://jessecambon.github.io" class="external-link">Jesse Cambon</a>, <a href="https://github.com/dieghernan" class="external-link">Diego Hernangómez</a>, <a href="https://github.com/chris31415926535" class="external-link">Christopher Belanger</a>, <a href="https://github.com/dpprdan" class="external-link">Daniel Possenriede</a>.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a>
-2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
 </div>
 
       </footer></div>

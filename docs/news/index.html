@@ -23,7 +23,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">tidygeocoder</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.0.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.0.5.9000</span>
       </span>
     </div>
 
@@ -35,7 +35,7 @@
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
     Articles
      
     <span class="caret"></span>
@@ -48,7 +48,7 @@
     </li>
   </ul></li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
     News
      
     <span class="caret"></span>
@@ -100,267 +100,122 @@
 
     <div class="section level2">
 <h2 class="page-header" data-toc-text="development version" id="tidygeocoder-development-version">tidygeocoder (development version)<a class="anchor" aria-label="anchor" href="#tidygeocoder-development-version"></a></h2>
-<ul><li>Changed the default <code>min_time</code> (minimum seconds elapsed
-per query) value to 1 (60 seconds per minute) for the Location IQ
-service (<a href="https://github.com/jessecambon/tidygeocoder/issues/166" class="external-link">#166</a>).</li>
+<ul><li>Changed the default <code>min_time</code> (minimum seconds elapsed per query) value to 1 (60 seconds per minute) for the Location IQ service (<a href="https://github.com/jessecambon/tidygeocoder/issues/166" class="external-link">#166</a>).</li>
 </ul></div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="1.0.5" id="tidygeocoder-105">tidygeocoder 1.0.5<small>2021-11-02</small><a class="anchor" aria-label="anchor" href="#tidygeocoder-105"></a></h2>
-<ul><li>Corrected documentation for the <code>quiet</code> parameter in
-<code><a href="../reference/geo.html">geo()</a></code> and <code><a href="../reference/reverse_geo.html">reverse_geo()</a></code>.</li>
-<li>To fix an issue that occurred on Mac CRAN checks (<a href="https://github.com/jessecambon/tidygeocoder/issues/152" class="external-link">#152</a>)
-the vignette is now precomputed so that it does not run during
-<code>R CMD check</code> (ie. <code><a href="https://devtools.r-lib.org/reference/check.html" class="external-link">devtools::check()</a></code>).</li>
-<li>Changed some default parameter values to facilitate the use of the
-<a href="https://memoise.r-lib.org/" class="external-link">memoise package</a> (<a href="https://github.com/jessecambon/tidygeocoder/pull/154" class="external-link">#154</a>, <a href="https://github.com/dpprdan" class="external-link">@dpprdan</a>).</li>
+<ul><li>Corrected documentation for the <code>quiet</code> parameter in <code><a href="../reference/geo.html">geo()</a></code> and <code><a href="../reference/reverse_geo.html">reverse_geo()</a></code>.</li>
+<li>To fix an issue that occurred on Mac CRAN checks (<a href="https://github.com/jessecambon/tidygeocoder/issues/152" class="external-link">#152</a>) the vignette is now precomputed so that it does not run during <code>R CMD check</code> (ie. <code><a href="https://devtools.r-lib.org/reference/check.html" class="external-link">devtools::check()</a></code>).</li>
+<li>Changed some default parameter values to facilitate the use of the <a href="https://memoise.r-lib.org/" class="external-link">memoise package</a> (<a href="https://github.com/jessecambon/tidygeocoder/pull/154" class="external-link">#154</a>, <a href="https://github.com/dpprdan" class="external-link">@dpprdan</a>).</li>
 </ul></div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="1.0.4" id="tidygeocoder-104">tidygeocoder 1.0.4<small>2021-10-17</small><a class="anchor" aria-label="anchor" href="#tidygeocoder-104"></a></h2>
 <div class="section level4">
 <h4 id="new-features-1-0-4">New Features<a class="anchor" aria-label="anchor" href="#new-features-1-0-4"></a></h4>
-<ul><li>Added support for the <a href="https://www.geoapify.com/" class="external-link">Geoapify</a> service (thanks <a href="https://github.com/dpprdan" class="external-link">@dpprdan</a>). This service supports
-batch geocoding, but this capability is currently not implemented in
-tidygeocoder (see <a href="https://github.com/jessecambon/tidygeocoder/issues/119" class="external-link">#119</a>).</li>
-<li>Added the functions <code><a href="../reference/geocode_combine.html">geocode_combine()</a></code> and
-<code><a href="../reference/geo_combine.html">geo_combine()</a></code> to combine the results of multiple geocoding
-queries. These functions are meant to replace
-<code>geo(method = "cascade")</code>.</li>
-<li>Deprecated <code>method = "cascade"</code> and the
-<code>cascade_order</code>, <code>param_error</code>, and
-<code>batch_limit_error</code> arguments for <code><a href="../reference/geo.html">geo()</a></code>.</li>
-<li>Deprecated the <code>return_type</code>, <code>geocodio_v</code>,
-<code>mapbox_permanent</code>, <code>mapquest_open</code>,
-<code>iq_region</code>, and <code>here_request_id</code> arguments in
-favor of the new <code>api_options</code> parameter for the
-<code><a href="../reference/geo.html">geo()</a></code> and <code><a href="../reference/reverse_geo.html">reverse_geo()</a></code> functions.</li>
-<li>Added a
-<code>api_options = list(geocodio_hipaa = TRUE/FALSE))</code> option to
-<code><a href="../reference/geo.html">geo()</a></code> and <code><a href="../reference/reverse_geo.html">reverse_geo()</a></code> functions to allow the
-toggling of the HIPAA-compliant Geocodio API endpoint (<a href="https://github.com/jessecambon/tidygeocoder/issues/137" class="external-link">#137</a>).</li>
+<ul><li>Added support for the <a href="https://www.geoapify.com/" class="external-link">Geoapify</a> service (thanks <a href="https://github.com/dpprdan" class="external-link">@dpprdan</a>). This service supports batch geocoding, but this capability is currently not implemented in tidygeocoder (see <a href="https://github.com/jessecambon/tidygeocoder/issues/119" class="external-link">#119</a>).</li>
+<li>Added the functions <code><a href="../reference/geocode_combine.html">geocode_combine()</a></code> and <code><a href="../reference/geo_combine.html">geo_combine()</a></code> to combine the results of multiple geocoding queries. These functions are meant to replace <code>geo(method = "cascade")</code>.</li>
+<li>Deprecated <code>method = "cascade"</code> and the <code>cascade_order</code>, <code>param_error</code>, and <code>batch_limit_error</code> arguments for <code><a href="../reference/geo.html">geo()</a></code>.</li>
+<li>Deprecated the <code>return_type</code>, <code>geocodio_v</code>, <code>mapbox_permanent</code>, <code>mapquest_open</code>, <code>iq_region</code>, and <code>here_request_id</code> arguments in favor of the new <code>api_options</code> parameter for the <code><a href="../reference/geo.html">geo()</a></code> and <code><a href="../reference/reverse_geo.html">reverse_geo()</a></code> functions.</li>
+<li>Added a <code>api_options = list(geocodio_hipaa = TRUE/FALSE))</code> option to <code><a href="../reference/geo.html">geo()</a></code> and <code><a href="../reference/reverse_geo.html">reverse_geo()</a></code> functions to allow the toggling of the HIPAA-compliant Geocodio API endpoint (<a href="https://github.com/jessecambon/tidygeocoder/issues/137" class="external-link">#137</a>).</li>
 </ul></div>
 <div class="section level4">
 <h4 id="console-output-1-0-4">Console Output<a class="anchor" aria-label="anchor" href="#console-output-1-0-4"></a></h4>
-<ul><li>Added a progress bar for single input geocoding (ie. not batch
-geocoding) (<a href="https://github.com/jessecambon/tidygeocoder/issues/38" class="external-link">#38</a>).
-The progress bar can be disabled with <code>progress_bar = FALSE</code>
-(a new parameter for the <code><a href="../reference/geo.html">geo()</a></code> and
-<code><a href="../reference/reverse_geo.html">reverse_geo()</a></code> functions). Similar to the <a href="https://readr.tidyverse.org/reference/show_progress.html" class="external-link">readr</a>
-package, progress bars are shown by default if the session is
-interactive and the code being run is not part of an RStudio Notebook
-chunk or R Markdown knitting process.</li>
-<li>Some console messages related to geocoding queries are now shown by
-default. These messages show the number of inputs (addresses or
-coordinates) submitted, the geocoding service used, and how long the
-query took to execute. To suppress these messages you can set
-<code>quiet = TRUE</code> (a new parameter for the <code><a href="../reference/geo.html">geo()</a></code>
-and <code><a href="../reference/reverse_geo.html">reverse_geo()</a></code> functions).</li>
-<li>Default arguments with <code><a href="https://rdrr.io/r/base/options.html" class="external-link">options()</a></code> for
-<code>verbose</code>, <code>quiet</code>, and <code>progress_bar</code>.
-For instance <code>options(tidygeocoder.verbose = TRUE)</code> changes
-the default value of <code>verbose</code> from FALSE to TRUE.</li>
+<ul><li>Added a progress bar for single input geocoding (ie. not batch geocoding) (<a href="https://github.com/jessecambon/tidygeocoder/issues/38" class="external-link">#38</a>). The progress bar can be disabled with <code>progress_bar = FALSE</code> (a new parameter for the <code><a href="../reference/geo.html">geo()</a></code> and <code><a href="../reference/reverse_geo.html">reverse_geo()</a></code> functions). Similar to the <a href="https://readr.tidyverse.org/reference/show_progress.html" class="external-link">readr</a> package, progress bars are shown by default if the session is interactive and the code being run is not part of an RStudio Notebook chunk or R Markdown knitting process.</li>
+<li>Some console messages related to geocoding queries are now shown by default. These messages show the number of inputs (addresses or coordinates) submitted, the geocoding service used, and how long the query took to execute. To suppress these messages you can set <code>quiet = TRUE</code> (a new parameter for the <code><a href="../reference/geo.html">geo()</a></code> and <code><a href="../reference/reverse_geo.html">reverse_geo()</a></code> functions).</li>
+<li>Default arguments with <code><a href="https://rdrr.io/r/base/options.html" class="external-link">options()</a></code> for <code>verbose</code>, <code>quiet</code>, and <code>progress_bar</code>. For instance <code>options(tidygeocoder.verbose = TRUE)</code> changes the default value of <code>verbose</code> from FALSE to TRUE.</li>
 </ul></div>
 <div class="section level4">
 <h4 id="bugfixes-1-0-4">Bugfixes<a class="anchor" aria-label="anchor" href="#bugfixes-1-0-4"></a></h4>
-<ul><li>Fixed a bug for Bing forward geocoding <code><a href="../reference/geo.html">geo()</a></code> when no
-results are found (<a href="https://github.com/jessecambon/tidygeocoder/issues/112" class="external-link">#112</a>).</li>
-<li>Fixed a bug that occurred in reverse geocoding when passing a set of
-exclusively duplicate coordinates (ie. 1 unique coordinate) (<a href="https://github.com/jessecambon/tidygeocoder/issues/129" class="external-link">#129</a>).</li>
+<ul><li>Fixed a bug for Bing forward geocoding <code><a href="../reference/geo.html">geo()</a></code> when no results are found (<a href="https://github.com/jessecambon/tidygeocoder/issues/112" class="external-link">#112</a>).</li>
+<li>Fixed a bug that occurred in reverse geocoding when passing a set of exclusively duplicate coordinates (ie. 1 unique coordinate) (<a href="https://github.com/jessecambon/tidygeocoder/issues/129" class="external-link">#129</a>).</li>
 </ul></div>
 </div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="1.0.3" id="tidygeocoder-103">tidygeocoder 1.0.3<small>2021-04-19</small><a class="anchor" aria-label="anchor" href="#tidygeocoder-103"></a></h2>
 <div class="section level4">
 <h4 id="new-features-1-0-3">New Features<a class="anchor" aria-label="anchor" href="#new-features-1-0-3"></a></h4>
-<ul><li>Added support for reverse geocoding with the new
-<code><a href="../reference/reverse_geo.html">reverse_geo()</a></code> and <code><a href="../reference/reverse_geocode.html">reverse_geocode()</a></code>
-functions.</li>
-<li>Added support for the <a href="https://opencagedata.com/" class="external-link">OpenCage</a> geocoding service (<a href="https://github.com/jessecambon/tidygeocoder/issues/67" class="external-link">#67</a>)
-(thanks <a href="https://github.com/dpprdan" class="external-link">@dpprdan</a>).</li>
-<li>Added support for the <a href="https://developer.here.com/products/geocoding-and-search" class="external-link">HERE</a>
-(<a href="https://github.com/jessecambon/tidygeocoder/issues/74" class="external-link">#74</a>),
-<a href="https://docs.mapbox.com/api/search/" class="external-link">Mapbox</a> (<a href="https://github.com/jessecambon/tidygeocoder/issues/71" class="external-link">#71</a>),
-<a href="https://developer.mapquest.com/documentation/geocoding-api/" class="external-link">MapQuest</a>
-(<a href="https://github.com/jessecambon/tidygeocoder/issues/85" class="external-link">#85</a>),
-<a href="https://developer.tomtom.com/search-api/search-api-documentation/geocoding" class="external-link">TomTom</a>
-(<a href="https://github.com/jessecambon/tidygeocoder/issues/76" class="external-link">#76</a>),
-<a href="https://docs.microsoft.com/en-us/bingmaps/rest-services/locations/" class="external-link">Bing</a>
-(<a href="https://github.com/jessecambon/tidygeocoder/issues/92" class="external-link">#92</a>),
-and <a href="https://developers.arcgis.com/rest/geocode/api-reference/overview-world-geocoding-service.htm" class="external-link">ArcGIS</a>
-(<a href="https://github.com/jessecambon/tidygeocoder/issues/98" class="external-link">#98</a>)
-geocoding services (thanks <a href="https://github.com/dieghernan" class="external-link">@dieghernan</a>). Note that the
-batch geocoding capabilities for the Mapbox and ArcGIS services are not
-currently implemented (see <a href="https://github.com/jessecambon/tidygeocoder/issues/73" class="external-link">#73</a> and
-<a href="https://github.com/jessecambon/tidygeocoder/issues/102" class="external-link">#102</a>).</li>
-<li>Added the <code>mapbox_permanent</code>,
-<code>here_request_id</code>, and <code>mapquest_open</code> parameters
-to the <code><a href="../reference/geo.html">geo()</a></code> and <code><a href="../reference/reverse_geo.html">reverse_geo()</a></code> functions.</li>
-<li>The <code>limit</code> argument can now be used with the “google”
-and “census” methods to control the number of results returned. These
-two services do not have limit arguments in their APIs so the limit is
-applied after the results are returned.</li>
+<ul><li>Added support for reverse geocoding with the new <code><a href="../reference/reverse_geo.html">reverse_geo()</a></code> and <code><a href="../reference/reverse_geocode.html">reverse_geocode()</a></code> functions.</li>
+<li>Added support for the <a href="https://opencagedata.com/" class="external-link">OpenCage</a> geocoding service (<a href="https://github.com/jessecambon/tidygeocoder/issues/67" class="external-link">#67</a>) (thanks <a href="https://github.com/dpprdan" class="external-link">@dpprdan</a>).</li>
+<li>Added support for the <a href="https://developer.here.com/products/geocoding-and-search" class="external-link">HERE</a> (<a href="https://github.com/jessecambon/tidygeocoder/issues/74" class="external-link">#74</a>), <a href="https://docs.mapbox.com/api/search/" class="external-link">Mapbox</a> (<a href="https://github.com/jessecambon/tidygeocoder/issues/71" class="external-link">#71</a>), <a href="https://developer.mapquest.com/documentation/geocoding-api/" class="external-link">MapQuest</a> (<a href="https://github.com/jessecambon/tidygeocoder/issues/85" class="external-link">#85</a>), <a href="https://developer.tomtom.com/search-api/search-api-documentation/geocoding" class="external-link">TomTom</a> (<a href="https://github.com/jessecambon/tidygeocoder/issues/76" class="external-link">#76</a>), <a href="https://docs.microsoft.com/en-us/bingmaps/rest-services/locations/" class="external-link">Bing</a> (<a href="https://github.com/jessecambon/tidygeocoder/issues/92" class="external-link">#92</a>), and <a href="https://developers.arcgis.com/rest/geocode/api-reference/overview-world-geocoding-service.htm" class="external-link">ArcGIS</a> (<a href="https://github.com/jessecambon/tidygeocoder/issues/98" class="external-link">#98</a>) geocoding services (thanks <a href="https://github.com/dieghernan" class="external-link">@dieghernan</a>). Note that the batch geocoding capabilities for the Mapbox and ArcGIS services are not currently implemented (see <a href="https://github.com/jessecambon/tidygeocoder/issues/73" class="external-link">#73</a> and <a href="https://github.com/jessecambon/tidygeocoder/issues/102" class="external-link">#102</a>).</li>
+<li>Added the <code>mapbox_permanent</code>, <code>here_request_id</code>, and <code>mapquest_open</code> parameters to the <code><a href="../reference/geo.html">geo()</a></code> and <code><a href="../reference/reverse_geo.html">reverse_geo()</a></code> functions.</li>
+<li>The <code>limit</code> argument can now be used with the “google” and “census” methods to control the number of results returned. These two services do not have limit arguments in their APIs so the limit is applied after the results are returned.</li>
 <li>
-<code>batch_limit</code> is now automatically set according to the
-specified geocoding service unless otherwise specified.</li>
+<code>batch_limit</code> is now automatically set according to the specified geocoding service unless otherwise specified.</li>
 </ul></div>
 <div class="section level4">
 <h4 id="other-changes-1-0-3">Other Changes<a class="anchor" aria-label="anchor" href="#other-changes-1-0-3"></a></h4>
-<ul><li>Changed default <code>method</code> to <code>"osm"</code>
-(Nominatim) for the <code><a href="../reference/geo.html">geo()</a></code> function (it was previously
-<code>"census"</code>).</li>
-<li>The <code>geo_&lt;method&gt;</code> functions are now
-deprecated.</li>
-<li>Added the <code>return_input</code> argument to
-<code><a href="../reference/geocode.html">geocode()</a></code> and <code><a href="../reference/reverse_geocode.html">reverse_geocode()</a></code> to provide
-more flexibility when using dataframes as inputs in geocoder
-queries.</li>
+<ul><li>Changed default <code>method</code> to <code>"osm"</code> (Nominatim) for the <code><a href="../reference/geo.html">geo()</a></code> function (it was previously <code>"census"</code>).</li>
+<li>The <code>geo_&lt;method&gt;</code> functions are now deprecated.</li>
+<li>Added the <code>return_input</code> argument to <code><a href="../reference/geocode.html">geocode()</a></code> and <code><a href="../reference/reverse_geocode.html">reverse_geocode()</a></code> to provide more flexibility when using dataframes as inputs in geocoder queries.</li>
 <li>
-<code>limit = NULL</code> can now be passed to use the default
-<code>limit</code> value for the geocoding service.</li>
-<li>Added the <code>min_time_reference</code>,
-<code>batch_limit_reference</code>, <code>api_key_reference</code>, and
-<code>api_info_reference</code> datasets to more accessibly store values
-for <code>min_time</code>, <code>batch_limit</code>, the names of
-environmental variables for API keys, and information for documentation
-(such as API documentation links).</li>
+<code>limit = NULL</code> can now be passed to use the default <code>limit</code> value for the geocoding service.</li>
+<li>Added the <code>min_time_reference</code>, <code>batch_limit_reference</code>, <code>api_key_reference</code>, and <code>api_info_reference</code> datasets to more accessibly store values for <code>min_time</code>, <code>batch_limit</code>, the names of environmental variables for API keys, and information for documentation (such as API documentation links).</li>
 <li>
-<code><a href="../reference/geocode.html">geocode()</a></code> and <code><a href="../reference/reverse_geocode.html">reverse_geocode()</a></code> now
-require <code>limit = 1</code> (default) unless
-<code>return_input = FALSE</code>. This fixes a bug where geocoding
-results could be misaligned with the input dataset when
-<code>limit &gt; 1</code>. (<a href="https://github.com/jessecambon/tidygeocoder/issues/88" class="external-link">#88</a>).</li>
-<li>An error is now thrown by default if the number of inputs exceeds
-the batch query limit. For forward geocoding, this behavior can be
-toggled with the new <code>batch_limit_error</code> argument in the
-<code><a href="../reference/geo.html">geo()</a></code> function and <code>batch_limit_error</code> is set to
-FALSE if <code>method = "cascade"</code>. When
-<code>batch_limit_error</code> is FALSE then the batch query size is
-limited to the batch limit and executed (which was the default behavior
-in the previous version).</li>
-<li>The <code>address_list</code> argument of <code><a href="../reference/query_api.html">query_api()</a></code>
-has been renamed to <code>input_list</code> to reflect that it is used
-for both forward and reverse queries when using the Geocodio service for
-batch geocoding.</li>
-<li>The <code><a href="../reference/query_api.html">query_api()</a></code> function now returns a named list which
-contains the response content and the HTTP status code. The
-<code><a href="../reference/geo.html">geo()</a></code> and <code><a href="../reference/reverse_geo.html">reverse_geo()</a></code> functions now use the
-HTTP status code directly to determine if a response is valid.</li>
-<li>Added <a href="https://github.com/jessecambon/tidygeocoder/blob/main/external/online_tests.R" class="external-link">external
-tests</a> to more thoroughly test the package with live queries
-(internal package tests don’t run queries).</li>
-<li>Added functions to generate package documentation from built-in
-datasets (ex. the methods documentation in <code><a href="../reference/geo.html">geo()</a></code> and
-<code><a href="../reference/reverse_geo.html">reverse_geo()</a></code>).</li>
-<li>Converted package documentation from standard roxygen syntax to
-Markdown.</li>
+<code><a href="../reference/geocode.html">geocode()</a></code> and <code><a href="../reference/reverse_geocode.html">reverse_geocode()</a></code> now require <code>limit = 1</code> (default) unless <code>return_input = FALSE</code>. This fixes a bug where geocoding results could be misaligned with the input dataset when <code>limit &gt; 1</code>. (<a href="https://github.com/jessecambon/tidygeocoder/issues/88" class="external-link">#88</a>).</li>
+<li>An error is now thrown by default if the number of inputs exceeds the batch query limit. For forward geocoding, this behavior can be toggled with the new <code>batch_limit_error</code> argument in the <code><a href="../reference/geo.html">geo()</a></code> function and <code>batch_limit_error</code> is set to FALSE if <code>method = "cascade"</code>. When <code>batch_limit_error</code> is FALSE then the batch query size is limited to the batch limit and executed (which was the default behavior in the previous version).</li>
+<li>The <code>address_list</code> argument of <code><a href="../reference/query_api.html">query_api()</a></code> has been renamed to <code>input_list</code> to reflect that it is used for both forward and reverse queries when using the Geocodio service for batch geocoding.</li>
+<li>The <code><a href="../reference/query_api.html">query_api()</a></code> function now returns a named list which contains the response content and the HTTP status code. The <code><a href="../reference/geo.html">geo()</a></code> and <code><a href="../reference/reverse_geo.html">reverse_geo()</a></code> functions now use the HTTP status code directly to determine if a response is valid.</li>
+<li>Added <a href="https://github.com/jessecambon/tidygeocoder/blob/main/external/online_tests.R" class="external-link">external tests</a> to more thoroughly test the package with live queries (internal package tests don’t run queries).</li>
+<li>Added functions to generate package documentation from built-in datasets (ex. the methods documentation in <code><a href="../reference/geo.html">geo()</a></code> and <code><a href="../reference/reverse_geo.html">reverse_geo()</a></code>).</li>
+<li>Converted package documentation from standard roxygen syntax to Markdown.</li>
 </ul></div>
 </div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="1.0.2" id="tidygeocoder-102">tidygeocoder 1.0.2<small>2021-01-18</small><a class="anchor" aria-label="anchor" href="#tidygeocoder-102"></a></h2>
-<ul><li>Added support for the <a href="https://developers.google.com/maps/documentation/geocoding/overview" class="external-link">Google</a>
-geocoding service (<a href="https://github.com/jessecambon/tidygeocoder/issues/34" class="external-link">#34</a>)
-(thanks <a href="https://github.com/chris31415926535" class="external-link">@chris31415926535</a>).</li>
-<li>An error is now thrown if invalid parameters are passed to geocoding
-services (the parameters checked are limit, address, street, city,
-county, state, postalcode, and country) (<a href="https://github.com/jessecambon/tidygeocoder/issues/53" class="external-link">#53</a>).
-This behavior can be toggled with the new <code>param_error</code>
-parameter in <code><a href="../reference/geo.html">geo()</a></code> (or <code><a href="../reference/geocode.html">geocode()</a></code>).</li>
+<ul><li>Added support for the <a href="https://developers.google.com/maps/documentation/geocoding/overview" class="external-link">Google</a> geocoding service (<a href="https://github.com/jessecambon/tidygeocoder/issues/34" class="external-link">#34</a>) (thanks <a href="https://github.com/chris31415926535" class="external-link">@chris31415926535</a>).</li>
+<li>An error is now thrown if invalid parameters are passed to geocoding services (the parameters checked are limit, address, street, city, county, state, postalcode, and country) (<a href="https://github.com/jessecambon/tidygeocoder/issues/53" class="external-link">#53</a>). This behavior can be toggled with the new <code>param_error</code> parameter in <code><a href="../reference/geo.html">geo()</a></code> (or <code><a href="../reference/geocode.html">geocode()</a></code>).</li>
 <li>Leading zeros on Census FIPs geography columns are now preserved (<a href="https://github.com/jessecambon/tidygeocoder/issues/47" class="external-link">#47</a>).</li>
-<li>Bug fix for <code>custom_query</code> argument with Geocodio batch
-geocoding (<a href="https://github.com/jessecambon/tidygeocoder/issues/48" class="external-link">#48</a>).</li>
+<li>Bug fix for <code>custom_query</code> argument with Geocodio batch geocoding (<a href="https://github.com/jessecambon/tidygeocoder/issues/48" class="external-link">#48</a>).</li>
 <li>Bug fix for vctrs datatype error with cascade method (<a href="https://github.com/jessecambon/tidygeocoder/issues/49" class="external-link">#49</a>).</li>
-<li>Added more comprehensive testing for internal package functions such
-as package_addresses, unpackage_addresses, and get_api_query (<a href="https://github.com/jessecambon/tidygeocoder/issues/58" class="external-link">#58</a>).</li>
-<li>Per CRAN request, <code><a href="https://rdrr.io/r/base/order.html" class="external-link">order()</a></code> is no longer called on data
-frames (<a href="https://github.com/jessecambon/tidygeocoder/issues/57" class="external-link">#57</a>).</li>
+<li>Added more comprehensive testing for internal package functions such as package_addresses, unpackage_addresses, and get_api_query (<a href="https://github.com/jessecambon/tidygeocoder/issues/58" class="external-link">#58</a>).</li>
+<li>Per CRAN request, <code><a href="https://rdrr.io/r/base/order.html" class="external-link">order()</a></code> is no longer called on data frames (<a href="https://github.com/jessecambon/tidygeocoder/issues/57" class="external-link">#57</a>).</li>
 </ul></div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="1.0.1" id="tidygeocoder-101">tidygeocoder 1.0.1<small>2020-08-12</small><a class="anchor" aria-label="anchor" href="#tidygeocoder-101"></a></h2>
 <ul><li>Fixed an issue that prevented installation on R &lt; 4.0. (<a href="https://github.com/jessecambon/tidygeocoder/issues/35" class="external-link">#35</a>).</li>
-<li>Updated package documentation. Added examples to utility functions
-<code><a href="../reference/query_api.html">query_api()</a></code> and <code><a href="../reference/get_api_query.html">get_api_query()</a></code>.</li>
+<li>Updated package documentation. Added examples to utility functions <code><a href="../reference/query_api.html">query_api()</a></code> and <code><a href="../reference/get_api_query.html">get_api_query()</a></code>.</li>
 </ul></div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="1.0.0" id="tidygeocoder-100">tidygeocoder 1.0.0<small>2020-07-15</small><a class="anchor" aria-label="anchor" href="#tidygeocoder-100"></a></h2>
 <div class="section level4">
 <h4 id="new-functionality-1-0-0">New Functionality<a class="anchor" aria-label="anchor" href="#new-functionality-1-0-0"></a></h4>
 <ul><li>
-<strong>New geocoding services</strong>: Support for the <a href="https://www.geocod.io/" class="external-link">Geocodio</a> and <a href="https://locationiq.com/" class="external-link">Location IQ</a> services has been
-added.</li>
+<strong>New geocoding services</strong>: Support for the <a href="https://www.geocod.io/" class="external-link">Geocodio</a> and <a href="https://locationiq.com/" class="external-link">Location IQ</a> services has been added.</li>
 <li>
-<strong>Batch geocoding</strong> (geocoding multiple addresses per
-query) is now available for both the Census and Geocodio services.</li>
+<strong>Batch geocoding</strong> (geocoding multiple addresses per query) is now available for both the Census and Geocodio services.</li>
 <li>
-<strong>Full results</strong> from the geocoding services can now be
-returned by using <code>full_results = TRUE</code>. This will return all
-data provided by the geocoding service instead of just latitude and
-longitude coordinates. Additionally, the
-<code>return_type = 'geographies'</code> argument for the Census
-geocoder will return geography columns.</li>
+<strong>Full results</strong> from the geocoding services can now be returned by using <code>full_results = TRUE</code>. This will return all data provided by the geocoding service instead of just latitude and longitude coordinates. Additionally, the <code>return_type = 'geographies'</code> argument for the Census geocoder will return geography columns.</li>
 <li>
-<strong>Address component arguments</strong>: As an alternative to
-specifying a single-line address, address component arguments are now
-supported (<code>street</code>, <code>city</code>, <code>county</code>,
-<code>postalcode</code>, <code>country</code>).</li>
+<strong>Address component arguments</strong>: As an alternative to specifying a single-line address, address component arguments are now supported (<code>street</code>, <code>city</code>, <code>county</code>, <code>postalcode</code>, <code>country</code>).</li>
 <li>
-<strong>Customizable queries</strong>: Geocoding queries can now be
-customized using the <code>limit</code> and <code>custom_query</code>
-arguments (see the <code><a href="../reference/geo.html">geo()</a></code> function for details).</li>
+<strong>Customizable queries</strong>: Geocoding queries can now be customized using the <code>limit</code> and <code>custom_query</code> arguments (see the <code><a href="../reference/geo.html">geo()</a></code> function for details).</li>
 <li>
-<strong>Smart address handling</strong>: Only unique addresses are
-passed to geocoding services, but the rows in the original data are
-preserved.</li>
+<strong>Smart address handling</strong>: Only unique addresses are passed to geocoding services, but the rows in the original data are preserved.</li>
 <li>
-<strong>Usage limits</strong>: The OSM and IQ services by default
-are now limited to submitting one query per second (per the
-<code>min_time</code> argument in <code><a href="../reference/geo.html">geo()</a></code>) to respect usage
-limits. This should fix the past issue of users being locked out of the
-OSM service due to usage limit violations.</li>
-<li>The <code>cascade</code> method can now be customized by using the
-<code>cascade_order</code> argument (see <code><a href="../reference/geo.html">geo()</a></code>
-documentation)</li>
+<strong>Usage limits</strong>: The OSM and IQ services by default are now limited to submitting one query per second (per the <code>min_time</code> argument in <code><a href="../reference/geo.html">geo()</a></code>) to respect usage limits. This should fix the past issue of users being locked out of the OSM service due to usage limit violations.</li>
+<li>The <code>cascade</code> method can now be customized by using the <code>cascade_order</code> argument (see <code><a href="../reference/geo.html">geo()</a></code> documentation)</li>
 <li>
-<strong>Custom API URLs</strong> can now be specified. This will
-allow users to specify their own local Nominatim server, for
-instance.</li>
-<li>The parameters passed to the geocoding service are now displayed to
-the console when <code>verbose = TRUE</code>
+<strong>Custom API URLs</strong> can now be specified. This will allow users to specify their own local Nominatim server, for instance.</li>
+<li>The parameters passed to the geocoding service are now displayed to the console when <code>verbose = TRUE</code>
 </li>
 </ul></div>
 <div class="section level4">
 <h4 id="under-the-hood-improvements-1-0-0">Under the Hood Improvements<a class="anchor" aria-label="anchor" href="#under-the-hood-improvements-1-0-0"></a></h4>
 <ul><li>
-<strong>Reduced dependencies</strong>: The package has been
-overhauled so that the only remaining dependencies are
-<code>tibble</code>, <code>dplyr</code>, <code>jsonlite</code>, and
-<code>httr</code>. The package no longer has direct dependencies on
-<code>tmaptools</code>, <code>stringr</code>, <code>purrr</code>,
-<code>tidyr</code>, and <code>rlang</code>.</li>
-<li>All geocoding queries are now directly executed by
-<code>httr</code>. The inbuilt <code>api_parameter_reference</code>
-dataset is used to map standard “generic” parameter names to the
-parameter names used by each specific geocoding service.</li>
-<li>All geocoding functionality has been centralized in the
-<code><a href="../reference/geo.html">geo()</a></code> function. Users can still use <code><a href="../reference/geocode.html">geocode()</a></code>,
-<code><a href="../reference/geo_census.html">geo_osm()</a></code>, and <code><a href="../reference/geo_census.html">geo_census()</a></code> as before.
-However, <code><a href="../reference/geo_census.html">geo_osm()</a></code> and <code><a href="../reference/geo_census.html">geo_census()</a></code> are now
-just convenience functions that call <code><a href="../reference/geo.html">geo()</a></code> and
-<code><a href="../reference/geocode.html">geocode()</a></code> passes all addresses to <code><a href="../reference/geo.html">geo()</a></code> for
-geocoding.</li>
+<strong>Reduced dependencies</strong>: The package has been overhauled so that the only remaining dependencies are <code>tibble</code>, <code>dplyr</code>, <code>jsonlite</code>, and <code>httr</code>. The package no longer has direct dependencies on <code>tmaptools</code>, <code>stringr</code>, <code>purrr</code>, <code>tidyr</code>, and <code>rlang</code>.</li>
+<li>All geocoding queries are now directly executed by <code>httr</code>. The inbuilt <code>api_parameter_reference</code> dataset is used to map standard “generic” parameter names to the parameter names used by each specific geocoding service.</li>
+<li>All geocoding functionality has been centralized in the <code><a href="../reference/geo.html">geo()</a></code> function. Users can still use <code><a href="../reference/geocode.html">geocode()</a></code>, <code><a href="../reference/geo_census.html">geo_osm()</a></code>, and <code><a href="../reference/geo_census.html">geo_census()</a></code> as before. However, <code><a href="../reference/geo_census.html">geo_osm()</a></code> and <code><a href="../reference/geo_census.html">geo_census()</a></code> are now just convenience functions that call <code><a href="../reference/geo.html">geo()</a></code> and <code><a href="../reference/geocode.html">geocode()</a></code> passes all addresses to <code><a href="../reference/geo.html">geo()</a></code> for geocoding.</li>
 </ul></div>
 </div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="0.2.5" id="tidygeocoder-025">tidygeocoder 0.2.5<small>2020-03-22</small><a class="anchor" aria-label="anchor" href="#tidygeocoder-025"></a></h2>
-<p>Per CRAN request, fixed an issue where the example for
-<code>R/geocode.R</code> failed. The only change required was to add a
-<code><a href="https://dplyr.tidyverse.org" class="external-link">library(dplyr)</a></code> statement.</p>
+<p>Per CRAN request, fixed an issue where the example for <code>R/geocode.R</code> failed. The only change required was to add a <code><a href="https://dplyr.tidyverse.org" class="external-link">library(dplyr)</a></code> statement.</p>
 </div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="0.2.4" id="tidygeocoder-024">tidygeocoder 0.2.4<small>2019-10-25</small><a class="anchor" aria-label="anchor" href="#tidygeocoder-024"></a></h2>
 <p>Initial CRAN release. Per CRAN request:</p>
-<ul><li>Replaced <code><a href="https://rdrr.io/r/base/print.html" class="external-link">print()</a></code> with <code><a href="https://rdrr.io/r/base/warning.html" class="external-link">warning()</a></code> to make
-suppressing console output possible.</li>
-<li>Replaced <code>\dontrun</code> with <code>\donttest</code> in .R
-files</li>
+<ul><li>Replaced <code><a href="https://rdrr.io/r/base/print.html" class="external-link">print()</a></code> with <code><a href="https://rdrr.io/r/base/warning.html" class="external-link">warning()</a></code> to make suppressing console output possible.</li>
+<li>Replaced <code>\dontrun</code> with <code>\donttest</code> in .R files</li>
 </ul></div>
   </div>
 
@@ -372,16 +227,11 @@ files</li>
 
 
       <footer><div class="copyright">
-  <p></p><p>Developed by <a href="https://jessecambon.github.io" class="external-link">Jesse
-Cambon</a>, <a href="https://github.com/dieghernan" class="external-link">Diego
-Hernangómez</a>,
-<a href="https://github.com/chris31415926535" class="external-link">Christopher Belanger</a>,
-<a href="https://github.com/dpprdan" class="external-link">Daniel Possenriede</a>.</p>
+  <p></p><p>Developed by <a href="https://jessecambon.github.io" class="external-link">Jesse Cambon</a>, <a href="https://github.com/dieghernan" class="external-link">Diego Hernangómez</a>, <a href="https://github.com/chris31415926535" class="external-link">Christopher Belanger</a>, <a href="https://github.com/dpprdan" class="external-link">Daniel Possenriede</a>.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a>
-2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
 </div>
 
       </footer></div>

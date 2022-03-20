@@ -28,7 +28,7 @@ on possible arguments.'><!-- mathjax --><script src="https://cdnjs.cloudflare.co
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">tidygeocoder</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.0.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.0.5.9000</span>
       </span>
     </div>
 
@@ -40,7 +40,7 @@ on possible arguments.'><!-- mathjax --><script src="https://cdnjs.cloudflare.co
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
     Articles
      
     <span class="caret"></span>
@@ -53,7 +53,7 @@ on possible arguments.'><!-- mathjax --><script src="https://cdnjs.cloudflare.co
     </li>
   </ul></li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
     News
      
     <span class="caret"></span>
@@ -183,12 +183,12 @@ return_input will be set to FALSE.</p></dd>
 <span class="r-in">  <span class="op">)</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Passing 2 coordinates to the Nominatim single coordinate geocoder</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Query completed in: 2 seconds</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 2 × 21</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 2 × 22</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   latitude longitude address    place_id licence osm_type osm_id osm_lat osm_lon</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>     38.9     -<span style="color: #BB0000;">77.0</span> Pennsylva…   2.20<span style="color: #949494;">e</span>8 Data ©… way      5.65<span style="color: #949494;">e</span>8 38.895… -77.03…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>     38.9     -<span style="color: #BB0000;">77.0</span> L’Enfant'…   2.71<span style="color: #949494;">e</span>8 Data ©… way      9.00<span style="color: #949494;">e</span>8 38.895… -77.03…</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span>     43.7     -<span style="color: #BB0000;">79.4</span> Toronto C…   1.48<span style="color: #949494;">e</span>8 Data ©… way      1.99<span style="color: #949494;">e</span>8 43.653… -79.38…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># … with 12 more variables: road &lt;chr&gt;, city &lt;chr&gt;, state &lt;chr&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># … with 13 more variables: tourism &lt;chr&gt;, road &lt;chr&gt;, city &lt;chr&gt;, state &lt;chr&gt;,</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   postcode &lt;chr&gt;, country &lt;chr&gt;, country_code &lt;chr&gt;, boundingbox &lt;list&gt;,</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   amenity &lt;chr&gt;, house_number &lt;chr&gt;, neighbourhood &lt;chr&gt;, quarter &lt;chr&gt;,</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   state_district &lt;chr&gt;</span></span>
@@ -197,7 +197,7 @@ return_input will be set to FALSE.</p></dd>
 <span class="r-in">  <span class="fu">reverse_geocode</span><span class="op">(</span>lat <span class="op">=</span> <span class="va">latitude</span>, long <span class="op">=</span> <span class="va">longitude</span>, </span>
 <span class="r-in">  method <span class="op">=</span> <span class="st">'arcgis'</span><span class="op">)</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Passing 3 coordinates to the ArcGIS single coordinate geocoder</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Query completed in: 1.1 seconds</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Query completed in: 1.2 seconds</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 3 × 7</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   street           city       state      zip latitude longitude address         </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>           </span>
@@ -228,16 +228,11 @@ return_input will be set to FALSE.</p></dd>
 
 
       <footer><div class="copyright">
-  <p></p><p>Developed by <a href="https://jessecambon.github.io" class="external-link">Jesse
-Cambon</a>, <a href="https://github.com/dieghernan" class="external-link">Diego
-Hernangómez</a>,
-<a href="https://github.com/chris31415926535" class="external-link">Christopher Belanger</a>,
-<a href="https://github.com/dpprdan" class="external-link">Daniel Possenriede</a>.</p>
+  <p></p><p>Developed by <a href="https://jessecambon.github.io" class="external-link">Jesse Cambon</a>, <a href="https://github.com/dieghernan" class="external-link">Diego Hernangómez</a>, <a href="https://github.com/chris31415926535" class="external-link">Christopher Belanger</a>, <a href="https://github.com/dpprdan" class="external-link">Daniel Possenriede</a>.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a>
-2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
 </div>
 
       </footer></div>
