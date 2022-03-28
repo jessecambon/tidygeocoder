@@ -1,6 +1,6 @@
 # tidygeocoder (development version)
 
-- Changed the default `min_time` (minimum seconds elapsed per query) value to 1 (60 seconds per minute) for the Location IQ service ([#166](https://github.com/jessecambon/tidygeocoder/issues/166)).
+- Changed the default `min_time` (minimum seconds elapsed per query) value to 1 (60 queries per minute) for the Location IQ service ([#166](https://github.com/jessecambon/tidygeocoder/issues/166)).
 
 # tidygeocoder 1.0.5
 
