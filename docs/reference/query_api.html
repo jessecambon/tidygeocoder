@@ -36,7 +36,7 @@ function to execute."><!-- mathjax --><script src="https://cdnjs.cloudflare.com/
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
      
     <span class="caret"></span>
@@ -49,7 +49,7 @@ function to execute."><!-- mathjax --><script src="https://cdnjs.cloudflare.com/
     </li>
   </ul></li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     News
      
     <span class="caret"></span>
@@ -122,27 +122,44 @@ function to execute.</p>
     <h2>Arguments</h2>
     <dl><dt>api_url</dt>
 <dd><p>Base URL of the API. query parameters are appended to this</p></dd>
+
+
 <dt>query_parameters</dt>
 <dd><p>api query parameters in the form of a named list</p></dd>
+
+
 <dt>mode</dt>
 <dd><p>determines the type of query to execute</p><div class="sourceCode"><pre><code>- "single": geocode a single input (all methods)
 - "list": batch geocode a list of inputs (ex. geocodio)
 - "file": batch geocode a file of inputs (ex. census)
 </code></pre></div></dd>
+
+
 <dt>batch_file</dt>
 <dd><p>a csv file of input data to upload (for <code>mode = 'file'</code>)</p></dd>
+
+
 <dt>input_list</dt>
 <dd><p>a list of input data (for <code>mode = 'list'</code>)</p></dd>
+
+
 <dt>content_encoding</dt>
 <dd><p>Encoding to be used for parsing content</p></dd>
+
+
 <dt>timeout</dt>
 <dd><p>timeout in minutes</p></dd>
+
+
 <dt>method</dt>
 <dd><p>if 'mapquest' or 'arcgis' then the query status code is changed appropriately</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>a named list containing the response content (<code>content</code>) and the HTTP request status (<code>status</code>)</p>
+    
+
+<p>a named list containing the response content (<code>content</code>) and the HTTP request status (<code>status</code>)</p>
     </div>
     <div id="see-also">
     <h2>See also</h2>
@@ -183,14 +200,14 @@ function to execute.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 5      way  872332878  21.0365605, 21.0367753, 105.7821469, 105.783248</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 6     node 8124813873 21.0366379, 21.0367379, 105.7826432, 105.7827432</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 7     node 4747249104   21.029253, 21.029353, 105.8571969, 105.8572969</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                                                                                                                               display_name</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1                                                                                                               Thành phố Hà Nội, Việt Nam</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2    British International School, Hanoi, Hoa Lan, Vinhomes Riverside, Phường Phúc Lợi, Quận Long Biên, Thành phố Hà Nội, 100000, Việt Nam</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3              Đại học quốc gia Hà Nội, 182, Đường Lương Thế Vinh, Phường Trung Văn, Quận Nam Từ Liêm, Thành phố Hà Nội, 1000001, Việt Nam</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4                     Venezuelan Embassy in Hanoi, Vietnam, 111, Phố Trích Sài, Phường Bưởi, Quận Tây Hồ, Thành phố Hà Nội, 1000, Việt Nam</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5                                              Đại học Quốc gia Hà Nội, Đường Xuân Thủy, Quận Cầu Giấy, Thành phố Hà Nội, 122000, Việt Nam</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6                                              Đại học Quốc gia Hà Nội, Đường Xuân Thủy, Quận Cầu Giấy, Thành phố Hà Nội, 122000, Việt Nam</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 7 Đại sứ quán Đan Mạch tại Hà Nội, Việt Nam, 194, Đường Trần Quang Khải, Lý Thái Tổ, Phường Lý Thái Tổ, Thành phố Hà Nội, 110905, Việt Nam</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                                                                                                           display_name</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1                                                                                                           Thành phố Hà Nội, Việt Nam</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2 British International School, Hanoi, Hoa Lan, Vinhomes Riverside, Phường Phúc Lợi, Quận Long Biên, Thành phố Hà Nội, 08443, Việt Nam</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3          Đại học quốc gia Hà Nội, 182, Đường Lương Thế Vinh, Phường Trung Văn, Quận Nam Từ Liêm, Thành phố Hà Nội, 1000001, Việt Nam</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4                 Venezuelan Embassy in Hanoi, Vietnam, 111, Phố Trích Sài, Phường Bưởi, Quận Tây Hồ, Thành phố Hà Nội, 1000, Việt Nam</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5                                          Đại học Quốc gia Hà Nội, Đường Xuân Thủy, Quận Cầu Giấy, Thành phố Hà Nội, 122000, Việt Nam</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6                                          Đại học Quốc gia Hà Nội, Đường Xuân Thủy, Quận Cầu Giấy, Thành phố Hà Nội, 122000, Việt Nam</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 7           Đại Sứ Quán Đan Mạch, 194, Đường Trần Quang Khải, Phường Tràng Tiền, Phường Lý Thái Tổ, Thành phố Hà Nội, 110905, Việt Nam</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      class           type importance</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1 boundary administrative  0.6282962</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2 building         school  0.4099978</span>
@@ -199,25 +216,26 @@ function to execute.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 5  railway        station  0.0010000</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 6  railway           stop  0.0010000</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 7   office     diplomatic  0.0010000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                                                                                    icon</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1 https://nominatim.openstreetmap.org/ui/mapicons//poi_boundary_administrative.p.20.png</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2                                                                                  &lt;NA&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3        https://nominatim.openstreetmap.org/ui/mapicons//education_university.p.20.png</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4                                                                                  &lt;NA&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5    https://nominatim.openstreetmap.org/ui/mapicons//transport_train_station2.p.20.png</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6                                                                                  &lt;NA&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 7                                                                                  &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                                                                   icon</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 https://nominatim.openstreetmap.org/ui/mapicons/poi_boundary_administrative.p.20.png</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2                                                                                 &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3        https://nominatim.openstreetmap.org/ui/mapicons/education_university.p.20.png</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4                                                                                 &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5    https://nominatim.openstreetmap.org/ui/mapicons/transport_train_station2.p.20.png</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6                                                                                 &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 7                                                                                 &lt;NA&gt;</span>
 <span class="r-in"></span>
 <span class="r-in"><span class="va">raw2</span> <span class="op">&lt;-</span> <span class="fu">query_api</span><span class="op">(</span><span class="st">"http://nominatim.openstreetmap.org/reverse"</span>, </span>
 <span class="r-in">   <span class="fu"><a href="get_api_query.html">get_api_query</a></span><span class="op">(</span><span class="st">"osm"</span>, custom_parameters <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>lat <span class="op">=</span> <span class="fl">38.895865</span>, lon <span class="op">=</span> <span class="op">-</span><span class="fl">77.0307713</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
 <span class="r-in">   </span>
 <span class="r-in"><span class="fu"><a href="extract_reverse_results.html">extract_reverse_results</a></span><span class="op">(</span><span class="st">'osm'</span>, <span class="fu">jsonlite</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/jsonlite/man/fromJSON.html" class="external-link">fromJSON</a></span><span class="op">(</span><span class="va">raw2</span><span class="op">$</span><span class="va">content</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 1 × 15</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   display_name    place_id licence osm_type osm_id osm_lat osm_lon tourism road </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> L’Enfant's pla…   2.71<span style="color: #949494;">e</span>8 Data ©… way      9.00<span style="color: #949494;">e</span>8 38.895… -77.03… L’Enfa… Penn…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># … with 6 more variables: city &lt;chr&gt;, state &lt;chr&gt;, postcode &lt;chr&gt;,</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   country &lt;chr&gt;, country_code &lt;chr&gt;, boundingbox &lt;list&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 1 × 17</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   display_name          place_id licence osm_type osm_id osm_lat osm_lon tourism</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> Freedom Plaza, 1455,…   2.84<span style="color: #949494;">e</span>8 Data ©… relation 8.06<span style="color: #949494;">e</span>6 38.895… -77.03… Freedo…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># … with 9 more variables: house_number &lt;chr&gt;, road &lt;chr&gt;, city &lt;chr&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   state &lt;chr&gt;, `ISO3166-2-lvl4` &lt;chr&gt;, postcode &lt;chr&gt;, country &lt;chr&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   country_code &lt;chr&gt;, boundingbox &lt;list&gt;</span></span>
 <span class="r-in"><span class="co"># }</span></span>
 <span class="r-in"></span>
 </code></pre></div>
@@ -234,7 +252,7 @@ function to execute.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
 </div>
 
       </footer></div>

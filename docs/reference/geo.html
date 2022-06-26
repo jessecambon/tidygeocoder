@@ -46,7 +46,7 @@ API queries.'><!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/lib
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
      
     <span class="caret"></span>
@@ -59,7 +59,7 @@ API queries.'><!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/lib
     </li>
   </ul></li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     News
      
     <span class="caret"></span>
@@ -171,18 +171,32 @@ API queries.</p>
 <dd><p>single line address (ie. '1600 Pennsylvania Ave NW, Washington, DC').
 Do not combine with the address component arguments below
 (<code>street</code>, <code>city</code>, <code>county</code>, <code>state</code>, <code>postalcode</code>, <code>country</code>).</p></dd>
+
+
 <dt>street</dt>
 <dd><p>street address (ie. '1600 Pennsylvania Ave NW')</p></dd>
+
+
 <dt>city</dt>
 <dd><p>city (ie. 'Tokyo')</p></dd>
+
+
 <dt>county</dt>
 <dd><p>county (ie. 'Jefferson')</p></dd>
+
+
 <dt>state</dt>
 <dd><p>state (ie. 'Kentucky')</p></dd>
+
+
 <dt>postalcode</dt>
 <dd><p>postalcode (ie. zip code if in the United States)</p></dd>
+
+
 <dt>country</dt>
 <dd><p>country (ie. 'Japan')</p></dd>
+
+
 <dt>method</dt>
 <dd><p>the geocoding service to be used. API keys are loaded from environmental variables. Run <code><a href="https://usethis.r-lib.org/reference/edit.html" class="external-link">usethis::edit_r_environ()</a></code> to open your .Renviron file and add an API key as an environmental variable. For example, add the line <code>GEOCODIO_API_KEY="YourAPIKeyHere"</code>.</p><ul><li><p><code>"osm"</code>: <a href="https://nominatim.org" class="external-link">Nominatim</a>.</p></li>
 <li><p><code>"census"</code>: <a href="https://geocoding.geo.census.gov/" class="external-link">US Census</a>. Geographic coverage is limited to the United States.  Batch geocoding is supported.</p></li>
@@ -204,70 +218,110 @@ The services and order is specified by the cascade_order argument.
 Note that this is not compatible with <code>full_results = TRUE</code> as geocoding
 services have different columns that they return.</p></li>
 </ul></dd>
+
+
 <dt>cascade_order</dt>
 <dd><p><a href="https://lifecycle.r-lib.org/articles/stages.html#deprecated" class="external-link"><img src="figures/lifecycle-deprecated.svg" alt="[Deprecated]"></a> a vector with two character values for the
 method argument in the order in which the geocoding services will be attempted for <code>method = "cascade"</code>
 (ie. <code>c("census", "geocodio")</code>)</p></dd>
+
+
 <dt>lat</dt>
 <dd><p>latitude column name. Can be quoted or unquoted (ie. <code>lat</code> or <code>"lat"</code>).</p></dd>
+
+
 <dt>long</dt>
 <dd><p>longitude column name. Can be quoted or unquoted (ie. <code>long</code> or `"long"``).</p></dd>
+
+
 <dt>limit</dt>
 <dd><p>maximum number of results to return per input address. For many geocoding services
 the maximum value of the limit parameter is 100. Pass <code>limit = NULL</code> to use
 the default <code>limit</code> value of the selected geocoding service.
 For batch geocoding, limit must be set to 1 (default) if <code>return_addresses = TRUE</code>.
 Refer to <a href="api_parameter_reference.html">api_parameter_reference</a> for more details.</p></dd>
+
+
 <dt>full_results</dt>
 <dd><p>returns all available data from the geocoding service if TRUE.
 If FALSE (default) then only latitude and longitude columns are returned from the geocoding service.</p></dd>
+
+
 <dt>mode</dt>
 <dd><p>set to 'batch' to force batch geocoding or 'single' to force single address
 geocoding (one address per query). If not specified then batch geocoding will
 be used if available (given method selected) when multiple addresses are
 provided; otherwise single address geocoding will be used. For the "here" and "bing" methods the
 batch mode should be explicitly specified with <code>mode = 'batch'</code>.</p></dd>
+
+
 <dt>unique_only</dt>
 <dd><p>only return results for unique inputs if TRUE</p></dd>
+
+
 <dt>return_addresses</dt>
 <dd><p>return input addresses with results if TRUE. Note that
 most services return the input addresses with <code>full_results = TRUE</code> and setting
 return_addresses to FALSE does not prevent this.</p></dd>
+
+
 <dt>min_time</dt>
 <dd><p>minimum amount of time for a query to take (in seconds). If NULL
 then min_time will be set to the default value specified in <a href="min_time_reference.html">min_time_reference</a>.</p></dd>
+
+
 <dt>progress_bar</dt>
 <dd><p>if TRUE then a progress bar will be displayed
 for single input geocoding (1 input per query). By default the progress bar
 will not be shown for code executed when knitting R Markdown files or code within
 an RStudio notebook chunk. Can be set permanently with <code>options(tidygeocoder.progress_bar = FALSE)</code>.</p></dd>
+
+
 <dt>quiet</dt>
 <dd><p>if TRUE then console messages that are displayed by default
 regarding queries will be suppressed. FALSE is default.
 Can be set permanently with <code>options(tidygeocoder.quiet = TRUE)</code>.</p></dd>
+
+
 <dt>api_url</dt>
 <dd><p>custom API URL. If specified, the default API URL will be overridden.
 This parameter can be used to specify a local Nominatim server, for instance.</p></dd>
+
+
 <dt>timeout</dt>
 <dd><p>query timeout (in minutes)</p></dd>
+
+
 <dt>flatten</dt>
 <dd><p>if TRUE (default) then any nested dataframes in results are flattened if possible.
 Note that in some cases results are flattened regardless such as for Geocodio batch geocoding.</p></dd>
+
+
 <dt>batch_limit</dt>
 <dd><p>limit to the number of addresses in a batch geocoding query.
 Defaults to the value in <a href="batch_limit_reference.html">batch_limit_reference</a> if not specified.</p></dd>
+
+
 <dt>batch_limit_error</dt>
 <dd><p><a href="https://lifecycle.r-lib.org/articles/stages.html#deprecated" class="external-link"><img src="figures/lifecycle-deprecated.svg" alt="[Deprecated]"></a> if TRUE then an error is thrown if the number of addresses exceeds the batch limit.
 (if executing a batch query). This is reverted to FALSE when using the cascade method.</p></dd>
+
+
 <dt>verbose</dt>
 <dd><p>if TRUE then detailed logs are output to the console. FALSE is default. Can be set
 permanently with <code>options(tidygeocoder.verbose = TRUE)</code></p></dd>
+
+
 <dt>no_query</dt>
 <dd><p>if TRUE then no queries are sent to the geocoding service and verbose is set to TRUE.
 Used for testing.</p></dd>
+
+
 <dt>custom_query</dt>
 <dd><p>API-specific parameters to be used, passed as a named list
 (ex. <code>list(extratags = 1)</code>.</p></dd>
+
+
 <dt>api_options</dt>
 <dd><p>a named list of parameters specific to individual services.
 (ex. <code>list(geocodio_v = 1.6, geocodio_hipaa = TRUE)</code>). Each parameter begins
@@ -291,26 +345,43 @@ when <code>verbose</code> is TRUE. Note that this option would ignore the
 current <code>address</code> parameter on the request, so the <code>return_addresses</code> or <code>return_coords</code>
 parameters need to be FALSE.</p></li>
 </ul></dd>
+
+
 <dt>return_type</dt>
 <dd><p><a href="https://lifecycle.r-lib.org/articles/stages.html#deprecated" class="external-link"><img src="figures/lifecycle-deprecated.svg" alt="[Deprecated]"></a> use the <code>api_options</code> parameter instead</p></dd>
+
+
 <dt>iq_region</dt>
 <dd><p><a href="https://lifecycle.r-lib.org/articles/stages.html#deprecated" class="external-link"><img src="figures/lifecycle-deprecated.svg" alt="[Deprecated]"></a> use the <code>api_options</code> parameter instead</p></dd>
+
+
 <dt>geocodio_v</dt>
 <dd><p><a href="https://lifecycle.r-lib.org/articles/stages.html#deprecated" class="external-link"><img src="figures/lifecycle-deprecated.svg" alt="[Deprecated]"></a> use the <code>api_options</code> parameter instead</p></dd>
+
+
 <dt>param_error</dt>
 <dd><p><a href="https://lifecycle.r-lib.org/articles/stages.html#deprecated" class="external-link"><img src="figures/lifecycle-deprecated.svg" alt="[Deprecated]"></a> if TRUE then an error will be thrown if any address
 parameters are used that are invalid for the selected service (<code>method</code>).
 If <code>method = "cascade"</code> then no errors will be thrown.</p></dd>
+
+
 <dt>mapbox_permanent</dt>
 <dd><p><a href="https://lifecycle.r-lib.org/articles/stages.html#deprecated" class="external-link"><img src="figures/lifecycle-deprecated.svg" alt="[Deprecated]"></a> use the <code>api_options</code> parameter instead</p></dd>
+
+
 <dt>here_request_id</dt>
 <dd><p><a href="https://lifecycle.r-lib.org/articles/stages.html#deprecated" class="external-link"><img src="figures/lifecycle-deprecated.svg" alt="[Deprecated]"></a> use the <code>api_options</code> parameter instead</p></dd>
+
+
 <dt>mapquest_open</dt>
 <dd><p><a href="https://lifecycle.r-lib.org/articles/stages.html#deprecated" class="external-link"><img src="figures/lifecycle-deprecated.svg" alt="[Deprecated]"></a> use the <code>api_options</code> parameter instead</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>tibble (dataframe)</p>
+    
+
+<p>tibble (dataframe)</p>
     </div>
     <div id="see-also">
     <h2>See also</h2>
@@ -325,7 +396,7 @@ If <code>method = "cascade"</code> then no errors will be thrown.</p></dd>
 <span class="r-in"><span class="fu">geo</span><span class="op">(</span>street <span class="op">=</span> <span class="st">"600 Peachtree Street NE"</span>, city <span class="op">=</span> <span class="st">"Atlanta"</span>,</span>
 <span class="r-in"> state <span class="op">=</span> <span class="st">"Georgia"</span>, method <span class="op">=</span> <span class="st">"census"</span><span class="op">)</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Passing 1 address to the US Census single address geocoder</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Query completed in: 5.8 seconds</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Query completed in: 0.5 seconds</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 1 × 5</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   street                  city    state     lat  long</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
@@ -334,7 +405,7 @@ If <code>method = "cascade"</code> then no errors will be thrown.</p></dd>
 <span class="r-in"><span class="fu">geo</span><span class="op">(</span>address <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Tokyo, Japan"</span>, <span class="st">"Lima, Peru"</span>, <span class="st">"Nairobi, Kenya"</span><span class="op">)</span>,</span>
 <span class="r-in"> method <span class="op">=</span> <span class="st">'osm'</span><span class="op">)</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Passing 3 addresses to the Nominatim single address geocoder</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Query completed in: 3.5 seconds</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Query completed in: 3 seconds</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 3 × 3</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   address           lat  long</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
@@ -345,18 +416,18 @@ If <code>method = "cascade"</code> then no errors will be thrown.</p></dd>
 <span class="r-in"><span class="fu">geo</span><span class="op">(</span><span class="st">"100 Main St New York, NY"</span>,  full_results <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span class="r-in"> method <span class="op">=</span> <span class="st">"census"</span>, api_options <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>census_return_type <span class="op">=</span> <span class="st">'geographies'</span><span class="op">)</span><span class="op">)</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Passing 1 address to the US Census single address geocoder</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Query completed in: 1.9 seconds</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Query completed in: 0.3 seconds</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 1 × 28</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   address               lat  long matchedAddress tigerLine.tiger… tigerLine.side</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>               <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>         </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> 100 Main St New Yo…  40.7 -<span style="color: #BB0000;">74.0</span> 100 MAIN ST, … 59662602         R             </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># … with 22 more variables: addressComponents.fromAddress &lt;chr&gt;,</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   addressComponents.toAddress &lt;chr&gt;, addressComponents.preQualifier &lt;chr&gt;,</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   addressComponents.preDirection &lt;chr&gt;, addressComponents.preType &lt;chr&gt;,</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   addressComponents.streetName &lt;chr&gt;, addressComponents.suffixType &lt;chr&gt;,</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   addressComponents.suffixDirection &lt;chr&gt;,</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   addressComponents.suffixQualifier &lt;chr&gt;, addressComponents.city &lt;chr&gt;,</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   addressComponents.state &lt;chr&gt;, addressComponents.zip &lt;chr&gt;, …</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   address               lat  long matchedAddress tigerLine.side tigerLine.tiger…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>               <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>           </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> 100 Main St New Yo…  40.7 -<span style="color: #BB0000;">74.0</span> 100 MAIN ST, … R              59662602        </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># … with 22 more variables:</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   `geographies.2018 State Legislative Districts - Upper` &lt;list&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   geographies.States &lt;list&gt;, `geographies.Combined Statistical Areas` &lt;list&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   `geographies.County Subdivisions` &lt;list&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   `geographies.Incorporated Places` &lt;list&gt;, geographies.Counties &lt;list&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   `geographies.2018 State Legislative Districts - Lower` &lt;list&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   `geographies.116th Congressional Districts` &lt;list&gt;, …</span></span>
 <span class="r-in"></span>
 <span class="r-in"><span class="fu">geo</span><span class="op">(</span>county <span class="op">=</span> <span class="st">'Jefferson'</span>, state <span class="op">=</span> <span class="st">"Kentucky"</span>, country <span class="op">=</span> <span class="st">"US"</span>,</span>
 <span class="r-in">     method <span class="op">=</span> <span class="st">'osm'</span><span class="op">)</span></span>
@@ -381,7 +452,7 @@ If <code>method = "cascade"</code> then no errors will be thrown.</p></dd>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
 </div>
 
       </footer></div>

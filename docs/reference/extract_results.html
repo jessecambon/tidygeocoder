@@ -39,7 +39,7 @@ usage."><!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/math
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
      
     <span class="caret"></span>
@@ -52,7 +52,7 @@ usage."><!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/math
     </li>
   </ul></li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     News
      
     <span class="caret"></span>
@@ -125,19 +125,30 @@ usage.</p>
     <h2>Arguments</h2>
     <dl><dt>method</dt>
 <dd><p>method name</p></dd>
+
+
 <dt>response</dt>
 <dd><p>content from the geocoding service (returned by the <a href="query_api.html">query_api</a> function)</p></dd>
+
+
 <dt>full_results</dt>
 <dd><p>if TRUE then the full results (not just latitude and longitude)
 will be returned.</p></dd>
+
+
 <dt>flatten</dt>
 <dd><p>if TRUE then flatten any nested dataframe content</p></dd>
+
+
 <dt>limit</dt>
 <dd><p>only used for "census" and "google" methods. Limits number of results per address.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>geocoding results in tibble format</p>
+    
+
+<p>geocoding results in tibble format</p>
     </div>
     <div id="see-also">
     <h2>See also</h2>
@@ -156,7 +167,7 @@ will be returned.</p></dd>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
 </div>
 
       </footer></div>

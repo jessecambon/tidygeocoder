@@ -40,7 +40,7 @@ on possible arguments.'><!-- mathjax --><script src="https://cdnjs.cloudflare.co
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
      
     <span class="caret"></span>
@@ -53,7 +53,7 @@ on possible arguments.'><!-- mathjax --><script src="https://cdnjs.cloudflare.co
     </li>
   </ul></li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     News
      
     <span class="caret"></span>
@@ -131,15 +131,25 @@ on possible arguments.</p>
     <h2>Arguments</h2>
     <dl><dt>.tbl</dt>
 <dd><p>dataframe containing coordinates</p></dd>
+
+
 <dt>lat</dt>
 <dd><p>latitude column name (input data). Can be quoted or unquoted (ie. lat or 'lat').</p></dd>
+
+
 <dt>long</dt>
 <dd><p>longitude column name (input data). Can be quoted or unquoted (ie. long or 'long').</p></dd>
+
+
 <dt>address</dt>
 <dd><p>address column name (output data). Can be quoted or unquoted (ie. addr or 'addr').</p></dd>
+
+
 <dt>return_input</dt>
 <dd><p>if TRUE then the input dataset will be combined with the geocoder query results
 and returned. If FALSE only the geocoder results will be returned.</p></dd>
+
+
 <dt>limit</dt>
 <dd><p>maximum number of results to return per input coordinate. For many geocoding services
 the maximum value of the limit parameter is 100. Pass <code>limit = NULL</code> to use
@@ -147,18 +157,27 @@ the default <code>limit</code> value of the selected geocoding service.
 For batch geocoding, limit must be set to 1 (default) if <code>return_coords = TRUE</code>.
 To use <code>limit &gt; 1</code> or <code>limit = NULL</code> set return_input to FALSE.
 Refer to <a href="api_parameter_reference.html">api_parameter_reference</a> for more details.</p></dd>
+
+
 <dt>return_coords</dt>
 <dd><p>if TRUE return input coordinates. Defaults to TRUE if <code>return_input</code> is
 FALSE and FALSE if <code>return_input</code> is TRUE. This argument is passed to the <code><a href="reverse_geo.html">reverse_geo()</a></code> function.</p></dd>
+
+
 <dt>unique_only</dt>
 <dd><p>if TRUE then only unique results will be returned and
 return_input will be set to FALSE.</p></dd>
+
+
 <dt>...</dt>
 <dd><p>arguments passed to the <a href="reverse_geo.html">reverse_geo</a> function</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>tibble (dataframe)</p>
+    
+
+<p>tibble (dataframe)</p>
     </div>
     <div id="see-also">
     <h2>See also</h2>
@@ -183,26 +202,26 @@ return_input will be set to FALSE.</p></dd>
 <span class="r-in">  <span class="op">)</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Passing 2 coordinates to the Nominatim single coordinate geocoder</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Query completed in: 2 seconds</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 2 × 22</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 2 × 23</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   latitude longitude address    place_id licence osm_type osm_id osm_lat osm_lon</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>     38.9     -<span style="color: #BB0000;">77.0</span> L’Enfant'…   2.71<span style="color: #949494;">e</span>8 Data ©… way      9.00<span style="color: #949494;">e</span>8 38.895… -77.03…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>     38.9     -<span style="color: #BB0000;">77.0</span> Freedom P…   2.84<span style="color: #949494;">e</span>8 Data ©… relation 8.06<span style="color: #949494;">e</span>6 38.895… -77.03…</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span>     43.7     -<span style="color: #BB0000;">79.4</span> Toronto C…   1.48<span style="color: #949494;">e</span>8 Data ©… way      1.99<span style="color: #949494;">e</span>8 43.653… -79.38…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># … with 13 more variables: tourism &lt;chr&gt;, road &lt;chr&gt;, city &lt;chr&gt;, state &lt;chr&gt;,</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   postcode &lt;chr&gt;, country &lt;chr&gt;, country_code &lt;chr&gt;, boundingbox &lt;list&gt;,</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   amenity &lt;chr&gt;, house_number &lt;chr&gt;, neighbourhood &lt;chr&gt;, quarter &lt;chr&gt;,</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   state_district &lt;chr&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># … with 14 more variables: tourism &lt;chr&gt;, house_number &lt;chr&gt;, road &lt;chr&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   city &lt;chr&gt;, state &lt;chr&gt;, `ISO3166-2-lvl4` &lt;chr&gt;, postcode &lt;chr&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   country &lt;chr&gt;, country_code &lt;chr&gt;, boundingbox &lt;list&gt;, amenity &lt;chr&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   neighbourhood &lt;chr&gt;, quarter &lt;chr&gt;, state_district &lt;chr&gt;</span></span>
 <span class="r-in"></span>
 <span class="r-in"><span class="va">louisville</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fl">3</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
 <span class="r-in">  <span class="fu">reverse_geocode</span><span class="op">(</span>lat <span class="op">=</span> <span class="va">latitude</span>, long <span class="op">=</span> <span class="va">longitude</span>, </span>
 <span class="r-in">  method <span class="op">=</span> <span class="st">'arcgis'</span><span class="op">)</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Passing 3 coordinates to the ArcGIS single coordinate geocoder</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Query completed in: 1.2 seconds</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Query completed in: 0.2 seconds</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 3 × 7</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   street           city       state      zip latitude longitude address         </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>           </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> 2722 ELLIOTT AVE Louisville Kentucky <span style="text-decoration: underline;">40</span>211     38.3     -<span style="color: #BB0000;">85.8</span> 2722 Elliott Av…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> 850 WASHBURN AVE Louisville Kentucky <span style="text-decoration: underline;">40</span>222     38.3     -<span style="color: #BB0000;">85.6</span> 292-302 Stone M…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> 850 WASHBURN AVE Louisville Kentucky <span style="text-decoration: underline;">40</span>222     38.3     -<span style="color: #BB0000;">85.6</span> 290-294 Stone M…</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> 1449 ST JAMES CT Louisville Kentucky <span style="text-decoration: underline;">40</span>208     38.2     -<span style="color: #BB0000;">85.8</span> 1449 Saint Jame…</span>
 <span class="r-in"></span>
 <span class="r-in"><span class="va">louisville</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fl">2</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
@@ -214,7 +233,7 @@ return_input will be set to FALSE.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 2 × 3</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     lat  long address                                                           </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                                                             </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>  38.3 -<span style="color: #BB0000;">85.8</span> 2722, Elliott Avenue, Louisville, Jefferson County, Kentucky, 402…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>  38.3 -<span style="color: #BB0000;">85.8</span> 2722, Elliott Avenue, Russell, Louisville, Jefferson County, Kent…</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span>  38.3 -<span style="color: #BB0000;">85.6</span> 850, Washburn Avenue, St. Matthews, Jefferson County, Kentucky, 4…</span>
 <span class="r-in"></span>
 <span class="r-in"><span class="co"># }</span></span>
@@ -232,7 +251,7 @@ return_input will be set to FALSE.</p></dd>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
 </div>
 
       </footer></div>

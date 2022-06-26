@@ -39,7 +39,7 @@ passes addresses provided in the address parameter to all queries."><!-- mathjax
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
      
     <span class="caret"></span>
@@ -52,7 +52,7 @@ passes addresses provided in the address parameter to all queries."><!-- mathjax
     </li>
   </ul></li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     News
      
     <span class="caret"></span>
@@ -134,35 +134,60 @@ passes addresses provided in the <code>address</code> parameter to all queries.<
 <dd><p>a list of queries, each provided as a list of parameters. The queries are
 executed by the <a href="geocode.html">geocode</a> function in the order provided.
 (ex. <code>list(list(method = 'osm'), list(method = 'census'), ...)</code>)</p></dd>
+
+
 <dt>global_params</dt>
 <dd><p>a list of parameters to be used for all queries
 (ex. <code>list(address = 'address', full_results = TRUE)</code>)</p></dd>
+
+
 <dt>address</dt>
 <dd><p>single line address (ie. '1600 Pennsylvania Ave NW, Washington, DC').
 Do not combine with the address component arguments below
 (<code>street</code>, <code>city</code>, <code>county</code>, <code>state</code>, <code>postalcode</code>, <code>country</code>).</p></dd>
+
+
 <dt>street</dt>
 <dd><p>street address (ie. '1600 Pennsylvania Ave NW')</p></dd>
+
+
 <dt>city</dt>
 <dd><p>city (ie. 'Tokyo')</p></dd>
+
+
 <dt>county</dt>
 <dd><p>county (ie. 'Jefferson')</p></dd>
+
+
 <dt>state</dt>
 <dd><p>state (ie. 'Kentucky')</p></dd>
+
+
 <dt>postalcode</dt>
 <dd><p>postalcode (ie. zip code if in the United States)</p></dd>
+
+
 <dt>country</dt>
 <dd><p>country (ie. 'Japan')</p></dd>
+
+
 <dt>lat</dt>
 <dd><p>latitude column name. Can be quoted or unquoted (ie. <code>lat</code> or <code>"lat"</code>).</p></dd>
+
+
 <dt>long</dt>
 <dd><p>longitude column name. Can be quoted or unquoted (ie. <code>long</code> or `"long"``).</p></dd>
+
+
 <dt>...</dt>
 <dd><p>arguments passed to the <a href="geocode_combine.html">geocode_combine</a> function</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>tibble (dataframe)</p>
+    
+
+<p>tibble (dataframe)</p>
     </div>
     <div id="see-also">
     <h2>See also</h2>
@@ -212,9 +237,9 @@ Do not combine with the address component arguments below
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Passing 3 addresses to the ArcGIS single address geocoder</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Query completed in: 2.2 seconds</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Query completed in: 0.4 seconds</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Passing 3 addresses to the US Census single address geocoder</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Query completed in: 0.8 seconds</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Query completed in: 0.5 seconds</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Passing 3 addresses to the US Census batch geocoder</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Query completed in: 0.2 seconds</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $arcgis</span>
@@ -254,7 +279,7 @@ Do not combine with the address component arguments below
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Passing 2 addresses to the ArcGIS single address geocoder</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Query completed in: 1.2 seconds</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Query completed in: 0.3 seconds</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Passing 2 addresses to the Nominatim single address geocoder</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Query completed in: 2 seconds</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 4 × 5</span></span>
@@ -279,7 +304,7 @@ Do not combine with the address component arguments below
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
 </div>
 
       </footer></div>

@@ -44,7 +44,7 @@ both acceptable).'><!-- mathjax --><script src="https://cdnjs.cloudflare.com/aja
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
      
     <span class="caret"></span>
@@ -57,7 +57,7 @@ both acceptable).'><!-- mathjax --><script src="https://cdnjs.cloudflare.com/aja
     </li>
   </ul></li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     News
      
     <span class="caret"></span>
@@ -145,28 +145,50 @@ both acceptable).</p>
     <h2>Arguments</h2>
     <dl><dt>.tbl</dt>
 <dd><p>dataframe containing addresses</p></dd>
+
+
 <dt>address</dt>
 <dd><p>single line street address column name. Do not combine with
 address component arguments (<code>street</code>, <code>city</code>, <code>county</code>, <code>state</code>, <code>postalcode</code>, <code>country</code>)</p></dd>
+
+
 <dt>street</dt>
 <dd><p>street address column name</p></dd>
+
+
 <dt>city</dt>
 <dd><p>city column name</p></dd>
+
+
 <dt>county</dt>
 <dd><p>county column name</p></dd>
+
+
 <dt>state</dt>
 <dd><p>state column name</p></dd>
+
+
 <dt>postalcode</dt>
 <dd><p>postalcode column name (zip code if in the United States)</p></dd>
+
+
 <dt>country</dt>
 <dd><p>country column name</p></dd>
+
+
 <dt>lat</dt>
 <dd><p>latitude column name. Can be quoted or unquoted (ie. lat or 'lat').</p></dd>
+
+
 <dt>long</dt>
 <dd><p>longitude column name. Can be quoted or unquoted (ie. long or 'long').</p></dd>
+
+
 <dt>return_input</dt>
 <dd><p>if TRUE then the input dataset will be combined with the geocoder query results
 and returned. If FALSE only the geocoder results will be returned.</p></dd>
+
+
 <dt>limit</dt>
 <dd><p>maximum number of results to return per input address. For many geocoding services
 the maximum value of the limit parameter is 100. Pass <code>limit = NULL</code> to use
@@ -174,18 +196,27 @@ the default <code>limit</code> value of the selected geocoding service.
 For batch geocoding, limit must be set to 1 (default) if <code>return_addresses = TRUE</code>.
 To use <code>limit &gt; 1</code> or <code>limit = NULL</code> set return_input to FALSE.
 Refer to <a href="api_parameter_reference.html">api_parameter_reference</a> for more details.</p></dd>
+
+
 <dt>return_addresses</dt>
 <dd><p>if TRUE return input addresses. Defaults to TRUE if <code>return_input</code> is FALSE
 and FALSE if <code>return_input</code> is TRUE. This argument is passed to the <code><a href="geo.html">geo()</a></code> function.</p></dd>
+
+
 <dt>unique_only</dt>
 <dd><p>if TRUE then only unique results will be returned and
 return_input will be set to FALSE.</p></dd>
+
+
 <dt>...</dt>
 <dd><p>arguments passed to the <a href="geo.html">geo</a> function</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>tibble (dataframe)</p>
+    
+
+<p>tibble (dataframe)</p>
     </div>
     <div id="see-also">
     <h2>See also</h2>
@@ -199,7 +230,7 @@ return_input will be set to FALSE.</p></dd>
 <span class="r-in"><span class="va">sample_addresses</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/slice.html" class="external-link">slice</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span class="r-in"> <span class="fu">geocode</span><span class="op">(</span><span class="va">addr</span>, method <span class="op">=</span> <span class="st">'arcgis'</span><span class="op">)</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Passing 2 addresses to the ArcGIS single address geocoder</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Query completed in: 0.2 seconds</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Query completed in: 0.1 seconds</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 2 × 4</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   name                 addr                                         lat   long</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                                      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
@@ -230,7 +261,7 @@ return_input will be set to FALSE.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> Istanbu…  41.0  29.0   1.70<span style="color: #949494;">e</span>7 Data ©… node     1.88<span style="color: #949494;">e</span>9 <span style="color: #949494;">&lt;chr [4]&gt;</span>   İstanbul, F…</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> Istanbu…  41.1  29.1   2.82<span style="color: #949494;">e</span>8 Data ©… relation 2.23<span style="color: #949494;">e</span>5 <span style="color: #949494;">&lt;chr [4]&gt;</span>   İstanbul, M…</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> Tokyo, …  35.7 140.    2.83<span style="color: #949494;">e</span>8 Data ©… relation 1.54<span style="color: #949494;">e</span>6 <span style="color: #949494;">&lt;chr [4]&gt;</span>   東京都, 日本</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> Tokyo, …  35.7 140.    6.99<span style="color: #949494;">e</span>7 Data ©… node     6.40<span style="color: #949494;">e</span>9 <span style="color: #949494;">&lt;chr [4]&gt;</span>   東京, 丸の… </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> Tokyo, …  35.7 140.    1.90<span style="color: #949494;">e</span>7 Data ©… node     2.15<span style="color: #949494;">e</span>9 <span style="color: #949494;">&lt;chr [4]&gt;</span>   東京, Keiyo…</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># … with 4 more variables: class &lt;chr&gt;, type &lt;chr&gt;, importance &lt;dbl&gt;,</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   icon &lt;chr&gt;</span></span>
 <span class="r-in"></span>
@@ -239,12 +270,12 @@ return_input will be set to FALSE.</p></dd>
 <span class="r-in">  lat <span class="op">=</span> <span class="va">latitude</span>, long <span class="op">=</span> <span class="va">longitude</span>,</span>
 <span class="r-in">  full_results <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Passing 2 addresses to the ArcGIS single address geocoder</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Query completed in: 0.2 seconds</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Query completed in: 1.1 seconds</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 2 × 12</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   name       addr  latitude longitude arcgis_address score location.x location.y</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> Willis To… 233 …     41.9     -<span style="color: #BB0000;">87.6</span> 233 S Wacker …   100      -<span style="color: #BB0000;">87.6</span>       41.9</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> Chateau F… 1 Ru…     46.8     -<span style="color: #BB0000;">71.2</span> 1 Rue des Car…   100      -<span style="color: #BB0000;">71.2</span>       46.8</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> Chateau F… 1 Ru…     46.8     -<span style="color: #BB0000;">71.2</span> 1 Rue Des Car…   100      -<span style="color: #BB0000;">71.2</span>       46.8</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># … with 4 more variables: extent.xmin &lt;dbl&gt;, extent.ymin &lt;dbl&gt;,</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   extent.xmax &lt;dbl&gt;, extent.ymax &lt;dbl&gt;</span></span>
 <span class="r-in"><span class="co"># }</span></span>
@@ -262,7 +293,7 @@ return_input will be set to FALSE.</p></dd>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
 </div>
 
       </footer></div>

@@ -55,7 +55,7 @@
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
      
     <span class="caret"></span>
@@ -70,7 +70,7 @@
   </ul>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     News
      
     <span class="caret"></span>
@@ -124,7 +124,7 @@
       
 
       </header><script src="geocoder_services_files/htmlwidgets-1.5.4/htmlwidgets.js"></script><link href="geocoder_services_files/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet">
-<script src="geocoder_services_files/datatables-binding-0.20/datatables.js"></script><link href="geocoder_services_files/dt-core-1.11.3/css/jquery.dataTables.min.css" rel="stylesheet">
+<script src="geocoder_services_files/datatables-binding-0.23/datatables.js"></script><link href="geocoder_services_files/dt-core-1.11.3/css/jquery.dataTables.min.css" rel="stylesheet">
 <link href="geocoder_services_files/dt-core-1.11.3/css/jquery.dataTables.extra.css" rel="stylesheet">
 <script src="geocoder_services_files/dt-core-1.11.3/js/jquery.dataTables.min.js"></script><link href="geocoder_services_files/nouislider-7.0.10/jquery.nouislider.min.css" rel="stylesheet">
 <script src="geocoder_services_files/nouislider-7.0.10/jquery.nouislider.min.js"></script><link href="geocoder_services_files/selectize-0.12.0/selectize.bootstrap3.css" rel="stylesheet">
@@ -145,8 +145,17 @@
 <div class="section level2">
 <h2 id="overview">Overview<a class="anchor" aria-label="anchor" href="#overview"></a>
 </h2>
-<p>The supported geocoding services are shown in the table below. The <code>method</code> is used to select the geocoding service in tidygeocoder functions such as <code><a href="../reference/geo.html">geo()</a></code> and <code><a href="../reference/reverse_geo.html">reverse_geo()</a></code>. The usage rate limitations are listed for the free tier of the service when applicable and many services have faster rates available with paid plans.</p>
-<p>Also note that there are many other considerations when selecting a geocoding service such as if the service uses open source data with permissive licensing or if there are restrictions on how you can use the data provided by the service. Refer to each service’s documentation for details.</p>
+<p>The supported geocoding services are shown in the table below. The
+<code>method</code> is used to select the geocoding service in
+tidygeocoder functions such as <code><a href="../reference/geo.html">geo()</a></code> and
+<code><a href="../reference/reverse_geo.html">reverse_geo()</a></code>. The usage rate limitations are listed for
+the free tier of the service when applicable and many services have
+faster rates available with paid plans.</p>
+<p>Also note that there are many other considerations when selecting a
+geocoding service such as if the service uses open source data with
+permissive licensing or if there are restrictions on how you can use the
+data provided by the service. Refer to each service’s documentation for
+details.</p>
 <table class="table">
 <colgroup>
 <col width="32%">
@@ -174,7 +183,8 @@
 <td align="left"><a href="https://nominatim.org/release-docs/develop/api/Search/" class="external-link">docs</a></td>
 </tr>
 <tr class="even">
-<td align="left"><a href="https://geocoding.geo.census.gov/" class="external-link">US Census</a></td>
+<td align="left"><a href="https://geocoding.geo.census.gov/" class="external-link">US
+Census</a></td>
 <td align="left"><code>census</code></td>
 <td align="left"></td>
 <td align="left">✅</td>
@@ -273,19 +283,34 @@
 </table>
 <p><strong>Highlights:</strong></p>
 <ul>
-<li>The US Census service does not support reverse geocoding and is limited to the United States.</li>
+<li>The US Census service does not support reverse geocoding and is
+limited to the United States.</li>
 <li>Geocodio is limited to the United States and Canada.</li>
-<li>The Census and Nominatim (“osm”) services are free and do not require an API key.</li>
-<li>ArcGIS can be used for free without an API key, but some features require a paid subscription and API key.</li>
-<li>Geoapify, Geocodio, Location IQ, OpenCage, Mapbox, HERE, TomTom, MapQuest, and Bing are commercial services that offer free tiers.</li>
-<li>The Google service has no free tier and <a href="https://developers.google.com/maps/documentation/geocoding/usage-and-billing" class="external-link">bills per query</a>.</li>
+<li>The Census and Nominatim (“osm”) services are free and do not
+require an API key.</li>
+<li>ArcGIS can be used for free without an API key, but some features
+require a paid subscription and API key.</li>
+<li>Geoapify, Geocodio, Location IQ, OpenCage, Mapbox, HERE, TomTom,
+MapQuest, and Bing are commercial services that offer free tiers.</li>
+<li>The Google service has no free tier and <a href="https://developers.google.com/maps/documentation/geocoding/usage-and-billing" class="external-link">bills
+per query</a>.</li>
 </ul>
 <p><strong>Other Notes:</strong></p>
 <ul>
-<li>The US Census service supports street-level addresses only (ie. “11 Wall St New York, NY” is OK but “New York, NY” is not).</li>
-<li>The Mapbox service is capable of performing batch geocoding when using the <a href="https://docs.mapbox.com/api/search/geocoding/#batch-geocoding" class="external-link">permanent endpoint</a>, but this capability is not currently implemented in tidygeocoder. If you’d like to add this capability to the package see <a href="https://github.com/jessecambon/tidygeocoder/issues/73" class="external-link">issue #73</a>.</li>
-<li>The ArcGIS service is capable of performing <a href="https://developers.arcgis.com/rest/geocode/api-reference/geocoding-geocode-addresses.htm" class="external-link">batch geocoding</a> but this capability is not currently implemented in tidygeocoder. If you’d like to add this capability see <a href="https://github.com/jessecambon/tidygeocoder/issues/102" class="external-link">#102</a>.</li>
-<li>For the ArcGIS service, an API Key is not strictly required if the service is used for search capabilities only (see <a href="https://developers.arcgis.com/rest/geocode/api-reference/geocoding-free-vs-paid.htm" class="external-link">Free vs. paid operations</a>). It is possible to include an API Key on the request via the <code>custom_query</code> parameter:</li>
+<li>The US Census service supports street-level addresses only (ie. “11
+Wall St New York, NY” is OK but “New York, NY” is not).</li>
+<li>The Mapbox service is capable of performing batch geocoding when
+using the <a href="https://docs.mapbox.com/api/search/geocoding/#batch-geocoding" class="external-link">permanent
+endpoint</a>, but this capability is not currently implemented in
+tidygeocoder. If you’d like to add this capability to the package see <a href="https://github.com/jessecambon/tidygeocoder/issues/73" class="external-link">issue
+#73</a>.</li>
+<li>The ArcGIS service is capable of performing <a href="https://developers.arcgis.com/rest/geocode/api-reference/geocoding-geocode-addresses.htm" class="external-link">batch
+geocoding</a> but this capability is not currently implemented in
+tidygeocoder. If you’d like to add this capability see <a href="https://github.com/jessecambon/tidygeocoder/issues/102" class="external-link">#102</a>.</li>
+<li>For the ArcGIS service, an API Key is not strictly required if the
+service is used for search capabilities only (see <a href="https://developers.arcgis.com/rest/geocode/api-reference/geocoding-free-vs-paid.htm" class="external-link">Free
+vs. paid operations</a>). It is possible to include an API Key on the
+request via the <code>custom_query</code> parameter:</li>
 </ul>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">tidygeocoder</span><span class="fu">::</span><span class="fu"><a href="../reference/geo.html">geo</a></span><span class="op">(</span>address <span class="op">=</span> <span class="st">"New York, USA"</span>, method <span class="op">=</span> <span class="st">"arcgis"</span>,
@@ -295,22 +320,38 @@
 <h2 id="usage-notes">Usage Notes<a class="anchor" aria-label="anchor" href="#usage-notes"></a>
 </h2>
 <ul>
-<li>When used in batch mode, the <strong>US Census</strong> geocoder will return NA data when there are multiple results available for an address. The expectation is that you would see that a “Tie” is indicated and use single address geocoding to return the results for these addresses. See <a href="https://github.com/jessecambon/tidygeocoder/issues/87" class="external-link">#87</a> for details.</li>
-<li>When performing reverse geocoding, the <strong>Mapbox</strong> service requires a <code>types</code> parameter to be set if <code>limit &gt; 1</code>. See <a href="https://github.com/jessecambon/tidygeocoder/issues/104" class="external-link">#104</a>.</li>
-<li>The <strong>Bing</strong> batch geocoder does not use the <code>limit</code> parameter (<a href="https://github.com/jessecambon/tidygeocoder/issues/106" class="external-link">#106</a>).</li>
+<li>When used in batch mode, the <strong>US Census</strong> geocoder
+will return NA data when there are multiple results available for an
+address. The expectation is that you would see that a “Tie” is indicated
+and use single address geocoding to return the results for these
+addresses. See <a href="https://github.com/jessecambon/tidygeocoder/issues/87" class="external-link">#87</a> for
+details.</li>
+<li>When performing reverse geocoding, the <strong>Mapbox</strong>
+service requires a <code>types</code> parameter to be set if
+<code>limit &gt; 1</code>. See <a href="https://github.com/jessecambon/tidygeocoder/issues/104" class="external-link">#104</a>.</li>
+<li>The <strong>Bing</strong> batch geocoder does not use the
+<code>limit</code> parameter (<a href="https://github.com/jessecambon/tidygeocoder/issues/106" class="external-link">#106</a>).</li>
 </ul>
 </div>
 <div class="section level2">
 <h2 id="api-parameters">API Parameters<a class="anchor" aria-label="anchor" href="#api-parameters"></a>
 </h2>
-<p>The <code>api_parameter_reference</code> maps the API parameters for each geocoding service to a common set of “generic” parameters. The <code>generic_name</code> below is the generic parameter name while the <code>api_name</code> is the parameter name for the specified geocoding service (<code>method</code>). Refer to <code><a href="../reference/api_parameter_reference.html">?api_parameter_reference</a></code> for more details.</p>
+<p>The <code>api_parameter_reference</code> maps the API parameters for
+each geocoding service to a common set of “generic” parameters. The
+<code>generic_name</code> below is the generic parameter name while the
+<code>api_name</code> is the parameter name for the specified geocoding
+service (<code>method</code>). Refer to
+<code><a href="../reference/api_parameter_reference.html">?api_parameter_reference</a></code> for more details.</p>
 <div id="htmlwidget-30e4409849e39179307f" style="width:100%;height:auto;" class="datatables html-widget"></div>
-<script type="application/json" data-for="htmlwidget-30e4409849e39179307f">{"x":{"filter":"top","vertical":false,"filterHTML":"<tr>\n  <td data-type=\"factor\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"width: 100%; display: none;\">\n      <select multiple=\"multiple\" style=\"width: 100%;\" data-options=\"[&quot;arcgis&quot;,&quot;bing&quot;,&quot;census&quot;,&quot;geoapify&quot;,&quot;geocodio&quot;,&quot;google&quot;,&quot;here&quot;,&quot;iq&quot;,&quot;mapbox&quot;,&quot;mapquest&quot;,&quot;opencage&quot;,&quot;osm&quot;,&quot;tomtom&quot;]\"><\/select>\n    <\/div>\n  <\/td>\n  <td data-type=\"factor\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"width: 100%; display: none;\">\n      <select multiple=\"multiple\" style=\"width: 100%;\" data-options=\"[&quot;address&quot;,&quot;api_key&quot;,&quot;city&quot;,&quot;country&quot;,&quot;county&quot;,&quot;format&quot;,&quot;limit&quot;,&quot;postalcode&quot;,&quot;state&quot;,&quot;street&quot;]\"><\/select>\n    <\/div>\n  <\/td>\n  <td data-type=\"factor\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"width: 100%; display: none;\">\n      <select multiple=\"multiple\" style=\"width: 100%;\" data-options=\"[&quot;access_token&quot;,&quot;address&quot;,&quot;api_key&quot;,&quot;apiKey&quot;,&quot;benchmark&quot;,&quot;city&quot;,&quot;country&quot;,&quot;county&quot;,&quot;f&quot;,&quot;format&quot;,&quot;key&quot;,&quot;limit&quot;,&quot;location&quot;,&quot;maxLocations&quot;,&quot;maxResults&quot;,&quot;postal_code&quot;,&quot;postalcode&quot;,&quot;postcode&quot;,&quot;q&quot;,&quot;query&quot;,&quot;search_text&quot;,&quot;SingleLine&quot;,&quot;state&quot;,&quot;street&quot;,&quot;text&quot;,&quot;vintage&quot;,&quot;zip&quot;]\"><\/select>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"logical\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"width: 100%; display: none;\">\n      <select multiple=\"multiple\" style=\"width: 100%;\" data-options=\"[&quot;true&quot;,&quot;false&quot;]\"><\/select>\n    <\/div>\n  <\/td>\n<\/tr>","data":[["census","census","census","census","census","census","census","census","osm","osm","osm","osm","osm","osm","osm","osm","osm","iq","iq","iq","iq","iq","iq","iq","iq","iq","iq","geocodio","geocodio","geocodio","geocodio","geocodio","geocodio","geocodio","geocodio","google","google","opencage","opencage","opencage","mapbox","mapbox","mapbox","here","here","here","tomtom","tomtom","tomtom","mapquest","mapquest","mapquest","bing","bing","bing","arcgis","arcgis","arcgis","geoapify","geoapify","geoapify","geoapify","geoapify","geoapify","geoapify","geoapify"],["format",null,null,"address","street","city","state","postalcode","format","limit","address","street","city","county","state","postalcode","country","api_key","format","limit","address","street","city","county","state","postalcode","country","api_key","limit","address","street","city","state","postalcode","country","api_key","address","api_key","address","limit","api_key","address","limit","api_key","address","limit","api_key","address","limit","api_key","address","limit","api_key","address","limit","address","limit","format","api_key","address","street","city","state","postalcode","country","limit"],["format","benchmark","vintage","address","street","city","state","zip","format","limit","q","street","city","county","state","postalcode","country","key","format","limit","q","street","city","county","state","postalcode","country","api_key","limit","q","street","city","state","postal_code","country","key","address","key","q","limit","access_token","search_text","limit","apiKey","q","limit","key","query","limit","key","location","maxResults","key","q","maxResults","SingleLine","maxLocations","f","apiKey","text","street","city","state","postcode","country","limit"],["json","Public_AR_Current","Current_Current",null,null,null,null,null,"json","1",null,null,null,null,null,null,null,null,"json","1",null,null,null,null,null,null,null,null,"1",null,null,null,null,null,null,null,null,null,null,"1",null,null,"1",null,null,"1",null,null,"1",null,null,"1",null,null,"1",null,"1","json",null,null,null,null,null,null,null,"1"],[true,true,true,false,false,false,false,false,true,false,false,false,false,false,false,false,false,true,true,false,false,false,false,false,false,false,false,true,false,false,false,false,false,false,false,true,true,true,true,false,true,true,false,true,true,false,true,true,false,true,true,false,true,true,false,false,false,true,true,false,false,false,false,false,false,false]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>method<\/th>\n      <th>generic_name<\/th>\n      <th>api_name<\/th>\n      <th>default_value<\/th>\n      <th>required<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"lengthMenu":[5,10,15,20,66],"pageLength":10,"autoWidth":true,"order":[],"orderClasses":false,"orderCellsTop":true}},"evals":[],"jsHooks":[]}</script>
+<script type="application/json" data-for="htmlwidget-30e4409849e39179307f">{"x":{"filter":"top","vertical":false,"filterHTML":"<tr>\n  <td data-type=\"factor\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"width: 100%; display: none;\">\n      <select multiple=\"multiple\" style=\"width: 100%;\" data-options=\"[&quot;arcgis&quot;,&quot;bing&quot;,&quot;census&quot;,&quot;geoapify&quot;,&quot;geocodio&quot;,&quot;google&quot;,&quot;here&quot;,&quot;iq&quot;,&quot;mapbox&quot;,&quot;mapquest&quot;,&quot;opencage&quot;,&quot;osm&quot;,&quot;tomtom&quot;]\"><\/select>\n    <\/div>\n  <\/td>\n  <td data-type=\"factor\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"width: 100%; display: none;\">\n      <select multiple=\"multiple\" style=\"width: 100%;\" data-options=\"[&quot;address&quot;,&quot;api_key&quot;,&quot;city&quot;,&quot;country&quot;,&quot;county&quot;,&quot;format&quot;,&quot;limit&quot;,&quot;postalcode&quot;,&quot;state&quot;,&quot;street&quot;]\"><\/select>\n    <\/div>\n  <\/td>\n  <td data-type=\"factor\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"width: 100%; display: none;\">\n      <select multiple=\"multiple\" style=\"width: 100%;\" data-options=\"[&quot;access_token&quot;,&quot;address&quot;,&quot;api_key&quot;,&quot;apiKey&quot;,&quot;benchmark&quot;,&quot;city&quot;,&quot;country&quot;,&quot;county&quot;,&quot;f&quot;,&quot;format&quot;,&quot;key&quot;,&quot;limit&quot;,&quot;location&quot;,&quot;maxLocations&quot;,&quot;maxResults&quot;,&quot;postal_code&quot;,&quot;postalcode&quot;,&quot;postcode&quot;,&quot;q&quot;,&quot;query&quot;,&quot;search_text&quot;,&quot;SingleLine&quot;,&quot;state&quot;,&quot;street&quot;,&quot;text&quot;,&quot;vintage&quot;,&quot;zip&quot;]\"><\/select>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"logical\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"width: 100%; display: none;\">\n      <select multiple=\"multiple\" style=\"width: 100%;\" data-options=\"[&quot;true&quot;,&quot;false&quot;]\"><\/select>\n    <\/div>\n  <\/td>\n<\/tr>","data":[["census","census","census","census","census","census","census","census","osm","osm","osm","osm","osm","osm","osm","osm","osm","iq","iq","iq","iq","iq","iq","iq","iq","iq","iq","geocodio","geocodio","geocodio","geocodio","geocodio","geocodio","geocodio","geocodio","google","google","opencage","opencage","opencage","mapbox","mapbox","mapbox","here","here","here","tomtom","tomtom","tomtom","mapquest","mapquest","mapquest","bing","bing","bing","arcgis","arcgis","arcgis","geoapify","geoapify","geoapify","geoapify","geoapify","geoapify","geoapify","geoapify"],["format",null,null,"address","street","city","state","postalcode","format","limit","address","street","city","county","state","postalcode","country","api_key","format","limit","address","street","city","county","state","postalcode","country","api_key","limit","address","street","city","state","postalcode","country","api_key","address","api_key","address","limit","api_key","address","limit","api_key","address","limit","api_key","address","limit","api_key","address","limit","api_key","address","limit","address","limit","format","api_key","address","street","city","state","postalcode","country","limit"],["format","benchmark","vintage","address","street","city","state","zip","format","limit","q","street","city","county","state","postalcode","country","key","format","limit","q","street","city","county","state","postalcode","country","api_key","limit","q","street","city","state","postal_code","country","key","address","key","q","limit","access_token","search_text","limit","apiKey","q","limit","key","query","limit","key","location","maxResults","key","q","maxResults","SingleLine","maxLocations","f","apiKey","text","street","city","state","postcode","country","limit"],["json","Public_AR_Current","Current_Current",null,null,null,null,null,"json","1",null,null,null,null,null,null,null,null,"json","1",null,null,null,null,null,null,null,null,"1",null,null,null,null,null,null,null,null,null,null,"1",null,null,"1",null,null,"1",null,null,"1",null,null,"1",null,null,"1",null,"1","json",null,null,null,null,null,null,null,"1"],[true,true,true,false,false,false,false,false,true,false,false,false,false,false,false,false,false,true,true,false,false,false,false,false,false,false,false,true,false,false,false,false,false,false,false,true,true,true,true,false,true,true,false,true,true,false,true,true,false,true,true,false,true,true,false,false,false,true,true,false,false,false,false,false,false,false]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>method<\/th>\n      <th>generic_name<\/th>\n      <th>api_name<\/th>\n      <th>default_value<\/th>\n      <th>required<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"lengthMenu":[5,10,15,20,66],"pageLength":10,"autoWidth":true,"columnDefs":[],"order":[],"orderClasses":false,"orderCellsTop":true}},"evals":[],"jsHooks":[]}</script>
 </div>
 <div class="section level2">
 <h2 id="api-key-retrieval">API Key Retrieval<a class="anchor" aria-label="anchor" href="#api-key-retrieval"></a>
 </h2>
-<p>API keys are retrieved from environmental variables. The name of the environmental variable used for each service is stored in the <code>api_key_reference</code> dataset. See <code><a href="../reference/api_key_reference.html">?api_key_reference</a></code>.</p>
+<p>API keys are retrieved from environmental variables. The name of the
+environmental variable used for each service is stored in the
+<code>api_key_reference</code> dataset. See
+<code><a href="../reference/api_key_reference.html">?api_key_reference</a></code>.</p>
 <div id="qeayjdrzqo" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
@@ -684,6 +725,15 @@
   font-size: 65%;
 }
 
+#qeayjdrzqo .gt_two_val_uncert {
+  display: inline-block;
+  line-height: 1em;
+  text-align: right;
+  font-size: 60%;
+  vertical-align: -0.25em;
+  margin-left: 0.1em;
+}
+
 #qeayjdrzqo .gt_footnote_marks {
   font-style: italic;
   font-weight: normal;
@@ -767,7 +817,10 @@
 <div class="section level2">
 <h2 id="minimum-time-per-query">Minimum Time Per Query<a class="anchor" aria-label="anchor" href="#minimum-time-per-query"></a>
 </h2>
-<p>The minimum time (in seconds) required per query to comply with the usage limitations policies of each geocoding service is stored in the <code>min_time_reference</code> dataset. See <code><a href="../reference/min_time_reference.html">?min_time_reference</a></code>.</p>
+<p>The minimum time (in seconds) required per query to comply with the
+usage limitations policies of each geocoding service is stored in the
+<code>min_time_reference</code> dataset. See
+<code><a href="../reference/min_time_reference.html">?min_time_reference</a></code>.</p>
 <div id="xgdyentzro" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
@@ -1141,6 +1194,15 @@
   font-size: 65%;
 }
 
+#xgdyentzro .gt_two_val_uncert {
+  display: inline-block;
+  line-height: 1em;
+  text-align: right;
+  font-size: 60%;
+  vertical-align: -0.25em;
+  margin-left: 0.1em;
+}
+
 #xgdyentzro .gt_footnote_marks {
   font-style: italic;
   font-weight: normal;
@@ -1230,7 +1292,8 @@
 <p>Links to the usage policies for each geocoding service:</p>
 <ul>
 <li><a href="https://operations.osmfoundation.org/policies/nominatim/" class="external-link">Nominatim</a></li>
-<li><a href="https://www.census.gov/programs-surveys/geography/technical-documentation/complete-technical-documentation/census-geocoder.html" class="external-link">US Census</a></li>
+<li><a href="https://www.census.gov/programs-surveys/geography/technical-documentation/complete-technical-documentation/census-geocoder.html" class="external-link">US
+Census</a></li>
 <li><a href="https://developers.arcgis.com/rest/geocode/api-reference/geocoding-free-vs-paid.htm" class="external-link">ArcGIS</a></li>
 <li><a href="https://www.geocod.io/pricing/" class="external-link">Geocodio</a></li>
 <li><a href="https://locationiq.com/pricing" class="external-link">Location IQ</a></li>
@@ -1247,7 +1310,10 @@
 <div class="section level2">
 <h2 id="batch-query-size-limits">Batch Query Size Limits<a class="anchor" aria-label="anchor" href="#batch-query-size-limits"></a>
 </h2>
-<p>The maximum number of inputs (geographic coordinates or addresses) per batch query for each geocoding service is stored in the <code>batch_limit_reference</code> dataset. See <code><a href="../reference/batch_limit_reference.html">?batch_limit_reference</a></code>.</p>
+<p>The maximum number of inputs (geographic coordinates or addresses)
+per batch query for each geocoding service is stored in the
+<code>batch_limit_reference</code> dataset. See
+<code><a href="../reference/batch_limit_reference.html">?batch_limit_reference</a></code>.</p>
 <div id="ciydemetbh" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
@@ -1621,6 +1687,15 @@
   font-size: 65%;
 }
 
+#ciydemetbh .gt_two_val_uncert {
+  display: inline-block;
+  line-height: 1em;
+  text-align: right;
+  font-size: 60%;
+  vertical-align: -0.25em;
+  margin-left: 0.1em;
+}
+
 #ciydemetbh .gt_footnote_marks {
   font-style: italic;
   font-weight: normal;
@@ -1704,7 +1779,7 @@
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
 </div>
 
       </footer>
