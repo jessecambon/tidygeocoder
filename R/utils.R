@@ -99,13 +99,17 @@ format_address <- function(df, fields) {
 }
 
 
-# QA Checks --------------------------------------------------------------------------------------------------------------
+# QA Checks --------------------------------------------------------------------
 # functions called by reverse_geo() and/or geo()
 
 check_api_options <- function(api_options, func_name) {
   for (param in names(api_options)) {
     if (!param %in% c('cascade_flag', "init", names(pkg.globals$default_api_options))) {
-      stop(paste0("Invalid parameter ", '"', param, '"', " used in the api_options argument. See ?", func_name), call. = FALSE)
+      stop(
+        paste0("Invalid parameter ", '"', param, '"', 
+        " used in the api_options argument. See ?", func_name), 
+        call. = FALSE
+        )
     }
   }
 }
@@ -221,7 +225,6 @@ check_limit_for_batch <- function(limit, return_input, reverse) {
 
 # check for HERE method batch queries --- for use in geo() and reverse_geo()
 check_here_return_input <- function(here_request_id, return_input, reverse) {
-  
   input_terms <- get_coord_address_terms(reverse)
 
   # If a previous job is requested return_addresses should be FALSE
@@ -250,14 +253,12 @@ extract_osm_reverse_full <- function(response) {
 
 # note issue #112: https://github.com/jessecambon/tidygeocoder/issues/112
 extract_bing_latlng <- function(response) {
-  
   # if no rows are found then return an empty data frame so NA results will be returned
   if (length(response$resourceSets$resources[[1]]) == 0) return(data.frame())
   
   # otherwise extract the latitude and longitude
   latlng <- as.data.frame(matrix(unlist(response$resourceSets$resources[[1]]$point$coordinates), 
                                  ncol = 2, byrow = TRUE), col.names = c('lat', 'long'))
-  
   return(latlng)
 }
 
@@ -290,7 +291,6 @@ create_progress_bar <- function(
   )
   
   pb$tick(0) # start progress bar
-  
   return(pb)
 }
 
@@ -318,7 +318,7 @@ query_complete_message <- function(start_time) {
   print_time("Query completed in", get_seconds_elapsed(start_time))
 }
 
-# Misc --------------------------------
+# Misc -------------------------------------------------------------------------
 
 # if necessary, modify the API URL - called by geo() and reverse_geo()
 # returns the API URL

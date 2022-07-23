@@ -258,16 +258,17 @@ get_services_requiring_key <- function() {
     )
 }
 
-# this function adds common generic
+# used in geo() and reverse_geo()
+# to add common generic parameters to queries
 add_common_generic_parameters <- function(generic_query, method, no_query, limit) {
   # If API key is required then use the get_key() function to retrieve it
   if (method %in% get_services_requiring_key()) {
-    
     # don't attempt to load API key if no_query = TRUE. This allows you to
     # run no_query = TRUE without having the API key loaded.
     if (no_query == TRUE) generic_query[['api_key']] <- 'xxxxxxxxxx'
     else generic_query[['api_key']] <- get_key(method)
   }
+  
   # add limit parameter
   if (!is.null(limit)) generic_query[['limit']] <- limit
   

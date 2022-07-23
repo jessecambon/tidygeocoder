@@ -99,20 +99,20 @@ progress_geo <- function(pb = NULL, ...) {
 #'   with the name of the `method` (service) it applies to. The possible parameters
 #'   are shown below with their default values.
 #'   
-#'   - `census_return_type` (default: `"locations"`): set to `"geographies"` to return
+#'   - `census_return_type` (default: `r pkg.globals$default_api_options$census_return_type`): set to `"geographies"` to return
 #'     additional geography columns. Make sure to use `full_results = TRUE` if using
 #'     the "geographies" setting.
-#'   - `iq_region` (default: `"us"`): set to "eu" to use the European Union API endpoint 
-#'   - `geocodio_v` (default: `1.6`): the version number of the Geocodio API to be used
-#'   - `geocodio_hipaa` (default: `FALSE`): set to `TRUE` to use the HIPAA compliant
+#'   - `iq_region` (default: "`r pkg.globals$default_api_options$iq_region`"): set to "eu" to use the European Union API endpoint 
+#'   - `geocodio_v` (default: `r pkg.globals$default_api_options$geocodio_v`): the version number of the Geocodio API to be used
+#'   - `geocodio_hipaa` (default: `r pkg.globals$default_api_options$geocodio_hipaa`): set to `TRUE` to use the HIPAA compliant
 #'      Geocodio API endpoint
-#'   - `mapbox_permanent` (default: `FALSE`): set to `TRUE` to use the `mapbox.places-permanent`
+#'   - `mapbox_permanent` (default: `r pkg.globals$default_api_options$mapbox_permanent`): set to `TRUE` to use the `mapbox.places-permanent`
 #'      endpoint. Note that this option should be used only if you have applied for a permanent
 #'      account. Unsuccessful requests made by an account that does not have access to the 
 #'      endpoint may be billable.
-#'   - `mapbox_open` (default: `FALSE`): set to `TRUE` to use the Open Geocoding endpoint which
+#'   - `mapquest_open` (default: `r pkg.globals$default_api_options$mapquest_open`): set to `TRUE` to use the Open Geocoding endpoint which
 #'      relies solely on OpenStreetMap data
-#'   - `here_request_id` (default: `NULL`): this parameter would return a previous HERE batch job,
+#'   - `here_request_id` (default: `r pkg.globals$default_api_options$here_request_id`): this parameter would return a previous HERE batch job,
 #'      identified by its RequestID. The RequestID of a batch job is displayed 
 #'      when `verbose` is TRUE. Note that this option would ignore the 
 #'      current `address` parameter on the request, so the `return_addresses` or `return_coords`

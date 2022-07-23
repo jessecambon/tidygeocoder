@@ -1,6 +1,8 @@
 # tidygeocoder (development version)
 
 - Changed the default `min_time` (minimum seconds elapsed per query) value to 1 (60 queries per minute) for the Location IQ service ([#166](https://github.com/jessecambon/tidygeocoder/issues/166)).
+- Changed default Geocodio API version from 1.6 to 1.7.
+- Fixed code and documentation that incorrectly referred to `mapquest_open` as `mapbox_open`.
 
 # tidygeocoder 1.0.5
 
