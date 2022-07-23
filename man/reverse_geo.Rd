@@ -117,14 +117,14 @@ are shown below with their default values.
 additional geography columns. Make sure to use \code{full_results = TRUE} if using
 the "geographies" setting.
 \item \code{iq_region} (default: "us"): set to "eu" to use the European Union API endpoint
-\item \code{geocodio_v} (default: \code{1.7}): the version number of the Geocodio API to be used
+\item \code{geocodio_v} (default: 1.7): the version number of the Geocodio API to be used
 \item \code{geocodio_hipaa} (default: FALSE): set to \code{TRUE} to use the HIPAA compliant
 Geocodio API endpoint
 \item \code{mapbox_permanent} (default: FALSE): set to \code{TRUE} to use the \code{mapbox.places-permanent}
 endpoint. Note that this option should be used only if you have applied for a permanent
 account. Unsuccessful requests made by an account that does not have access to the
 endpoint may be billable.
-\item \code{mapbox_open} (default: ): set to \code{TRUE} to use the Open Geocoding endpoint which
+\item \code{mapquest_open} (default: FALSE): set to \code{TRUE} to use the Open Geocoding endpoint which
 relies solely on OpenStreetMap data
 \item \code{here_request_id} (default: ): this parameter would return a previous HERE batch job,
 identified by its RequestID. The RequestID of a batch job is displayed
