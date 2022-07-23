@@ -47,7 +47,7 @@ reverse_geo(
 \item \code{"opencage"}: \href{https://opencagedata.com}{OpenCage}.  An API key must be stored in the environmental variable "OPENCAGE_KEY".
 \item \code{"mapbox"}: \href{https://docs.mapbox.com/api/search/}{Mapbox}.  An API key must be stored in the environmental variable "MAPBOX_API_KEY".
 \item \code{"here"}: \href{https://developer.here.com/products/geocoding-and-search}{HERE}.  An API key must be stored in the environmental variable "HERE_API_KEY". Batch geocoding is supported, but must be explicitly called with \code{mode = "batch"}.
-\item \code{"tomtom"}: \href{https://developer.tomtom.com/search-api/search-api-documentation/geocoding}{TomTom}.  An API key must be stored in the environmental variable "TOMTOM_API_KEY". Batch geocoding is supported.
+\item \code{"tomtom"}: \href{https://developer.tomtom.com/search-api/search-api-documentation}{TomTom}.  An API key must be stored in the environmental variable "TOMTOM_API_KEY". Batch geocoding is supported.
 \item \code{"mapquest"}: \href{https://developer.mapquest.com/documentation/geocoding-api/}{MapQuest}.  An API key must be stored in the environmental variable "MAPQUEST_API_KEY". Batch geocoding is supported.
 \item \code{"bing"}: \href{https://docs.microsoft.com/en-us/bingmaps/rest-services/locations/}{Bing}.  An API key must be stored in the environmental variable "BINGMAPS_API_KEY". Batch geocoding is supported, but must be explicitly called with \code{mode = "batch"}.
 \item \code{"geoapify"}: \href{https://www.geoapify.com/geocoding-api}{Geoapify}.  An API key must be stored in the environmental variable "GEOAPIFY_KEY".
@@ -113,20 +113,20 @@ Used for testing.}
 with the name of the \code{method} (service) it applies to. The possible parameters
 are shown below with their default values.
 \itemize{
-\item \code{census_return_type} (default: \code{"locations"}): set to \code{"geographies"} to return
+\item \code{census_return_type} (default: locations): set to \code{"geographies"} to return
 additional geography columns. Make sure to use \code{full_results = TRUE} if using
 the "geographies" setting.
-\item \code{iq_region} (default: \code{"us"}): set to "eu" to use the European Union API endpoint
-\item \code{geocodio_v} (default: \code{1.6}): the version number of the Geocodio API to be used
-\item \code{geocodio_hipaa} (default: \code{FALSE}): set to \code{TRUE} to use the HIPAA compliant
+\item \code{iq_region} (default: "us"): set to "eu" to use the European Union API endpoint
+\item \code{geocodio_v} (default: \code{1.7}): the version number of the Geocodio API to be used
+\item \code{geocodio_hipaa} (default: FALSE): set to \code{TRUE} to use the HIPAA compliant
 Geocodio API endpoint
-\item \code{mapbox_permanent} (default: \code{FALSE}): set to \code{TRUE} to use the \code{mapbox.places-permanent}
+\item \code{mapbox_permanent} (default: FALSE): set to \code{TRUE} to use the \code{mapbox.places-permanent}
 endpoint. Note that this option should be used only if you have applied for a permanent
 account. Unsuccessful requests made by an account that does not have access to the
 endpoint may be billable.
-\item \code{mapbox_open} (default: \code{FALSE}): set to \code{TRUE} to use the Open Geocoding endpoint which
+\item \code{mapbox_open} (default: ): set to \code{TRUE} to use the Open Geocoding endpoint which
 relies solely on OpenStreetMap data
-\item \code{here_request_id} (default: \code{NULL}): this parameter would return a previous HERE batch job,
+\item \code{here_request_id} (default: ): this parameter would return a previous HERE batch job,
 identified by its RequestID. The RequestID of a batch job is displayed
 when \code{verbose} is TRUE. Note that this option would ignore the
 current \code{address} parameter on the request, so the \code{return_addresses} or \code{return_coords}

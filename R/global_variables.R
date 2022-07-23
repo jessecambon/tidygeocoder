@@ -27,8 +27,9 @@ pkg.globals$no_reverse_methods <- c('census')
 pkg.globals$default_api_options <- list(
   census_return_type = "locations", 
   iq_region = "us", 
-  geocodio_v = 1.6, 
+  geocodio_v = 1.7, 
   geocodio_hipaa = FALSE,
   mapbox_permanent = FALSE, 
-  mapquest_open = FALSE
+  mapquest_open = FALSE,
+  here_request_id = NULL
   )
