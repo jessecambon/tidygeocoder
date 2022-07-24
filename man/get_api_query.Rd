@@ -7,9 +7,9 @@
 get_api_query(method, generic_parameters = list(), custom_parameters = list())
 }
 \arguments{
-\item{method}{method name (ie. 'census')}
+\item{method}{the geocoding service name (ie. 'census')}
 
-\item{generic_parameters}{universal 'generic' parameters}
+\item{generic_parameters}{universal "generic" parameters}
 
 \item{custom_parameters}{custom api-specific parameters}
 }

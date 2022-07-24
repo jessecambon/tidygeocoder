@@ -59,21 +59,21 @@ Do not combine with the address component arguments below
 
 \item{country}{country (ie. 'Japan')}
 
-\item{method}{the geocoding service to be used. API keys are loaded from environmental variables. Run \code{usethis::edit_r_environ()} to open your .Renviron file and add an API key as an environmental variable. For example, add the line \code{GEOCODIO_API_KEY="YourAPIKeyHere"}.
+\item{method}{the geocoding service to be used. API keys are loaded from environmental variables. Run \code{usethis::edit_r_environ()} to open your .Renviron file and add an API key as an environmental variable. For example, add the line \code{GEOCODIO_API_KEY="YourAPIKeyHere"}
 \itemize{
 \item \code{"osm"}: \href{https://nominatim.org}{Nominatim}.
-\item \code{"census"}: \href{https://geocoding.geo.census.gov/}{US Census}. Geographic coverage is limited to the United States.  Batch geocoding is supported.
+\item \code{"census"}: \href{https://geocoding.geo.census.gov/}{US Census}. Geographic coverage is limited to the United States. Batch geocoding is supported.
 \item \code{"arcgis"}: \href{https://developers.arcgis.com/rest/geocode/api-reference/overview-world-geocoding-service.htm}{ArcGIS}.
-\item \code{"geocodio"}: \href{https://www.geocod.io/}{Geocodio}. Geographic coverage is limited to the United States and Canada. An API key must be stored in the environmental variable "GEOCODIO_API_KEY". Batch geocoding is supported.
-\item \code{"iq"}: \href{https://locationiq.com/}{Location IQ}.  An API key must be stored in the environmental variable "LOCATIONIQ_API_KEY".
-\item \code{"google"}: \href{https://developers.google.com/maps/documentation/geocoding/overview}{Google}.  An API key must be stored in the environmental variable "GOOGLEGEOCODE_API_KEY".
-\item \code{"opencage"}: \href{https://opencagedata.com}{OpenCage}.  An API key must be stored in the environmental variable "OPENCAGE_KEY".
-\item \code{"mapbox"}: \href{https://docs.mapbox.com/api/search/}{Mapbox}.  An API key must be stored in the environmental variable "MAPBOX_API_KEY".
-\item \code{"here"}: \href{https://developer.here.com/products/geocoding-and-search}{HERE}.  An API key must be stored in the environmental variable "HERE_API_KEY". Batch geocoding is supported, but must be explicitly called with \code{mode = "batch"}.
-\item \code{"tomtom"}: \href{https://developer.tomtom.com/search-api/search-api-documentation}{TomTom}.  An API key must be stored in the environmental variable "TOMTOM_API_KEY". Batch geocoding is supported.
-\item \code{"mapquest"}: \href{https://developer.mapquest.com/documentation/geocoding-api/}{MapQuest}.  An API key must be stored in the environmental variable "MAPQUEST_API_KEY". Batch geocoding is supported.
-\item \code{"bing"}: \href{https://docs.microsoft.com/en-us/bingmaps/rest-services/locations/}{Bing}.  An API key must be stored in the environmental variable "BINGMAPS_API_KEY". Batch geocoding is supported, but must be explicitly called with \code{mode = "batch"}.
-\item \code{"geoapify"}: \href{https://www.geoapify.com/geocoding-api}{Geoapify}.  An API key must be stored in the environmental variable "GEOAPIFY_KEY".
+\item \code{"geocodio"}: \href{https://www.geocod.io/}{Geocodio}. Geographic coverage is limited to the United States and Canada. Batch geocoding is supported. Store an API key in the environmental variable \code{"GEOCODIO_API_KEY"}.
+\item \code{"iq"}: \href{https://locationiq.com/}{Location IQ}.   Store an API key in the environmental variable \code{"LOCATIONIQ_API_KEY"}.
+\item \code{"google"}: \href{https://developers.google.com/maps/documentation/geocoding/overview}{Google}.   Store an API key in the environmental variable \code{"GOOGLEGEOCODE_API_KEY"}.
+\item \code{"opencage"}: \href{https://opencagedata.com}{OpenCage}.   Store an API key in the environmental variable \code{"OPENCAGE_KEY"}.
+\item \code{"mapbox"}: \href{https://docs.mapbox.com/api/search/}{Mapbox}.   Store an API key in the environmental variable \code{"MAPBOX_API_KEY"}.
+\item \code{"here"}: \href{https://developer.here.com/products/geocoding-and-search}{HERE}.  Batch geocoding is supported, but must be explicitly called with \code{mode = "batch"}. Store an API key in the environmental variable \code{"HERE_API_KEY"}.
+\item \code{"tomtom"}: \href{https://developer.tomtom.com/search-api/search-api-documentation}{TomTom}.  Batch geocoding is supported. Store an API key in the environmental variable \code{"TOMTOM_API_KEY"}.
+\item \code{"mapquest"}: \href{https://developer.mapquest.com/documentation/geocoding-api/}{MapQuest}.  Batch geocoding is supported. Store an API key in the environmental variable \code{"MAPQUEST_API_KEY"}.
+\item \code{"bing"}: \href{https://docs.microsoft.com/en-us/bingmaps/rest-services/locations/}{Bing}.  Batch geocoding is supported, but must be explicitly called with \code{mode = "batch"}. Store an API key in the environmental variable \code{"BINGMAPS_API_KEY"}.
+\item \code{"geoapify"}: \href{https://www.geoapify.com/geocoding-api}{Geoapify}.   Store an API key in the environmental variable \code{"GEOAPIFY_KEY"}.
 \item \code{"cascade"} \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} use \link{geocode_combine} or \link{geo_combine} instead.
 The "cascade" method first uses one geocoding service and then uses
 a second geocoding service if the first service didn't return results.
@@ -164,7 +164,7 @@ account. Unsuccessful requests made by an account that does not have access to t
 endpoint may be billable.
 \item \code{mapquest_open} (default: FALSE): set to \code{TRUE} to use the Open Geocoding endpoint which
 relies solely on OpenStreetMap data
-\item \code{here_request_id} (default: ): this parameter would return a previous HERE batch job,
+\item \code{here_request_id}: this parameter would return a previous HERE batch job,
 identified by its RequestID. The RequestID of a batch job is displayed
 when \code{verbose} is TRUE. Note that this option would ignore the
 current \code{address} parameter on the request, so the \code{return_addresses} or \code{return_coords}

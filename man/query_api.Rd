@@ -20,9 +20,11 @@ query_api(
 
 \item{query_parameters}{api query parameters in the form of a named list}
 
-\item{mode}{determines the type of query to execute\preformatted{- "single": geocode a single input (all methods)
-- "list": batch geocode a list of inputs (ex. geocodio)
-- "file": batch geocode a file of inputs (ex. census)
+\item{mode}{determines the type of query to execute
+\itemize{
+\item \code{"single"}: geocode a single input (all methods)
+\item \code{"list"}: batch geocode a list of inputs (ex. geocodio)
+\item \code{"file"}: batch geocode a file of inputs (ex. census)
 }}
 
 \item{batch_file}{a csv file of input data to upload (for \code{mode = 'file'})}

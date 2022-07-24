@@ -164,18 +164,18 @@ API queries.</p>
 
 
 <dt>method</dt>
-<dd><p>the geocoding service to be used. API keys are loaded from environmental variables. Run <code><a href="https://usethis.r-lib.org/reference/edit.html" class="external-link">usethis::edit_r_environ()</a></code> to open your .Renviron file and add an API key as an environmental variable. For example, add the line <code>GEOCODIO_API_KEY="YourAPIKeyHere"</code>.</p><ul><li><p><code>"osm"</code>: <a href="https://nominatim.org" class="external-link">Nominatim</a>.</p></li>
+<dd><p>the geocoding service to be used. API keys are loaded from environmental variables. Run <code><a href="https://usethis.r-lib.org/reference/edit.html" class="external-link">usethis::edit_r_environ()</a></code> to open your .Renviron file and add an API key as an environmental variable. For example, add the line <code>GEOCODIO_API_KEY="YourAPIKeyHere"</code></p><ul><li><p><code>"osm"</code>: <a href="https://nominatim.org" class="external-link">Nominatim</a>.</p></li>
 <li><p><code>"arcgis"</code>: <a href="https://developers.arcgis.com/rest/geocode/api-reference/overview-world-geocoding-service.htm" class="external-link">ArcGIS</a>.</p></li>
-<li><p><code>"geocodio"</code>: <a href="https://www.geocod.io/" class="external-link">Geocodio</a>. Geographic coverage is limited to the United States and Canada. An API key must be stored in the environmental variable "GEOCODIO_API_KEY". Batch geocoding is supported.</p></li>
-<li><p><code>"iq"</code>: <a href="https://locationiq.com/" class="external-link">Location IQ</a>.  An API key must be stored in the environmental variable "LOCATIONIQ_API_KEY".</p></li>
-<li><p><code>"google"</code>: <a href="https://developers.google.com/maps/documentation/geocoding/overview" class="external-link">Google</a>.  An API key must be stored in the environmental variable "GOOGLEGEOCODE_API_KEY".</p></li>
-<li><p><code>"opencage"</code>: <a href="https://opencagedata.com" class="external-link">OpenCage</a>.  An API key must be stored in the environmental variable "OPENCAGE_KEY".</p></li>
-<li><p><code>"mapbox"</code>: <a href="https://docs.mapbox.com/api/search/" class="external-link">Mapbox</a>.  An API key must be stored in the environmental variable "MAPBOX_API_KEY".</p></li>
-<li><p><code>"here"</code>: <a href="https://developer.here.com/products/geocoding-and-search" class="external-link">HERE</a>.  An API key must be stored in the environmental variable "HERE_API_KEY". Batch geocoding is supported, but must be explicitly called with <code>mode = "batch"</code>.</p></li>
-<li><p><code>"tomtom"</code>: <a href="https://developer.tomtom.com/search-api/search-api-documentation" class="external-link">TomTom</a>.  An API key must be stored in the environmental variable "TOMTOM_API_KEY". Batch geocoding is supported.</p></li>
-<li><p><code>"mapquest"</code>: <a href="https://developer.mapquest.com/documentation/geocoding-api/" class="external-link">MapQuest</a>.  An API key must be stored in the environmental variable "MAPQUEST_API_KEY". Batch geocoding is supported.</p></li>
-<li><p><code>"bing"</code>: <a href="https://docs.microsoft.com/en-us/bingmaps/rest-services/locations/" class="external-link">Bing</a>.  An API key must be stored in the environmental variable "BINGMAPS_API_KEY". Batch geocoding is supported, but must be explicitly called with <code>mode = "batch"</code>.</p></li>
-<li><p><code>"geoapify"</code>: <a href="https://www.geoapify.com/geocoding-api" class="external-link">Geoapify</a>.  An API key must be stored in the environmental variable "GEOAPIFY_KEY".</p></li>
+<li><p><code>"geocodio"</code>: <a href="https://www.geocod.io/" class="external-link">Geocodio</a>. Geographic coverage is limited to the United States and Canada. Batch geocoding is supported. Store an API key in the environmental variable <code>"GEOCODIO_API_KEY"</code>.</p></li>
+<li><p><code>"iq"</code>: <a href="https://locationiq.com/" class="external-link">Location IQ</a>.   Store an API key in the environmental variable <code>"LOCATIONIQ_API_KEY"</code>.</p></li>
+<li><p><code>"google"</code>: <a href="https://developers.google.com/maps/documentation/geocoding/overview" class="external-link">Google</a>.   Store an API key in the environmental variable <code>"GOOGLEGEOCODE_API_KEY"</code>.</p></li>
+<li><p><code>"opencage"</code>: <a href="https://opencagedata.com" class="external-link">OpenCage</a>.   Store an API key in the environmental variable <code>"OPENCAGE_KEY"</code>.</p></li>
+<li><p><code>"mapbox"</code>: <a href="https://docs.mapbox.com/api/search/" class="external-link">Mapbox</a>.   Store an API key in the environmental variable <code>"MAPBOX_API_KEY"</code>.</p></li>
+<li><p><code>"here"</code>: <a href="https://developer.here.com/products/geocoding-and-search" class="external-link">HERE</a>.  Batch geocoding is supported, but must be explicitly called with <code>mode = "batch"</code>. Store an API key in the environmental variable <code>"HERE_API_KEY"</code>.</p></li>
+<li><p><code>"tomtom"</code>: <a href="https://developer.tomtom.com/search-api/search-api-documentation" class="external-link">TomTom</a>.  Batch geocoding is supported. Store an API key in the environmental variable <code>"TOMTOM_API_KEY"</code>.</p></li>
+<li><p><code>"mapquest"</code>: <a href="https://developer.mapquest.com/documentation/geocoding-api/" class="external-link">MapQuest</a>.  Batch geocoding is supported. Store an API key in the environmental variable <code>"MAPQUEST_API_KEY"</code>.</p></li>
+<li><p><code>"bing"</code>: <a href="https://docs.microsoft.com/en-us/bingmaps/rest-services/locations/" class="external-link">Bing</a>.  Batch geocoding is supported, but must be explicitly called with <code>mode = "batch"</code>. Store an API key in the environmental variable <code>"BINGMAPS_API_KEY"</code>.</p></li>
+<li><p><code>"geoapify"</code>: <a href="https://www.geoapify.com/geocoding-api" class="external-link">Geoapify</a>.   Store an API key in the environmental variable <code>"GEOAPIFY_KEY"</code>.</p></li>
 </ul></dd>
 
 
@@ -283,7 +283,7 @@ account. Unsuccessful requests made by an account that does not have access to t
 endpoint may be billable.</p></li>
 <li><p><code>mapquest_open</code> (default: FALSE): set to <code>TRUE</code> to use the Open Geocoding endpoint which
 relies solely on OpenStreetMap data</p></li>
-<li><p><code>here_request_id</code> (default: ): this parameter would return a previous HERE batch job,
+<li><p><code>here_request_id</code>: this parameter would return a previous HERE batch job,
 identified by its RequestID. The RequestID of a batch job is displayed
 when <code>verbose</code> is TRUE. Note that this option would ignore the
 current <code>address</code> parameter on the request, so the <code>return_addresses</code> or <code>return_coords</code>
@@ -329,7 +329,7 @@ parameters need to be FALSE.</p></li>
 <span class="r-in"></span>
 <span class="r-in"> <span class="fu">reverse_geo</span><span class="op">(</span>lat <span class="op">=</span> <span class="fl">38.895865</span>, long <span class="op">=</span> <span class="op">-</span><span class="fl">77.0307713</span>, method <span class="op">=</span> <span class="st">'osm'</span><span class="op">)</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Passing 1 coordinate to the Nominatim single coordinate geocoder</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Query completed in: 1 seconds</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Query completed in: 1.1 seconds</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 1 × 3</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     lat  long address                                                           </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                                                             </span>

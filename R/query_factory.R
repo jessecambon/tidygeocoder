@@ -68,8 +68,8 @@ create_api_parameter <- function(method_name, param_name, value) {
 #' The [query_api] function executes the queries created 
 #' by this function.
 #'  
-#' @param method method name (ie. 'census')
-#' @param generic_parameters universal 'generic' parameters
+#' @param method the geocoding service name (ie. 'census')
+#' @param generic_parameters universal "generic" parameters
 #' @param custom_parameters custom api-specific parameters
 #' @return API parameters as a named list
 #' @examples
@@ -139,10 +139,9 @@ get_api_query <- function(method, generic_parameters = list(), custom_parameters
 #' @param api_url Base URL of the API. query parameters are appended to this
 #' @param query_parameters api query parameters in the form of a named list
 #' @param mode determines the type of query to execute
-#' 
-#'     - "single": geocode a single input (all methods)
-#'     - "list": batch geocode a list of inputs (ex. geocodio)
-#'     - "file": batch geocode a file of inputs (ex. census)
+#'  - `"single"`: geocode a single input (all methods)
+#'  - `"list"`: batch geocode a list of inputs (ex. geocodio)
+#'  - `"file"`: batch geocode a file of inputs (ex. census)
 #'     
 #' @param batch_file a csv file of input data to upload (for `mode = 'file'`)
 #' @param input_list a list of input data (for `mode = 'list'`)

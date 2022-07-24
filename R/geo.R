@@ -112,7 +112,7 @@ progress_geo <- function(pb = NULL, ...) {
 #'      endpoint may be billable.
 #'   - `mapquest_open` (default: `r pkg.globals$default_api_options$mapquest_open`): set to `TRUE` to use the Open Geocoding endpoint which
 #'      relies solely on OpenStreetMap data
-#'   - `here_request_id` (default: `r pkg.globals$default_api_options$here_request_id`): this parameter would return a previous HERE batch job,
+#'   - `here_request_id`: this parameter would return a previous HERE batch job,
 #'      identified by its RequestID. The RequestID of a batch job is displayed 
 #'      when `verbose` is TRUE. Note that this option would ignore the 
 #'      current `address` parameter on the request, so the `return_addresses` or `return_coords`

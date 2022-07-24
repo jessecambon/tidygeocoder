@@ -79,8 +79,8 @@ get_method_bullet <- function(method) {
   # if an API key is required list environmental variable
   api_requirements <- ifelse(
     method %in% tidygeocoder::api_key_reference[['method']],
-    paste0('An API key must be stored in the environmental variable "', 
-           get_setting_value(tidygeocoder::api_key_reference, method, 'env_var'), '".'), 
+    paste0('Store an API key in the environmental variable `"', 
+           get_setting_value(tidygeocoder::api_key_reference, method, 'env_var'), '"`.'), 
   ''
   )
   
@@ -98,7 +98,7 @@ get_method_bullet <- function(method) {
     )
   } else ''
 
-  return(paste0(c(bullet_intro, geographic_limits, api_requirements, batch_capabilities), collapse = ' '))
+  return(paste0(c(bullet_intro, geographic_limits, batch_capabilities, api_requirements), collapse = ' '))
 }
 
 
@@ -110,8 +110,10 @@ get_method_documentation <- function(reverse) {
   method_intro <- paste0(c(
     "the geocoding service to be used.", 
     "API keys are loaded from environmental variables. Run `usethis::edit_r_environ()` to open",
-    'your .Renviron file and add an API key as an environmental variable. For example, add the line `GEOCODIO_API_KEY="YourAPIKeyHere"`.'
-  ), collapse = ' ')
+    'your .Renviron file and add an API key as an environmental variable.',
+    'For example, add the line `GEOCODIO_API_KEY="YourAPIKeyHere"`'
+    ), 
+    collapse = ' ')
   
   # if reverse geocoding then exclude methods that don't support reverse geocoding
   methods_to_list <- if (reverse == TRUE) {
