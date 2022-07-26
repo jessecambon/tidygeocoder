@@ -117,11 +117,11 @@ These files don't necessarily need to be updated. However, you might need to mak
 To release a new version of tidygeocoder:
 
 - Run the tests detailed above
-- Update the package version in [DESCRIPTION](DESCRIPTION)
-- Update the package version for the citation note in [inst/CITATION](inst/CITATION)
+- Update the package version in [DESCRIPTION](https://github.com/jessecambon/tidygeocoder/blob/main/DESCRIPTION)
+- Update the package version for the citation note in [inst/CITATION](https://github.com/jessecambon/tidygeocoder/blob/main/inst/CITATION)
 - Reserve a DOI for a new package version with [Zenodo](https://zenodo.org/)
-- Update the Zenodo DOI in [README.Rmd](README.Rmd) and reknit to update [README.md](README.md)
-- Update the site with `pkgdown::build_site()`
-- Use `urlchecker::url_check()` to check all package URLs
+- Update the Zenodo DOI in [README.Rmd](https://github.com/jessecambon/tidygeocoder/blob/main/README.Rmd) and reknit to update [README.md](https://github.com/jessecambon/tidygeocoder/blob/main/README.md)
+- Update the site: `pkgdown::build_site()`
+- Check package URLs: `urlchecker::url_check()`
 
 Lastly, run `devtools::release()` to release the new version

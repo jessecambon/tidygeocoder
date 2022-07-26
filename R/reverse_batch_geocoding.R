@@ -313,8 +313,7 @@ reverse_batch_tomtom <- function(lat, long, address = 'address', timeout = 20, f
     raw_content <- httr::content(response, as = 'text', encoding = 'UTF-8')
   }
   
-  # Note that flatten here is necessary in order to get rid of the
-  # nested dataframes that would cause dplyr::bind_rows (or rbind) to fail
+  # TODO: should we pass flatten here?
   content <- jsonlite::fromJSON(raw_content)
   
   # if there were problems with the results then return NA
@@ -417,6 +416,7 @@ reverse_batch_mapquest <- function(lat, long, address = 'address', timeout = 20,
   
   # C. Error handling----
   # Parse result code
+  # TODO: warning RE flatten
   if (jsonlite::validate(query_results$content)) {
     status_code <- jsonlite::fromJSON(query_results$content, flatten = TRUE)$info$statuscode
   } else {

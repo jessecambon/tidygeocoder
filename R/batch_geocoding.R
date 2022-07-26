@@ -117,6 +117,7 @@ batch_geocodio <- function(unique_addresses, lat = 'lat', long = 'long', timeout
   
   # Note that flatten here is necessary in order to get rid of the
   # nested dataframes that would cause dplyr::bind_rows (or rbind) to fail
+  # TODO: warning RE flatten
   content <- jsonlite::fromJSON(response$content, flatten = TRUE)
   
   # How results are parsed depends on whether single line addresses or address
@@ -417,8 +418,7 @@ batch_tomtom <- function(unique_addresses, lat = 'lat', long = 'long',
     raw_content <- httr::content(response, as = 'text', encoding = 'UTF-8')
   }
   
-  # Note that flatten here is necessary in order to get rid of the
-  # nested dataframes that would cause dplyr::bind_rows (or rbind) to fail
+  #TODO: should we pass flatten here?
   content <- jsonlite::fromJSON(raw_content)
   
   # if there were problems with the results then return NA
@@ -524,6 +524,7 @@ batch_mapquest <-  function(unique_addresses, lat = "lat", long = "long",
     query_results <- query_api(api_url, query_parameters, mode = "list",
                                input_list = address_list, timeout = timeout)
 
+    # TODO: warning RE flatten
     # C. Error handling----
     # Parse result code
     if (jsonlite::validate(query_results$content)) {

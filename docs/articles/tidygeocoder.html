@@ -174,38 +174,38 @@ which execute the geocoding queries. All extra arguments
 <h2 id="forward-geocoding">Forward Geocoding<a class="anchor" aria-label="anchor" href="#forward-geocoding"></a>
 </h2>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://tibble.tidyverse.org/" class="external-link">tibble</a></span><span class="op">)</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://jessecambon.github.io/tidygeocoder/">tidygeocoder</a></span><span class="op">)</span>
-
-<span class="va">address_single</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span>singlelineaddress <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>
-  <span class="st">"11 Wall St, NY, NY"</span>,
-  <span class="st">"600 Peachtree Street NE, Atlanta, Georgia"</span>
-<span class="op">)</span><span class="op">)</span>
-<span class="va">address_components</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tribble.html" class="external-link">tribble</a></span><span class="op">(</span>
-  <span class="op">~</span><span class="va">street</span>, <span class="op">~</span><span class="va">cty</span>, <span class="op">~</span><span class="va">st</span>,
-  <span class="st">"11 Wall St"</span>, <span class="st">"NY"</span>, <span class="st">"NY"</span>,
-  <span class="st">"600 Peachtree Street NE"</span>, <span class="st">"Atlanta"</span>, <span class="st">"GA"</span>
-<span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://tibble.tidyverse.org/" class="external-link">tibble</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://jessecambon.github.io/tidygeocoder/">tidygeocoder</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">address_single</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span>singlelineaddress <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span>
+<span>  <span class="st">"11 Wall St, NY, NY"</span>,</span>
+<span>  <span class="st">"600 Peachtree Street NE, Atlanta, Georgia"</span></span>
+<span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">address_components</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tribble.html" class="external-link">tribble</a></span><span class="op">(</span></span>
+<span>  <span class="op">~</span><span class="va">street</span>, <span class="op">~</span><span class="va">cty</span>, <span class="op">~</span><span class="va">st</span>,</span>
+<span>  <span class="st">"11 Wall St"</span>, <span class="st">"NY"</span>, <span class="st">"NY"</span>,</span>
+<span>  <span class="st">"600 Peachtree Street NE"</span>, <span class="st">"Atlanta"</span>, <span class="st">"GA"</span></span>
+<span><span class="op">)</span></span></code></pre></div>
 <p>You can use the <code>address</code> argument to specify single-line
 addresses. Note that when multiple addresses are provided, the batch
 geocoding functionality of the Census geocoding service is used.
 Additionally, <code>verbose = TRUE</code> displays logs to the
 console.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">census_s1</span> <span class="op">&lt;-</span> <span class="va">address_single</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
-  <span class="fu"><a href="../reference/geocode.html">geocode</a></span><span class="op">(</span>address <span class="op">=</span> <span class="va">singlelineaddress</span>, method <span class="op">=</span> <span class="st">"census"</span>, verbose <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Number of Unique Addresses: 2</span>
-<span class="co">#&gt; Executing batch geocoding...</span>
-<span class="co">#&gt; Batch limit: 10,000</span>
-<span class="co">#&gt; Passing 2 addresses to the US Census batch geocoder</span>
-<span class="co">#&gt; Querying API URL: https://geocoding.geo.census.gov/geocoder/locations/addressbatch</span>
-<span class="co">#&gt; Passing the following parameters to the API:</span>
-<span class="co">#&gt; format : "json"</span>
-<span class="co">#&gt; benchmark : "Public_AR_Current"</span>
-<span class="co">#&gt; vintage : "Current_Current"</span>
-<span class="co">#&gt; Query completed in: 1.3 seconds</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">census_s1</span> <span class="op">&lt;-</span> <span class="va">address_single</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="../reference/geocode.html">geocode</a></span><span class="op">(</span>address <span class="op">=</span> <span class="va">singlelineaddress</span>, method <span class="op">=</span> <span class="st">"census"</span>, verbose <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Number of Unique Addresses: 2</span></span>
+<span><span class="co">#&gt; Executing batch geocoding...</span></span>
+<span><span class="co">#&gt; Batch limit: 10,000</span></span>
+<span><span class="co">#&gt; Passing 2 addresses to the US Census batch geocoder</span></span>
+<span><span class="co">#&gt; Querying API URL: https://geocoding.geo.census.gov/geocoder/locations/addressbatch</span></span>
+<span><span class="co">#&gt; Passing the following parameters to the API:</span></span>
+<span><span class="co">#&gt; format : "json"</span></span>
+<span><span class="co">#&gt; benchmark : "Public_AR_Current"</span></span>
+<span><span class="co">#&gt; vintage : "Current_Current"</span></span>
+<span><span class="co">#&gt; Query completed in: 1.3 seconds</span></span></code></pre></div>
 <table class="table">
 <thead><tr class="header">
 <th align="left">singlelineaddress</th>
@@ -234,12 +234,12 @@ argument is used to specify the “osm” (Nominatim) geocoding service.
 Refer to the <code><a href="../reference/geo.html">geo()</a></code> function documentation for the possible
 values of the <code>method</code> argument.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">osm_s1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/geo.html">geo</a></span><span class="op">(</span>
-  address <span class="op">=</span> <span class="va">address_single</span><span class="op">$</span><span class="va">singlelineaddress</span>, method <span class="op">=</span> <span class="st">"osm"</span>,
-  lat <span class="op">=</span> <span class="va">latitude</span>, long <span class="op">=</span> <span class="va">longitude</span>
-<span class="op">)</span>
-<span class="co">#&gt; Passing 2 addresses to the Nominatim single address geocoder</span>
-<span class="co">#&gt; Query completed in: 2.1 seconds</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">osm_s1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/geo.html">geo</a></span><span class="op">(</span></span>
+<span>  address <span class="op">=</span> <span class="va">address_single</span><span class="op">$</span><span class="va">singlelineaddress</span>, method <span class="op">=</span> <span class="st">"osm"</span>,</span>
+<span>  lat <span class="op">=</span> <span class="va">latitude</span>, long <span class="op">=</span> <span class="va">longitude</span></span>
+<span><span class="op">)</span></span>
+<span><span class="co">#&gt; Passing 2 addresses to the Nominatim single address geocoder</span></span>
+<span><span class="co">#&gt; Query completed in: 2.1 seconds</span></span></code></pre></div>
 <table class="table">
 <thead><tr class="header">
 <th align="left">address</th>
@@ -264,10 +264,10 @@ following arguments to specify your addresses: <code>street</code>,
 <code>city</code>, <code>state</code>, <code>county</code>,
 <code>postalcode</code>, and <code>country</code>.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">census_c1</span> <span class="op">&lt;-</span> <span class="va">address_components</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
-  <span class="fu"><a href="../reference/geocode.html">geocode</a></span><span class="op">(</span>street <span class="op">=</span> <span class="va">street</span>, city <span class="op">=</span> <span class="va">cty</span>, state <span class="op">=</span> <span class="va">st</span>, method <span class="op">=</span> <span class="st">"census"</span><span class="op">)</span>
-<span class="co">#&gt; Passing 2 addresses to the US Census batch geocoder</span>
-<span class="co">#&gt; Query completed in: 1.4 seconds</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">census_c1</span> <span class="op">&lt;-</span> <span class="va">address_components</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="../reference/geocode.html">geocode</a></span><span class="op">(</span>street <span class="op">=</span> <span class="va">street</span>, city <span class="op">=</span> <span class="va">cty</span>, state <span class="op">=</span> <span class="va">st</span>, method <span class="op">=</span> <span class="st">"census"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Passing 2 addresses to the US Census batch geocoder</span></span>
+<span><span class="co">#&gt; Query completed in: 1.4 seconds</span></span></code></pre></div>
 <table class="table">
 <thead><tr class="header">
 <th align="left">street</th>
@@ -302,12 +302,12 @@ sure to use <code>full_results = TRUE</code> with the “geographies”
 return type in order to allow the Census geography columns to be
 returned.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">census_full1</span> <span class="op">&lt;-</span> <span class="va">address_single</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/geocode.html">geocode</a></span><span class="op">(</span>
-  address <span class="op">=</span> <span class="va">singlelineaddress</span>,
-  method <span class="op">=</span> <span class="st">"census"</span>, full_results <span class="op">=</span> <span class="cn">TRUE</span>, api_options <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>census_return_type <span class="op">=</span> <span class="st">'geographies'</span><span class="op">)</span>
-<span class="op">)</span>
-<span class="co">#&gt; Passing 2 addresses to the US Census batch geocoder</span>
-<span class="co">#&gt; Query completed in: 0.9 seconds</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">census_full1</span> <span class="op">&lt;-</span> <span class="va">address_single</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/geocode.html">geocode</a></span><span class="op">(</span></span>
+<span>  address <span class="op">=</span> <span class="va">singlelineaddress</span>,</span>
+<span>  method <span class="op">=</span> <span class="st">"census"</span>, full_results <span class="op">=</span> <span class="cn">TRUE</span>, api_options <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>census_return_type <span class="op">=</span> <span class="st">'geographies'</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span><span class="co">#&gt; Passing 2 addresses to the US Census batch geocoder</span></span>
+<span><span class="co">#&gt; Query completed in: 0.9 seconds</span></span></code></pre></div>
 <table class="table">
 <colgroup>
 <col width="16%">
@@ -385,10 +385,10 @@ Removing the licence column is done just to prevent a note from
 occurring in automated CRAN checks for an improper/old link.
 -->
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">salz</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/geo.html">geo</a></span><span class="op">(</span><span class="st">"Salzburg, Austria"</span>, method <span class="op">=</span> <span class="st">"osm"</span>, full_results <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="op">-</span><span class="va">licence</span><span class="op">)</span>
-<span class="co">#&gt; Passing 1 address to the Nominatim single address geocoder</span>
-<span class="co">#&gt; Query completed in: 1 seconds</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">salz</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/geo.html">geo</a></span><span class="op">(</span><span class="st">"Salzburg, Austria"</span>, method <span class="op">=</span> <span class="st">"osm"</span>, full_results <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="op">-</span><span class="va">licence</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Passing 1 address to the Nominatim single address geocoder</span></span>
+<span><span class="co">#&gt; Query completed in: 1 seconds</span></span></code></pre></div>
 <table class="table">
 <colgroup>
 <col width="7%">
@@ -453,15 +453,15 @@ single line address column name that is returned from the geocoder. Just
 as with forward geocoding, the <code>method</code> argument is used to
 specify the geocoding service.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">lat_longs1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span>
-  latitude <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">38.895865</span>, <span class="fl">43.6534817</span><span class="op">)</span>,
-  longitude <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">77.0307713</span>, <span class="op">-</span><span class="fl">79.3839347</span><span class="op">)</span>
-<span class="op">)</span>
-
-<span class="va">rev1</span> <span class="op">&lt;-</span> <span class="va">lat_longs1</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
-  <span class="fu"><a href="../reference/reverse_geocode.html">reverse_geocode</a></span><span class="op">(</span>lat <span class="op">=</span> <span class="va">latitude</span>, long <span class="op">=</span> <span class="va">longitude</span>, address <span class="op">=</span> <span class="va">addr</span>, method <span class="op">=</span> <span class="st">"osm"</span><span class="op">)</span>
-<span class="co">#&gt; Passing 2 coordinates to the Nominatim single coordinate geocoder</span>
-<span class="co">#&gt; Query completed in: 2 seconds</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">lat_longs1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span></span>
+<span>  latitude <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">38.895865</span>, <span class="fl">43.6534817</span><span class="op">)</span>,</span>
+<span>  longitude <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">77.0307713</span>, <span class="op">-</span><span class="fl">79.3839347</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">rev1</span> <span class="op">&lt;-</span> <span class="va">lat_longs1</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="../reference/reverse_geocode.html">reverse_geocode</a></span><span class="op">(</span>lat <span class="op">=</span> <span class="va">latitude</span>, long <span class="op">=</span> <span class="va">longitude</span>, address <span class="op">=</span> <span class="va">addr</span>, method <span class="op">=</span> <span class="st">"osm"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Passing 2 coordinates to the Nominatim single coordinate geocoder</span></span>
+<span><span class="co">#&gt; Query completed in: 2 seconds</span></span></code></pre></div>
 <table class="table">
 <colgroup>
 <col width="5%">
@@ -494,40 +494,40 @@ longitudes directly to the <code><a href="../reference/reverse_geo.html">reverse
 will use <code>full_results = TRUE</code> so that the full results are
 returned (not just the single line address column).</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">rev2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/reverse_geo.html">reverse_geo</a></span><span class="op">(</span>
-  lat <span class="op">=</span> <span class="va">lat_longs1</span><span class="op">$</span><span class="va">latitude</span>,
-  long <span class="op">=</span> <span class="va">lat_longs1</span><span class="op">$</span><span class="va">longitude</span>,
-  method <span class="op">=</span> <span class="st">"osm"</span>,
-  full_results <span class="op">=</span> <span class="cn">TRUE</span>
-<span class="op">)</span>
-<span class="co">#&gt; Passing 2 coordinates to the Nominatim single coordinate geocoder</span>
-<span class="co">#&gt; Query completed in: 2 seconds</span>
-
-<span class="fu"><a href="https://pillar.r-lib.org/reference/glimpse.html" class="external-link">glimpse</a></span><span class="op">(</span><span class="va">rev2</span><span class="op">)</span>
-<span class="co">#&gt; Rows: 2</span>
-<span class="co">#&gt; Columns: 22</span>
-<span class="co">#&gt; $ lat            &lt;dbl&gt; 38.89587, 43.65348</span>
-<span class="co">#&gt; $ long           &lt;dbl&gt; -77.03077, -79.38393</span>
-<span class="co">#&gt; $ address        &lt;chr&gt; "Freedom Plaza, 1455, Pennsylvania Avenue Northwest, Washington, District of Columbia, 200…</span>
-<span class="co">#&gt; $ place_id       &lt;int&gt; 284009208, 148364261</span>
-<span class="co">#&gt; $ licence        &lt;chr&gt; "Data © OpenStreetMap contributors, ODbL 1.0. https://osm.org/copyright", "Data © OpenStre…</span>
-<span class="co">#&gt; $ osm_type       &lt;chr&gt; "relation", "way"</span>
-<span class="co">#&gt; $ osm_id         &lt;int&gt; 8060882, 198500761</span>
-<span class="co">#&gt; $ osm_lat        &lt;chr&gt; "38.895849999999996", "43.6536032"</span>
-<span class="co">#&gt; $ osm_lon        &lt;chr&gt; "-77.03077367444483", "-79.38400546703345"</span>
-<span class="co">#&gt; $ tourism        &lt;chr&gt; "Freedom Plaza", NA</span>
-<span class="co">#&gt; $ house_number   &lt;chr&gt; "1455", "100"</span>
-<span class="co">#&gt; $ road           &lt;chr&gt; "Pennsylvania Avenue Northwest", "Queen Street West"</span>
-<span class="co">#&gt; $ city           &lt;chr&gt; "Washington", "Old Toronto"</span>
-<span class="co">#&gt; $ state          &lt;chr&gt; "District of Columbia", "Ontario"</span>
-<span class="co">#&gt; $ postcode       &lt;chr&gt; "20004", "M5H 2N2"</span>
-<span class="co">#&gt; $ country        &lt;chr&gt; "United States", "Canada"</span>
-<span class="co">#&gt; $ country_code   &lt;chr&gt; "us", "ca"</span>
-<span class="co">#&gt; $ boundingbox    &lt;list&gt; &lt;"38.8956276", "38.896068", "-77.03182", "-77.0297273"&gt;, &lt;"43.6529946", "43.6541458", "-79…</span>
-<span class="co">#&gt; $ amenity        &lt;chr&gt; NA, "Toronto City Hall"</span>
-<span class="co">#&gt; $ neighbourhood  &lt;chr&gt; NA, "Financial District"</span>
-<span class="co">#&gt; $ quarter        &lt;chr&gt; NA, "Spadina—Fort York"</span>
-<span class="co">#&gt; $ state_district &lt;chr&gt; NA, "Golden Horseshoe"</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">rev2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/reverse_geo.html">reverse_geo</a></span><span class="op">(</span></span>
+<span>  lat <span class="op">=</span> <span class="va">lat_longs1</span><span class="op">$</span><span class="va">latitude</span>,</span>
+<span>  long <span class="op">=</span> <span class="va">lat_longs1</span><span class="op">$</span><span class="va">longitude</span>,</span>
+<span>  method <span class="op">=</span> <span class="st">"osm"</span>,</span>
+<span>  full_results <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span><span class="op">)</span></span>
+<span><span class="co">#&gt; Passing 2 coordinates to the Nominatim single coordinate geocoder</span></span>
+<span><span class="co">#&gt; Query completed in: 2 seconds</span></span>
+<span></span>
+<span><span class="fu"><a href="https://pillar.r-lib.org/reference/glimpse.html" class="external-link">glimpse</a></span><span class="op">(</span><span class="va">rev2</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Rows: 2</span></span>
+<span><span class="co">#&gt; Columns: 22</span></span>
+<span><span class="co">#&gt; $ lat            &lt;dbl&gt; 38.89587, 43.65348</span></span>
+<span><span class="co">#&gt; $ long           &lt;dbl&gt; -77.03077, -79.38393</span></span>
+<span><span class="co">#&gt; $ address        &lt;chr&gt; "Freedom Plaza, 1455, Pennsylvania Avenue Northwest, Washington, District of Columbia, 200…</span></span>
+<span><span class="co">#&gt; $ place_id       &lt;int&gt; 284009208, 148364261</span></span>
+<span><span class="co">#&gt; $ licence        &lt;chr&gt; "Data © OpenStreetMap contributors, ODbL 1.0. https://osm.org/copyright", "Data © OpenStre…</span></span>
+<span><span class="co">#&gt; $ osm_type       &lt;chr&gt; "relation", "way"</span></span>
+<span><span class="co">#&gt; $ osm_id         &lt;int&gt; 8060882, 198500761</span></span>
+<span><span class="co">#&gt; $ osm_lat        &lt;chr&gt; "38.895849999999996", "43.6536032"</span></span>
+<span><span class="co">#&gt; $ osm_lon        &lt;chr&gt; "-77.03077367444483", "-79.38400546703345"</span></span>
+<span><span class="co">#&gt; $ tourism        &lt;chr&gt; "Freedom Plaza", NA</span></span>
+<span><span class="co">#&gt; $ house_number   &lt;chr&gt; "1455", "100"</span></span>
+<span><span class="co">#&gt; $ road           &lt;chr&gt; "Pennsylvania Avenue Northwest", "Queen Street West"</span></span>
+<span><span class="co">#&gt; $ city           &lt;chr&gt; "Washington", "Old Toronto"</span></span>
+<span><span class="co">#&gt; $ state          &lt;chr&gt; "District of Columbia", "Ontario"</span></span>
+<span><span class="co">#&gt; $ postcode       &lt;chr&gt; "20004", "M5H 2N2"</span></span>
+<span><span class="co">#&gt; $ country        &lt;chr&gt; "United States", "Canada"</span></span>
+<span><span class="co">#&gt; $ country_code   &lt;chr&gt; "us", "ca"</span></span>
+<span><span class="co">#&gt; $ boundingbox    &lt;list&gt; &lt;"38.8956276", "38.896068", "-77.03182", "-77.0297273"&gt;, &lt;"43.6529946", "43.6541458", "-79…</span></span>
+<span><span class="co">#&gt; $ amenity        &lt;chr&gt; NA, "Toronto City Hall"</span></span>
+<span><span class="co">#&gt; $ neighbourhood  &lt;chr&gt; NA, "Financial District"</span></span>
+<span><span class="co">#&gt; $ quarter        &lt;chr&gt; NA, "Spadina—Fort York"</span></span>
+<span><span class="co">#&gt; $ state_district &lt;chr&gt; NA, "Golden Horseshoe"</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="working-with-messy-data">Working With Messy Data<a class="anchor" aria-label="anchor" href="#working-with-messy-data"></a>
@@ -540,39 +540,39 @@ also limited to the range of possible values.</p>
 tidygeocoder. As the console messages shows, only the two unique
 addresses are passed to the geocoding service.</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># create a dataset with duplicate and NA addresses</span>
-<span class="va">duplicate_addrs</span> <span class="op">&lt;-</span> <span class="va">address_single</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/bind.html" class="external-link">bind_rows</a></span><span class="op">(</span><span class="va">address_single</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/bind.html" class="external-link">bind_rows</a></span><span class="op">(</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span>singlelineaddress <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="cn">NA</span>, <span class="fl">3</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>
-
-<span class="va">duplicates_geocoded</span> <span class="op">&lt;-</span> <span class="va">duplicate_addrs</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
-  <span class="fu"><a href="../reference/geocode.html">geocode</a></span><span class="op">(</span><span class="va">singlelineaddress</span>, verbose <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Number of Unique Addresses: 2</span>
-<span class="co">#&gt; Passing 2 addresses to the Nominatim single address geocoder</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Number of Unique Addresses: 1</span>
-<span class="co">#&gt; Querying API URL: https://nominatim.openstreetmap.org/search</span>
-<span class="co">#&gt; Passing the following parameters to the API:</span>
-<span class="co">#&gt; q : "11 Wall St, NY, NY"</span>
-<span class="co">#&gt; limit : "1"</span>
-<span class="co">#&gt; format : "json"</span>
-<span class="co">#&gt; HTTP Status Code: 200</span>
-<span class="co">#&gt; Query completed in: 0.8 seconds</span>
-<span class="co">#&gt; Total query time (including sleep): 1 seconds</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Number of Unique Addresses: 1</span>
-<span class="co">#&gt; Querying API URL: https://nominatim.openstreetmap.org/search</span>
-<span class="co">#&gt; Passing the following parameters to the API:</span>
-<span class="co">#&gt; q : "600 Peachtree Street NE, Atlanta, Georgia"</span>
-<span class="co">#&gt; limit : "1"</span>
-<span class="co">#&gt; format : "json"</span>
-<span class="co">#&gt; HTTP Status Code: 200</span>
-<span class="co">#&gt; Query completed in: 0.2 seconds</span>
-<span class="co">#&gt; Total query time (including sleep): 1 seconds</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Query completed in: 2 seconds</span></code></pre></div>
+<code class="sourceCode R"><span><span class="co"># create a dataset with duplicate and NA addresses</span></span>
+<span><span class="va">duplicate_addrs</span> <span class="op">&lt;-</span> <span class="va">address_single</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/bind.html" class="external-link">bind_rows</a></span><span class="op">(</span><span class="va">address_single</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/bind.html" class="external-link">bind_rows</a></span><span class="op">(</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span>singlelineaddress <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="cn">NA</span>, <span class="fl">3</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">duplicates_geocoded</span> <span class="op">&lt;-</span> <span class="va">duplicate_addrs</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="../reference/geocode.html">geocode</a></span><span class="op">(</span><span class="va">singlelineaddress</span>, verbose <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Number of Unique Addresses: 2</span></span>
+<span><span class="co">#&gt; Passing 2 addresses to the Nominatim single address geocoder</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Number of Unique Addresses: 1</span></span>
+<span><span class="co">#&gt; Querying API URL: https://nominatim.openstreetmap.org/search</span></span>
+<span><span class="co">#&gt; Passing the following parameters to the API:</span></span>
+<span><span class="co">#&gt; q : "11 Wall St, NY, NY"</span></span>
+<span><span class="co">#&gt; limit : "1"</span></span>
+<span><span class="co">#&gt; format : "json"</span></span>
+<span><span class="co">#&gt; HTTP Status Code: 200</span></span>
+<span><span class="co">#&gt; Query completed in: 0.8 seconds</span></span>
+<span><span class="co">#&gt; Total query time (including sleep): 1 seconds</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Number of Unique Addresses: 1</span></span>
+<span><span class="co">#&gt; Querying API URL: https://nominatim.openstreetmap.org/search</span></span>
+<span><span class="co">#&gt; Passing the following parameters to the API:</span></span>
+<span><span class="co">#&gt; q : "600 Peachtree Street NE, Atlanta, Georgia"</span></span>
+<span><span class="co">#&gt; limit : "1"</span></span>
+<span><span class="co">#&gt; format : "json"</span></span>
+<span><span class="co">#&gt; HTTP Status Code: 200</span></span>
+<span><span class="co">#&gt; Query completed in: 0.2 seconds</span></span>
+<span><span class="co">#&gt; Total query time (including sleep): 1 seconds</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Query completed in: 2 seconds</span></span></code></pre></div>
 <table class="table">
 <thead><tr class="header">
 <th align="left">singlelineaddress</th>
@@ -625,10 +625,10 @@ default. However, you can return only unique results by using
 format (including column names) to be discarded in favor of the standard
 field names (ie. “address”, ‘lat, ’long’, etc.).</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">uniqueonly1</span> <span class="op">&lt;-</span> <span class="va">duplicate_addrs</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
-  <span class="fu"><a href="../reference/geocode.html">geocode</a></span><span class="op">(</span><span class="va">singlelineaddress</span>, unique_only <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
-<span class="co">#&gt; Passing 2 addresses to the Nominatim single address geocoder</span>
-<span class="co">#&gt; Query completed in: 2.1 seconds</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">uniqueonly1</span> <span class="op">&lt;-</span> <span class="va">duplicate_addrs</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="../reference/geocode.html">geocode</a></span><span class="op">(</span><span class="va">singlelineaddress</span>, unique_only <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Passing 2 addresses to the Nominatim single address geocoder</span></span>
+<span><span class="co">#&gt; Query completed in: 2.1 seconds</span></span></code></pre></div>
 <table class="table">
 <thead><tr class="header">
 <th align="left">address</th>
@@ -663,23 +663,23 @@ first query while the Nominatim (“osm”) service is used for the second
 query. The <code>global_params</code> argument passes the
 <code>address</code> column from the input dataset to both queries.</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">addresses_combine</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span>
-  address <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'100 Wall Street NY, NY'</span>, <span class="st">'Paris'</span>, <span class="st">'Not An Address'</span><span class="op">)</span>
-<span class="op">)</span>
-
-<span class="va">cascade_results1</span> <span class="op">&lt;-</span> <span class="va">addresses_combine</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
-  <span class="fu"><a href="../reference/geocode_combine.html">geocode_combine</a></span><span class="op">(</span>
-    queries <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>
-      <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>method <span class="op">=</span> <span class="st">'census'</span><span class="op">)</span>,
-      <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>method <span class="op">=</span> <span class="st">'osm'</span><span class="op">)</span>
-    <span class="op">)</span>,
-    global_params <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>address <span class="op">=</span> <span class="st">'address'</span><span class="op">)</span>
-  <span class="op">)</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Passing 3 addresses to the US Census batch geocoder</span>
-<span class="co">#&gt; Query completed in: 0.1 seconds</span>
-<span class="co">#&gt; Passing 2 addresses to the Nominatim single address geocoder</span>
-<span class="co">#&gt; Query completed in: 2 seconds</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">addresses_combine</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span></span>
+<span>  address <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'100 Wall Street NY, NY'</span>, <span class="st">'Paris'</span>, <span class="st">'Not An Address'</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">cascade_results1</span> <span class="op">&lt;-</span> <span class="va">addresses_combine</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="../reference/geocode_combine.html">geocode_combine</a></span><span class="op">(</span></span>
+<span>    queries <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
+<span>      <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>method <span class="op">=</span> <span class="st">'census'</span><span class="op">)</span>,</span>
+<span>      <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>method <span class="op">=</span> <span class="st">'osm'</span><span class="op">)</span></span>
+<span>    <span class="op">)</span>,</span>
+<span>    global_params <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>address <span class="op">=</span> <span class="st">'address'</span><span class="op">)</span></span>
+<span>  <span class="op">)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Passing 3 addresses to the US Census batch geocoder</span></span>
+<span><span class="co">#&gt; Query completed in: 0.1 seconds</span></span>
+<span><span class="co">#&gt; Passing 2 addresses to the Nominatim single address geocoder</span></span>
+<span><span class="co">#&gt; Query completed in: 2 seconds</span></span></code></pre></div>
 <table class="table">
 <thead><tr class="header">
 <th align="left">address</th>
@@ -712,20 +712,20 @@ query. The <code>global_params</code> argument passes the
 attempted by each query regardless of if the address was found initially
 or not.</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">no_cascade_results1</span> <span class="op">&lt;-</span> <span class="va">addresses_combine</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
-  <span class="fu"><a href="../reference/geocode_combine.html">geocode_combine</a></span><span class="op">(</span>
-    queries <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>
-      <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>method <span class="op">=</span> <span class="st">'census'</span><span class="op">)</span>,
-      <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>method <span class="op">=</span> <span class="st">'osm'</span><span class="op">)</span>
-    <span class="op">)</span>,
-    global_params <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>address <span class="op">=</span> <span class="st">'address'</span><span class="op">)</span>,
-    cascade <span class="op">=</span> <span class="cn">FALSE</span>
-  <span class="op">)</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Passing 3 addresses to the US Census batch geocoder</span>
-<span class="co">#&gt; Query completed in: 0.1 seconds</span>
-<span class="co">#&gt; Passing 3 addresses to the Nominatim single address geocoder</span>
-<span class="co">#&gt; Query completed in: 3 seconds</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">no_cascade_results1</span> <span class="op">&lt;-</span> <span class="va">addresses_combine</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="../reference/geocode_combine.html">geocode_combine</a></span><span class="op">(</span></span>
+<span>    queries <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
+<span>      <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>method <span class="op">=</span> <span class="st">'census'</span><span class="op">)</span>,</span>
+<span>      <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>method <span class="op">=</span> <span class="st">'osm'</span><span class="op">)</span></span>
+<span>    <span class="op">)</span>,</span>
+<span>    global_params <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>address <span class="op">=</span> <span class="st">'address'</span><span class="op">)</span>,</span>
+<span>    cascade <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span>  <span class="op">)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Passing 3 addresses to the US Census batch geocoder</span></span>
+<span><span class="co">#&gt; Query completed in: 0.1 seconds</span></span>
+<span><span class="co">#&gt; Passing 3 addresses to the Nominatim single address geocoder</span></span>
+<span><span class="co">#&gt; Query completed in: 3 seconds</span></span></code></pre></div>
 <table class="table">
 <thead><tr class="header">
 <th align="left">address</th>
@@ -785,30 +785,30 @@ the default <code>limit</code> value for the selected geocoding service
 you can use <code>limit = NULL</code> which will prevent the limit
 parameter from being included in the query.</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">geo_limit</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/geo.html">geo</a></span><span class="op">(</span>
-  <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Lima, Peru"</span>, <span class="st">"Cairo, Egypt"</span><span class="op">)</span>,
-  method <span class="op">=</span> <span class="st">"osm"</span>,
-  limit <span class="op">=</span> <span class="fl">3</span>, full_results <span class="op">=</span> <span class="cn">TRUE</span>
-<span class="op">)</span>
-<span class="co">#&gt; Passing 2 addresses to the Nominatim single address geocoder</span>
-<span class="co">#&gt; Query completed in: 2 seconds</span>
-
-<span class="fu"><a href="https://pillar.r-lib.org/reference/glimpse.html" class="external-link">glimpse</a></span><span class="op">(</span><span class="va">geo_limit</span><span class="op">)</span>
-<span class="co">#&gt; Rows: 6</span>
-<span class="co">#&gt; Columns: 13</span>
-<span class="co">#&gt; $ address      &lt;chr&gt; "Lima, Peru", "Lima, Peru", "Lima, Peru", "Cairo, Egypt", "Cairo, Egypt", "Cairo, Egypt"</span>
-<span class="co">#&gt; $ lat          &lt;dbl&gt; -12.06211, -12.20011, -11.99997, 30.04439, 30.03521, 30.08695</span>
-<span class="co">#&gt; $ long         &lt;dbl&gt; -77.03653, -76.28506, -76.83322, 31.23573, 31.56337, 31.96162</span>
-<span class="co">#&gt; $ place_id     &lt;int&gt; 49009999, 282617684, 282722041, 728384, 283020077, 216381765</span>
-<span class="co">#&gt; $ licence      &lt;chr&gt; "Data © OpenStreetMap contributors, ODbL 1.0. https://osm.org/copyright", "Data © OpenStreet…</span>
-<span class="co">#&gt; $ osm_type     &lt;chr&gt; "node", "relation", "relation", "node", "relation", "way"</span>
-<span class="co">#&gt; $ osm_id       &lt;dbl&gt; 4289361265, 1944659, 1944670, 271613766, 5466227, 544272017</span>
-<span class="co">#&gt; $ boundingbox  &lt;list&gt; &lt;"-12.2221065", "-11.9021065", "-77.1965256", "-76.8765256"&gt;, &lt;"-13.3241714", "-10.2741856",…</span>
-<span class="co">#&gt; $ display_name &lt;chr&gt; "Lima, Lima Metropolitana, Lima, LIMA 15046, Perú", "Lima, Perú", "Lima, Lima Metropolitana,…</span>
-<span class="co">#&gt; $ class        &lt;chr&gt; "place", "boundary", "boundary", "place", "place", "highway"</span>
-<span class="co">#&gt; $ type         &lt;chr&gt; "city", "administrative", "administrative", "city", "city", "motorway"</span>
-<span class="co">#&gt; $ importance   &lt;dbl&gt; 0.7830015, 0.6119761, 0.5934835, 0.6960286, 0.6960286, 0.1000000</span>
-<span class="co">#&gt; $ icon         &lt;chr&gt; "https://nominatim.openstreetmap.org/ui/mapicons//poi_place_city.p.20.png", "https://nominat…</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">geo_limit</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/geo.html">geo</a></span><span class="op">(</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Lima, Peru"</span>, <span class="st">"Cairo, Egypt"</span><span class="op">)</span>,</span>
+<span>  method <span class="op">=</span> <span class="st">"osm"</span>,</span>
+<span>  limit <span class="op">=</span> <span class="fl">3</span>, full_results <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span><span class="op">)</span></span>
+<span><span class="co">#&gt; Passing 2 addresses to the Nominatim single address geocoder</span></span>
+<span><span class="co">#&gt; Query completed in: 2 seconds</span></span>
+<span></span>
+<span><span class="fu"><a href="https://pillar.r-lib.org/reference/glimpse.html" class="external-link">glimpse</a></span><span class="op">(</span><span class="va">geo_limit</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Rows: 6</span></span>
+<span><span class="co">#&gt; Columns: 13</span></span>
+<span><span class="co">#&gt; $ address      &lt;chr&gt; "Lima, Peru", "Lima, Peru", "Lima, Peru", "Cairo, Egypt", "Cairo, Egypt", "Cairo, Egypt"</span></span>
+<span><span class="co">#&gt; $ lat          &lt;dbl&gt; -12.06211, -12.20011, -11.99997, 30.04439, 30.03521, 30.08695</span></span>
+<span><span class="co">#&gt; $ long         &lt;dbl&gt; -77.03653, -76.28506, -76.83322, 31.23573, 31.56337, 31.96162</span></span>
+<span><span class="co">#&gt; $ place_id     &lt;int&gt; 49009999, 282617684, 282722041, 728384, 283020077, 216381765</span></span>
+<span><span class="co">#&gt; $ licence      &lt;chr&gt; "Data © OpenStreetMap contributors, ODbL 1.0. https://osm.org/copyright", "Data © OpenStreet…</span></span>
+<span><span class="co">#&gt; $ osm_type     &lt;chr&gt; "node", "relation", "relation", "node", "relation", "way"</span></span>
+<span><span class="co">#&gt; $ osm_id       &lt;dbl&gt; 4289361265, 1944659, 1944670, 271613766, 5466227, 544272017</span></span>
+<span><span class="co">#&gt; $ boundingbox  &lt;list&gt; &lt;"-12.2221065", "-11.9021065", "-77.1965256", "-76.8765256"&gt;, &lt;"-13.3241714", "-10.2741856",…</span></span>
+<span><span class="co">#&gt; $ display_name &lt;chr&gt; "Lima, Lima Metropolitana, Lima, LIMA 15046, Perú", "Lima, Perú", "Lima, Lima Metropolitana,…</span></span>
+<span><span class="co">#&gt; $ class        &lt;chr&gt; "place", "boundary", "boundary", "place", "place", "highway"</span></span>
+<span><span class="co">#&gt; $ type         &lt;chr&gt; "city", "administrative", "administrative", "city", "city", "motorway"</span></span>
+<span><span class="co">#&gt; $ importance   &lt;dbl&gt; 0.7830015, 0.6119761, 0.5934835, 0.6960286, 0.6960286, 0.1000000</span></span>
+<span><span class="co">#&gt; $ icon         &lt;chr&gt; "https://nominatim.openstreetmap.org/ui/mapicons//poi_place_city.p.20.png", "https://nominat…</span></span></code></pre></div>
 <p>To directly specify specific API parameters for a given
 <code>method</code> you can use the <code>custom_query</code> parameter.
 For example, <a href="https://nominatim.org/release-docs/develop/api/Details/#parameters" class="external-link">the
@@ -817,70 +817,70 @@ be used to return GeoJSON geometry content. To pass this parameter you
 can insert it with a named list using the <code>custom_query</code>
 argument:</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">cairo_geo</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/geo.html">geo</a></span><span class="op">(</span><span class="st">"Cairo, Egypt"</span>,
-  method <span class="op">=</span> <span class="st">"osm"</span>, full_results <span class="op">=</span> <span class="cn">TRUE</span>,
-  custom_query <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>polygon_geojson <span class="op">=</span> <span class="fl">1</span><span class="op">)</span>, verbose <span class="op">=</span> <span class="cn">TRUE</span>
-<span class="op">)</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Number of Unique Addresses: 1</span>
-<span class="co">#&gt; Passing 1 address to the Nominatim single address geocoder</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Number of Unique Addresses: 1</span>
-<span class="co">#&gt; Querying API URL: https://nominatim.openstreetmap.org/search</span>
-<span class="co">#&gt; Passing the following parameters to the API:</span>
-<span class="co">#&gt; q : "Cairo, Egypt"</span>
-<span class="co">#&gt; limit : "1"</span>
-<span class="co">#&gt; polygon_geojson : "1"</span>
-<span class="co">#&gt; format : "json"</span>
-<span class="co">#&gt; HTTP Status Code: 200</span>
-<span class="co">#&gt; Query completed in: 0.2 seconds</span>
-<span class="co">#&gt; Total query time (including sleep): 1 seconds</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Query completed in: 1 seconds</span>
-
-<span class="fu"><a href="https://pillar.r-lib.org/reference/glimpse.html" class="external-link">glimpse</a></span><span class="op">(</span><span class="va">cairo_geo</span><span class="op">)</span>
-<span class="co">#&gt; Rows: 1</span>
-<span class="co">#&gt; Columns: 15</span>
-<span class="co">#&gt; $ address             &lt;chr&gt; "Cairo, Egypt"</span>
-<span class="co">#&gt; $ lat                 &lt;dbl&gt; 30.04439</span>
-<span class="co">#&gt; $ long                &lt;dbl&gt; 31.23573</span>
-<span class="co">#&gt; $ place_id            &lt;int&gt; 728384</span>
-<span class="co">#&gt; $ licence             &lt;chr&gt; "Data © OpenStreetMap contributors, ODbL 1.0. https://osm.org/copyright"</span>
-<span class="co">#&gt; $ osm_type            &lt;chr&gt; "node"</span>
-<span class="co">#&gt; $ osm_id              &lt;int&gt; 271613766</span>
-<span class="co">#&gt; $ boundingbox         &lt;list&gt; &lt;"29.8843879", "30.2043879", "31.0757257", "31.3957257"&gt;</span>
-<span class="co">#&gt; $ display_name        &lt;chr&gt; "القاهرة, محافظة القاهرة, 11519, مصر"</span>
-<span class="co">#&gt; $ class               &lt;chr&gt; "place"</span>
-<span class="co">#&gt; $ type                &lt;chr&gt; "city"</span>
-<span class="co">#&gt; $ importance          &lt;dbl&gt; 0.6960286</span>
-<span class="co">#&gt; $ icon                &lt;chr&gt; "https://nominatim.openstreetmap.org/ui/mapicons//poi_place_city.p.20.png"</span>
-<span class="co">#&gt; $ geojson.type        &lt;chr&gt; "Point"</span>
-<span class="co">#&gt; $ geojson.coordinates &lt;list&gt; &lt;31.23573, 30.04439&gt;</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">cairo_geo</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/geo.html">geo</a></span><span class="op">(</span><span class="st">"Cairo, Egypt"</span>,</span>
+<span>  method <span class="op">=</span> <span class="st">"osm"</span>, full_results <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  custom_query <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>polygon_geojson <span class="op">=</span> <span class="fl">1</span><span class="op">)</span>, verbose <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span><span class="op">)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Number of Unique Addresses: 1</span></span>
+<span><span class="co">#&gt; Passing 1 address to the Nominatim single address geocoder</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Number of Unique Addresses: 1</span></span>
+<span><span class="co">#&gt; Querying API URL: https://nominatim.openstreetmap.org/search</span></span>
+<span><span class="co">#&gt; Passing the following parameters to the API:</span></span>
+<span><span class="co">#&gt; q : "Cairo, Egypt"</span></span>
+<span><span class="co">#&gt; limit : "1"</span></span>
+<span><span class="co">#&gt; polygon_geojson : "1"</span></span>
+<span><span class="co">#&gt; format : "json"</span></span>
+<span><span class="co">#&gt; HTTP Status Code: 200</span></span>
+<span><span class="co">#&gt; Query completed in: 0.2 seconds</span></span>
+<span><span class="co">#&gt; Total query time (including sleep): 1 seconds</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Query completed in: 1 seconds</span></span>
+<span></span>
+<span><span class="fu"><a href="https://pillar.r-lib.org/reference/glimpse.html" class="external-link">glimpse</a></span><span class="op">(</span><span class="va">cairo_geo</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Rows: 1</span></span>
+<span><span class="co">#&gt; Columns: 15</span></span>
+<span><span class="co">#&gt; $ address             &lt;chr&gt; "Cairo, Egypt"</span></span>
+<span><span class="co">#&gt; $ lat                 &lt;dbl&gt; 30.04439</span></span>
+<span><span class="co">#&gt; $ long                &lt;dbl&gt; 31.23573</span></span>
+<span><span class="co">#&gt; $ place_id            &lt;int&gt; 728384</span></span>
+<span><span class="co">#&gt; $ licence             &lt;chr&gt; "Data © OpenStreetMap contributors, ODbL 1.0. https://osm.org/copyright"</span></span>
+<span><span class="co">#&gt; $ osm_type            &lt;chr&gt; "node"</span></span>
+<span><span class="co">#&gt; $ osm_id              &lt;int&gt; 271613766</span></span>
+<span><span class="co">#&gt; $ boundingbox         &lt;list&gt; &lt;"29.8843879", "30.2043879", "31.0757257", "31.3957257"&gt;</span></span>
+<span><span class="co">#&gt; $ display_name        &lt;chr&gt; "القاهرة, محافظة القاهرة, 11519, مصر"</span></span>
+<span><span class="co">#&gt; $ class               &lt;chr&gt; "place"</span></span>
+<span><span class="co">#&gt; $ type                &lt;chr&gt; "city"</span></span>
+<span><span class="co">#&gt; $ importance          &lt;dbl&gt; 0.6960286</span></span>
+<span><span class="co">#&gt; $ icon                &lt;chr&gt; "https://nominatim.openstreetmap.org/ui/mapicons//poi_place_city.p.20.png"</span></span>
+<span><span class="co">#&gt; $ geojson.type        &lt;chr&gt; "Point"</span></span>
+<span><span class="co">#&gt; $ geojson.coordinates &lt;list&gt; &lt;31.23573, 30.04439&gt;</span></span></code></pre></div>
 <p>To test a query without sending any data to a geocoding service, you
 can use <code>no_query = TRUE</code> (NA results are returned).</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">noquery1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/geo.html">geo</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Vancouver, Canada"</span>, <span class="st">"Las Vegas, NV"</span><span class="op">)</span>,
-  no_query <span class="op">=</span> <span class="cn">TRUE</span>,
-  method <span class="op">=</span> <span class="st">"arcgis"</span>
-<span class="op">)</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Number of Unique Addresses: 2</span>
-<span class="co">#&gt; Passing 2 addresses to the ArcGIS single address geocoder</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Number of Unique Addresses: 1</span>
-<span class="co">#&gt; Querying API URL: https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/findAddressCandidates</span>
-<span class="co">#&gt; Passing the following parameters to the API:</span>
-<span class="co">#&gt; SingleLine : "Vancouver, Canada"</span>
-<span class="co">#&gt; maxLocations : "1"</span>
-<span class="co">#&gt; f : "json"</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Number of Unique Addresses: 1</span>
-<span class="co">#&gt; Querying API URL: https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/findAddressCandidates</span>
-<span class="co">#&gt; Passing the following parameters to the API:</span>
-<span class="co">#&gt; SingleLine : "Las Vegas, NV"</span>
-<span class="co">#&gt; maxLocations : "1"</span>
-<span class="co">#&gt; f : "json"</span>
-<span class="co">#&gt; Query completed in: 0 seconds</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">noquery1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/geo.html">geo</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Vancouver, Canada"</span>, <span class="st">"Las Vegas, NV"</span><span class="op">)</span>,</span>
+<span>  no_query <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  method <span class="op">=</span> <span class="st">"arcgis"</span></span>
+<span><span class="op">)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Number of Unique Addresses: 2</span></span>
+<span><span class="co">#&gt; Passing 2 addresses to the ArcGIS single address geocoder</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Number of Unique Addresses: 1</span></span>
+<span><span class="co">#&gt; Querying API URL: https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/findAddressCandidates</span></span>
+<span><span class="co">#&gt; Passing the following parameters to the API:</span></span>
+<span><span class="co">#&gt; SingleLine : "Vancouver, Canada"</span></span>
+<span><span class="co">#&gt; maxLocations : "1"</span></span>
+<span><span class="co">#&gt; f : "json"</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Number of Unique Addresses: 1</span></span>
+<span><span class="co">#&gt; Querying API URL: https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/findAddressCandidates</span></span>
+<span><span class="co">#&gt; Passing the following parameters to the API:</span></span>
+<span><span class="co">#&gt; SingleLine : "Las Vegas, NV"</span></span>
+<span><span class="co">#&gt; maxLocations : "1"</span></span>
+<span><span class="co">#&gt; f : "json"</span></span>
+<span><span class="co">#&gt; Query completed in: 0 seconds</span></span></code></pre></div>
 <table class="table">
 <thead><tr class="header">
 <th align="left">address</th>
@@ -962,7 +962,7 @@ details.</li>
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer>
