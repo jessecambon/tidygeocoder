@@ -14,14 +14,4 @@ sample_addresses <- tibble::tribble(
    "Tokyo",                      "Tokyo, Japan",
 )
 
-## Invalid/blank addresses for testing ---- move to tests folder
-# junk_addresses <- tibble::tribble( 
-#   ~name,               ~addr,
-#   'NA',                NA,
-#   'Null',              NULL,
-#   "Blank",             "",
-#   "White Space",       "      ",
-# )
-
 usethis::use_data(sample_addresses, overwrite = TRUE)
-#usethis::use_data(invalid_addresses, overwrite = TRUE)
