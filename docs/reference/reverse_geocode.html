@@ -151,12 +151,7 @@ and returned. If FALSE only the geocoder results will be returned.</p></dd>
 
 
 <dt>limit</dt>
-<dd><p>maximum number of results to return per input coordinate. For many geocoding services
-the maximum value of the limit parameter is 100. Pass <code>limit = NULL</code> to use
-the default <code>limit</code> value of the selected geocoding service.
-For batch geocoding, limit must be set to 1 (default) if <code>return_coords = TRUE</code>.
-To use <code>limit &gt; 1</code> or <code>limit = NULL</code> set return_input to FALSE.
-Refer to <a href="api_parameter_reference.html">api_parameter_reference</a> for more details.</p></dd>
+<dd><p>maximum number of results to return per input coordinate. For many geocoding services, the maximum value of the limit parameter is 100. Pass <code>limit = NULL</code> to use, the default <code>limit</code> value of the selected geocoding service., For batch geocoding, limit must be set to 1 (default) if <code>return_coords = TRUE</code>., To use <code>limit &gt; 1</code> or <code>limit = NULL</code> set return_input to FALSE., Refer to <a href="api_parameter_reference.html">api_parameter_reference</a> for more details.</p></dd>
 
 
 <dt>return_coords</dt>
@@ -218,7 +213,7 @@ return_input will be set to FALSE.</p></dd>
 <span class="r-in"><span>  <span class="fu">reverse_geocode</span><span class="op">(</span>lat <span class="op">=</span> <span class="va">latitude</span>, long <span class="op">=</span> <span class="va">longitude</span>, </span></span>
 <span class="r-in"><span>  method <span class="op">=</span> <span class="st">'arcgis'</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Passing 3 coordinates to the ArcGIS single coordinate geocoder</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Query completed in: 0.2 seconds</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Query completed in: 1.1 seconds</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 3 × 7</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   street           city       state      zip latitude longitude address         </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>           </span>

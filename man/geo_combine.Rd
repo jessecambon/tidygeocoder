@@ -20,12 +20,9 @@ geo_combine(
 )
 }
 \arguments{
-\item{queries}{a list of queries, each provided as a list of parameters. The queries are
-executed by the \link{geocode} function in the order provided.
-(ex. \code{list(list(method = 'osm'), list(method = 'census'), ...)})}
+\item{queries}{a list of queries, each provided as a list of parameters. The queries are, executed by the \link{geocode} function in the order provided., (ex. \code{list(list(method = 'osm'), list(method = 'census'), ...)})}
 
-\item{global_params}{a list of parameters to be used for all queries
-(ex. \code{list(address = 'address', full_results = TRUE)})}
+\item{global_params}{a list of parameters to be used for all queries, (ex. \code{list(address = 'address', full_results = TRUE)})}
 
 \item{address}{single line address (ie. '1600 Pennsylvania Ave NW, Washington, DC').
 Do not combine with the address component arguments below

@@ -18,12 +18,9 @@ geocode_combine(
 \arguments{
 \item{.tbl}{dataframe containing addresses}
 
-\item{queries}{a list of queries, each provided as a list of parameters. The queries are
-executed by the \link{geocode} function in the order provided.
-(ex. \code{list(list(method = 'osm'), list(method = 'census'), ...)})}
+\item{queries}{a list of queries, each provided as a list of parameters. The queries are, executed by the \link{geocode} function in the order provided., (ex. \code{list(list(method = 'osm'), list(method = 'census'), ...)})}
 
-\item{global_params}{a list of parameters to be used for all queries
-(ex. \code{list(address = 'address', full_results = TRUE)})}
+\item{global_params}{a list of parameters to be used for all queries, (ex. \code{list(address = 'address', full_results = TRUE)})}
 
 \item{return_list}{if TRUE then results from each service will be returned as separate
 dataframes. If FALSE (default) then all results will be combined into a single dataframe.}
