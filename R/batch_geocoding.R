@@ -86,12 +86,12 @@ batch_census <- function(unique_addresses,
 # ... are arguments passed from the geo() function
 # https://www.geocod.io/docs/#batch-geocoding
 
-batch_geocodio <- function(unique_addresses, lat = 'lat', long = 'long', timeout = 20, 
+batch_geocodio <- function(unique_addresses, method='geocodio', lat = 'lat', long = 'long', timeout = 20, 
           full_results = FALSE, custom_query = list(), verbose = FALSE, api_url = NULL, 
-        api_options = list(), limit = 1, ...) {
+        api_options = list(), limit = 1, flatten=TRUE, ...) {
   
   # limit the dataframe to legitimate arguments
-  address_df <- unique_addresses[names(unique_addresses) %in% get_generic_parameters('geocodio', address_only = TRUE)]
+  address_df <- unique_addresses[names(unique_addresses) %in% get_generic_parameters(method, address_only = TRUE)]
   
   ## If single line addresses are passed then we will package them as a single list
   if ('address' %in% names(address_df)) {
@@ -108,7 +108,7 @@ batch_geocodio <- function(unique_addresses, lat = 'lat', long = 'long', timeout
   
   if (is.null(api_url)) api_url <- get_geocodio_url(api_options[["geocodio_v"]], reverse = FALSE, geocodio_hipaa = api_options[["geocodio_hipaa"]])
   # Construct query
-  query_parameters <- get_api_query('geocodio', list(limit = limit, api_key = get_key('geocodio')),
+  query_parameters <- get_api_query('geocodio', list(limit = limit, api_key = get_key(method)),
                                     custom_parameters = custom_query)
   if (verbose == TRUE) display_query(api_url, query_parameters)
   
@@ -117,7 +117,7 @@ batch_geocodio <- function(unique_addresses, lat = 'lat', long = 'long', timeout
   
   # Note that flatten here is necessary in order to get rid of the
   # nested dataframes that would cause dplyr::bind_rows (or rbind) to fail
-  # TODO: warning RE flatten
+  flatten_override_warning(flatten, method, reverse=FALSE, batch=TRUE) 
   content <- jsonlite::fromJSON(response$content, flatten = TRUE)
   
   # How results are parsed depends on whether single line addresses or address
@@ -465,12 +465,12 @@ batch_tomtom <- function(unique_addresses, lat = 'lat', long = 'long',
 # Batch geocoding with mapquest
 # ... are arguments passed from the geo() function
 # https://developer.mapquest.com/documentation/geocoding-api/batch/post/
-batch_mapquest <-  function(unique_addresses, lat = "lat", long = "long",
+batch_mapquest <-  function(unique_addresses, lat = "lat", long = "long",method="mapquest", flatten=TRUE,
                             timeout = 20, full_results = FALSE, custom_query = list(),
                             verbose = FALSE, api_url = NULL, limit = 1, 
                             api_options = list(), ...) {
     # limit the dataframe to legitimate arguments
-    address_df <- unique_addresses[names(unique_addresses) %in% get_generic_parameters("mapquest", address_only = TRUE)]
+    address_df <- unique_addresses[names(unique_addresses) %in% get_generic_parameters(method, address_only = TRUE)]
 
     NA_value <- get_na_value(lat, long, rows = nrow(address_df)) # filler result to return if needed
 
@@ -479,7 +479,7 @@ batch_mapquest <-  function(unique_addresses, lat = "lat", long = "long",
 
     # Single: Now allowed on batch, return a single query ----
     if (nrow(address_df) == 1) {
-      results <- geo(address = address_df[["address"]], method = "mapquest",
+      results <- geo(address = address_df[["address"]], method = method,
                      mode = "single", full_results = full_results,
                      custom_query = custom_query, verbose = verbose,
                      api_url = api_url, limit = limit,
@@ -500,8 +500,8 @@ batch_mapquest <-  function(unique_addresses, lat = "lat", long = "long",
     }
 
     # Construct query - for display only
-    query_parameters <- get_api_query("mapquest", 
-                                      list(limit = limit, api_key = get_key("mapquest")),
+    query_parameters <- get_api_query(method, 
+                                      list(limit = limit, api_key = get_key(method)),
                                       custom_parameters = custom_query)
     
     if (verbose == TRUE) display_query(api_url, query_parameters)
@@ -524,7 +524,8 @@ batch_mapquest <-  function(unique_addresses, lat = "lat", long = "long",
     query_results <- query_api(api_url, query_parameters, mode = "list",
                                input_list = address_list, timeout = timeout)
 
-    # TODO: warning RE flatten
+    flatten_override_warning(flatten, method, reverse=FALSE, batch=TRUE) 
+    
     # C. Error handling----
     # Parse result code
     if (jsonlite::validate(query_results$content)) {
@@ -555,8 +556,6 @@ batch_mapquest <-  function(unique_addresses, lat = "lat", long = "long",
     }
     # D. On valid API response-----
 
-    # Note that flatten here is necessary in order to get rid of the
-    # nested dataframes that would cause dplyr::bind_rows (or rbind) to fail
     content <- jsonlite::fromJSON(query_results$content, flatten = TRUE)
 
     # combine list of dataframes into a single tibble. Column names may differ between the dataframes

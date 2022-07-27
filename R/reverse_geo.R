@@ -135,6 +135,7 @@ reverse_geo <-
   # set the api_optons[["init"]] parameter if it is NULL
   api_options <- initialize_init(api_options)
   
+  # Deprecate arguments that are replaced by the api_options parameter -----------------------------------
   if (api_options[["init"]] == TRUE) {
     # Deprecate the iq_region argument
     if (!missing("iq_region")) {

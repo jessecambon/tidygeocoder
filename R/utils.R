@@ -308,7 +308,7 @@ query_start_message <- function(method, num_inputs, reverse, batch, display_time
                  get_setting_value(tidygeocoder::api_info_reference, method, 'method_display_name'), ' ',
                  if (batch == TRUE) 'batch' else paste0('single ', input_terms$input_singular),
                  ' geocoder', 
-                 # display time when query was sent (used for batch queries)
+                 # display time when query was sent
                  if (display_time == TRUE) paste0(" - ", format(Sys.time(), "%I:%M %p")) else "")
           )
 }
@@ -357,4 +357,17 @@ initialize_init <- function(api_options) {
     api_options[["init"]] <- TRUE
   }
   return(api_options)
+}
+
+# warning when a query is going to run with flatten=TRUE
+# even though the user specified flatten=FALSE
+flatten_override_warning <- function(flatten, method, reverse, batch) {
+  if (flatten==FALSE) {
+    input_terms <- get_coord_address_terms(reverse)
+    message(paste0('Note: flatten=FALSE is ignored because this is not supported for the ', 
+                   get_setting_value(tidygeocoder::api_info_reference, method, 'method_display_name'), ' ',
+                   if (batch == TRUE) 'batch' else paste0('single ', input_terms$input_singular),
+                   ' geocoder ')
+            )
+  }
 }
