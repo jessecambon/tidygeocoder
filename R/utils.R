@@ -359,15 +359,16 @@ initialize_init <- function(api_options) {
   return(api_options)
 }
 
-# warning when a query is going to run with flatten=TRUE
+# for specific geocoders in batch setting...
+# give a warning that the query is going to run with flatten=TRUE
 # even though the user specified flatten=FALSE
 flatten_override_warning <- function(flatten, method, reverse, batch) {
-  if (flatten==FALSE) {
+  if (flatten==FALSE && (method %in% pkg.globals$batch_flatten_required_methods)) {
     input_terms <- get_coord_address_terms(reverse)
-    message(paste0('Note: flatten=FALSE is ignored because this is not supported for the ', 
+    message(paste0('Note: flatten=FALSE is ignored. Outputs must be flattened for the ', 
                    get_setting_value(tidygeocoder::api_info_reference, method, 'method_display_name'), ' ',
                    if (batch == TRUE) 'batch' else paste0('single ', input_terms$input_singular),
-                   ' geocoder ')
+                   ' geocoder')
             )
   }
 }

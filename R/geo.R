@@ -478,6 +478,7 @@ geo <-
         batch = TRUE,
         display_time = FALSE
       )
+      flatten_override_warning(flatten, method, reverse = FALSE, batch = TRUE)
     }
 
     # return NA results if no_query == TRUE

@@ -416,7 +416,6 @@ reverse_batch_mapquest <- function(lat, long, address = 'address', timeout = 20,
   
   # C. Error handling----
   # Parse result code
-  # TODO: warning RE flatten
   if (jsonlite::validate(query_results$content)) {
     status_code <- jsonlite::fromJSON(query_results$content, flatten = TRUE)$info$statuscode
   } else {

@@ -277,6 +277,7 @@ reverse_geo <-
     
     # check for conflict between limit and return_coords arguments
     check_limit_for_batch(limit, return_coords, reverse = TRUE)
+    flatten_override_warning(flatten, method, reverse = FALSE, batch = TRUE) 
     
     # set batch limit to default if not specified
     if (is.null(batch_limit)) batch_limit <- get_batch_limit(method)
@@ -301,6 +302,7 @@ reverse_geo <-
         batch = TRUE,
         display_time = FALSE
       )
+      flatten_override_warning(flatten, method, reverse = FALSE, batch = TRUE) 
     }
     
     # Convert our generic query parameters into parameters specific to our API (method)

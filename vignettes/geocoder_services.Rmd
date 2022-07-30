@@ -63,15 +63,15 @@ geocoder_summary_table %>%
 -   The US Census service does not support reverse geocoding and is limited to the United States.
 -   Geocodio is limited to the United States and Canada.
 -   The Census and Nominatim ("osm") services are free and do not require an API key.
--   ArcGIS can be used for free without an API key, but some features require a paid subscription and API key.
+-   ArcGIS can be used for free without an API key, but some features require a paid subscription and an API key.
 -   Geoapify, Geocodio, Location IQ, OpenCage, Mapbox, HERE, TomTom, MapQuest, and Bing are commercial services that offer free tiers.
 -   The Google service has no free tier and [bills per query](https://developers.google.com/maps/documentation/geocoding/usage-and-billing).
 
 **Other Notes:**
 
 -   The US Census service supports street-level addresses only (ie. "11 Wall St New York, NY" is OK but "New York, NY" is not).
--   The Mapbox service is capable of performing batch geocoding when using the [permanent endpoint](https://docs.mapbox.com/api/search/geocoding/#batch-geocoding), but this capability is not currently implemented in tidygeocoder. If you'd like to add this capability to the package see [issue \#73](https://github.com/jessecambon/tidygeocoder/issues/73).
--   The ArcGIS service is capable of performing [batch geocoding](https://developers.arcgis.com/rest/geocode/api-reference/geocoding-geocode-addresses.htm) but this capability is not currently implemented in tidygeocoder. If you'd like to add this capability see [#102](https://github.com/jessecambon/tidygeocoder/issues/102).
+-   The Mapbox service is capable of performing batch geocoding when using the [permanent endpoint](https://docs.mapbox.com/api/search/geocoding/#batch-geocoding), but this capability is not currently implemented in tidygeocoder. If you'd like to add this capability to the package see [#73](https://github.com/jessecambon/tidygeocoder/issues/73).
+-   The ArcGIS service is capable of performing [batch geocoding](https://developers.arcgis.com/rest/geocode/api-reference/geocoding-geocode-addresses.htm), but this capability is not currently implemented in tidygeocoder. If you'd like to add this capability see [#102](https://github.com/jessecambon/tidygeocoder/issues/102).
 -   For the ArcGIS service, an API Key is not strictly required if the service is used for search capabilities only (see [Free vs. paid operations](https://developers.arcgis.com/rest/geocode/api-reference/geocoding-free-vs-paid.htm)). It is possible to include an API Key on the request via the `custom_query` parameter:
 
 ``` r

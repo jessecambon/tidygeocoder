@@ -115,9 +115,8 @@ batch_geocodio <- function(unique_addresses, method='geocodio', lat = 'lat', lon
   # Query API
   response <- query_api(api_url, query_parameters, mode = 'list', input_list = address_list, timeout = timeout)
   
-  # Note that flatten here is necessary in order to get rid of the
+  # flatten=TRUE is necessary in order to get rid of the
   # nested dataframes that would cause dplyr::bind_rows (or rbind) to fail
-  flatten_override_warning(flatten, method, reverse=FALSE, batch=TRUE) 
   content <- jsonlite::fromJSON(response$content, flatten = TRUE)
   
   # How results are parsed depends on whether single line addresses or address
@@ -523,8 +522,6 @@ batch_mapquest <-  function(unique_addresses, lat = "lat", long = "long",method=
     ## Query API ----
     query_results <- query_api(api_url, query_parameters, mode = "list",
                                input_list = address_list, timeout = timeout)
-
-    flatten_override_warning(flatten, method, reverse=FALSE, batch=TRUE) 
     
     # C. Error handling----
     # Parse result code
