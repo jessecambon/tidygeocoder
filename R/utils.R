@@ -147,7 +147,7 @@ check_method <- function(method, reverse, mode, batch_funcs, cascade_order = lis
     c('cascade', method_services)
   } else {
   # remove methods that don't have a reverse mode (currently only 'census')
-  method_services[!method_services %in% pkg.globals$no_reverse_methods]
+    method_services[!method_services %in% pkg.globals$no_reverse_methods]
   }
   
   # for geo() check cascade_order
@@ -307,12 +307,11 @@ query_start_message <- function(method, num_inputs, reverse, batch, display_time
                  # get proper name of the service
                  get_setting_value(tidygeocoder::api_info_reference, method, 'method_display_name'), ' ',
                  if (batch == TRUE) 'batch' else paste0('single ', input_terms$input_singular),
-                 ' geocoder', 
+                 ' geocoder',
                  # display time when query was sent
                  if (display_time == TRUE) paste0(" - ", format(Sys.time(), "%I:%M %p")) else "")
           )
 }
-
 
 query_complete_message <- function(start_time) {
   print_time("Query completed in", get_seconds_elapsed(start_time))
