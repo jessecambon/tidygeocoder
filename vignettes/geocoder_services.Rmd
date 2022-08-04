@@ -75,8 +75,8 @@ Further details on possible risk are described [here](https://www.ncbi.nlm.nih.g
 
 Some options you could consider if the privacy of your data is a concern:
 
-- The Geocodio service offers [a HIPAA compliant endpoint](https://www.geocod.io/healthcare/). To enable the use of this endpoint in tidygeocoder, you can use the `api_options=list(geocodio_hipaa=TRUE)` parameter.
-- The Nominatim service (`method="osm"`) can be installed and hosted locally so that data does not leave your network. See the [Nominatim website](https://nominatim.org/) for instructions on how to host your own service. You can use a locally hosted Nominatim service with tidygeocoder by specifying its address with the `api_url` parameter.
+- The Geocodio service offers [a HIPAA compliant API](https://www.geocod.io/healthcare/). To enable the use of this API in tidygeocoder, you can use the `api_options=list(geocodio_hipaa=TRUE)` parameter.
+- The Nominatim service (`method="osm"`) can be installed and hosted locally so that data does not leave your local network. See the [Nominatim website](https://nominatim.org/) for installation instructions. You can use a locally hosted Nominatim service with tidygeocoder by specifying its address with the `api_url` parameter.
 
 See the [geo()](https://jessecambon.github.io/tidygeocoder/reference/geo.html) or [reverse_geo()](https://jessecambon.github.io/tidygeocoder/reference/reverse_geo.html) documentation pages for more documentation on the parameters mentioned above.
 
