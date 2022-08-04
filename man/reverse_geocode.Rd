@@ -56,25 +56,30 @@ library(tibble)
 library(dplyr, warn.conflicts = FALSE)
 
 tibble(
-    latitude = c(38.895865, 43.6534817),
-    longitude = c(-77.0307713,-79.3839347)
-  ) \%>\%
+  latitude = c(38.895865, 43.6534817),
+  longitude = c(-77.0307713, -79.3839347)
+) \%>\%
   reverse_geocode(
     lat = latitude,
     long = longitude,
-    method = 'osm',
+    method = "osm",
     full_results = TRUE
   )
 
-louisville \%>\% head(3) \%>\% 
-  reverse_geocode(lat = latitude, long = longitude, 
-  method = 'arcgis')
+louisville \%>\%
+  head(3) \%>\%
+  reverse_geocode(
+    lat = latitude, long = longitude,
+    method = "arcgis"
+  )
 
-louisville \%>\% head(2) \%>\% 
-  reverse_geocode(lat = latitude, long = longitude,  
-  method = 'osm',
-  limit = 2, return_input = FALSE)
-
+louisville \%>\%
+  head(2) \%>\%
+  reverse_geocode(
+    lat = latitude, long = longitude,
+    method = "osm",
+    limit = 2, return_input = FALSE
+  )
 }
 }
 \seealso{

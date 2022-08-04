@@ -8,6 +8,6 @@
   )
   toset <- !(names(op.tidygeocoder) %in% names(op))
   if (any(toset)) options(op.tidygeocoder[toset])
-  
+
   invisible()
 }

@@ -64,34 +64,34 @@ options(tidygeocoder.progress_bar = FALSE)
 example_addresses <- c("100 Main St New York, NY", "Paris", "Not a Real Address")
 
 geo_combine(
-    queries = list(
-        list(method = 'census'),
-        list(method = 'osm')
-    ),
-    address = example_addresses,
-    global_params = list(address = 'address')
-  )
-  
+  queries = list(
+    list(method = "census"),
+    list(method = "osm")
+  ),
+  address = example_addresses,
+  global_params = list(address = "address")
+)
+
 geo_combine(
   queries = list(
-      list(method = 'arcgis'), 
-      list(method = 'census', mode = 'single'),
-      list(method = 'census', mode = 'batch')
+    list(method = "arcgis"),
+    list(method = "census", mode = "single"),
+    list(method = "census", mode = "batch")
   ),
-  global_params = list(address = 'address'),
+  global_params = list(address = "address"),
   address = example_addresses,
   cascade = FALSE,
   return_list = TRUE
 )
 
 geo_combine(
-   queries = list(
-      list(method = 'arcgis', address = 'city'),
-      list(method = 'osm', city = 'city', country = 'country')
-   ),
-   city = c('Tokyo', 'New York'),
-   country = c('Japan', 'United States'),
-   cascade = FALSE
+  queries = list(
+    list(method = "arcgis", address = "city"),
+    list(method = "osm", city = "city", country = "country")
+  ),
+  city = c("Tokyo", "New York"),
+  country = c("Japan", "United States"),
+  cascade = FALSE
 )
 }
 }

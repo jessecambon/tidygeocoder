@@ -26,7 +26,7 @@ reverse_geo(
   custom_query = list(),
   api_options = list(),
   iq_region = "us",
-  geocodio_v = 1.6,
+  geocodio_v = 1.7,
   mapbox_permanent = FALSE,
   here_request_id = NULL,
   mapquest_open = FALSE
@@ -141,14 +141,13 @@ API queries.
 \donttest{
 options(tidygeocoder.progress_bar = FALSE)
 
- reverse_geo(lat = 38.895865, long = -77.0307713, method = 'osm')
- 
- reverse_geo(
-   lat = c(38.895865, 43.6534817, 300), 
-   long = c(-77.0307713, -79.3839347, 600),
-   method = 'osm', full_results = TRUE
- )
- 
+reverse_geo(lat = 38.895865, long = -77.0307713, method = "osm")
+
+reverse_geo(
+  lat = c(38.895865, 43.6534817, 300),
+  long = c(-77.0307713, -79.3839347, 600),
+  method = "osm", full_results = TRUE
+)
 }
 }
 \seealso{

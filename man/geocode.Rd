@@ -36,13 +36,13 @@ address component arguments (\code{street}, \code{city}, \code{county}, \code{st
 
 \item{state}{state column name}
 
-\item{postalcode}{postalcode column name (zip code if in the United States)}
+\item{postalcode}{postal code column name (zip code if in the United States)}
 
 \item{country}{country column name}
 
-\item{lat}{latitude column name. Can be quoted or unquoted (ie. lat or 'lat').}
+\item{lat}{latitude column name. Can be quoted or unquoted (ie. \code{lat} or \code{"lat"}).}
 
-\item{long}{longitude column name. Can be quoted or unquoted (ie. long or 'long').}
+\item{long}{longitude column name. Can be quoted or unquoted (ie. \code{long} or \code{"long"}).}
 
 \item{return_input}{if TRUE then the input dataset will be combined with the geocoder query results
 and returned. If FALSE only the geocoder results will be returned.}
@@ -77,21 +77,31 @@ both acceptable).
 \examples{
 \donttest{
 library(dplyr, warn.conflicts = FALSE)
-sample_addresses \%>\% slice(1:2) \%>\%
- geocode(addr, method = 'arcgis')
+sample_addresses \%>\%
+  slice(1:2) \%>\%
+  geocode(addr, method = "arcgis")
 
-louisville \%>\% head(2) \%>\%
- geocode(street = street, city = city, state = state,
-  postalcode = zip, method = 'census', full_results = TRUE)
+louisville \%>\%
+  head(2) \%>\%
+  geocode(
+    street = street, city = city, state = state,
+    postalcode = zip, method = "census", full_results = TRUE
+  )
 
-sample_addresses \%>\% slice(8:9) \%>\%
- geocode(addr, method = 'osm', limit = 2,
-  return_input = FALSE, full_results = TRUE)
+sample_addresses \%>\%
+  slice(8:9) \%>\%
+  geocode(addr,
+    method = "osm", limit = 2,
+    return_input = FALSE, full_results = TRUE
+  )
 
-sample_addresses \%>\% slice(4:5) \%>\%
- geocode(addr, method = 'arcgis',
-  lat = latitude, long = longitude,
-  full_results = TRUE)
+sample_addresses \%>\%
+  slice(4:5) \%>\%
+  geocode(addr,
+    method = "arcgis",
+    lat = latitude, long = longitude,
+    full_results = TRUE
+  )
 }
 }
 \seealso{

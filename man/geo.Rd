@@ -35,7 +35,7 @@ geo(
   api_options = list(),
   return_type = "locations",
   iq_region = "us",
-  geocodio_v = 1.6,
+  geocodio_v = 1.7,
   param_error = TRUE,
   mapbox_permanent = FALSE,
   here_request_id = NULL,
@@ -187,17 +187,25 @@ API queries.
 \donttest{
 options(tidygeocoder.progress_bar = FALSE)
 
-geo(street = "600 Peachtree Street NE", city = "Atlanta",
- state = "Georgia", method = "census")
+geo(
+  street = "600 Peachtree Street NE", city = "Atlanta",
+  state = "Georgia", method = "census"
+)
 
-geo(address = c("Tokyo, Japan", "Lima, Peru", "Nairobi, Kenya"),
- method = 'osm')
- 
-geo("100 Main St New York, NY",  full_results = TRUE,
- method = "census", api_options = list(census_return_type = 'geographies'))
+geo(
+  address = c("Tokyo, Japan", "Lima, Peru", "Nairobi, Kenya"),
+  method = "osm"
+)
 
-geo(county = 'Jefferson', state = "Kentucky", country = "US",
-     method = 'osm')
+geo("100 Main St New York, NY",
+  full_results = TRUE,
+  method = "census", api_options = list(census_return_type = "geographies")
+)
+
+geo(
+  county = "Jefferson", state = "Kentucky", country = "US",
+  method = "osm"
+)
 }
 }
 \seealso{
