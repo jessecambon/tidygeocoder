@@ -26,6 +26,13 @@ services](https://jessecambon.github.io/tidygeocoder/articles/geocoder_services.
 and results are returned in [tibble](https://tibble.tidyverse.org/)
 (dataframe) format.
 
+Note that you should exercise due diligence when geocoding sensitive
+data as tidygeocoder utilizes third party web services to perform
+geocoding. Refer to the documentation on your selected geocoding service
+for information on how your data will be utilized and stored. See
+further information on this subject
+[here](https://jessecambon.github.io/tidygeocoder/articles/geocoder_services.html#data-privacy).
+
 **Features:**
 
 -   Forward geocoding (addresses ⮕ coordinates)
@@ -136,11 +143,11 @@ reverse <- lat_longs %>%
 #> Query completed in: 3 seconds
 ```
 
-| name                 | latitude |  longitude | address_found                                                                                                    |  place_id | osm_type |    osm_id | osm_lat            | osm_lon             | office      | house_number | road                          | city          | state                | ISO3166-2-lvl4 | postcode | country       | country_code | boundingbox                                          | tourism              | neighbourhood | building     | suburb | county      |
-|:---------------------|---------:|-----------:|:-----------------------------------------------------------------------------------------------------------------|----------:|:---------|----------:|:-------------------|:--------------------|:------------|:-------------|:------------------------------|:--------------|:---------------------|:---------------|:---------|:--------------|:-------------|:-----------------------------------------------------|:---------------------|:--------------|:-------------|:-------|:------------|
-| White House          | 38.89770 |  -77.03655 | White House, 1600, Pennsylvania Avenue Northwest, Washington, District of Columbia, 20500, United States         | 164605957 | way      | 238241022 | 38.897699700000004 | -77.03655315        | White House | 1600         | Pennsylvania Avenue Northwest | Washington    | District of Columbia | US-DC          | 20500    | United States | us           | 38.8974908 , 38.897911 , -77.0368537, -77.0362519    | NA                   | NA            | NA           | NA     | NA          |
-| Transamerica Pyramid | 37.79520 | -122.40279 | Transamerica Pyramid, 600, Montgomery Street, Chinatown, San Francisco, California, 94111, United States         | 110070947 | way      |  24222973 | 37.795200550000004 | -122.40279267840137 | NA          | 600          | Montgomery Street             | San Francisco | California           | US-CA          | 94111    | United States | us           | 37.7948854 , 37.7954472 , -122.4031399, -122.4024317 | Transamerica Pyramid | Chinatown     | NA           | NA     | NA          |
-| Willis Tower         | 41.87887 |  -87.63591 | Willis Tower, 233, South Wacker Drive, Printer’s Row, Loop, Chicago, Cook County, Illinois, 60606, United States | 119999324 | way      |  58528804 | 41.878871700000005 | -87.63590784114558  | NA          | 233          | South Wacker Drive            | Chicago       | Illinois             | US-IL          | 60606    | United States | us           | 41.8785389 , 41.8791932 , -87.6363362, -87.6354746   | NA                   | Printer’s Row | Willis Tower | Loop   | Cook County |
+| name                 | latitude |  longitude | address_found                                                                                                     |  place_id | osm_type |    osm_id | osm_lat            | osm_lon             | office      | house_number | road                          | city          | state                | ISO3166-2-lvl4 | postcode | country       | country_code | boundingbox                                          | tourism              | neighbourhood      | building     | suburb | county      |
+|:---------------------|---------:|-----------:|:------------------------------------------------------------------------------------------------------------------|----------:|:---------|----------:|:-------------------|:--------------------|:------------|:-------------|:------------------------------|:--------------|:---------------------|:---------------|:---------|:--------------|:-------------|:-----------------------------------------------------|:---------------------|:-------------------|:-------------|:-------|:------------|
+| White House          | 38.89770 |  -77.03655 | White House, 1600, Pennsylvania Avenue Northwest, Washington, District of Columbia, 20500, United States          | 164605957 | way      | 238241022 | 38.897699700000004 | -77.03655315        | White House | 1600         | Pennsylvania Avenue Northwest | Washington    | District of Columbia | US-DC          | 20500    | United States | us           | 38.8974908 , 38.897911 , -77.0368537, -77.0362519    | NA                   | NA                 | NA           | NA     | NA          |
+| Transamerica Pyramid | 37.79520 | -122.40279 | Transamerica Pyramid, 600, Montgomery Street, Financial District, San Francisco, California, 94111, United States | 110070947 | way      |  24222973 | 37.795200550000004 | -122.40279267840137 | NA          | 600          | Montgomery Street             | San Francisco | California           | US-CA          | 94111    | United States | us           | 37.7948854 , 37.7954472 , -122.4031399, -122.4024317 | Transamerica Pyramid | Financial District | NA           | NA     | NA          |
+| Willis Tower         | 41.87887 |  -87.63591 | Willis Tower, 233, South Wacker Drive, Printer’s Row, Loop, Chicago, Cook County, Illinois, 60606, United States  | 119999324 | way      |  58528804 | 41.878871700000005 | -87.63590784114558  | NA          | 233          | South Wacker Drive            | Chicago       | Illinois             | US-IL          | 60606    | United States | us           | 41.8785389 , 41.8791932 , -87.6363362, -87.6354746   | NA                   | Printer’s Row      | Willis Tower | Loop   | Cook County |
 
 ## In the Wild
 

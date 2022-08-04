@@ -144,7 +144,7 @@ by this function.</p>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu">get_api_query</span><span class="op">(</span><span class="st">"osm"</span>, <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>address <span class="op">=</span> <span class="st">'Hanoi, Vietnam'</span><span class="op">)</span><span class="op">)</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu">get_api_query</span><span class="op">(</span><span class="st">"osm"</span>, <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>address <span class="op">=</span> <span class="st">"Hanoi, Vietnam"</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $q</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Hanoi, Vietnam"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
@@ -152,8 +152,10 @@ by this function.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "json"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="fu">get_api_query</span><span class="op">(</span><span class="st">"census"</span>, <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>street <span class="op">=</span> <span class="st">'11 Wall St'</span>, city <span class="op">=</span> <span class="st">"NY"</span>, state <span class="op">=</span> <span class="st">'NY'</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>benchmark <span class="op">=</span> <span class="st">"Public_AR_Census2010"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">get_api_query</span><span class="op">(</span></span></span>
+<span class="r-in"><span>  <span class="st">"census"</span>, <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>street <span class="op">=</span> <span class="st">"11 Wall St"</span>, city <span class="op">=</span> <span class="st">"NY"</span>, state <span class="op">=</span> <span class="st">"NY"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>benchmark <span class="op">=</span> <span class="st">"Public_AR_Census2010"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $street</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "11 Wall St"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>

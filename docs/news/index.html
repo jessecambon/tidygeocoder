@@ -101,8 +101,9 @@
     <div class="section level2">
 <h2 class="page-header" data-toc-text="development version" id="tidygeocoder-development-version">tidygeocoder (development version)<a class="anchor" aria-label="anchor" href="#tidygeocoder-development-version"></a></h2>
 <ul><li>Changed the default <code>min_time</code> (minimum seconds elapsed per query) value to 1 (60 queries per minute) for the Location IQ service (<a href="https://github.com/jessecambon/tidygeocoder/issues/166" class="external-link">#166</a>).</li>
-<li>Changed default Geocodio API version from 1.6 to 1.7.</li>
+<li>Updated default Geocodio API URL from version 1.6 to 1.7.</li>
 <li>Fixed code and documentation that incorrectly referred to <code>mapquest_open</code> as <code>mapbox_open</code>.</li>
+<li>A message is now displayed warning that <code>flatten=FALSE</code> is ignored for Geocodio and Mapquest (the output of these services requires flattening to avoid errors).</li>
 </ul></div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="1.0.5" id="tidygeocoder-105">tidygeocoder 1.0.5<small>2021-11-02</small><a class="anchor" aria-label="anchor" href="#tidygeocoder-105"></a></h2>

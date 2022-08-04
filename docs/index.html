@@ -131,6 +131,7 @@
 <!-- badges: start -->
 
 <p>Tidygeocoder makes getting data from geocoding services easy. A unified high-level interface is provided for a selection of <a href="https://jessecambon.github.io/tidygeocoder/articles/geocoder_services.html">supported geocoding services</a> and results are returned in <a href="https://tibble.tidyverse.org/" class="external-link">tibble</a> (dataframe) format.</p>
+<p>Note that you should exercise due diligence when geocoding sensitive data as tidygeocoder utilizes third party web services to perform geocoding. Refer to the documentation on your selected geocoding service for information on how your data will be utilized and stored. See further information on this subject <a href="https://jessecambon.github.io/tidygeocoder/articles/geocoder_services.html#data-privacy">here</a>.</p>
 <p><strong>Features:</strong></p>
 <ul>
 <li>Forward geocoding (addresses ⮕ coordinates)</li>
@@ -228,7 +229,7 @@ occurring in automated CRAN checks for an improper/old link.
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="op">-</span><span class="va">addr</span>, <span class="op">-</span><span class="va">licence</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Passing 3 coordinates to the Nominatim single coordinate geocoder</span></span>
 <span><span class="co">#&gt; Query completed in: 3 seconds</span></span></code></pre></div>
-<table class="table">
+<table style="width:100%;" class="table">
 <colgroup>
 <col width="4%">
 <col width="1%">
@@ -250,7 +251,7 @@ occurring in automated CRAN checks for an improper/old link.
 <col width="2%">
 <col width="10%">
 <col width="4%">
-<col width="2%">
+<col width="3%">
 <col width="2%">
 <col width="1%">
 <col width="2%">
@@ -312,7 +313,7 @@ occurring in automated CRAN checks for an improper/old link.
 <td align="left">Transamerica Pyramid</td>
 <td align="right">37.79520</td>
 <td align="right">-122.40279</td>
-<td align="left">Transamerica Pyramid, 600, Montgomery Street, Chinatown, San Francisco, California, 94111, United States</td>
+<td align="left">Transamerica Pyramid, 600, Montgomery Street, Financial District, San Francisco, California, 94111, United States</td>
 <td align="right">110070947</td>
 <td align="left">way</td>
 <td align="right">24222973</td>
@@ -329,7 +330,7 @@ occurring in automated CRAN checks for an improper/old link.
 <td align="left">us</td>
 <td align="left">37.7948854 , 37.7954472 , -122.4031399, -122.4024317</td>
 <td align="left">Transamerica Pyramid</td>
-<td align="left">Chinatown</td>
+<td align="left">Financial District</td>
 <td align="left">NA</td>
 <td align="left">NA</td>
 <td align="left">NA</td>
