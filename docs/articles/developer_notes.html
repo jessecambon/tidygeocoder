@@ -157,50 +157,52 @@ policies, and execute queries. Key parameters and settings for geocoding
 are stored for easy access and display in built-in datasets.</p>
 <p>Consider this query:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://jessecambon.github.io/tidygeocoder/">tidygeocoder</a></span><span class="op">)</span>
-
-<span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span>
-  id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">1</span><span class="op">)</span>,
-  locations <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'tokyo'</span>, <span class="st">'madrid'</span>, <span class="st">'tokyo'</span><span class="op">)</span>
-  <span class="op">)</span>
-
-<span class="va">df</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
-  <span class="fu"><a href="../reference/geocode.html">geocode</a></span><span class="op">(</span>address <span class="op">=</span> <span class="va">locations</span>, method <span class="op">=</span> <span class="st">'osm'</span>, full_results <span class="op">=</span> <span class="cn">TRUE</span>, verbose <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Number of Unique Addresses: 2</span>
-<span class="co">#&gt; Passing 2 addresses to the Nominatim single address geocoder</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Number of Unique Addresses: 1</span>
-<span class="co">#&gt; Querying API URL: https://nominatim.openstreetmap.org/search</span>
-<span class="co">#&gt; Passing the following parameters to the API:</span>
-<span class="co">#&gt; q : "tokyo"</span>
-<span class="co">#&gt; limit : "1"</span>
-<span class="co">#&gt; format : "json"</span>
-<span class="co">#&gt; HTTP Status Code: 200</span>
-<span class="co">#&gt; Query completed in: 0.5 seconds</span>
-<span class="co">#&gt; Total query time (including sleep): 1 seconds</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Number of Unique Addresses: 1</span>
-<span class="co">#&gt; Querying API URL: https://nominatim.openstreetmap.org/search</span>
-<span class="co">#&gt; Passing the following parameters to the API:</span>
-<span class="co">#&gt; q : "madrid"</span>
-<span class="co">#&gt; limit : "1"</span>
-<span class="co">#&gt; format : "json"</span>
-<span class="co">#&gt; HTTP Status Code: 200</span>
-<span class="co">#&gt; Query completed in: 0.2 seconds</span>
-<span class="co">#&gt; Total query time (including sleep): 1 seconds</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Query completed in: 2 seconds</span>
-<span class="co">#&gt; <span style="color: #949494;"># A tibble: 3 × 14</span></span>
-<span class="co">#&gt;      id locations   lat   long  place_id licence     osm_type osm_id boundingbox</span>
-<span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>     </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">1</span>     1 tokyo      35.7 140.   298<span style="text-decoration: underline;">316</span>729 Data © Ope… relation 1.54<span style="color: #949494;">e</span>6 <span style="color: #949494;">&lt;chr [4]&gt;</span>  </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">2</span>     2 madrid     40.4  -<span style="color: #BB0000;">3.70</span> 298<span style="text-decoration: underline;">773</span>150 Data © Ope… relation 5.33<span style="color: #949494;">e</span>6 <span style="color: #949494;">&lt;chr [4]&gt;</span>  </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">3</span>     1 tokyo      35.7 140.   298<span style="text-decoration: underline;">316</span>729 Data © Ope… relation 1.54<span style="color: #949494;">e</span>6 <span style="color: #949494;">&lt;chr [4]&gt;</span>  </span>
-<span class="co">#&gt; <span style="color: #949494;"># … with 5 more variables: display_name &lt;chr&gt;, class &lt;chr&gt;, type &lt;chr&gt;,</span></span>
-<span class="co">#&gt; <span style="color: #949494;">#   importance &lt;dbl&gt;, icon &lt;chr&gt;</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://jessecambon.github.io/tidygeocoder/">tidygeocoder</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span></span>
+<span>  id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">1</span><span class="op">)</span>,</span>
+<span>  locations <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'tokyo'</span>, <span class="st">'madrid'</span>, <span class="st">'tokyo'</span><span class="op">)</span></span>
+<span>  <span class="op">)</span></span>
+<span></span>
+<span><span class="va">df</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="../reference/geocode.html">geocode</a></span><span class="op">(</span>address <span class="op">=</span> <span class="va">locations</span>, method <span class="op">=</span> <span class="st">'osm'</span>, full_results <span class="op">=</span> <span class="cn">TRUE</span>, verbose <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Number of Unique Addresses: 2</span></span>
+<span><span class="co">#&gt; Passing 2 addresses to the Nominatim single address geocoder</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Number of Unique Addresses: 1</span></span>
+<span><span class="co">#&gt; Querying API URL: https://nominatim.openstreetmap.org/search</span></span>
+<span><span class="co">#&gt; Passing the following parameters to the API:</span></span>
+<span><span class="co">#&gt; q : "tokyo"</span></span>
+<span><span class="co">#&gt; limit : "1"</span></span>
+<span><span class="co">#&gt; format : "json"</span></span>
+<span><span class="co">#&gt; HTTP Status Code: 200</span></span>
+<span><span class="co">#&gt; Query completed in: 0.4 seconds</span></span>
+<span><span class="co">#&gt; Total query time (including sleep): 1 seconds</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Number of Unique Addresses: 1</span></span>
+<span><span class="co">#&gt; Querying API URL: https://nominatim.openstreetmap.org/search</span></span>
+<span><span class="co">#&gt; Passing the following parameters to the API:</span></span>
+<span><span class="co">#&gt; q : "madrid"</span></span>
+<span><span class="co">#&gt; limit : "1"</span></span>
+<span><span class="co">#&gt; format : "json"</span></span>
+<span><span class="co">#&gt; HTTP Status Code: 200</span></span>
+<span><span class="co">#&gt; Query completed in: 0.2 seconds</span></span>
+<span><span class="co">#&gt; Total query time (including sleep): 1 seconds</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Query completed in: 2 seconds</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 3 × 14</span></span></span>
+<span><span class="co">#&gt;      id locations   lat   long  place_id licence  osm_t…¹ osm_id bound…² displ…³</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>     1 tokyo      35.7 140.   298<span style="text-decoration: underline;">316</span>729 Data © … relati… 1.54<span style="color: #949494;">e</span>6 &lt;chr&gt;   東京都…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>     2 madrid     40.4  -<span style="color: #BB0000;">3.70</span> 298<span style="text-decoration: underline;">773</span>150 Data © … relati… 5.33<span style="color: #949494;">e</span>6 &lt;chr&gt;   Madrid…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>     1 tokyo      35.7 140.   298<span style="text-decoration: underline;">316</span>729 Data © … relati… 1.54<span style="color: #949494;">e</span>6 &lt;chr&gt;   東京都…</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># … with 4 more variables: class &lt;chr&gt;, type &lt;chr&gt;, importance &lt;dbl&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   icon &lt;chr&gt;, and abbreviated variable names ¹​osm_type, ²​boundingbox,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   ³​display_name</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ Use `colnames()` to see all variable names</span></span></span></code></pre></div>
 <p>Here is what is going on behind the scenes:</p>
 <ul>
 <li>The <code><a href="../reference/geocode.html">geocode()</a></code> function extracts the address data from
@@ -414,23 +416,20 @@ requests.</li>
 </h3>
 <p>To release a new version of tidygeocoder:</p>
 <ul>
-<li>Run the tests detailed above</li>
-<li>Update the package version in <a href="DESCRIPTION">DESCRIPTION</a>
+<li>Run the tests detailed above.</li>
+<li>Update the package version in <a href="https://github.com/jessecambon/tidygeocoder/blob/main/DESCRIPTION" class="external-link">DESCRIPTION</a>.</li>
+<li>Double check the package version that appears on the citation page.
+It is automatically set to the latest official release in <a href="https://github.com/jessecambon/tidygeocoder/blob/main/inst/CITATION" class="external-link">inst/CITATION</a>.</li>
+<li>Reserve a DOI for a new package version with <a href="https://zenodo.org/" class="external-link">Zenodo</a>.</li>
+<li>Update the Zenodo DOI in <a href="https://github.com/jessecambon/tidygeocoder/blob/main/README.Rmd" class="external-link">README.Rmd</a>
+and reknit to update <a href="https://github.com/jessecambon/tidygeocoder/blob/main/README.md" class="external-link">README.md</a>.</li>
+<li>Update the site: <code><a href="https://pkgdown.r-lib.org/reference/build_site.html" class="external-link">pkgdown::build_site()</a></code>
 </li>
-<li>Update the package version for the citation note in <a href="inst/CITATION">inst/CITATION</a>
+<li>Check package URLs: <code><a href="https://rdrr.io/pkg/urlchecker/man/url_check.html" class="external-link">urlchecker::url_check()</a></code>
 </li>
-<li>Reserve a DOI for a new package version with <a href="https://zenodo.org/" class="external-link">Zenodo</a>
-</li>
-<li>Update the Zenodo DOI in <a href="README.Rmd">README.Rmd</a> and
-reknit to update <a href="README.html">README.md</a>
-</li>
-<li>Update the site with <code><a href="https://pkgdown.r-lib.org/reference/build_site.html" class="external-link">pkgdown::build_site()</a></code>
-</li>
-<li>Use <code>urlchecker::url_check()</code> to check all package
-URLs</li>
 </ul>
-<p>Lastly, run <code><a href="https://devtools.r-lib.org/reference/release.html" class="external-link">devtools::release()</a></code> to release the new
-version</p>
+<p>Last, run <code><a href="https://devtools.r-lib.org/reference/release.html" class="external-link">devtools::release()</a></code> to release the new
+version.</p>
 </div>
 </div>
   </div>
@@ -452,7 +451,7 @@ version</p>
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer>

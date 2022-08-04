@@ -114,17 +114,17 @@ by this function.</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">get_api_query</span><span class="op">(</span><span class="va">method</span>, generic_parameters <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span>, custom_parameters <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">get_api_query</span><span class="op">(</span><span class="va">method</span>, generic_parameters <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span>, custom_parameters <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>method</dt>
-<dd><p>method name (ie. 'census')</p></dd>
+<dd><p>the geocoding service name (ie. 'census')</p></dd>
 
 
 <dt>generic_parameters</dt>
-<dd><p>universal 'generic' parameters</p></dd>
+<dd><p>universal "generic" parameters</p></dd>
 
 
 <dt>custom_parameters</dt>
@@ -144,16 +144,18 @@ by this function.</p>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="fu">get_api_query</span><span class="op">(</span><span class="st">"osm"</span>, <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>address <span class="op">=</span> <span class="st">'Hanoi, Vietnam'</span><span class="op">)</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu">get_api_query</span><span class="op">(</span><span class="st">"osm"</span>, <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>address <span class="op">=</span> <span class="st">"Hanoi, Vietnam"</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $q</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Hanoi, Vietnam"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $format</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "json"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-in"></span>
-<span class="r-in"><span class="fu">get_api_query</span><span class="op">(</span><span class="st">"census"</span>, <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>street <span class="op">=</span> <span class="st">'11 Wall St'</span>, city <span class="op">=</span> <span class="st">"NY"</span>, state <span class="op">=</span> <span class="st">'NY'</span><span class="op">)</span>,</span>
-<span class="r-in">  <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>benchmark <span class="op">=</span> <span class="st">"Public_AR_Census2010"</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu">get_api_query</span><span class="op">(</span></span></span>
+<span class="r-in"><span>  <span class="st">"census"</span>, <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>street <span class="op">=</span> <span class="st">"11 Wall St"</span>, city <span class="op">=</span> <span class="st">"NY"</span>, state <span class="op">=</span> <span class="st">"NY"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>benchmark <span class="op">=</span> <span class="st">"Public_AR_Census2010"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $street</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "11 Wall St"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
@@ -172,7 +174,7 @@ by this function.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $vintage</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Current_Current"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-in"></span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -187,7 +189,7 @@ by this function.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

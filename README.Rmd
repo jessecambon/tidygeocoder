@@ -31,6 +31,8 @@ options(tibble.print_min = 5, tibble.print_max = 5)
 
 Tidygeocoder makes getting data from geocoding services easy. A unified high-level interface is provided for a selection of [supported geocoding services](https://jessecambon.github.io/tidygeocoder/articles/geocoder_services.html) and results are returned in [tibble](https://tibble.tidyverse.org/) (dataframe) format.
 
+Note that you should exercise due diligence when geocoding sensitive data as tidygeocoder utilizes third party web services to perform geocoding. Refer to the documentation on your selected geocoding service for information on how your data will be utilized and stored. See further information on this subject [here](https://jessecambon.github.io/tidygeocoder/articles/geocoder_services.html#data-privacy).
+
 **Features:**
 
 - Forward geocoding (addresses ⮕ coordinates)

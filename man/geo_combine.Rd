@@ -20,12 +20,9 @@ geo_combine(
 )
 }
 \arguments{
-\item{queries}{a list of queries, each provided as a list of parameters. The queries are
-executed by the \link{geocode} function in the order provided.
-(ex. \code{list(list(method = 'osm'), list(method = 'census'), ...)})}
+\item{queries}{a list of queries, each provided as a list of parameters. The queries are, executed by the \link{geocode} function in the order provided., (ex. \code{list(list(method = 'osm'), list(method = 'census'), ...)})}
 
-\item{global_params}{a list of parameters to be used for all queries
-(ex. \code{list(address = 'address', full_results = TRUE)})}
+\item{global_params}{a list of parameters to be used for all queries, (ex. \code{list(address = 'address', full_results = TRUE)})}
 
 \item{address}{single line address (ie. '1600 Pennsylvania Ave NW, Washington, DC').
 Do not combine with the address component arguments below
@@ -67,34 +64,34 @@ options(tidygeocoder.progress_bar = FALSE)
 example_addresses <- c("100 Main St New York, NY", "Paris", "Not a Real Address")
 
 geo_combine(
-    queries = list(
-        list(method = 'census'),
-        list(method = 'osm')
-    ),
-    address = example_addresses,
-    global_params = list(address = 'address')
-  )
-  
+  queries = list(
+    list(method = "census"),
+    list(method = "osm")
+  ),
+  address = example_addresses,
+  global_params = list(address = "address")
+)
+
 geo_combine(
   queries = list(
-      list(method = 'arcgis'), 
-      list(method = 'census', mode = 'single'),
-      list(method = 'census', mode = 'batch')
+    list(method = "arcgis"),
+    list(method = "census", mode = "single"),
+    list(method = "census", mode = "batch")
   ),
-  global_params = list(address = 'address'),
+  global_params = list(address = "address"),
   address = example_addresses,
   cascade = FALSE,
   return_list = TRUE
 )
 
 geo_combine(
-   queries = list(
-      list(method = 'arcgis', address = 'city'),
-      list(method = 'osm', city = 'city', country = 'country')
-   ),
-   city = c('Tokyo', 'New York'),
-   country = c('Japan', 'United States'),
-   cascade = FALSE
+  queries = list(
+    list(method = "arcgis", address = "city"),
+    list(method = "osm", city = "city", country = "country")
+  ),
+  city = c("Tokyo", "New York"),
+  country = c("Japan", "United States"),
+  cascade = FALSE
 )
 }
 }

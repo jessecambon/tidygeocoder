@@ -24,7 +24,7 @@ library(dplyr)
 
 The supported geocoding services are shown in the table below. The `method` is used to select the geocoding service in tidygeocoder functions such as `geo()` and `reverse_geo()`. The usage rate limitations are listed for the free tier of the service when applicable and many services have faster rates available with paid plans.
 
-Also note that there are many other considerations when selecting a geocoding service such as if the service uses open source data with permissive licensing or if there are restrictions on how you can use the data provided by the service. Refer to each service's documentation for details.
+Also note that there are many other considerations when selecting a geocoding service such as if the service uses open source data with permissive licensing, how the service uses or stores your data, and if there are restrictions on how you can use the data provided by the service. Refer to each service's documentation for details.
 
 
 ```{r, echo = FALSE, message = FALSE, warning = FALSE, output = 'asis'}
@@ -63,27 +63,37 @@ geocoder_summary_table %>%
 -   The US Census service does not support reverse geocoding and is limited to the United States.
 -   Geocodio is limited to the United States and Canada.
 -   The Census and Nominatim ("osm") services are free and do not require an API key.
--   ArcGIS can be used for free without an API key, but some features require a paid subscription and API key.
+-   ArcGIS can be used for free without an API key, but some features require a paid subscription and an API key.
 -   Geoapify, Geocodio, Location IQ, OpenCage, Mapbox, HERE, TomTom, MapQuest, and Bing are commercial services that offer free tiers.
 -   The Google service has no free tier and [bills per query](https://developers.google.com/maps/documentation/geocoding/usage-and-billing).
 
-**Other Notes:**
+## Data Privacy
 
--   The US Census service supports street-level addresses only (ie. "11 Wall St New York, NY" is OK but "New York, NY" is not).
--   The Mapbox service is capable of performing batch geocoding when using the [permanent endpoint](https://docs.mapbox.com/api/search/geocoding/#batch-geocoding), but this capability is not currently implemented in tidygeocoder. If you'd like to add this capability to the package see [issue \#73](https://github.com/jessecambon/tidygeocoder/issues/73).
--   The ArcGIS service is capable of performing [batch geocoding](https://developers.arcgis.com/rest/geocode/api-reference/geocoding-geocode-addresses.htm) but this capability is not currently implemented in tidygeocoder. If you'd like to add this capability see [#102](https://github.com/jessecambon/tidygeocoder/issues/102).
--   For the ArcGIS service, an API Key is not strictly required if the service is used for search capabilities only (see [Free vs. paid operations](https://developers.arcgis.com/rest/geocode/api-reference/geocoding-free-vs-paid.htm)). It is possible to include an API Key on the request via the `custom_query` parameter:
+Due diligence must be exercised when geocoding sensitive data as tidygeocoder utilizes third party web services to perform geocoding. Within the context of healthcare, using patient or study subject address data with a third party geocoding service risks violating standard IRB and HIPAA privacy rules. 
 
-``` r
-tidygeocoder::geo(address = "New York, USA", method = "arcgis",
-  custom_query = list(token = "<API_KEY>"))
-```
+Further details on possible risk are described [here](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC8972108/). Refer to the documentation on your selected geocoding service (see links above) for information on how your data will be utilized and stored. 
+
+Some options you could consider if the privacy of your data is a concern:
+
+- The Geocodio service offers [a HIPAA compliant API](https://www.geocod.io/healthcare/). To enable the use of this API in tidygeocoder, you can use the `api_options=list(geocodio_hipaa=TRUE)` parameter.
+- The Nominatim service (`method="osm"`) can be installed and hosted locally so that data does not leave your local network. See the [Nominatim website](https://nominatim.org/) for installation instructions. You can use a locally hosted Nominatim service with tidygeocoder by specifying its address with the `api_url` parameter.
+
+See the [geo()](https://jessecambon.github.io/tidygeocoder/reference/geo.html) or [reverse_geo()](https://jessecambon.github.io/tidygeocoder/reference/reverse_geo.html) documentation pages for more documentation on the parameters mentioned above.
 
 ## Usage Notes
 
 - When used in batch mode, the **US Census** geocoder will return NA data when there are multiple results available for an address. The expectation is that you would see that a "Tie" is indicated and use single address geocoding to return the results for these addresses. See [#87](https://github.com/jessecambon/tidygeocoder/issues/87) for details.
 - When performing reverse geocoding, the **Mapbox** service requires a `types` parameter to be set if `limit > 1`. See [#104](https://github.com/jessecambon/tidygeocoder/issues/104).
 - The **Bing** batch geocoder does not use the `limit` parameter ([#106](https://github.com/jessecambon/tidygeocoder/issues/106)).
+-   The US Census service supports street-level addresses only (ie. "11 Wall St New York, NY" is OK but "New York, NY" is not).
+-   The Mapbox service is capable of performing batch geocoding when using the [permanent endpoint](https://docs.mapbox.com/api/search/geocoding/#batch-geocoding), but this capability is not currently implemented in tidygeocoder. If you'd like to add this capability to the package see [#73](https://github.com/jessecambon/tidygeocoder/issues/73).
+-   The ArcGIS service is capable of performing [batch geocoding](https://developers.arcgis.com/rest/geocode/api-reference/geocoding-geocode-addresses.htm), but this capability is not currently implemented in tidygeocoder. If you'd like to add this capability see [#102](https://github.com/jessecambon/tidygeocoder/issues/102).
+-   For the ArcGIS service, an API Key is not strictly required if the service is used for search capabilities only (see [Free vs. paid operations](https://developers.arcgis.com/rest/geocode/api-reference/geocoding-free-vs-paid.htm)). It is possible to include an API Key on the request via the `custom_query` parameter:
+
+``` r
+tidygeocoder::geo(address = "New York, USA", method = "arcgis",
+  custom_query = list(token = "<API_KEY>"))
+```
 
 ## API Parameters
 

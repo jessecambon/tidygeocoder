@@ -122,16 +122,16 @@ use the <code>query_names</code> parameter.</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">geocode_combine</span><span class="op">(</span>
-  <span class="va">.tbl</span>,
-  <span class="va">queries</span>,
-  global_params <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span>,
-  return_list <span class="op">=</span> <span class="cn">FALSE</span>,
-  cascade <span class="op">=</span> <span class="cn">TRUE</span>,
-  query_names <span class="op">=</span> <span class="cn">NULL</span>,
-  lat <span class="op">=</span> <span class="st">"lat"</span>,
-  long <span class="op">=</span> <span class="st">"long"</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">geocode_combine</span><span class="op">(</span></span>
+<span>  <span class="va">.tbl</span>,</span>
+<span>  <span class="va">queries</span>,</span>
+<span>  global_params <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  return_list <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  cascade <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  query_names <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  lat <span class="op">=</span> <span class="st">"lat"</span>,</span>
+<span>  long <span class="op">=</span> <span class="st">"long"</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -141,14 +141,11 @@ use the <code>query_names</code> parameter.</p>
 
 
 <dt>queries</dt>
-<dd><p>a list of queries, each provided as a list of parameters. The queries are
-executed by the <a href="geocode.html">geocode</a> function in the order provided.
-(ex. <code>list(list(method = 'osm'), list(method = 'census'), ...)</code>)</p></dd>
+<dd><p>a list of queries, each provided as a list of parameters. The queries are, executed by the <a href="geocode.html">geocode</a> function in the order provided., (ex. <code>list(list(method = 'osm'), list(method = 'census'), ...)</code>)</p></dd>
 
 
 <dt>global_params</dt>
-<dd><p>a list of parameters to be used for all queries
-(ex. <code>list(address = 'address', full_results = TRUE)</code>)</p></dd>
+<dd><p>a list of parameters to be used for all queries, (ex. <code>list(address = 'address', full_results = TRUE)</code>)</p></dd>
 
 
 <dt>return_list</dt>
@@ -168,11 +165,11 @@ attempt to geocode all addresses.</p></dd>
 
 
 <dt>lat</dt>
-<dd><p>latitude column name. Can be quoted or unquoted (ie. lat or 'lat').</p></dd>
+<dd><p>latitude column name. Can be quoted or unquoted (ie. <code>lat</code> or <code>"lat"</code>).</p></dd>
 
 
 <dt>long</dt>
-<dd><p>longitude column name. Can be quoted or unquoted (ie. long or 'long').</p></dd>
+<dd><p>longitude column name. Can be quoted or unquoted (ie. <code>long</code> or <code>"long"</code>).</p></dd>
 
 </dl></div>
     <div id="value">
@@ -188,18 +185,19 @@ attempt to geocode all addresses.</p></dd>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="co"># \donttest{</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span>, warn.conflicts <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">sample_addresses</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span class="r-in">  <span class="fu">geocode_combine</span><span class="op">(</span></span>
-<span class="r-in">    queries <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>method <span class="op">=</span> <span class="st">'census'</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>method <span class="op">=</span> <span class="st">'osm'</span><span class="op">)</span><span class="op">)</span>,</span>
-<span class="r-in">    global_params <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>address <span class="op">=</span> <span class="st">'addr'</span><span class="op">)</span>, cascade <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># \donttest{</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span>, warn.conflicts <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">sample_addresses</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span></span>
+<span class="r-in"><span>  <span class="fu">geocode_combine</span><span class="op">(</span></span></span>
+<span class="r-in"><span>    queries <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>method <span class="op">=</span> <span class="st">"census"</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>method <span class="op">=</span> <span class="st">"osm"</span><span class="op">)</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>    global_params <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>address <span class="op">=</span> <span class="st">"addr"</span><span class="op">)</span>, cascade <span class="op">=</span> <span class="cn">TRUE</span></span></span>
+<span class="r-in"><span>  <span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Passing 9 addresses to the US Census batch geocoder</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Query completed in: 0.2 seconds</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Query completed in: 0.3 seconds</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Passing 5 addresses to the Nominatim single address geocoder</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Query completed in: 5 seconds</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 9 × 5</span></span>
@@ -214,63 +212,63 @@ attempt to geocode all addresses.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">7</span> Nairobi              Nairobi, Kenya                         -<span style="color: #BB0000;">1.30</span>   36.8 <span style="color: #949494;">"</span>osm<span style="color: #949494;">"</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">8</span> Istanbul             Istanbul, Turkey                       41.0    29.0 <span style="color: #949494;">"</span>osm<span style="color: #949494;">"</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">9</span> Tokyo                Tokyo, Japan                           35.7   140.  <span style="color: #949494;">"</span>osm<span style="color: #949494;">"</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">more_addresses</span> <span class="op">&lt;-</span> <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tribble.html" class="external-link">tribble</a></span><span class="op">(</span></span>
-<span class="r-in">     <span class="op">~</span><span class="va">street_address</span>, <span class="op">~</span><span class="va">city</span>, <span class="op">~</span><span class="va">state</span>,        <span class="op">~</span><span class="va">zip_cd</span>,</span>
-<span class="r-in">     <span class="st">"624 W DAVIS ST #1D"</span>,   <span class="st">"BURLINGTON"</span>, <span class="st">"NC"</span>, <span class="fl">27215</span>,</span>
-<span class="r-in">     <span class="st">"201 E CENTER ST #268"</span>, <span class="st">"MEBANE"</span>,     <span class="st">"NC"</span>, <span class="fl">27302</span>,</span>
-<span class="r-in">     <span class="st">"100 Wall Street"</span>,      <span class="st">"New York"</span>,   <span class="st">"NY"</span>, <span class="fl">10005</span>,</span>
-<span class="r-in">     <span class="st">"Bucharest"</span>,            <span class="cn">NA</span>,           <span class="cn">NA</span>,   <span class="cn">NA</span></span>
-<span class="r-in">     <span class="op">)</span></span>
-<span class="r-in"> </span>
-<span class="r-in"> <span class="va">more_addresses</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>        </span>
-<span class="r-in">   <span class="fu">geocode_combine</span><span class="op">(</span> </span>
-<span class="r-in">     queries <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
-<span class="r-in">         <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>method <span class="op">=</span> <span class="st">'census'</span>, mode <span class="op">=</span> <span class="st">'batch'</span><span class="op">)</span>,</span>
-<span class="r-in">         <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>method <span class="op">=</span> <span class="st">'census'</span>, mode <span class="op">=</span> <span class="st">'single'</span><span class="op">)</span>,</span>
-<span class="r-in">         <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>method <span class="op">=</span> <span class="st">'osm'</span><span class="op">)</span></span>
-<span class="r-in">      <span class="op">)</span>,</span>
-<span class="r-in">     global_params <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>street <span class="op">=</span> <span class="st">'street_address'</span>, </span>
-<span class="r-in">       city <span class="op">=</span> <span class="st">'city'</span>, state <span class="op">=</span> <span class="st">'state'</span>, postalcode <span class="op">=</span> <span class="st">'zip_cd'</span><span class="op">)</span>,</span>
-<span class="r-in">     query_names <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'census batch'</span>, <span class="st">'census single'</span>, <span class="st">'osm'</span><span class="op">)</span></span>
-<span class="r-in">   <span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">more_addresses</span> <span class="op">&lt;-</span> <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tribble.html" class="external-link">tribble</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>  <span class="op">~</span><span class="va">street_address</span>, <span class="op">~</span><span class="va">city</span>, <span class="op">~</span><span class="va">state</span>, <span class="op">~</span><span class="va">zip_cd</span>,</span></span>
+<span class="r-in"><span>  <span class="st">"624 W DAVIS ST #1D"</span>, <span class="st">"BURLINGTON"</span>, <span class="st">"NC"</span>, <span class="fl">27215</span>,</span></span>
+<span class="r-in"><span>  <span class="st">"201 E CENTER ST #268"</span>, <span class="st">"MEBANE"</span>, <span class="st">"NC"</span>, <span class="fl">27302</span>,</span></span>
+<span class="r-in"><span>  <span class="st">"100 Wall Street"</span>, <span class="st">"New York"</span>, <span class="st">"NY"</span>, <span class="fl">10005</span>,</span></span>
+<span class="r-in"><span>  <span class="st">"Bucharest"</span>, <span class="cn">NA</span>, <span class="cn">NA</span>, <span class="cn">NA</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">more_addresses</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span></span>
+<span class="r-in"><span>  <span class="fu">geocode_combine</span><span class="op">(</span></span></span>
+<span class="r-in"><span>    queries <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>      <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>method <span class="op">=</span> <span class="st">"census"</span>, mode <span class="op">=</span> <span class="st">"batch"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>      <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>method <span class="op">=</span> <span class="st">"census"</span>, mode <span class="op">=</span> <span class="st">"single"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>      <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>method <span class="op">=</span> <span class="st">"osm"</span><span class="op">)</span></span></span>
+<span class="r-in"><span>    <span class="op">)</span>,</span></span>
+<span class="r-in"><span>    global_params <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>      street <span class="op">=</span> <span class="st">"street_address"</span>,</span></span>
+<span class="r-in"><span>      city <span class="op">=</span> <span class="st">"city"</span>, state <span class="op">=</span> <span class="st">"state"</span>, postalcode <span class="op">=</span> <span class="st">"zip_cd"</span></span></span>
+<span class="r-in"><span>    <span class="op">)</span>,</span></span>
+<span class="r-in"><span>    query_names <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"census batch"</span>, <span class="st">"census single"</span>, <span class="st">"osm"</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Passing 4 addresses to the US Census batch geocoder</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Query completed in: 0.2 seconds</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Passing 3 addresses to the US Census single address geocoder</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Bad Gateway (HTTP 502).</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Error: The server, while working as a gateway to get a response needed to handle the request, got an invalid response</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Bad Gateway (HTTP 502).</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Error: The server, while working as a gateway to get a response needed to handle the request, got an invalid response</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Query completed in: 25.2 seconds</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Passing 2 addresses to the Nominatim single address geocoder</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Query completed in: 2 seconds</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Query completed in: 0.6 seconds</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Passing 1 address to the Nominatim single address geocoder</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Query completed in: 1 seconds</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 4 × 7</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   street_address       city       state zip_cd   lat   long query          </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> 624 W DAVIS ST #1D   BURLINGTON NC     <span style="text-decoration: underline;">27</span>215  <span style="color: #BB0000;">NA</span>     <span style="color: #BB0000;">NA</span>   <span style="color: #949494;">""</span>             </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> 201 E CENTER ST #268 MEBANE     NC     <span style="text-decoration: underline;">27</span>302  36.1  -<span style="color: #BB0000;">79.3</span> <span style="color: #949494;">"</span>census single<span style="color: #949494;">"</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> 100 Wall Street      New York   NY     <span style="text-decoration: underline;">10</span>005  40.7  -<span style="color: #BB0000;">74.0</span> <span style="color: #949494;">"</span>census batch<span style="color: #949494;">"</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> Bucharest            <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>        <span style="color: #BB0000;">NA</span>  33.5 -<span style="color: #BB0000;">117.</span>  <span style="color: #949494;">"</span>osm<span style="color: #949494;">"</span>          </span>
-<span class="r-in">   </span>
-<span class="r-in"> <span class="va">more_addresses</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span class="r-in">   <span class="fu">geocode_combine</span><span class="op">(</span> </span>
-<span class="r-in">     queries <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
-<span class="r-in">         <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>method <span class="op">=</span> <span class="st">'census'</span>, mode <span class="op">=</span> <span class="st">'batch'</span>, street <span class="op">=</span> <span class="st">'street_address'</span>, </span>
-<span class="r-in">       city <span class="op">=</span> <span class="st">'city'</span>, state <span class="op">=</span> <span class="st">'state'</span>, postalcode <span class="op">=</span> <span class="st">'zip_cd'</span><span class="op">)</span>,</span>
-<span class="r-in">         <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>method <span class="op">=</span> <span class="st">'arcgis'</span>, address <span class="op">=</span> <span class="st">'street_address'</span><span class="op">)</span></span>
-<span class="r-in">      <span class="op">)</span>,</span>
-<span class="r-in">     cascade <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span class="r-in">     return_list <span class="op">=</span> <span class="cn">TRUE</span></span>
-<span class="r-in">   <span class="op">)</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   street_address       city       state zip_cd   lat   long query        </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> 624 W DAVIS ST #1D   BURLINGTON NC     <span style="text-decoration: underline;">27</span>215  36.1  -<span style="color: #BB0000;">79.4</span> census single</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> 201 E CENTER ST #268 MEBANE     NC     <span style="text-decoration: underline;">27</span>302  36.1  -<span style="color: #BB0000;">79.3</span> census single</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> 100 Wall Street      New York   NY     <span style="text-decoration: underline;">10</span>005  40.7  -<span style="color: #BB0000;">74.0</span> census batch </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> Bucharest            <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>        <span style="color: #BB0000;">NA</span>  33.5 -<span style="color: #BB0000;">117.</span>  osm          </span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">more_addresses</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span></span>
+<span class="r-in"><span>  <span class="fu">geocode_combine</span><span class="op">(</span></span></span>
+<span class="r-in"><span>    queries <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>      <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>        method <span class="op">=</span> <span class="st">"census"</span>, mode <span class="op">=</span> <span class="st">"batch"</span>, street <span class="op">=</span> <span class="st">"street_address"</span>,</span></span>
+<span class="r-in"><span>        city <span class="op">=</span> <span class="st">"city"</span>, state <span class="op">=</span> <span class="st">"state"</span>, postalcode <span class="op">=</span> <span class="st">"zip_cd"</span></span></span>
+<span class="r-in"><span>      <span class="op">)</span>,</span></span>
+<span class="r-in"><span>      <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>method <span class="op">=</span> <span class="st">"arcgis"</span>, address <span class="op">=</span> <span class="st">"street_address"</span><span class="op">)</span></span></span>
+<span class="r-in"><span>    <span class="op">)</span>,</span></span>
+<span class="r-in"><span>    cascade <span class="op">=</span> <span class="cn">FALSE</span>,</span></span>
+<span class="r-in"><span>    return_list <span class="op">=</span> <span class="cn">TRUE</span></span></span>
+<span class="r-in"><span>  <span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Passing 4 addresses to the US Census batch geocoder</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Query completed in: 0.2 seconds</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Passing 4 addresses to the ArcGIS single address geocoder</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Query completed in: 2.1 seconds</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Query completed in: 1.2 seconds</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $census</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 4 × 6</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   street_address       city       state zip_cd   lat  long</span>
@@ -289,7 +287,7 @@ attempt to geocode all addresses.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> 100 Wall Street      New York   NY     <span style="text-decoration: underline;">10</span>005  40.7  -<span style="color: #BB0000;">74.0</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> Bucharest            <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>        <span style="color: #BB0000;">NA</span>  44.4   26.1 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-in"><span class="co"># }</span></span>
+<span class="r-in"><span><span class="co"># }</span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -304,7 +302,7 @@ attempt to geocode all addresses.</p></dd>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

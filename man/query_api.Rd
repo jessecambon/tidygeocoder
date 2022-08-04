@@ -20,9 +20,11 @@ query_api(
 
 \item{query_parameters}{api query parameters in the form of a named list}
 
-\item{mode}{determines the type of query to execute\preformatted{- "single": geocode a single input (all methods)
-- "list": batch geocode a list of inputs (ex. geocodio)
-- "file": batch geocode a file of inputs (ex. census)
+\item{mode}{determines the type of query to execute
+\itemize{
+\item \code{"single"}: geocode a single input (all methods)
+\item \code{"list"}: batch geocode a list of inputs (ex. geocodio)
+\item \code{"file"}: batch geocode a file of inputs (ex. census)
 }}
 
 \item{batch_file}{a csv file of input data to upload (for \code{mode = 'file'})}
@@ -44,17 +46,21 @@ function to execute.
 }
 \examples{
 \donttest{
-raw1 <- query_api("http://nominatim.openstreetmap.org/search", 
-   get_api_query("osm", list(address = 'Hanoi, Vietnam')))
-   
-raw1$status
-   
-extract_results('osm', jsonlite::fromJSON(raw1$content))
+raw1 <- query_api(
+  "http://nominatim.openstreetmap.org/search",
+  get_api_query("osm", list(address = "Hanoi, Vietnam"))
+)
 
-raw2 <- query_api("http://nominatim.openstreetmap.org/reverse", 
-   get_api_query("osm", custom_parameters = list(lat = 38.895865, lon = -77.0307713)))
-   
-extract_reverse_results('osm', jsonlite::fromJSON(raw2$content))
+raw1$status
+
+extract_results("osm", jsonlite::fromJSON(raw1$content))
+
+raw2 <- query_api(
+  "http://nominatim.openstreetmap.org/reverse",
+  get_api_query("osm", custom_parameters = list(lat = 38.895865, lon = -77.0307713))
+)
+
+extract_reverse_results("osm", jsonlite::fromJSON(raw2$content))
 }
 
 }

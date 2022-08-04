@@ -106,16 +106,16 @@ function to execute.</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">query_api</span><span class="op">(</span>
-  <span class="va">api_url</span>,
-  <span class="va">query_parameters</span>,
-  mode <span class="op">=</span> <span class="st">"single"</span>,
-  batch_file <span class="op">=</span> <span class="cn">NULL</span>,
-  input_list <span class="op">=</span> <span class="cn">NULL</span>,
-  content_encoding <span class="op">=</span> <span class="st">"UTF-8"</span>,
-  timeout <span class="op">=</span> <span class="fl">20</span>,
-  method <span class="op">=</span> <span class="st">""</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">query_api</span><span class="op">(</span></span>
+<span>  <span class="va">api_url</span>,</span>
+<span>  <span class="va">query_parameters</span>,</span>
+<span>  mode <span class="op">=</span> <span class="st">"single"</span>,</span>
+<span>  batch_file <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  input_list <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  content_encoding <span class="op">=</span> <span class="st">"UTF-8"</span>,</span>
+<span>  timeout <span class="op">=</span> <span class="fl">20</span>,</span>
+<span>  method <span class="op">=</span> <span class="st">""</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -129,10 +129,10 @@ function to execute.</p>
 
 
 <dt>mode</dt>
-<dd><p>determines the type of query to execute</p><div class="sourceCode"><pre><code>- "single": geocode a single input (all methods)
-- "list": batch geocode a list of inputs (ex. geocodio)
-- "file": batch geocode a file of inputs (ex. census)
-</code></pre></div></dd>
+<dd><p>determines the type of query to execute</p><ul><li><p><code>"single"</code>: geocode a single input (all methods)</p></li>
+<li><p><code>"list"</code>: batch geocode a list of inputs (ex. geocodio)</p></li>
+<li><p><code>"file"</code>: batch geocode a file of inputs (ex. census)</p></li>
+</ul></dd>
 
 
 <dt>batch_file</dt>
@@ -168,14 +168,16 @@ function to execute.</p>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="co"># \donttest{</span></span>
-<span class="r-in"><span class="va">raw1</span> <span class="op">&lt;-</span> <span class="fu">query_api</span><span class="op">(</span><span class="st">"http://nominatim.openstreetmap.org/search"</span>, </span>
-<span class="r-in">   <span class="fu"><a href="get_api_query.html">get_api_query</a></span><span class="op">(</span><span class="st">"osm"</span>, <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>address <span class="op">=</span> <span class="st">'Hanoi, Vietnam'</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in">   </span>
-<span class="r-in"><span class="va">raw1</span><span class="op">$</span><span class="va">status</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># \donttest{</span></span></span>
+<span class="r-in"><span><span class="va">raw1</span> <span class="op">&lt;-</span> <span class="fu">query_api</span><span class="op">(</span></span></span>
+<span class="r-in"><span>  <span class="st">"http://nominatim.openstreetmap.org/search"</span>,</span></span>
+<span class="r-in"><span>  <span class="fu"><a href="get_api_query.html">get_api_query</a></span><span class="op">(</span><span class="st">"osm"</span>, <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>address <span class="op">=</span> <span class="st">"Hanoi, Vietnam"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">raw1</span><span class="op">$</span><span class="va">status</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 200</span>
-<span class="r-in">   </span>
-<span class="r-in"><span class="fu"><a href="extract_results.html">extract_results</a></span><span class="op">(</span><span class="st">'osm'</span>, <span class="fu">jsonlite</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/jsonlite/man/fromJSON.html" class="external-link">fromJSON</a></span><span class="op">(</span><span class="va">raw1</span><span class="op">$</span><span class="va">content</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu"><a href="extract_results.html">extract_results</a></span><span class="op">(</span><span class="st">"osm"</span>, <span class="fu">jsonlite</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/jsonlite/man/fromJSON.html" class="external-link">fromJSON</a></span><span class="op">(</span><span class="va">raw1</span><span class="op">$</span><span class="va">content</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>        lat      lon  place_id</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1 21.02945 105.8544 298352142</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2 21.04456 105.9187 155101977</span>
@@ -212,20 +214,24 @@ function to execute.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 3        https://nominatim.openstreetmap.org/ui/mapicons/education_university.p.20.png</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 4    https://nominatim.openstreetmap.org/ui/mapicons/transport_train_station2.p.20.png</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 5                                                                                 &lt;NA&gt;</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">raw2</span> <span class="op">&lt;-</span> <span class="fu">query_api</span><span class="op">(</span><span class="st">"http://nominatim.openstreetmap.org/reverse"</span>, </span>
-<span class="r-in">   <span class="fu"><a href="get_api_query.html">get_api_query</a></span><span class="op">(</span><span class="st">"osm"</span>, custom_parameters <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>lat <span class="op">=</span> <span class="fl">38.895865</span>, lon <span class="op">=</span> <span class="op">-</span><span class="fl">77.0307713</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in">   </span>
-<span class="r-in"><span class="fu"><a href="extract_reverse_results.html">extract_reverse_results</a></span><span class="op">(</span><span class="st">'osm'</span>, <span class="fu">jsonlite</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/jsonlite/man/fromJSON.html" class="external-link">fromJSON</a></span><span class="op">(</span><span class="va">raw2</span><span class="op">$</span><span class="va">content</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">raw2</span> <span class="op">&lt;-</span> <span class="fu">query_api</span><span class="op">(</span></span></span>
+<span class="r-in"><span>  <span class="st">"http://nominatim.openstreetmap.org/reverse"</span>,</span></span>
+<span class="r-in"><span>  <span class="fu"><a href="get_api_query.html">get_api_query</a></span><span class="op">(</span><span class="st">"osm"</span>, custom_parameters <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>lat <span class="op">=</span> <span class="fl">38.895865</span>, lon <span class="op">=</span> <span class="op">-</span><span class="fl">77.0307713</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu"><a href="extract_reverse_results.html">extract_reverse_results</a></span><span class="op">(</span><span class="st">"osm"</span>, <span class="fu">jsonlite</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/jsonlite/man/fromJSON.html" class="external-link">fromJSON</a></span><span class="op">(</span><span class="va">raw2</span><span class="op">$</span><span class="va">content</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 1 × 17</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   display_name          place_id licence osm_type osm_id osm_lat osm_lon tourism</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> Freedom Plaza, 1455,…   2.99<span style="color: #949494;">e</span>8 Data ©… relation 8.06<span style="color: #949494;">e</span>6 38.895… -77.03… Freedo…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># … with 9 more variables: house_number &lt;chr&gt;, road &lt;chr&gt;, city &lt;chr&gt;,</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   state &lt;chr&gt;, `ISO3166-2-lvl4` &lt;chr&gt;, postcode &lt;chr&gt;, country &lt;chr&gt;,</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   country_code &lt;chr&gt;, boundingbox &lt;list&gt;</span></span>
-<span class="r-in"><span class="co"># }</span></span>
-<span class="r-in"></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   display…¹ place…² licence osm_t…³ osm_id osm_lat osm_lon tourism house…⁴ road </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> Freedom …  2.99<span style="color: #949494;">e</span>8 Data ©… relati… 8.06<span style="color: #949494;">e</span>6 38.895… -77.03… Freedo… 1455    Penn…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># … with 7 more variables: city &lt;chr&gt;, state &lt;chr&gt;, `ISO3166-2-lvl4` &lt;chr&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   postcode &lt;chr&gt;, country &lt;chr&gt;, country_code &lt;chr&gt;, boundingbox &lt;list&gt;, and</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   abbreviated variable names ¹​display_name, ²​place_id, ³​osm_type,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   ⁴​house_number</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ Use `colnames()` to see all variable names</span></span>
+<span class="r-in"><span><span class="co"># }</span></span></span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -240,7 +246,7 @@ function to execute.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

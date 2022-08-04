@@ -18,12 +18,9 @@ geocode_combine(
 \arguments{
 \item{.tbl}{dataframe containing addresses}
 
-\item{queries}{a list of queries, each provided as a list of parameters. The queries are
-executed by the \link{geocode} function in the order provided.
-(ex. \code{list(list(method = 'osm'), list(method = 'census'), ...)})}
+\item{queries}{a list of queries, each provided as a list of parameters. The queries are, executed by the \link{geocode} function in the order provided., (ex. \code{list(list(method = 'osm'), list(method = 'census'), ...)})}
 
-\item{global_params}{a list of parameters to be used for all queries
-(ex. \code{list(address = 'address', full_results = TRUE)})}
+\item{global_params}{a list of parameters to be used for all queries, (ex. \code{list(address = 'address', full_results = TRUE)})}
 
 \item{return_list}{if TRUE then results from each service will be returned as separate
 dataframes. If FALSE (default) then all results will be combined into a single dataframe.}
@@ -35,9 +32,9 @@ attempt to geocode all addresses.}
 \item{query_names}{optional vector with one label for each query provided
 (ex. \code{c('geocodio batch', 'geocodio single')}).}
 
-\item{lat}{latitude column name. Can be quoted or unquoted (ie. lat or 'lat').}
+\item{lat}{latitude column name. Can be quoted or unquoted (ie. \code{lat} or \code{"lat"}).}
 
-\item{long}{longitude column name. Can be quoted or unquoted (ie. long or 'long').}
+\item{long}{longitude column name. Can be quoted or unquoted (ie. \code{long} or \code{"long"}).}
 }
 \value{
 tibble (dataframe)
@@ -62,39 +59,44 @@ library(dplyr, warn.conflicts = FALSE)
 
 sample_addresses \%>\%
   geocode_combine(
-    queries = list(list(method = 'census'), list(method = 'osm')),
-    global_params = list(address = 'addr'), cascade = TRUE)
+    queries = list(list(method = "census"), list(method = "osm")),
+    global_params = list(address = "addr"), cascade = TRUE
+  )
 
 more_addresses <- tibble::tribble(
-     ~street_address, ~city, ~state,        ~zip_cd,
-     "624 W DAVIS ST #1D",   "BURLINGTON", "NC", 27215,
-     "201 E CENTER ST #268", "MEBANE",     "NC", 27302,
-     "100 Wall Street",      "New York",   "NY", 10005,
-     "Bucharest",            NA,           NA,   NA
-     )
- 
- more_addresses \%>\%        
-   geocode_combine( 
-     queries = list(
-         list(method = 'census', mode = 'batch'),
-         list(method = 'census', mode = 'single'),
-         list(method = 'osm')
+  ~street_address, ~city, ~state, ~zip_cd,
+  "624 W DAVIS ST #1D", "BURLINGTON", "NC", 27215,
+  "201 E CENTER ST #268", "MEBANE", "NC", 27302,
+  "100 Wall Street", "New York", "NY", 10005,
+  "Bucharest", NA, NA, NA
+)
+
+more_addresses \%>\%
+  geocode_combine(
+    queries = list(
+      list(method = "census", mode = "batch"),
+      list(method = "census", mode = "single"),
+      list(method = "osm")
+    ),
+    global_params = list(
+      street = "street_address",
+      city = "city", state = "state", postalcode = "zip_cd"
+    ),
+    query_names = c("census batch", "census single", "osm")
+  )
+
+more_addresses \%>\%
+  geocode_combine(
+    queries = list(
+      list(
+        method = "census", mode = "batch", street = "street_address",
+        city = "city", state = "state", postalcode = "zip_cd"
       ),
-     global_params = list(street = 'street_address', 
-       city = 'city', state = 'state', postalcode = 'zip_cd'),
-     query_names = c('census batch', 'census single', 'osm')
-   )
-   
- more_addresses \%>\%
-   geocode_combine( 
-     queries = list(
-         list(method = 'census', mode = 'batch', street = 'street_address', 
-       city = 'city', state = 'state', postalcode = 'zip_cd'),
-         list(method = 'arcgis', address = 'street_address')
-      ),
-     cascade = FALSE,
-     return_list = TRUE
-   )
+      list(method = "arcgis", address = "street_address")
+    ),
+    cascade = FALSE,
+    return_list = TRUE
+  )
 }
 }
 \seealso{

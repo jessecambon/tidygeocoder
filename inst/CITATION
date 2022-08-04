@@ -1,7 +1,9 @@
 # http://r-pkgs.had.co.nz/inst.html#inst-citation
 
-# IMPORTANT: update the version note before release
-version_note <- "R package version 1.0.5"
+# extract package version and remove the development tag (".9000") if necessary
+package_version <- gsub('\\.9000', "", toString(packageVersion("tidygeocoder")))
+
+version_note <- paste0("R package version ", package_version)
 
 citHeader("To cite tidygeocoder use:")
 

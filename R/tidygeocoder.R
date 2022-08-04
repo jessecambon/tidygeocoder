@@ -1,4 +1,4 @@
-#' The tidygeocoder package makes getting data from geocoder services easy. 
+#' The tidygeocoder package makes getting data from geocoder services easy.
 #'
 #' The [geocode] and [geo] functions are for forward geocoding while
 #' the [reverse_geocode] and [reverse_geo] functions are for reverse geocoding.

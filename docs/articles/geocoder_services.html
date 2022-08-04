@@ -153,9 +153,9 @@ the free tier of the service when applicable and many services have
 faster rates available with paid plans.</p>
 <p>Also note that there are many other considerations when selecting a
 geocoding service such as if the service uses open source data with
-permissive licensing or if there are restrictions on how you can use the
-data provided by the service. Refer to each service’s documentation for
-details.</p>
+permissive licensing, how the service uses or stores your data, and if
+there are restrictions on how you can use the data provided by the
+service. Refer to each service’s documentation for details.</p>
 <table class="table">
 <colgroup>
 <col width="32%">
@@ -289,32 +289,41 @@ limited to the United States.</li>
 <li>The Census and Nominatim (“osm”) services are free and do not
 require an API key.</li>
 <li>ArcGIS can be used for free without an API key, but some features
-require a paid subscription and API key.</li>
+require a paid subscription and an API key.</li>
 <li>Geoapify, Geocodio, Location IQ, OpenCage, Mapbox, HERE, TomTom,
 MapQuest, and Bing are commercial services that offer free tiers.</li>
 <li>The Google service has no free tier and <a href="https://developers.google.com/maps/documentation/geocoding/usage-and-billing" class="external-link">bills
 per query</a>.</li>
 </ul>
-<p><strong>Other Notes:</strong></p>
+</div>
+<div class="section level2">
+<h2 id="data-privacy">Data Privacy<a class="anchor" aria-label="anchor" href="#data-privacy"></a>
+</h2>
+<p>Due diligence must be exercised when geocoding sensitive data as
+tidygeocoder utilizes third party web services to perform geocoding.
+Within the context of healthcare, using patient or study subject address
+data with a third party geocoding service risks violating standard IRB
+and HIPAA privacy rules.</p>
+<p>Further details on possible risk are described <a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC8972108/" class="external-link">here</a>.
+Refer to the documentation on your selected geocoding service (see links
+above) for information on how your data will be utilized and stored.</p>
+<p>Some options you could consider if the privacy of your data is a
+concern:</p>
 <ul>
-<li>The US Census service supports street-level addresses only (ie. “11
-Wall St New York, NY” is OK but “New York, NY” is not).</li>
-<li>The Mapbox service is capable of performing batch geocoding when
-using the <a href="https://docs.mapbox.com/api/search/geocoding/#batch-geocoding" class="external-link">permanent
-endpoint</a>, but this capability is not currently implemented in
-tidygeocoder. If you’d like to add this capability to the package see <a href="https://github.com/jessecambon/tidygeocoder/issues/73" class="external-link">issue
-#73</a>.</li>
-<li>The ArcGIS service is capable of performing <a href="https://developers.arcgis.com/rest/geocode/api-reference/geocoding-geocode-addresses.htm" class="external-link">batch
-geocoding</a> but this capability is not currently implemented in
-tidygeocoder. If you’d like to add this capability see <a href="https://github.com/jessecambon/tidygeocoder/issues/102" class="external-link">#102</a>.</li>
-<li>For the ArcGIS service, an API Key is not strictly required if the
-service is used for search capabilities only (see <a href="https://developers.arcgis.com/rest/geocode/api-reference/geocoding-free-vs-paid.htm" class="external-link">Free
-vs. paid operations</a>). It is possible to include an API Key on the
-request via the <code>custom_query</code> parameter:</li>
+<li>The Geocodio service offers <a href="https://www.geocod.io/healthcare/" class="external-link">a HIPAA compliant API</a>. To
+enable the use of this API in tidygeocoder, you can use the
+<code>api_options=list(geocodio_hipaa=TRUE)</code> parameter.</li>
+<li>The Nominatim service (<code>method="osm"</code>) can be installed
+and hosted locally so that data does not leave your local network. See
+the <a href="https://nominatim.org/" class="external-link">Nominatim website</a> for
+installation instructions. You can use a locally hosted Nominatim
+service with tidygeocoder by specifying its address with the
+<code>api_url</code> parameter.</li>
 </ul>
-<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">tidygeocoder</span><span class="fu">::</span><span class="fu"><a href="../reference/geo.html">geo</a></span><span class="op">(</span>address <span class="op">=</span> <span class="st">"New York, USA"</span>, method <span class="op">=</span> <span class="st">"arcgis"</span>,
-  custom_query <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>token <span class="op">=</span> <span class="st">"&lt;API_KEY&gt;"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<p>See the <a href="https://jessecambon.github.io/tidygeocoder/reference/geo.html">geo()</a>
+or <a href="https://jessecambon.github.io/tidygeocoder/reference/reverse_geo.html">reverse_geo()</a>
+documentation pages for more documentation on the parameters mentioned
+above.</p>
 </div>
 <div class="section level2">
 <h2 id="usage-notes">Usage Notes<a class="anchor" aria-label="anchor" href="#usage-notes"></a>
@@ -331,7 +340,23 @@ service requires a <code>types</code> parameter to be set if
 <code>limit &gt; 1</code>. See <a href="https://github.com/jessecambon/tidygeocoder/issues/104" class="external-link">#104</a>.</li>
 <li>The <strong>Bing</strong> batch geocoder does not use the
 <code>limit</code> parameter (<a href="https://github.com/jessecambon/tidygeocoder/issues/106" class="external-link">#106</a>).</li>
+<li>The US Census service supports street-level addresses only (ie. “11
+Wall St New York, NY” is OK but “New York, NY” is not).</li>
+<li>The Mapbox service is capable of performing batch geocoding when
+using the <a href="https://docs.mapbox.com/api/search/geocoding/#batch-geocoding" class="external-link">permanent
+endpoint</a>, but this capability is not currently implemented in
+tidygeocoder. If you’d like to add this capability to the package see <a href="https://github.com/jessecambon/tidygeocoder/issues/73" class="external-link">#73</a>.</li>
+<li>The ArcGIS service is capable of performing <a href="https://developers.arcgis.com/rest/geocode/api-reference/geocoding-geocode-addresses.htm" class="external-link">batch
+geocoding</a>, but this capability is not currently implemented in
+tidygeocoder. If you’d like to add this capability see <a href="https://github.com/jessecambon/tidygeocoder/issues/102" class="external-link">#102</a>.</li>
+<li>For the ArcGIS service, an API Key is not strictly required if the
+service is used for search capabilities only (see <a href="https://developers.arcgis.com/rest/geocode/api-reference/geocoding-free-vs-paid.htm" class="external-link">Free
+vs. paid operations</a>). It is possible to include an API Key on the
+request via the <code>custom_query</code> parameter:</li>
 </ul>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">tidygeocoder</span><span class="fu">::</span><span class="fu"><a href="../reference/geo.html">geo</a></span><span class="op">(</span>address <span class="op">=</span> <span class="st">"New York, USA"</span>, method <span class="op">=</span> <span class="st">"arcgis"</span>,</span>
+<span>  custom_query <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>token <span class="op">=</span> <span class="st">"&lt;API_KEY&gt;"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="api-parameters">API Parameters<a class="anchor" aria-label="anchor" href="#api-parameters"></a>
@@ -1294,7 +1319,7 @@ usage limitations policies of each geocoding service is stored in the
 <li><a href="https://operations.osmfoundation.org/policies/nominatim/" class="external-link">Nominatim</a></li>
 <li><a href="https://www.census.gov/programs-surveys/geography/technical-documentation/complete-technical-documentation/census-geocoder.html" class="external-link">US
 Census</a></li>
-<li><a href="https://developers.arcgis.com/rest/geocode/api-reference/geocoding-free-vs-paid.htm" class="external-link">ArcGIS</a></li>
+<li><a href="https://developers.arcgis.com/pricing/" class="external-link">ArcGIS</a></li>
 <li><a href="https://www.geocod.io/pricing/" class="external-link">Geocodio</a></li>
 <li><a href="https://locationiq.com/pricing" class="external-link">Location IQ</a></li>
 <li><a href="https://developers.google.com/maps/documentation/geocoding/usage-and-billing" class="external-link">Google</a></li>
@@ -1779,7 +1804,7 @@ per batch query for each geocoding service is stored in the
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer>
