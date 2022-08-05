@@ -1,5 +1,5 @@
 ---
-name: Bug report
+name: \U0001F41B Bug Report
 about: Create a report to help us improve
 title: ''
 labels: bug
@@ -23,3 +23,9 @@ Include a small code example that someone else can run to reproduce the bug.
 Post the results of `devtools::session_info()
 
 - If you don't have devtools installed you can install it with `install.packages("devtools")
+
+## Your Contribution
+
+Do you see a way to resolve the issue? If so, mention this here.
+
+When you are ready, you can open a pull request with a suggested bug fix and tag this issue. See the developers notes for help: https://jessecambon.github.io/tidygeocoder/articles/developer_notes.html 
