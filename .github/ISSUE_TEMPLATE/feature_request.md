@@ -1,6 +1,6 @@
 ---
 name: Feature Request
-about: Create a report to help us improve
+about: Propose a new feature for tidygeocoder 
 title: ''
 labels: enhancement
 assignees: ''
@@ -9,7 +9,14 @@ assignees: ''
 
 ## Description
 
-Describe the feature you would like to see in tidygeocoder
+Describe the feature you would like to see in tidygeocoder. 
+
+If relevant, include a code example:
+
+```r
+
+
+```
 
 ## Motivation
 

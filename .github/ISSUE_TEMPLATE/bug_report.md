@@ -1,6 +1,6 @@
 ---
 name: Bug Report
-about: Create a report to help us improve
+about: Create a bug report to help us improve tidygeocoder
 title: ''
 labels: bug
 assignees: ''
