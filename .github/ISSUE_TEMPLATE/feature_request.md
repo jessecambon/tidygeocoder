@@ -9,11 +9,11 @@ assignees: ''
 
 ## Description
 
-Describe the feature you would like to see in tidygeocoder.
+Describe the feature you would like to see in tidygeocoder
 
 ## Motivation
 
-Why would this be a good addition to tidygeocoder? What problem does it solve?
+What is motivation for the feature? What problem does it solve?
 
 ## Your Contribution
 
