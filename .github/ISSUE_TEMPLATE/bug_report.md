@@ -11,6 +11,8 @@ assignees: ''
 
 Describe the bug. What is going wrong? What is the expected behavior? 
 
+What have you tried to resolve the issue? Updating your R packages to their most recent versions can sometimes resolve issues.
+
 ## Steps to Reproduce
 
 Include a small code example that someone else can run to reproduce the bug:
@@ -32,7 +34,7 @@ Post the results of devtools::session_info() :
 
 ```
 
-- If you don't have devtools installed you can install it with `install.packages("devtools")
+If you don't have devtools installed you can install it with install.packages("devtools")
 
 ## Your Contribution
 
