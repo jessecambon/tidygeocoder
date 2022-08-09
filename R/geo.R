@@ -238,7 +238,10 @@ geo <-
         api_options[["here_request_id"]] <- here_request_id
       }
     }
-
+    
+    # check for method / api_options mismatch
+    check_method_api_options_mismatch(method, api_options, FALSE)
+    
     # apply api options defaults for options not specified by the user
     api_options <- apply_api_options_defaults(api_options)
 

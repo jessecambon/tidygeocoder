@@ -383,3 +383,23 @@ flatten_override_warning <- function(flatten, method, reverse, batch) {
     ))
   }
 }
+
+# throw error if method and a specified api_option is mismatched 
+# ie. method='census' and api_options(list(geocodio_hipaa=TRUE))
+check_method_api_options_mismatch <- function(method, api_options, reverse=FALSE) {
+  # cycle through the api options specified (except for init)
+  if (api_options$init == TRUE) {
+    for (api_opt in names(api_options)[!names(api_options) %in% c('init')]) {
+      # extract method name from api_option
+      api_opt_method <- strsplit(api_opt, "_")[[1]][[1]]
+      
+      if (api_opt_method != method) {
+        stop(
+          'method="', method, '" is not meant for use with api_options=list(', api_opt, ')\n',
+          'See ?', if (reverse == TRUE) "reverse_geo" else "geo",
+          call. = FALSE
+        )
+      }
+    }
+  }
+}

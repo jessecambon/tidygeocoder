@@ -169,6 +169,9 @@ reverse_geo <-
         here_request_id <- NULL
       }
     }
+    
+    # check for method / api_options mismatch
+    check_method_api_options_mismatch(method, api_options, TRUE)
 
     # apply api options defaults for options not specified by the user
     api_options <- apply_api_options_defaults(api_options)
