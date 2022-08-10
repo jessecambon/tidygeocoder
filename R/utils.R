@@ -335,25 +335,6 @@ api_url_modification <- function(method, api_url, generic_query, custom_query, r
   return(api_url)
 }
 
-# apply api options defaults for options not specified by the user.
-# called by geo() and reverse_geo()
-apply_api_options_defaults <- function(api_options) {
-  for (name in names(pkg.globals$default_api_options)) {
-    if (is.null(api_options[[name]])) api_options[[name]] <- pkg.globals$default_api_options[[name]]
-  }
-  return(api_options)
-}
-
-# Set the api_options[["init"]] parameter
-# init is for internal package use only, used to designate if the geo() or reverse_geo() function
-# is being called for the first time (init = TRUE) or if it has called itself
-# recursively (init = FALSE)
-initialize_init <- function(api_options) {
-  if (is.null(api_options[["init"]])) {
-    api_options[["init"]] <- TRUE
-  }
-  return(api_options)
-}
 
 # for specific geocoders in batch setting...
 # give a warning that the query is going to run with flatten=TRUE
@@ -371,42 +352,79 @@ flatten_override_warning <- function(flatten, method, reverse, batch) {
 }
 
 
-# TODO: combine these two functions
 
-check_api_options <- function(api_options, func_name) {
-  for (param in names(api_options)) {
-    if (!param %in% c("cascade_flag", "init", names(pkg.globals$default_api_options))) {
-      stop(
-        paste0(
-          "Invalid parameter ", '"', param, '"',
-          " used in the api_options argument. See ?", func_name
-        ),
-        call. = FALSE
-      )
-    }
+# Api options functions ----------------------------------------------------------------------
+
+# Set the api_options[["init"]] parameter
+# init is for internal package use only, used to designate if the geo() or reverse_geo() function
+# is being called for the first time (init = TRUE) or if it has called itself
+# recursively (init = FALSE)
+initialize_init <- function(api_options) {
+  if (is.null(api_options[["init"]])) {
+    api_options[["init"]] <- TRUE
   }
+  return(api_options)
+}
+
+# apply api options defaults for options not specified by the user
+# that are relevant for the specified method
+# called by geo() and reverse_geo()
+apply_api_options_defaults <- function(method, api_options) {
+  for (api_opt in names(pkg.globals$default_api_options)) {
+    api_opt_method <- strsplit(api_opt, "_")[[1]][[1]] # extract method name from api option
+    
+    if ((method == api_opt_method) && is.null(api_options[[api_opt]])) {
+      api_options[[api_opt]] <- pkg.globals$default_api_options[[api_opt]]
+    } 
+  }
+  return(api_options)
 }
 
 # throw error if method and a specified api_option is mismatched 
 # ie. method='census' and api_options(list(geocodio_hipaa=TRUE))
-check_method_api_options_mismatch <- function(method, api_options, reverse=FALSE) {
+check_api_options <- function(method, api_options, reverse=FALSE) {
   # cycle through the api options specified (except for init)
   if (api_options$init == TRUE) {
-    bad_api_args <- c()
-    for (api_opt in names(api_options)[!names(api_options) %in% c('cascade_flag', 'init')]) {
+    api_method_mismatch_args <- c() # store mismatch api_options here
+    api_bad_args <- c() # store invalid api_options here
+    error_message <- c() # store error message here (if any)
+    
+    for (api_opt in names(api_options)[!names(api_options) %in% pkg.globals$special_api_options]) {
       # extract method name from api_option
       api_opt_method <- strsplit(api_opt, "_")[[1]][[1]]
       
-      # if mismatch then add offending arg to vector
-      if (api_opt_method != method) {
-        bad_api_args <- c(bad_api_args, api_opt)
+      # check if api parameter is valid
+      if (!api_opt %in% names(pkg.globals$default_api_options)) {
+        api_bad_args <- c(api_bad_args, api_opt)
       }
+      # if api parameter is valid but there is a mismatch with selected method
+      # then add offending arg to vector
+      else if (api_opt_method != method) {
+        api_method_mismatch_args <- c(api_method_mismatch_args, api_opt)
+      }
+    } # end loop
+    
+    
+    # error message for bad api arguments
+    if (length(api_bad_args) != 0) {
+      error_message <- c(error_message,
+         paste0(
+           "Invalid api_options parameter(s) used:\n\n",
+           paste0(api_bad_args, sep = "  "), "\n\n"
+         ))
     }
     
-    if (length(bad_api_args) != 0) {
-      stop(
-        'method="', method, '" is not compatible with the specified api_options parameter(s):\n\n',
-        paste0(bad_api_args, sep = "  "), "\n\n",
+    # error message for api arguments that mismatch with the method argument
+    if (length(api_method_mismatch_args) != 0) {
+      error_message <- c(error_message,
+        'method = "', method, '" is not compatible with the specified api_options parameter(s):\n\n',
+        paste0(api_method_mismatch_args, sep = "  "), "\n\n"
+      )
+    }
+    
+    # show error (if applicable)
+    if (length(error_message) != 0) {
+      stop(error_message,
         'See ?', if (reverse == TRUE) "reverse_geo" else "geo",
         call. = FALSE
       )

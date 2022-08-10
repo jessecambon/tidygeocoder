@@ -169,12 +169,9 @@ reverse_geo <-
         here_request_id <- NULL
       }
     }
-    
-    # check for method / api_options mismatch
-    check_method_api_options_mismatch(method, api_options, TRUE)
 
     # apply api options defaults for options not specified by the user
-    api_options <- apply_api_options_defaults(api_options)
+    api_options <- apply_api_options_defaults(method, api_options)
 
     # capture all function arguments including default values as a named list.
     # IMPORTANT: make sure to put this statement before any other variables are defined in the function
@@ -189,15 +186,16 @@ reverse_geo <-
       is.logical(full_results), is.logical(unique_only), is.logical(progress_bar),
       is.logical(quiet),
       is.list(custom_query),
-      is.logical(api_options[["mapbox_permanent"]]),
+      is.null(api_options[["mapbox_permanent"]]) || is.logical(api_options[["mapbox_permanent"]]),
       is.null(api_options[["here_request_id"]]) || is.character(api_options[["here_request_id"]]),
-      is.logical(api_options[["mapquest_open"]]), is.logical(api_options[["geocodio_hipaa"]])
+      is.null(api_options[["mapquest_open"]]) || is.logical(api_options[["mapquest_open"]]), 
+      is.null(api_options[["geocodio_hipaa"]]) || is.logical(api_options[["geocodio_hipaa"]])
     )
 
     check_verbose_quiet(verbose, quiet, reverse = FALSE)
 
     # Check method argument
-    check_api_options(api_options, "reverse_geo")
+    check_api_options(method, api_options, reverse = TRUE)
     check_method(method, reverse = TRUE, mode, reverse_batch_func_map)
 
     if (length(lat) != length(long)) stop("Lengths of lat and long must be equal.", call. = FALSE)
