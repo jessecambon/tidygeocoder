@@ -104,20 +104,6 @@ format_address <- function(df, fields) {
 # QA Checks --------------------------------------------------------------------
 # functions called by reverse_geo() and/or geo()
 
-check_api_options <- function(api_options, func_name) {
-  for (param in names(api_options)) {
-    if (!param %in% c("cascade_flag", "init", names(pkg.globals$default_api_options))) {
-      stop(
-        paste0(
-          "Invalid parameter ", '"', param, '"',
-          " used in the api_options argument. See ?", func_name
-        ),
-        call. = FALSE
-      )
-    }
-  }
-}
-
 # check the data type of an address argument - called by geo() function
 # should not be a matrix, class, or dataframe for instance
 # allow factor since it could be coerced to a datatype by address handler function
@@ -384,22 +370,46 @@ flatten_override_warning <- function(flatten, method, reverse, batch) {
   }
 }
 
+
+# TODO: combine these two functions
+
+check_api_options <- function(api_options, func_name) {
+  for (param in names(api_options)) {
+    if (!param %in% c("cascade_flag", "init", names(pkg.globals$default_api_options))) {
+      stop(
+        paste0(
+          "Invalid parameter ", '"', param, '"',
+          " used in the api_options argument. See ?", func_name
+        ),
+        call. = FALSE
+      )
+    }
+  }
+}
+
 # throw error if method and a specified api_option is mismatched 
 # ie. method='census' and api_options(list(geocodio_hipaa=TRUE))
 check_method_api_options_mismatch <- function(method, api_options, reverse=FALSE) {
   # cycle through the api options specified (except for init)
   if (api_options$init == TRUE) {
-    for (api_opt in names(api_options)[!names(api_options) %in% c('init')]) {
+    bad_api_args <- c()
+    for (api_opt in names(api_options)[!names(api_options) %in% c('cascade_flag', 'init')]) {
       # extract method name from api_option
       api_opt_method <- strsplit(api_opt, "_")[[1]][[1]]
       
+      # if mismatch then add offending arg to vector
       if (api_opt_method != method) {
-        stop(
-          'method="', method, '" is not meant for use with api_options=list(', api_opt, ')\n',
-          'See ?', if (reverse == TRUE) "reverse_geo" else "geo",
-          call. = FALSE
-        )
+        bad_api_args <- c(bad_api_args, api_opt)
       }
+    }
+    
+    if (length(bad_api_args) != 0) {
+      stop(
+        'method="', method, '" is not compatible with the specified api_options parameter(s):\n\n',
+        paste0(bad_api_args, sep = "  "), "\n\n",
+        'See ?', if (reverse == TRUE) "reverse_geo" else "geo",
+        call. = FALSE
+      )
     }
   }
 }

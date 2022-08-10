@@ -13,13 +13,13 @@ package_inputs <- function(input_orig, coords = FALSE) {
 
   # limit lat/longs in unique dataset to possible values
   if (coords == TRUE) {
-    input_unique$lat[(input_unique$lat > 90 | input_unique$lat < -90)] <- NA
-    input_unique$long[(input_unique$long > 180 | input_unique$long < -180)] <- NA
+    input_unique$lat[(input_unique$lat > 90 | input_unique$lat < -90)] <- as.numeric(NA)
+    input_unique$long[(input_unique$long > 180 | input_unique$long < -180)] <- as.numeric(NA)
 
     # If lat is NA then make long NA and vice versa (ie. don't pass coordinate if
     # only one value exists)
-    input_unique$lat <- ifelse(is.na(input_unique$long), NA, input_unique$lat)
-    input_unique$long <- ifelse(is.na(input_unique$lat), NA, input_unique$long)
+    input_unique$lat <- ifelse(is.na(input_unique$long), as.numeric(NA), input_unique$lat)
+    input_unique$long <- ifelse(is.na(input_unique$lat), as.numeric(NA), input_unique$long)
   }
 
   # remove rows that are entirely blank or NA

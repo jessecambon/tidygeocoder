@@ -197,7 +197,6 @@ reverse_geo <-
     check_verbose_quiet(verbose, quiet, reverse = FALSE)
 
     # Check method argument
-
     check_api_options(api_options, "reverse_geo")
     check_method(method, reverse = TRUE, mode, reverse_batch_func_map)
 
