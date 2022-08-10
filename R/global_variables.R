@@ -20,8 +20,8 @@ pkg.globals$geographic_limitations <- list(
   "geocodio" = "United States and Canada"
 )
 
-# these methods do not support reverse geocoding
-pkg.globals$no_reverse_methods <- c("census")
+# these methods (if any) do not support reverse geocoding
+pkg.globals$no_reverse_methods <- c()
 
 # these methods do not support flatten=FALSE for batch geocoding
 pkg.globals$batch_flatten_required_methods <- c("geocodio", "mapquest")

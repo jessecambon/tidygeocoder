@@ -15,7 +15,7 @@ get_api_url <- function(method,
                         geocodio_hipaa = pkg.globals$default_api_options$geocodio_hipaa) {
   api_url <- switch(method,
     "osm" = get_osm_url(reverse = reverse),
-    "census" = get_census_url(return_type, search),
+    "census" = get_census_url(return_type, search, reverse),
     "geocodio" = get_geocodio_url(geocodio_v, reverse = reverse, geocodio_hipaa = geocodio_hipaa),
     "iq" = get_iq_url(iq_region, reverse = reverse),
     "opencage" = get_opencage_url(),
@@ -38,7 +38,14 @@ get_api_url <- function(method,
 
 # return : returntype => 'locations' or 'geographies'
 # search:  searchtype => 'onelineaddress', 'addressbatch', 'address', or 'coordinates'
-get_census_url <- function(return_type, search) {
+get_census_url <- function(return_type, search, reverse) {
+  
+  # workaround for now - ovverride search and return_type
+  if (reverse == TRUE) {
+    search <- "coordinates" 
+    return_type <- "geographies"
+  }
+  
   return(paste0("https://geocoding.geo.census.gov/geocoder/", return_type, "/", search))
 }
 

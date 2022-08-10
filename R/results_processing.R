@@ -156,26 +156,45 @@ extract_reverse_results <- function(method, response, full_results = TRUE, flatt
   }
 
   NA_result <- tibble::tibble(address = as.character(NA))
-
+  
   # extract the single line address
-  address <- switch(method,
-    "osm" = response["display_name"],
-    "iq" = response["display_name"],
-    "geocodio" = response$results["formatted_address"],
-    # note the application of the limit argument for google
-    "google" = response$results[1:rows_to_return, ]["formatted_address"],
-    "opencage" = response$results["formatted"],
-    "mapbox" = response$features["place_name"],
-    "here" = response$items["title"],
-    "tomtom" = response$addresses$address["freeformAddress"],
-    "mapquest" = format_address(
-      response$results$locations[[1]],
-      c("street", paste0("adminArea", seq(6, 1)))
-    ),
-    "bing" = response$resourceSets$resources[[1]]["name"],
-    "arcgis" = response$address["LongLabel"],
-    "geoapify" = response$features$properties["formatted"]
-  )
+  if (method == 'census') {
+    # the census geocoder has a bit of a different output format so we handle it separately
+    
+    # this should be a list of dataframes
+    census_results_raw <- response$result$geographies
+    
+    # this is a single flattened dataframe
+    # one row per geography (geography column) ex. "Counties"
+    # name column is the main output (ex. "Maricopa County")
+    census_results_flattened <- dplyr::bind_cols(
+      tibble::tibble(geography = names(census_results_raw)),
+      dplyr::bind_rows(census_results_raw)
+    )
+    # make colnames lowercase
+    colnames(census_results_flattened) <- tolower(colnames(census_results_flattened))
+    address <- census_results_flattened[c('geography', 'name')]
+    
+  } else {
+    address <- switch(method,
+      "osm" = response["display_name"],
+      "iq" = response["display_name"],
+      "geocodio" = response$results["formatted_address"],
+      # note the application of the limit argument for google
+      "google" = response$results[1:rows_to_return, ]["formatted_address"],
+      "opencage" = response$results["formatted"],
+      "mapbox" = response$features["place_name"],
+      "here" = response$items["title"],
+      "tomtom" = response$addresses$address["freeformAddress"],
+      "mapquest" = format_address(
+        response$results$locations[[1]],
+        c("street", paste0("adminArea", seq(6, 1)))
+      ),
+      "bing" = response$resourceSets$resources[[1]]["name"],
+      "arcgis" = response$address["LongLabel"],
+      "geoapify" = response$features$properties["formatted"]
+    )
+  }
 
   # Return NA if data is not empty or not valid (cannot be turned into a dataframe)
   if (is.null(names(address)) | all(sapply(address, is.null)) | length(address) == 0) {
@@ -186,32 +205,38 @@ extract_reverse_results <- function(method, response, full_results = TRUE, flatt
   address <- tibble::as_tibble(address)
 
   # check to make sure results aren't NA or the wrong width
-  if (nrow(address) == 0 | ncol(address) != 1) {
+  
+  # census address should have two columns (additional "geography" column)
+  if (nrow(address) == 0 || (method == 'census' && ncol(address) != 2) || (method != 'census' && ncol(address != 1))) {
     return(NA_result)
-  }
+  } 
 
   # extract other results (besides single line address)
   if (full_results == TRUE) {
-    results <- tibble::as_tibble(switch(method,
-      "osm" = extract_osm_reverse_full(response),
-      "iq" = extract_osm_reverse_full(response),
-      "geocodio" = response$results[!names(response$results) %in% c("formatted_address")],
-      # note the application of the limit argument for google
-      "google" = response$results[1:rows_to_return, ][!names(response$results) %in% c("formatted_address")],
-      "opencage" = response$results[!names(response$results) %in% c("formatted")],
-      "mapbox" = response$features[!names(response$features) %in% c("place_name")],
-      "here" = response$items[!names(response$items) %in% c("title")],
-      "tomtom" = response$addresses,
-      "mapquest" = response$results$locations[[1]],
-      "bing" = response$resourceSets$resources[[1]][names(response$resourceSets$resources[[1]]) != "name"],
-      "arcgis" = response$address[names(response$address) != "LongLabel"],
-      "geoapify" = response$features$properties[names(response$features$properties) != "formatted"]
-    ))
-
+    
+    if (method == 'census') {
+      results <- tibble::as_tibble(census_results_flattened[!names(census_results_flattened) %in% c("geography", "name")]) 
+    } else {
+      results <- tibble::as_tibble(switch(method,
+        "osm" = extract_osm_reverse_full(response),
+        "iq" = extract_osm_reverse_full(response),
+        "geocodio" = response$results[!names(response$results) %in% c("formatted_address")],
+        # note the application of the limit argument for google
+        "google" = response$results[1:rows_to_return, ][!names(response$results) %in% c("formatted_address")],
+        "opencage" = response$results[!names(response$results) %in% c("formatted")],
+        "mapbox" = response$features[!names(response$features) %in% c("place_name")],
+        "here" = response$items[!names(response$items) %in% c("title")],
+        "tomtom" = response$addresses,
+        "mapquest" = response$results$locations[[1]],
+        "bing" = response$resourceSets$resources[[1]][names(response$resourceSets$resources[[1]]) != "name"],
+        "arcgis" = response$address[names(response$address) != "LongLabel"],
+        "geoapify" = response$features$properties[names(response$features$properties) != "formatted"]
+      ))
+    }
 
     # add prefix to variable names that likely could be in our input dataset
     # to avoid variable name overlap
-    for (var in c("lat", "lon", "long", "latitude", "longitude", "address")) {
+    for (var in c("lat", "lon", "long", "latitude", "longitude", "address", "geography")) {
       if (var %in% names(results)) {
         names(results)[names(results) == var] <- paste0(method, "_", var)
       }

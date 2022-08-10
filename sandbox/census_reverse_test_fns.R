@@ -11,7 +11,7 @@ y_val <- 33.39545
 return_type <- 'geographies' # return_type must be geographies for census reverse geocoding
 search <- 'coordinates'
 
-url_base <- paste0("https://geocoding.geo.census.gov/geocoder/", return_type, "/", search)
+url_base <- tidygeocoder:::get_census_url(return_type, search, reverse=TRUE)
 
 # limit=1 limits the query to one result
 # benchmark = 'Public_AR_Current'
@@ -29,10 +29,8 @@ resp <- httr::GET(url = url_base,
 # dataframe is returned
 raw_results <- jsonlite::fromJSON(httr::content(resp, as = 'text', encoding = "UTF-8"))
 
-final_results <- raw_results$result$geographies
+final_results <- extract_reverse_results('census', raw_results)
 
-flattened_final_results <- bind_cols(
-  tibble(geography = names(final_results)),
-  bind_rows(final_results)
-)
 
+compare_result1 <- reverse_geo(method = 'census', lat = y_val, long = x_val)
+compare_result2 <- reverse_geo(method = 'census', lat = y_val, long = x_val, full_results=TRUE)

@@ -44,6 +44,9 @@ get_coord_parameters <- function(custom_query, method, lat, long) {
   } else if (method == "arcgis") {
     custom_query[["location"]] <-
       paste0(as.character(long), ",", as.character(lat))
+  } else if (method == 'census') {
+    custom_query[["y"]] <- lat
+    custom_query[["x"]] <- long    
   } else {
     stop("Invalid method. See ?reverse_geo", call. = FALSE)
   }
@@ -402,7 +405,12 @@ reverse_geo <-
     } else {
       results <- extract_reverse_results(method, jsonlite::fromJSON(query_results$content), full_results, flatten, limit)
       # rename address column
-      names(results)[1] <- address
+      if (method == "census") {
+        # for census reverse geocoder the first column is 'geography' and address column is second
+        names(results)[2] <- address
+      } else {
+        names(results)[1] <- address
+      }
     }
 
     # Make sure the proper amount of time has elapsed for the query per min_time
