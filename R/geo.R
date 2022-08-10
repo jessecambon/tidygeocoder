@@ -304,10 +304,6 @@ geo <-
     check_common_args("geo", mode, limit, batch_limit, min_time)
     check_method(method, reverse = FALSE, mode, batch_func_map, cascade_order = cascade_order)
 
-    if (!(api_options[["census_return_type"]] %in% c("geographies", "locations"))) {
-      stop("Invalid census_return_type value. See ?geo", call. = FALSE)
-    }
-
     # Deprecate parameters that only existed because of method = "cascade"
     if (api_options[["init"]] == TRUE) {
       if (!missing("cascade_order")) lifecycle::deprecate_warn("1.0.4", "geo(cascade_order)", "geocode_combine()")
