@@ -1,9 +1,11 @@
 # tidygeocoder (development version)
 
+- Added support for reverse geocoding with the US Census service (`method = "census"`). This geocoder returns multiple rows per input coordinate and does not use the limit parameter ([#172](https://github.com/jessecambon/tidygeocoder/issues/172).
 - Changed the default `min_time` (minimum seconds elapsed per query) value to 1 (60 queries per minute) for the Location IQ service ([#166](https://github.com/jessecambon/tidygeocoder/issues/166)).
 - Updated default Geocodio API URL from version 1.6 to 1.7.
 - Fixed code and documentation that incorrectly referred to `mapquest_open` as `mapbox_open`.
 - A message is now displayed warning that `flatten=FALSE` is ignored for Geocodio and Mapquest (the output of these services requires flattening to avoid errors).
+- Added `sample_coordinates` dataset
 
 # tidygeocoder 1.0.5
 
