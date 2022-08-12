@@ -72,11 +72,6 @@ test_that("Test geo() and reverse_geo() error handling", {
   expect_error(reverse_geo(no_query = TRUE, lat = 1, long = 2, mode = "123"))
   # incompatible address arguments
   expect_error(geo(no_query = TRUE, address = "abc", street = "xyz", no_query = TRUE))
-  # invalid return_type
-  expect_error(geo(no_query = TRUE, address = "abc", api_options = list(census_return_type = "xyz")))
-
-  # invalid api_option argument
-  expect_error(geo(no_query = TRUE, address = "abc", api_options = list(bad_argument = "xyz")))
 
   # invalid limit
   expect_error(geo(no_query = TRUE, address = "abc", limit = 0))
@@ -97,15 +92,26 @@ test_that("Test geo() and reverse_geo() error handling", {
   # expect_error(geo('xy', no_query = TRUE, full_results = TRUE, method = 'cascade'))
   # expect_error(geo('ab', no_query = TRUE, limit = 5, method = 'cascade'))
 
+  # api_options tests ------------------------------------------------------------------------------------------------
   # invalid mapbox_permanent parameter
   expect_error(geo(no_query = TRUE, address = "abc", api_options = list(mapbox_permanent = "AA")))
+  expect_error(reverse_geo(no_query = TRUE, lat = -5, long = 10, api_options = list(mapbox_permanent = "AA")))
 
   # invalid api_options parameter
   expect_error(geo(no_query = TRUE, address = "abc", api_options = list(invalid_parameter = "blah")))
+  expect_error(reverse_geo(no_query = TRUE, lat = 0, long = 0, api_options = list(invalid_parameter = "blah")))
+  
+  # api_options - method mismatch
+  expect_error(geo(no_query = TRUE, method = 'google', address = "abc", api_options = list(geocodio_v = 1.0)))
+  expect_error(reverse_geo(lat = 1, long = 2, no_query = TRUE,  method = 'google', address = "abc", api_options = list(geocodio_v = 1.0)))
+  expect_error(geo(no_query = TRUE, method = 'geocodio', address = "abc", api_options = list(geocodio_v = 1.0, census_return_type ="geographies")))
 
   # invalid here_request_id parameter
   expect_error(geo(no_query = TRUE, address = "abc", method = "here", api_options = list(here_request_id = 12345)))
   expect_error(reverse_geo(no_query = TRUE, lat = 1, long = 2, method = "here", api_options = list(here_request_id = 12345)))
+  
+  # invalid return_type
+  expect_error(geo(no_query = TRUE, address = "abc", api_options = list(census_return_type = "xyz")))
 
   # here specific batch issue for here_request_id
   expect_error(reverse_geo(
