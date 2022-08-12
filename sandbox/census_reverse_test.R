@@ -5,11 +5,18 @@ library(httr)
 library(jsonlite)
 library(dplyr)
 
-x_val <- -111.8681
-y_val <- 33.39545
+# x_val <- -111.8681
+# y_val <- 33.39545
+
+# y_val <- "46.81182845"
+# x_val <- "-71.2055490276425"
+
+y_val <- "35.6828387"
+x_val <- "139.7594549"
 
 return_type <- 'geographies' # return_type must be geographies for census reverse geocoding
 search <- 'coordinates'
+
 
 url_base <- paste0("https://geocoding.geo.census.gov/geocoder/", return_type, "/", search)
 

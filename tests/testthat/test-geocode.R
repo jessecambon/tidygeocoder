@@ -150,8 +150,8 @@ test_that("Test geocode() error handling", {
 
 # Check that null/empty address values are handled properly
 test_that("reverse geocode null/empty addresses", {
-  # Currently census is the only method that doesn't support reverse geocoding
-  reverse_methods <- all_methods[!all_methods %in% pkg.globals$no_reverse_methods]
+  # the census reverse geocoder has a different output that must be tested separately
+  reverse_methods <- all_methods[!all_methods %in% c(pkg.globals$no_reverse_methods, "census")]
 
   NA_result <- tibble::tibble(address = as.character(NA))
   NA_data <- tibble::tribble(

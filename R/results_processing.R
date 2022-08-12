@@ -164,6 +164,10 @@ extract_reverse_results <- function(method, response, full_results = TRUE, flatt
     # this should be a list of dataframes
     census_results_raw <- response$result$geographies
     
+    if (length(census_results_raw) == 0) {
+      return(NA_result)
+    }
+    
     # this is a single flattened dataframe
     # one row per geography (geography column) ex. "Counties"
     # name column is the main output (ex. "Maricopa County")
@@ -173,7 +177,7 @@ extract_reverse_results <- function(method, response, full_results = TRUE, flatt
     )
     # make colnames lowercase
     colnames(census_results_flattened) <- tolower(colnames(census_results_flattened))
-    address <- census_results_flattened[c('geography', 'name')]
+    address <- census_results_flattened[names(census_results_flattened) %in% c('geography', 'name')]
     
   } else {
     address <- switch(method,
@@ -206,8 +210,9 @@ extract_reverse_results <- function(method, response, full_results = TRUE, flatt
 
   # check to make sure results aren't NA or the wrong width
   
-  # census address should have two columns (additional "geography" column)
-  if (nrow(address) == 0 || (method == 'census' && ncol(address) != 2) || (method != 'census' && ncol(address != 1))) {
+  # census should have two columns (additional "geography" column)
+  # all other geocoders should have 1 column
+  if (nrow(address) == 0 || (method == 'census' && ncol(address) != 2) || (method != 'census' && ncol(address) != 1)) {
     return(NA_result)
   } 
 

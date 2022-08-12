@@ -7,6 +7,16 @@
 #' }
 "sample_addresses"
 
+#' Sample coordinates for testing
+#'
+#' @format A tibble dataframe with single line addresses
+#' \describe{
+#'  \item{name}{Description of the location}
+#'  \item{lat}{latitude}
+#'  \item{long}{longitude}
+#' }
+"sample_coordinates"
+
 #' Louisville, Kentucky street addresses
 #'
 #' @format A tibble dataframe with component street addresses

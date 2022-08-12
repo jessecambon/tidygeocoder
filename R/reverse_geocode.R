@@ -87,6 +87,10 @@ reverse_geocode <-
 
     # This check prevents a address-results misalignment issue https://github.com/jessecambon/tidygeocoder/issues/88
     check_limit_return_input(limit, return_input)
+    # same issue (census returns multiple rows), but different error message 
+    if (method == 'census' && return_input == TRUE) {
+      stop('To use reverse geocoding with method = "census", set return_input to FALSE.', call. = FALSE)
+    }
 
     # convert .tbl to tibble if it isn't one already
     .tbl <- tibble::as_tibble(.tbl)
