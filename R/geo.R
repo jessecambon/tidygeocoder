@@ -238,9 +238,9 @@ geo <-
         api_options[["here_request_id"]] <- here_request_id
       }
     }
-
+    
     # apply api options defaults for options not specified by the user
-    api_options <- apply_api_options_defaults(api_options)
+    api_options <- apply_api_options_defaults(method, api_options)
 
     # capture all function arguments including default values as a named list.
     # IMPORTANT: make sure to put this statement before any other variables are defined in the function
@@ -267,7 +267,7 @@ geo <-
 
     # Check parameter arguments --------------------------------------------------------
 
-    check_api_options(api_options, "geo")
+    check_api_options(method, api_options, FALSE, return_addresses)
 
     # Check argument inputs
     if (is.null(address) && is.null(street) && is.null(city) && is.null(county) && is.null(state) && is.null(postalcode) && is.null(country)) {
@@ -282,8 +282,10 @@ geo <-
     check_address_argument_datatype(postalcode, "postalcode")
     check_address_argument_datatype(country, "country")
 
-    if (!(api_options[["census_return_type"]] %in% c("geographies", "locations"))) {
-      stop("Invalid return_type argument. See ?geo", call. = FALSE)
+    if (!is.null(api_options[["census_return_type"]])) {
+      if (!(api_options[["census_return_type"]] %in% c("geographies", "locations"))) {
+        stop("Invalid census_return_type argument. See ?geo", call. = FALSE)
+      }
     }
 
     stopifnot(
@@ -291,19 +293,12 @@ geo <-
       is.logical(full_results), is.logical(unique_only), is.logical(return_addresses),
       is.null(batch_limit_error) || is.logical(batch_limit_error), is.logical(progress_bar), is.logical(quiet),
       is.numeric(timeout), timeout >= 0,
-      is.list(custom_query),
-      is.logical(api_options[["mapbox_permanent"]]),
-      is.null(api_options[["here_request_id"]]) || is.character(api_options[["here_request_id"]]),
-      is.logical(api_options[["mapquest_open"]]), is.logical(api_options[["geocodio_hipaa"]])
+      is.list(custom_query)
     )
 
     check_verbose_quiet(verbose, quiet, reverse = FALSE)
     check_common_args("geo", mode, limit, batch_limit, min_time)
     check_method(method, reverse = FALSE, mode, batch_func_map, cascade_order = cascade_order)
-
-    if (!(api_options[["census_return_type"]] %in% c("geographies", "locations"))) {
-      stop("Invalid census_return_type value. See ?geo", call. = FALSE)
-    }
 
     # Deprecate parameters that only existed because of method = "cascade"
     if (api_options[["init"]] == TRUE) {

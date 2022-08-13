@@ -26,6 +26,11 @@ pkg.globals$no_reverse_methods <- c("census")
 # these methods do not support flatten=FALSE for batch geocoding
 pkg.globals$batch_flatten_required_methods <- c("geocodio", "mapquest")
 
+# these are special api_options parameters that do not correspond to a method
+#   cascade_flag: indicates (deprecated) cascade method was used
+#   init: indicates if this is the first pass through the geo or reverse_geo function
+pkg.globals$special_api_options <- c("cascade_flag", "init")
+
 # default settings for the `api_options` argument in geo() and reverse_geo()
 pkg.globals$default_api_options <- list(
   census_return_type = "locations",

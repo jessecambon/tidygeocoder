@@ -108,7 +108,7 @@ extract_results <- function(method, response, full_results = TRUE, flatten = TRU
 
     # add prefix to variable names that likely could be in our input dataset
     # to avoid variable name overlap
-    for (var in c("address", "street", "city", "county", "state", "postalcode", "postcode", "country")) {
+    for (var in c(pkg.globals$address_arg_names, "postcode")) {
       if (var %in% names(results)) {
         names(results)[names(results) == var] <- paste0(method, "_", var)
       }
@@ -177,7 +177,7 @@ extract_reverse_results <- function(method, response, full_results = TRUE, flatt
     "geoapify" = response$features$properties["formatted"]
   )
 
-  # Return NA if data is not empty or not valid (cannot be turned into a dataframe)
+  # Return NA if data is empty or not valid (cannot be turned into a dataframe)
   if (is.null(names(address)) | all(sapply(address, is.null)) | length(address) == 0) {
     return(NA_result)
   }

@@ -62,14 +62,14 @@ geocoder_summary_table %>%
 
 -   The US Census service does not support reverse geocoding and is limited to the United States.
 -   Geocodio is limited to the United States and Canada.
--   The Census and Nominatim ("osm") services are free and do not require an API key.
+-   The US Census and Nominatim ("osm") services are free and do not require an API key.
 -   ArcGIS can be used for free without an API key, but some features require a paid subscription and an API key.
 -   Geoapify, Geocodio, Location IQ, OpenCage, Mapbox, HERE, TomTom, MapQuest, and Bing are commercial services that offer free tiers.
 -   The Google service has no free tier and [bills per query](https://developers.google.com/maps/documentation/geocoding/usage-and-billing).
 
 ## Data Privacy
 
-Due diligence must be exercised when geocoding sensitive data as tidygeocoder utilizes third party web services to perform geocoding. Within the context of healthcare, using patient or study subject address data with a third party geocoding service can risk violating standard [IRB](https://www.fda.gov/regulatory-information/search-fda-guidance-documents/institutional-review-boards-frequently-asked-questions) and [HIPAA privacy rules](https://www.cdc.gov/phlp/publications/topic/hipaa.html).
+Due diligence must be exercised when geocoding sensitive data as tidygeocoder utilizes third party web services to perform geocoding. Within the context of healthcare, using patient or study subject address data with a third party geocoding service can risk violating privacy rules for [International Review Boards (IRBs)](https://www.fda.gov/regulatory-information/search-fda-guidance-documents/institutional-review-boards-frequently-asked-questions) and [HIPAA](https://www.cdc.gov/phlp/publications/topic/hipaa.html).
 
 Further details on possible risk are described [here](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC8972108/). Refer to the documentation on your selected geocoding service (see links above) for information on how your data will be utilized and stored. 
 
