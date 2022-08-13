@@ -267,7 +267,7 @@ geo <-
 
     # Check parameter arguments --------------------------------------------------------
 
-    check_api_options(method, api_options, reverse = FALSE)
+    check_api_options(method, api_options, FALSE, return_addresses)
 
     # Check argument inputs
     if (is.null(address) && is.null(street) && is.null(city) && is.null(county) && is.null(state) && is.null(postalcode) && is.null(country)) {
@@ -293,11 +293,7 @@ geo <-
       is.logical(full_results), is.logical(unique_only), is.logical(return_addresses),
       is.null(batch_limit_error) || is.logical(batch_limit_error), is.logical(progress_bar), is.logical(quiet),
       is.numeric(timeout), timeout >= 0,
-      is.list(custom_query),
-      is.null(api_options[["mapbox_permanent"]]) || is.logical(api_options[["mapbox_permanent"]]),
-      is.null(api_options[["here_request_id"]]) || is.character(api_options[["here_request_id"]]),
-      is.null(api_options[["mapquest_open"]]) || is.logical(api_options[["mapquest_open"]]),
-      is.null(api_options[["geocodio_hipaa"]]) || is.logical(api_options[["geocodio_hipaa"]])
+      is.list(custom_query)
     )
 
     check_verbose_quiet(verbose, quiet, reverse = FALSE)

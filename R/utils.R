@@ -382,7 +382,19 @@ apply_api_options_defaults <- function(method, api_options) {
 
 # throw error if method and a specified api_option is mismatched 
 # ie. method='census' and api_options(list(geocodio_hipaa=TRUE))
-check_api_options <- function(method, api_options, reverse=FALSE) {
+# return_inputs : return_addresses for geo() or return_inputs for reverse_geo()
+check_api_options <- function(method, api_options, reverse, return_inputs) {
+  
+  stopifnot(
+    is.null(api_options[["mapbox_permanent"]]) || is.logical(api_options[["mapbox_permanent"]]),
+    is.null(api_options[["here_request_id"]]) || is.character(api_options[["here_request_id"]]),
+    is.null(api_options[["mapquest_open"]]) || is.logical(api_options[["mapquest_open"]]),
+    is.null(api_options[["geocodio_hipaa"]]) || is.logical(api_options[["geocodio_hipaa"]])
+  )
+  
+  if (method == "here") check_here_return_input(api_options[["here_request_id"]], return_inputs, reverse = reverse)
+  
+  
   # cycle through the api options specified (except for init)
   if (api_options$init == TRUE) {
     api_method_mismatch_args <- c() # store mismatch api_options here
@@ -403,7 +415,6 @@ check_api_options <- function(method, api_options, reverse=FALSE) {
         api_method_mismatch_args <- c(api_method_mismatch_args, api_opt)
       }
     } # end loop
-    
     
     # error message for bad api arguments
     if (length(api_bad_args) != 0) {

@@ -6,6 +6,7 @@
 # utility function for packaging either lat longs or address data
 # takes a dataframe input
 # cords = TRUE if processing coordinates
+# note that reverse_geo() converts lat and long into numeric before passing to this function
 package_inputs <- function(input_orig, coords = FALSE) {
   input_colnames <- names(input_orig) # store column names
 
