@@ -205,7 +205,7 @@ console.</p>
 <span><span class="co">#&gt; format : "json"</span></span>
 <span><span class="co">#&gt; benchmark : "Public_AR_Current"</span></span>
 <span><span class="co">#&gt; vintage : "Current_Current"</span></span>
-<span><span class="co">#&gt; Query completed in: 0.6 seconds</span></span></code></pre></div>
+<span><span class="co">#&gt; Query completed in: 0.4 seconds</span></span></code></pre></div>
 <table class="table">
 <thead><tr class="header">
 <th align="left">singlelineaddress</th>
@@ -267,7 +267,7 @@ following arguments to specify your addresses: <code>street</code>,
 <code class="sourceCode R"><span><span class="va">census_c1</span> <span class="op">&lt;-</span> <span class="va">address_components</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="../reference/geocode.html">geocode</a></span><span class="op">(</span>street <span class="op">=</span> <span class="va">street</span>, city <span class="op">=</span> <span class="va">cty</span>, state <span class="op">=</span> <span class="va">st</span>, method <span class="op">=</span> <span class="st">"census"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Passing 2 addresses to the US Census batch geocoder</span></span>
-<span><span class="co">#&gt; Query completed in: 0.5 seconds</span></span></code></pre></div>
+<span><span class="co">#&gt; Query completed in: 0.9 seconds</span></span></code></pre></div>
 <table class="table">
 <thead><tr class="header">
 <th align="left">street</th>
@@ -307,7 +307,7 @@ returned.</p>
 <span>  method <span class="op">=</span> <span class="st">"census"</span>, full_results <span class="op">=</span> <span class="cn">TRUE</span>, api_options <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>census_return_type <span class="op">=</span> <span class="st">'geographies'</span><span class="op">)</span></span>
 <span><span class="op">)</span></span>
 <span><span class="co">#&gt; Passing 2 addresses to the US Census batch geocoder</span></span>
-<span><span class="co">#&gt; Query completed in: 0.4 seconds</span></span></code></pre></div>
+<span><span class="co">#&gt; Query completed in: 0.5 seconds</span></span></code></pre></div>
 <table class="table">
 <colgroup>
 <col width="16%">
@@ -508,9 +508,9 @@ returned (not just the single line address column).</p>
 <span><span class="co">#&gt; Columns: 23</span></span>
 <span><span class="co">#&gt; $ lat              &lt;dbl&gt; 38.89587, 43.65348</span></span>
 <span><span class="co">#&gt; $ long             &lt;dbl&gt; -77.03077, -79.38393</span></span>
-<span><span class="co">#&gt; $ address          &lt;chr&gt; "L’Enfant's plan, Pennsylvania Avenue, Washington, District of Columbia, 20045, United States", "Toronto City Hall, 100, Que…</span></span>
+<span><span class="co">#&gt; $ address          &lt;chr&gt; "L’Enfant's plan, Pennsylvania Avenue, Washington, District of Columbia, 20045, United States", "Toronto City Hall, 100, Queen Street West, F…</span></span>
 <span><span class="co">#&gt; $ place_id         &lt;int&gt; 275427865, 152735232</span></span>
-<span><span class="co">#&gt; $ licence          &lt;chr&gt; "Data © OpenStreetMap contributors, ODbL 1.0. https://osm.org/copyright", "Data © OpenStreetMap contributors, ODbL 1.0. http…</span></span>
+<span><span class="co">#&gt; $ licence          &lt;chr&gt; "Data © OpenStreetMap contributors, ODbL 1.0. https://osm.org/copyright", "Data © OpenStreetMap contributors, ODbL 1.0. https://osm.org/copyr…</span></span>
 <span><span class="co">#&gt; $ osm_type         &lt;chr&gt; "way", "way"</span></span>
 <span><span class="co">#&gt; $ osm_id           &lt;int&gt; 899927546, 198500761</span></span>
 <span><span class="co">#&gt; $ osm_lat          &lt;chr&gt; "38.895859599999994", "43.6536032"</span></span>
@@ -559,7 +559,7 @@ addresses are passed to the geocoding service.</p>
 <span><span class="co">#&gt; limit : "1"</span></span>
 <span><span class="co">#&gt; format : "json"</span></span>
 <span><span class="co">#&gt; HTTP Status Code: 200</span></span>
-<span><span class="co">#&gt; Query completed in: 0.7 seconds</span></span>
+<span><span class="co">#&gt; Query completed in: 0.9 seconds</span></span>
 <span><span class="co">#&gt; Total query time (including sleep): 1 seconds</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; </span></span>
@@ -801,15 +801,15 @@ parameter from being included in the query.</p>
 <span><span class="co">#&gt; $ lat          &lt;dbl&gt; -12.06211, -12.20011, -11.99997, 30.04439, 30.03521, 30.03325</span></span>
 <span><span class="co">#&gt; $ long         &lt;dbl&gt; -77.03653, -76.28506, -76.83322, 31.23573, 31.56337, 31.56217</span></span>
 <span><span class="co">#&gt; $ place_id     &lt;int&gt; 298428260, 298361673, 298381610, 338723021, 298794275, 298680500</span></span>
-<span><span class="co">#&gt; $ licence      &lt;chr&gt; "Data © OpenStreetMap contributors, ODbL 1.0. https://osm.org/copyright", "Data © OpenStreetMap contributors, ODbL 1.0. https://…</span></span>
+<span><span class="co">#&gt; $ licence      &lt;chr&gt; "Data © OpenStreetMap contributors, ODbL 1.0. https://osm.org/copyright", "Data © OpenStreetMap contributors, ODbL 1.0. https://osm.org/copyright…</span></span>
 <span><span class="co">#&gt; $ osm_type     &lt;chr&gt; "relation", "relation", "relation", "node", "relation", "relation"</span></span>
 <span><span class="co">#&gt; $ osm_id       &lt;int&gt; 1944756, 1944659, 1944670, 271613766, 5466227, 4103336</span></span>
-<span><span class="co">#&gt; $ boundingbox  &lt;list&gt; &lt;"-12.0797663", "-12.0303496", "-77.0884555", "-77.0017774"&gt;, &lt;"-13.3241714", "-10.2741856", "-77.8863105", "-75.5075"&gt;, &lt;"-12.5…</span></span>
-<span><span class="co">#&gt; $ display_name &lt;chr&gt; "Lima, Lima Metropolitana, Lima, Perú", "Lima, Perú", "Lima, Lima Metropolitana, Lima, Perú", "القاهرة, 11519, مصر", "القاهرة, م…</span></span>
+<span><span class="co">#&gt; $ boundingbox  &lt;list&gt; &lt;"-12.0797663", "-12.0303496", "-77.0884555", "-77.0017774"&gt;, &lt;"-13.3241714", "-10.2741856", "-77.8863105", "-75.5075"&gt;, &lt;"-12.5199316", "-11.572…</span></span>
+<span><span class="co">#&gt; $ display_name &lt;chr&gt; "Lima, Lima Metropolitana, Lima, Perú", "Lima, Perú", "Lima, Lima Metropolitana, Lima, Perú", "القاهرة, 11519, مصر", "القاهرة, مصر", "القاهرة, مص…</span></span>
 <span><span class="co">#&gt; $ class        &lt;chr&gt; "boundary", "boundary", "boundary", "place", "place", "boundary"</span></span>
 <span><span class="co">#&gt; $ type         &lt;chr&gt; "administrative", "administrative", "administrative", "city", "city", "administrative"</span></span>
 <span><span class="co">#&gt; $ importance   &lt;dbl&gt; 0.7830015, 0.6119761, 0.5934835, 0.6960286, 0.6960286, 0.4835559</span></span>
-<span><span class="co">#&gt; $ icon         &lt;chr&gt; "https://nominatim.openstreetmap.org/ui/mapicons/poi_boundary_administrative.p.20.png", "https://nominatim.openstreetmap.org/ui/…</span></span></code></pre></div>
+<span><span class="co">#&gt; $ icon         &lt;chr&gt; "https://nominatim.openstreetmap.org/ui/mapicons/poi_boundary_administrative.p.20.png", "https://nominatim.openstreetmap.org/ui/mapicons/poi_boun…</span></span></code></pre></div>
 <p>To directly specify specific API parameters for a given
 <code>method</code> you can use the <code>custom_query</code> parameter.
 For example, <a href="https://nominatim.org/release-docs/develop/api/Details/#parameters" class="external-link">the

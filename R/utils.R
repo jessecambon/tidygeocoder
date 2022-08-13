@@ -215,22 +215,6 @@ check_limit_for_batch <- function(limit, return_input, reverse) {
   }
 }
 
-
-# check for HERE method batch queries --- for use in geo() and reverse_geo()
-check_here_return_input <- function(here_request_id, return_input, reverse) {
-  input_terms <- get_coord_address_terms(reverse)
-
-  # If a previous job is requested return_addresses should be FALSE
-  # This is because the job won't send the addresses, but would recover the
-  # results of a previous request
-  if (is.character(here_request_id) && return_input == TRUE) {
-    stop("HERE: When requesting a previous job via here_request_id, set ", input_terms$return_arg,
-      " to FALSE. See ?", input_terms$base_func_name, " for details.",
-      call. = FALSE
-    )
-  }
-}
-
 # Misc -----------------------------------------------------------------------------------------
 
 ## function for extracting everything except the single line
@@ -366,6 +350,21 @@ initialize_init <- function(api_options) {
   return(api_options)
 }
 
+# check for HERE method batch queries --- for use in geo() and reverse_geo()
+check_here_return_input <- function(here_request_id, return_input, reverse) {
+  input_terms <- get_coord_address_terms(reverse)
+  
+  # If a previous job is requested return_addresses should be FALSE
+  # This is because the job won't send the addresses, but would recover the
+  # results of a previous request
+  if (is.character(here_request_id) && return_input == TRUE) {
+    stop("HERE: When requesting a previous job via here_request_id, set ", input_terms$return_arg,
+         " to FALSE. See ?", input_terms$base_func_name, " for details.",
+         call. = FALSE
+    )
+  }
+}
+
 # apply api options defaults for options not specified by the user
 # that are relevant for the specified method
 # called by geo() and reverse_geo()
@@ -396,49 +395,49 @@ check_api_options <- function(method, api_options, reverse, return_inputs) {
   
   
   # cycle through the api options specified (except for init)
-  if (api_options$init == TRUE) {
-    api_method_mismatch_args <- c() # store mismatch api_options here
-    api_bad_args <- c() # store invalid api_options here
-    error_message <- c() # store error message here (if any)
+  #  if (api_options$init == TRUE) {
+  api_method_mismatch_args <- c() # store mismatch api_options here
+  api_bad_args <- c() # store invalid api_options here
+  error_message <- c() # store error message here (if any)
+  
+  for (api_opt in names(api_options)[!names(api_options) %in% pkg.globals$special_api_options]) {
+    # extract method name from api_option
+    api_opt_method <- strsplit(api_opt, "_")[[1]][[1]]
     
-    for (api_opt in names(api_options)[!names(api_options) %in% pkg.globals$special_api_options]) {
-      # extract method name from api_option
-      api_opt_method <- strsplit(api_opt, "_")[[1]][[1]]
-      
-      # check if api parameter is valid
-      if (!api_opt %in% names(pkg.globals$default_api_options)) {
-        api_bad_args <- c(api_bad_args, api_opt)
-      }
-      # if api parameter is valid but there is a mismatch with selected method
-      # then add offending arg to vector
-      else if (api_opt_method != method) {
-        api_method_mismatch_args <- c(api_method_mismatch_args, api_opt)
-      }
-    } # end loop
-    
-    # error message for bad api arguments
-    if (length(api_bad_args) != 0) {
-      error_message <- c(error_message,
-         paste0(
-           "Invalid api_options parameter(s) used:\n\n",
-           paste0(api_bad_args, sep = "  "), "\n\n"
-         ))
+    # check if api parameter is valid
+    if (!api_opt %in% names(pkg.globals$default_api_options)) {
+      api_bad_args <- c(api_bad_args, api_opt)
     }
-    
-    # error message for api arguments that mismatch with the method argument
-    if (length(api_method_mismatch_args) != 0) {
-      error_message <- c(error_message,
-        'method = "', method, '" is not compatible with the specified api_options parameter(s):\n\n',
-        paste0(api_method_mismatch_args, sep = "  "), "\n\n"
-      )
+    # if api parameter is valid but there is a mismatch with selected method
+    # then add offending arg to vector
+    else if (api_opt_method != method) {
+      api_method_mismatch_args <- c(api_method_mismatch_args, api_opt)
     }
-    
-    # show error (if applicable)
-    if (length(error_message) != 0) {
-      stop(error_message,
-        'See ?', if (reverse == TRUE) "reverse_geo" else "geo",
-        call. = FALSE
-      )
-    }
+  } # end loop
+  
+  # error message for bad api arguments
+  if (length(api_bad_args) != 0) {
+    error_message <- c(error_message,
+       paste0(
+         "Invalid api_options parameter(s) used:\n\n",
+         paste0(api_bad_args, sep = "  "), "\n\n"
+       ))
   }
+  
+  # error message for api arguments that mismatch with the method argument
+  if (length(api_method_mismatch_args) != 0) {
+    error_message <- c(error_message,
+      'method = "', method, '" is not compatible with the specified api_options parameter(s):\n\n',
+      paste0(api_method_mismatch_args, sep = "  "), "\n\n"
+    )
+  }
+  
+  # show error (if applicable)
+  if (length(error_message) != 0) {
+    stop(error_message,
+      'See ?', if (reverse == TRUE) "reverse_geo" else "geo",
+      call. = FALSE
+    )
+  }
+#  }
 }

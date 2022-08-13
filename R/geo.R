@@ -284,7 +284,7 @@ geo <-
 
     if (!is.null(api_options[["census_return_type"]])) {
       if (!(api_options[["census_return_type"]] %in% c("geographies", "locations"))) {
-        stop("Invalid return_type argument. See ?geo", call. = FALSE)
+        stop("Invalid census_return_type argument. See ?geo", call. = FALSE)
       }
     }
 

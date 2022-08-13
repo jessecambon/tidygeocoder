@@ -66,7 +66,7 @@ census_s1 <- address_single %>%
 #> format : "json"
 #> benchmark : "Public_AR_Current"
 #> vintage : "Current_Current"
-#> Query completed in: 0.6 seconds
+#> Query completed in: 0.4 seconds
 ```
 
 
@@ -99,7 +99,7 @@ Instead of single-line addresses, you can use any combination of the following a
 census_c1 <- address_components %>%
   geocode(street = street, city = cty, state = st, method = "census")
 #> Passing 2 addresses to the US Census batch geocoder
-#> Query completed in: 0.5 seconds
+#> Query completed in: 0.9 seconds
 ```
 
 |street                  |cty     |st |      lat|      long|
@@ -116,7 +116,7 @@ census_full1 <- address_single %>% geocode(
   method = "census", full_results = TRUE, api_options = list(census_return_type = 'geographies')
 )
 #> Passing 2 addresses to the US Census batch geocoder
-#> Query completed in: 0.4 seconds
+#> Query completed in: 0.5 seconds
 ```
 
 
@@ -187,9 +187,9 @@ glimpse(rev2)
 #> Columns: 23
 #> $ lat              <dbl> 38.89587, 43.65348
 #> $ long             <dbl> -77.03077, -79.38393
-#> $ address          <chr> "L’Enfant's plan, Pennsylvania Avenue, Washington, District of Columbia, 20045, United States", "Toronto City Hall, 100, Que…
+#> $ address          <chr> "L’Enfant's plan, Pennsylvania Avenue, Washington, District of Columbia, 20045, United States", "Toronto City Hall, 100, Queen Street West, F…
 #> $ place_id         <int> 275427865, 152735232
-#> $ licence          <chr> "Data © OpenStreetMap contributors, ODbL 1.0. https://osm.org/copyright", "Data © OpenStreetMap contributors, ODbL 1.0. http…
+#> $ licence          <chr> "Data © OpenStreetMap contributors, ODbL 1.0. https://osm.org/copyright", "Data © OpenStreetMap contributors, ODbL 1.0. https://osm.org/copyr…
 #> $ osm_type         <chr> "way", "way"
 #> $ osm_id           <int> 899927546, 198500761
 #> $ osm_lat          <chr> "38.895859599999994", "43.6536032"
@@ -236,7 +236,7 @@ duplicates_geocoded <- duplicate_addrs %>%
 #> limit : "1"
 #> format : "json"
 #> HTTP Status Code: 200
-#> Query completed in: 0.7 seconds
+#> Query completed in: 0.9 seconds
 #> Total query time (including sleep): 1 seconds
 #> 
 #> 
@@ -367,15 +367,15 @@ glimpse(geo_limit)
 #> $ lat          <dbl> -12.06211, -12.20011, -11.99997, 30.04439, 30.03521, 30.03325
 #> $ long         <dbl> -77.03653, -76.28506, -76.83322, 31.23573, 31.56337, 31.56217
 #> $ place_id     <int> 298428260, 298361673, 298381610, 338723021, 298794275, 298680500
-#> $ licence      <chr> "Data © OpenStreetMap contributors, ODbL 1.0. https://osm.org/copyright", "Data © OpenStreetMap contributors, ODbL 1.0. https://…
+#> $ licence      <chr> "Data © OpenStreetMap contributors, ODbL 1.0. https://osm.org/copyright", "Data © OpenStreetMap contributors, ODbL 1.0. https://osm.org/copyright…
 #> $ osm_type     <chr> "relation", "relation", "relation", "node", "relation", "relation"
 #> $ osm_id       <int> 1944756, 1944659, 1944670, 271613766, 5466227, 4103336
-#> $ boundingbox  <list> <"-12.0797663", "-12.0303496", "-77.0884555", "-77.0017774">, <"-13.3241714", "-10.2741856", "-77.8863105", "-75.5075">, <"-12.5…
-#> $ display_name <chr> "Lima, Lima Metropolitana, Lima, Perú", "Lima, Perú", "Lima, Lima Metropolitana, Lima, Perú", "القاهرة, 11519, مصر", "القاهرة, م…
+#> $ boundingbox  <list> <"-12.0797663", "-12.0303496", "-77.0884555", "-77.0017774">, <"-13.3241714", "-10.2741856", "-77.8863105", "-75.5075">, <"-12.5199316", "-11.572…
+#> $ display_name <chr> "Lima, Lima Metropolitana, Lima, Perú", "Lima, Perú", "Lima, Lima Metropolitana, Lima, Perú", "القاهرة, 11519, مصر", "القاهرة, مصر", "القاهرة, مص…
 #> $ class        <chr> "boundary", "boundary", "boundary", "place", "place", "boundary"
 #> $ type         <chr> "administrative", "administrative", "administrative", "city", "city", "administrative"
 #> $ importance   <dbl> 0.7830015, 0.6119761, 0.5934835, 0.6960286, 0.6960286, 0.4835559
-#> $ icon         <chr> "https://nominatim.openstreetmap.org/ui/mapicons/poi_boundary_administrative.p.20.png", "https://nominatim.openstreetmap.org/ui/…
+#> $ icon         <chr> "https://nominatim.openstreetmap.org/ui/mapicons/poi_boundary_administrative.p.20.png", "https://nominatim.openstreetmap.org/ui/mapicons/poi_boun…
 ```
 
 To directly specify specific API parameters for a given `method` you can use the `custom_query` parameter. For example, [the Nominatim (OSM) geocoder has a 'polygon_geojson' argument](https://nominatim.org/release-docs/develop/api/Details/#parameters) that can be used to return GeoJSON geometry content. To pass this parameter you can insert it with a named list using the `custom_query` argument:
