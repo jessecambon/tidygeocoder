@@ -121,8 +121,14 @@ api_parameter_reference <- tibble::tribble(
   # ArcGis may not require an api key
 
   "arcgis", "address", "SingleLine", NA, FALSE,
+  "arcgis", "street", "address", NA, FALSE,
+  "arcgis", "city", "city", NA, FALSE,
+  "arcgis", "state", "region", NA, FALSE,
+  "arcgis", "postalcode", "postal", NA, FALSE,
+  "arcgis", "country", "countryCode", NA, FALSE,
   "arcgis", "limit", "maxLocations", "1", FALSE,
   "arcgis", "format", "f", "json", TRUE,
+  "arcgis", "outFields", "outFields", "*",TRUE,
 
   ########################### geoapify #################################
   # geoapify returns geojson by default
