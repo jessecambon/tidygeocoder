@@ -107,6 +107,18 @@ batch_geocodio <- function(unique_addresses, method = "geocodio", lat = "lat", l
     address_list <- as.list(address_df[["address"]])
   } else {
     # if address components are passed then ...
+    
+    #rename columns to match API parameters
+    api_ref <- tidygeocoder::api_parameter_reference
+    new_names <- list()
+    for (param_name in names(address_df)) {
+      new_names <- c(
+        new_names,
+        api_ref[which((api_ref$method==method) &
+                        (api_ref$generic_name==param_name)), "api_name"][[1]])
+    }
+    names(address_df) = new_names
+    
     # convert dataframe into named lists which we will pass to the geocoder via httr::POST
     address_list <- list()
     for (index in 1:nrow(address_df)) {
