@@ -486,9 +486,6 @@ geo <-
         batch_unique_addresses <- address_pack$unique
       }
 
-      if (method == "here") check_here_return_input(api_options[["here_request_id"]], return_addresses, reverse = FALSE)
-
-
       # Display message to user on the batch query
       if (quiet == FALSE) {
         query_start_message(

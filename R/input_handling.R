@@ -7,10 +7,12 @@
 # takes a dataframe input
 # cords = TRUE if processing coordinates
 # note that reverse_geo() converts lat and long into numeric before passing to this function
-package_inputs <- function(input_orig, coords = FALSE) {
-  input_colnames <- names(input_orig) # store column names
-
+package_inputs <- function(input_orig, data=data.frame(), coords = FALSE) {
   input_unique <- input_orig
+  
+  if ((nrow(data) > 0) && (nrow(data) != nrow(input_orig))) stop("Mismatch between data and inputs")
+  
+  input_colnames <- names(input_orig) # store column names
 
   # limit lat/longs in unique dataset to possible values
   if (coords == TRUE) {
@@ -36,7 +38,8 @@ package_inputs <- function(input_orig, coords = FALSE) {
     names(NA_list) <- input_colnames
     return(list(
       unique = tibble::as_tibble(NA_list),
-      crosswalk = tibble::tibble(.id = 1:nrow(input_orig), .uid = 1)
+      crosswalk = tibble::tibble(.id = 1:nrow(input_orig), .uid = 1),
+      data = tibble::as_tibble(data)
     ))
   }
 
@@ -50,22 +53,25 @@ package_inputs <- function(input_orig, coords = FALSE) {
   crosswalk <- crosswalk[order(crosswalk[[".id"]]), ] # reorder
 
   # Return a named list containing two dataframes.
-  # unique contains all the unique inputs to pass to the geocoder service
-  # crosswalk contains only the .uid and .id columns to match the geocoder results
+  #   unique: contains all the unique inputs to pass to the geocoder service
+  #   crosswalk: contains only the .uid and .id columns to match the geocoder results
+  #   data: extra (optional) data that corresponds to the rows in crosswalk (ie. could contain dups)
   # back to the original input data (which may contain duplicates/blanks/etc)
   return(list(
     unique = tibble::as_tibble(input_unique[!names(input_unique) %in% c(".uid")]),
-    crosswalk = tibble::as_tibble(crosswalk[!names(crosswalk) %in% input_colnames])
+    crosswalk = tibble::as_tibble(crosswalk[!names(crosswalk) %in% input_colnames]),
+    data = tibble::as_tibble(data)
   ))
 }
 
 # Function for packaging and deduping addresses that are passed to the geo function
 # package addresses
 package_addresses <- function(address = NULL,
-                              street = NULL, city = NULL, county = NULL, state = NULL, postalcode = NULL, country = NULL) {
+                              street = NULL, city = NULL, county = NULL, state = NULL, postalcode = NULL, country = NULL, data=data.frame()) {
 
   # package all non-NULL address arguments into a named list
   combined_addr <- as.list(environment())
+  combined_addr$data <- NULL
   combined_addr[sapply(combined_addr, is.null)] <- NULL # remove NULL items
   # apply trimws to non-NA values
   # (trimws converts to character so it turns NA into the 'NA' character value)
@@ -86,7 +92,7 @@ package_addresses <- function(address = NULL,
   addr_orig <- tibble::as_tibble(combined_addr)
 
   # package and return
-  return(package_inputs(tibble::as_tibble(combined_addr)))
+  return(package_inputs(tibble::as_tibble(combined_addr), data = data, coords = FALSE))
 }
 
 # Function for unpackaging and RE-deduping inputs (either addresses or lat/long coordinates)
@@ -103,14 +109,17 @@ unpackage_inputs <- function(package, results, unique_only = FALSE, return_input
 
   # Add addresses to results if we are returning them
   if (return_inputs == TRUE) results <- dplyr::bind_cols(package$unique, results)
-
+  
   # if there are no duplicates then just return the raw results
   if ((nrow(package$unique) == nrow(package$crosswalk)) || unique_only == TRUE) {
     return(tibble::as_tibble(results))
   }
-
+  
   # If there are duplicates then we need to use the crosswalk to return results properly
   id_colnames <- names(package$crosswalk)
+  
+  # Add extra data to crosswalk (if any)
+  
 
   # on the off chance that the results dataset has the
   # id colnames in it then we remove them
@@ -124,6 +133,11 @@ unpackage_inputs <- function(package, results, unique_only = FALSE, return_input
   # contain NA values and nested dataframes
   base <- dplyr::left_join(package$crosswalk, results, by = ".uid")
   base <- base[order(base[[".id"]]), ] # reorder just in case
-
+  
+  # add our extra data in if we have it
+  if (nrow(package$data) > 0) {
+    package$data[".id"] <- 1:nrow(package$data)
+    base <- dplyr::left_join(base, package$data, by = ".id")
+  }
   return(tibble::as_tibble(base[!names(base) %in% id_colnames]))
 }

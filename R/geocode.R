@@ -112,7 +112,7 @@ geocode <-
     }
 
     # This check prevents a address-results misalignment issue https://github.com/jessecambon/tidygeocoder/issues/88
-    check_limit_return_input(limit, return_input)
+    #check_limit_return_input(limit, return_input) # <---------- NOTE
 
     # convert .tbl to tibble if it isn't one already
     .tbl <- tibble::as_tibble(.tbl)
@@ -123,6 +123,7 @@ geocode <-
     for (var in pkg.globals$address_arg_names) {
       if (!is.null(all_args[[var]])) {
 
+        # TODO: add variable name to this error
         # throw error if the an address parameter doesn't specify a column in the dataset
         if (!(all_args[[var]] %in% colnames(.tbl))) {
           stop(paste0('"', all_args[[var]], '" is not a column name in the input dataset.'), call. = FALSE)

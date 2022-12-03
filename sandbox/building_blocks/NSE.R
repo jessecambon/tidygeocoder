@@ -9,22 +9,6 @@ print_nse <- function(x) {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 ## NSE - passing a variable name as a function argument
 select_mt2 <- function(x) {
   print(is.character(x))

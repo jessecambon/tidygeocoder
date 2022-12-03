@@ -393,7 +393,6 @@ check_api_options <- function(method, api_options, reverse, return_inputs) {
   
   if (method == "here") check_here_return_input(api_options[["here_request_id"]], return_inputs, reverse = reverse)
   
-  
   # cycle through the api options specified (except for init)
   #  if (api_options$init == TRUE) {
   api_method_mismatch_args <- c() # store mismatch api_options here
