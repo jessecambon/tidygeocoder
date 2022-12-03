@@ -105,6 +105,7 @@
 <li>Fixed code and documentation that incorrectly referred to <code>mapquest_open</code> as <code>mapbox_open</code>.</li>
 <li>An error is now thrown if an <code>api_options</code> parameter is not compatible with the specified <code>method</code>.</li>
 <li>A message is now displayed warning that <code>flatten=FALSE</code> is ignored for Geocodio and Mapquest (the output of these services requires flattening to avoid errors).</li>
+<li>Fixed a bug where the Geocodio service did not pass the correct address component parameter names (<a href="https://github.com/jessecambon/tidygeocoder/issues/178" class="external-link">#178</a>, <a href="https://github.com/ottothecow" class="external-link">@ottothecow</a>).</li>
 </ul></div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="1.0.5" id="tidygeocoder-105">tidygeocoder 1.0.5<small>2021-11-02</small><a class="anchor" aria-label="anchor" href="#tidygeocoder-105"></a></h2>
@@ -129,7 +130,7 @@
 <li>Default arguments with <code><a href="https://rdrr.io/r/base/options.html" class="external-link">options()</a></code> for <code>verbose</code>, <code>quiet</code>, and <code>progress_bar</code>. For instance <code>options(tidygeocoder.verbose = TRUE)</code> changes the default value of <code>verbose</code> from FALSE to TRUE.</li>
 </ul></div>
 <div class="section level4">
-<h4 id="bugfixes-1-0-4">Bugfixes<a class="anchor" aria-label="anchor" href="#bugfixes-1-0-4"></a></h4>
+<h4 id="bug-fixes-1-0-4">Bug Fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-1-0-4"></a></h4>
 <ul><li>Fixed a bug for Bing forward geocoding <code><a href="../reference/geo.html">geo()</a></code> when no results are found (<a href="https://github.com/jessecambon/tidygeocoder/issues/112" class="external-link">#112</a>).</li>
 <li>Fixed a bug that occurred in reverse geocoding when passing a set of exclusively duplicate coordinates (ie. 1 unique coordinate) (<a href="https://github.com/jessecambon/tidygeocoder/issues/129" class="external-link">#129</a>).</li>
 </ul></div>
