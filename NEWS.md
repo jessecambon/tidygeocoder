@@ -5,7 +5,10 @@
 - Fixed code and documentation that incorrectly referred to `mapquest_open` as `mapbox_open`.
 - An error is now thrown if an `api_options` parameter is not compatible with the specified `method`.
 - A message is now displayed warning that `flatten=FALSE` is ignored for Geocodio and Mapquest (the output of these services requires flattening to avoid errors).
+- Address component parameters (street, city, state, postal code, and country) can now be used with the ArcGIS service ([#180](https://github.com/jessecambon/tidygeocoder/issues/180), [#ottothecow](https://github.com/ottothecow))
+- The ArcGIS service now returns all available parameters by default ([#177](https://github.com/jessecambon/tidygeocoder/issues/177), [#ottothecow](https://github.com/ottothecow))
 - Fixed a bug where the Geocodio service did not pass the correct address component parameter names ([#178](https://github.com/jessecambon/tidygeocoder/issues/178), [@ottothecow](https://github.com/ottothecow)).
+
 
 # tidygeocoder 1.0.5
 
