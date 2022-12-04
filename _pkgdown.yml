@@ -39,24 +39,6 @@ reference:
   - query_api
   - extract_results
   - extract_reverse_results
-- title: Deprecated Functions
-  desc: <a href="https://lifecycle.r-lib.org/articles/lifecycle.html">
-      <img src='figures/lifecycle-deprecated.svg' alt='Deprecated lifecycle'/>
-      </a> Use `geo()` instead
-  contents:
-  - geo_census
-  - geo_osm
-  - geo_geocodio
-  - geo_iq
-  - geo_google
-  - geo_opencage
-  - geo_mapbox
-  - geo_here
-  - geo_tomtom
-  - geo_mapquest
-  - geo_bing
-  - geo_arcgis
-  - geo_cascade
   
 navbar:
   components:

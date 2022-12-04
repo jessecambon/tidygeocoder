@@ -42,7 +42,7 @@ Do not combine with the address component arguments below
 
 \item{lat}{latitude column name. Can be quoted or unquoted (ie. \code{lat} or \code{"lat"}).}
 
-\item{long}{longitude column name. Can be quoted or unquoted (ie. \code{long} or `"long"``).}
+\item{long}{longitude column name. Can be quoted or unquoted (ie. \code{long} or \code{"long"}).}
 
 \item{...}{arguments passed to the \link{geocode_combine} function}
 }

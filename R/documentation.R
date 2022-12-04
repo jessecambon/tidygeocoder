@@ -55,7 +55,8 @@ get_api_doc_bullets <- function() {
   return(
     paste0(
       "- [", tidygeocoder::api_info_reference$method_display_name,
-      "](", tidygeocoder::api_info_reference$api_documentation_url, ")\n"
+      "](", tidygeocoder::api_info_reference$api_documentation_url, ")",
+      collapse = "\n"
     )
   )
 }
@@ -65,7 +66,8 @@ get_api_usage_bullets <- function() {
   return(
     paste0(
       "- [", tidygeocoder::api_info_reference$method_display_name,
-      "](", tidygeocoder::api_info_reference$api_usage_policy_url, ")"
+      "](", tidygeocoder::api_info_reference$api_usage_policy_url, ")",
+      collapse = "\n"
     )
   )
 }
@@ -132,55 +134,54 @@ get_method_documentation <- function(reverse) {
   }
 
   return(
-    c(
+    paste(c(
       method_intro,
-      sapply(methods_to_list, get_method_bullet, USE.NAMES = FALSE)
+      sapply(methods_to_list, get_method_bullet, USE.NAMES = FALSE)), collapse = "\n")
     )
-  )
 }
 
 get_batch_limit_documentation <- function(reverse) {
   terms <- get_coord_address_terms(reverse)
   return(
-    c(
-      paste0(c("limit to the number of ", terms$input_plural, " in a batch geocoding query."), collapse = ""),
-      "Defaults to the value in [batch_limit_reference] if not specified."
-    )
+      paste0(
+      "limit to the number of ", terms$input_plural, " in a batch geocoding query.",
+      "Defaults to the value in [batch_limit_reference] if not specified.",
+      collapse = " "
+      )
   )
 }
 
 get_limit_documentation <- function(reverse, df_input) {
   terms <- get_coord_address_terms(reverse)
 
-  main <- c(
-    paste0(c("maximum number of results to return per input ", terms$input_singular, ". For many geocoding services"), collapse = ""),
-    "the maximum value of the limit parameter is 100. Pass `limit = NULL` to use",
-    "the default `limit` value of the selected geocoding service.",
-    paste0(c("For batch geocoding, limit must be set to 1 (default) if `", terms$return_arg, " = TRUE`."), collapse = "")
-  )
+  main <- 
+    paste0(c("maximum number of results to return per input ", terms$input_singular, ". For many geocoding services ",
+    "the maximum value of the limit parameter is 100. Pass `limit = NULL` to use ",
+    "the default `limit` value of the selected geocoding service. ",
+    "For batch geocoding, limit must be set to 1 (default) if `", terms$return_arg, " = TRUE`."),
+    collapse = "")
 
   append <- if (df_input == FALSE) {
-    c()
+    ""
   } else {
-    paste0(c("To use `limit > 1` or `limit = NULL` set return_input to FALSE."), collapse = "")
+    "To use `limit > 1` or `limit = NULL` set return_input to FALSE."
   }
 
-  return(c(main, append, "Refer to [api_parameter_reference] for more details."))
+  return(paste0(main, append, " Refer to [api_parameter_reference] for more details.", collapse = ""))
 }
 
 get_mode_documentation <- function(reverse) {
   terms <- get_coord_address_terms(reverse)
 
   return(
-    c(
-      paste0(c("set to 'batch' to force batch geocoding or 'single' to force single ", terms$input_singular), collapse = ""),
-      paste0(c("geocoding (one ", terms$input_singular, " per query). If not specified then batch geocoding will"), collapse = ""),
-      paste0(c("be used if available (given method selected) when multiple ", terms$input_plural, " are"), collapse = ""),
-      paste0(c(
-        "provided; otherwise single address geocoding will be used. For the ",
-        create_comma_list(pkg.globals$single_first_methods, wrap = '"'), " methods the"
-      ), collapse = ""),
-      "batch mode should be explicitly specified with `mode = 'batch'`."
+    paste0(c(
+      "set to 'batch' to force batch geocoding or 'single' to force single ", terms$input_singular, 
+      "geocoding (one ", terms$input_singular, " per query). If not specified then batch geocoding will ",
+      "be used if available (given method selected) when multiple ", terms$input_plural, " are ",
+      "provided; otherwise single address geocoding will be used. For the ",
+       create_comma_list(pkg.globals$single_first_methods, wrap = '"'), " methods the ",
+      "batch mode should be explicitly specified with `mode = 'batch'`."),
+      collapse = ""
     )
   )
 }
@@ -189,9 +190,10 @@ get_full_results_documentation <- function(reverse) {
   return_col_str <- if (reverse == TRUE) "a single address column is returned" else "latitude and longitude columns are returned"
 
   return(
-    c(
-      "returns all available data from the geocoding service if TRUE. ",
-      paste0("If FALSE (default) then only ", return_col_str, " from the geocoding service.")
-    )
+    paste(c(
+      "returns all available data from the geocoding service if TRUE.",
+      "If FALSE (default) then only", return_col_str, "from the geocoding service."),
+      collapse = " "
+      )
   )
 }

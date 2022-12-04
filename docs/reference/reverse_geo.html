@@ -144,12 +144,7 @@ API queries.</p>
 <span>  verbose <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"tidygeocoder.verbose"</span>, <span class="cn">FALSE</span><span class="op">)</span>,</span>
 <span>  no_query <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  custom_query <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span>,</span>
-<span>  api_options <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span>,</span>
-<span>  iq_region <span class="op">=</span> <span class="st">"us"</span>,</span>
-<span>  geocodio_v <span class="op">=</span> <span class="fl">1.7</span>,</span>
-<span>  mapbox_permanent <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>  here_request_id <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  mapquest_open <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span>  api_options <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -164,7 +159,19 @@ API queries.</p>
 
 
 <dt>method</dt>
-<dd><p>the geocoding service to be used. API keys are loaded from environmental variables. Run <code><a href="https://usethis.r-lib.org/reference/edit.html" class="external-link">usethis::edit_r_environ()</a></code> to open your .Renviron file and add an API key as an environmental variable. For example, add the line <code>GEOCODIO_API_KEY="YourAPIKeyHere"</code>, - <code>"osm"</code>: <a href="https://nominatim.org" class="external-link">Nominatim</a>.   , - <code>"arcgis"</code>: <a href="https://developers.arcgis.com/rest/geocode/api-reference/overview-world-geocoding-service.htm" class="external-link">ArcGIS</a>.   , - <code>"geocodio"</code>: <a href="https://www.geocod.io/" class="external-link">Geocodio</a>. Geographic coverage is limited to the United States and Canada. Batch geocoding is supported. Store an API key in the environmental variable <code>"GEOCODIO_API_KEY"</code>., - <code>"iq"</code>: <a href="https://locationiq.com/" class="external-link">Location IQ</a>.   Store an API key in the environmental variable <code>"LOCATIONIQ_API_KEY"</code>., - <code>"google"</code>: <a href="https://developers.google.com/maps/documentation/geocoding/overview" class="external-link">Google</a>.   Store an API key in the environmental variable <code>"GOOGLEGEOCODE_API_KEY"</code>., - <code>"opencage"</code>: <a href="https://opencagedata.com" class="external-link">OpenCage</a>.   Store an API key in the environmental variable <code>"OPENCAGE_KEY"</code>., - <code>"mapbox"</code>: <a href="https://docs.mapbox.com/api/search/" class="external-link">Mapbox</a>.   Store an API key in the environmental variable <code>"MAPBOX_API_KEY"</code>., - <code>"here"</code>: <a href="https://developer.here.com/products/geocoding-and-search" class="external-link">HERE</a>.  Batch geocoding is supported, but must be explicitly called with <code>mode = "batch"</code>. Store an API key in the environmental variable <code>"HERE_API_KEY"</code>., - <code>"tomtom"</code>: <a href="https://developer.tomtom.com/search-api/search-api-documentation" class="external-link">TomTom</a>.  Batch geocoding is supported. Store an API key in the environmental variable <code>"TOMTOM_API_KEY"</code>., - <code>"mapquest"</code>: <a href="https://developer.mapquest.com/documentation/geocoding-api/" class="external-link">MapQuest</a>.  Batch geocoding is supported. Store an API key in the environmental variable <code>"MAPQUEST_API_KEY"</code>., - <code>"bing"</code>: <a href="https://docs.microsoft.com/en-us/bingmaps/rest-services/locations/" class="external-link">Bing</a>.  Batch geocoding is supported, but must be explicitly called with <code>mode = "batch"</code>. Store an API key in the environmental variable <code>"BINGMAPS_API_KEY"</code>., - <code>"geoapify"</code>: <a href="https://www.geoapify.com/geocoding-api" class="external-link">Geoapify</a>.   Store an API key in the environmental variable <code>"GEOAPIFY_KEY"</code>.</p></dd>
+<dd><p>the geocoding service to be used. API keys are loaded from environmental variables. Run <code><a href="https://usethis.r-lib.org/reference/edit.html" class="external-link">usethis::edit_r_environ()</a></code> to open your .Renviron file and add an API key as an environmental variable. For example, add the line <code>GEOCODIO_API_KEY="YourAPIKeyHere"</code></p><ul><li><p><code>"osm"</code>: <a href="https://nominatim.org" class="external-link">Nominatim</a>.</p></li>
+<li><p><code>"arcgis"</code>: <a href="https://developers.arcgis.com/rest/geocode/api-reference/overview-world-geocoding-service.htm" class="external-link">ArcGIS</a>.</p></li>
+<li><p><code>"geocodio"</code>: <a href="https://www.geocod.io/" class="external-link">Geocodio</a>. Geographic coverage is limited to the United States and Canada. Batch geocoding is supported. Store an API key in the environmental variable <code>"GEOCODIO_API_KEY"</code>.</p></li>
+<li><p><code>"iq"</code>: <a href="https://locationiq.com/" class="external-link">Location IQ</a>.   Store an API key in the environmental variable <code>"LOCATIONIQ_API_KEY"</code>.</p></li>
+<li><p><code>"google"</code>: <a href="https://developers.google.com/maps/documentation/geocoding/overview" class="external-link">Google</a>.   Store an API key in the environmental variable <code>"GOOGLEGEOCODE_API_KEY"</code>.</p></li>
+<li><p><code>"opencage"</code>: <a href="https://opencagedata.com" class="external-link">OpenCage</a>.   Store an API key in the environmental variable <code>"OPENCAGE_KEY"</code>.</p></li>
+<li><p><code>"mapbox"</code>: <a href="https://docs.mapbox.com/api/search/" class="external-link">Mapbox</a>.   Store an API key in the environmental variable <code>"MAPBOX_API_KEY"</code>.</p></li>
+<li><p><code>"here"</code>: <a href="https://developer.here.com/products/geocoding-and-search" class="external-link">HERE</a>.  Batch geocoding is supported, but must be explicitly called with <code>mode = "batch"</code>. Store an API key in the environmental variable <code>"HERE_API_KEY"</code>.</p></li>
+<li><p><code>"tomtom"</code>: <a href="https://developer.tomtom.com/search-api/search-api-documentation" class="external-link">TomTom</a>.  Batch geocoding is supported. Store an API key in the environmental variable <code>"TOMTOM_API_KEY"</code>.</p></li>
+<li><p><code>"mapquest"</code>: <a href="https://developer.mapquest.com/documentation/geocoding-api/" class="external-link">MapQuest</a>.  Batch geocoding is supported. Store an API key in the environmental variable <code>"MAPQUEST_API_KEY"</code>.</p></li>
+<li><p><code>"bing"</code>: <a href="https://docs.microsoft.com/en-us/bingmaps/rest-services/locations/" class="external-link">Bing</a>.  Batch geocoding is supported, but must be explicitly called with <code>mode = "batch"</code>. Store an API key in the environmental variable <code>"BINGMAPS_API_KEY"</code>.</p></li>
+<li><p><code>"geoapify"</code>: <a href="https://www.geoapify.com/geocoding-api" class="external-link">Geoapify</a>.   Store an API key in the environmental variable <code>"GEOAPIFY_KEY"</code>.</p></li>
+</ul></dd>
 
 
 <dt>address</dt>
@@ -172,15 +179,15 @@ API queries.</p>
 
 
 <dt>limit</dt>
-<dd><p>maximum number of results to return per input coordinate. For many geocoding services, the maximum value of the limit parameter is 100. Pass <code>limit = NULL</code> to use, the default <code>limit</code> value of the selected geocoding service., For batch geocoding, limit must be set to 1 (default) if <code>return_coords = TRUE</code>., Refer to <a href="api_parameter_reference.html">api_parameter_reference</a> for more details.</p></dd>
+<dd><p>maximum number of results to return per input coordinate. For many geocoding services the maximum value of the limit parameter is 100. Pass <code>limit = NULL</code> to use the default <code>limit</code> value of the selected geocoding service. For batch geocoding, limit must be set to 1 (default) if <code>return_coords = TRUE</code>. Refer to <a href="api_parameter_reference.html">api_parameter_reference</a> for more details.</p></dd>
 
 
 <dt>full_results</dt>
-<dd><p>returns all available data from the geocoding service if TRUE. , If FALSE (default) then only a single address column is returned from the geocoding service.</p></dd>
+<dd><p>returns all available data from the geocoding service if TRUE. If FALSE (default) then only a single address column is returned from the geocoding service.</p></dd>
 
 
 <dt>mode</dt>
-<dd><p>set to 'batch' to force batch geocoding or 'single' to force single coordinate, geocoding (one coordinate per query). If not specified then batch geocoding will, be used if available (given method selected) when multiple coordinates are, provided; otherwise single address geocoding will be used. For the "here" and "bing" methods the, batch mode should be explicitly specified with <code>mode = 'batch'</code>.</p></dd>
+<dd><p>set to 'batch' to force batch geocoding or 'single' to force single coordinategeocoding (one coordinate per query). If not specified then batch geocoding will be used if available (given method selected) when multiple coordinates are provided; otherwise single address geocoding will be used. For the "here" and "bing" methods the batch mode should be explicitly specified with <code>mode = 'batch'</code>.</p></dd>
 
 
 <dt>unique_only</dt>
@@ -226,7 +233,7 @@ Note that in some cases results are flattened regardless such as for Geocodio ba
 
 
 <dt>batch_limit</dt>
-<dd><p>limit to the number of coordinates in a batch geocoding query., Defaults to the value in <a href="batch_limit_reference.html">batch_limit_reference</a> if not specified.</p></dd>
+<dd><p>limit to the number of coordinates in a batch geocoding query.Defaults to the value in <a href="batch_limit_reference.html">batch_limit_reference</a> if not specified.</p></dd>
 
 
 <dt>verbose</dt>
@@ -267,26 +274,6 @@ when <code>verbose</code> is TRUE. Note that this option would ignore the
 current <code>address</code> parameter on the request, so the <code>return_addresses</code> or <code>return_coords</code>
 parameters need to be FALSE.</p></li>
 </ul></dd>
-
-
-<dt>iq_region</dt>
-<dd><p><a href="https://lifecycle.r-lib.org/articles/stages.html#deprecated" class="external-link"><img src="figures/lifecycle-deprecated.svg" alt="[Deprecated]"></a> use the <code>api_options</code> parameter instead</p></dd>
-
-
-<dt>geocodio_v</dt>
-<dd><p><a href="https://lifecycle.r-lib.org/articles/stages.html#deprecated" class="external-link"><img src="figures/lifecycle-deprecated.svg" alt="[Deprecated]"></a> use the <code>api_options</code> parameter instead</p></dd>
-
-
-<dt>mapbox_permanent</dt>
-<dd><p><a href="https://lifecycle.r-lib.org/articles/stages.html#deprecated" class="external-link"><img src="figures/lifecycle-deprecated.svg" alt="[Deprecated]"></a> use the <code>api_options</code> parameter instead</p></dd>
-
-
-<dt>here_request_id</dt>
-<dd><p><a href="https://lifecycle.r-lib.org/articles/stages.html#deprecated" class="external-link"><img src="figures/lifecycle-deprecated.svg" alt="[Deprecated]"></a> use the <code>api_options</code> parameter instead</p></dd>
-
-
-<dt>mapquest_open</dt>
-<dd><p><a href="https://lifecycle.r-lib.org/articles/stages.html#deprecated" class="external-link"><img src="figures/lifecycle-deprecated.svg" alt="[Deprecated]"></a> use the <code>api_options</code> parameter instead</p></dd>
 
 </dl></div>
     <div id="value">

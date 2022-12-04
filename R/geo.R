@@ -49,7 +49,7 @@ progress_geo <- function(pb = NULL, ...) {
 #'
 #' @param method `r get_method_documentation(reverse = FALSE)`
 #' @param lat latitude column name. Can be quoted or unquoted (ie. `lat` or `"lat"`).
-#' @param long longitude column name. Can be quoted or unquoted (ie. `long` or `"long"``).
+#' @param long longitude column name. Can be quoted or unquoted (ie. `long` or `"long"`).
 #' @param limit `r get_limit_documentation(reverse = FALSE, df_input = FALSE)`
 #'
 #' @param full_results `r get_full_results_documentation(reverse = FALSE)`
