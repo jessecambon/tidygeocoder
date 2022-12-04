@@ -88,8 +88,8 @@ See the [geo()](https://jessecambon.github.io/tidygeocoder/reference/geo.html) o
 - The US Census service supports street-level addresses only (ie. "11 Wall St New York, NY" is OK but "New York, NY" is not).
 - The Mapbox service is capable of performing batch geocoding when using the [permanent endpoint](https://docs.mapbox.com/api/search/geocoding/#batch-geocoding), but this capability is not currently implemented in tidygeocoder. If you'd like to add this capability to the package see [#73](https://github.com/jessecambon/tidygeocoder/issues/73).
 - The ArcGIS service is capable of performing [batch geocoding](https://developers.arcgis.com/rest/geocode/api-reference/geocoding-geocode-addresses.htm), but this capability is not currently implemented in tidygeocoder. If you'd like to add this capability see [#102](https://github.com/jessecambon/tidygeocoder/issues/102).
-- For the ArcGIS service, an API Key is not strictly required if the service is used for search capabilities only (see [Free vs. paid operations](https://developers.arcgis.com/rest/geocode/api-reference/geocoding-free-vs-paid.htm)). It is possible to include an API Key on the request via the `custom_query` parameter:
 - The ArcGIS service has an `outFields` parameter which specifies which fields are to be returned. As of tidygeocoder v1.0.6 this is set to `*` (all fields). To return only default fields use the following parameter in your query: `custom_query = list(outFields='')`. See [#177](https://github.com/jessecambon/tidygeocoder/issues/177) for more details.
+- For the ArcGIS service, an API Key is not strictly required if the service is used for search capabilities only (see [Free vs. paid operations](https://developers.arcgis.com/rest/geocode/api-reference/geocoding-free-vs-paid.htm)). It is possible to include an API Key on the request via the `custom_query` parameter:
 
 ``` r
 tidygeocoder::geo(address = "New York, USA", method = "arcgis",

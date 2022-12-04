@@ -374,13 +374,11 @@ If <code>method = "cascade"</code> then no errors will be thrown.</p></dd>
 <span class="r-in"><span>  state <span class="op">=</span> <span class="st">"Georgia"</span>, method <span class="op">=</span> <span class="st">"census"</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Passing 1 address to the US Census single address geocoder</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Bad Gateway (HTTP 502).</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Error: The server, while working as a gateway to get a response needed to handle the request, got an invalid response</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Query completed in: 10.3 seconds</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Query completed in: 1.1 seconds</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 1 × 5</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   street                  city    state     lat  long</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> 600 Peachtree Street NE Atlanta Georgia    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> 600 Peachtree Street NE Atlanta Georgia  33.8 -<span style="color: #BB0000;">84.4</span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu">geo</span><span class="op">(</span></span></span>
 <span class="r-in"><span>  address <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Tokyo, Japan"</span>, <span class="st">"Lima, Peru"</span>, <span class="st">"Nairobi, Kenya"</span><span class="op">)</span>,</span></span>
@@ -393,26 +391,25 @@ If <code>method = "cascade"</code> then no errors will be thrown.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> Tokyo, Japan    35.7  140. </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> Lima, Peru     -<span style="color: #BB0000;">12.1</span>  -<span style="color: #BB0000;">77.0</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> Nairobi, Kenya  -<span style="color: #BB0000;">1.30</span>  36.8</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> Nairobi, Kenya  -<span style="color: #BB0000;">1.28</span>  36.8</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu">geo</span><span class="op">(</span><span class="st">"100 Main St New York, NY"</span>,</span></span>
 <span class="r-in"><span>  full_results <span class="op">=</span> <span class="cn">TRUE</span>,</span></span>
 <span class="r-in"><span>  method <span class="op">=</span> <span class="st">"census"</span>, api_options <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>census_return_type <span class="op">=</span> <span class="st">"geographies"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Passing 1 address to the US Census single address geocoder</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Query completed in: 0.5 seconds</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 1 × 28</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Query completed in: 0.2 seconds</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 1 × 27</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   address      lat  long match…¹ tiger…² tiger…³ geogr…⁴ geogr…⁵ geogr…⁶ geogr…⁷</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;list&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> 100 Main …  40.7 -<span style="color: #BB0000;">74.0</span> 100 MA… R       596626… &lt;df&gt;    &lt;df&gt;    &lt;df&gt;    &lt;df&gt;   </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># … with 18 more variables: `geographies.Incorporated Places` &lt;list&gt;,</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   geographies.Counties &lt;list&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># … with 17 more variables: geographies.Counties &lt;list&gt;,</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   `geographies.2018 State Legislative Districts - Lower` &lt;list&gt;,</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   `geographies.116th Congressional Districts` &lt;list&gt;,</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   `geographies.2020 Census Blocks` &lt;list&gt;,</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   `geographies.Census Tracts` &lt;list&gt;, addressComponents.zip &lt;chr&gt;,</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   addressComponents.streetName &lt;chr&gt;, addressComponents.preType &lt;chr&gt;, …</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ Use `colnames()` to see all variable names</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   addressComponents.streetName &lt;chr&gt;, addressComponents.preType &lt;chr&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   addressComponents.city &lt;chr&gt;, addressComponents.preDirection &lt;chr&gt;, …</span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu">geo</span><span class="op">(</span></span></span>
 <span class="r-in"><span>  county <span class="op">=</span> <span class="st">"Jefferson"</span>, state <span class="op">=</span> <span class="st">"Kentucky"</span>, country <span class="op">=</span> <span class="st">"US"</span>,</span></span>

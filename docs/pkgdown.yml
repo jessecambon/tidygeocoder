@@ -1,11 +1,11 @@
-pandoc: '2.18'
+pandoc: 2.19.2
 pkgdown: 2.0.6
 pkgdown_sha: ~
 articles:
   developer_notes: developer_notes.html
   geocoder_services: geocoder_services.html
   tidygeocoder: tidygeocoder.html
-last_built: 2022-08-13T14:03Z
+last_built: 2022-12-04T00:26Z
 urls:
   reference: https://jessecambon.github.io/tidygeocoder/reference
   article: https://jessecambon.github.io/tidygeocoder/articles
