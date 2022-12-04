@@ -8,6 +8,10 @@
 - Address component parameters (street, city, state, postal code, and country) can now be used with the ArcGIS service ([#180](https://github.com/jessecambon/tidygeocoder/issues/180), [#ottothecow](https://github.com/ottothecow))
 - The ArcGIS service now returns all available parameters by default ([#177](https://github.com/jessecambon/tidygeocoder/issues/177), [#ottothecow](https://github.com/ottothecow))
 - Fixed a bug where the Geocodio service did not pass the correct address component parameter names ([#178](https://github.com/jessecambon/tidygeocoder/issues/178), [@ottothecow](https://github.com/ottothecow)).
+- Removed the `"cascade"` method for `geo()`. Use `geo_combine()` or `geocode_combine()` instead.
+- Removed deprecated functions: `geo_census()` `geo_osm()` `geo_geocodio()` `geo_iq()` `geo_google()` `geo_opencage()` `geo_mapbox()` `geo_here()` `geo_tomtom()` `geo_mapquest()` `geo_bing()` `geo_arcgis()` `geo_cascade()`. Use the `geo()` function instead.
+- Removed deprecated parameters for `geo()` and `reverse_geo()`: `iq_region`, `geocodio_v`, `param_error`, `mapbox_permanent`, `here_request_id`, `mapquest_open`. Use the `api_options` parameter instead.
+- Removed deprecated parameters for `geo()`:  `cascade_order`, `batch_limit_error`, `return_type`. Instead of `return_type`, use the `api_options` parameter. The `cascade_order` and `batch_limit_error` parameters are no longer needed now that the `"cascade"` method is removed.
 
 
 # tidygeocoder 1.0.5

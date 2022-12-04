@@ -42,7 +42,19 @@ Also reference \code{vignette("tidygeocoder")} for more details on constructing 
 \details{
 The API documentation for each service is linked to below:
 \itemize{
-\item \href{https://nominatim.org/release-docs/develop/api/Search/}{Nominatim}, - \href{https://www.census.gov/programs-surveys/geography/technical-documentation/complete-technical-documentation/census-geocoder.html}{US Census}, - \href{https://developers.arcgis.com/rest/geocode/api-reference/overview-world-geocoding-service.htm}{ArcGIS}, - \href{https://www.geocod.io/docs/}{Geocodio}, - \href{https://locationiq.com/docs}{Location IQ}, - \href{https://developers.google.com/maps/documentation/geocoding/overview}{Google}, - \href{https://opencagedata.com/api}{OpenCage}, - \href{https://docs.mapbox.com/api/search/geocoding/}{Mapbox}, - \href{https://developer.here.com/documentation/geocoding-search-api/dev_guide/index.html}{HERE}, - \href{https://developer.tomtom.com/search-api/search-api-documentation}{TomTom}, - \href{https://developer.mapquest.com/documentation/geocoding-api/}{MapQuest}, - \href{https://docs.microsoft.com/en-us/bingmaps/rest-services/locations/}{Bing}, - \href{https://apidocs.geoapify.com/docs/geocoding/api/}{Geoapify}
+\item \href{https://nominatim.org/release-docs/develop/api/Search/}{Nominatim}
+, - \href{https://www.census.gov/programs-surveys/geography/technical-documentation/complete-technical-documentation/census-geocoder.html}{US Census}
+, - \href{https://developers.arcgis.com/rest/geocode/api-reference/overview-world-geocoding-service.htm}{ArcGIS}
+, - \href{https://www.geocod.io/docs/}{Geocodio}
+, - \href{https://locationiq.com/docs}{Location IQ}
+, - \href{https://developers.google.com/maps/documentation/geocoding/overview}{Google}
+, - \href{https://opencagedata.com/api}{OpenCage}
+, - \href{https://docs.mapbox.com/api/search/geocoding/}{Mapbox}
+, - \href{https://developer.here.com/documentation/geocoding-search-api/dev_guide/index.html}{HERE}
+, - \href{https://developer.tomtom.com/search-api/search-api-documentation}{TomTom}
+, - \href{https://developer.mapquest.com/documentation/geocoding-api/}{MapQuest}
+, - \href{https://docs.microsoft.com/en-us/bingmaps/rest-services/locations/}{Bing}
+, - \href{https://apidocs.geoapify.com/docs/geocoding/api/}{Geoapify}
 }
 }
 \seealso{

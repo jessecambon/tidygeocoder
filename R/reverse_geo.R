@@ -119,56 +119,14 @@ reverse_geo <-
            verbose = getOption("tidygeocoder.verbose", FALSE),
            no_query = FALSE,
            custom_query = list(),
-           api_options = list(),
-           iq_region = "us",
-           geocodio_v = 1.7,
-           mapbox_permanent = FALSE,
-           here_request_id = NULL,
-           mapquest_open = FALSE) {
+           api_options = list()
+           ) {
 
     # NSE eval
     address <- rm_quote(deparse(substitute(address)))
 
     # set the api_optons[["init"]] parameter if it is NULL
     api_options <- initialize_init(api_options)
-
-    # Deprecate arguments that are replaced by the api_options parameter -----------------------------------
-    if (api_options[["init"]] == TRUE) {
-      # Deprecate the iq_region argument
-      if (!missing("iq_region")) {
-        lifecycle::deprecate_warn("1.0.4", "reverse_geo(iq_region)", with = "reverse_geo(api_options)")
-        api_options[["iq_region"]] <- iq_region
-        iq_region <- NULL
-      }
-
-      # Deprecate the geocodio_v argument
-      if (!missing("geocodio_v")) {
-        lifecycle::deprecate_warn("1.0.4", "reverse_geo(geocodio_v)", with = "reverse_geo(api_options)")
-        api_options[["geocodio_v"]] <- geocodio_v
-        geocodio_v <- NULL
-      }
-
-      # Deprecate the mapbox_permanent argument
-      if (!missing("mapbox_permanent")) {
-        lifecycle::deprecate_warn("1.0.4", "reverse_geo(mapbox_permanent)", with = "reverse_geo(api_options)")
-        api_options[["mapbox_permanent"]] <- mapbox_permanent
-        mapbox_permanent <- NULL
-      }
-
-      # Deprecate the mapquest_open argument
-      if (!missing("mapquest_open")) {
-        lifecycle::deprecate_warn("1.0.4", "reverse_geo(mapquest_open)", with = "reverse_geo(api_options)")
-        api_options[["mapquest_open"]] <- mapquest_open
-        mapquest_open <- NULL
-      }
-
-      # Deprecate the here_request_id argument
-      if (!missing("here_request_id")) {
-        lifecycle::deprecate_warn("1.0.4", "reverse_geo(here_request_id)", with = "reverse_geo(api_options)")
-        api_options[["here_request_id"]] <- here_request_id
-        here_request_id <- NULL
-      }
-    }
 
     # apply api options defaults for options not specified by the user
     api_options <- apply_api_options_defaults(method, api_options)
@@ -242,7 +200,6 @@ reverse_geo <-
       }
 
       if (progress_bar == TRUE) {
-
         # intialize progress bar
         pb <- create_progress_bar(
           num_unique_coords

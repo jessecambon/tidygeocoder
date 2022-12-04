@@ -55,7 +55,7 @@ get_api_doc_bullets <- function() {
   return(
     paste0(
       "- [", tidygeocoder::api_info_reference$method_display_name,
-      "](", tidygeocoder::api_info_reference$api_documentation_url, ")"
+      "](", tidygeocoder::api_info_reference$api_documentation_url, ")\n"
     )
   )
 }
@@ -145,18 +145,6 @@ get_batch_limit_documentation <- function(reverse) {
     c(
       paste0(c("limit to the number of ", terms$input_plural, " in a batch geocoding query."), collapse = ""),
       "Defaults to the value in [batch_limit_reference] if not specified."
-    )
-  )
-}
-
-get_batch_limit_error_documentation <- function(reverse) {
-  terms <- get_coord_address_terms(reverse)
-  cascade_message <- if (reverse == FALSE) " This is reverted to FALSE when using the cascade method." else ""
-
-  return(
-    c(
-      paste0(c("if TRUE then an error is thrown if the number of ", terms$input_plural, " exceeds the batch limit."), collapse = ""),
-      paste0(c("(if executing a batch query).", cascade_message), collapse = "")
     )
   )
 }

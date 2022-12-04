@@ -24,12 +24,7 @@ reverse_geo(
   verbose = getOption("tidygeocoder.verbose", FALSE),
   no_query = FALSE,
   custom_query = list(),
-  api_options = list(),
-  iq_region = "us",
-  geocodio_v = 1.7,
-  mapbox_permanent = FALSE,
-  here_request_id = NULL,
-  mapquest_open = FALSE
+  api_options = list()
 )
 }
 \arguments{
@@ -108,16 +103,6 @@ when \code{verbose} is TRUE. Note that this option would ignore the
 current \code{address} parameter on the request, so the \code{return_addresses} or \code{return_coords}
 parameters need to be FALSE.
 }}
-
-\item{iq_region}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} use the \code{api_options} parameter instead}
-
-\item{geocodio_v}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} use the \code{api_options} parameter instead}
-
-\item{mapbox_permanent}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} use the \code{api_options} parameter instead}
-
-\item{here_request_id}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} use the \code{api_options} parameter instead}
-
-\item{mapquest_open}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} use the \code{api_options} parameter instead}
 }
 \value{
 tibble (dataframe)
