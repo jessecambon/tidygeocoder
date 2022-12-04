@@ -7,6 +7,8 @@
 - A message is now displayed warning that `flatten=FALSE` is ignored for Geocodio and Mapquest (the output of these services requires flattening to avoid errors).
 - Address component parameters (street, city, state, postal code, and country) can now be used with the ArcGIS service ([#180](https://github.com/jessecambon/tidygeocoder/issues/180), [#ottothecow](https://github.com/ottothecow))
 - The ArcGIS service now returns all available parameters by default ([#177](https://github.com/jessecambon/tidygeocoder/issues/177), [#ottothecow](https://github.com/ottothecow))
+- Fixed a bug where the Geocodio service did not pass the correct address component parameter names ([#178](https://github.com/jessecambon/tidygeocoder/issues/178), [@ottothecow](https://github.com/ottothecow)).
+
 
 # tidygeocoder 1.0.5
 
@@ -30,7 +32,7 @@
 - Some console messages related to geocoding queries are now shown by default. These messages show the number of inputs (addresses or coordinates) submitted, the geocoding service used, and how long the query took to execute. To suppress these messages you can set `quiet = TRUE` (a new parameter for the `geo()` and `reverse_geo()` functions).
 - Default arguments with `options()` for `verbose`, `quiet`, and `progress_bar`. For instance `options(tidygeocoder.verbose = TRUE)` changes the default value of `verbose` from FALSE to TRUE.
 
-### Bugfixes
+### Bug Fixes
 
 - Fixed a bug for Bing forward geocoding `geo()` when no results are found ([#112](https://github.com/jessecambon/tidygeocoder/issues/112)).
 - Fixed a bug that occurred in reverse geocoding when passing a set of exclusively duplicate coordinates (ie. 1 unique coordinate) ([#129](https://github.com/jessecambon/tidygeocoder/issues/129)).
