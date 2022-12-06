@@ -22,14 +22,13 @@ Authors@R:
              family = "Possenriede", 
              email = "possenriede+r@gmail.com", 
              role = "aut", 
-             comment = c(ORCID = "0000-0002-6738-9845"))
-             ),
+             comment = c(ORCID = "0000-0002-6738-9845")),
       person(given = "Otto", 
              family = "Hansen", 
              email = "otto@uchicago.edu", 
              role = "ctb", 
              comment = c(ORCID = "0000-0002-4618-5667"))
-             )        
+             )
 Description: An intuitive interface for getting data from geocoding services. 
 License: MIT + file LICENSE
 URL: https://jessecambon.github.io/tidygeocoder/, 
