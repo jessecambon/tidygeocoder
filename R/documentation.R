@@ -176,7 +176,7 @@ get_mode_documentation <- function(reverse) {
   return(
     paste0(c(
       "set to 'batch' to force batch geocoding or 'single' to force single ", terms$input_singular, 
-      "geocoding (one ", terms$input_singular, " per query). If not specified then batch geocoding will ",
+      " geocoding (one ", terms$input_singular, " per query). If not specified then batch geocoding will ",
       "be used if available (given method selected) when multiple ", terms$input_plural, " are ",
       "provided; otherwise single address geocoding will be used. For the ",
        create_comma_list(pkg.globals$single_first_methods, wrap = '"'), " methods the ",

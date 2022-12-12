@@ -1,5 +1,7 @@
 # tidygeocoder (development version)
 
+### Bug Fixes and Enhancements
+
 - Changed the default `min_time` (minimum seconds elapsed per query) value to 1 (60 queries per minute) for the Location IQ service ([#166](https://github.com/jessecambon/tidygeocoder/issues/166)).
 - Updated default Geocodio API URL from version 1.6 to 1.7.
 - Fixed code and documentation that incorrectly referred to `mapquest_open` as `mapbox_open`.
@@ -8,6 +10,10 @@
 - Address component parameters (street, city, state, postal code, and country) can now be used with the ArcGIS service ([#180](https://github.com/jessecambon/tidygeocoder/issues/180), [#ottothecow](https://github.com/ottothecow))
 - The ArcGIS service now returns all available parameters by default ([#177](https://github.com/jessecambon/tidygeocoder/issues/177), [#ottothecow](https://github.com/ottothecow))
 - Fixed a bug where the Geocodio service did not pass the correct address component parameter names ([#178](https://github.com/jessecambon/tidygeocoder/issues/178), [@ottothecow](https://github.com/ottothecow)).
+
+### Removed Deprecated Features
+
+
 - Removed the `"cascade"` method for `geo()`. Use `geo_combine()` or `geocode_combine()` instead.
 - Removed deprecated functions: `geo_census()` `geo_osm()` `geo_geocodio()` `geo_iq()` `geo_google()` `geo_opencage()` `geo_mapbox()` `geo_here()` `geo_tomtom()` `geo_mapquest()` `geo_bing()` `geo_arcgis()` `geo_cascade()`. Use the `geo()` function instead.
 - Removed deprecated parameters for `geo()` and `reverse_geo()`: `iq_region`, `geocodio_v`, `param_error`, `mapbox_permanent`, `here_request_id`, `mapquest_open`. Use the `api_options` parameter instead.

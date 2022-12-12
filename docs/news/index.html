@@ -100,6 +100,8 @@
 
     <div class="section level2">
 <h2 class="page-header" data-toc-text="development version" id="tidygeocoder-development-version">tidygeocoder (development version)<a class="anchor" aria-label="anchor" href="#tidygeocoder-development-version"></a></h2>
+<div class="section level4">
+<h4 id="bug-fixes-and-enhancements-development-version">Bug Fixes and Enhancements<a class="anchor" aria-label="anchor" href="#bug-fixes-and-enhancements-development-version"></a></h4>
 <ul><li>Changed the default <code>min_time</code> (minimum seconds elapsed per query) value to 1 (60 queries per minute) for the Location IQ service (<a href="https://github.com/jessecambon/tidygeocoder/issues/166" class="external-link">#166</a>).</li>
 <li>Updated default Geocodio API URL from version 1.6 to 1.7.</li>
 <li>Fixed code and documentation that incorrectly referred to <code>mapquest_open</code> as <code>mapbox_open</code>.</li>
@@ -108,11 +110,15 @@
 <li>Address component parameters (street, city, state, postal code, and country) can now be used with the ArcGIS service (<a href="https://github.com/jessecambon/tidygeocoder/issues/180" class="external-link">#180</a>, <a href="https://github.com/ottothecow" class="external-link">#ottothecow</a>)</li>
 <li>The ArcGIS service now returns all available parameters by default (<a href="https://github.com/jessecambon/tidygeocoder/issues/177" class="external-link">#177</a>, <a href="https://github.com/ottothecow" class="external-link">#ottothecow</a>)</li>
 <li>Fixed a bug where the Geocodio service did not pass the correct address component parameter names (<a href="https://github.com/jessecambon/tidygeocoder/issues/178" class="external-link">#178</a>, <a href="https://github.com/ottothecow" class="external-link">@ottothecow</a>).</li>
-<li>Removed the <code>"cascade"</code> method for <code><a href="../reference/geo.html">geo()</a></code>. Use <code><a href="../reference/geo_combine.html">geo_combine()</a></code> or <code><a href="../reference/geocode_combine.html">geocode_combine()</a></code> instead.</li>
+</ul></div>
+<div class="section level4">
+<h4 id="removed-deprecated-features-development-version">Removed Deprecated Features<a class="anchor" aria-label="anchor" href="#removed-deprecated-features-development-version"></a></h4>
+<ul><li>Removed the <code>"cascade"</code> method for <code><a href="../reference/geo.html">geo()</a></code>. Use <code><a href="../reference/geo_combine.html">geo_combine()</a></code> or <code><a href="../reference/geocode_combine.html">geocode_combine()</a></code> instead.</li>
 <li>Removed deprecated functions: <code>geo_census()</code> <code>geo_osm()</code> <code>geo_geocodio()</code> <code>geo_iq()</code> <code>geo_google()</code> <code>geo_opencage()</code> <code>geo_mapbox()</code> <code>geo_here()</code> <code>geo_tomtom()</code> <code>geo_mapquest()</code> <code>geo_bing()</code> <code>geo_arcgis()</code> <code>geo_cascade()</code>. Use the <code><a href="../reference/geo.html">geo()</a></code> function instead.</li>
 <li>Removed deprecated parameters for <code><a href="../reference/geo.html">geo()</a></code> and <code><a href="../reference/reverse_geo.html">reverse_geo()</a></code>: <code>iq_region</code>, <code>geocodio_v</code>, <code>param_error</code>, <code>mapbox_permanent</code>, <code>here_request_id</code>, <code>mapquest_open</code>. Use the <code>api_options</code> parameter instead.</li>
 <li>Removed deprecated parameters for <code><a href="../reference/geo.html">geo()</a></code>: <code>cascade_order</code>, <code>batch_limit_error</code>, <code>return_type</code>. Instead of <code>return_type</code>, use the <code>api_options</code> parameter. The <code>cascade_order</code> and <code>batch_limit_error</code> parameters are no longer needed now that the <code>"cascade"</code> method is removed.</li>
 </ul></div>
+</div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="1.0.5" id="tidygeocoder-105">tidygeocoder 1.0.5<small>2021-11-02</small><a class="anchor" aria-label="anchor" href="#tidygeocoder-105"></a></h2>
 <ul><li>Corrected documentation for the <code>quiet</code> parameter in <code><a href="../reference/geo.html">geo()</a></code> and <code><a href="../reference/reverse_geo.html">reverse_geo()</a></code>.</li>
