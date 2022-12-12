@@ -129,10 +129,6 @@ test_that("Test geo() and reverse_geo() error handling", {
     address = as.character(seq(1, 10)),
     method = "census", batch_limit = 5, no_query = TRUE
   ))
-  expect_warning(geo(
-    address = as.character(seq(1, 10)),
-    method = "census", batch_limit = 5, no_query = TRUE, batch_limit_error = FALSE
-  ))
 
   # Test reverse_geo() batch limit handling
   expect_error(reverse_geo(

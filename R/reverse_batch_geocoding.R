@@ -404,7 +404,7 @@ reverse_batch_mapquest <- function(lat, long, address = "address", timeout = 20,
       lat = lat, long = long, mode = "single", method = "mapquest",
       full_results = full_results, custom_query = custom_query,
       verbose = verbose, api_url = api_url, limit = limit,
-      mapquest_open = api_options[["mapquest_open"]]
+      api_options = list(mapquest_open = api_options[["mapquest_open"]])
     )
 
     # rename lat/long columns

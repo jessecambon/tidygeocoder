@@ -532,7 +532,7 @@ batch_mapquest <- function(unique_addresses, lat = "lat", long = "long", method 
       mode = "single", full_results = full_results,
       custom_query = custom_query, verbose = verbose,
       api_url = api_url, limit = limit,
-      mapquest_open = api_options[["mapquest_open"]]
+      api_options = list(mapquest_open = api_options[["mapquest_open"]])
     )
 
     # rename lat/long columns

@@ -189,7 +189,7 @@ are stored for easy access and display in built-in datasets.</p>
 <span><span class="co">#&gt; limit : "1"</span></span>
 <span><span class="co">#&gt; format : "json"</span></span>
 <span><span class="co">#&gt; HTTP Status Code: 200</span></span>
-<span><span class="co">#&gt; Query completed in: 0.3 seconds</span></span>
+<span><span class="co">#&gt; Query completed in: 0.2 seconds</span></span>
 <span><span class="co">#&gt; Total query time (including sleep): 1 seconds</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Query completed in: 2 seconds</span></span>
@@ -419,7 +419,7 @@ requests.</li>
 <li>Update the package version in <a href="https://github.com/jessecambon/tidygeocoder/blob/main/DESCRIPTION" class="external-link">DESCRIPTION</a>.</li>
 <li>Double check the package version that appears on the citation page.
 It is automatically set to the latest official release in <a href="https://github.com/jessecambon/tidygeocoder/blob/main/inst/CITATION" class="external-link">inst/CITATION</a>.</li>
-<li>Run the pre-computed <a href="https://github.com/jessecambon/tidygeocoder/blob/main/vignettes/tidygeocoder.Rmd.orig" class="external-link">vignette</a>
+<li>Run the precomputed <a href="https://github.com/jessecambon/tidygeocoder/blob/main/vignettes/tidygeocoder.Rmd.orig" class="external-link">vignette</a>
 to update the output. Inspect the vignette output for any problems (ie.
 are there missing results?). It can be helpful to build the site and
 view the HTML output for this.</li>
@@ -429,11 +429,13 @@ and reknit to update <a href="https://github.com/jessecambon/tidygeocoder/blob/m
 <li>Rebuild the site: <code><a href="https://pkgdown.r-lib.org/reference/build_site.html" class="external-link">pkgdown::build_site()</a></code> (make sure to
 do this again if you need to make any more updates that show up on the
 site)</li>
-<li>Check package URLs: <code><a href="https://rdrr.io/pkg/urlchecker/man/url_check.html" class="external-link">urlchecker::url_check()</a></code>
+<li>Check URLs: <code><a href="https://rdrr.io/pkg/urlchecker/man/url_check.html" class="external-link">urlchecker::url_check()</a></code>
+</li>
+<li>Check spelling: <code><a href="https://devtools.r-lib.org/reference/spell_check.html" class="external-link">devtools::spell_check()</a></code>
 </li>
 </ul>
-<p>Last, run <code><a href="https://devtools.r-lib.org/reference/release.html" class="external-link">devtools::release()</a></code> to release the new
-version.</p>
+<p>Last, run <code><a href="https://devtools.r-lib.org/reference/release.html" class="external-link">devtools::release()</a></code> to release the new version
+once everything looks good.</p>
 </div>
 </div>
   </div>

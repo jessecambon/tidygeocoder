@@ -123,7 +123,7 @@ check_verbose_quiet <- function(verbose, quiet, reverse) {
 }
 
 # check that method argument is valid
-check_method <- function(method, reverse, mode, batch_funcs, cascade_order = list()) {
+check_method <- function(method, reverse, mode, batch_funcs) {
   input_terms <- get_coord_address_terms(reverse)
 
   # all possible methods
@@ -134,21 +134,10 @@ check_method <- function(method, reverse, mode, batch_funcs, cascade_order = lis
 
   # which methods are legal for single input queries
   single_input_methods <- if (reverse == FALSE) {
-    c("cascade", method_services)
+    c(method_services)
   } else {
     # remove methods that don't have a reverse mode (currently only 'census')
     method_services[!method_services %in% pkg.globals$no_reverse_methods]
-  }
-
-  # for geo() check cascade_order
-  if (reverse == FALSE) {
-    if (!(cascade_order[1] %in% method_services) || !(cascade_order[2] %in% method_services) || (length(cascade_order) != 2) || !(is.character(cascade_order))) {
-      stop("Invalid cascade_order argument. See ?geo", call. = FALSE)
-    }
-    if (method == "cascade" && mode == "batch" && (length(intersect(cascade_order, names(batch_funcs)) != 2))) {
-      stop("To use method = 'cascade' and mode = 'batch', both methods specified in cascade_order
-          must have batch geocoding capabilities. See ?geo", call. = FALSE)
-    }
   }
 
   if (mode == "batch" && (!method %in% batch_methods)) {

@@ -135,7 +135,6 @@ API queries.</p>
 <span>  postalcode <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  country <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  method <span class="op">=</span> <span class="st">"osm"</span>,</span>
-<span>  cascade_order <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"census"</span>, <span class="st">"osm"</span><span class="op">)</span>,</span>
 <span>  lat <span class="op">=</span> <span class="st">"lat"</span>,</span>
 <span>  long <span class="op">=</span> <span class="st">"long"</span>,</span>
 <span>  limit <span class="op">=</span> <span class="fl">1</span>,</span>
@@ -150,18 +149,10 @@ API queries.</p>
 <span>  timeout <span class="op">=</span> <span class="fl">20</span>,</span>
 <span>  flatten <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  batch_limit <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  batch_limit_error <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  verbose <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"tidygeocoder.verbose"</span>, <span class="cn">FALSE</span><span class="op">)</span>,</span>
 <span>  no_query <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  custom_query <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span>,</span>
-<span>  api_options <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span>,</span>
-<span>  return_type <span class="op">=</span> <span class="st">"locations"</span>,</span>
-<span>  iq_region <span class="op">=</span> <span class="st">"us"</span>,</span>
-<span>  geocodio_v <span class="op">=</span> <span class="fl">1.7</span>,</span>
-<span>  param_error <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>  mapbox_permanent <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>  here_request_id <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  mapquest_open <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span>  api_options <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -198,19 +189,20 @@ Do not combine with the address component arguments below
 
 
 <dt>method</dt>
-<dd><p>the geocoding service to be used. API keys are loaded from environmental variables. Run <code><a href="https://usethis.r-lib.org/reference/edit.html" class="external-link">usethis::edit_r_environ()</a></code> to open your .Renviron file and add an API key as an environmental variable. For example, add the line <code>GEOCODIO_API_KEY="YourAPIKeyHere"</code>, - <code>"osm"</code>: <a href="https://nominatim.org" class="external-link">Nominatim</a>.   , - <code>"census"</code>: <a href="https://geocoding.geo.census.gov/" class="external-link">US Census</a>. Geographic coverage is limited to the United States. Batch geocoding is supported. , - <code>"arcgis"</code>: <a href="https://developers.arcgis.com/rest/geocode/api-reference/overview-world-geocoding-service.htm" class="external-link">ArcGIS</a>.   , - <code>"geocodio"</code>: <a href="https://www.geocod.io/" class="external-link">Geocodio</a>. Geographic coverage is limited to the United States and Canada. Batch geocoding is supported. Store an API key in the environmental variable <code>"GEOCODIO_API_KEY"</code>., - <code>"iq"</code>: <a href="https://locationiq.com/" class="external-link">Location IQ</a>.   Store an API key in the environmental variable <code>"LOCATIONIQ_API_KEY"</code>., - <code>"google"</code>: <a href="https://developers.google.com/maps/documentation/geocoding/overview" class="external-link">Google</a>.   Store an API key in the environmental variable <code>"GOOGLEGEOCODE_API_KEY"</code>., - <code>"opencage"</code>: <a href="https://opencagedata.com" class="external-link">OpenCage</a>.   Store an API key in the environmental variable <code>"OPENCAGE_KEY"</code>., - <code>"mapbox"</code>: <a href="https://docs.mapbox.com/api/search/" class="external-link">Mapbox</a>.   Store an API key in the environmental variable <code>"MAPBOX_API_KEY"</code>., - <code>"here"</code>: <a href="https://developer.here.com/products/geocoding-and-search" class="external-link">HERE</a>.  Batch geocoding is supported, but must be explicitly called with <code>mode = "batch"</code>. Store an API key in the environmental variable <code>"HERE_API_KEY"</code>., - <code>"tomtom"</code>: <a href="https://developer.tomtom.com/search-api/search-api-documentation" class="external-link">TomTom</a>.  Batch geocoding is supported. Store an API key in the environmental variable <code>"TOMTOM_API_KEY"</code>., - <code>"mapquest"</code>: <a href="https://developer.mapquest.com/documentation/geocoding-api/" class="external-link">MapQuest</a>.  Batch geocoding is supported. Store an API key in the environmental variable <code>"MAPQUEST_API_KEY"</code>., - <code>"bing"</code>: <a href="https://docs.microsoft.com/en-us/bingmaps/rest-services/locations/" class="external-link">Bing</a>.  Batch geocoding is supported, but must be explicitly called with <code>mode = "batch"</code>. Store an API key in the environmental variable <code>"BINGMAPS_API_KEY"</code>., - <code>"geoapify"</code>: <a href="https://www.geoapify.com/geocoding-api" class="external-link">Geoapify</a>.   Store an API key in the environmental variable <code>"GEOAPIFY_KEY"</code>.</p><ul><li><p><code>"cascade"</code> <a href="https://lifecycle.r-lib.org/articles/stages.html#deprecated" class="external-link"><img src="figures/lifecycle-deprecated.svg" alt="[Deprecated]"></a> use <a href="geocode_combine.html">geocode_combine</a> or <a href="geo_combine.html">geo_combine</a> instead.
-The "cascade" method first uses one geocoding service and then uses
-a second geocoding service if the first service didn't return results.
-The services and order is specified by the cascade_order argument.
-Note that this is not compatible with <code>full_results = TRUE</code> as geocoding
-services have different columns that they return.</p></li>
+<dd><p>the geocoding service to be used. API keys are loaded from environmental variables. Run <code><a href="https://usethis.r-lib.org/reference/edit.html" class="external-link">usethis::edit_r_environ()</a></code> to open your .Renviron file and add an API key as an environmental variable. For example, add the line <code>GEOCODIO_API_KEY="YourAPIKeyHere"</code></p><ul><li><p><code>"osm"</code>: <a href="https://nominatim.org" class="external-link">Nominatim</a>.</p></li>
+<li><p><code>"census"</code>: <a href="https://geocoding.geo.census.gov/" class="external-link">US Census</a>. Geographic coverage is limited to the United States. Batch geocoding is supported.</p></li>
+<li><p><code>"arcgis"</code>: <a href="https://developers.arcgis.com/rest/geocode/api-reference/overview-world-geocoding-service.htm" class="external-link">ArcGIS</a>.</p></li>
+<li><p><code>"geocodio"</code>: <a href="https://www.geocod.io/" class="external-link">Geocodio</a>. Geographic coverage is limited to the United States and Canada. Batch geocoding is supported. Store an API key in the environmental variable <code>"GEOCODIO_API_KEY"</code>.</p></li>
+<li><p><code>"iq"</code>: <a href="https://locationiq.com/" class="external-link">Location IQ</a>.   Store an API key in the environmental variable <code>"LOCATIONIQ_API_KEY"</code>.</p></li>
+<li><p><code>"google"</code>: <a href="https://developers.google.com/maps/documentation/geocoding/overview" class="external-link">Google</a>.   Store an API key in the environmental variable <code>"GOOGLEGEOCODE_API_KEY"</code>.</p></li>
+<li><p><code>"opencage"</code>: <a href="https://opencagedata.com" class="external-link">OpenCage</a>.   Store an API key in the environmental variable <code>"OPENCAGE_KEY"</code>.</p></li>
+<li><p><code>"mapbox"</code>: <a href="https://docs.mapbox.com/api/search/" class="external-link">Mapbox</a>.   Store an API key in the environmental variable <code>"MAPBOX_API_KEY"</code>.</p></li>
+<li><p><code>"here"</code>: <a href="https://developer.here.com/products/geocoding-and-search" class="external-link">HERE</a>.  Batch geocoding is supported, but must be explicitly called with <code>mode = "batch"</code>. Store an API key in the environmental variable <code>"HERE_API_KEY"</code>.</p></li>
+<li><p><code>"tomtom"</code>: <a href="https://developer.tomtom.com/search-api/search-api-documentation" class="external-link">TomTom</a>.  Batch geocoding is supported. Store an API key in the environmental variable <code>"TOMTOM_API_KEY"</code>.</p></li>
+<li><p><code>"mapquest"</code>: <a href="https://developer.mapquest.com/documentation/geocoding-api/" class="external-link">MapQuest</a>.  Batch geocoding is supported. Store an API key in the environmental variable <code>"MAPQUEST_API_KEY"</code>.</p></li>
+<li><p><code>"bing"</code>: <a href="https://docs.microsoft.com/en-us/bingmaps/rest-services/locations/" class="external-link">Bing</a>.  Batch geocoding is supported, but must be explicitly called with <code>mode = "batch"</code>. Store an API key in the environmental variable <code>"BINGMAPS_API_KEY"</code>.</p></li>
+<li><p><code>"geoapify"</code>: <a href="https://www.geoapify.com/geocoding-api" class="external-link">Geoapify</a>.   Store an API key in the environmental variable <code>"GEOAPIFY_KEY"</code>.</p></li>
 </ul></dd>
-
-
-<dt>cascade_order</dt>
-<dd><p><a href="https://lifecycle.r-lib.org/articles/stages.html#deprecated" class="external-link"><img src="figures/lifecycle-deprecated.svg" alt="[Deprecated]"></a> a vector with two character values for the
-method argument in the order in which the geocoding services will be attempted for <code>method = "cascade"</code>
-(ie. <code>c("census", "geocodio")</code>)</p></dd>
 
 
 <dt>lat</dt>
@@ -218,19 +210,19 @@ method argument in the order in which the geocoding services will be attempted f
 
 
 <dt>long</dt>
-<dd><p>longitude column name. Can be quoted or unquoted (ie. <code>long</code> or `"long"``).</p></dd>
+<dd><p>longitude column name. Can be quoted or unquoted (ie. <code>long</code> or <code>"long"</code>).</p></dd>
 
 
 <dt>limit</dt>
-<dd><p>maximum number of results to return per input address. For many geocoding services, the maximum value of the limit parameter is 100. Pass <code>limit = NULL</code> to use, the default <code>limit</code> value of the selected geocoding service., For batch geocoding, limit must be set to 1 (default) if <code>return_addresses = TRUE</code>., Refer to <a href="api_parameter_reference.html">api_parameter_reference</a> for more details.</p></dd>
+<dd><p>maximum number of results to return per input address. For many geocoding services the maximum value of the limit parameter is 100. Pass <code>limit = NULL</code> to use the default <code>limit</code> value of the selected geocoding service. For batch geocoding, limit must be set to 1 (default) if <code>return_addresses = TRUE</code>. Refer to <a href="api_parameter_reference.html">api_parameter_reference</a> for more details.</p></dd>
 
 
 <dt>full_results</dt>
-<dd><p>returns all available data from the geocoding service if TRUE. , If FALSE (default) then only latitude and longitude columns are returned from the geocoding service.</p></dd>
+<dd><p>returns all available data from the geocoding service if TRUE. If FALSE (default) then only latitude and longitude columns are returned from the geocoding service.</p></dd>
 
 
 <dt>mode</dt>
-<dd><p>set to 'batch' to force batch geocoding or 'single' to force single address, geocoding (one address per query). If not specified then batch geocoding will, be used if available (given method selected) when multiple addresses are, provided; otherwise single address geocoding will be used. For the "here" and "bing" methods the, batch mode should be explicitly specified with <code>mode = 'batch'</code>.</p></dd>
+<dd><p>set to 'batch' to force batch geocoding or 'single' to force single addressgeocoding (one address per query). If not specified then batch geocoding will be used if available (given method selected) when multiple addresses are provided; otherwise single address geocoding will be used. For the "here" and "bing" methods the batch mode should be explicitly specified with <code>mode = 'batch'</code>.</p></dd>
 
 
 <dt>unique_only</dt>
@@ -276,11 +268,7 @@ Note that in some cases results are flattened regardless such as for Geocodio ba
 
 
 <dt>batch_limit</dt>
-<dd><p>limit to the number of addresses in a batch geocoding query., Defaults to the value in <a href="batch_limit_reference.html">batch_limit_reference</a> if not specified.</p></dd>
-
-
-<dt>batch_limit_error</dt>
-<dd><p><a href="https://lifecycle.r-lib.org/articles/stages.html#deprecated" class="external-link"><img src="figures/lifecycle-deprecated.svg" alt="[Deprecated]"></a> if TRUE then an error is thrown if the number of addresses exceeds the batch limit., (if executing a batch query). This is reverted to FALSE when using the cascade method.</p></dd>
+<dd><p>limit to the number of addresses in a batch geocoding query.Defaults to the value in <a href="batch_limit_reference.html">batch_limit_reference</a> if not specified.</p></dd>
 
 
 <dt>verbose</dt>
@@ -322,36 +310,6 @@ current <code>address</code> parameter on the request, so the <code>return_addre
 parameters need to be FALSE.</p></li>
 </ul></dd>
 
-
-<dt>return_type</dt>
-<dd><p><a href="https://lifecycle.r-lib.org/articles/stages.html#deprecated" class="external-link"><img src="figures/lifecycle-deprecated.svg" alt="[Deprecated]"></a> use the <code>api_options</code> parameter instead</p></dd>
-
-
-<dt>iq_region</dt>
-<dd><p><a href="https://lifecycle.r-lib.org/articles/stages.html#deprecated" class="external-link"><img src="figures/lifecycle-deprecated.svg" alt="[Deprecated]"></a> use the <code>api_options</code> parameter instead</p></dd>
-
-
-<dt>geocodio_v</dt>
-<dd><p><a href="https://lifecycle.r-lib.org/articles/stages.html#deprecated" class="external-link"><img src="figures/lifecycle-deprecated.svg" alt="[Deprecated]"></a> use the <code>api_options</code> parameter instead</p></dd>
-
-
-<dt>param_error</dt>
-<dd><p><a href="https://lifecycle.r-lib.org/articles/stages.html#deprecated" class="external-link"><img src="figures/lifecycle-deprecated.svg" alt="[Deprecated]"></a> if TRUE then an error will be thrown if any address
-parameters are used that are invalid for the selected service (<code>method</code>).
-If <code>method = "cascade"</code> then no errors will be thrown.</p></dd>
-
-
-<dt>mapbox_permanent</dt>
-<dd><p><a href="https://lifecycle.r-lib.org/articles/stages.html#deprecated" class="external-link"><img src="figures/lifecycle-deprecated.svg" alt="[Deprecated]"></a> use the <code>api_options</code> parameter instead</p></dd>
-
-
-<dt>here_request_id</dt>
-<dd><p><a href="https://lifecycle.r-lib.org/articles/stages.html#deprecated" class="external-link"><img src="figures/lifecycle-deprecated.svg" alt="[Deprecated]"></a> use the <code>api_options</code> parameter instead</p></dd>
-
-
-<dt>mapquest_open</dt>
-<dd><p><a href="https://lifecycle.r-lib.org/articles/stages.html#deprecated" class="external-link"><img src="figures/lifecycle-deprecated.svg" alt="[Deprecated]"></a> use the <code>api_options</code> parameter instead</p></dd>
-
 </dl></div>
     <div id="value">
     <h2>Value</h2>
@@ -374,7 +332,7 @@ If <code>method = "cascade"</code> then no errors will be thrown.</p></dd>
 <span class="r-in"><span>  state <span class="op">=</span> <span class="st">"Georgia"</span>, method <span class="op">=</span> <span class="st">"census"</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Passing 1 address to the US Census single address geocoder</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Query completed in: 1.1 seconds</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Query completed in: 5.9 seconds</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 1 × 5</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   street                  city    state     lat  long</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
@@ -398,7 +356,7 @@ If <code>method = "cascade"</code> then no errors will be thrown.</p></dd>
 <span class="r-in"><span>  method <span class="op">=</span> <span class="st">"census"</span>, api_options <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>census_return_type <span class="op">=</span> <span class="st">"geographies"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Passing 1 address to the US Census single address geocoder</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Query completed in: 0.2 seconds</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Query completed in: 4.7 seconds</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 1 × 27</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   address      lat  long match…¹ tiger…² tiger…³ geogr…⁴ geogr…⁵ geogr…⁶ geogr…⁷</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;list&gt;</span> </span>
