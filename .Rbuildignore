@@ -17,3 +17,4 @@
 ^external$
 ^vignettes/geocoder_services\.Rmd$
 ^vignettes/developer_notes\.Rmd$
+^\.github$
