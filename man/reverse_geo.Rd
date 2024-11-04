@@ -54,7 +54,7 @@ reverse_geo(
 
 \item{full_results}{returns all available data from the geocoding service if TRUE. If FALSE (default) then only a single address column is returned from the geocoding service.}
 
-\item{mode}{set to 'batch' to force batch geocoding or 'single' to force single coordinategeocoding (one coordinate per query). If not specified then batch geocoding will be used if available (given method selected) when multiple coordinates are provided; otherwise single address geocoding will be used. For the "here" and "bing" methods the batch mode should be explicitly specified with \code{mode = 'batch'}.}
+\item{mode}{set to 'batch' to force batch geocoding or 'single' to force single coordinate geocoding (one coordinate per query). If not specified then batch geocoding will be used if available (given method selected) when multiple coordinates are provided; otherwise single address geocoding will be used. For the "here" and "bing" methods the batch mode should be explicitly specified with \code{mode = 'batch'}.}
 
 \item{unique_only}{only return results for unique inputs if TRUE}
 

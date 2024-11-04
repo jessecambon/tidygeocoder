@@ -75,7 +75,7 @@ Do not combine with the address component arguments below
 
 \item{full_results}{returns all available data from the geocoding service if TRUE. If FALSE (default) then only latitude and longitude columns are returned from the geocoding service.}
 
-\item{mode}{set to 'batch' to force batch geocoding or 'single' to force single addressgeocoding (one address per query). If not specified then batch geocoding will be used if available (given method selected) when multiple addresses are provided; otherwise single address geocoding will be used. For the "here" and "bing" methods the batch mode should be explicitly specified with \code{mode = 'batch'}.}
+\item{mode}{set to 'batch' to force batch geocoding or 'single' to force single address geocoding (one address per query). If not specified then batch geocoding will be used if available (given method selected) when multiple addresses are provided; otherwise single address geocoding will be used. For the "here" and "bing" methods the batch mode should be explicitly specified with \code{mode = 'batch'}.}
 
 \item{unique_only}{only return results for unique inputs if TRUE}
 
