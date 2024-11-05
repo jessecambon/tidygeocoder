@@ -35,15 +35,15 @@ further information on this subject
 
 **Features:**
 
--   Forward geocoding (addresses ⮕ coordinates)
--   Reverse geocoding (coordinates ⮕ addresses)
--   Batch geocoding (geocoding multiple addresses or coordinates in a
-    single query) is automatically used if applicable.
--   Duplicate, NA, and blank input data is handled elegantly; only
-    unique inputs are submitted in queries, but the rows in the original
-    data are preserved by default.
--   The maximum rate of querying is automatically set according to the
-    usage policies of the selected geocoding service.
+- Forward geocoding (addresses ⮕ coordinates)
+- Reverse geocoding (coordinates ⮕ addresses)
+- Batch geocoding (geocoding multiple addresses or coordinates in a
+  single query) is automatically used if applicable.
+- Duplicate, NA, and blank input data is handled elegantly; only unique
+  inputs are submitted in queries, but the rows in the original data are
+  preserved by default.
+- The maximum rate of querying is automatically set according to the
+  usage policies of the selected geocoding service.
 
 In addition to the usage examples below, see the [Getting Started
 Vignette](https://jessecambon.github.io/tidygeocoder/articles/tidygeocoder.html)
@@ -98,11 +98,11 @@ service in this example, but `full_results = TRUE` can be used to return
 all of the data from the geocoding service. See the `geo()` function
 documentation for details.
 
-| name                 | addr                                       | latitude |  longitude |
-|:---------------------|:-------------------------------------------|---------:|-----------:|
-| White House          | 1600 Pennsylvania Ave NW, Washington, DC   | 38.89770 |  -77.03655 |
-| Transamerica Pyramid | 600 Montgomery St, San Francisco, CA 94111 | 37.79520 | -122.40279 |
-| Willis Tower         | 233 S Wacker Dr, Chicago, IL 60606         | 41.87887 |  -87.63591 |
+| name | addr | latitude | longitude |
+|:---|:---|---:|---:|
+| White House | 1600 Pennsylvania Ave NW, Washington, DC | 38.89770 | -77.03655 |
+| Transamerica Pyramid | 600 Montgomery St, San Francisco, CA 94111 | 37.79519 | -122.40279 |
+| Willis Tower | 233 S Wacker Dr, Chicago, IL 60606 | 41.87874 | -87.63596 |
 
 Now that we have the longitude and latitude coordinates, we can use
 ggplot to plot our addresses on a map.
@@ -141,39 +141,42 @@ reverse <- lat_longs %>%
   select(-addr, -licence)
 #> Passing 3 coordinates to the Nominatim single coordinate geocoder
 #> Query completed in: 3 seconds
+#> New names:
+#> • `name` -> `name...1`
+#> • `name` -> `name...17`
 ```
 
-| name                 | latitude |  longitude | address_found                                                                                                     |  place_id | osm_type |    osm_id | osm_lat            | osm_lon             | office      | house_number | road                          | city          | state                | ISO3166-2-lvl4 | postcode | country       | country_code | boundingbox                                          | tourism              | neighbourhood      | building     | suburb | county      |
-|:---------------------|---------:|-----------:|:------------------------------------------------------------------------------------------------------------------|----------:|:---------|----------:|:-------------------|:--------------------|:------------|:-------------|:------------------------------|:--------------|:---------------------|:---------------|:---------|:--------------|:-------------|:-----------------------------------------------------|:---------------------|:-------------------|:-------------|:-------|:------------|
-| White House          | 38.89770 |  -77.03655 | White House, 1600, Pennsylvania Avenue Northwest, Washington, District of Columbia, 20500, United States          | 164605957 | way      | 238241022 | 38.897699700000004 | -77.03655315        | White House | 1600         | Pennsylvania Avenue Northwest | Washington    | District of Columbia | US-DC          | 20500    | United States | us           | 38.8974908 , 38.897911 , -77.0368537, -77.0362519    | NA                   | NA                 | NA           | NA     | NA          |
-| Transamerica Pyramid | 37.79520 | -122.40279 | Transamerica Pyramid, 600, Montgomery Street, Financial District, San Francisco, California, 94111, United States | 110070947 | way      |  24222973 | 37.795200550000004 | -122.40279267840137 | NA          | 600          | Montgomery Street             | San Francisco | California           | US-CA          | 94111    | United States | us           | 37.7948854 , 37.7954472 , -122.4031399, -122.4024317 | Transamerica Pyramid | Financial District | NA           | NA     | NA          |
-| Willis Tower         | 41.87887 |  -87.63591 | Willis Tower, 233, South Wacker Drive, Printer’s Row, Loop, Chicago, Cook County, Illinois, 60606, United States  | 119999324 | way      |  58528804 | 41.878871700000005 | -87.63590784114558  | NA          | 233          | South Wacker Drive            | Chicago       | Illinois             | US-IL          | 60606    | United States | us           | 41.8785389 , 41.8791932 , -87.6363362, -87.6354746   | NA                   | Printer’s Row      | Willis Tower | Loop   | Cook County |
+| name…1 | latitude | longitude | address_found | place_id | osm_type | osm_id | osm_lat | osm_lon | class | type | place_rank | importance | addresstype | name…17 | man_made | road | borough | city | state | ISO3166-2-lvl4 | postcode | country | country_code | boundingbox | tourism | house_number | quarter | building | neighbourhood | county |
+|:---|---:|---:|:---|---:|:---|---:|:---|:---|:---|:---|---:|---:|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|
+| White House | 38.89770 | -77.03655 | Zastava Sjedinjenih Američkih Država, Pennsylvania Avenue Northwest, Ward 2, Washington, District of Columbia, 20006, United States | 4215720 | node | 2633633933 | 38.897718 | -77.0365482 | man_made | flagpole | 30 | 0.0000849 | man_made | Zastava Sjedinjenih Američkih Država | Zastava Sjedinjenih Američkih Država | Pennsylvania Avenue Northwest | Ward 2 | Washington | District of Columbia | US-DC | 20006 | United States | us | 38.8976680 , 38.8977680 , -77.0365982, -77.0364982 | NA | NA | NA | NA | NA | NA |
+| Transamerica Pyramid | 37.79519 | -122.40279 | Transamerica Pyramid, 600, Montgomery Street, Financial District, San Francisco, California, 94111, United States | 311949165 | way | 24222973 | 37.7951883 | -122.40279022107812 | tourism | attraction | 30 | 0.4485801 | tourism | Transamerica Pyramid | NA | Montgomery Street | NA | San Francisco | California | US-CA | 94111 | United States | us | 37.7948854 , 37.7954472 , -122.4031399, -122.4024317 | Transamerica Pyramid | 600 | Financial District | NA | NA | NA |
+| Willis Tower | 41.87874 | -87.63596 | Willis Tower, 233, South Wacker Drive, Printer’s Row, Loop, Chicago, Cook County, Illinois, 60606, United States | 26394928 | way | 380868216 | 41.878738049999995 | -87.63596121188081 | building | commercial | 30 | 0.5331678 | building | Willis Tower | NA | South Wacker Drive | NA | Chicago | Illinois | US-IL | 60606 | United States | us | 41.8781922 , 41.8792768 , -87.6365297, -87.6353939 | NA | 233 | Loop | Willis Tower | Printer’s Row | Cook County |
 
 ## In the Wild
 
 For inspiration, here are a few articles (with code) that leverage
 tidygeocoder:
 
--   [Exercises: Spatial Data Wrangling with
-    sf](http://www2.stat.duke.edu/courses/Spring21/sta323.001/exercises/lec_12.html) -
-    part of a [statistical computing
-    course](http://www2.stat.duke.edu/courses/Spring21/sta323.001/) at
-    Duke
--   [Geocoding the Minard
-    Map](https://www.jla-data.net/eng/minard-map-tidygeocoder/) -
-    recreating a famous infographic with geocoding
--   [Mapping a network of women in
-    demography](https://www.monicaalexander.com/posts/2021-21-02-mapping/) -
-    using rvest and tidygeocoder to map Google Scholar data
--   [Mapping
-    Routes](https://bensstats.wordpress.com/2021/10/21/robservations-15-i-reverse-engineered-atlas-co-well-some-of-it/) -
-    mapping routes with tidygeocoder and osrm
--   [Road Routing in
-    R](https://www.jla-data.net/eng/routing-in-r-context/) -
-    demonstration of three different routing APIs
--   [Mapping Texas Ports With
-    R](https://www.sharpsightlabs.com/blog/mapping-texas-ports-with-r-part1/) -
-    mapping the Texas coast with rnaturalearth and sf
+- [Exercises: Spatial Data Wrangling with
+  sf](http://www2.stat.duke.edu/courses/Spring21/sta323.001/exercises/lec_12.html) -
+  part of a [statistical computing
+  course](http://www2.stat.duke.edu/courses/Spring21/sta323.001/) at
+  Duke
+- [Geocoding the Minard
+  Map](https://www.jla-data.net/eng/minard-map-tidygeocoder/) -
+  recreating a famous infographic with geocoding
+- [Mapping a network of women in
+  demography](https://www.monicaalexander.com/posts/2021-21-02-mapping/) -
+  using rvest and tidygeocoder to map Google Scholar data
+- [Mapping
+  Routes](https://bensstats.wordpress.com/2021/10/21/robservations-15-i-reverse-engineered-atlas-co-well-some-of-it/) -
+  mapping routes with tidygeocoder and osrm
+- [Road Routing in
+  R](https://www.jla-data.net/eng/routing-in-r-context/) - demonstration
+  of three different routing APIs
+- [Mapping Texas Ports With
+  R](https://www.sharpsightlabs.com/blog/mapping-texas-ports-with-r-part1/) -
+  mapping the Texas coast with rnaturalearth and sf
 
 ## Contributing
 
@@ -202,7 +205,7 @@ citation('tidygeocoder')
       Cambon J, Hernangómez D, Belanger C, Possenriede D (2021).
       tidygeocoder: An R package for geocoding. Journal of Open Source
       Software, 6(65), 3544, https://doi.org/10.21105/joss.03544 (R package
-      version 1.0.5)
+      version 1.0.6)
 
     A BibTeX entry for LaTeX users is
 
@@ -217,7 +220,7 @@ citation('tidygeocoder')
         volume = {6},
         number = {65},
         pages = {3544},
-        note = {R package version 1.0.5},
+        note = {R package version 1.0.6},
       }
 
 </blockquote>

@@ -16,8 +16,9 @@ methods_to_test <- all_methods
 
 #methods_to_test <- setdiff(all_methods, c('here', 'mapbox', 'bing'))
 #methods_to_test <- c('census', 'osm', 'geocodio', 'opencage', 'google', 'geoapify', 'arcgis')
-#methods_to_test <- c('census', 'osm', 'geocodio', 'opencage', 'arcgis')
+methods_to_test <- c('census', 'osm', 'geocodio', 'arcgis')
 
+# no api key: opencage, mapquest
 
 ##############################################################################################
 

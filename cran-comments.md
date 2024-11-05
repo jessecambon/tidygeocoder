@@ -1,5 +1,5 @@
 ## Test environments
-* local Ubuntu install, R 4.1.0
+* local Pop! OS install, R 4.1.2
 * GitHub Actions [R-CMD-check](https://github.com/jessecambon/tidygeocoder/blob/main/.github/workflows/check-full.yaml)
 * winbuilder r-old devel: `devtools::check_win_oldrelease()`
 * winbuilder r-devel : `devtools::check_win_devel()`

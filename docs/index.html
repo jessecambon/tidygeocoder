@@ -41,7 +41,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">tidygeocoder</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.0.5.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.0.6</span>
       </span>
     </div>
 
@@ -149,7 +149,7 @@
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">'tidygeocoder'</span><span class="op">)</span></span></code></pre></div>
 <p>Alternatively, you can install the latest development version from GitHub:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"jessecambon/tidygeocoder"</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"jessecambon/tidygeocoder"</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="usage">Usage<a class="anchor" aria-label="anchor" href="#usage"></a>
@@ -176,9 +176,9 @@
 <table class="table">
 <colgroup>
 <col width="25%">
-<col width="50%">
-<col width="11%">
-<col width="13%">
+<col width="25%">
+<col width="25%">
+<col width="25%">
 </colgroup>
 <thead><tr class="header">
 <th align="left">name</th>
@@ -196,14 +196,14 @@
 <tr class="even">
 <td align="left">Transamerica Pyramid</td>
 <td align="left">600 Montgomery St, San Francisco, CA 94111</td>
-<td align="right">37.79520</td>
+<td align="right">37.79519</td>
 <td align="right">-122.40279</td>
 </tr>
 <tr class="odd">
 <td align="left">Willis Tower</td>
 <td align="left">233 S Wacker Dr, Chicago, IL 60606</td>
-<td align="right">41.87887</td>
-<td align="right">-87.63591</td>
+<td align="right">41.87874</td>
+<td align="right">-87.63596</td>
 </tr>
 </tbody>
 </table>
@@ -228,36 +228,46 @@ occurring in automated CRAN checks for an improper/old link.
 <span>                  address <span class="op">=</span> <span class="va">address_found</span>, full_results <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="op">-</span><span class="va">addr</span>, <span class="op">-</span><span class="va">licence</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Passing 3 coordinates to the Nominatim single coordinate geocoder</span></span>
-<span><span class="co">#&gt; Query completed in: 3 seconds</span></span></code></pre></div>
+<span><span class="co">#&gt; Query completed in: 3 seconds</span></span>
+<span><span class="co">#&gt; New names:</span></span>
+<span><span class="co">#&gt; • `name` -&gt; `name...1`</span></span>
+<span><span class="co">#&gt; • `name` -&gt; `name...17`</span></span></code></pre></div>
 <table style="width:100%;" class="table">
 <colgroup>
-<col width="4%">
-<col width="1%">
-<col width="2%">
-<col width="22%">
-<col width="2%">
-<col width="1%">
-<col width="2%">
 <col width="3%">
-<col width="4%">
-<col width="2%">
-<col width="2%">
-<col width="6%">
-<col width="2%">
-<col width="4%">
 <col width="3%">
-<col width="1%">
-<col width="2%">
-<col width="2%">
-<col width="10%">
-<col width="4%">
 <col width="3%">
-<col width="2%">
-<col width="1%">
-<col width="2%">
+<col width="3%">
+<col width="3%">
+<col width="3%">
+<col width="3%">
+<col width="3%">
+<col width="3%">
+<col width="3%">
+<col width="3%">
+<col width="3%">
+<col width="3%">
+<col width="3%">
+<col width="3%">
+<col width="3%">
+<col width="3%">
+<col width="3%">
+<col width="3%">
+<col width="3%">
+<col width="3%">
+<col width="3%">
+<col width="3%">
+<col width="3%">
+<col width="3%">
+<col width="3%">
+<col width="3%">
+<col width="3%">
+<col width="3%">
+<col width="3%">
+<col width="3%">
 </colgroup>
 <thead><tr class="header">
-<th align="left">name</th>
+<th align="left">name…1</th>
 <th align="right">latitude</th>
 <th align="right">longitude</th>
 <th align="left">address_found</th>
@@ -266,9 +276,15 @@ occurring in automated CRAN checks for an improper/old link.
 <th align="right">osm_id</th>
 <th align="left">osm_lat</th>
 <th align="left">osm_lon</th>
-<th align="left">office</th>
-<th align="left">house_number</th>
+<th align="left">class</th>
+<th align="left">type</th>
+<th align="right">place_rank</th>
+<th align="right">importance</th>
+<th align="left">addresstype</th>
+<th align="left">name…17</th>
+<th align="left">man_made</th>
 <th align="left">road</th>
+<th align="left">borough</th>
 <th align="left">city</th>
 <th align="left">state</th>
 <th align="left">ISO3166-2-lvl4</th>
@@ -277,9 +293,10 @@ occurring in automated CRAN checks for an improper/old link.
 <th align="left">country_code</th>
 <th align="left">boundingbox</th>
 <th align="left">tourism</th>
-<th align="left">neighbourhood</th>
+<th align="left">house_number</th>
+<th align="left">quarter</th>
 <th align="left">building</th>
-<th align="left">suburb</th>
+<th align="left">neighbourhood</th>
 <th align="left">county</th>
 </tr></thead>
 <tbody>
@@ -287,22 +304,29 @@ occurring in automated CRAN checks for an improper/old link.
 <td align="left">White House</td>
 <td align="right">38.89770</td>
 <td align="right">-77.03655</td>
-<td align="left">White House, 1600, Pennsylvania Avenue Northwest, Washington, District of Columbia, 20500, United States</td>
-<td align="right">164605957</td>
-<td align="left">way</td>
-<td align="right">238241022</td>
-<td align="left">38.897699700000004</td>
-<td align="left">-77.03655315</td>
-<td align="left">White House</td>
-<td align="left">1600</td>
+<td align="left">Zastava Sjedinjenih Američkih Država, Pennsylvania Avenue Northwest, Ward 2, Washington, District of Columbia, 20006, United States</td>
+<td align="right">4215720</td>
+<td align="left">node</td>
+<td align="right">2633633933</td>
+<td align="left">38.897718</td>
+<td align="left">-77.0365482</td>
+<td align="left">man_made</td>
+<td align="left">flagpole</td>
+<td align="right">30</td>
+<td align="right">0.0000849</td>
+<td align="left">man_made</td>
+<td align="left">Zastava Sjedinjenih Američkih Država</td>
+<td align="left">Zastava Sjedinjenih Američkih Država</td>
 <td align="left">Pennsylvania Avenue Northwest</td>
+<td align="left">Ward 2</td>
 <td align="left">Washington</td>
 <td align="left">District of Columbia</td>
 <td align="left">US-DC</td>
-<td align="left">20500</td>
+<td align="left">20006</td>
 <td align="left">United States</td>
 <td align="left">us</td>
-<td align="left">38.8974908 , 38.897911 , -77.0368537, -77.0362519</td>
+<td align="left">38.8976680 , 38.8977680 , -77.0365982, -77.0364982</td>
+<td align="left">NA</td>
 <td align="left">NA</td>
 <td align="left">NA</td>
 <td align="left">NA</td>
@@ -311,17 +335,23 @@ occurring in automated CRAN checks for an improper/old link.
 </tr>
 <tr class="even">
 <td align="left">Transamerica Pyramid</td>
-<td align="right">37.79520</td>
+<td align="right">37.79519</td>
 <td align="right">-122.40279</td>
 <td align="left">Transamerica Pyramid, 600, Montgomery Street, Financial District, San Francisco, California, 94111, United States</td>
-<td align="right">110070947</td>
+<td align="right">311949165</td>
 <td align="left">way</td>
 <td align="right">24222973</td>
-<td align="left">37.795200550000004</td>
-<td align="left">-122.40279267840137</td>
+<td align="left">37.7951883</td>
+<td align="left">-122.40279022107812</td>
+<td align="left">tourism</td>
+<td align="left">attraction</td>
+<td align="right">30</td>
+<td align="right">0.4485801</td>
+<td align="left">tourism</td>
+<td align="left">Transamerica Pyramid</td>
 <td align="left">NA</td>
-<td align="left">600</td>
 <td align="left">Montgomery Street</td>
+<td align="left">NA</td>
 <td align="left">San Francisco</td>
 <td align="left">California</td>
 <td align="left">US-CA</td>
@@ -330,6 +360,7 @@ occurring in automated CRAN checks for an improper/old link.
 <td align="left">us</td>
 <td align="left">37.7948854 , 37.7954472 , -122.4031399, -122.4024317</td>
 <td align="left">Transamerica Pyramid</td>
+<td align="left">600</td>
 <td align="left">Financial District</td>
 <td align="left">NA</td>
 <td align="left">NA</td>
@@ -337,28 +368,35 @@ occurring in automated CRAN checks for an improper/old link.
 </tr>
 <tr class="odd">
 <td align="left">Willis Tower</td>
-<td align="right">41.87887</td>
-<td align="right">-87.63591</td>
+<td align="right">41.87874</td>
+<td align="right">-87.63596</td>
 <td align="left">Willis Tower, 233, South Wacker Drive, Printer’s Row, Loop, Chicago, Cook County, Illinois, 60606, United States</td>
-<td align="right">119999324</td>
+<td align="right">26394928</td>
 <td align="left">way</td>
-<td align="right">58528804</td>
-<td align="left">41.878871700000005</td>
-<td align="left">-87.63590784114558</td>
+<td align="right">380868216</td>
+<td align="left">41.878738049999995</td>
+<td align="left">-87.63596121188081</td>
+<td align="left">building</td>
+<td align="left">commercial</td>
+<td align="right">30</td>
+<td align="right">0.5331678</td>
+<td align="left">building</td>
+<td align="left">Willis Tower</td>
 <td align="left">NA</td>
-<td align="left">233</td>
 <td align="left">South Wacker Drive</td>
+<td align="left">NA</td>
 <td align="left">Chicago</td>
 <td align="left">Illinois</td>
 <td align="left">US-IL</td>
 <td align="left">60606</td>
 <td align="left">United States</td>
 <td align="left">us</td>
-<td align="left">41.8785389 , 41.8791932 , -87.6363362, -87.6354746</td>
+<td align="left">41.8781922 , 41.8792768 , -87.6365297, -87.6353939</td>
 <td align="left">NA</td>
-<td align="left">Printer’s Row</td>
-<td align="left">Willis Tower</td>
+<td align="left">233</td>
 <td align="left">Loop</td>
+<td align="left">Willis Tower</td>
+<td align="left">Printer’s Row</td>
 <td align="left">Cook County</td>
 </tr>
 </tbody>

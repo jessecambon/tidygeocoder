@@ -1,4 +1,4 @@
-# tidygeocoder (development version)
+# tidygeocoder 1.0.6
 
 ### Bug Fixes and Enhancements
 
@@ -12,7 +12,6 @@
 - Fixed a bug where the Geocodio service did not pass the correct address component parameter names ([#178](https://github.com/jessecambon/tidygeocoder/issues/178), [@ottothecow](https://github.com/ottothecow)).
 
 ### Removed Deprecated Features
-
 
 - Removed the `"cascade"` method for `geo()`. Use `geo_combine()` or `geocode_combine()` instead.
 - Removed deprecated functions: `geo_census()` `geo_osm()` `geo_geocodio()` `geo_iq()` `geo_google()` `geo_opencage()` `geo_mapbox()` `geo_here()` `geo_tomtom()` `geo_mapquest()` `geo_bing()` `geo_arcgis()` `geo_cascade()`. Use the `geo()` function instead.
