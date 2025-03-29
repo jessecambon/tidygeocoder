@@ -9,7 +9,7 @@ all_methods <- unique(tidygeocoder::api_parameter_reference[['method']])
 # Pick a value below for `methods_to_test` (the list of methods to test)
 
 # Test all methods
-methods_to_test <- all_methods 
+#methods_to_test <- all_methods 
 
 # EXCLUDE methods with slow geocoder services
 #methods_to_test <- setdiff(all_methods, tidygeocoder:::pkg.globals$single_first_methods)

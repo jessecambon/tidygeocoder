@@ -178,7 +178,7 @@ are stored for easy access and display in built-in datasets.</p>
 <span><span class="co">#&gt; limit : "1"</span></span>
 <span><span class="co">#&gt; format : "json"</span></span>
 <span><span class="co">#&gt; HTTP Status Code: 200</span></span>
-<span><span class="co">#&gt; Query completed in: 0.8 seconds</span></span>
+<span><span class="co">#&gt; Query completed in: 0.9 seconds</span></span>
 <span><span class="co">#&gt; Total query time (including sleep): 1 seconds</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; </span></span>
@@ -189,7 +189,7 @@ are stored for easy access and display in built-in datasets.</p>
 <span><span class="co">#&gt; limit : "1"</span></span>
 <span><span class="co">#&gt; format : "json"</span></span>
 <span><span class="co">#&gt; HTTP Status Code: 200</span></span>
-<span><span class="co">#&gt; Query completed in: 0.4 seconds</span></span>
+<span><span class="co">#&gt; Query completed in: 0.5 seconds</span></span>
 <span><span class="co">#&gt; Total query time (including sleep): 1 seconds</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Query completed in: 2 seconds</span></span>
@@ -393,13 +393,13 @@ at the top of this file.</li>
 <li>Test out the new service to make sure it behaves as expected. You
 can reference tests and example code in <a href="https://github.com/jessecambon/tidygeocoder/tree/main/sandbox" class="external-link">the
 ‘sandbox’ folder</a>.</li>
-<li>Run <strong><code>devtools::check()</code></strong> to make sure the
+<li>Run <strong><code><a href="https://devtools.r-lib.org/reference/check.html" class="external-link">devtools::check()</a></code></strong> to make sure the
 package still passes all tests and checks, but note that these tests are
 designed to work offline so they do not make queries to geocoding
 services.</li>
 <li>As a final check, run <strong><a href="https://github.com/jessecambon/tidygeocoder/blob/main/external/online_tests.R" class="external-link">external/online_tests.R</a></strong>
 to test making queries to the geocoding services. These tests are not
-included in the internal package tests (<code>devtools::test()</code>)
+included in the internal package tests (<code><a href="https://devtools.r-lib.org/reference/test.html" class="external-link">devtools::test()</a></code>)
 because they require API keys which would not exist on all systems and
 are dependent on the geocoding services being online at that the time of
 the test.</li>
@@ -430,10 +430,10 @@ do this again if you need to make any more updates that show up on the
 site)</li>
 <li>Check URLs: <code><a href="https://rdrr.io/pkg/urlchecker/man/url_check.html" class="external-link">urlchecker::url_check()</a></code>
 </li>
-<li>Check spelling: <code>devtools::spell_check()</code>
+<li>Check spelling: <code><a href="https://devtools.r-lib.org/reference/spell_check.html" class="external-link">devtools::spell_check()</a></code>
 </li>
 </ul>
-<p>Last, run <code>devtools::release()</code> to release the new version
+<p>Last, run <code><a href="https://devtools.r-lib.org/reference/release.html" class="external-link">devtools::release()</a></code> to release the new version
 once everything looks good.</p>
 </div>
 </div>

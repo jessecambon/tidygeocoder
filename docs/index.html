@@ -125,7 +125,7 @@
       </header><div class="row">
   <div class="contents col-md-9">
 <div class="section level1">
-<div class="page-header"><h1 id="tidygeocoder">tidygeocoder<a href="https://jessecambon.github.io/tidygeocoder/"><img src="reference/figures/tidygeocoder_hex.png" align="right" width="150"></a>
+<div class="page-header"><h1 id="tidygeocoder">tidygeocoder<a href="https://jessecambon.github.io/tidygeocoder/"><img src="reference/figures/tidygeocoder_hex.png" alt="Tidygeocoder R Package hex logo" align="right" width="150"></a>
 <a class="anchor" aria-label="anchor" href="#tidygeocoder"></a>
 </h1></div>
 <!-- badges: start -->
@@ -149,7 +149,7 @@
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">'tidygeocoder'</span><span class="op">)</span></span></code></pre></div>
 <p>Alternatively, you can install the latest development version from GitHub:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"jessecambon/tidygeocoder"</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"jessecambon/tidygeocoder"</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="usage">Usage<a class="anchor" aria-label="anchor" href="#usage"></a>
@@ -215,7 +215,11 @@
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/borders.html" class="external-link">borders</a></span><span class="op">(</span><span class="st">"state"</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html" class="external-link">geom_point</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">ggrepel</span><span class="fu">::</span><span class="fu"><a href="https://ggrepel.slowkow.com/reference/geom_text_repel.html" class="external-link">geom_label_repel</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>label <span class="op">=</span> <span class="va">name</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_void</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<p><img src="reference/figures/README-usamap-1.png" style="display: block; margin: auto;"></p>
+<div class="figure" style="text-align: center">
+<img src="reference/figures/README-usamap-1.png" alt="A map of the United States with the places of interest mentioned above plotted on top of it."><p class="caption">
+A map of the United States with the places of interest mentioned above plotted on top of it.
+</p>
+</div>
 <p>To perform reverse geocoding (obtaining addresses from geographic coordinates), we can use the <code><a href="reference/reverse_geocode.html">reverse_geocode()</a></code> function. The arguments are similar to the <code><a href="reference/geocode.html">geocode()</a></code> function, but now we specify the input data columns with the <code>lat</code> and <code>long</code> arguments. The input dataset used here is the results of the geocoding query above.</p>
 <p>The single line address is returned in a column named by the <code>address</code> argument and all columns from the geocoding service results are returned because <code>full_results = TRUE</code>. See the <code><a href="reference/reverse_geo.html">reverse_geo()</a></code> function documentation for more details.</p>
 <!--
@@ -232,8 +236,9 @@ occurring in automated CRAN checks for an improper/old link.
 <span><span class="co">#&gt; New names:</span></span>
 <span><span class="co">#&gt; • `name` -&gt; `name...1`</span></span>
 <span><span class="co">#&gt; • `name` -&gt; `name...17`</span></span></code></pre></div>
-<table style="width:100%;" class="table">
+<table class="table">
 <colgroup>
+<col width="3%">
 <col width="3%">
 <col width="3%">
 <col width="3%">
@@ -282,7 +287,8 @@ occurring in automated CRAN checks for an improper/old link.
 <th align="right">importance</th>
 <th align="left">addresstype</th>
 <th align="left">name…17</th>
-<th align="left">man_made</th>
+<th align="left">office</th>
+<th align="left">house_number</th>
 <th align="left">road</th>
 <th align="left">borough</th>
 <th align="left">city</th>
@@ -293,10 +299,10 @@ occurring in automated CRAN checks for an improper/old link.
 <th align="left">country_code</th>
 <th align="left">boundingbox</th>
 <th align="left">tourism</th>
-<th align="left">house_number</th>
 <th align="left">quarter</th>
 <th align="left">building</th>
 <th align="left">neighbourhood</th>
+<th align="left">suburb</th>
 <th align="left">county</th>
 </tr></thead>
 <tbody>
@@ -304,28 +310,29 @@ occurring in automated CRAN checks for an improper/old link.
 <td align="left">White House</td>
 <td align="right">38.89770</td>
 <td align="right">-77.03655</td>
-<td align="left">Zastava Sjedinjenih Američkih Država, Pennsylvania Avenue Northwest, Ward 2, Washington, District of Columbia, 20006, United States</td>
-<td align="right">4215720</td>
-<td align="left">node</td>
-<td align="right">2633633933</td>
-<td align="left">38.897718</td>
-<td align="left">-77.0365482</td>
-<td align="left">man_made</td>
-<td align="left">flagpole</td>
+<td align="left">White House, 1600, Pennsylvania Avenue Northwest, Ward 2, Washington, District of Columbia, 20500, United States</td>
+<td align="right">321631063</td>
+<td align="left">way</td>
+<td align="right">238241022</td>
+<td align="left">38.897699700000004</td>
+<td align="left">-77.03655315</td>
+<td align="left">office</td>
+<td align="left">government</td>
 <td align="right">30</td>
-<td align="right">0.0000849</td>
-<td align="left">man_made</td>
-<td align="left">Zastava Sjedinjenih Američkih Država</td>
-<td align="left">Zastava Sjedinjenih Američkih Država</td>
+<td align="right">0.6863356</td>
+<td align="left">office</td>
+<td align="left">White House</td>
+<td align="left">White House</td>
+<td align="left">1600</td>
 <td align="left">Pennsylvania Avenue Northwest</td>
 <td align="left">Ward 2</td>
 <td align="left">Washington</td>
 <td align="left">District of Columbia</td>
 <td align="left">US-DC</td>
-<td align="left">20006</td>
+<td align="left">20500</td>
 <td align="left">United States</td>
 <td align="left">us</td>
-<td align="left">38.8976680 , 38.8977680 , -77.0365982, -77.0364982</td>
+<td align="left">38.8974908 , 38.8979110 , -77.0368537, -77.0362519</td>
 <td align="left">NA</td>
 <td align="left">NA</td>
 <td align="left">NA</td>
@@ -338,7 +345,7 @@ occurring in automated CRAN checks for an improper/old link.
 <td align="right">37.79519</td>
 <td align="right">-122.40279</td>
 <td align="left">Transamerica Pyramid, 600, Montgomery Street, Financial District, San Francisco, California, 94111, United States</td>
-<td align="right">311949165</td>
+<td align="right">300093323</td>
 <td align="left">way</td>
 <td align="right">24222973</td>
 <td align="left">37.7951883</td>
@@ -350,6 +357,7 @@ occurring in automated CRAN checks for an improper/old link.
 <td align="left">tourism</td>
 <td align="left">Transamerica Pyramid</td>
 <td align="left">NA</td>
+<td align="left">600</td>
 <td align="left">Montgomery Street</td>
 <td align="left">NA</td>
 <td align="left">San Francisco</td>
@@ -360,8 +368,8 @@ occurring in automated CRAN checks for an improper/old link.
 <td align="left">us</td>
 <td align="left">37.7948854 , 37.7954472 , -122.4031399, -122.4024317</td>
 <td align="left">Transamerica Pyramid</td>
-<td align="left">600</td>
 <td align="left">Financial District</td>
+<td align="left">NA</td>
 <td align="left">NA</td>
 <td align="left">NA</td>
 <td align="left">NA</td>
@@ -371,7 +379,7 @@ occurring in automated CRAN checks for an improper/old link.
 <td align="right">41.87874</td>
 <td align="right">-87.63596</td>
 <td align="left">Willis Tower, 233, South Wacker Drive, Printer’s Row, Loop, Chicago, Cook County, Illinois, 60606, United States</td>
-<td align="right">26394928</td>
+<td align="right">344062520</td>
 <td align="left">way</td>
 <td align="right">380868216</td>
 <td align="left">41.878738049999995</td>
@@ -383,6 +391,7 @@ occurring in automated CRAN checks for an improper/old link.
 <td align="left">building</td>
 <td align="left">Willis Tower</td>
 <td align="left">NA</td>
+<td align="left">233</td>
 <td align="left">South Wacker Drive</td>
 <td align="left">NA</td>
 <td align="left">Chicago</td>
@@ -393,10 +402,10 @@ occurring in automated CRAN checks for an improper/old link.
 <td align="left">us</td>
 <td align="left">41.8781922 , 41.8792768 , -87.6365297, -87.6353939</td>
 <td align="left">NA</td>
-<td align="left">233</td>
-<td align="left">Loop</td>
+<td align="left">NA</td>
 <td align="left">Willis Tower</td>
 <td align="left">Printer’s Row</td>
+<td align="left">Loop</td>
 <td align="left">Cook County</td>
 </tr>
 </tbody>
@@ -513,7 +522,7 @@ occurring in automated CRAN checks for an improper/old link.
 <li><a href="https://cran.r-project.org/package=tidygeocoder" class="external-link"><img src="http://cranlogs.r-pkg.org/badges/tidygeocoder" alt="CRAN Downloads Per Month"></a></li>
 <li><a href="https://lifecycle.r-lib.org/articles/stages.html#stable" class="external-link"><img src="https://img.shields.io/badge/lifecycle-stable-brightgreen.svg" alt="Lifecycle: stable"></a></li>
 <li><a href="https://github.com/jessecambon/tidygeocoder/actions?workflow=R-CMD-check" class="external-link"><img src="https://github.com/jessecambon/tidygeocoder/workflows/R-CMD-check/badge.svg" alt="R Build Status"></a></li>
-<li><a href="https://doi.org/10.5281/zenodo.5627341" class="external-link"><img src="https://zenodo.org/badge/DOI/10.5281/zenodo.5627341.svg" alt="Zenodo"></a></li>
+<li><a href="https://doi.org/10.5281/zenodo.15106058" class="external-link"><img src="https://zenodo.org/badge/DOI/10.5281/zenodo.15106058.svg" alt="Zenodo"></a></li>
 </ul>
 </div>
 

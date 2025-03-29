@@ -226,7 +226,7 @@ return_input will be set to FALSE.</p></dd>
 <span class="r-in"><span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/slice.html" class="external-link">slice</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span></span>
 <span class="r-in"><span>  <span class="fu">geocode</span><span class="op">(</span><span class="va">addr</span>, method <span class="op">=</span> <span class="st">"arcgis"</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Passing 2 addresses to the ArcGIS single address geocoder</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Query completed in: 0.2 seconds</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Query completed in: 0.1 seconds</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 2 × 4</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   name                 addr                                         lat   long</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                                      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
@@ -256,7 +256,7 @@ return_input will be set to FALSE.</p></dd>
 <span class="r-in"><span>    return_input <span class="op">=</span> <span class="cn">FALSE</span>, full_results <span class="op">=</span> <span class="cn">TRUE</span></span></span>
 <span class="r-in"><span>  <span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Passing 2 addresses to the Nominatim single address geocoder</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Query completed in: 2.8 seconds</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Query completed in: 2 seconds</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 3 × 15</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   address      lat  long place_id licence osm_type osm_id class type  place_rank</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span>

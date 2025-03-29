@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file directly and reknit -->
 
-# tidygeocoder<a href='https://jessecambon.github.io/tidygeocoder/'><img src="man/figures/tidygeocoder_hex.png" align="right" width="150"/></a>
+# tidygeocoder<a href='https://jessecambon.github.io/tidygeocoder/'><img src="man/figures/tidygeocoder_hex.png" alt="Tidygeocoder R Package hex logo" align="right" width="150"/></a>
 
 <!-- badges: start -->
 
@@ -17,7 +17,7 @@ Month](http://cranlogs.r-pkg.org/badges/tidygeocoder)](https://cran.r-project.or
 stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://lifecycle.r-lib.org/articles/stages.html#stable)
 [![R Build
 Status](https://github.com/jessecambon/tidygeocoder/workflows/R-CMD-check/badge.svg)](https://github.com/jessecambon/tidygeocoder/actions?workflow=R-CMD-check)
-[![Zenodo](https://zenodo.org/badge/DOI/10.5281/zenodo.5627341.svg)](https://doi.org/10.5281/zenodo.5627341)
+[![Zenodo](https://zenodo.org/badge/DOI/10.5281/zenodo.15106058.svg)](https://doi.org/10.5281/zenodo.15106058)
 <!-- badges: end -->
 
 Tidygeocoder makes getting data from geocoding services easy. A unified
@@ -116,7 +116,15 @@ ggplot(lat_longs, aes(longitude, latitude), color = "grey99") +
   theme_void()
 ```
 
-<img src="man/figures/README-usamap-1.png" style="display: block; margin: auto;" />
+<div class="figure" style="text-align: center">
+
+<img src="man/figures/README-usamap-1.png" alt="A map of the United States with the places of interest mentioned above plotted on top of it."  />
+<p class="caption">
+A map of the United States with the places of interest mentioned above
+plotted on top of it.
+</p>
+
+</div>
 
 To perform reverse geocoding (obtaining addresses from geographic
 coordinates), we can use the `reverse_geocode()` function. The arguments
@@ -146,11 +154,11 @@ reverse <- lat_longs %>%
 #> • `name` -> `name...17`
 ```
 
-| name…1 | latitude | longitude | address_found | place_id | osm_type | osm_id | osm_lat | osm_lon | class | type | place_rank | importance | addresstype | name…17 | man_made | road | borough | city | state | ISO3166-2-lvl4 | postcode | country | country_code | boundingbox | tourism | house_number | quarter | building | neighbourhood | county |
-|:---|---:|---:|:---|---:|:---|---:|:---|:---|:---|:---|---:|---:|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|
-| White House | 38.89770 | -77.03655 | Zastava Sjedinjenih Američkih Država, Pennsylvania Avenue Northwest, Ward 2, Washington, District of Columbia, 20006, United States | 4215720 | node | 2633633933 | 38.897718 | -77.0365482 | man_made | flagpole | 30 | 0.0000849 | man_made | Zastava Sjedinjenih Američkih Država | Zastava Sjedinjenih Američkih Država | Pennsylvania Avenue Northwest | Ward 2 | Washington | District of Columbia | US-DC | 20006 | United States | us | 38.8976680 , 38.8977680 , -77.0365982, -77.0364982 | NA | NA | NA | NA | NA | NA |
-| Transamerica Pyramid | 37.79519 | -122.40279 | Transamerica Pyramid, 600, Montgomery Street, Financial District, San Francisco, California, 94111, United States | 311949165 | way | 24222973 | 37.7951883 | -122.40279022107812 | tourism | attraction | 30 | 0.4485801 | tourism | Transamerica Pyramid | NA | Montgomery Street | NA | San Francisco | California | US-CA | 94111 | United States | us | 37.7948854 , 37.7954472 , -122.4031399, -122.4024317 | Transamerica Pyramid | 600 | Financial District | NA | NA | NA |
-| Willis Tower | 41.87874 | -87.63596 | Willis Tower, 233, South Wacker Drive, Printer’s Row, Loop, Chicago, Cook County, Illinois, 60606, United States | 26394928 | way | 380868216 | 41.878738049999995 | -87.63596121188081 | building | commercial | 30 | 0.5331678 | building | Willis Tower | NA | South Wacker Drive | NA | Chicago | Illinois | US-IL | 60606 | United States | us | 41.8781922 , 41.8792768 , -87.6365297, -87.6353939 | NA | 233 | Loop | Willis Tower | Printer’s Row | Cook County |
+| name…1 | latitude | longitude | address_found | place_id | osm_type | osm_id | osm_lat | osm_lon | class | type | place_rank | importance | addresstype | name…17 | office | house_number | road | borough | city | state | ISO3166-2-lvl4 | postcode | country | country_code | boundingbox | tourism | quarter | building | neighbourhood | suburb | county |
+|:---|---:|---:|:---|---:|:---|---:|:---|:---|:---|:---|---:|---:|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|
+| White House | 38.89770 | -77.03655 | White House, 1600, Pennsylvania Avenue Northwest, Ward 2, Washington, District of Columbia, 20500, United States | 321631063 | way | 238241022 | 38.897699700000004 | -77.03655315 | office | government | 30 | 0.6863356 | office | White House | White House | 1600 | Pennsylvania Avenue Northwest | Ward 2 | Washington | District of Columbia | US-DC | 20500 | United States | us | 38.8974908 , 38.8979110 , -77.0368537, -77.0362519 | NA | NA | NA | NA | NA | NA |
+| Transamerica Pyramid | 37.79519 | -122.40279 | Transamerica Pyramid, 600, Montgomery Street, Financial District, San Francisco, California, 94111, United States | 300093323 | way | 24222973 | 37.7951883 | -122.40279022107812 | tourism | attraction | 30 | 0.4485801 | tourism | Transamerica Pyramid | NA | 600 | Montgomery Street | NA | San Francisco | California | US-CA | 94111 | United States | us | 37.7948854 , 37.7954472 , -122.4031399, -122.4024317 | Transamerica Pyramid | Financial District | NA | NA | NA | NA |
+| Willis Tower | 41.87874 | -87.63596 | Willis Tower, 233, South Wacker Drive, Printer’s Row, Loop, Chicago, Cook County, Illinois, 60606, United States | 344062520 | way | 380868216 | 41.878738049999995 | -87.63596121188081 | building | commercial | 30 | 0.5331678 | building | Willis Tower | NA | 233 | South Wacker Drive | NA | Chicago | Illinois | US-IL | 60606 | United States | us | 41.8781922 , 41.8792768 , -87.6365297, -87.6353939 | NA | NA | Willis Tower | Printer’s Row | Loop | Cook County |
 
 ## In the Wild
 
@@ -198,7 +206,6 @@ citation('tidygeocoder')
 </br>
 
 <blockquote>
-
 
     To cite tidygeocoder use:
 
