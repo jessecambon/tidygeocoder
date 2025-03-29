@@ -13,3 +13,4 @@
 ## Notes 
 
 - RE the inactive Zenodo URL, this DOI is reserved and will become active once released.
+- On running the spelling check locally there was a "PCDATA invalid char value 27" error, but I didn't see this on other tests and it appears to be a package bug.
