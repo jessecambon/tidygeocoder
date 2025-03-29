@@ -298,7 +298,7 @@ parameters need to be FALSE.</p></li>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 1 × 3</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     lat  long address                                                           </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                                                             </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>  38.9 -<span style="color: #BB0000;">77.0</span> L’Enfant's plan, Pennsylvania Avenue, Ward 2, Washington, Distric…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>  38.9 -<span style="color: #BB0000;">77.0</span> Pennsylvania Avenue, Ward 2, Washington, District of Columbia, 20…</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu">reverse_geo</span><span class="op">(</span></span></span>
 <span class="r-in"><span>  lat <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">38.895865</span>, <span class="fl">43.6534817</span>, <span class="fl">300</span><span class="op">)</span>,</span></span>
@@ -307,17 +307,17 @@ parameters need to be FALSE.</p></li>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Passing 2 coordinates to the Nominatim single coordinate geocoder</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Query completed in: 2 seconds</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 3 × 30</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 3 × 29</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     lat  long address    place_id licence osm_type  osm_id osm_lat osm_lon class</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>  38.9 -<span style="color: #BB0000;">77.0</span> L’Enfant'…   3.20<span style="color: #949494;">e</span>8 Data ©… way       9.00<span style="color: #949494;">e</span>8 38.895… -77.03… tour…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>  38.9 -<span style="color: #BB0000;">77.0</span> Pennsylva…   3.21<span style="color: #949494;">e</span>8 Data ©… way       5.65<span style="color: #949494;">e</span>8 38.895… -77.03… high…</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span>  43.7 -<span style="color: #BB0000;">79.4</span> Toronto C…   3.24<span style="color: #949494;">e</span>8 Data ©… way       1.99<span style="color: #949494;">e</span>8 43.653… -79.38… amen…</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span>  <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span>   <span style="color: #BB0000;">NA</span>          <span style="color: #BB0000;">NA</span>   <span style="color: #949494;"> </span>  <span style="color: #BB0000;">NA</span>      <span style="color: #BB0000;">NA</span>       <span style="color: #BB0000;">NA</span>   <span style="color: #949494;"> </span>  <span style="color: #BB0000;">NA</span>      <span style="color: #BB0000;">NA</span>      <span style="color: #BB0000;">NA</span>   </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 20 more variables: type &lt;chr&gt;, place_rank &lt;int&gt;, importance &lt;dbl&gt;,</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   addresstype &lt;chr&gt;, name &lt;chr&gt;, tourism &lt;chr&gt;, road &lt;chr&gt;, borough &lt;chr&gt;,</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   city &lt;chr&gt;, state &lt;chr&gt;, `ISO3166-2-lvl4` &lt;chr&gt;, postcode &lt;chr&gt;,</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   country &lt;chr&gt;, country_code &lt;chr&gt;, boundingbox &lt;list&gt;, amenity &lt;chr&gt;,</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   house_number &lt;chr&gt;, city_block &lt;chr&gt;, quarter &lt;chr&gt;, state_district &lt;chr&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 19 more variables: type &lt;chr&gt;, place_rank &lt;int&gt;, importance &lt;dbl&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   addresstype &lt;chr&gt;, name &lt;chr&gt;, road &lt;chr&gt;, borough &lt;chr&gt;, city &lt;chr&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   state &lt;chr&gt;, `ISO3166-2-lvl4` &lt;chr&gt;, postcode &lt;chr&gt;, country &lt;chr&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   country_code &lt;chr&gt;, boundingbox &lt;list&gt;, amenity &lt;chr&gt;, house_number &lt;chr&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   city_block &lt;chr&gt;, quarter &lt;chr&gt;, state_district &lt;chr&gt;</span></span>
 <span class="r-in"><span><span class="co"># }</span></span></span>
 </code></pre></div>
     </div>
