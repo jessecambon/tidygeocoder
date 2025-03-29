@@ -34,7 +34,8 @@ License: MIT + file LICENSE
 URL: https://jessecambon.github.io/tidygeocoder/, 
     https://github.com/jessecambon/tidygeocoder
 BugReports: https://github.com/jessecambon/tidygeocoder/issues
-Depends: R (>= 3.3.0)
+Depends: 
+    R (>= 3.5)
 Imports: 
     tibble,
     dplyr,

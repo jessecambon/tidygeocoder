@@ -4,7 +4,7 @@
 * GitHub Actions [R-hub](https://github.com/jessecambon/tidygeocoder/blob/main/.github/workflows/rhub.yaml)
 * winbuilder r-old devel: `devtools::check_win_oldrelease()`
 * winbuilder r-devel : `devtools::check_win_devel()`
-* Linux and Mac OS checked via `rhub::check()`
+* Linux and Mac OS checked via `rhub::rhubcheck()`
 
 ## R CMD check results
 
