@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Geocoding Services • tidygeocoder</title>
-<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script><!-- Bootstrap --><link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.4.0/cosmo/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script><!-- Bootstrap --><link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.4.0/cosmo/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script><!-- bootstrap-toc --><link rel="stylesheet" href="../bootstrap-toc.css">
 <script src="../bootstrap-toc.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
@@ -28,7 +28,7 @@
 </script>
 </head>
 <body data-spy="scroll" data-target="#toc">
-    
+
 
     <div class="container template-article">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -42,7 +42,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">tidygeocoder</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.0.5.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.0.6</span>
       </span>
     </div>
 
@@ -57,7 +57,7 @@
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
-     
+
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -72,7 +72,7 @@
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     News
-     
+
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -104,7 +104,7 @@
 <li>
   <a href="https://github.com/jessecambon/tidygeocoder/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
-     
+
   </a>
 </li>
       </ul>
@@ -113,7 +113,7 @@
           <input type="search" class="form-control" name="search-input" id="search-input" placeholder="Search..." aria-label="Search for..." autocomplete="off">
 </div>
       </form>
-      
+
     </div>
 <!--/.nav-collapse -->
   </div>
@@ -121,15 +121,16 @@
 </div>
 <!--/.navbar -->
 
-      
 
-      </header><script src="geocoder_services_files/htmlwidgets-1.5.4/htmlwidgets.js"></script><link href="geocoder_services_files/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet">
-<script src="geocoder_services_files/datatables-binding-0.26/datatables.js"></script><link href="geocoder_services_files/dt-core-1.12.1/css/jquery.dataTables.min.css" rel="stylesheet">
-<link href="geocoder_services_files/dt-core-1.12.1/css/jquery.dataTables.extra.css" rel="stylesheet">
-<script src="geocoder_services_files/dt-core-1.12.1/js/jquery.dataTables.min.js"></script><link href="geocoder_services_files/nouislider-7.0.10/jquery.nouislider.min.css" rel="stylesheet">
+
+      </header><link href="geocoder_services_files/htmltools-fill-0.5.8.1/fill.css" rel="stylesheet">
+<script src="geocoder_services_files/htmlwidgets-1.6.4/htmlwidgets.js"></script><link href="geocoder_services_files/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet">
+<script src="geocoder_services_files/datatables-binding-0.33/datatables.js"></script><link href="geocoder_services_files/dt-core-1.13.6/css/jquery.dataTables.min.css" rel="stylesheet">
+<link href="geocoder_services_files/dt-core-1.13.6/css/jquery.dataTables.extra.css" rel="stylesheet">
+<script src="geocoder_services_files/dt-core-1.13.6/js/jquery.dataTables.min.js"></script><link href="geocoder_services_files/nouislider-7.0.10/jquery.nouislider.min.css" rel="stylesheet">
 <script src="geocoder_services_files/nouislider-7.0.10/jquery.nouislider.min.js"></script><link href="geocoder_services_files/selectize-0.12.0/selectize.bootstrap3.css" rel="stylesheet">
-<script src="geocoder_services_files/selectize-0.12.0/selectize.min.js"></script><link href="geocoder_services_files/crosstalk-1.2.0/css/crosstalk.min.css" rel="stylesheet">
-<script src="geocoder_services_files/crosstalk-1.2.0/js/crosstalk.min.js"></script><div class="row">
+<script src="geocoder_services_files/selectize-0.12.0/selectize.min.js"></script><link href="geocoder_services_files/crosstalk-1.2.1/css/crosstalk.min.css" rel="stylesheet">
+<script src="geocoder_services_files/crosstalk-1.2.1/js/crosstalk.min.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Geocoding Services</h1>
@@ -374,8 +375,8 @@ each geocoding service to a common set of “generic” parameters. The
 <code>api_name</code> is the parameter name for the specified geocoding
 service (<code>method</code>). Refer to
 <code><a href="../reference/api_parameter_reference.html">?api_parameter_reference</a></code> for more details.</p>
-<div id="htmlwidget-30e4409849e39179307f" style="width:100%;height:auto;" class="datatables html-widget"></div>
-<script type="application/json" data-for="htmlwidget-30e4409849e39179307f">{"x":{"filter":"top","vertical":false,"filterHTML":"<tr>\n  <td data-type=\"factor\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"width: 100%; display: none;\">\n      <select multiple=\"multiple\" style=\"width: 100%;\" data-options=\"[&quot;arcgis&quot;,&quot;bing&quot;,&quot;census&quot;,&quot;geoapify&quot;,&quot;geocodio&quot;,&quot;google&quot;,&quot;here&quot;,&quot;iq&quot;,&quot;mapbox&quot;,&quot;mapquest&quot;,&quot;opencage&quot;,&quot;osm&quot;,&quot;tomtom&quot;]\"><\/select>\n    <\/div>\n  <\/td>\n  <td data-type=\"factor\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"width: 100%; display: none;\">\n      <select multiple=\"multiple\" style=\"width: 100%;\" data-options=\"[&quot;address&quot;,&quot;api_key&quot;,&quot;city&quot;,&quot;country&quot;,&quot;county&quot;,&quot;format&quot;,&quot;limit&quot;,&quot;outFields&quot;,&quot;postalcode&quot;,&quot;state&quot;,&quot;street&quot;]\"><\/select>\n    <\/div>\n  <\/td>\n  <td data-type=\"factor\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"width: 100%; display: none;\">\n      <select multiple=\"multiple\" style=\"width: 100%;\" data-options=\"[&quot;access_token&quot;,&quot;address&quot;,&quot;api_key&quot;,&quot;apiKey&quot;,&quot;benchmark&quot;,&quot;city&quot;,&quot;country&quot;,&quot;countryCode&quot;,&quot;county&quot;,&quot;f&quot;,&quot;format&quot;,&quot;key&quot;,&quot;limit&quot;,&quot;location&quot;,&quot;maxLocations&quot;,&quot;maxResults&quot;,&quot;outFields&quot;,&quot;postal&quot;,&quot;postal_code&quot;,&quot;postalcode&quot;,&quot;postcode&quot;,&quot;q&quot;,&quot;query&quot;,&quot;region&quot;,&quot;search_text&quot;,&quot;SingleLine&quot;,&quot;state&quot;,&quot;street&quot;,&quot;text&quot;,&quot;vintage&quot;,&quot;zip&quot;]\"><\/select>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"logical\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"width: 100%; display: none;\">\n      <select multiple=\"multiple\" style=\"width: 100%;\" data-options=\"[&quot;true&quot;,&quot;false&quot;]\"><\/select>\n    <\/div>\n  <\/td>\n<\/tr>","data":[["census","census","census","census","census","census","census","census","osm","osm","osm","osm","osm","osm","osm","osm","osm","iq","iq","iq","iq","iq","iq","iq","iq","iq","iq","geocodio","geocodio","geocodio","geocodio","geocodio","geocodio","geocodio","geocodio","google","google","opencage","opencage","opencage","mapbox","mapbox","mapbox","here","here","here","tomtom","tomtom","tomtom","mapquest","mapquest","mapquest","bing","bing","bing","arcgis","arcgis","arcgis","arcgis","arcgis","arcgis","arcgis","arcgis","arcgis","geoapify","geoapify","geoapify","geoapify","geoapify","geoapify","geoapify","geoapify"],["format",null,null,"address","street","city","state","postalcode","format","limit","address","street","city","county","state","postalcode","country","api_key","format","limit","address","street","city","county","state","postalcode","country","api_key","limit","address","street","city","state","postalcode","country","api_key","address","api_key","address","limit","api_key","address","limit","api_key","address","limit","api_key","address","limit","api_key","address","limit","api_key","address","limit","address","street","city","state","postalcode","country","limit","format","outFields","api_key","address","street","city","state","postalcode","country","limit"],["format","benchmark","vintage","address","street","city","state","zip","format","limit","q","street","city","county","state","postalcode","country","key","format","limit","q","street","city","county","state","postalcode","country","api_key","limit","q","street","city","state","postal_code","country","key","address","key","q","limit","access_token","search_text","limit","apiKey","q","limit","key","query","limit","key","location","maxResults","key","q","maxResults","SingleLine","address","city","region","postal","countryCode","maxLocations","f","outFields","apiKey","text","street","city","state","postcode","country","limit"],["json","Public_AR_Current","Current_Current",null,null,null,null,null,"json","1",null,null,null,null,null,null,null,null,"json","1",null,null,null,null,null,null,null,null,"1",null,null,null,null,null,null,null,null,null,null,"1",null,null,"1",null,null,"1",null,null,"1",null,null,"1",null,null,"1",null,null,null,null,null,null,"1","json","*",null,null,null,null,null,null,null,"1"],[true,true,true,false,false,false,false,false,true,false,false,false,false,false,false,false,false,true,true,false,false,false,false,false,false,false,false,true,false,false,false,false,false,false,false,true,true,true,true,false,true,true,false,true,true,false,true,true,false,true,true,false,true,true,false,false,false,false,false,false,false,false,true,true,true,false,false,false,false,false,false,false]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>method<\/th>\n      <th>generic_name<\/th>\n      <th>api_name<\/th>\n      <th>default_value<\/th>\n      <th>required<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"lengthMenu":[5,10,15,20,72],"pageLength":10,"autoWidth":true,"columnDefs":[],"order":[],"orderClasses":false,"orderCellsTop":true}},"evals":[],"jsHooks":[]}</script>
+<div class="datatables html-widget html-fill-item" id="htmlwidget-ac96cb3ee4656e2e9ec3" style="width:100%;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-ac96cb3ee4656e2e9ec3">{"x":{"filter":"top","vertical":false,"filterHTML":"<tr>\n  <td data-type=\"factor\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"width: 100%; display: none;\">\n      <select multiple=\"multiple\" style=\"width: 100%;\" data-options=\"[&quot;arcgis&quot;,&quot;bing&quot;,&quot;census&quot;,&quot;geoapify&quot;,&quot;geocodio&quot;,&quot;google&quot;,&quot;here&quot;,&quot;iq&quot;,&quot;mapbox&quot;,&quot;mapquest&quot;,&quot;opencage&quot;,&quot;osm&quot;,&quot;tomtom&quot;]\"><\/select>\n    <\/div>\n  <\/td>\n  <td data-type=\"factor\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"width: 100%; display: none;\">\n      <select multiple=\"multiple\" style=\"width: 100%;\" data-options=\"[&quot;address&quot;,&quot;api_key&quot;,&quot;city&quot;,&quot;country&quot;,&quot;county&quot;,&quot;format&quot;,&quot;limit&quot;,&quot;outFields&quot;,&quot;postalcode&quot;,&quot;state&quot;,&quot;street&quot;]\"><\/select>\n    <\/div>\n  <\/td>\n  <td data-type=\"factor\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"width: 100%; display: none;\">\n      <select multiple=\"multiple\" style=\"width: 100%;\" data-options=\"[&quot;access_token&quot;,&quot;address&quot;,&quot;api_key&quot;,&quot;apiKey&quot;,&quot;benchmark&quot;,&quot;city&quot;,&quot;country&quot;,&quot;countryCode&quot;,&quot;county&quot;,&quot;f&quot;,&quot;format&quot;,&quot;key&quot;,&quot;limit&quot;,&quot;location&quot;,&quot;maxLocations&quot;,&quot;maxResults&quot;,&quot;outFields&quot;,&quot;postal&quot;,&quot;postal_code&quot;,&quot;postalcode&quot;,&quot;postcode&quot;,&quot;q&quot;,&quot;query&quot;,&quot;region&quot;,&quot;search_text&quot;,&quot;SingleLine&quot;,&quot;state&quot;,&quot;street&quot;,&quot;text&quot;,&quot;vintage&quot;,&quot;zip&quot;]\"><\/select>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"logical\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"width: 100%; display: none;\">\n      <select multiple=\"multiple\" style=\"width: 100%;\" data-options=\"[&quot;true&quot;,&quot;false&quot;]\"><\/select>\n    <\/div>\n  <\/td>\n<\/tr>","data":[["census","census","census","census","census","census","census","census","osm","osm","osm","osm","osm","osm","osm","osm","osm","iq","iq","iq","iq","iq","iq","iq","iq","iq","iq","geocodio","geocodio","geocodio","geocodio","geocodio","geocodio","geocodio","geocodio","google","google","opencage","opencage","opencage","mapbox","mapbox","mapbox","here","here","here","tomtom","tomtom","tomtom","mapquest","mapquest","mapquest","bing","bing","bing","arcgis","arcgis","arcgis","arcgis","arcgis","arcgis","arcgis","arcgis","arcgis","geoapify","geoapify","geoapify","geoapify","geoapify","geoapify","geoapify","geoapify"],["format",null,null,"address","street","city","state","postalcode","format","limit","address","street","city","county","state","postalcode","country","api_key","format","limit","address","street","city","county","state","postalcode","country","api_key","limit","address","street","city","state","postalcode","country","api_key","address","api_key","address","limit","api_key","address","limit","api_key","address","limit","api_key","address","limit","api_key","address","limit","api_key","address","limit","address","street","city","state","postalcode","country","limit","format","outFields","api_key","address","street","city","state","postalcode","country","limit"],["format","benchmark","vintage","address","street","city","state","zip","format","limit","q","street","city","county","state","postalcode","country","key","format","limit","q","street","city","county","state","postalcode","country","api_key","limit","q","street","city","state","postal_code","country","key","address","key","q","limit","access_token","search_text","limit","apiKey","q","limit","key","query","limit","key","location","maxResults","key","q","maxResults","SingleLine","address","city","region","postal","countryCode","maxLocations","f","outFields","apiKey","text","street","city","state","postcode","country","limit"],["json","Public_AR_Current","Current_Current",null,null,null,null,null,"json","1",null,null,null,null,null,null,null,null,"json","1",null,null,null,null,null,null,null,null,"1",null,null,null,null,null,null,null,null,null,null,"1",null,null,"1",null,null,"1",null,null,"1",null,null,"1",null,null,"1",null,null,null,null,null,null,"1","json","*",null,null,null,null,null,null,null,"1"],[true,true,true,false,false,false,false,false,true,false,false,false,false,false,false,false,false,true,true,false,false,false,false,false,false,false,false,true,false,false,false,false,false,false,false,true,true,true,true,false,true,true,false,true,true,false,true,true,false,true,true,false,true,true,false,false,false,false,false,false,false,false,true,true,true,false,false,false,false,false,false,false]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>method<\/th>\n      <th>generic_name<\/th>\n      <th>api_name<\/th>\n      <th>default_value<\/th>\n      <th>required<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"lengthMenu":[5,10,15,20,72],"pageLength":10,"autoWidth":true,"columnDefs":[{"name":"method","targets":0},{"name":"generic_name","targets":1},{"name":"api_name","targets":2},{"name":"default_value","targets":3},{"name":"required","targets":4}],"order":[],"orderClasses":false,"orderCellsTop":true}},"evals":[],"jsHooks":[]}</script>
 </div>
 <div class="section level2">
 <h2 id="api-key-retrieval">API Key Retrieval<a class="anchor" aria-label="anchor" href="#api-key-retrieval"></a>
@@ -385,19 +386,31 @@ environmental variable used for each service is stored in the
 <code>api_key_reference</code> dataset. See
 <code><a href="../reference/api_key_reference.html">?api_key_reference</a></code>.</p>
 <div id="qeayjdrzqo" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>html {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
+<style>#qeayjdrzqo table {
+  font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#qeayjdrzqo thead, #qeayjdrzqo tbody, #qeayjdrzqo tfoot, #qeayjdrzqo tr, #qeayjdrzqo td, #qeayjdrzqo th {
+  border-style: none;
+}
+
+#qeayjdrzqo p {
+  margin: 0;
+  padding: 0;
 }
 
 #qeayjdrzqo .gt_table {
   display: table;
   border-collapse: collapse;
+  line-height: normal;
   margin-left: auto;
   margin-right: auto;
   color: #333333;
   font-size: 16px;
   font-weight: normal;
-  font-style: solid;
+  font-style: normal;
   background-color: #FFFFFF;
   width: auto;
   border-top-style: solid;
@@ -412,18 +425,6 @@ environmental variable used for each service is stored in the
   border-left-style: solid;
   border-left-width: 3px;
   border-left-color: #D3D3D3;
-}
-
-#qeayjdrzqo .gt_heading {
-  background-color: #FFFFFF;
-  text-align: center;
-  border-bottom-color: #FFFFFF;
-  border-left-style: solid;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: solid;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
 }
 
 #qeayjdrzqo .gt_caption {
@@ -447,12 +448,24 @@ environmental variable used for each service is stored in the
   color: #333333;
   font-size: 85%;
   font-weight: initial;
-  padding-top: 0;
-  padding-bottom: 6px;
+  padding-top: 3px;
+  padding-bottom: 5px;
   padding-left: 5px;
   padding-right: 5px;
   border-top-color: #FFFFFF;
   border-top-width: 0;
+}
+
+#qeayjdrzqo .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: solid;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: solid;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
 }
 
 #qeayjdrzqo .gt_bottom_border {
@@ -526,6 +539,10 @@ environmental variable used for each service is stored in the
   overflow-x: hidden;
   display: inline-block;
   width: 100%;
+}
+
+#qeayjdrzqo .gt_spanner_row {
+  border-bottom-style: hidden;
 }
 
 #qeayjdrzqo .gt_group_heading {
@@ -627,6 +644,10 @@ environmental variable used for each service is stored in the
   border-top-width: 2px;
 }
 
+#qeayjdrzqo .gt_row_group_first th {
+  border-top-width: 2px;
+}
+
 #qeayjdrzqo .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
@@ -676,6 +697,16 @@ environmental variable used for each service is stored in the
   border-top-color: #D3D3D3;
 }
 
+#qeayjdrzqo .gt_last_grand_summary_row_top {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: solid;
+  border-bottom-width: 6px;
+  border-bottom-color: #D3D3D3;
+}
+
 #qeayjdrzqo .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
@@ -706,8 +737,8 @@ environmental variable used for each service is stored in the
 #qeayjdrzqo .gt_footnote {
   margin: 0px;
   font-size: 90%;
-  padding-left: 4px;
-  padding-right: 4px;
+  padding-top: 4px;
+  padding-bottom: 4px;
   padding-left: 5px;
   padding-right: 5px;
 }
@@ -764,10 +795,9 @@ environmental variable used for each service is stored in the
 }
 
 #qeayjdrzqo .gt_footnote_marks {
-  font-style: italic;
-  font-weight: normal;
   font-size: 75%;
   vertical-align: 0.4em;
+  position: initial;
 }
 
 #qeayjdrzqo .gt_asterisk {
@@ -794,9 +824,18 @@ environmental variable used for each service is stored in the
 #qeayjdrzqo .gt_indent_5 {
   text-indent: 25px;
 }
+
+#qeayjdrzqo .katex-display {
+  display: inline-flex !important;
+  margin-bottom: 0.75em !important;
+}
+
+#qeayjdrzqo div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+  height: 0px !important;
+}
 </style>
-<table class="table gt_table">
-<thead class="gt_col_headings"><tr>
+<table class="table gt_table" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
+<thead><tr class="gt_col_headings">
 <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="method">method</th>
       <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="env_var">env_var</th>
     </tr></thead>
@@ -853,19 +892,31 @@ usage limitations policies of each geocoding service is stored in the
 <code>min_time_reference</code> dataset. See
 <code><a href="../reference/min_time_reference.html">?min_time_reference</a></code>.</p>
 <div id="xgdyentzro" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>html {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
+<style>#xgdyentzro table {
+  font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#xgdyentzro thead, #xgdyentzro tbody, #xgdyentzro tfoot, #xgdyentzro tr, #xgdyentzro td, #xgdyentzro th {
+  border-style: none;
+}
+
+#xgdyentzro p {
+  margin: 0;
+  padding: 0;
 }
 
 #xgdyentzro .gt_table {
   display: table;
   border-collapse: collapse;
+  line-height: normal;
   margin-left: auto;
   margin-right: auto;
   color: #333333;
   font-size: 16px;
   font-weight: normal;
-  font-style: solid;
+  font-style: normal;
   background-color: #FFFFFF;
   width: auto;
   border-top-style: solid;
@@ -880,18 +931,6 @@ usage limitations policies of each geocoding service is stored in the
   border-left-style: solid;
   border-left-width: 3px;
   border-left-color: #D3D3D3;
-}
-
-#xgdyentzro .gt_heading {
-  background-color: #FFFFFF;
-  text-align: center;
-  border-bottom-color: #FFFFFF;
-  border-left-style: solid;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: solid;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
 }
 
 #xgdyentzro .gt_caption {
@@ -915,12 +954,24 @@ usage limitations policies of each geocoding service is stored in the
   color: #333333;
   font-size: 85%;
   font-weight: initial;
-  padding-top: 0;
-  padding-bottom: 6px;
+  padding-top: 3px;
+  padding-bottom: 5px;
   padding-left: 5px;
   padding-right: 5px;
   border-top-color: #FFFFFF;
   border-top-width: 0;
+}
+
+#xgdyentzro .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: solid;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: solid;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
 }
 
 #xgdyentzro .gt_bottom_border {
@@ -994,6 +1045,10 @@ usage limitations policies of each geocoding service is stored in the
   overflow-x: hidden;
   display: inline-block;
   width: 100%;
+}
+
+#xgdyentzro .gt_spanner_row {
+  border-bottom-style: hidden;
 }
 
 #xgdyentzro .gt_group_heading {
@@ -1095,6 +1150,10 @@ usage limitations policies of each geocoding service is stored in the
   border-top-width: 2px;
 }
 
+#xgdyentzro .gt_row_group_first th {
+  border-top-width: 2px;
+}
+
 #xgdyentzro .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
@@ -1144,6 +1203,16 @@ usage limitations policies of each geocoding service is stored in the
   border-top-color: #D3D3D3;
 }
 
+#xgdyentzro .gt_last_grand_summary_row_top {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: solid;
+  border-bottom-width: 6px;
+  border-bottom-color: #D3D3D3;
+}
+
 #xgdyentzro .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
@@ -1174,8 +1243,8 @@ usage limitations policies of each geocoding service is stored in the
 #xgdyentzro .gt_footnote {
   margin: 0px;
   font-size: 90%;
-  padding-left: 4px;
-  padding-right: 4px;
+  padding-top: 4px;
+  padding-bottom: 4px;
   padding-left: 5px;
   padding-right: 5px;
 }
@@ -1232,10 +1301,9 @@ usage limitations policies of each geocoding service is stored in the
 }
 
 #xgdyentzro .gt_footnote_marks {
-  font-style: italic;
-  font-weight: normal;
   font-size: 75%;
   vertical-align: 0.4em;
+  position: initial;
 }
 
 #xgdyentzro .gt_asterisk {
@@ -1262,9 +1330,18 @@ usage limitations policies of each geocoding service is stored in the
 #xgdyentzro .gt_indent_5 {
   text-indent: 25px;
 }
+
+#xgdyentzro .katex-display {
+  display: inline-flex !important;
+  margin-bottom: 0.75em !important;
+}
+
+#xgdyentzro div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+  height: 0px !important;
+}
 </style>
-<table class="table gt_table">
-<thead class="gt_col_headings"><tr>
+<table class="table gt_table" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
+<thead><tr class="gt_col_headings">
 <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="method">method</th>
       <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="min_time">min_time</th>
       <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="description">description</th>
@@ -1345,19 +1422,31 @@ per batch query for each geocoding service is stored in the
 <code>batch_limit_reference</code> dataset. See
 <code><a href="../reference/batch_limit_reference.html">?batch_limit_reference</a></code>.</p>
 <div id="ciydemetbh" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>html {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
+<style>#ciydemetbh table {
+  font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#ciydemetbh thead, #ciydemetbh tbody, #ciydemetbh tfoot, #ciydemetbh tr, #ciydemetbh td, #ciydemetbh th {
+  border-style: none;
+}
+
+#ciydemetbh p {
+  margin: 0;
+  padding: 0;
 }
 
 #ciydemetbh .gt_table {
   display: table;
   border-collapse: collapse;
+  line-height: normal;
   margin-left: auto;
   margin-right: auto;
   color: #333333;
   font-size: 16px;
   font-weight: normal;
-  font-style: solid;
+  font-style: normal;
   background-color: #FFFFFF;
   width: auto;
   border-top-style: solid;
@@ -1372,18 +1461,6 @@ per batch query for each geocoding service is stored in the
   border-left-style: solid;
   border-left-width: 3px;
   border-left-color: #D3D3D3;
-}
-
-#ciydemetbh .gt_heading {
-  background-color: #FFFFFF;
-  text-align: center;
-  border-bottom-color: #FFFFFF;
-  border-left-style: solid;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: solid;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
 }
 
 #ciydemetbh .gt_caption {
@@ -1407,12 +1484,24 @@ per batch query for each geocoding service is stored in the
   color: #333333;
   font-size: 85%;
   font-weight: initial;
-  padding-top: 0;
-  padding-bottom: 6px;
+  padding-top: 3px;
+  padding-bottom: 5px;
   padding-left: 5px;
   padding-right: 5px;
   border-top-color: #FFFFFF;
   border-top-width: 0;
+}
+
+#ciydemetbh .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: solid;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: solid;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
 }
 
 #ciydemetbh .gt_bottom_border {
@@ -1486,6 +1575,10 @@ per batch query for each geocoding service is stored in the
   overflow-x: hidden;
   display: inline-block;
   width: 100%;
+}
+
+#ciydemetbh .gt_spanner_row {
+  border-bottom-style: hidden;
 }
 
 #ciydemetbh .gt_group_heading {
@@ -1587,6 +1680,10 @@ per batch query for each geocoding service is stored in the
   border-top-width: 2px;
 }
 
+#ciydemetbh .gt_row_group_first th {
+  border-top-width: 2px;
+}
+
 #ciydemetbh .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
@@ -1636,6 +1733,16 @@ per batch query for each geocoding service is stored in the
   border-top-color: #D3D3D3;
 }
 
+#ciydemetbh .gt_last_grand_summary_row_top {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: solid;
+  border-bottom-width: 6px;
+  border-bottom-color: #D3D3D3;
+}
+
 #ciydemetbh .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
@@ -1666,8 +1773,8 @@ per batch query for each geocoding service is stored in the
 #ciydemetbh .gt_footnote {
   margin: 0px;
   font-size: 90%;
-  padding-left: 4px;
-  padding-right: 4px;
+  padding-top: 4px;
+  padding-bottom: 4px;
   padding-left: 5px;
   padding-right: 5px;
 }
@@ -1724,10 +1831,9 @@ per batch query for each geocoding service is stored in the
 }
 
 #ciydemetbh .gt_footnote_marks {
-  font-style: italic;
-  font-weight: normal;
   font-size: 75%;
   vertical-align: 0.4em;
+  position: initial;
 }
 
 #ciydemetbh .gt_asterisk {
@@ -1754,9 +1860,18 @@ per batch query for each geocoding service is stored in the
 #ciydemetbh .gt_indent_5 {
   text-indent: 25px;
 }
+
+#ciydemetbh .katex-display {
+  display: inline-flex !important;
+  margin-bottom: 0.75em !important;
+}
+
+#ciydemetbh div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+  height: 0px !important;
+}
 </style>
-<table class="table gt_table">
-<thead class="gt_col_headings"><tr>
+<table class="table gt_table" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
+<thead><tr class="gt_col_headings">
 <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="method">method</th>
       <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="batch_limit">batch_limit</th>
     </tr></thead>
@@ -1793,9 +1908,7 @@ per batch query for each geocoding service is stored in the
 
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
 
-        <nav id="toc" data-toggle="toc"><h2 data-toc-skip>Contents</h2>
-    </nav>
-</div>
+      </div>
 
 </div>
 
@@ -1808,17 +1921,17 @@ per batch query for each geocoding service is stored in the
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
 </div>
 
       </footer>
 </div>
 
-  
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/docsearch.js/2.6.1/docsearch.min.js" integrity="sha256-GKvGqXDznoRYHCwKXGnuchvKSwmx9SRMrZOTh2g4Sb0=" crossorigin="anonymous"></script><script>
   docsearch({
-    
-    
+
+
     apiKey: '2a4961d1f7b45ceee241419b8e8257d3',
     indexName: 'tidygeocoder',
     inputSelector: 'input#search-input.form-control',

@@ -3,6 +3,7 @@ url: https://jessecambon.github.io/tidygeocoder
 template:
   params:
     ganalytics: G-5VDD0920ZP
+    bootstrap: 5
     bootswatch: cosmo
     docsearch:
       api_key: 2a4961d1f7b45ceee241419b8e8257d3

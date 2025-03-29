@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Developer Notes • tidygeocoder</title>
-<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script><!-- Bootstrap --><link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.4.0/cosmo/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script><!-- Bootstrap --><link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.4.0/cosmo/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script><!-- bootstrap-toc --><link rel="stylesheet" href="../bootstrap-toc.css">
 <script src="../bootstrap-toc.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
@@ -28,7 +28,7 @@
 </script>
 </head>
 <body data-spy="scroll" data-target="#toc">
-    
+
 
     <div class="container template-article">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -42,7 +42,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">tidygeocoder</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.0.5.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.0.6</span>
       </span>
     </div>
 
@@ -57,7 +57,7 @@
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
-     
+
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -72,7 +72,7 @@
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     News
-     
+
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -104,7 +104,7 @@
 <li>
   <a href="https://github.com/jessecambon/tidygeocoder/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
-     
+
   </a>
 </li>
       </ul>
@@ -113,7 +113,7 @@
           <input type="search" class="form-control" name="search-input" id="search-input" placeholder="Search..." aria-label="Search for..." autocomplete="off">
 </div>
       </form>
-      
+
     </div>
 <!--/.nav-collapse -->
   </div>
@@ -121,7 +121,7 @@
 </div>
 <!--/.navbar -->
 
-      
+
 
       </header><div class="row">
   <div class="col-md-9 contents">
@@ -178,7 +178,7 @@ are stored for easy access and display in built-in datasets.</p>
 <span><span class="co">#&gt; limit : "1"</span></span>
 <span><span class="co">#&gt; format : "json"</span></span>
 <span><span class="co">#&gt; HTTP Status Code: 200</span></span>
-<span><span class="co">#&gt; Query completed in: 0.5 seconds</span></span>
+<span><span class="co">#&gt; Query completed in: 0.8 seconds</span></span>
 <span><span class="co">#&gt; Total query time (including sleep): 1 seconds</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; </span></span>
@@ -189,19 +189,18 @@ are stored for easy access and display in built-in datasets.</p>
 <span><span class="co">#&gt; limit : "1"</span></span>
 <span><span class="co">#&gt; format : "json"</span></span>
 <span><span class="co">#&gt; HTTP Status Code: 200</span></span>
-<span><span class="co">#&gt; Query completed in: 0.2 seconds</span></span>
+<span><span class="co">#&gt; Query completed in: 0.4 seconds</span></span>
 <span><span class="co">#&gt; Total query time (including sleep): 1 seconds</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Query completed in: 2 seconds</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 3 × 14</span></span></span>
-<span><span class="co">#&gt;      id locations   lat   long  place_id licence  osm_t…¹ osm_id bound…² displ…³</span></span>
-<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>     1 tokyo      35.7 140.   298<span style="text-decoration: underline;">316</span>729 Data © … relati… 1.54<span style="color: #949494;">e</span>6 &lt;chr&gt;   東京都…</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>     2 madrid     40.4  -<span style="color: #BB0000;">3.70</span> 298<span style="text-decoration: underline;">773</span>150 Data © … relati… 5.33<span style="color: #949494;">e</span>6 &lt;chr&gt;   Madrid…</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>     1 tokyo      35.7 140.   298<span style="text-decoration: underline;">316</span>729 Data © … relati… 1.54<span style="color: #949494;">e</span>6 &lt;chr&gt;   東京都…</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># … with 4 more variables: class &lt;chr&gt;, type &lt;chr&gt;, importance &lt;dbl&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   icon &lt;chr&gt;, and abbreviated variable names ¹​osm_type, ²​boundingbox,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   ³​display_name</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 3 × 16</span></span></span>
+<span><span class="co">#&gt;      id locations   lat   long  place_id licence     osm_type osm_id class type </span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>     1 tokyo      35.7 140.   243<span style="text-decoration: underline;">209</span>120 Data © Ope… relation 1.54<span style="color: #949494;">e</span>6 boun… admi…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>     2 madrid     40.4  -<span style="color: #BB0000;">3.70</span> 272<span style="text-decoration: underline;">273</span>162 Data © Ope… relation 5.33<span style="color: #949494;">e</span>6 boun… admi…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>     1 tokyo      35.7 140.   243<span style="text-decoration: underline;">209</span>120 Data © Ope… relation 1.54<span style="color: #949494;">e</span>6 boun… admi…</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 6 more variables: place_rank &lt;int&gt;, importance &lt;dbl&gt;, addresstype &lt;chr&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   name &lt;chr&gt;, display_name &lt;chr&gt;, boundingbox &lt;list&gt;</span></span></span></code></pre></div>
 <p>Here is what is going on behind the scenes:</p>
 <ul>
 <li>The <code><a href="../reference/geocode.html">geocode()</a></code> function extracts the address data from
@@ -394,13 +393,13 @@ at the top of this file.</li>
 <li>Test out the new service to make sure it behaves as expected. You
 can reference tests and example code in <a href="https://github.com/jessecambon/tidygeocoder/tree/main/sandbox" class="external-link">the
 ‘sandbox’ folder</a>.</li>
-<li>Run <strong><code><a href="https://devtools.r-lib.org/reference/check.html" class="external-link">devtools::check()</a></code></strong> to make sure the
+<li>Run <strong><code>devtools::check()</code></strong> to make sure the
 package still passes all tests and checks, but note that these tests are
 designed to work offline so they do not make queries to geocoding
 services.</li>
 <li>As a final check, run <strong><a href="https://github.com/jessecambon/tidygeocoder/blob/main/external/online_tests.R" class="external-link">external/online_tests.R</a></strong>
 to test making queries to the geocoding services. These tests are not
-included in the internal package tests (<code><a href="https://devtools.r-lib.org/reference/test.html" class="external-link">devtools::test()</a></code>)
+included in the internal package tests (<code>devtools::test()</code>)
 because they require API keys which would not exist on all systems and
 are dependent on the geocoding services being online at that the time of
 the test.</li>
@@ -431,10 +430,10 @@ do this again if you need to make any more updates that show up on the
 site)</li>
 <li>Check URLs: <code><a href="https://rdrr.io/pkg/urlchecker/man/url_check.html" class="external-link">urlchecker::url_check()</a></code>
 </li>
-<li>Check spelling: <code><a href="https://devtools.r-lib.org/reference/spell_check.html" class="external-link">devtools::spell_check()</a></code>
+<li>Check spelling: <code>devtools::spell_check()</code>
 </li>
 </ul>
-<p>Last, run <code><a href="https://devtools.r-lib.org/reference/release.html" class="external-link">devtools::release()</a></code> to release the new version
+<p>Last, run <code>devtools::release()</code> to release the new version
 once everything looks good.</p>
 </div>
 </div>
@@ -442,9 +441,7 @@ once everything looks good.</p>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
 
-        <nav id="toc" data-toggle="toc"><h2 data-toc-skip>Contents</h2>
-    </nav>
-</div>
+      </div>
 
 </div>
 
@@ -457,17 +454,17 @@ once everything looks good.</p>
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
 </div>
 
       </footer>
 </div>
 
-  
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/docsearch.js/2.6.1/docsearch.min.js" integrity="sha256-GKvGqXDznoRYHCwKXGnuchvKSwmx9SRMrZOTh2g4Sb0=" crossorigin="anonymous"></script><script>
   docsearch({
-    
-    
+
+
     apiKey: '2a4961d1f7b45ceee241419b8e8257d3',
     indexName: 'tidygeocoder',
     inputSelector: 'input#search-input.form-control',
