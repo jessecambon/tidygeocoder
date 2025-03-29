@@ -201,7 +201,7 @@ Do not combine with the address component arguments below
 <li><p><code>"mapbox"</code>: <a href="https://docs.mapbox.com/api/search/" class="external-link">Mapbox</a>.   Store an API key in the environmental variable <code>"MAPBOX_API_KEY"</code>.</p></li>
 <li><p><code>"here"</code>: <a href="https://www.here.com/platform/geocoding" class="external-link">HERE</a>.  Batch geocoding is supported, but must be explicitly called with <code>mode = "batch"</code>. Store an API key in the environmental variable <code>"HERE_API_KEY"</code>.</p></li>
 <li><p><code>"tomtom"</code>: <a href="https://developer.tomtom.com/search-api/search-api-documentation" class="external-link">TomTom</a>.  Batch geocoding is supported. Store an API key in the environmental variable <code>"TOMTOM_API_KEY"</code>.</p></li>
-<li><p><code>"mapquest"</code>: <a href="https://developer.mapquest.com/documentation/geocoding-api/" class="external-link">MapQuest</a>.  Batch geocoding is supported. Store an API key in the environmental variable <code>"MAPQUEST_API_KEY"</code>.</p></li>
+<li><p><code>"mapquest"</code>: <a href="https://developer.mapquest.com/documentation/api/geocoding" class="external-link">MapQuest</a>.  Batch geocoding is supported. Store an API key in the environmental variable <code>"MAPQUEST_API_KEY"</code>.</p></li>
 <li><p><code>"bing"</code>: <a href="https://learn.microsoft.com/en-us/bingmaps/rest-services/locations/" class="external-link">Bing</a>.  Batch geocoding is supported, but must be explicitly called with <code>mode = "batch"</code>. Store an API key in the environmental variable <code>"BINGMAPS_API_KEY"</code>.</p></li>
 <li><p><code>"geoapify"</code>: <a href="https://www.geoapify.com/geocoding-api" class="external-link">Geoapify</a>.   Store an API key in the environmental variable <code>"GEOAPIFY_KEY"</code>.</p></li>
 </ul></dd>
@@ -356,7 +356,7 @@ parameters need to be FALSE.</p></li>
 <span class="r-in"><span>  method <span class="op">=</span> <span class="st">"census"</span>, api_options <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>census_return_type <span class="op">=</span> <span class="st">"geographies"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Passing 1 address to the US Census single address geocoder</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Query completed in: 0.3 seconds</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Query completed in: 0.2 seconds</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 1 × 29</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   address          lat  long matchedAddress tigerLine.side tigerLine.tigerLineId</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                </span>

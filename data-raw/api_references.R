@@ -58,7 +58,7 @@ api_info_reference <- tibble::tribble(
   "mapbox", "Mapbox", "https://docs.mapbox.com/api/search/", "https://docs.mapbox.com/api/search/geocoding/", "https://www.mapbox.com/pricing",
   "here", "HERE", "https://www.here.com/platform/geocoding", "https://www.here.com/docs/bundle/geocoding-and-search-api-developer-guide/page/README.html", "https://www.here.com/get-started/pricing",
   "tomtom", "TomTom", "https://developer.tomtom.com/search-api/search-api-documentation", "https://developer.tomtom.com/search-api/search-api-documentation", "https://developer.tomtom.com/store/maps-api",
-  "mapquest", "MapQuest", "https://developer.mapquest.com/documentation/geocoding-api/", "https://developer.mapquest.com/documentation/geocoding-api/", "https://developer.mapquest.com/plans/",
+  "mapquest", "MapQuest", "https://developer.mapquest.com/documentation/api/geocoding", "https://developer.mapquest.com/documentation/api/geocoding", "https://developer.mapquest.com/plans/",
   "bing", "Bing", "https://learn.microsoft.com/en-us/bingmaps/rest-services/locations/", "https://learn.microsoft.com/en-us/bingmaps/rest-services/locations/", "https://learn.microsoft.com/en-us/bingmaps/spatial-data-services/geocode-and-data-source-limits",
   "geoapify", "Geoapify", "https://www.geoapify.com/geocoding-api", "https://apidocs.geoapify.com/docs/geocoding/api/", "https://www.geoapify.com/term-and-conditions",
 )

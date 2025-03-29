@@ -52,7 +52,7 @@ The API documentation for each service is linked to below:
 \item \href{https://docs.mapbox.com/api/search/geocoding/}{Mapbox}
 \item \href{https://www.here.com/docs/bundle/geocoding-and-search-api-developer-guide/page/README.html}{HERE}
 \item \href{https://developer.tomtom.com/search-api/search-api-documentation}{TomTom}
-\item \href{https://developer.mapquest.com/documentation/geocoding-api/}{MapQuest}
+\item \href{https://developer.mapquest.com/documentation/api/geocoding}{MapQuest}
 \item \href{https://learn.microsoft.com/en-us/bingmaps/rest-services/locations/}{Bing}
 \item \href{https://apidocs.geoapify.com/docs/geocoding/api/}{Geoapify}
 }
