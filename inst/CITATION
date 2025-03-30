@@ -1,7 +1,11 @@
 # http://r-pkgs.had.co.nz/inst.html#inst-citation
 
 # extract package version and remove the development tag (".9000") if necessary
-package_version <- gsub('\\.9000', "", toString(packageVersion("tidygeocoder")))
+#package_version <- gsub('\\.9000', "", toString(packageVersion("tidygeocoder")))
+
+package_version <- meta$Version
+if(is.null(package_version))
+  vers <- packageVersion("tidygeocoder")
 
 version_note <- paste0("R package version ", package_version)
 

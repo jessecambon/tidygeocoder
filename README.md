@@ -17,7 +17,7 @@ Month](http://cranlogs.r-pkg.org/badges/tidygeocoder)](https://cran.r-project.or
 stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://lifecycle.r-lib.org/articles/stages.html#stable)
 [![R Build
 Status](https://github.com/jessecambon/tidygeocoder/workflows/R-CMD-check/badge.svg)](https://github.com/jessecambon/tidygeocoder/actions?workflow=R-CMD-check)
-[![Zenodo](https://zenodo.org/badge/DOI/10.5281/zenodo.15106058.svg)](https://doi.org/10.5281/zenodo.15106058)
+<!-- [![Zenodo](https://zenodo.org/badge/DOI/10.5281/zenodo.15106058.svg)](https://doi.org/10.5281/zenodo.15106058) -->
 <!-- badges: end -->
 
 Tidygeocoder makes getting data from geocoding services easy. A unified

@@ -203,36 +203,36 @@ rev2 <- reverse_geo(
 glimpse(rev2)
 #> Rows: 2
 #> Columns: 30
-#> $ lat              [3m[38;5;246m<dbl>[39m[23m 38.89587, 43.65348
-#> $ long             [3m[38;5;246m<dbl>[39m[23m -77.03077, -79.38393
-#> $ address          [3m[38;5;246m<chr>[39m[23m "L’Enfant's plan, Pennsylvania Avenue, Ward 2, Washington, District of Columbia, 20045, United States", "Toronto City Hall, 100, Queen Street West, Yonge-Bay Co…
-#> $ place_id         [3m[38;5;246m<int>[39m[23m 320497331, 323744191
-#> $ licence          [3m[38;5;246m<chr>[39m[23m "Data © OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright", "Data © OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright"
-#> $ osm_type         [3m[38;5;246m<chr>[39m[23m "way", "way"
-#> $ osm_id           [3m[38;5;246m<int>[39m[23m 899927546, 198500761
-#> $ osm_lat          [3m[38;5;246m<chr>[39m[23m "38.895859599999994", "43.6536032"
-#> $ osm_lon          [3m[38;5;246m<chr>[39m[23m "-77.0306779870984", "-79.38400546703345"
-#> $ class            [3m[38;5;246m<chr>[39m[23m "tourism", "amenity"
-#> $ type             [3m[38;5;246m<chr>[39m[23m "artwork", "townhall"
-#> $ place_rank       [3m[38;5;246m<int>[39m[23m 30, 30
-#> $ importance       [3m[38;5;246m<dbl>[39m[23m 8.492943e-05, 4.288063e-01
-#> $ addresstype      [3m[38;5;246m<chr>[39m[23m "tourism", "amenity"
-#> $ name             [3m[38;5;246m<chr>[39m[23m "L’Enfant's plan", "Toronto City Hall"
-#> $ tourism          [3m[38;5;246m<chr>[39m[23m "L’Enfant's plan", NA
-#> $ road             [3m[38;5;246m<chr>[39m[23m "Pennsylvania Avenue", "Queen Street West"
-#> $ borough          [3m[38;5;246m<chr>[39m[23m "Ward 2", NA
-#> $ city             [3m[38;5;246m<chr>[39m[23m "Washington", "Toronto"
-#> $ state            [3m[38;5;246m<chr>[39m[23m "District of Columbia", "Ontario"
-#> $ `ISO3166-2-lvl4` [3m[38;5;246m<chr>[39m[23m "US-DC", "CA-ON"
-#> $ postcode         [3m[38;5;246m<chr>[39m[23m "20045", "M5H 2N2"
-#> $ country          [3m[38;5;246m<chr>[39m[23m "United States", "Canada"
-#> $ country_code     [3m[38;5;246m<chr>[39m[23m "us", "ca"
-#> $ boundingbox      [3m[38;5;246m<list>[39m[23m <"38.8957273", "38.8959688", "-77.0311667", "-77.0301895">, <"43.6529946", "43.6541458", "-79.3848438", "-79.3830415">
-#> $ amenity          [3m[38;5;246m<chr>[39m[23m NA, "Toronto City Hall"
-#> $ house_number     [3m[38;5;246m<chr>[39m[23m NA, "100"
-#> $ city_block       [3m[38;5;246m<chr>[39m[23m NA, "Yonge-Bay Corridor"
-#> $ quarter          [3m[38;5;246m<chr>[39m[23m NA, "Spadina—Fort York"
-#> $ state_district   [3m[38;5;246m<chr>[39m[23m NA, "Golden Horseshoe"
+#> $ lat              [3m[38;5;246m<dbl>[39m[23m 38.89587, 43.65348
+#> $ long             [3m[38;5;246m<dbl>[39m[23m -77.03077, -79.38393
+#> $ address          [3m[38;5;246m<chr>[39m[23m "L’Enfant's plan, Pennsylvania Avenue, Ward 2, Washington, District of Columbia, 20045, United States", "Toronto City Hall, 100, Queen Street West, Yonge-Bay Co…
+#> $ place_id         [3m[38;5;246m<int>[39m[23m 320497331, 323744191
+#> $ licence          [3m[38;5;246m<chr>[39m[23m "Data © OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright", "Data © OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright"
+#> $ osm_type         [3m[38;5;246m<chr>[39m[23m "way", "way"
+#> $ osm_id           [3m[38;5;246m<int>[39m[23m 899927546, 198500761
+#> $ osm_lat          [3m[38;5;246m<chr>[39m[23m "38.895859599999994", "43.6536032"
+#> $ osm_lon          [3m[38;5;246m<chr>[39m[23m "-77.0306779870984", "-79.38400546703345"
+#> $ class            [3m[38;5;246m<chr>[39m[23m "tourism", "amenity"
+#> $ type             [3m[38;5;246m<chr>[39m[23m "artwork", "townhall"
+#> $ place_rank       [3m[38;5;246m<int>[39m[23m 30, 30
+#> $ importance       [3m[38;5;246m<dbl>[39m[23m 8.492943e-05, 4.288063e-01
+#> $ addresstype      [3m[38;5;246m<chr>[39m[23m "tourism", "amenity"
+#> $ name             [3m[38;5;246m<chr>[39m[23m "L’Enfant's plan", "Toronto City Hall"
+#> $ tourism          [3m[38;5;246m<chr>[39m[23m "L’Enfant's plan", NA
+#> $ road             [3m[38;5;246m<chr>[39m[23m "Pennsylvania Avenue", "Queen Street West"
+#> $ borough          [3m[38;5;246m<chr>[39m[23m "Ward 2", NA
+#> $ city             [3m[38;5;246m<chr>[39m[23m "Washington", "Toronto"
+#> $ state            [3m[38;5;246m<chr>[39m[23m "District of Columbia", "Ontario"
+#> $ `ISO3166-2-lvl4` [3m[38;5;246m<chr>[39m[23m "US-DC", "CA-ON"
+#> $ postcode         [3m[38;5;246m<chr>[39m[23m "20045", "M5H 2N2"
+#> $ country          [3m[38;5;246m<chr>[39m[23m "United States", "Canada"
+#> $ country_code     [3m[38;5;246m<chr>[39m[23m "us", "ca"
+#> $ boundingbox      [3m[38;5;246m<list>[39m[23m <"38.8957273", "38.8959688", "-77.0311667", "-77.0301895">, <"43.6529946", "43.6541458", "-79.3848438", "-79.3830415">
+#> $ amenity          [3m[38;5;246m<chr>[39m[23m NA, "Toronto City Hall"
+#> $ house_number     [3m[38;5;246m<chr>[39m[23m NA, "100"
+#> $ city_block       [3m[38;5;246m<chr>[39m[23m NA, "Yonge-Bay Corridor"
+#> $ quarter          [3m[38;5;246m<chr>[39m[23m NA, "Spadina—Fort York"
+#> $ state_district   [3m[38;5;246m<chr>[39m[23m NA, "Golden Horseshoe"
 ```
 
 ## Working With Messy Data
@@ -400,21 +400,21 @@ geo_limit <- geo(
 glimpse(geo_limit)
 #> Rows: 5
 #> Columns: 15
-#> $ address      [3m[38;5;246m<chr>[39m[23m "Lima, Peru", "Lima, Peru", "Lima, Peru", "Cairo, Egypt", "Cairo, Egypt"
-#> $ lat          [3m[38;5;246m<dbl>[39m[23m -12.06211, -12.20011, -12.00021, 30.04439, 30.03325
-#> $ long         [3m[38;5;246m<dbl>[39m[23m -77.03653, -76.28506, -76.83308, 31.23573, 31.56217
-#> $ place_id     [3m[38;5;246m<int>[39m[23m 3325796, 3023110, 3206663, 44830415, 46149175
-#> $ licence      [3m[38;5;246m<chr>[39m[23m "Data © OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright", "Data © OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright", "Data © OpenStreet…
-#> $ osm_type     [3m[38;5;246m<chr>[39m[23m "node", "relation", "relation", "relation", "relation"
-#> $ osm_id       [3m[38;5;246m<dbl>[39m[23m 4289361265, 1944659, 1944670, 5466227, 4103336
-#> $ class        [3m[38;5;246m<chr>[39m[23m "place", "boundary", "boundary", "place", "boundary"
-#> $ type         [3m[38;5;246m<chr>[39m[23m "city", "administrative", "administrative", "city", "administrative"
-#> $ place_rank   [3m[38;5;246m<int>[39m[23m 15, 8, 12, 16, 8
-#> $ importance   [3m[38;5;246m<dbl>[39m[23m 0.7282255, 0.5524865, 0.5247970, 0.7411248, 0.5215683
-#> $ addresstype  [3m[38;5;246m<chr>[39m[23m "city", "state", "region", "city", "state"
-#> $ name         [3m[38;5;246m<chr>[39m[23m "Lima", "Lima", "Lima", "القاهرة", "القاهرة"
-#> $ display_name [3m[38;5;246m<chr>[39m[23m "Lima, Lima Metropolitana, Lima, 15083, Perú", "Lima, Perú", "Lima, Lima Metropolitana, Lima, Perú", "القاهرة, مصر", "القاهرة, مصر"
-#> $ boundingbox  [3m[38;5;246m<list>[39m[23m <"-12.2221065", "-11.9021065", "-77.1965256", "-76.8765256">, <"-13.3241714", "-10.2741856", "-77.8863105", "-75.5075000">, <"-12.5199316", "-11.5724356", "-77.1992…
+#> $ address      [3m[38;5;246m<chr>[39m[23m "Lima, Peru", "Lima, Peru", "Lima, Peru", "Cairo, Egypt", "Cairo, Egypt"
+#> $ lat          [3m[38;5;246m<dbl>[39m[23m -12.06211, -12.20011, -12.00021, 30.04439, 30.03325
+#> $ long         [3m[38;5;246m<dbl>[39m[23m -77.03653, -76.28506, -76.83308, 31.23573, 31.56217
+#> $ place_id     [3m[38;5;246m<int>[39m[23m 3325796, 3023110, 3206663, 44830415, 46149175
+#> $ licence      [3m[38;5;246m<chr>[39m[23m "Data © OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright", "Data © OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright", "Data © OpenStreet…
+#> $ osm_type     [3m[38;5;246m<chr>[39m[23m "node", "relation", "relation", "relation", "relation"
+#> $ osm_id       [3m[38;5;246m<dbl>[39m[23m 4289361265, 1944659, 1944670, 5466227, 4103336
+#> $ class        [3m[38;5;246m<chr>[39m[23m "place", "boundary", "boundary", "place", "boundary"
+#> $ type         [3m[38;5;246m<chr>[39m[23m "city", "administrative", "administrative", "city", "administrative"
+#> $ place_rank   [3m[38;5;246m<int>[39m[23m 15, 8, 12, 16, 8
+#> $ importance   [3m[38;5;246m<dbl>[39m[23m 0.7282255, 0.5524865, 0.5247970, 0.7411248, 0.5215683
+#> $ addresstype  [3m[38;5;246m<chr>[39m[23m "city", "state", "region", "city", "state"
+#> $ name         [3m[38;5;246m<chr>[39m[23m "Lima", "Lima", "Lima", "القاهرة", "القاهرة"
+#> $ display_name [3m[38;5;246m<chr>[39m[23m "Lima, Lima Metropolitana, Lima, 15083, Perú", "Lima, Perú", "Lima, Lima Metropolitana, Lima, Perú", "القاهرة, مصر", "القاهرة, مصر"
+#> $ boundingbox  [3m[38;5;246m<list>[39m[23m <"-12.2221065", "-11.9021065", "-77.1965256", "-76.8765256">, <"-13.3241714", "-10.2741856", "-77.8863105", "-75.5075000">, <"-12.5199316", "-11.5724356", "-77.1992…
 ```
 
 To directly specify specific API parameters for a given `method` you can use the `custom_query` parameter. For example, [the Nominatim (OSM) geocoder has a 'polygon_geojson' argument](https://nominatim.org/release-docs/develop/api/Details/#parameters) that can be used to return GeoJSON geometry content. To pass this parameter you can insert it with a named list using the `custom_query` argument:
@@ -445,23 +445,23 @@ cairo_geo <- geo("Cairo, Egypt",
 glimpse(cairo_geo)
 #> Rows: 1
 #> Columns: 17
-#> $ address             [3m[38;5;246m<chr>[39m[23m "Cairo, Egypt"
-#> $ lat                 [3m[38;5;246m<dbl>[39m[23m 30.04439
-#> $ long                [3m[38;5;246m<dbl>[39m[23m 31.23573
-#> $ place_id            [3m[38;5;246m<int>[39m[23m 44830415
-#> $ licence             [3m[38;5;246m<chr>[39m[23m "Data © OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright"
-#> $ osm_type            [3m[38;5;246m<chr>[39m[23m "relation"
-#> $ osm_id              [3m[38;5;246m<int>[39m[23m 5466227
-#> $ class               [3m[38;5;246m<chr>[39m[23m "place"
-#> $ type                [3m[38;5;246m<chr>[39m[23m "city"
-#> $ place_rank          [3m[38;5;246m<int>[39m[23m 16
-#> $ importance          [3m[38;5;246m<dbl>[39m[23m 0.7411248
-#> $ addresstype         [3m[38;5;246m<chr>[39m[23m "city"
-#> $ name                [3m[38;5;246m<chr>[39m[23m "القاهرة"
-#> $ display_name        [3m[38;5;246m<chr>[39m[23m "القاهرة, مصر"
-#> $ boundingbox         [3m[38;5;246m<list>[39m[23m <"29.7483062", "30.3209168", "31.2200331", "31.9090054">
-#> $ geojson.type        [3m[38;5;246m<chr>[39m[23m "Polygon"
-#> $ geojson.coordinates [3m[38;5;246m<list>[39m[23m <<array[1 x 119 x 2]>>
+#> $ address             [3m[38;5;246m<chr>[39m[23m "Cairo, Egypt"
+#> $ lat                 [3m[38;5;246m<dbl>[39m[23m 30.04439
+#> $ long                [3m[38;5;246m<dbl>[39m[23m 31.23573
+#> $ place_id            [3m[38;5;246m<int>[39m[23m 44830415
+#> $ licence             [3m[38;5;246m<chr>[39m[23m "Data © OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright"
+#> $ osm_type            [3m[38;5;246m<chr>[39m[23m "relation"
+#> $ osm_id              [3m[38;5;246m<int>[39m[23m 5466227
+#> $ class               [3m[38;5;246m<chr>[39m[23m "place"
+#> $ type                [3m[38;5;246m<chr>[39m[23m "city"
+#> $ place_rank          [3m[38;5;246m<int>[39m[23m 16
+#> $ importance          [3m[38;5;246m<dbl>[39m[23m 0.7411248
+#> $ addresstype         [3m[38;5;246m<chr>[39m[23m "city"
+#> $ name                [3m[38;5;246m<chr>[39m[23m "القاهرة"
+#> $ display_name        [3m[38;5;246m<chr>[39m[23m "القاهرة, مصر"
+#> $ boundingbox         [3m[38;5;246m<list>[39m[23m <"29.7483062", "30.3209168", "31.2200331", "31.9090054">
+#> $ geojson.type        [3m[38;5;246m<chr>[39m[23m "Polygon"
+#> $ geojson.coordinates [3m[38;5;246m<list>[39m[23m <<array[1 x 119 x 2]>>
 ```
 
 To test a query without sending any data to a geocoding service, you can use `no_query = TRUE` (NA results are returned).
