@@ -171,7 +171,7 @@
 <span><span class="va">lat_longs</span> <span class="op">&lt;-</span> <span class="va">some_addresses</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="reference/geocode.html">geocode</a></span><span class="op">(</span><span class="va">addr</span>, method <span class="op">=</span> <span class="st">'osm'</span>, lat <span class="op">=</span> <span class="va">latitude</span> , long <span class="op">=</span> <span class="va">longitude</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Passing 3 addresses to the Nominatim single address geocoder</span></span>
-<span><span class="co">#&gt; Query completed in: 3 seconds</span></span></code></pre></div>
+<span><span class="co">#&gt; Query completed in: 3.2 seconds</span></span></code></pre></div>
 <p>The <code><a href="reference/geocode.html">geocode()</a></code> function geocodes addresses contained in a dataframe. The <a href="https://nominatim.org/" class="external-link">Nominatim (“osm”)</a> geocoding service is used here, but other services can be specified with the <code>method</code> argument. Only latitude and longitude are returned from the geocoding service in this example, but <code>full_results = TRUE</code> can be used to return all of the data from the geocoding service. See the <code><a href="reference/geo.html">geo()</a></code> function documentation for details.</p>
 <table class="table">
 <colgroup>
@@ -290,6 +290,7 @@ occurring in automated CRAN checks for an improper/old link.
 <th align="left">office</th>
 <th align="left">house_number</th>
 <th align="left">road</th>
+<th align="left">suburb</th>
 <th align="left">borough</th>
 <th align="left">city</th>
 <th align="left">state</th>
@@ -302,7 +303,6 @@ occurring in automated CRAN checks for an improper/old link.
 <th align="left">quarter</th>
 <th align="left">building</th>
 <th align="left">neighbourhood</th>
-<th align="left">suburb</th>
 <th align="left">county</th>
 </tr></thead>
 <tbody>
@@ -310,7 +310,7 @@ occurring in automated CRAN checks for an improper/old link.
 <td align="left">White House</td>
 <td align="right">38.89770</td>
 <td align="right">-77.03655</td>
-<td align="left">White House, 1600, Pennsylvania Avenue Northwest, Ward 2, Washington, District of Columbia, 20500, United States</td>
+<td align="left">White House, 1600, Pennsylvania Avenue Northwest, Penn Quarter, Ward 2, Washington, District of Columbia, 20500, United States</td>
 <td align="right">321631063</td>
 <td align="left">way</td>
 <td align="right">238241022</td>
@@ -325,6 +325,7 @@ occurring in automated CRAN checks for an improper/old link.
 <td align="left">White House</td>
 <td align="left">1600</td>
 <td align="left">Pennsylvania Avenue Northwest</td>
+<td align="left">Penn Quarter</td>
 <td align="left">Ward 2</td>
 <td align="left">Washington</td>
 <td align="left">District of Columbia</td>
@@ -333,7 +334,6 @@ occurring in automated CRAN checks for an improper/old link.
 <td align="left">United States</td>
 <td align="left">us</td>
 <td align="left">38.8974908 , 38.8979110 , -77.0368537, -77.0362519</td>
-<td align="left">NA</td>
 <td align="left">NA</td>
 <td align="left">NA</td>
 <td align="left">NA</td>
@@ -360,6 +360,7 @@ occurring in automated CRAN checks for an improper/old link.
 <td align="left">600</td>
 <td align="left">Montgomery Street</td>
 <td align="left">NA</td>
+<td align="left">NA</td>
 <td align="left">San Francisco</td>
 <td align="left">California</td>
 <td align="left">US-CA</td>
@@ -369,7 +370,6 @@ occurring in automated CRAN checks for an improper/old link.
 <td align="left">37.7948854 , 37.7954472 , -122.4031399, -122.4024317</td>
 <td align="left">Transamerica Pyramid</td>
 <td align="left">Financial District</td>
-<td align="left">NA</td>
 <td align="left">NA</td>
 <td align="left">NA</td>
 <td align="left">NA</td>
@@ -393,6 +393,7 @@ occurring in automated CRAN checks for an improper/old link.
 <td align="left">NA</td>
 <td align="left">233</td>
 <td align="left">South Wacker Drive</td>
+<td align="left">Loop</td>
 <td align="left">NA</td>
 <td align="left">Chicago</td>
 <td align="left">Illinois</td>
@@ -405,7 +406,6 @@ occurring in automated CRAN checks for an improper/old link.
 <td align="left">NA</td>
 <td align="left">Willis Tower</td>
 <td align="left">Printer’s Row</td>
-<td align="left">Loop</td>
 <td align="left">Cook County</td>
 </tr>
 </tbody>
@@ -522,6 +522,7 @@ occurring in automated CRAN checks for an improper/old link.
 <li><a href="https://cran.r-project.org/package=tidygeocoder" class="external-link"><img src="http://cranlogs.r-pkg.org/badges/tidygeocoder" alt="CRAN Downloads Per Month"></a></li>
 <li><a href="https://lifecycle.r-lib.org/articles/stages.html#stable" class="external-link"><img src="https://img.shields.io/badge/lifecycle-stable-brightgreen.svg" alt="Lifecycle: stable"></a></li>
 <li><a href="https://github.com/jessecambon/tidygeocoder/actions?workflow=R-CMD-check" class="external-link"><img src="https://github.com/jessecambon/tidygeocoder/workflows/R-CMD-check/badge.svg" alt="R Build Status"></a></li>
+<li><a href="https://doi.org/10.5281/zenodo.15106058" class="external-link"><img src="https://zenodo.org/badge/DOI/10.5281/zenodo.15106058.svg" alt="Zenodo"></a></li>
 </ul>
 </div>
 

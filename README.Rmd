@@ -26,7 +26,7 @@ options(tibble.print_min = 5, tibble.print_max = 5)
 [![CRAN Downloads Per Month](http://cranlogs.r-pkg.org/badges/tidygeocoder)](https://cran.r-project.org/package=tidygeocoder)
 [![Lifecycle: stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://lifecycle.r-lib.org/articles/stages.html#stable)
 [![R Build Status](https://github.com/jessecambon/tidygeocoder/workflows/R-CMD-check/badge.svg)](https://github.com/jessecambon/tidygeocoder/actions?workflow=R-CMD-check)
-<!-- [![Zenodo](https://zenodo.org/badge/DOI/10.5281/zenodo.15106058.svg)](https://doi.org/10.5281/zenodo.15106058) -->
+[![Zenodo](https://zenodo.org/badge/DOI/10.5281/zenodo.15106058.svg)](https://doi.org/10.5281/zenodo.15106058)
 <!-- badges: end -->
 
 Tidygeocoder makes getting data from geocoding services easy. A unified high-level interface is provided for a selection of [supported geocoding services](https://jessecambon.github.io/tidygeocoder/articles/geocoder_services.html) and results are returned in [tibble](https://tibble.tidyverse.org/) (dataframe) format.
