@@ -9,15 +9,16 @@ all_methods <- unique(tidygeocoder::api_parameter_reference[['method']])
 # Pick a value below for `methods_to_test` (the list of methods to test)
 
 # Test all methods
-methods_to_test <- all_methods 
+#methods_to_test <- all_methods 
 
 # EXCLUDE methods with slow geocoder services
 #methods_to_test <- setdiff(all_methods, tidygeocoder:::pkg.globals$single_first_methods)
 
 #methods_to_test <- setdiff(all_methods, c('here', 'mapbox', 'bing'))
 #methods_to_test <- c('census', 'osm', 'geocodio', 'opencage', 'google', 'geoapify', 'arcgis')
-#methods_to_test <- c('census', 'osm', 'geocodio', 'opencage', 'arcgis')
+methods_to_test <- c('census', 'osm', 'geocodio', 'arcgis')
 
+# no api key: opencage, mapquest
 
 ##############################################################################################
 

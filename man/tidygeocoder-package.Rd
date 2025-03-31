@@ -31,5 +31,10 @@ Authors:
   \item Daniel Possenriede \email{possenriede+r@gmail.com} (\href{https://orcid.org/0000-0002-6738-9845}{ORCID})
 }
 
+Other contributors:
+\itemize{
+  \item Otto Hansen \email{otto@uchicago.edu} (\href{https://orcid.org/0000-0002-4618-5667}{ORCID}) [contributor]
+}
+
 }
 \keyword{internal}

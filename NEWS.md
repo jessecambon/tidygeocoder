@@ -1,4 +1,4 @@
-# tidygeocoder (development version)
+# tidygeocoder 1.0.6
 
 ### Bug Fixes and Enhancements
 
@@ -12,7 +12,6 @@
 - Fixed a bug where the Geocodio service did not pass the correct address component parameter names ([#178](https://github.com/jessecambon/tidygeocoder/issues/178), [@ottothecow](https://github.com/ottothecow)).
 
 ### Removed Deprecated Features
-
 
 - Removed the `"cascade"` method for `geo()`. Use `geo_combine()` or `geocode_combine()` instead.
 - Removed deprecated functions: `geo_census()` `geo_osm()` `geo_geocodio()` `geo_iq()` `geo_google()` `geo_opencage()` `geo_mapbox()` `geo_here()` `geo_tomtom()` `geo_mapquest()` `geo_bing()` `geo_arcgis()` `geo_cascade()`. Use the `geo()` function instead.
@@ -54,7 +53,7 @@
 
 - Added support for reverse geocoding with the new `reverse_geo()` and `reverse_geocode()` functions. 
 - Added support for the [OpenCage](https://opencagedata.com/) geocoding service ([#67](https://github.com/jessecambon/tidygeocoder/issues/67)) (thanks [@dpprdan](https://github.com/dpprdan)).
-- Added support for the [HERE](https://developer.here.com/products/geocoding-and-search) ([#74](https://github.com/jessecambon/tidygeocoder/issues/74)), [Mapbox](https://docs.mapbox.com/api/search/) ([#71](https://github.com/jessecambon/tidygeocoder/issues/71)), [MapQuest](https://developer.mapquest.com/documentation/geocoding-api/) ([#85](https://github.com/jessecambon/tidygeocoder/issues/85)),  [TomTom](https://developer.tomtom.com/search-api/search-api-documentation/geocoding) ([#76](https://github.com/jessecambon/tidygeocoder/issues/76)), [Bing](https://docs.microsoft.com/en-us/bingmaps/rest-services/locations/) ([#92](https://github.com/jessecambon/tidygeocoder/issues/92)), and [ArcGIS](https://developers.arcgis.com/rest/geocode/api-reference/overview-world-geocoding-service.htm) ([#98](https://github.com/jessecambon/tidygeocoder/issues/98)) geocoding services (thanks [@dieghernan](https://github.com/dieghernan)). Note that the batch geocoding capabilities for the Mapbox and ArcGIS services are not currently implemented (see [#73](https://github.com/jessecambon/tidygeocoder/issues/73) and [#102](https://github.com/jessecambon/tidygeocoder/issues/102)).
+- Added support for the [HERE](https://www.here.com/platform/geocoding) ([#74](https://github.com/jessecambon/tidygeocoder/issues/74)), [Mapbox](https://docs.mapbox.com/api/search/) ([#71](https://github.com/jessecambon/tidygeocoder/issues/71)), [MapQuest](https://developer.mapquest.com/documentation/api/geocoding) ([#85](https://github.com/jessecambon/tidygeocoder/issues/85)),  [TomTom](https://developer.tomtom.com/search-api/search-api-documentation/geocoding) ([#76](https://github.com/jessecambon/tidygeocoder/issues/76)), [Bing](https://learn.microsoft.com/en-us/bingmaps/rest-services/locations/) ([#92](https://github.com/jessecambon/tidygeocoder/issues/92)), and [ArcGIS](https://developers.arcgis.com/rest/geocode/api-reference/overview-world-geocoding-service.htm) ([#98](https://github.com/jessecambon/tidygeocoder/issues/98)) geocoding services (thanks [@dieghernan](https://github.com/dieghernan)). Note that the batch geocoding capabilities for the Mapbox and ArcGIS services are not currently implemented (see [#73](https://github.com/jessecambon/tidygeocoder/issues/73) and [#102](https://github.com/jessecambon/tidygeocoder/issues/102)).
 - Added the ` mapbox_permanent`, `here_request_id`, and `mapquest_open` parameters to the `geo()` and `reverse_geo()` functions.
 - The `limit` argument can now be used with the "google" and "census" methods to control the number of results returned. These two services do not have limit arguments in their APIs so the limit is applied after the results are returned.
 - `batch_limit` is now automatically set according to the specified geocoding service unless otherwise specified.

@@ -41,10 +41,10 @@ reverse_geo(
 \item \code{"google"}: \href{https://developers.google.com/maps/documentation/geocoding/overview}{Google}.   Store an API key in the environmental variable \code{"GOOGLEGEOCODE_API_KEY"}.
 \item \code{"opencage"}: \href{https://opencagedata.com}{OpenCage}.   Store an API key in the environmental variable \code{"OPENCAGE_KEY"}.
 \item \code{"mapbox"}: \href{https://docs.mapbox.com/api/search/}{Mapbox}.   Store an API key in the environmental variable \code{"MAPBOX_API_KEY"}.
-\item \code{"here"}: \href{https://developer.here.com/products/geocoding-and-search}{HERE}.  Batch geocoding is supported, but must be explicitly called with \code{mode = "batch"}. Store an API key in the environmental variable \code{"HERE_API_KEY"}.
+\item \code{"here"}: \href{https://www.here.com/platform/geocoding}{HERE}.  Batch geocoding is supported, but must be explicitly called with \code{mode = "batch"}. Store an API key in the environmental variable \code{"HERE_API_KEY"}.
 \item \code{"tomtom"}: \href{https://developer.tomtom.com/search-api/search-api-documentation}{TomTom}.  Batch geocoding is supported. Store an API key in the environmental variable \code{"TOMTOM_API_KEY"}.
-\item \code{"mapquest"}: \href{https://developer.mapquest.com/documentation/geocoding-api/}{MapQuest}.  Batch geocoding is supported. Store an API key in the environmental variable \code{"MAPQUEST_API_KEY"}.
-\item \code{"bing"}: \href{https://docs.microsoft.com/en-us/bingmaps/rest-services/locations/}{Bing}.  Batch geocoding is supported, but must be explicitly called with \code{mode = "batch"}. Store an API key in the environmental variable \code{"BINGMAPS_API_KEY"}.
+\item \code{"mapquest"}: \href{https://developer.mapquest.com/documentation/api/geocoding}{MapQuest}.  Batch geocoding is supported. Store an API key in the environmental variable \code{"MAPQUEST_API_KEY"}.
+\item \code{"bing"}: \href{https://learn.microsoft.com/en-us/bingmaps/rest-services/locations/}{Bing}.  Batch geocoding is supported, but must be explicitly called with \code{mode = "batch"}. Store an API key in the environmental variable \code{"BINGMAPS_API_KEY"}.
 \item \code{"geoapify"}: \href{https://www.geoapify.com/geocoding-api}{Geoapify}.   Store an API key in the environmental variable \code{"GEOAPIFY_KEY"}.
 }}
 
@@ -54,7 +54,7 @@ reverse_geo(
 
 \item{full_results}{returns all available data from the geocoding service if TRUE. If FALSE (default) then only a single address column is returned from the geocoding service.}
 
-\item{mode}{set to 'batch' to force batch geocoding or 'single' to force single coordinategeocoding (one coordinate per query). If not specified then batch geocoding will be used if available (given method selected) when multiple coordinates are provided; otherwise single address geocoding will be used. For the "here" and "bing" methods the batch mode should be explicitly specified with \code{mode = 'batch'}.}
+\item{mode}{set to 'batch' to force batch geocoding or 'single' to force single coordinate geocoding (one coordinate per query). If not specified then batch geocoding will be used if available (given method selected) when multiple coordinates are provided; otherwise single address geocoding will be used. For the "here" and "bing" methods the batch mode should be explicitly specified with \code{mode = 'batch'}.}
 
 \item{unique_only}{only return results for unique inputs if TRUE}
 

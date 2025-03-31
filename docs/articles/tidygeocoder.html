@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Getting Started • tidygeocoder</title>
-<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script><!-- Bootstrap --><link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.4.0/cosmo/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script><!-- Bootstrap --><link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.4.0/cosmo/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script><!-- bootstrap-toc --><link rel="stylesheet" href="../bootstrap-toc.css">
 <script src="../bootstrap-toc.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
@@ -28,7 +28,7 @@
 </script>
 </head>
 <body data-spy="scroll" data-target="#toc">
-    
+
 
     <div class="container template-article">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -42,7 +42,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">tidygeocoder</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.0.5.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.0.6</span>
       </span>
     </div>
 
@@ -57,7 +57,7 @@
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
-     
+
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -72,7 +72,7 @@
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     News
-     
+
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -104,7 +104,7 @@
 <li>
   <a href="https://github.com/jessecambon/tidygeocoder/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
-     
+
   </a>
 </li>
       </ul>
@@ -113,7 +113,7 @@
           <input type="search" class="form-control" name="search-input" id="search-input" placeholder="Search..." aria-label="Search for..." autocomplete="off">
 </div>
       </form>
-      
+
     </div>
 <!--/.nav-collapse -->
   </div>
@@ -121,7 +121,7 @@
 </div>
 <!--/.navbar -->
 
-      
+
 
       </header><div class="row">
   <div class="col-md-9 contents">
@@ -205,7 +205,7 @@ console.</p>
 <span><span class="co">#&gt; format : "json"</span></span>
 <span><span class="co">#&gt; benchmark : "Public_AR_Current"</span></span>
 <span><span class="co">#&gt; vintage : "Current_Current"</span></span>
-<span><span class="co">#&gt; Query completed in: 0.4 seconds</span></span></code></pre></div>
+<span><span class="co">#&gt; Query completed in: 0.1 seconds</span></span></code></pre></div>
 <table class="table">
 <thead><tr class="header">
 <th align="left">singlelineaddress</th>
@@ -215,13 +215,13 @@ console.</p>
 <tbody>
 <tr class="odd">
 <td align="left">11 Wall St, NY, NY</td>
-<td align="right">40.70747</td>
-<td align="right">-74.01121</td>
+<td align="right">40.70711</td>
+<td align="right">-74.01078</td>
 </tr>
 <tr class="even">
 <td align="left">600 Peachtree Street NE, Atlanta, Georgia</td>
-<td align="right">33.77085</td>
-<td align="right">-84.38505</td>
+<td align="right">33.81903</td>
+<td align="right">-84.37582</td>
 </tr>
 </tbody>
 </table>
@@ -249,12 +249,12 @@ values of the <code>method</code> argument.</p>
 <tbody>
 <tr class="odd">
 <td align="left">11 Wall St, NY, NY</td>
-<td align="right">40.70707</td>
-<td align="right">-74.01117</td>
+<td align="right">40.73128</td>
+<td align="right">-73.43475</td>
 </tr>
 <tr class="even">
 <td align="left">600 Peachtree Street NE, Atlanta, Georgia</td>
-<td align="right">33.77086</td>
+<td align="right">33.77085</td>
 <td align="right">-84.38614</td>
 </tr>
 </tbody>
@@ -267,7 +267,7 @@ following arguments to specify your addresses: <code>street</code>,
 <code class="sourceCode R"><span><span class="va">census_c1</span> <span class="op">&lt;-</span> <span class="va">address_components</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="../reference/geocode.html">geocode</a></span><span class="op">(</span>street <span class="op">=</span> <span class="va">street</span>, city <span class="op">=</span> <span class="va">cty</span>, state <span class="op">=</span> <span class="va">st</span>, method <span class="op">=</span> <span class="st">"census"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Passing 2 addresses to the US Census batch geocoder</span></span>
-<span><span class="co">#&gt; Query completed in: 0.9 seconds</span></span></code></pre></div>
+<span><span class="co">#&gt; Query completed in: 0.2 seconds</span></span></code></pre></div>
 <table class="table">
 <thead><tr class="header">
 <th align="left">street</th>
@@ -281,15 +281,15 @@ following arguments to specify your addresses: <code>street</code>,
 <td align="left">11 Wall St</td>
 <td align="left">NY</td>
 <td align="left">NY</td>
-<td align="right">40.70747</td>
-<td align="right">-74.01121</td>
+<td align="right">40.70711</td>
+<td align="right">-74.01078</td>
 </tr>
 <tr class="even">
 <td align="left">600 Peachtree Street NE</td>
 <td align="left">Atlanta</td>
 <td align="left">GA</td>
-<td align="right">33.77085</td>
-<td align="right">-84.38505</td>
+<td align="right">33.81903</td>
+<td align="right">-84.37582</td>
 </tr>
 </tbody>
 </table>
@@ -307,17 +307,17 @@ returned.</p>
 <span>  method <span class="op">=</span> <span class="st">"census"</span>, full_results <span class="op">=</span> <span class="cn">TRUE</span>, api_options <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>census_return_type <span class="op">=</span> <span class="st">'geographies'</span><span class="op">)</span></span>
 <span><span class="op">)</span></span>
 <span><span class="co">#&gt; Passing 2 addresses to the US Census batch geocoder</span></span>
-<span><span class="co">#&gt; Query completed in: 0.5 seconds</span></span></code></pre></div>
+<span><span class="co">#&gt; Query completed in: 0.2 seconds</span></span></code></pre></div>
 <table class="table">
 <colgroup>
 <col width="16%">
 <col width="3%">
-<col width="4%">
+<col width="3%">
 <col width="1%">
 <col width="18%">
 <col width="6%">
 <col width="4%">
-<col width="14%">
+<col width="18%">
 <col width="5%">
 <col width="4%">
 <col width="4%">
@@ -344,8 +344,8 @@ returned.</p>
 <tbody>
 <tr class="odd">
 <td align="left">11 Wall St, NY, NY</td>
-<td align="right">40.70747</td>
-<td align="right">-74.01121</td>
+<td align="right">40.70711</td>
+<td align="right">-74.01078</td>
 <td align="right">1</td>
 <td align="left">11 Wall St, NY, NY, , ,</td>
 <td align="left">Match</td>
@@ -360,19 +360,19 @@ returned.</p>
 </tr>
 <tr class="even">
 <td align="left">600 Peachtree Street NE, Atlanta, Georgia</td>
-<td align="right">33.77085</td>
-<td align="right">-84.38505</td>
+<td align="right">33.81903</td>
+<td align="right">-84.37582</td>
 <td align="right">2</td>
 <td align="left">600 Peachtree Street NE, Atlanta, Georgia, , ,</td>
 <td align="left">Match</td>
 <td align="left">Non_Exact</td>
-<td align="left">600 PEACHTREE ST, ATLANTA, GA, 30308</td>
-<td align="left">17343689</td>
+<td align="left">600 PEACHTREE HILLS CIR NE, ATLANTA, GA, 30305</td>
+<td align="left">618355955</td>
 <td align="left">L</td>
 <td align="left">13</td>
 <td align="left">121</td>
-<td align="left">001902</td>
-<td align="left">2003</td>
+<td align="left">009302</td>
+<td align="left">3000</td>
 </tr>
 </tbody>
 </table>
@@ -389,20 +389,22 @@ occurring in automated CRAN checks for an improper/old link.
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="op">-</span><span class="va">licence</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Passing 1 address to the Nominatim single address geocoder</span></span>
 <span><span class="co">#&gt; Query completed in: 1 seconds</span></span></code></pre></div>
-<table class="table">
+<table style="width:100%;" class="table">
 <colgroup>
+<col width="8%">
+<col width="4%">
+<col width="4%">
+<col width="4%">
+<col width="4%">
+<col width="3%">
+<col width="4%">
 <col width="7%">
-<col width="3%">
-<col width="3%">
-<col width="3%">
-<col width="3%">
-<col width="2%">
-<col width="18%">
-<col width="10%">
-<col width="3%">
+<col width="5%">
+<col width="5%">
 <col width="5%">
 <col width="4%">
-<col width="33%">
+<col width="13%">
+<col width="23%">
 </colgroup>
 <thead><tr class="header">
 <th align="left">address</th>
@@ -411,26 +413,30 @@ occurring in automated CRAN checks for an improper/old link.
 <th align="right">place_id</th>
 <th align="left">osm_type</th>
 <th align="right">osm_id</th>
-<th align="left">boundingbox</th>
-<th align="left">display_name</th>
 <th align="left">class</th>
 <th align="left">type</th>
+<th align="right">place_rank</th>
 <th align="right">importance</th>
-<th align="left">icon</th>
+<th align="left">addresstype</th>
+<th align="left">name</th>
+<th align="left">display_name</th>
+<th align="left">boundingbox</th>
 </tr></thead>
 <tbody><tr class="odd">
 <td align="left">Salzburg, Austria</td>
 <td align="right">47.79813</td>
 <td align="right">13.04648</td>
-<td align="right">297962771</td>
+<td align="right">62682279</td>
 <td align="left">relation</td>
 <td align="right">86538</td>
-<td align="left">47.7512115, 47.8543925, 12.9856478, 13.1275256</td>
-<td align="left">Salzburg, 5020, Österreich</td>
 <td align="left">boundary</td>
 <td align="left">administrative</td>
-<td align="right">0.6854709</td>
-<td align="left"><a href="https://nominatim.openstreetmap.org/ui/mapicons/poi_boundary_administrative.p.20.png" class="external-link uri">https://nominatim.openstreetmap.org/ui/mapicons/poi_boundary_administrative.p.20.png</a></td>
+<td align="right">12</td>
+<td align="right">0.688384</td>
+<td align="left">city</td>
+<td align="left">Salzburg</td>
+<td align="left">Salzburg, 5020, Österreich</td>
+<td align="left">47.7512115, 47.8543925, 12.9856478, 13.1275256</td>
 </tr></tbody>
 </table>
 </div>
@@ -466,7 +472,7 @@ specify the geocoding service.</p>
 <colgroup>
 <col width="5%">
 <col width="6%">
-<col width="88%">
+<col width="87%">
 </colgroup>
 <thead><tr class="header">
 <th align="right">latitude</th>
@@ -477,15 +483,15 @@ specify the geocoding service.</p>
 <tr class="odd">
 <td align="right">38.89587</td>
 <td align="right">-77.03077</td>
-<td align="left">L’Enfant’s plan, Pennsylvania Avenue, Washington,
-District of Columbia, 20045, United States</td>
+<td align="left">L’Enfant’s plan, Pennsylvania Avenue, Ward 2,
+Washington, District of Columbia, 20045, United States</td>
 </tr>
 <tr class="even">
 <td align="right">43.65348</td>
 <td align="right">-79.38393</td>
-<td align="left">Toronto City Hall, 100, Queen Street West, Financial
-District, Spadina—Fort York, Old Toronto, Toronto, Golden Horseshoe,
-Ontario, M5H 2N2, Canada</td>
+<td align="left">Toronto City Hall, 100, Queen Street West, Yonge-Bay
+Corridor, Spadina—Fort York, Toronto, Golden Horseshoe, Ontario, M5H
+2N2, Canada</td>
 </tr>
 </tbody>
 </table>
@@ -505,30 +511,37 @@ returned (not just the single line address column).</p>
 <span></span>
 <span><span class="fu"><a href="https://pillar.r-lib.org/reference/glimpse.html" class="external-link">glimpse</a></span><span class="op">(</span><span class="va">rev2</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Rows: 2</span></span>
-<span><span class="co">#&gt; Columns: 23</span></span>
-<span><span class="co">#&gt; $ lat              &lt;dbl&gt; 38.89587, 43.65348</span></span>
-<span><span class="co">#&gt; $ long             &lt;dbl&gt; -77.03077, -79.38393</span></span>
-<span><span class="co">#&gt; $ address          &lt;chr&gt; "L’Enfant's plan, Pennsylvania Avenue, Washington, District of Columbia, 20045, United States", "Toronto City Hall, 100, Queen Street West, F…</span></span>
-<span><span class="co">#&gt; $ place_id         &lt;int&gt; 275427865, 152735232</span></span>
-<span><span class="co">#&gt; $ licence          &lt;chr&gt; "Data © OpenStreetMap contributors, ODbL 1.0. https://osm.org/copyright", "Data © OpenStreetMap contributors, ODbL 1.0. https://osm.org/copyr…</span></span>
-<span><span class="co">#&gt; $ osm_type         &lt;chr&gt; "way", "way"</span></span>
-<span><span class="co">#&gt; $ osm_id           &lt;int&gt; 899927546, 198500761</span></span>
-<span><span class="co">#&gt; $ osm_lat          &lt;chr&gt; "38.895859599999994", "43.6536032"</span></span>
-<span><span class="co">#&gt; $ osm_lon          &lt;chr&gt; "-77.0306779870984", "-79.38400546703345"</span></span>
-<span><span class="co">#&gt; $ tourism          &lt;chr&gt; "L’Enfant's plan", NA</span></span>
-<span><span class="co">#&gt; $ road             &lt;chr&gt; "Pennsylvania Avenue", "Queen Street West"</span></span>
-<span><span class="co">#&gt; $ city             &lt;chr&gt; "Washington", "Old Toronto"</span></span>
-<span><span class="co">#&gt; $ state            &lt;chr&gt; "District of Columbia", "Ontario"</span></span>
-<span><span class="co">#&gt; $ `ISO3166-2-lvl4` &lt;chr&gt; "US-DC", "CA-ON"</span></span>
-<span><span class="co">#&gt; $ postcode         &lt;chr&gt; "20045", "M5H 2N2"</span></span>
-<span><span class="co">#&gt; $ country          &lt;chr&gt; "United States", "Canada"</span></span>
-<span><span class="co">#&gt; $ country_code     &lt;chr&gt; "us", "ca"</span></span>
-<span><span class="co">#&gt; $ boundingbox      &lt;list&gt; &lt;"38.8957273", "38.8959688", "-77.0311667", "-77.0301895"&gt;, &lt;"43.6529946", "43.6541458", "-79.3848438", "-79.3830415"&gt;</span></span>
-<span><span class="co">#&gt; $ amenity          &lt;chr&gt; NA, "Toronto City Hall"</span></span>
-<span><span class="co">#&gt; $ house_number     &lt;chr&gt; NA, "100"</span></span>
-<span><span class="co">#&gt; $ neighbourhood    &lt;chr&gt; NA, "Financial District"</span></span>
-<span><span class="co">#&gt; $ quarter          &lt;chr&gt; NA, "Spadina—Fort York"</span></span>
-<span><span class="co">#&gt; $ state_district   &lt;chr&gt; NA, "Golden Horseshoe"</span></span></code></pre></div>
+<span><span class="co">#&gt; Columns: 30</span></span>
+<span><span class="co">#&gt; $ lat              [3m[38;5;246m&lt;dbl&gt;[39m[23m 38.89587, 43.65348</span></span>
+<span><span class="co">#&gt; $ long             [3m[38;5;246m&lt;dbl&gt;[39m[23m -77.03077, -79.38393</span></span>
+<span><span class="co">#&gt; $ address          [3m[38;5;246m&lt;chr&gt;[39m[23m "L’Enfant's plan, Pennsylvania Avenue, Ward 2, Washington, District of Columbia, 20045, United States", "Toronto City Hall, 100, Queen Street West, Yonge-Bay Co…</span></span>
+<span><span class="co">#&gt; $ place_id         [3m[38;5;246m&lt;int&gt;[39m[23m 320497331, 323744191</span></span>
+<span><span class="co">#&gt; $ licence          [3m[38;5;246m&lt;chr&gt;[39m[23m "Data © OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright", "Data © OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright"</span></span>
+<span><span class="co">#&gt; $ osm_type         [3m[38;5;246m&lt;chr&gt;[39m[23m "way", "way"</span></span>
+<span><span class="co">#&gt; $ osm_id           [3m[38;5;246m&lt;int&gt;[39m[23m 899927546, 198500761</span></span>
+<span><span class="co">#&gt; $ osm_lat          [3m[38;5;246m&lt;chr&gt;[39m[23m "38.895859599999994", "43.6536032"</span></span>
+<span><span class="co">#&gt; $ osm_lon          [3m[38;5;246m&lt;chr&gt;[39m[23m "-77.0306779870984", "-79.38400546703345"</span></span>
+<span><span class="co">#&gt; $ class            [3m[38;5;246m&lt;chr&gt;[39m[23m "tourism", "amenity"</span></span>
+<span><span class="co">#&gt; $ type             [3m[38;5;246m&lt;chr&gt;[39m[23m "artwork", "townhall"</span></span>
+<span><span class="co">#&gt; $ place_rank       [3m[38;5;246m&lt;int&gt;[39m[23m 30, 30</span></span>
+<span><span class="co">#&gt; $ importance       [3m[38;5;246m&lt;dbl&gt;[39m[23m 8.492943e-05, 4.288063e-01</span></span>
+<span><span class="co">#&gt; $ addresstype      [3m[38;5;246m&lt;chr&gt;[39m[23m "tourism", "amenity"</span></span>
+<span><span class="co">#&gt; $ name             [3m[38;5;246m&lt;chr&gt;[39m[23m "L’Enfant's plan", "Toronto City Hall"</span></span>
+<span><span class="co">#&gt; $ tourism          [3m[38;5;246m&lt;chr&gt;[39m[23m "L’Enfant's plan", NA</span></span>
+<span><span class="co">#&gt; $ road             [3m[38;5;246m&lt;chr&gt;[39m[23m "Pennsylvania Avenue", "Queen Street West"</span></span>
+<span><span class="co">#&gt; $ borough          [3m[38;5;246m&lt;chr&gt;[39m[23m "Ward 2", NA</span></span>
+<span><span class="co">#&gt; $ city             [3m[38;5;246m&lt;chr&gt;[39m[23m "Washington", "Toronto"</span></span>
+<span><span class="co">#&gt; $ state            [3m[38;5;246m&lt;chr&gt;[39m[23m "District of Columbia", "Ontario"</span></span>
+<span><span class="co">#&gt; $ `ISO3166-2-lvl4` [3m[38;5;246m&lt;chr&gt;[39m[23m "US-DC", "CA-ON"</span></span>
+<span><span class="co">#&gt; $ postcode         [3m[38;5;246m&lt;chr&gt;[39m[23m "20045", "M5H 2N2"</span></span>
+<span><span class="co">#&gt; $ country          [3m[38;5;246m&lt;chr&gt;[39m[23m "United States", "Canada"</span></span>
+<span><span class="co">#&gt; $ country_code     [3m[38;5;246m&lt;chr&gt;[39m[23m "us", "ca"</span></span>
+<span><span class="co">#&gt; $ boundingbox      [3m[38;5;246m&lt;list&gt;[39m[23m &lt;"38.8957273", "38.8959688", "-77.0311667", "-77.0301895"&gt;, &lt;"43.6529946", "43.6541458", "-79.3848438", "-79.3830415"&gt;</span></span>
+<span><span class="co">#&gt; $ amenity          [3m[38;5;246m&lt;chr&gt;[39m[23m NA, "Toronto City Hall"</span></span>
+<span><span class="co">#&gt; $ house_number     [3m[38;5;246m&lt;chr&gt;[39m[23m NA, "100"</span></span>
+<span><span class="co">#&gt; $ city_block       [3m[38;5;246m&lt;chr&gt;[39m[23m NA, "Yonge-Bay Corridor"</span></span>
+<span><span class="co">#&gt; $ quarter          [3m[38;5;246m&lt;chr&gt;[39m[23m NA, "Spadina—Fort York"</span></span>
+<span><span class="co">#&gt; $ state_district   [3m[38;5;246m&lt;chr&gt;[39m[23m NA, "Golden Horseshoe"</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="working-with-messy-data">Working With Messy Data<a class="anchor" aria-label="anchor" href="#working-with-messy-data"></a>
@@ -543,8 +556,8 @@ addresses are passed to the geocoding service.</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># create a dataset with duplicate and NA addresses</span></span>
 <span><span class="va">duplicate_addrs</span> <span class="op">&lt;-</span> <span class="va">address_single</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/bind.html" class="external-link">bind_rows</a></span><span class="op">(</span><span class="va">address_single</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/bind.html" class="external-link">bind_rows</a></span><span class="op">(</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span>singlelineaddress <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="cn">NA</span>, <span class="fl">3</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/bind_rows.html" class="external-link">bind_rows</a></span><span class="op">(</span><span class="va">address_single</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/bind_rows.html" class="external-link">bind_rows</a></span><span class="op">(</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span>singlelineaddress <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="cn">NA</span>, <span class="fl">3</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">duplicates_geocoded</span> <span class="op">&lt;-</span> <span class="va">duplicate_addrs</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="../reference/geocode.html">geocode</a></span><span class="op">(</span><span class="va">singlelineaddress</span>, verbose <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
@@ -559,7 +572,7 @@ addresses are passed to the geocoding service.</p>
 <span><span class="co">#&gt; limit : "1"</span></span>
 <span><span class="co">#&gt; format : "json"</span></span>
 <span><span class="co">#&gt; HTTP Status Code: 200</span></span>
-<span><span class="co">#&gt; Query completed in: 0.9 seconds</span></span>
+<span><span class="co">#&gt; Query completed in: 0.6 seconds</span></span>
 <span><span class="co">#&gt; Total query time (including sleep): 1 seconds</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; </span></span>
@@ -570,7 +583,7 @@ addresses are passed to the geocoding service.</p>
 <span><span class="co">#&gt; limit : "1"</span></span>
 <span><span class="co">#&gt; format : "json"</span></span>
 <span><span class="co">#&gt; HTTP Status Code: 200</span></span>
-<span><span class="co">#&gt; Query completed in: 0.2 seconds</span></span>
+<span><span class="co">#&gt; Query completed in: 0.5 seconds</span></span>
 <span><span class="co">#&gt; Total query time (including sleep): 1 seconds</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Query completed in: 2 seconds</span></span></code></pre></div>
@@ -583,22 +596,22 @@ addresses are passed to the geocoding service.</p>
 <tbody>
 <tr class="odd">
 <td align="left">11 Wall St, NY, NY</td>
-<td align="right">40.70707</td>
-<td align="right">-74.01117</td>
+<td align="right">40.73128</td>
+<td align="right">-73.43475</td>
 </tr>
 <tr class="even">
 <td align="left">600 Peachtree Street NE, Atlanta, Georgia</td>
-<td align="right">33.77086</td>
+<td align="right">33.77085</td>
 <td align="right">-84.38614</td>
 </tr>
 <tr class="odd">
 <td align="left">11 Wall St, NY, NY</td>
-<td align="right">40.70707</td>
-<td align="right">-74.01117</td>
+<td align="right">40.73128</td>
+<td align="right">-73.43475</td>
 </tr>
 <tr class="even">
 <td align="left">600 Peachtree Street NE, Atlanta, Georgia</td>
-<td align="right">33.77086</td>
+<td align="right">33.77085</td>
 <td align="right">-84.38614</td>
 </tr>
 <tr class="odd">
@@ -639,12 +652,12 @@ field names (ie. “address”, ‘lat, ’long’, etc.).</p>
 <tbody>
 <tr class="odd">
 <td align="left">11 Wall St, NY, NY</td>
-<td align="right">40.70707</td>
-<td align="right">-74.01117</td>
+<td align="right">40.73128</td>
+<td align="right">-73.43475</td>
 </tr>
 <tr class="even">
 <td align="left">600 Peachtree Street NE, Atlanta, Georgia</td>
-<td align="right">33.77086</td>
+<td align="right">33.77085</td>
 <td align="right">-84.38614</td>
 </tr>
 </tbody>
@@ -679,8 +692,8 @@ query. The <code>global_params</code> argument passes the
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Passing 3 addresses to the US Census batch geocoder</span></span>
 <span><span class="co">#&gt; Query completed in: 0.2 seconds</span></span>
-<span><span class="co">#&gt; Passing 2 addresses to the Nominatim single address geocoder</span></span>
-<span><span class="co">#&gt; Query completed in: 2 seconds</span></span></code></pre></div>
+<span><span class="co">#&gt; Passing 3 addresses to the Nominatim single address geocoder</span></span>
+<span><span class="co">#&gt; Query completed in: 3 seconds</span></span></code></pre></div>
 <table class="table">
 <thead><tr class="header">
 <th align="left">address</th>
@@ -691,14 +704,14 @@ query. The <code>global_params</code> argument passes the
 <tbody>
 <tr class="odd">
 <td align="left">100 Wall Street NY, NY</td>
-<td align="right">40.70516</td>
-<td align="right">-74.007346</td>
-<td align="left">census</td>
+<td align="right">40.70522</td>
+<td align="right">-74.006800</td>
+<td align="left">osm</td>
 </tr>
 <tr class="even">
 <td align="left">Paris</td>
-<td align="right">48.85889</td>
-<td align="right">2.320041</td>
+<td align="right">48.85350</td>
+<td align="right">2.348391</td>
 <td align="left">osm</td>
 </tr>
 <tr class="odd">
@@ -737,8 +750,8 @@ or not.</p>
 <tbody>
 <tr class="odd">
 <td align="left">100 Wall Street NY, NY</td>
-<td align="right">40.70516</td>
-<td align="right">-74.007346</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
 <td align="left">census</td>
 </tr>
 <tr class="even">
@@ -755,8 +768,8 @@ or not.</p>
 </tr>
 <tr class="even">
 <td align="left">Paris</td>
-<td align="right">48.85889</td>
-<td align="right">2.320041</td>
+<td align="right">48.85350</td>
+<td align="right">2.348391</td>
 <td align="left">osm</td>
 </tr>
 <tr class="odd">
@@ -795,21 +808,23 @@ parameter from being included in the query.</p>
 <span><span class="co">#&gt; Query completed in: 2 seconds</span></span>
 <span></span>
 <span><span class="fu"><a href="https://pillar.r-lib.org/reference/glimpse.html" class="external-link">glimpse</a></span><span class="op">(</span><span class="va">geo_limit</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Rows: 6</span></span>
-<span><span class="co">#&gt; Columns: 13</span></span>
-<span><span class="co">#&gt; $ address      &lt;chr&gt; "Lima, Peru", "Lima, Peru", "Lima, Peru", "Cairo, Egypt", "Cairo, Egypt", "Cairo, Egypt"</span></span>
-<span><span class="co">#&gt; $ lat          &lt;dbl&gt; -12.06211, -12.20011, -11.99997, 30.04439, 30.03521, 30.03325</span></span>
-<span><span class="co">#&gt; $ long         &lt;dbl&gt; -77.03653, -76.28506, -76.83322, 31.23573, 31.56337, 31.56217</span></span>
-<span><span class="co">#&gt; $ place_id     &lt;int&gt; 298428260, 298361673, 298381610, 338723021, 298794275, 298680500</span></span>
-<span><span class="co">#&gt; $ licence      &lt;chr&gt; "Data © OpenStreetMap contributors, ODbL 1.0. https://osm.org/copyright", "Data © OpenStreetMap contributors, ODbL 1.0. https://osm.org/copyright…</span></span>
-<span><span class="co">#&gt; $ osm_type     &lt;chr&gt; "relation", "relation", "relation", "node", "relation", "relation"</span></span>
-<span><span class="co">#&gt; $ osm_id       &lt;int&gt; 1944756, 1944659, 1944670, 271613766, 5466227, 4103336</span></span>
-<span><span class="co">#&gt; $ boundingbox  &lt;list&gt; &lt;"-12.0797663", "-12.0303496", "-77.0884555", "-77.0017774"&gt;, &lt;"-13.3241714", "-10.2741856", "-77.8863105", "-75.5075"&gt;, &lt;"-12.5199316", "-11.572…</span></span>
-<span><span class="co">#&gt; $ display_name &lt;chr&gt; "Lima, Lima Metropolitana, Lima, Perú", "Lima, Perú", "Lima, Lima Metropolitana, Lima, Perú", "القاهرة, 11519, مصر", "القاهرة, مصر", "القاهرة, مص…</span></span>
-<span><span class="co">#&gt; $ class        &lt;chr&gt; "boundary", "boundary", "boundary", "place", "place", "boundary"</span></span>
-<span><span class="co">#&gt; $ type         &lt;chr&gt; "administrative", "administrative", "administrative", "city", "city", "administrative"</span></span>
-<span><span class="co">#&gt; $ importance   &lt;dbl&gt; 0.7830015, 0.6119761, 0.5934835, 0.6960286, 0.6960286, 0.4835559</span></span>
-<span><span class="co">#&gt; $ icon         &lt;chr&gt; "https://nominatim.openstreetmap.org/ui/mapicons/poi_boundary_administrative.p.20.png", "https://nominatim.openstreetmap.org/ui/mapicons/poi_boun…</span></span></code></pre></div>
+<span><span class="co">#&gt; Rows: 5</span></span>
+<span><span class="co">#&gt; Columns: 15</span></span>
+<span><span class="co">#&gt; $ address      [3m[38;5;246m&lt;chr&gt;[39m[23m "Lima, Peru", "Lima, Peru", "Lima, Peru", "Cairo, Egypt", "Cairo, Egypt"</span></span>
+<span><span class="co">#&gt; $ lat          [3m[38;5;246m&lt;dbl&gt;[39m[23m -12.06211, -12.20011, -12.00021, 30.04439, 30.03325</span></span>
+<span><span class="co">#&gt; $ long         [3m[38;5;246m&lt;dbl&gt;[39m[23m -77.03653, -76.28506, -76.83308, 31.23573, 31.56217</span></span>
+<span><span class="co">#&gt; $ place_id     [3m[38;5;246m&lt;int&gt;[39m[23m 3325796, 3023110, 3206663, 44830415, 46149175</span></span>
+<span><span class="co">#&gt; $ licence      [3m[38;5;246m&lt;chr&gt;[39m[23m "Data © OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright", "Data © OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright", "Data © OpenStreet…</span></span>
+<span><span class="co">#&gt; $ osm_type     [3m[38;5;246m&lt;chr&gt;[39m[23m "node", "relation", "relation", "relation", "relation"</span></span>
+<span><span class="co">#&gt; $ osm_id       [3m[38;5;246m&lt;dbl&gt;[39m[23m 4289361265, 1944659, 1944670, 5466227, 4103336</span></span>
+<span><span class="co">#&gt; $ class        [3m[38;5;246m&lt;chr&gt;[39m[23m "place", "boundary", "boundary", "place", "boundary"</span></span>
+<span><span class="co">#&gt; $ type         [3m[38;5;246m&lt;chr&gt;[39m[23m "city", "administrative", "administrative", "city", "administrative"</span></span>
+<span><span class="co">#&gt; $ place_rank   [3m[38;5;246m&lt;int&gt;[39m[23m 15, 8, 12, 16, 8</span></span>
+<span><span class="co">#&gt; $ importance   [3m[38;5;246m&lt;dbl&gt;[39m[23m 0.7282255, 0.5524865, 0.5247970, 0.7411248, 0.5215683</span></span>
+<span><span class="co">#&gt; $ addresstype  [3m[38;5;246m&lt;chr&gt;[39m[23m "city", "state", "region", "city", "state"</span></span>
+<span><span class="co">#&gt; $ name         [3m[38;5;246m&lt;chr&gt;[39m[23m "Lima", "Lima", "Lima", "القاهرة", "القاهرة"</span></span>
+<span><span class="co">#&gt; $ display_name [3m[38;5;246m&lt;chr&gt;[39m[23m "Lima, Lima Metropolitana, Lima, 15083, Perú", "Lima, Perú", "Lima, Lima Metropolitana, Lima, Perú", "القاهرة, مصر", "القاهرة, مصر"</span></span>
+<span><span class="co">#&gt; $ boundingbox  [3m[38;5;246m&lt;list&gt;[39m[23m &lt;"-12.2221065", "-11.9021065", "-77.1965256", "-76.8765256"&gt;, &lt;"-13.3241714", "-10.2741856", "-77.8863105", "-75.5075000"&gt;, &lt;"-12.5199316", "-11.5724356", "-77.1992…</span></span></code></pre></div>
 <p>To directly specify specific API parameters for a given
 <code>method</code> you can use the <code>custom_query</code> parameter.
 For example, <a href="https://nominatim.org/release-docs/develop/api/Details/#parameters" class="external-link">the
@@ -834,29 +849,31 @@ argument:</p>
 <span><span class="co">#&gt; polygon_geojson : "1"</span></span>
 <span><span class="co">#&gt; format : "json"</span></span>
 <span><span class="co">#&gt; HTTP Status Code: 200</span></span>
-<span><span class="co">#&gt; Query completed in: 0.2 seconds</span></span>
+<span><span class="co">#&gt; Query completed in: 0.4 seconds</span></span>
 <span><span class="co">#&gt; Total query time (including sleep): 1 seconds</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Query completed in: 1 seconds</span></span>
 <span></span>
 <span><span class="fu"><a href="https://pillar.r-lib.org/reference/glimpse.html" class="external-link">glimpse</a></span><span class="op">(</span><span class="va">cairo_geo</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Rows: 1</span></span>
-<span><span class="co">#&gt; Columns: 15</span></span>
-<span><span class="co">#&gt; $ address             &lt;chr&gt; "Cairo, Egypt"</span></span>
-<span><span class="co">#&gt; $ lat                 &lt;dbl&gt; 30.04439</span></span>
-<span><span class="co">#&gt; $ long                &lt;dbl&gt; 31.23573</span></span>
-<span><span class="co">#&gt; $ place_id            &lt;int&gt; 338723021</span></span>
-<span><span class="co">#&gt; $ licence             &lt;chr&gt; "Data © OpenStreetMap contributors, ODbL 1.0. https://osm.org/copyright"</span></span>
-<span><span class="co">#&gt; $ osm_type            &lt;chr&gt; "node"</span></span>
-<span><span class="co">#&gt; $ osm_id              &lt;int&gt; 271613766</span></span>
-<span><span class="co">#&gt; $ boundingbox         &lt;list&gt; &lt;"29.8843879", "30.2043879", "31.0757257", "31.3957257"&gt;</span></span>
-<span><span class="co">#&gt; $ display_name        &lt;chr&gt; "القاهرة, 11519, مصر"</span></span>
-<span><span class="co">#&gt; $ class               &lt;chr&gt; "place"</span></span>
-<span><span class="co">#&gt; $ type                &lt;chr&gt; "city"</span></span>
-<span><span class="co">#&gt; $ importance          &lt;dbl&gt; 0.6960286</span></span>
-<span><span class="co">#&gt; $ icon                &lt;chr&gt; "https://nominatim.openstreetmap.org/ui/mapicons/poi_place_city.p.20.png"</span></span>
-<span><span class="co">#&gt; $ geojson.type        &lt;chr&gt; "Point"</span></span>
-<span><span class="co">#&gt; $ geojson.coordinates &lt;list&gt; &lt;31.23573, 30.04439&gt;</span></span></code></pre></div>
+<span><span class="co">#&gt; Columns: 17</span></span>
+<span><span class="co">#&gt; $ address             [3m[38;5;246m&lt;chr&gt;[39m[23m "Cairo, Egypt"</span></span>
+<span><span class="co">#&gt; $ lat                 [3m[38;5;246m&lt;dbl&gt;[39m[23m 30.04439</span></span>
+<span><span class="co">#&gt; $ long                [3m[38;5;246m&lt;dbl&gt;[39m[23m 31.23573</span></span>
+<span><span class="co">#&gt; $ place_id            [3m[38;5;246m&lt;int&gt;[39m[23m 44830415</span></span>
+<span><span class="co">#&gt; $ licence             [3m[38;5;246m&lt;chr&gt;[39m[23m "Data © OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright"</span></span>
+<span><span class="co">#&gt; $ osm_type            [3m[38;5;246m&lt;chr&gt;[39m[23m "relation"</span></span>
+<span><span class="co">#&gt; $ osm_id              [3m[38;5;246m&lt;int&gt;[39m[23m 5466227</span></span>
+<span><span class="co">#&gt; $ class               [3m[38;5;246m&lt;chr&gt;[39m[23m "place"</span></span>
+<span><span class="co">#&gt; $ type                [3m[38;5;246m&lt;chr&gt;[39m[23m "city"</span></span>
+<span><span class="co">#&gt; $ place_rank          [3m[38;5;246m&lt;int&gt;[39m[23m 16</span></span>
+<span><span class="co">#&gt; $ importance          [3m[38;5;246m&lt;dbl&gt;[39m[23m 0.7411248</span></span>
+<span><span class="co">#&gt; $ addresstype         [3m[38;5;246m&lt;chr&gt;[39m[23m "city"</span></span>
+<span><span class="co">#&gt; $ name                [3m[38;5;246m&lt;chr&gt;[39m[23m "القاهرة"</span></span>
+<span><span class="co">#&gt; $ display_name        [3m[38;5;246m&lt;chr&gt;[39m[23m "القاهرة, مصر"</span></span>
+<span><span class="co">#&gt; $ boundingbox         [3m[38;5;246m&lt;list&gt;[39m[23m &lt;"29.7483062", "30.3209168", "31.2200331", "31.9090054"&gt;</span></span>
+<span><span class="co">#&gt; $ geojson.type        [3m[38;5;246m&lt;chr&gt;[39m[23m "Polygon"</span></span>
+<span><span class="co">#&gt; $ geojson.coordinates [3m[38;5;246m&lt;list&gt;[39m[23m &lt;&lt;array[1 x 119 x 2]&gt;&gt;</span></span></code></pre></div>
 <p>To test a query without sending any data to a geocoding service, you
 can use <code>no_query = TRUE</code> (NA results are returned).</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
@@ -874,6 +891,7 @@ can use <code>no_query = TRUE</code> (NA results are returned).</p>
 <span><span class="co">#&gt; SingleLine : "Vancouver, Canada"</span></span>
 <span><span class="co">#&gt; maxLocations : "1"</span></span>
 <span><span class="co">#&gt; f : "json"</span></span>
+<span><span class="co">#&gt; outFields : "*"</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Number of Unique Addresses: 1</span></span>
 <span><span class="co">#&gt; Querying API URL: https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/findAddressCandidates</span></span>
@@ -881,6 +899,7 @@ can use <code>no_query = TRUE</code> (NA results are returned).</p>
 <span><span class="co">#&gt; SingleLine : "Las Vegas, NV"</span></span>
 <span><span class="co">#&gt; maxLocations : "1"</span></span>
 <span><span class="co">#&gt; f : "json"</span></span>
+<span><span class="co">#&gt; outFields : "*"</span></span>
 <span><span class="co">#&gt; Query completed in: 0 seconds</span></span></code></pre></div>
 <table class="table">
 <thead><tr class="header">
@@ -948,9 +967,7 @@ details.</li>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
 
-        <nav id="toc" data-toggle="toc"><h2 data-toc-skip>Contents</h2>
-    </nav>
-</div>
+      </div>
 
 </div>
 
@@ -963,17 +980,17 @@ details.</li>
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
 </div>
 
       </footer>
 </div>
 
-  
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/docsearch.js/2.6.1/docsearch.min.js" integrity="sha256-GKvGqXDznoRYHCwKXGnuchvKSwmx9SRMrZOTh2g4Sb0=" crossorigin="anonymous"></script><script>
   docsearch({
-    
-    
+
+
     apiKey: '2a4961d1f7b45ceee241419b8e8257d3',
     indexName: 'tidygeocoder',
     inputSelector: 'input#search-input.form-control',

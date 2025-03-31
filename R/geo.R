@@ -338,18 +338,17 @@ geo <-
           format(batch_limit, big.mark = ","), "."
         )
 
-        if (batch_limit_error == TRUE) {
+        # batch limit error
           stop(batch_limit_exceeded_message, call. = FALSE)
-        } else {
-          warning(paste0(
-            batch_limit_exceeded_message, "\n",
-            "Only geocoding the first ", format(batch_limit, big.mark = ","), " unique addresses. ",
-            "All other addresses will have NA results."
-          ))
+
+          # warning(paste0(
+          #   batch_limit_exceeded_message, "\n",
+          #   "Only geocoding the first ", format(batch_limit, big.mark = ","), " unique addresses. ",
+          #   "All other addresses will have NA results."
+          # ))
 
           # apply batch limit to query
-          batch_unique_addresses <- address_pack$unique[1:batch_limit, ]
-        }
+          # batch_unique_addresses <- address_pack$unique[1:batch_limit, ]
       } else {
         # if batch limit wasn't exceeded we just will use the unique addresses in address_pack
         batch_limit_exceeded <- FALSE

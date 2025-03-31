@@ -1,30 +1,25 @@
-# http://r-pkgs.had.co.nz/inst.html#inst-citation
-
 # extract package version and remove the development tag (".9000") if necessary
-package_version <- gsub('\\.9000', "", toString(packageVersion("tidygeocoder")))
+package_version <- gsub('\\.9000', "", meta$Version)
 
 version_note <- paste0("R package version ", package_version)
 
-citHeader("To cite tidygeocoder use:")
-
-citEntry(
-  entry = "article",
-  title = "tidygeocoder: An R package for geocoding",
-  author = c(
+bibentry(
+  bibtype  = "Article",
+  title    = "tidygeocoder: An R package for geocoding",
+  author   = c(
     person("Jesse", "Cambon"), 
     person("Diego", "Hernangómez"),
     person("Christopher", "Belanger"),
     person("Daniel", "Possenriede")
     ),
-  year = "2021",
-  journal = "Journal of Open Source Software",
-  publisher = "The Open Journal",
-  doi = "10.21105/joss.03544",
-  url = "https://doi.org/10.21105/joss.03544",
-  volume = "6",
-  number = "65",
-  pages = "3544",
-  note = version_note,
+  note     = version_note,
+  journal  = "Journal of Open Source Software",
+  year     = "2021",
+  volume   = "6",
+  number   = "65",
+  pages    = "3544",
+  doi      = "10.21105/joss.03544",
+  url      = "https://doi.org/10.21105/joss.03544",
   textVersion  = paste(
     "Cambon J, Hernangómez D, Belanger C, Possenriede D (2021).",
     "tidygeocoder: An R package for geocoding.",

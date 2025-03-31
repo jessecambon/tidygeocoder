@@ -31,11 +31,11 @@ Links to the usage policies of each geocoding service are below:
 \item \href{https://locationiq.com/pricing}{Location IQ}
 \item \href{https://developers.google.com/maps/documentation/geocoding/usage-and-billing}{Google}
 \item \href{https://opencagedata.com/pricing}{OpenCage}
-\item \href{https://www.mapbox.com/pricing/}{Mapbox}
-\item \href{https://developer.here.com/pricing}{HERE}
+\item \href{https://www.mapbox.com/pricing}{Mapbox}
+\item \href{https://www.here.com/get-started/pricing}{HERE}
 \item \href{https://developer.tomtom.com/store/maps-api}{TomTom}
-\item \href{https://developer.mapquest.com/plans}{MapQuest}
-\item \href{https://docs.microsoft.com/en-us/bingmaps/spatial-data-services/geocode-and-data-source-limits}{Bing}
+\item \href{https://developer.mapquest.com/plans/}{MapQuest}
+\item \href{https://learn.microsoft.com/en-us/bingmaps/spatial-data-services/geocode-and-data-source-limits}{Bing}
 \item \href{https://www.geoapify.com/term-and-conditions}{Geoapify}
 }
 }
