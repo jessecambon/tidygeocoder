@@ -26,6 +26,8 @@ min_time_reference <- tibble::tribble(
   "tomtom", 1 / 5, "5 queries per second (free tier)",
   "here", 1 / 5, "5 queries per second (free tier)",
   "geoapify", 1 / 5, "5 queries per second (free tier)",
+  # TODO: contact Vietmap for more details since it is undocumented
+  "vietmap", 1 / 5, "5 queries per second (free tier)"
 )
 
 
@@ -43,6 +45,8 @@ api_key_reference <- tibble::tribble(
   "mapquest",  "MAPQUEST_API_KEY",
   "bing",      "BINGMAPS_API_KEY",
   "geoapify",  "GEOAPIFY_KEY",
+  # TODO: Specify variable for the Vietmap key here
+  "vietmap",   "VIETMAP_API_KEY"
 )
 
 
@@ -61,6 +65,8 @@ api_info_reference <- tibble::tribble(
   "mapquest", "MapQuest", "https://developer.mapquest.com/documentation/api/geocoding", "https://developer.mapquest.com/documentation/api/geocoding", "https://developer.mapquest.com/plans/",
   "bing", "Bing", "https://learn.microsoft.com/en-us/bingmaps/rest-services/locations/", "https://learn.microsoft.com/en-us/bingmaps/rest-services/locations/", "https://learn.microsoft.com/en-us/bingmaps/spatial-data-services/geocode-and-data-source-limits",
   "geoapify", "Geoapify", "https://www.geoapify.com/geocoding-api", "https://apidocs.geoapify.com/docs/geocoding/api/", "https://www.geoapify.com/term-and-conditions",
+  # TODO: Update Vietmap docs here
+  "vietmap", "VietMap", "https://maps.vietmap.vn/docs/", "https://maps.vietmap.vn/docs/map-api/geocode-version/geocode-v4/", "https://maps.vietmap.vn/web"
 )
 
 usethis::use_data(batch_limit_reference, overwrite = TRUE)

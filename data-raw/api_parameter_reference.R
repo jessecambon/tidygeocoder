@@ -142,6 +142,17 @@ api_parameter_reference <- tibble::tribble(
   "geoapify", "postalcode", "postcode", NA, FALSE,
   "geoapify", "country", "country", NA, FALSE,
   "geoapify", "limit", "limit", "1", FALSE,
+  
+  
+  ########################## Vietmap #################################
+  # TODO: update mapping from generic to API specific keyword here
+  # https://maps.vietmap.vn/api/search/v4?apikey={your-apikey}&text={text}&focus={lat,long}&display_type={display_type}
+  
+  # display_type options: https://maps.vietmap.vn/docs/map-api/geocode-version/geocode-v4/#display-type-options
+  
+  "vietmap", "api_key", "apikey", NA, TRUE,
+  "vietmap", "address", "text", NA, TRUE,
+  "vietmap", NA, "display_type", 6, FALSE,
 )
 
 usethis::use_data(api_parameter_reference, overwrite = TRUE)

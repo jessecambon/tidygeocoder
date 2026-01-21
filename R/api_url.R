@@ -26,7 +26,9 @@ get_api_url <- function(method,
     "mapquest" = get_mapquest_url(mapquest_open, reverse = reverse),
     "bing" = get_bing_url(),
     "arcgis" = get_arcgis_url(reverse = reverse),
-    "geoapify" = get_geoapify_url(reverse = reverse)
+    "geoapify" = get_geoapify_url(reverse = reverse),
+    # TODO: Add Vietmap API here
+    "vietmap" = get_vietmap_url(reverse = reverse)
   )
 
   if (length(api_url) == 0) stop("API URL not found", call. = FALSE)
@@ -106,4 +108,11 @@ get_arcgis_url <- function(reverse = FALSE) {
 get_geoapify_url <- function(reverse = FALSE) {
   endpoint <- if (reverse) "reverse" else "search"
   return(paste0("https://api.geoapify.com/v1/geocode/", endpoint))
+}
+
+get_vietmap_url <- function(reverse = FALSE){
+  # TODO: update api endpoint
+  endpoint <- if (reverse) "reverse" else "search"
+  url <- paste0("https://maps.vietmap.vn/api/",endpoint,"/v4")
+  url
 }
