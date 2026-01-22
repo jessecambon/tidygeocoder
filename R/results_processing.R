@@ -209,7 +209,7 @@ extract_reverse_results <- function(method, response, full_results = TRUE, flatt
       "bing" = response$resourceSets$resources[[1]][names(response$resourceSets$resources[[1]]) != "name"],
       "arcgis" = response$address[names(response$address) != "LongLabel"],
       "geoapify" = response$features$properties[names(response$features$properties) != "formatted"],
-      "vietmap" = response[names(response) != "display"]
+      "vietmap" = extract_vietmap_reverse(response)
     ))
 
 

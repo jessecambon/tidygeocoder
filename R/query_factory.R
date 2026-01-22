@@ -227,7 +227,9 @@ query_api <- function(api_url, query_parameters, mode = "single",
     return(list(content = content, status = status_code))
   }
   
-  if (method == "vietmap" && httr::status_code(response) == 200){
+  # special handling for forward geocoding in VietMap
+  # which require an extra API call to get the latitude & longitude
+  if (method == "vietmap" && httr::status_code(response) == 200 && !grepl("reverse", api_url)){
     # VietMap require another call to Place API to get the geocode
     raw_results <- jsonlite::fromJSON(content)
     # get the reference id of the first result
