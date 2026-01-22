@@ -45,7 +45,6 @@ get_coord_parameters <- function(custom_query, method, lat, long) {
     custom_query[["location"]] <-
       paste0(as.character(long), ",", as.character(lat))
   } else if (method == "vietmap"){
-    # TODO: add vietmap custom parameter here
     custom_query[["lat"]] <- as.character(lat)
     custom_query[["lng"]] <- as.character(long)
   } else {

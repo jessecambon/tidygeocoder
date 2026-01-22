@@ -27,7 +27,6 @@ get_api_url <- function(method,
     "bing" = get_bing_url(),
     "arcgis" = get_arcgis_url(reverse = reverse),
     "geoapify" = get_geoapify_url(reverse = reverse),
-    # TODO: Add Vietmap API here
     "vietmap" = get_vietmap_url(reverse = reverse)
   )
 
@@ -111,7 +110,6 @@ get_geoapify_url <- function(reverse = FALSE) {
 }
 
 get_vietmap_url <- function(reverse = FALSE){
-  # TODO: update api endpoint
   endpoint <- if (reverse) "reverse" else "search"
   url <- paste0("https://maps.vietmap.vn/api/",endpoint,"/v4")
   url

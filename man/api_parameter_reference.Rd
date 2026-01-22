@@ -55,6 +55,7 @@ The API documentation for each service is linked to below:
 \item \href{https://developer.mapquest.com/documentation/api/geocoding}{MapQuest}
 \item \href{https://learn.microsoft.com/en-us/bingmaps/rest-services/locations/}{Bing}
 \item \href{https://apidocs.geoapify.com/docs/geocoding/api/}{Geoapify}
+\item \href{https://maps.vietmap.vn/docs/map-api/geocode-version/geocode-v4/}{VietMap}
 }
 }
 \seealso{

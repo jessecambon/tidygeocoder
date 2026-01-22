@@ -144,10 +144,7 @@ api_parameter_reference <- tibble::tribble(
   "geoapify", "limit", "limit", "1", FALSE,
   
   
-  ########################## Vietmap #################################
-  # TODO: update mapping from generic to API specific keyword here
-  # https://maps.vietmap.vn/api/search/v4?apikey={your-apikey}&text={text}&focus={lat,long}&display_type={display_type}
-  
+  ########################## Vietmap #################################  
   # display_type options: https://maps.vietmap.vn/docs/map-api/geocode-version/geocode-v4/#display-type-options
   
   "vietmap", "api_key", "apikey", NA, TRUE,

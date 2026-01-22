@@ -46,6 +46,7 @@ reverse_geo(
 \item \code{"mapquest"}: \href{https://developer.mapquest.com/documentation/api/geocoding}{MapQuest}.  Batch geocoding is supported. Store an API key in the environmental variable \code{"MAPQUEST_API_KEY"}.
 \item \code{"bing"}: \href{https://learn.microsoft.com/en-us/bingmaps/rest-services/locations/}{Bing}.  Batch geocoding is supported, but must be explicitly called with \code{mode = "batch"}. Store an API key in the environmental variable \code{"BINGMAPS_API_KEY"}.
 \item \code{"geoapify"}: \href{https://www.geoapify.com/geocoding-api}{Geoapify}.   Store an API key in the environmental variable \code{"GEOAPIFY_KEY"}.
+\item \code{"vietmap"}: \href{https://maps.vietmap.vn/docs/}{VietMap}.   Store an API key in the environmental variable \code{"VIETMAP_API_KEY"}.
 }}
 
 \item{address}{name of the address column (in the output data)}
@@ -116,6 +117,8 @@ identified by its RequestID. The RequestID of a batch job is displayed
 when \code{verbose} is TRUE. Note that this option would ignore the
 current \code{address} parameter on the request, so the \code{return_addresses} or \code{return_coords}
 parameters need to be FALSE.
+\item \code{vietmap_display_type} (default: FALSE): specify the administrative format to
+use, more information at https://maps.vietmap.vn/docs/map-api/geocode-version/geocode-v4/#display-type-options
 }}
 }
 \value{

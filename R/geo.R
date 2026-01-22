@@ -106,6 +106,8 @@ progress_geo <- function(pb = NULL, ...) {
 #'      when `verbose` is TRUE. Note that this option would ignore the
 #'      current `address` parameter on the request, so the `return_addresses` or `return_coords`
 #'      parameters need to be FALSE.
+#'   - `vietmap_display_type` (default: `r pkg.globals$default_api_options$vietmap_display_type`): specify the administrative format to
+#'      use, more information at https://maps.vietmap.vn/docs/map-api/geocode-version/geocode-v4/#display-type-options
 #'
 #' @return tibble (dataframe)
 #' @examples

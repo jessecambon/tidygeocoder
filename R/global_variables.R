@@ -38,6 +38,5 @@ pkg.globals$default_api_options <- list(
   geocodio_hipaa = FALSE,
   mapbox_permanent = FALSE,
   mapquest_open = FALSE,
-  # TODO: vietmap default option here
-  vietmap_display_type = FALSE
+  vietmap_display_type = 6
 )

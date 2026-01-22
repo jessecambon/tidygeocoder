@@ -227,7 +227,6 @@ query_api <- function(api_url, query_parameters, mode = "single",
     return(list(content = content, status = status_code))
   }
   
-  # TODO: implement the work around for vietmap here
   if (method == "vietmap" && httr::status_code(response) == 200){
     # VietMap require another call to Place API to get the geocode
     raw_results <- jsonlite::fromJSON(content)

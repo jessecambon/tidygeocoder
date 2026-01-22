@@ -47,7 +47,6 @@ extract_results <- function(method, response, full_results = TRUE, flatten = TRU
       lat = response$features$geometry$coordinates[[1]][2],
       lon = response$features$geometry$coordinates[[1]][1]
     ), # geoapify returns GeoJSON
-    #TODO: handle vietmap result here
     "vietmap" = as.data.frame(response[c("lat", "lng")])
   )
 
@@ -97,7 +96,6 @@ extract_results <- function(method, response, full_results = TRUE, flatten = TRU
             if (is.null(response$features$bbox)) list(NA_real_) else response$features$bbox
           )))
         ),
-      # TODO: update VietMap output
       "vietmap" = response[!names(response) %in% c("lat", "lng")]
     ))
 
@@ -179,7 +177,6 @@ extract_reverse_results <- function(method, response, full_results = TRUE, flatt
     "bing" = response$resourceSets$resources[[1]]["name"],
     "arcgis" = response$address["LongLabel"],
     "geoapify" = response$features$properties["formatted"],
-    # TODO: add Vietmap response here
     "vietmap" = response["display"]
   )
 
@@ -212,7 +209,6 @@ extract_reverse_results <- function(method, response, full_results = TRUE, flatt
       "bing" = response$resourceSets$resources[[1]][names(response$resourceSets$resources[[1]]) != "name"],
       "arcgis" = response$address[names(response$address) != "LongLabel"],
       "geoapify" = response$features$properties[names(response$features$properties) != "formatted"],
-      # TODO: add VietMap response here
       "vietmap" = response[names(response) != "display"]
     ))
 
