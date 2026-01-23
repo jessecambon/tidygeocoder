@@ -138,7 +138,7 @@ identified by its RequestID. The RequestID of a batch job is displayed
 when \code{verbose} is TRUE. Note that this option would ignore the
 current \code{address} parameter on the request, so the \code{return_addresses} or \code{return_coords}
 parameters need to be FALSE.
-\item \code{vietmap_display_type} (default: FALSE): specify the administrative format to
+\item \code{vietmap_display_type} (default: 6): specify the administrative format to
 use, more information at https://maps.vietmap.vn/docs/map-api/geocode-version/geocode-v4/#display-type-options
 }}
 }
