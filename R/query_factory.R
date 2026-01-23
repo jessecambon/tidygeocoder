@@ -232,6 +232,15 @@ query_api <- function(api_url, query_parameters, mode = "single",
   if (method == "vietmap" && httr::status_code(response) == 200 && !grepl("reverse", api_url)){
     # VietMap require another call to Place API to get the geocode
     raw_results <- jsonlite::fromJSON(content)
+    # early return if result is an empty list
+    if (length(raw_results) == 0){
+      httr::warn_for_status(response)
+      return(list(
+        content = content,
+        status = httr::status_code(response)
+      ))
+    }
+    
     # get the reference id of the first result
     ref_id <- raw_results[1, "ref_id"]
     # finally, query the geocode

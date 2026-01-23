@@ -42,6 +42,7 @@ geo_content <- httr::content(geo_response, as = "text", encoding = "UTF-8")
 extract_results("vietmap", jsonlite::fromJSON(test_res$content))
 extract_results("vietmap", jsonlite::fromJSON(test_res$content), full_results = FALSE)
 
+
 # Try geo() function
 # uncomment to test querying
 # test_out <- tidygeocoder::geo(
@@ -53,6 +54,18 @@ extract_results("vietmap", jsonlite::fromJSON(test_res$content), full_results = 
 #     "vietmap_display_type" = 6
 #   )
 # )
+
+# Try geocode with invalid address
+# tidygeocoder::geo(
+#     address = "sgherhgewsh",
+#     method = "vietmap",
+#     lat = latitude,
+#     long = longitude,
+#     api_options = list(
+#       "vietmap_display_type" = 6
+#     )
+#   )
+
 
 test_out
 

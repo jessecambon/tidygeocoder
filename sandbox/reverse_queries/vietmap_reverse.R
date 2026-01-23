@@ -25,6 +25,8 @@ tidygeocoder::extract_reverse_results("vietmap", jsonlite::fromJSON(response$con
 # try high level function
 # uncomment to test querying
 # test_out <- tidygeocoder::reverse_geo(lat = lat, long = lgn, method = "vietmap")
-# tidygeocoder::reverse_geo(lat = lat, long = lgn, method = "vietmap")
 test_out
+
+# try out of scope geocode
+# tidygeocoder::reverse_geo(lat = 38.89770, long = -77.03655, method = "vietmap")
 
