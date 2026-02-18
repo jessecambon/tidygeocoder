@@ -46,7 +46,8 @@ extract_results <- function(method, response, full_results = TRUE, flatten = TRU
     "geoapify" = data.frame(
       lat = response$features$geometry$coordinates[[1]][2],
       lon = response$features$geometry$coordinates[[1]][1]
-    ) # geoapify returns GeoJSON
+    ), # geoapify returns GeoJSON
+    "vietmap" = as.data.frame(response[c("lat", "lng")])
   )
 
   # Return NA if data is not empty or not valid (cannot be turned into a dataframe)
@@ -94,7 +95,8 @@ extract_results <- function(method, response, full_results = TRUE, flatten = TRU
           tibble::as_tibble(c(bbox = list(
             if (is.null(response$features$bbox)) list(NA_real_) else response$features$bbox
           )))
-        )
+        ),
+      "vietmap" = response[!names(response) %in% c("lat", "lng")]
     ))
 
     # Formatted address for mapquest
@@ -174,7 +176,8 @@ extract_reverse_results <- function(method, response, full_results = TRUE, flatt
     ),
     "bing" = response$resourceSets$resources[[1]]["name"],
     "arcgis" = response$address["LongLabel"],
-    "geoapify" = response$features$properties["formatted"]
+    "geoapify" = response$features$properties["formatted"],
+    "vietmap" = response["display"]
   )
 
   # Return NA if data is empty or not valid (cannot be turned into a dataframe)
@@ -205,7 +208,8 @@ extract_reverse_results <- function(method, response, full_results = TRUE, flatt
       "mapquest" = response$results$locations[[1]],
       "bing" = response$resourceSets$resources[[1]][names(response$resourceSets$resources[[1]]) != "name"],
       "arcgis" = response$address[names(response$address) != "LongLabel"],
-      "geoapify" = response$features$properties[names(response$features$properties) != "formatted"]
+      "geoapify" = response$features$properties[names(response$features$properties) != "formatted"],
+      "vietmap" = extract_vietmap_reverse(response)
     ))
 
 

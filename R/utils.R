@@ -233,6 +233,33 @@ extract_bing_latlng <- function(response) {
   return(latlng)
 }
 
+extract_vietmap_reverse <- function(response) {
+  res_boundaries <- response$boundaries[[1]]
+  
+  # update admin lvl label
+  res_boundaries <- dplyr::mutate(res_boundaries, label = dplyr::case_when(
+    type == 2 ~ "ward",
+    type == 1 ~ "district",
+    type == 0 ~ "city",
+    .default = ""
+  ))
+  df <- res_boundaries[, c("label", "id", "full_name")]
+  
+  # return the ids and names at different administrative level 
+  handle_NA <- function (., default=0){
+    ifelse(length(.) == 0, default, .)
+  }
+  data.frame(
+    ward_id     = handle_NA(df$id[df$label == "ward"], default = 0),
+    district_id = handle_NA(df$id[df$label == "district"], default = 0),
+    city_id     = handle_NA(df$id[df$label == "city"], default = 0),
+    ward        = handle_NA(df$full_name[df$label == "ward"], default = ""),
+    district    = handle_NA(df$full_name[df$label == "district"], default = ""),
+    city        = handle_NA(df$full_name[df$label == "city"], default = ""),
+    stringsAsFactors = FALSE
+  )
+}
+
 
 ## Progress bars -----------------------------------------------------------------------------
 

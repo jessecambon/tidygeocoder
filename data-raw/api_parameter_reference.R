@@ -142,6 +142,14 @@ api_parameter_reference <- tibble::tribble(
   "geoapify", "postalcode", "postcode", NA, FALSE,
   "geoapify", "country", "country", NA, FALSE,
   "geoapify", "limit", "limit", "1", FALSE,
+  
+  
+  ########################## Vietmap #################################  
+  # display_type options: https://maps.vietmap.vn/docs/map-api/geocode-version/geocode-v4/#display-type-options
+  
+  "vietmap", "api_key", "apikey", NA, TRUE,
+  "vietmap", "address", "text", NA, TRUE,
+  "vietmap", NA, "display_type", 6, FALSE,
 )
 
 usethis::use_data(api_parameter_reference, overwrite = TRUE)
